@@ -60,9 +60,6 @@ public class SynchronizeRepositoryJob extends Job {
 
 		System.out.println("[Synchroniser] Detected changes on the TraceabilityResourceIndex.");
 
-		// We cancel the previous operation
-		monitor.setCanceled(true);
-
 		client.getRepositoryObjectHandler().getRepositoryAdapter().openSaveContext();
 
 		// We get all the compilation Status to add

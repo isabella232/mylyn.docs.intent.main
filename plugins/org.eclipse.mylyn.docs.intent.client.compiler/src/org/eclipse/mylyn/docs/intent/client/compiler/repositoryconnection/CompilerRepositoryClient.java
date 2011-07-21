@@ -11,11 +11,6 @@
 package org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection;
 
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.util.Monitor;
-import org.eclipse.mylyn.docs.intent.client.compiler.saver.CompilerInformationsSaver;
-import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -35,11 +30,6 @@ public class CompilerRepositoryClient extends AbstractRepositoryClient {
 	private Repository repository;
 
 	/**
-	 * The progressMonitor to use for compilation ; if canceled, the compilation will stop immediately.
-	 */
-	private Monitor progressMonitor;
-
-	/**
 	 * Sets the repository to use for saving and closing getConnexion.
 	 * 
 	 * @param repository
@@ -51,44 +41,12 @@ public class CompilerRepositoryClient extends AbstractRepositoryClient {
 	}
 
 	/**
-	 * Saves the informations calculated during the compilationOperation.
-	 * 
-	 * @param compilationInformationHolder
-	 *            the entity containing all informations needed by this compiler
-	 */
-	public void saveCompilationInformations(IntentCompilerInformationHolder compilationInformationHolder) {
-		repositoryObjectHandler.getRepositoryAdapter().openSaveContext();
-		CompilerInformationsSaver saver = new CompilerInformationsSaver(progressMonitor);
-		if (progressMonitor != null && !progressMonitor.isCanceled()) {
-			saver.saveOnRepository(compilationInformationHolder, repositoryObjectHandler);
-		}
-		try {
-			repositoryObjectHandler.getRepositoryAdapter().save();
-		} catch (ReadOnlyException e) {
-			// We are sure that this compiler isn't in read-only mode
-		} catch (SaveException e) {
-			try {
-				repositoryObjectHandler.getRepositoryAdapter().undo();
-			} catch (ReadOnlyException e1) {
-				// We are sure that this compiler isn't in read-only mode
-			}
-
-		}
-		repositoryObjectHandler.getRepositoryAdapter().closeContext();
-
-	}
-
-	public Repository getRepository() {
-		return repository;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient#createNotificationJob(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
 	@Override
 	protected Job createNotificationJob(RepositoryChangeNotification notification) {
-		return new CompilationJob(this);
+		return new CompilationJob(this.repository, this.repositoryObjectHandler);
 	}
 }

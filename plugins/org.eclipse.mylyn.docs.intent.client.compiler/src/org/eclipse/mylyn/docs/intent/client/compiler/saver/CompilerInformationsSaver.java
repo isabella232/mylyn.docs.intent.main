@@ -17,10 +17,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
@@ -52,7 +52,7 @@ public class CompilerInformationsSaver {
 	 * Progress monitor allowing to cancel a save operation if another notification has been received by the
 	 * CompilerRepositoryClient.
 	 */
-	private Monitor progressMonitor;
+	private IProgressMonitor progressMonitor;
 
 	/**
 	 * Default constructor.
@@ -60,7 +60,7 @@ public class CompilerInformationsSaver {
 	 * @param progressMonitor
 	 *            the progress monitor to use
 	 */
-	public CompilerInformationsSaver(Monitor progressMonitor) {
+	public CompilerInformationsSaver(IProgressMonitor progressMonitor) {
 		this.progressMonitor = progressMonitor;
 	}
 
