@@ -40,7 +40,7 @@ import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentPartitioner implements IDocumentPartitioner {
-	private static final int PARSING_JOB_DELAY = 200;
+	private static final int PARSING_JOB_DELAY = 400;
 
 	/** The legal content types of this partitioner. */
 	protected final String[] fLegalContentTypes;
@@ -247,7 +247,6 @@ public class IntentPartitioner implements IDocumentPartitioner {
 		}
 		try {
 			IntentParser parser = new IntentParser();
-			parser.getPositionManager().clear();
 			EObject root = parser.parse(fDocument.get());
 			if (root != null) {
 				for (ModelingUnit mu : UnitGetter.getAllModelingUnitsContainedInElement(root)) {
@@ -291,7 +290,6 @@ public class IntentPartitioner implements IDocumentPartitioner {
 		} catch (Exception e) {
 			// CHECKSTYLE:ON
 			// fail silently
-			regions = new ArrayList<ITypedRegion>();
 		}
 	}
 }
