@@ -248,10 +248,7 @@ public class IntentPartitioner implements IDocumentPartitioner {
 		try {
 			IntentParser parser = new IntentParser();
 			parser.getPositionManager().clear();
-			// TODO [DISABLED] removed to avoid performance issues. Should be replaced by a better strategy
-			// (an ad-hoc parser for instance)
-			EObject root = null;
-			// EObject root = parser.parse(fDocument.get());
+			EObject root = parser.parse(fDocument.get());
 			if (root != null) {
 				for (ModelingUnit mu : UnitGetter.getAllModelingUnitsContainedInElement(root)) {
 					ParsedElementPosition position = parser.getPositionForElement(mu);

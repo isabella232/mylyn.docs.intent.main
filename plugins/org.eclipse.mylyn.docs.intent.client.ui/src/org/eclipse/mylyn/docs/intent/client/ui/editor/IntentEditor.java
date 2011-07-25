@@ -26,6 +26,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditorConfiguration;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentOutlinePage;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentQuickOutlineControl;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.QuickOutlineInformationProvider;
@@ -112,8 +113,7 @@ public class IntentEditor extends TextEditor {
 	 */
 	@Override
 	protected void doSetInput(IEditorInput input) throws CoreException {
-		// TODO [DISABLED] partitioner, syntax colors
-		// setSourceViewerConfiguration(new IntentEditorConfiguration(this, getPreferenceStore()));
+		setSourceViewerConfiguration(new IntentEditorConfiguration(this, getPreferenceStore()));
 		setDocumentProvider(createDocumentProvider());
 		super.doSetInput(input);
 	}
