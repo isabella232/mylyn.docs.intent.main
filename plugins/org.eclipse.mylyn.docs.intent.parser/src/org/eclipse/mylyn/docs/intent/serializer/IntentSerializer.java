@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitFormatter;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.DescriptionUnitSerializer;
@@ -87,12 +86,12 @@ public class IntentSerializer {
 	 * Serialize the given content and return the textual form of the given element.
 	 * 
 	 * @param elementToSerialize
-	 *            the Intent entity to serialize (can be a IntentDocument, a Section, a Chapter, a
-	 *            Modeling Unit or a Description Unit).
+	 *            the Intent entity to serialize (can be a IntentDocument, a Section, a Chapter, a Modeling
+	 *            Unit or a Description Unit).
 	 * @return the textual form of the given elementToSerialize
 	 */
 	public String serialize(EObject elementToSerialize) {
-		this.positionManager.clear();
+		clear();
 		if (elementToSerialize == null) {
 			throw new IllegalArgumentException("Cannot serialize a null element.");
 		}
@@ -112,8 +111,9 @@ public class IntentSerializer {
 		if (elementToSerialize instanceof IntentStructuredElement) {
 			documentSerializer.setCurrentOffset(0);
 			documentSerializer.setCurrentIndendationLevel(0);
-			serializedForm = documentSerializer.serialize((IntentStructuredElement)elementToSerialize);
-			this.positionManager.addIntentPositionManagerInformations(documentSerializer.getPositionManager());
+			serializedForm = documentSerializer.serialize(elementToSerialize);
+			this.positionManager
+					.addIntentPositionManagerInformations(documentSerializer.getPositionManager());
 
 		}
 		if (elementToSerialize instanceof DescriptionUnit) {
