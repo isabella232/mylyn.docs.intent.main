@@ -19,9 +19,7 @@ import org.eclipse.jface.text.rules.IWordDetector;
  */
 public class IntentWordDetector implements IWordDetector {
 
-	private static char[] standardCharacters = new char[] {
-			// '@',
-			';', '.',
+	private static char[] standardCharacters = new char[] {'@', ';', '.',
 	};
 
 	private static char[] modelingUnitCharacters = new char[] {';', '+', '=',

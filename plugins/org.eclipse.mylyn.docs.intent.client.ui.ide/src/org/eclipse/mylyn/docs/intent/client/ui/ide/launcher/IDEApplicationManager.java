@@ -147,6 +147,8 @@ public final class IDEApplicationManager {
 	 * 
 	 * @param repositoryToInitialize
 	 *            the repository to initialize
+	 * @param initialContent
+	 *            initial content as String
 	 * @throws RepositoryConnectionException
 	 *             if the connection to the repository is invalid
 	 */
