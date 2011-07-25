@@ -56,7 +56,7 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.compare.match.matcher.StatisticBasedSimilarityChecker#isSimilar(org.eclipse.emf.ecore.EObject,
+	 * @see org.eclipse.mylyn.docs.intent.compare.match.StatisticBasedSimilarityChecker#isSimilar(org.eclipse.emf.ecore.EObject,
 	 *      org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
@@ -101,7 +101,7 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.compare.match.matcher.client.ui.editor.merger.match.StatisticBasedSimilarityChecker#absoluteMetric(org.eclipse.emf.ecore.EObject,
+	 * @see org.eclipse.mylyn.docs.intent.compare.match.StatisticBasedSimilarityChecker#absoluteMetric(org.eclipse.emf.ecore.EObject,
 	 *      org.eclipse.emf.ecore.EObject)
 	 */
 	@Override

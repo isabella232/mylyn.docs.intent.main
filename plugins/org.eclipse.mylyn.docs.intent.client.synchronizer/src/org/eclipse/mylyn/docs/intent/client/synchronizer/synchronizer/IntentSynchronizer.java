@@ -54,6 +54,9 @@ public class IntentSynchronizer {
 	 */
 	private SynchronizerStrategy synchronizerStrategy;
 
+	/**
+	 * Listens generated elements.
+	 */
 	private GeneratedElementListener generatedElementListener;
 
 	/**
@@ -92,7 +95,7 @@ public class IntentSynchronizer {
 	 * @param adapter
 	 *            the repositoryAdapter to use for getting the repository content
 	 * @param tracabilityIndex
-	 *            the Traceability index to use {@link TraceabilityResourceIndex}
+	 *            the Traceability index to use
 	 * @param progressMonitor
 	 *            the progress Monitor indicating if this synchronization operation has been canceled
 	 * @return a list containing status relatives to synchronization

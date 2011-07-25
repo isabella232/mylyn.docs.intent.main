@@ -46,8 +46,14 @@ public class CompilationJob extends Job {
 	 */
 	public static final String COMPILATION_JOB_NAME = "Compiling";
 
+	/**
+	 * The repository.
+	 */
 	private Repository repository;
 
+	/**
+	 * The repository object handler.
+	 */
 	private RepositoryObjectHandler repositoryObjectHandler;
 
 	/**
@@ -67,7 +73,7 @@ public class CompilationJob extends Job {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.Imonitor)
+	 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	@Override
 	protected IStatus run(final IProgressMonitor monitor) {

@@ -122,7 +122,6 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 *            the new value of the ast
 	 * @param isSynchronizedWithRepository
 	 *            indicates if the given ast is synchronized with the repository or is a local version.
-	 * @param string
 	 */
 	public void reloadFromAST(final EObject newAST, final boolean isSynchronizedWithRepository) {
 		Display.getDefault().syncExec(new Runnable() {

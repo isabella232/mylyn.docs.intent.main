@@ -50,7 +50,7 @@ public class IntentDocumentSerializeSwitch extends IntentDocumentSwitch<String> 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.document.util.IntentDocumentSwitch#caseChapter(org.eclipse.mylyn.docs.intent.core.document.IntentChapter)
+	 * @see org.eclipse.mylyn.docs.intent.core.document.util.IntentDocumentSwitch#caseIntentChapter(org.eclipse.mylyn.docs.intent.core.document.IntentChapter)
 	 */
 	@Override
 	public String caseIntentChapter(IntentChapter object) {
@@ -60,7 +60,7 @@ public class IntentDocumentSerializeSwitch extends IntentDocumentSwitch<String> 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.document.util.IntentDocumentSwitch#caseSection(org.eclipse.mylyn.docs.intent.core.document.IntentSection)
+	 * @see org.eclipse.mylyn.docs.intent.core.document.util.IntentDocumentSwitch#caseIntentSection(org.eclipse.mylyn.docs.intent.core.document.IntentSection)
 	 */
 	@Override
 	public String caseIntentSection(IntentSection object) {

@@ -109,7 +109,6 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 	 * Get the initial content.
 	 * 
 	 * @return the initial content as String
-	 * @throws IOException
 	 */
 	private String getInitialContent() {
 		try {

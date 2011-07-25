@@ -290,7 +290,7 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	/**
 	 * Sample method for stubing package declaration.
 	 * 
-	 * @return
+	 * @return the list of imported packages names
 	 */
 	@Deprecated
 	public List<String> getImportedPackages(ModelingUnit mu) {
@@ -321,7 +321,7 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseSectionReferenceinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.SectionReferenceinModelingUnit)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseIntentSectionReferenceinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit)
 	 */
 	@Override
 	public List<Object> caseIntentSectionReferenceinModelingUnit(IntentSectionReferenceinModelingUnit object) {

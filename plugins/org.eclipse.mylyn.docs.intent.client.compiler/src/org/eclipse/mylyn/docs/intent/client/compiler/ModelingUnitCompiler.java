@@ -289,8 +289,6 @@ public class ModelingUnitCompiler {
 
 	/**
 	 * Resolves the unresolvedReference (registered in the InformationHolder) using a linkResolver.
-	 * 
-	 * @param generatedObjects
 	 */
 	protected void resolveLinks() {
 

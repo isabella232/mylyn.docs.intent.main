@@ -392,7 +392,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.handlers.RepositoryClient#handleChangeNotification(org.eclipse.mylyn.docs.intent.handlers.notification.RepositoryChangeNotification)
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
 	public void handleChangeNotification(RepositoryChangeNotification notification) {
 		// If the received notification indicates the deletion of the root of the associated document
@@ -491,7 +491,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.handlers.RepositoryClient#addRepositoryObjectHandler(org.eclipse.mylyn.docs.intent.handlers.RepositoryObjectHandler)
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#addRepositoryObjectHandler(org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler)
 	 */
 	public void addRepositoryObjectHandler(RepositoryObjectHandler handler) {
 		handler.addClient(this);
@@ -503,7 +503,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.handlers.RepositoryClient#removeRepositoryObjectHandler(org.eclipse.mylyn.docs.intent.handlers.RepositoryObjectHandler)
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#removeRepositoryObjectHandler(org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler)
 	 */
 	public void removeRepositoryObjectHandler(RepositoryObjectHandler handler) {
 		handler.removeClient(this);
@@ -568,7 +568,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 * 
 	 * @param editor
 	 *            the editor to set
-	 * @param elementToSelectRangeWith
 	 */
 	public void setEditor(IntentEditor editor) {
 		this.associatedEditor = editor;

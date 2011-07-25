@@ -33,7 +33,6 @@ public class ValidationException extends CompilationException {
 	 *            the instruction that caused the error
 	 * @param message
 	 *            the message explaining the cause of the error
-	 * @param elementToValidate
 	 */
 	public ValidationException(UnitInstruction instruction, String message) {
 		super(instruction, CompilationErrorType.VALIDATION_ERROR, message);

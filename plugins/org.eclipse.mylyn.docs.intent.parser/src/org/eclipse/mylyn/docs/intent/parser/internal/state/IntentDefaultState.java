@@ -44,7 +44,7 @@ public class IntentDefaultState extends IntentGenericState {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#beginChapter()
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#beginChapter(int, int)
 	 */
 	@Override
 	public IntentGenericState beginChapter(int offset, int declarationLength) {

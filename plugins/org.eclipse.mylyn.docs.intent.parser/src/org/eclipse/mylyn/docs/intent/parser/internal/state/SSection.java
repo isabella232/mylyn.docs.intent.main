@@ -55,7 +55,6 @@ public class SSection extends IntentSubSectionContainerState {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @return
 	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#sectionOptions(java.lang.String,
 	 *      java.util.List)
 	 */
@@ -81,9 +80,8 @@ public class SSection extends IntentSubSectionContainerState {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @throws ParseException
-	 *             if the modeling unit parser detect any parse error.
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#modelingUnitContent(java.lang.String)
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#modelingUnitContent(int,
+	 *      int, java.lang.String)
 	 */
 	@Override
 	public IntentGenericState modelingUnitContent(int offset, int length, String modelingUnitContent)

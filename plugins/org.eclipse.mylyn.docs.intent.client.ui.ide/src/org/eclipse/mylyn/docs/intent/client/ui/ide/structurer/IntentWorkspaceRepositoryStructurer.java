@@ -28,8 +28,8 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  * <p>
  * Resource are spited according to the following heuristic :
  * <ul>
- * <li>Each structured element (IntentDocument, IntentChapter, IntentSection) is sorted according to its type (one folder
- * for each type) and is placed in its own resource.</li>
+ * <li>Each structured element (IntentDocument, IntentChapter, IntentSection) is sorted according to its type
+ * (one folder for each type) and is placed in its own resource.</li>
  * <li>Each ModelingUnit is placed in the ModelingUnit folder and in its own resource.</li>
  * <li>Each DecriptionUnit is placed in the DecriptionUnit folder and in its own resource.</li>
  * </ul>
@@ -42,7 +42,7 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.ide.adapters.RepositoryStructurer#structure(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter)
+	 * @see org.eclipse.mylyn.docs.intent.collab.ide.adapters.DefaultWorkspaceRepositoryStructurer#structure(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter)
 	 */
 	@Override
 	public void structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
@@ -120,8 +120,8 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	 * </ul>
 	 * </p>
 	 * 
-	 * @param element
-	 * @return
+	 * @param element the element to test
+	 * @return true if the element is correctly split
 	 */
 	private boolean isCorrectlySplit(EObject element) {
 		boolean isCorrectlySplit = true;
@@ -142,7 +142,7 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	 */
 	protected boolean isElementToSplit(EObject element) {
 		boolean isElementToSplit = (element instanceof IntentDocument) || (element instanceof IntentChapter)
-						|| (element instanceof IntentSection);
+				|| (element instanceof IntentSection);
 		return isElementToSplit || (element instanceof ModelingUnit) || (element instanceof DescriptionUnit);
 	}
 }

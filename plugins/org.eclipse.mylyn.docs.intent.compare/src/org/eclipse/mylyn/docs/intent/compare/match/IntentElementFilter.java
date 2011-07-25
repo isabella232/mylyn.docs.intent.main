@@ -220,7 +220,7 @@ class FeatureInformation {
 	private String uniqueValue;
 
 	/**
-	 * Creates a {@link FeatureInformation} from a feature.
+	 * Creates a {@link org.eclipse.mylyn.docs.intent.compare.match.FeatureInformation} from a feature.
 	 * 
 	 * @param feat
 	 *            The {@link EStructuralFeature feature} we want described.

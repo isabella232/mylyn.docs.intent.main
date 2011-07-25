@@ -554,7 +554,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#execute(IntentCommand)
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#execute(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand)
 	 */
 	public void execute(final IntentCommand command) {
 		final TransactionalEditingDomain editingDomain = repository.getEditingDomain();

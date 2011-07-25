@@ -75,8 +75,7 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#beginSection(java.lang.String,
-	 *      java.util.List)
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#beginSection(int, int)
 	 */
 	@Override
 	public IntentGenericState beginSection(int offset, int declarationLength) {
@@ -92,7 +91,8 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 	 * 
 	 * @throws ParseException
 	 *             if the description unit parser detect any parse error
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#desriptionUnitContent(java.lang.String)
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#descriptionUnitContent(int,
+	 *      int, java.lang.String)
 	 */
 	@Override
 	public IntentGenericState descriptionUnitContent(int offset, int length, String descriptionUnitContent)
@@ -197,7 +197,7 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#endStructuredElement()
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#endStructuredElement(int)
 	 */
 	@Override
 	public IntentGenericState endStructuredElement(int offset) {

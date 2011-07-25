@@ -374,7 +374,8 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 *            the modeling unit begin offset
 	 * @param endOffset
 	 *            the modeling unit end offset
-	 * @param i
+	 * @param maxLineSize
+	 *            the maximum size of a line
 	 */
 	private void drawDecorationLine(GC gc, int beginOffset, int endOffset, int maxLineSize) {
 		// Compute baseline delta (see https://bugs.eclipse.org/bugs/show_bug.cgi?id=165640)

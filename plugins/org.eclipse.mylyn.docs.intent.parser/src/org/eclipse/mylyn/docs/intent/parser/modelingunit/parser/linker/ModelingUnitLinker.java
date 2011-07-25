@@ -54,7 +54,7 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.util.ModelingUnitSwitch#caseAnnotationDeclaration(org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.AnnotationDeclaration)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseAnnotationDeclaration(org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration)
 	 */
 	@Override
 	public Object caseAnnotationDeclaration(AnnotationDeclaration object) {
@@ -69,7 +69,7 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.util.ModelingUnitSwitch#caseContributionInstruction(org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.ContributionInstruction)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseContributionInstruction(org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction)
 	 */
 	@Override
 	public Object caseContributionInstruction(ContributionInstruction object) {
@@ -82,7 +82,7 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.util.ModelingUnitSwitch#caseInstanciationInstruction(org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.InstanciationInstruction)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseInstanciationInstruction(org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction)
 	 */
 	@Override
 	public Object caseInstanciationInstruction(InstanciationInstruction object) {
@@ -95,7 +95,7 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.util.ModelingUnitSwitch#caseLabelinModelingUnit(org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.LabelinModelingUnit)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseLabelinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit)
 	 */
 	@Override
 	public Object caseLabelinModelingUnit(LabelinModelingUnit object) {
@@ -110,7 +110,7 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.util.ModelingUnitSwitch#caseNewObjectValueForStructuralFeature(org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.NewObjectValueForStructuralFeature)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNewObjectValueForStructuralFeature(org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature)
 	 */
 	@Override
 	public Object caseNewObjectValueForStructuralFeature(NewObjectValueForStructuralFeature object) {
@@ -120,7 +120,7 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.util.ModelingUnitSwitch#caseSectionReferenceinModelingUnit(org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.SectionReferenceinModelingUnit)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseIntentSectionReferenceinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit)
 	 */
 	@Override
 	public Object caseIntentSectionReferenceinModelingUnit(IntentSectionReferenceinModelingUnit object) {
@@ -135,7 +135,7 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.util.ModelingUnitSwitch#caseStructuralFeatureAffectation(org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.StructuralFeatureAffectation)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseStructuralFeatureAffectation(org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation)
 	 */
 	@Override
 	public Object caseStructuralFeatureAffectation(StructuralFeatureAffectation object) {
@@ -148,7 +148,7 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.util.ModelingUnitSwitch#caseInstanciationInstructionReference(org.eclipse.mylyn.docs.intent.parser.core.modelingUnit.InstanciationInstructionReference)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseInstanciationInstructionReference(org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference)
 	 */
 	@Override
 	public Object caseInstanciationInstructionReference(InstanciationInstructionReference object) {

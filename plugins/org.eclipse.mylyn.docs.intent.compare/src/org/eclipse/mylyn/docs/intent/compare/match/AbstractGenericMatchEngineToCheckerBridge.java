@@ -33,7 +33,8 @@ public abstract class AbstractGenericMatchEngineToCheckerBridge {
 	 *         &lt; value &lt; 1.
 	 * @throws FactoryException
 	 *             Thrown if we cannot compute the {@link EObject}s' contents similarity metrics.
-	 * @see NameSimilarity#contentValue(EObject, MetamodelFilter)
+	 * @see org.eclipse.emf.compare.match.internal.statistic.NameSimilarity#contentValue(EObject,
+	 *      org.eclipse.emf.compare.match.statistic.MetamodelFilter)
 	 */
 	public abstract double contentSimilarity(EObject obj1, EObject obj2) throws FactoryException;
 
@@ -46,7 +47,8 @@ public abstract class AbstractGenericMatchEngineToCheckerBridge {
 	 *            Second of the two {@link EObject}s.
 	 * @return <code>double</code> representing the similarity between the two {@link EObject}s' names. 0 &lt;
 	 *         value &lt; 1.
-	 * @see NameSimilarity#nameSimilarityMetric(String, String)
+	 * @see org.eclipse.emf.compare.match.internal.statistic.NameSimilarity#nameSimilarityMetric(String,
+	 *      String)
 	 */
 	public abstract double nameSimilarity(EObject obj1, EObject obj2);
 }

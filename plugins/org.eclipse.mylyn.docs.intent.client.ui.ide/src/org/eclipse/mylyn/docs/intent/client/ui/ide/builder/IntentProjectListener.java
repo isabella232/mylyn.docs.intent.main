@@ -28,7 +28,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 
 /**
- * A {@link ResourceChangeListener} that reacts to the creation or opening of Intent projects by creating
+ * A {@link IResourceChangeListener} that reacts to the creation or opening of Intent projects by creating
  * Repository and launching clients.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>

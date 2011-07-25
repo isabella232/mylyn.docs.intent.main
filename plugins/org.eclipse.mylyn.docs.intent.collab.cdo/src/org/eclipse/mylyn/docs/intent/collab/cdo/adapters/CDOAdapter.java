@@ -80,9 +80,10 @@ public class CDOAdapter implements RepositoryAdapter {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Sets the session.
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#setSession(java.lang.Object)
+	 * @param session
+	 *            the session
 	 */
 	public void setSession(Object session) {
 		if (session instanceof CDOSession) {
@@ -93,9 +94,9 @@ public class CDOAdapter implements RepositoryAdapter {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Returns the session.
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getSession()
+	 * @return the session
 	 */
 	public Object getSession() {
 		return session;
@@ -104,7 +105,6 @@ public class CDOAdapter implements RepositoryAdapter {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @return
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#openSaveContext()
 	 */
 	public Object openSaveContext() {
@@ -208,7 +208,7 @@ public class CDOAdapter implements RepositoryAdapter {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#attachSessionListenerForTypes(org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator,
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#attachSessionListenerForTypes(org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator,
 	 *      java.util.Set)
 	 */
 	public void attachSessionListenerForTypes(Notificator typeNotificator, Set<EStructuralFeature> types) {
@@ -224,7 +224,7 @@ public class CDOAdapter implements RepositoryAdapter {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#detachSessionListenerForTypes(org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator)
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#detachSessionListenerForTypes(org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator)
 	 */
 	public void detachSessionListenerForTypes(Notificator typeNotificator) {
 		for (IListener listenerToRemove : this.notificatorToListener.get(typeNotificator)) {
@@ -293,7 +293,7 @@ public class CDOAdapter implements RepositoryAdapter {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getIDFromElement(java.lang.Object)
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getIDFromElement(org.eclipse.emf.ecore.EObject)
 	 */
 	public Object getIDFromElement(EObject element) {
 		if (element instanceof CDOObject) {

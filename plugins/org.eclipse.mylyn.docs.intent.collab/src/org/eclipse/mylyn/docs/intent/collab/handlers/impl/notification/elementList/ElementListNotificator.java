@@ -96,7 +96,6 @@ public class ElementListNotificator implements Notificator {
 	 * 
 	 * @param handlersToRegister
 	 *            handlers that listens this Notificator.
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator#initialise()
 	 */
 	public void initialise(Set<RepositoryObjectHandler> handlersToRegister) {
 

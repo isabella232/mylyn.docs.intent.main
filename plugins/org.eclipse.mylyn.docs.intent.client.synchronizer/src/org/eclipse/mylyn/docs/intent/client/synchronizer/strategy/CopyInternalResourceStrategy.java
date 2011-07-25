@@ -42,8 +42,8 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 	 * content.
 	 * </p>
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#handleNullExternalResource(org.eclipse.emf.ecore.resource.Resource,
-	 *      org.eclipse.emf.ecore.resource.Resource)
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#handleNullExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration,
+	 *      org.eclipse.emf.ecore.resource.Resource, java.lang.String)
 	 */
 	public Resource handleNullExternalResource(ResourceDeclaration resourceDeclaration,
 			Resource internalResource, String externalResourceURI) {
@@ -80,7 +80,7 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 	 * The strategy applied here is to stop this synchronization operation.
 	 * </p>
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#handleNullInternalResource(org.eclipse.emf.ecore.resource.Resource,
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#handleNullInternalResource(java.lang.String,
 	 *      org.eclipse.emf.ecore.resource.Resource)
 	 */
 	public Resource handleNullInternalResource(String internalResourceURI, Resource externalResource) {

@@ -56,7 +56,6 @@ public final class SynchronizerStatusFactory {
 	 * @param difference
 	 *            the {@link DiffElement} describing the differences between an element of the internal
 	 *            generated model and the element of an external generated model
-	 * @param indexEntry
 	 * @return a list of compilationStatus created from the given {@link DiffElement}
 	 */
 	public static List<CompilationStatus> createStatusFromDiffElement(TraceabilityIndexEntry indexEntry,

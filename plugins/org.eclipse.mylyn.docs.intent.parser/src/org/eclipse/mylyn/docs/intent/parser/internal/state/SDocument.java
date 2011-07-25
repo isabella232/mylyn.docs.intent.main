@@ -45,7 +45,7 @@ public class SDocument extends IntentDefaultState {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentDefaultState#beginChapter()
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentDefaultState#beginChapter(int, int)
 	 */
 	@Override
 	public IntentGenericState beginChapter(int offset, int declarationLength) {
@@ -57,7 +57,7 @@ public class SDocument extends IntentDefaultState {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#endStructuredElement()
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#endStructuredElement(int)
 	 */
 	@Override
 	public IntentGenericState endStructuredElement(int offset) {

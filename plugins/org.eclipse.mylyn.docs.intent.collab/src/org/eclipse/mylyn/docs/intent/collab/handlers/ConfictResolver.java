@@ -13,8 +13,7 @@ package org.eclipse.mylyn.docs.intent.collab.handlers;
 import java.util.Set;
 
 /**
- * A strategy used to customize the default conflict resolution behaviour of {@link CDOTransaction
- * transactions}.
+ * A strategy used to customize the default conflict resolution behaviour of CDO transactions.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
