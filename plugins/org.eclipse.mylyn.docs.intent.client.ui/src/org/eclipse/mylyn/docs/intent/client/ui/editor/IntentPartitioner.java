@@ -52,8 +52,6 @@ public class IntentPartitioner implements IDocumentPartitioner {
 
 	private List<ITypedRegion> regions = new ArrayList<ITypedRegion>();
 
-	private IntentParser parser = new IntentParser();
-
 	/**
 	 * Creates a new Partitioner using the given content types.
 	 * 
@@ -151,7 +149,7 @@ public class IntentPartitioner implements IDocumentPartitioner {
 	public ITypedRegion[] computePartitioning(int offset, int length) {
 		ITypedRegion[] res = regions.toArray(new ITypedRegion[regions.size()]);
 		Arrays.sort(res, new Comparator<ITypedRegion>() {
-			
+
 			public int compare(ITypedRegion o1, ITypedRegion o2) {
 				return Integer.valueOf(o1.getOffset()).compareTo(Integer.valueOf(o2.getOffset()));
 			}
@@ -248,8 +246,12 @@ public class IntentPartitioner implements IDocumentPartitioner {
 					+ IntentEditorDocument.class.getSimpleName());
 		}
 		try {
+			IntentParser parser = new IntentParser();
 			parser.getPositionManager().clear();
-			EObject root = parser.parse(fDocument.get());
+			// TODO [DISABLED] removed to avoid performance issues. Should be replaced by a better strategy
+			// (an ad-hoc parser for instance)
+			EObject root = null;
+			// EObject root = parser.parse(fDocument.get());
 			if (root != null) {
 				for (ModelingUnit mu : UnitGetter.getAllModelingUnitsContainedInElement(root)) {
 					ParsedElementPosition position = parser.getPositionForElement(mu);
@@ -279,8 +281,8 @@ public class IntentPartitioner implements IDocumentPartitioner {
 					if (structured.getTitle() != null) {
 						ParsedElementPosition titlePosition = parser.getPositionForElement(structured
 								.getTitle());
-						ITypedRegion tmp2 = createRegion(titlePosition.getOffset(), titlePosition.getLength(),
-								IntentDocumentProvider.INTENT_TITLE);
+						ITypedRegion tmp2 = createRegion(titlePosition.getOffset(),
+								titlePosition.getLength(), IntentDocumentProvider.INTENT_TITLE);
 						if (tmp2 != null) {
 							regionsList.add(tmp2);
 						}

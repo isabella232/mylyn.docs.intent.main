@@ -26,7 +26,6 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditorConfiguration;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentOutlinePage;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentQuickOutlineControl;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.QuickOutlineInformationProvider;
@@ -40,9 +39,7 @@ import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -80,8 +77,6 @@ public class IntentEditor extends TextEditor {
 
 	private IntentQuickOutlineControl currentQuickOutline;
 
-	private Point lastCarretPositionOffset;
-
 	/**
 	 * Default constructor.
 	 */
@@ -117,7 +112,8 @@ public class IntentEditor extends TextEditor {
 	 */
 	@Override
 	protected void doSetInput(IEditorInput input) throws CoreException {
-		setSourceViewerConfiguration(new IntentEditorConfiguration(this, getPreferenceStore()));
+		// TODO [DISABLED] partitioner, syntax colors
+		// setSourceViewerConfiguration(new IntentEditorConfiguration(this, getPreferenceStore()));
 		setDocumentProvider(createDocumentProvider());
 		super.doSetInput(input);
 	}
@@ -130,79 +126,8 @@ public class IntentEditor extends TextEditor {
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
-		// ((IntentDocumentProvider)this.getDocumentProvider()).decorateModelingUnits();
 		((ITextViewerExtension2)getSourceViewer()).addPainter(new ModelingUnitDecorationPainter(
 				getSourceViewer(), this.colorManager));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#handleCursorPositionChanged()
-	 */
-	@Override
-	protected void handleCursorPositionChanged() {
-		super.handleCursorPositionChanged();
-
-		// IContextService ctxS =
-		// (IContextService)PlatformUI.getWorkbench().getService(IContextService.class);
-		// for (Object s : ctxS.getActiveContextIds()) {
-		// if (s.toString().contains("fr")) {
-		// System.err.println("ActivContex Changed " + s);
-		// }
-		// }
-		/*
-		 * EObject elementAtCursorPosition = getElementAtCursorPosition(); if (elementAtCursorPosition !=
-		 * null) { ((IntentOutlinePage)this.getOutlinePage()).setSelectedElement(elementAtCursorPosition); }
-		 */
-		((IntentDocumentProvider)this.getDocumentProvider()).refresh();
-	}
-
-	/**
-	 * Sets the cursor position to the location saved with the "cursorWillChange" method. Also set the
-	 * selectedRange.
-	 */
-	public void updateCursorPositionAfterReload() {
-		Display.getDefault().syncExec(new Runnable() {
-			public void run() {
-				if (getSourceViewer() != null) {
-					getSourceViewer().revealRange(lastCarretPositionOffset.x, lastCarretPositionOffset.y);
-					getSourceViewer()
-							.setSelectedRange(lastCarretPositionOffset.x, lastCarretPositionOffset.y);
-				}
-			}
-		});
-	}
-
-	/**
-	 * Signal sent by the document Provider before changing the document content ; the editor save the current
-	 * cursor position.
-	 */
-	public void cursorWillChange() {
-		Display.getDefault().syncExec(new Runnable() {
-			public void run() {
-				lastCarretPositionOffset = getSourceViewer().getSelectedRange();
-			}
-		});
-
-	}
-
-	/**
-	 * Returns the element located at the cursor position.
-	 * 
-	 * @return the element located at the cursor position
-	 */
-	private EObject getElementAtCursorPosition() {
-		// We get and translate the cursor position
-		String cursorPosition = getCursorPosition();
-		String line = cursorPosition.substring(0, cursorPosition.indexOf(":")).trim();
-		int offset = this.getSourceViewer().getTextWidget().getOffsetAtLine(Integer.valueOf(line));
-		String offsetInLine = cursorPosition.substring(cursorPosition.indexOf(":") + 1).trim();
-		offset = offset + Integer.valueOf(offsetInLine);
-
-		// We use the document to get the element located at this position
-		return ((IntentEditorDocument)getDocumentProvider().getDocument(getEditorInput()))
-				.getElementAtOffset(offset);
 	}
 
 	/**

@@ -13,9 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.ide.launcher;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -24,13 +22,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection.CompilerRepositoryClient;
-import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
-import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.ProjectExplorerRefresher;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
@@ -49,16 +44,6 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils.FileToStri
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public final class IDEApplicationManager {
-
-	private static Map<IProject, Repository> repositories = new HashMap<IProject, Repository>();
-
-	private static CompilerRepositoryClient compilerClient;
-
-	private static SynchronizerRepositoryClient synchronizerClient;
-
-	private static IndexerRepositoryClient indexerClient;
-
-	private static ProjectExplorerRefresher refresher;
 
 	/**
 	 * IDEApplicationManager constructor.
@@ -165,52 +150,73 @@ public final class IDEApplicationManager {
 	 * @throws RepositoryConnectionException
 	 *             if the connection to the repository is invalid
 	 */
-	private static void initializeWithSampleContent(Repository repositoryToInitialize, String initialContent)
-			throws RepositoryConnectionException {
-		RepositoryAdapter wpAdapter = RepositoryCreatorHolder.getCreator()
+	private static void initializeWithSampleContent(Repository repositoryToInitialize,
+			final String initialContent) throws RepositoryConnectionException {
+		final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
 				.createRepositoryAdapterForRepository(repositoryToInitialize);
 
-		try {
+		repositoryAdapter.execute(new IntentCommand() {
 
-			Resource wpResourceIndex = wpAdapter.getOrCreateResource(IntentLocations.GENERAL_INDEX_PATH);
-			wpResourceIndex.getContents().add(IntentIndexerFactory.eINSTANCE.createIntentIndex());
-			Resource wpCompilStatusIndex = wpAdapter
-					.getOrCreateResource(IntentLocations.COMPILATION_STATUS_INDEX_PATH);
-			wpCompilStatusIndex.getContents().add(CompilerFactory.eINSTANCE.createCompilationStatusManager());
-			Resource wpTracabilityIndexResource = wpAdapter
-					.getOrCreateResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
-			wpTracabilityIndexResource.getContents().add(CompilerFactory.eINSTANCE.createTraceabilityIndex());
-
-			Resource repositoryIntentResource;
-
-			repositoryIntentResource = wpAdapter.getOrCreateResource(IntentLocations.INTENT_INDEX);
-
-			if (repositoryIntentResource.getContents().size() == 0) {
-				repositoryIntentResource.getContents().clear();
-
-				List<EObject> elementsToUpload = new ArrayList<EObject>();
-				IntentParser parser = new IntentParser();
-
-				EObject parsedObject = parser.parse(initialContent);
-				elementsToUpload.add(parsedObject);
-
-				for (EObject objectToCopy : elementsToUpload) {
-					repositoryIntentResource.getContents().add(EcoreUtil.copy(objectToCopy));
+			public void execute() {
+				try {
+					initializeInRepository(initialContent, repositoryAdapter);
+				} catch (ParseException e) {
+					IntentUiLogger.logError(e);
+				} catch (ReadOnlyException e) {
+					IntentUiLogger.logError(e);
+				} catch (SaveException e) {
+					IntentUiLogger.logError(e);
 				}
 
-				// Step : closing the session
-				wpAdapter.save();
-			} else {
-				wpAdapter.undo();
 			}
-		} catch (ParseException e) {
-			IntentUiLogger.logError(e);
-		} catch (ReadOnlyException e) {
-			IntentUiLogger.logError(e);
-		} catch (SaveException e) {
-			IntentUiLogger.logError(e);
+		});
+		repositoryAdapter.closeContext();
+	}
+
+	/**
+	 * Initializes the content in the repository using the given repository adapter.
+	 * 
+	 * @param initialContent
+	 *            the initial content
+	 * @param repositoryAdapter
+	 *            the adapter
+	 * @throws ReadOnlyException
+	 * @throws ParseException
+	 * @throws SaveException
+	 */
+	private static void initializeInRepository(final String initialContent,
+			final RepositoryAdapter repositoryAdapter) throws ReadOnlyException, ParseException,
+			SaveException {
+		Resource wpResourceIndex = repositoryAdapter.getOrCreateResource(IntentLocations.GENERAL_INDEX_PATH);
+		wpResourceIndex.getContents().add(IntentIndexerFactory.eINSTANCE.createIntentIndex());
+		Resource wpCompilStatusIndex = repositoryAdapter
+				.getOrCreateResource(IntentLocations.COMPILATION_STATUS_INDEX_PATH);
+		wpCompilStatusIndex.getContents().add(CompilerFactory.eINSTANCE.createCompilationStatusManager());
+		Resource wpTracabilityIndexResource = repositoryAdapter
+				.getOrCreateResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
+		wpTracabilityIndexResource.getContents().add(CompilerFactory.eINSTANCE.createTraceabilityIndex());
+
+		Resource repositoryIntentResource;
+
+		repositoryIntentResource = repositoryAdapter.getOrCreateResource(IntentLocations.INTENT_INDEX);
+
+		if (repositoryIntentResource.getContents().size() == 0) {
+			repositoryIntentResource.getContents().clear();
+
+			List<EObject> elementsToUpload = new ArrayList<EObject>();
+
+			EObject parsedObject = new IntentParser().parse(initialContent);
+			elementsToUpload.add(parsedObject);
+
+			for (EObject objectToCopy : elementsToUpload) {
+				repositoryIntentResource.getContents().add(EcoreUtil.copy(objectToCopy));
+			}
+
+			// Step : closing the session
+			repositoryAdapter.save();
+		} else {
+			repositoryAdapter.undo();
 		}
-		wpAdapter.closeContext();
 	}
 
 	/**
@@ -247,11 +253,10 @@ public final class IDEApplicationManager {
 				repositoryIntentResource.getContents().clear();
 
 				List<EObject> elementsToUpload = new ArrayList<EObject>();
-				IntentParser parser = new IntentParser();
 
 				for (String filePath : filesToLoad) {
-					EObject parsedObject = parser.parse(FileToStringConverter.getFileAsString(new File(
-							filePath)));
+					EObject parsedObject = new IntentParser().parse(FileToStringConverter
+							.getFileAsString(new File(filePath)));
 					elementsToUpload.add(parsedObject);
 				}
 

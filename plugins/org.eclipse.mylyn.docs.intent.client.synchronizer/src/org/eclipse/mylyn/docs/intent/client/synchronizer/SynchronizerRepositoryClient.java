@@ -16,6 +16,7 @@ import java.util.Iterator;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.synchronizer.IntentSynchronizer;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
@@ -59,22 +60,30 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	 * @param statusList
 	 *            the list of status to add
 	 */
-	public void addAllStatusToTargetElement(Collection<? extends CompilationStatus> statusList) {
+	public void addAllStatusToTargetElement(final Collection<? extends CompilationStatus> statusList) {
+		repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
 
-		// For each status to add
-		for (CompilationStatus status : statusList) {
-			// We first remove all the old synchronizer informations about this element (TODO should be done
-			// while compiling)
-			Iterator<CompilationStatus> iterator = status.getTarget().getCompilationStatus().iterator();
-			while (iterator.hasNext()) {
-				CompilationStatus next = iterator.next();
-				if (next.getType() == CompilationMessageType.SYNCHRONIZER_WARNING) {
-					iterator.remove();
+			public void execute() {
+				// For each status to add
+				for (CompilationStatus status : statusList) {
+					// We first remove all the old synchronizer informations about this element (TODO should
+					// be done
+					// while compiling)
+					Iterator<CompilationStatus> iterator = status.getTarget().getCompilationStatus()
+							.iterator();
+					while (iterator.hasNext()) {
+						CompilationStatus next = iterator.next();
+						if (next.getType() == CompilationMessageType.SYNCHRONIZER_WARNING) {
+							iterator.remove();
+						}
+					}
+					// We get the status associated to this target
+					status.getTarget().getCompilationStatus().add(status);
 				}
+
 			}
-			// We get the status associated to this target
-			status.getTarget().getCompilationStatus().add(status);
-		}
+		});
+
 	}
 
 	/**

@@ -26,6 +26,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.notification.WorkspaceTypeListener;
@@ -148,10 +149,8 @@ public class WorkspaceSession implements IResourceChangeListener {
 			}
 
 			// Finally, we treat each removed or changed resource.
-			synchronized(this.repository.getResourceSet()) {
-				treatRemovedResources(removedResources);
-				treatChangeResources(changedResources);
-			}
+			treatRemovedResources(removedResources);
+			treatChangeResources(changedResources);
 
 		} catch (CoreException e) {
 			// TODO define a standard reaction to this exception :
@@ -169,56 +168,70 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 *            the list of the recently changed resources
 	 */
 	private void treatChangeResources(Collection<Resource> changedResources) {
-
 		// For each changed resources
-		for (Resource changedResource : changedResources) {
+		for (final Resource changedResource : changedResources) {
 
-			// We get the adapters defined on the roots (in order to re-attach them after this
-			// resource will be reloaded)
-			Collection<Adapter> oldAdaptersList = new ArrayList<Adapter>();
-
-			for (EObject root : changedResource.getContents()) {
-				oldAdaptersList.addAll(root.eAdapters());
-			}
-
-			// We reload this resource (if it's loaded, otherwise we simply do nothing)
 			if (changedResource.isLoaded()) {
-				changedResource.unload();
-				synchronized(this.repository.getResourceSet()) {
-					try {
-						this.repository.getResourceSet().getResource(changedResource.getURI(), true);
-					} catch (WrappedException we) {
-						try {
-							changedResource.load(WorkspaceAdapter.getLoadOptions());
-						} catch (IOException e) {
-							// TODO Handle this I/O Exception
-						}
+				repositoryAdapter.execute(new IntentCommand() {
+
+					public void execute() {
+						// TODO [DISABLED]
+						// this make the resource unstable, some commands launched within the bad timing will
+						// have side
+						// effects
+						// we want to reload the resource if it has been modified by another tool, but not if
+						// it has been
+						// modified by a client
+						// temporary workaround: disabling
+						// System.out.println("Reloading " + changedResource + "...");
+						// // We reload this resource (if it's loaded, otherwise we simply do nothing)
+						//
+						// reloadResource(changedResource);
+						//
+						// System.out.println(changedResource + " reloaded.");
+
+						// Finally, we notify the listeners of this session
+						notifyListeners(changedResource);
 					}
 
-					// We re-attach the eAdapters to the roots
-					synchronized(changedResource) {
+				});
+			}
+		}
+	}
 
-						for (EObject root : changedResource.getContents()) {
-
-							for (Adapter adapter : oldAdaptersList) {
-								root.eAdapters().add(adapter);
-								if (!savedResources.contains(changedResource)) {
-									if (adapter instanceof ElementListAdapter) {
-										// We notify each Intent adapter of the changes
-										((ElementListAdapter)adapter).notifyChangesOnElement(root);
-									}
-								}
-							}
-						}
+	/**
+	 * Reloads the given resource.
+	 * @param changedResource the changed resource
+	 */
+	private void reloadResource(final Resource changedResource) {
+		// We get the adapters defined on the roots (in order to re-attach them after this
+		// resource will be reloaded)
+		final Collection<Adapter> oldAdaptersList = new ArrayList<Adapter>();
+		for (EObject root : changedResource.getContents()) {
+			oldAdaptersList.addAll(root.eAdapters());
+		}
+		changedResource.unload();
+		try {
+			repository.getResourceSet().getResource(changedResource.getURI(), true);
+		} catch (WrappedException we) {
+			try {
+				changedResource.load(WorkspaceAdapter.getLoadOptions());
+			} catch (IOException e) {
+				// TODO Handle this I/O Exception
+			}
+		}
+		// We re-attach the eAdapters to the roots
+		for (EObject root : changedResource.getContents()) {
+			for (Adapter adapter : oldAdaptersList) {
+				root.eAdapters().add(adapter);
+				if (!savedResources.contains(changedResource)) {
+					if (adapter instanceof ElementListAdapter) {
+						// We notify each Intent adapter of the changes
+						((ElementListAdapter)adapter).notifyChangesOnElement(root);
 					}
 				}
 			}
-
-			// Finally, we notify the listeners of this session
-			notifyListeners(changedResource);
-
 		}
-
 	}
 
 	/**
@@ -229,29 +242,25 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 *            the list of the recently removed resources
 	 */
 	private void treatRemovedResources(Collection<Resource> removedResources) {
-		synchronized(this.repository.getResourceSet()) {
-			for (Resource removedResource : removedResources) {
+		for (Resource removedResource : removedResources) {
 
-				// For each adapter of each roots
-				for (EObject root : removedResource.getContents()) {
-					synchronized(root.eAdapters()) {
-						for (Adapter adapter : root.eAdapters()) {
-							// If the adapter is an Intent elementList adapter
-							if (adapter instanceof ElementListAdapter) {
-								// we notify it about the deletion of this element
-								((ElementListAdapter)adapter).notifyChangesOnElement(null);
-							}
-						}
+			// For each adapter of each roots
+			for (EObject root : removedResource.getContents()) {
+				for (Adapter adapter : root.eAdapters()) {
+					// If the adapter is an Intent elementList adapter
+					if (adapter instanceof ElementListAdapter) {
+						// we notify it about the deletion of this element
+						((ElementListAdapter)adapter).notifyChangesOnElement(null);
 					}
 				}
-
-				// We unload the removeResource
-				removedResource.unload();
-				this.repository.getResourceSet().getResources().remove(removedResource);
-
-				// Finally, we notify the listeners of this session
-				notifyListeners(removedResource);
 			}
+
+			// We unload the removeResource
+			removedResource.unload();
+			this.repository.getResourceSet().getResources().remove(removedResource);
+
+			// Finally, we notify the listeners of this session
+			notifyListeners(removedResource);
 		}
 	}
 
@@ -273,7 +282,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 * 
 	 * @param resource
 	 *            the IResource to inspect
-	 * @return true f the given IResource represents a Intent Repository resource, false otherwise.
+	 * @return true if the given IResource represents a Intent Repository resource, false otherwise.
 	 */
 	public boolean isRepositoryResource(IResource resource) {
 		boolean isRepositoryResource = false;
@@ -284,13 +293,13 @@ public class WorkspaceSession implements IResourceChangeListener {
 	}
 
 	/**
-	 * Adds the given resource to the saved resource list ; in consequence, the next modificaiton delta
+	 * Adds the given resource to the saved resource list ; in consequence, the next modification delta
 	 * concerning this resource should be ignored.
 	 * 
 	 * @param savedResource
 	 *            the new save resource
 	 */
-	public synchronized void addSavedResource(Resource savedResource) {
+	public void addSavedResource(Resource savedResource) {
 		if (!savedResources.contains(savedResource)) {
 			savedResources.add(savedResource);
 		}

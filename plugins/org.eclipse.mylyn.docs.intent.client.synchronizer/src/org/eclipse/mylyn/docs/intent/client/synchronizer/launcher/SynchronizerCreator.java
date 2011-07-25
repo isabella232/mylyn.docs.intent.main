@@ -21,6 +21,7 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryC
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
@@ -67,14 +68,21 @@ public final class SynchronizerCreator {
 		Set<EObject> listenedElements = new HashSet<EObject>();
 
 		repositoryAdapter.openReadOnlyContext();
-		Resource traceabilityResource = repositoryAdapter
+		final Resource traceabilityResource = repositoryAdapter
 				.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
 		if (traceabilityResource.getContents().isEmpty()) {
-			traceabilityResource.getContents().add(CompilerFactory.eINSTANCE.createTraceabilityIndex());
-		}
-		EObject traceAbilityIndex = traceabilityResource.getContents().get(0);
+			repositoryAdapter.execute(new IntentCommand() {
 
-		listenedElements.add(traceAbilityIndex);
+				public void execute() {
+					traceabilityResource.getContents().add(
+							CompilerFactory.eINSTANCE.createTraceabilityIndex());
+
+				}
+			});
+		}
+		EObject traceabilityIndex = traceabilityResource.getContents().get(0);
+
+		listenedElements.add(traceabilityIndex);
 		// Step 2 : create the adapter and the handler for these types
 
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
@@ -86,12 +94,12 @@ public final class SynchronizerCreator {
 
 		// Step 3 : create the synchronizer
 		SynchronizerRepositoryClient synchronizerClient = new SynchronizerRepositoryClient(
-				(TraceabilityIndex)traceAbilityIndex);
+				(TraceabilityIndex)traceabilityIndex);
 		synchronizerClient.addRepositoryObjectHandler(handler);
 		synchronizerClient.setGeneratedElementListener(generatedElementListener);
 
 		// Step 4 : we ask the generatedElementListener to listen to all generated resources
-		Iterator<TraceabilityIndexEntry> indexEntryIterator = ((TraceabilityIndex)traceAbilityIndex)
+		Iterator<TraceabilityIndexEntry> indexEntryIterator = ((TraceabilityIndex)traceabilityIndex)
 				.getEntries().iterator();
 		while (indexEntryIterator.hasNext()) {
 			TraceabilityIndexEntry indexEntry = indexEntryIterator.next();

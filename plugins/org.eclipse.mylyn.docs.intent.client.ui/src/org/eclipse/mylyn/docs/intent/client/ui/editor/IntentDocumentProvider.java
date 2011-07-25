@@ -28,11 +28,11 @@ import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationModelManager;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.jobs.RefreshDocumentJob;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.ReadWriteRepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
@@ -114,11 +114,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	private IntentEditor associatedEditor;
 
 	/**
-	 * The parser used by this documentProvider to reparse a document.
-	 */
-	private IntentParser parser;
-
-	/**
 	 * The AnnotatioModelManager.
 	 */
 	private IntentAnnotationModelManager annotationModelManager;
@@ -129,14 +124,9 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	private IntentEditorDocument createdDocument;
 
 	/**
-	 * Represents the partionner used to identify the partitions of the document.
+	 * Represents the partitioner used to identify the partitions of the document.
 	 */
 	private IDocumentPartitioner partitioner;
-
-	/**
-	 * The job used to refresh the document.
-	 */
-	private RefreshDocumentJob refreshDocumentJob;
 
 	/**
 	 * IntentDocumentProvider constructor.
@@ -147,7 +137,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	public IntentDocumentProvider(IntentEditor editor) {
 		this.elementsToDocuments = new HashMap<Object, List<IntentEditorDocument>>();
 		this.associatedEditor = editor;
-		this.parser = new IntentParser();
 	}
 
 	/**
@@ -212,15 +201,11 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 
 		// We obtain the root of the document
 		documentRoot = ((IntentEditorInput)element).getIntentElement();
-		createdDocument = new IntentEditorDocument((EObject)documentRoot);
+		createdDocument = new IntentEditorDocument(documentRoot);
 
 		partitioner = new IntentPartitioner(LEGAL_CONTENT_TYPES);
 		partitioner.connect(createdDocument);
 		createdDocument.setDocumentPartitioner(partitioner);
-
-		// We create the job refreshing the AST
-		refreshDocumentJob = new RefreshDocumentJob(this, createdDocument, partitioner);
-
 		return createdDocument;
 
 	}
@@ -265,16 +250,12 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	private EObject reparseDocument(IntentEditorDocument document, boolean setAST) throws ParseException {
 		EObject localAST = null;
 		// We first parse the current text to obtain the ast.
-		localAST = parser.parse(document.get());
+		localAST = new IntentParser().parse(document.get());
 
 		if (setAST) {
 			document.reloadFromAST(localAST, false);
 		}
 		return localAST;
-	}
-
-	public void refresh() {
-		// refreshDocumentJob.refreshDocument();
 	}
 
 	/**
@@ -294,65 +275,83 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 *      java.lang.Object, org.eclipse.jface.text.IDocument, boolean)
 	 */
 	@Override
-	protected void doSaveDocument(IProgressMonitor monitor, Object element, IDocument document,
+	protected void doSaveDocument(IProgressMonitor monitor, Object element, final IDocument document,
 			boolean overwrite) throws CoreException {
-
 		if (document instanceof IntentEditorDocument) {
-			IntentEditorDocument intentDocument = (IntentEditorDocument)document;
-
 			final EObject localAST;
 			try {
 				this.removeSyntaxErrors();
 				localAST = reparseDocument((IntentEditorDocument)document, false);
 				this.associatedEditor.refreshTitle(localAST);
+				this.listenedElementsHandler.getRepositoryAdapter().execute(new IntentCommand() {
 
-				// Then we try to merge the parsed AST with the old one
-				IntentASTMerger merger = new IntentASTMerger();
-				boolean mustUndo = false;
-				try {
-					this.listenedElementsHandler.getRepositoryAdapter().openSaveContext();
-					final EObject remoteAST = (EObject)intentDocument.getAST();
-					merger.mergeFromLocalToRepository(localAST, remoteAST);
-					Job job = new Job("Saving " + this.associatedEditor.getTitle()) {
-						@Override
-						protected IStatus run(IProgressMonitor monitor) {
-							try {
-								listenedElementsHandler.getRepositoryAdapter().save();
-							} catch (ReadOnlyException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (SaveException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							return Status.OK_STATUS;
-						}
-					};
-					job.schedule();
-
-					// We update the mapping between elements and documents
-					addAllContentAsIntentElement(documentRoot, (IntentEditorDocument)document);
-
-				} catch (MergingException e) {
-					mustUndo = true;
-					IntentUiLogger.logError(e);
-				} catch (NullPointerException npe) {
-					mustUndo = true;
-					IntentUiLogger.logError(npe);
-				}
-
-				if (mustUndo) {
-					try {
-						((ReadWriteRepositoryObjectHandler)this.listenedElementsHandler).undo();
-					} catch (ReadOnlyException e) {
-						IntentUiLogger.logError(e);
+					public void execute() {
+						merge(document, localAST);
 					}
-				}
+
+				});
 				this.listenedElementsHandler.getRepositoryAdapter().closeContext();
 			} catch (ParseException e) {
 				this.createSyntaxErrorAnnotation(e.getMessage(), e.getErrorOffset(), e.getErrorLength());
 			}
 
+		}
+	}
+
+	/**
+	 * Merges the document content according to the given AST.
+	 * 
+	 * @param document
+	 *            the document
+	 * @param localAST
+	 *            the AST
+	 */
+	private void merge(final IDocument document, final EObject localAST) {
+		// Then we try to merge the parsed AST with the old one
+		final IntentASTMerger merger = new IntentASTMerger();
+		boolean mustUndo = false;
+		try {
+			listenedElementsHandler.getRepositoryAdapter().openSaveContext();
+			final EObject remoteAST = (EObject)((IntentEditorDocument)document).getAST();
+
+			try {
+				merger.mergeFromLocalToRepository(localAST, remoteAST);
+			} catch (MergingException e) {
+				mustUndo = true;
+				IntentUiLogger.logError(e);
+			}
+
+			Job job = new Job("Saving " + associatedEditor.getTitle()) {
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					try {
+						listenedElementsHandler.getRepositoryAdapter().save();
+					} catch (ReadOnlyException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SaveException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return Status.OK_STATUS;
+				}
+			};
+			job.schedule();
+
+			// We update the mapping between elements and documents
+			addAllContentAsIntentElement(documentRoot, (IntentEditorDocument)document);
+
+		} catch (NullPointerException npe) {
+			mustUndo = true;
+			IntentUiLogger.logError(npe);
+		}
+
+		if (mustUndo) {
+			try {
+				((ReadWriteRepositoryObjectHandler)listenedElementsHandler).undo();
+			} catch (ReadOnlyException e) {
+				IntentUiLogger.logError(e);
+			}
 		}
 	}
 
@@ -411,7 +410,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 
 		// For each object modified indicated by this notification
 		for (EObject modifiedObject : notification.getRightRoots()) {
-
 			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
 					.getIDFromElement(modifiedObject);
 
@@ -423,12 +421,12 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				}
 				for (final IntentEditorDocument relatedDocument : elementsToDocuments
 						.get(modifiedObjectIdentifier)) {
-					this.associatedEditor.cursorWillChange();
-					relatedDocument.reloadFromAST(documentRoot, true);
+
+					// TODO [DISABLED] re-enable reloading (for external changes)
+					// relatedDocument.reloadFromAST(documentRoot, true);
 
 					// We update the mapping between elements and documents
-					addAllContentAsIntentElement(documentRoot, (IntentEditorDocument)relatedDocument);
-					this.associatedEditor.updateCursorPositionAfterReload();
+					addAllContentAsIntentElement(documentRoot, relatedDocument);
 					if (modifiedObject instanceof IntentGenericElement) {
 						IntentGenericElement modifiedElement = (IntentGenericElement)modifiedObject;
 						updateAnnotationModelFromCompilationStatus(modifiedElement, relatedDocument);
@@ -448,11 +446,10 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				// Finally, we refresh the outline
 				refreshOutline(documentRoot);
 			} else {
-				System.err.println("unknown element");
+				// TODO [DISABLED] (removed syserr, too verbose)
+				// System.err.println("unknown element");
 			}
-
 		}
-
 	}
 
 	/**

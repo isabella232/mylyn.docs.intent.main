@@ -185,4 +185,11 @@ public interface RepositoryAdapter {
 	 */
 	EObject reload(EObject elementToReload);
 
+	/**
+	 * Executes a command according to the repository implementation.
+	 * 
+	 * @param command
+	 *            the command to execute
+	 */
+	void execute(IntentCommand command);
 }

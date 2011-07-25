@@ -30,6 +30,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
+import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
@@ -200,36 +203,42 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		try {
 			// First of all, we use the documentStructurer to structure the resource set
 			if (documentStructurer != null) {
-				documentStructurer.structure(this);
-			}
-			synchronized(this.repository.getResourceSet()) {
-				for (Resource resource : this.repository.getResourceSet().getResources()) {
+				execute(new IntentCommand() {
 
-					// We only save the resource if it has been modified
-					if (resource.isModified() || !resource.isTrackingModification()) {
+					public void execute() {
 						try {
-
-							// We make sure the session isn't still reacting to previous saves
-							while (((WorkspaceSession)this.repository.getOrCreateSession())
-									.isProcessingDelta()) {
-								try {
-									Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
-								} catch (InterruptedException e) {
-									throw new SaveException(e.getMessage());
-								}
-							}
-
-							// We send a warning to the WorkspaceSession if necessary
-							treatSessionWarning(resource);
-
-							// We finally save this resource
-							resource.save(getSaveOptions());
-							resource.setTrackingModification(true);
-						} catch (IOException e) {
-							throw new SaveException(e.getMessage());
-						} catch (RepositoryConnectionException e) {
-							throw new SaveException(e.getMessage());
+							documentStructurer.structure(WorkspaceAdapter.this);
+						} catch (ReadOnlyException e) {
+							// throw new SaveException(e.getMessage()); // TODO FIXME throw exception
 						}
+					}
+				});
+			}
+			for (Resource resource : this.repository.getResourceSet().getResources()) {
+
+				// We only save the resource if it has been modified
+				if (resource.isModified() || !resource.isTrackingModification()) {
+					try {
+
+						// We make sure the session isn't still reacting to previous saves
+						while (((WorkspaceSession)this.repository.getOrCreateSession()).isProcessingDelta()) {
+							try {
+								Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
+							} catch (InterruptedException e) {
+								throw new SaveException(e.getMessage());
+							}
+						}
+
+						// We send a warning to the WorkspaceSession if necessary
+						treatSessionWarning(resource);
+
+						// We finally save this resource
+						resource.save(getSaveOptions());
+						resource.setTrackingModification(true);
+					} catch (IOException e) {
+						throw new SaveException(e.getMessage());
+					} catch (RepositoryConnectionException e) {
+						throw new SaveException(e.getMessage());
 					}
 				}
 			}
@@ -293,19 +302,8 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#undo()
 	 */
 	public void undo() throws ReadOnlyException {
-		if (isReadOnlyContext) {
-			throw new ReadOnlyException(
-					"Cannot undo with a read-only context. The context should have been started with the 'openSaveContext' method.");
-		}
-		// For undo all the modifications, we unload all the resources
-		synchronized(this.repository.getResourceSet()) {
-			for (Resource resource : this.repository.getResourceSet().getResources()) {
-				if (resource != null && !isUnloadableResource(resource)) {
-					resource.unload();
-				}
-			}
-
-		}
+		// TODO accurate undo strategy
+		repository.getEditingDomain().getCommandStack().undo();
 	}
 
 	/**
@@ -431,13 +429,17 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	public Resource getResource(String repositoryRelativePath, boolean loadResourceOnDemand) {
 		// We calculate the Repository URI corresponding to the given path
 		URI uri = this.repository.getURIMatchingPath(repositoryRelativePath);
-		synchronized(this.repository.getResourceSet()) {
-			Resource resource = this.repository.getResourceSet().getResource(uri, loadResourceOnDemand);
-			if (resource != null) {
-				resource.setTrackingModification(true);
-			}
-			return resource;
+		final Resource resource = this.repository.getResourceSet().getResource(uri, loadResourceOnDemand);
+		if (resource != null) {
+			execute(new IntentCommand() {
+
+				public void execute() {
+					resource.setTrackingModification(true);
+
+				}
+			});
 		}
+		return resource;
 	}
 
 	/**
@@ -455,23 +457,21 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		URI uri = this.repository.getURIMatchingPath(path);
 
 		// We first try to get the resource
-		synchronized(this.repository.getResourceSet()) {
-			Resource returnedResource = this.repository.getResourceSet().getResource(uri, false);
-			if (returnedResource == null) {
-				// If it doesn't exist, we create it
-				returnedResource = this.repository.getResourceSet().createResource(uri);
-			} else {
-				if (!returnedResource.isLoaded()) {
-					try {
-						returnedResource.load(getLoadOptions());
-					} catch (IOException e) {
-						returnedResource = null;
-					}
+		Resource returnedResource = this.repository.getResourceSet().getResource(uri, false);
+		if (returnedResource == null) {
+			// If it doesn't exist, we create it
+			returnedResource = this.repository.getResourceSet().createResource(uri);
+		} else {
+			if (!returnedResource.isLoaded()) {
+				try {
+					returnedResource.load(getLoadOptions());
+				} catch (IOException e) {
+					returnedResource = null;
 				}
 			}
-			returnedResource.setTrackingModification(true);
-			return returnedResource;
 		}
+		returnedResource.setTrackingModification(true);
+		return returnedResource;
 	}
 
 	/**
@@ -481,10 +481,8 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	public EObject getElementWithID(Object uri) {
 		if (uri instanceof URI) {
-			synchronized(this.repository.getResourceSet()) {
-				EObject eObject = this.repository.getResourceSet().getEObject((URI)uri, true);
-				return eObject;
-			}
+			EObject eObject = this.repository.getResourceSet().getEObject((URI)uri, true);
+			return eObject;
 		}
 		return null;
 	}
@@ -512,7 +510,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 			throw new IllegalArgumentException("Cannot attach " + structurer.getClass().getName()
 					+ " to this adapter : should be " + RepositoryStructurer.class.getName());
 		}
-		documentStructurer = (RepositoryStructurer)structurer;
+		documentStructurer = structurer;
 	}
 
 	/**
@@ -547,12 +545,27 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		if (elementToReload.eIsProxy()) {
 			resolve = EcoreUtil.resolve(elementToReload, this.repository.getResourceSet());
 		}
-		synchronized(this.repository.getResourceSet()) {
-			for (Resource resource : this.repository.getResourceSet().getResources()) {
-				resource.setTrackingModification(true);
-			}
+		for (Resource resource : this.repository.getResourceSet().getResources()) {
+			resource.setTrackingModification(true);
 		}
 		return resolve;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#execute(IntentCommand)
+	 */
+	public void execute(final IntentCommand command) {
+		final TransactionalEditingDomain editingDomain = repository.getEditingDomain();
+		RecordingCommand recordingCommand = new RecordingCommand(editingDomain) {
+
+			@Override
+			protected void doExecute() {
+				command.execute();
+			}
+		};
+		editingDomain.getCommandStack().execute(recordingCommand);
 	}
 
 }

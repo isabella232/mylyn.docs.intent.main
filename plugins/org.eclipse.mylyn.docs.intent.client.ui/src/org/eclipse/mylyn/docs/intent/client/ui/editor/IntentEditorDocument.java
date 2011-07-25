@@ -40,11 +40,6 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	private EObject lastSavedAst;
 
 	/**
-	 * The last ast dowloaded from the repository (recreated for each commit on this document).
-	 */
-	private EObject lastRepositoryAST;
-
-	/**
 	 * The serializer used to serialized the given Intent elements.
 	 */
 	private IntentSerializer serializer;
@@ -59,8 +54,6 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 		super();
 		serializer = new IntentSerializer(MODELING_PREFIX_DECORATION, MODELING_SUFFIX_DECORATION);
 		this.lastSavedAst = root;
-		this.lastRepositoryAST = this.lastSavedAst;
-
 		setTextStore(new CopyOnWriteTextStore(new GapTextStore()));
 		setLineTracker(new DefaultLineTracker());
 		super.completeInitialization();
@@ -95,9 +88,6 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 *            indicates if the given ast is synchronized with the repository or is a local version.
 	 */
 	public void setAST(EObject newAST, boolean isSynchronizedWithRepository) {
-		if (isSynchronizedWithRepository) {
-			this.lastRepositoryAST = newAST;
-		}
 		this.lastSavedAst = newAST;
 	}
 

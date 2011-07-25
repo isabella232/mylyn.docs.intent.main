@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.indexer.tocmaker.TocMaker;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
@@ -48,11 +49,15 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 	 * Replace the repository index content with the repository document's table of contents.
 	 */
 	public void makeToc() {
-		IntentIndex index = getIntentIndex();
-		IntentDocument document = getIntentDocument();
+		final IntentIndex index = getIntentIndex();
+		final IntentDocument document = getIntentDocument();
 		System.out.println("[Indexer] Making Toc on " + document.getChapters().size() + "chapters...");
+		repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
 
-		indexComputor.computeIndex(index, document);
+			public void execute() {
+				indexComputor.computeIndex(index, document);
+			}
+		});
 		System.out.println("[Indexer] Toc made.");
 	}
 

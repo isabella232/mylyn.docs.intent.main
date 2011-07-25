@@ -14,7 +14,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
-import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.cdo.adapters.CDOAdapter;
@@ -45,11 +44,6 @@ import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 public final class CDORepositoryCreatorForIntent extends CDORepositoryCreator {
 
 	/**
-	 * The current instance of the RepositoryCreator.
-	 */
-	private static CDORepositoryCreator currentInstance;
-
-	/**
 	 * RepositoryCreator constructor.
 	 */
 	public CDORepositoryCreatorForIntent() {
@@ -64,7 +58,8 @@ public final class CDORepositoryCreatorForIntent extends CDORepositoryCreator {
 	 *             if the repository connection cannot be established
 	 */
 	public Repository createRepository() throws RepositoryConnectionException {
-		CDOConfig cdoConfig = new CDOConfig(IntentRepositoryConnectionSettingsForCDO.REPOSITORY_COMPLETE_ADRESS,
+		CDOConfig cdoConfig = new CDOConfig(
+				IntentRepositoryConnectionSettingsForCDO.REPOSITORY_COMPLETE_ADRESS,
 				IntentRepositoryConnectionSettingsForCDO.REPOSITORY_NAME);
 		Repository repository = new CDORepository(cdoConfig);
 		initialisePackageRegistry(repository);
@@ -135,6 +130,6 @@ public final class CDORepositoryCreatorForIntent extends CDORepositoryCreator {
 	 */
 	public RepositoryAdapter createRepositoryAdapterForRepository(Repository repository)
 			throws RepositoryConnectionException {
-		return new CDOAdapter((CDOSession)repository.getOrCreateSession());
+		return new CDOAdapter(repository.getOrCreateSession());
 	}
 }

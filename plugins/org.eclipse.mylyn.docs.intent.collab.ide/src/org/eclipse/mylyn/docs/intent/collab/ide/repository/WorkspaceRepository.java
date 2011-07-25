@@ -19,7 +19,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -48,15 +49,14 @@ public class WorkspaceRepository implements Repository {
 	private WorkspaceSession session;
 
 	/**
-	 * Represents the EMF ResourceSet of this Workspace repository : will handle resource creation, package
-	 * registry management...
-	 */
-	private ResourceSetImpl resourceSet;
-
-	/**
 	 * Indicates if the repository resource set has been initialized.
 	 */
 	private boolean isResourceSetLoaded;
+
+	/**
+	 * The repository editing domain.
+	 */
+	private TransactionalEditingDomain editingDomain;
 
 	/**
 	 * WorkspaceRepository constructor.
@@ -66,7 +66,7 @@ public class WorkspaceRepository implements Repository {
 	 */
 	public WorkspaceRepository(WorkspaceConfig workspaceConfig) {
 		this.workspaceConfig = workspaceConfig;
-		this.resourceSet = new ResourceSetImpl();
+		this.editingDomain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 		isResourceSetLoaded = false;
 	}
 
@@ -164,6 +164,7 @@ public class WorkspaceRepository implements Repository {
 			workspace.removeResourceChangeListener(session);
 			session = null;
 		}
+		this.editingDomain.dispose();
 	}
 
 	/**
@@ -173,9 +174,7 @@ public class WorkspaceRepository implements Repository {
 	 */
 	public Registry getPackageRegistry() throws RepositoryConnectionException {
 		// Return the resourceset's package registry
-		synchronized(resourceSet) {
-			return resourceSet.getPackageRegistry();
-		}
+		return getResourceSet().getPackageRegistry();
 	}
 
 	// ---- SPECIFIC BEHAVIORS
@@ -237,8 +236,8 @@ public class WorkspaceRepository implements Repository {
 	 * 
 	 * @return the resourceSet the EMF ResourceSet of this Workspace repository
 	 */
-	public ResourceSetImpl getResourceSet() {
-		return resourceSet;
+	public ResourceSet getResourceSet() {
+		return editingDomain.getResourceSet();
 	}
 
 	/**
@@ -258,4 +257,9 @@ public class WorkspaceRepository implements Repository {
 	public static String getWorkspaceResourceExtension() {
 		return WORKSPACE_RESOURCE_EXTENSION;
 	}
+
+	public TransactionalEditingDomain getEditingDomain() {
+		return editingDomain;
+	}
+
 }

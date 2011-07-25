@@ -26,6 +26,7 @@ import org.eclipse.mylyn.docs.intent.client.compiler.saver.CompilerInformationsS
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -69,23 +70,23 @@ public class CompilationJob extends Job {
 	 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.Imonitor)
 	 */
 	@Override
-	protected IStatus run(IProgressMonitor monitor) {
+	protected IStatus run(final IProgressMonitor monitor) {
 		try {
 			if (!monitor.isCanceled()) {
 				ModelingUnitCompiler compiler = null;
 				ModelingUnitLinkResolver resolver = null;
-				List<ModelingUnit> modelingUnitsToCompile = new ArrayList<ModelingUnit>();
+
+				final List<ModelingUnit> modelingUnitsToCompile = new ArrayList<ModelingUnit>();
 
 				// InformationHolder Initialization
 				final Resource resourceIndex = repositoryObjectHandler.getRepositoryAdapter().getResource(
 						IntentLocations.INTENT_INDEX);
 
-				IntentCompilerInformationHolder informationHolder = IntentCompilerInformationHolder
+				final IntentCompilerInformationHolder informationHolder = IntentCompilerInformationHolder
 						.getInstance();
 				informationHolder.initialize();
 
 				// LinkResolver initialization
-
 				if (!monitor.isCanceled()) {
 					resolver = new ModelingUnitLinkResolver(repository, informationHolder);
 				}
@@ -103,15 +104,26 @@ public class CompilationJob extends Job {
 
 				// Compilation
 				if (!monitor.isCanceled()) {
-					compiler.compile(modelingUnitsToCompile);
+					final ModelingUnitCompiler finalCompiler = compiler;
+					repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
+
+						public void execute() {
+							finalCompiler.compile(modelingUnitsToCompile);
+						}
+					});
 				}
+
 				// Saving the new compilations errors
 				if (!monitor.isCanceled()) {
 					System.err.println("[Compiler] compiled : "
 							+ informationHolder.getDeclaredResources().size() + " resources. ");
 					System.err.println("[Compiler] saving... ("
 							+ informationHolder.getCompilationStatusList().size() + " errors detected)");
-					saveCompilationInformations(informationHolder, monitor);
+					repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
+						public void execute() {
+							saveCompilationInformations(informationHolder, monitor);
+						}
+					});
 					System.err.println("[Compiler] =====================> saved.");
 				}
 			}
