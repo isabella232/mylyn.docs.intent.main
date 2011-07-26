@@ -32,31 +32,6 @@ public class IntentParser {
 	private IntentPositionManager positionManager;
 
 	/**
-	 * Parser for IntentStructuredElements : IntentDocument, Chapter and Section.
-	 */
-	private IntentDocumentParser documentParser;
-
-	/**
-	 * Parser for Modeling Units (based on Xtext).
-	 */
-	private ModelingUnitParserImpl modelingUnitParser;
-
-	/**
-	 * Parser for Description Units (based on the WikiText syntax and the markup meta-model).
-	 */
-	private DescriptionUnitParser descriptionUnitParser;
-
-	/**
-	 * IntentParser constructor.
-	 */
-	public IntentParser() {
-		this.documentParser = new IntentDocumentParser();
-		this.modelingUnitParser = new ModelingUnitParserImpl();
-		this.descriptionUnitParser = new DescriptionUnitParser();
-		this.positionManager = new IntentPositionManager();
-	}
-
-	/**
 	 * Returns the position of the given instruction element.
 	 * 
 	 * @param element
@@ -78,6 +53,11 @@ public class IntentParser {
 	 *             if the given content contain error or doesn't describe an Intent entity
 	 */
 	public EObject parse(String contentToParse) throws ParseException {
+		IntentDocumentParser documentParser = new IntentDocumentParser();
+		ModelingUnitParserImpl modelingUnitParser = new ModelingUnitParserImpl();
+		DescriptionUnitParser descriptionUnitParser = new DescriptionUnitParser();
+		this.positionManager = new IntentPositionManager();
+
 		EObject generatedObject = null;
 
 		try {

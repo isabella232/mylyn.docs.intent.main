@@ -37,11 +37,6 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 public class IntentSubSectionContainerState extends IntentDefaultState {
 
 	/**
-	 * The parser to use for parsing Modeling Units.
-	 */
-	private static DescriptionUnitParser descriptionUnitParser;
-
-	/**
 	 * Mapping between an identifier and the associated SubSectionContainer.
 	 */
 	private static Map<String, IntentSubSectionContainer> identifiersToSection;
@@ -114,7 +109,7 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 
 		// If the descriptionUnitContent isn't empty
 		if (descriptionUnitDescription.trim().length() > 0) {
-			DescriptionUnit descriptionUnit = getDescriptionUnitParser().parse(descriptionUnitDescription);
+			DescriptionUnit descriptionUnit = new DescriptionUnitParser().parse(descriptionUnitDescription);
 			((IntentSubSectionContainer)this.currentElement).getIntentContent().add(descriptionUnit);
 			positionManager.setPositionForInstruction(descriptionUnit, offset + titleLength, length
 					- titleLength);
@@ -137,7 +132,7 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 	private int createSectionTitle(int offset, String descriptionUnitContent) throws ParseException {
 		String sectionTitle = descriptionUnitContent.substring(0,
 				descriptionUnitContent.trim().indexOf(IntentKeyWords.INTENT_LINEBREAK));
-		DescriptionUnit descriptionUnit = getDescriptionUnitParser().parse(sectionTitle.trim());
+		DescriptionUnit descriptionUnit = new DescriptionUnitParser().parse(sectionTitle.trim());
 
 		for (UnitInstruction title : descriptionUnit.getInstructions()) {
 			if (title instanceof DescriptionBloc) {
@@ -206,15 +201,4 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 		return previousState();
 	}
 
-	/**
-	 * Returns the parser to use for parsing Description Units. If the parser hasn't been created, creates it.
-	 * 
-	 * @return the parser to use for parsing Description Units
-	 */
-	private DescriptionUnitParser getDescriptionUnitParser() {
-		if (descriptionUnitParser == null) {
-			descriptionUnitParser = new DescriptionUnitParser();
-		}
-		return descriptionUnitParser;
-	}
 }
