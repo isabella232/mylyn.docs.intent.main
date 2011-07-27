@@ -34,6 +34,7 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerSta
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.CopyInternalResourceStrategy;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
@@ -111,9 +112,14 @@ public class IntentSynchronizer {
 		Iterator<TraceabilityIndexEntry> indexEntryIterator = tracabilityIndex.getEntries().iterator();
 		while (indexEntryIterator.hasNext()) {
 			this.stopIfCanceled(progressMonitor);
-			TraceabilityIndexEntry indexEntry = indexEntryIterator.next();
+			final TraceabilityIndexEntry indexEntry = indexEntryIterator.next();
 			// First of all, we clear the old synchronization statuses
-			clearSyncStatusesFromIndexEntry(indexEntry);
+
+			adapter.execute(new IntentCommand() {
+				public void execute() {
+					clearSyncStatusesFromIndexEntry(indexEntry);
+				}
+			});
 
 			// We do not synchronize abstract resources (i.e. resources with no associated URI)
 			if (indexEntry.getResourceDeclaration().getUri() != null) {
