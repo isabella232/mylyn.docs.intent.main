@@ -37,7 +37,8 @@ import org.eclipse.mylyn.docs.intent.compare.match.IntentScopeProvider;
  */
 public class IntentASTMerger {
 
-	private static final boolean OVERRIDE = false;
+	// TODO [DISABLED] emf compare. to enable, set constant to false.
+	private static final boolean OVERRIDE = true;
 
 	/**
 	 * Modify the repository elements according to the local elements ; this operation should occure during a
