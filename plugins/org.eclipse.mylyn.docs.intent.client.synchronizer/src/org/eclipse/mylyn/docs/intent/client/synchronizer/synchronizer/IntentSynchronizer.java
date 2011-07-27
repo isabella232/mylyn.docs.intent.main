@@ -105,7 +105,7 @@ public class IntentSynchronizer {
 	 */
 	public Collection<? extends CompilationStatus> synchronize(RepositoryAdapter adapter,
 			TraceabilityIndex tracabilityIndex, Monitor progressMonitor) throws InterruptedException {
-		List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
+		final List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
 		if (generatedElementListener != null) {
 			generatedElementListener.clearElementToListen();
 		}
@@ -124,7 +124,14 @@ public class IntentSynchronizer {
 			// We do not synchronize abstract resources (i.e. resources with no associated URI)
 			if (indexEntry.getResourceDeclaration().getUri() != null) {
 				// We then generate the synchronization status for this entry
-				statusList.addAll(synchronize(adapter, indexEntry, progressMonitor));
+				final Collection<? extends CompilationStatus> synchronizedStatus = synchronize(adapter,
+						indexEntry, progressMonitor);
+				adapter.execute(new IntentCommand() {
+
+					public void execute() {
+						statusList.addAll(synchronizedStatus);
+					}
+				});
 			}
 		}
 		return statusList;
@@ -183,33 +190,55 @@ public class IntentSynchronizer {
 	 *             if this operation was interrupted
 	 */
 	private Collection<? extends CompilationStatus> synchronize(RepositoryAdapter adapter,
-			TraceabilityIndexEntry indexEntry, Monitor progressMonitor) throws InterruptedException {
+			final TraceabilityIndexEntry indexEntry, Monitor progressMonitor) throws InterruptedException {
 		List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
 		boolean continueSynchronization = true;
 
-		Resource internalResource = null;
 		// Step 1 : getting the repository resource
 		stopIfCanceled(progressMonitor);
-		internalResource = getInternalResource(adapter, indexEntry);
+		Resource internalResource = getInternalResource(adapter, indexEntry);
 
-		Resource externalResource = null;
 		stopIfCanceled(progressMonitor);
 		// Step 2 : getting the generated resource
-		externalResource = getExternalResource(indexEntry);
+		Resource externalResource = getExternalResource(indexEntry);
 
 		stopIfCanceled(progressMonitor);
 		// Step 3 : if one of the resource is null,
 		// we use the strategy to handle these cases
 		if (internalResource == null) {
-			internalResource = synchronizerStrategy.handleNullInternalResource(
-					indexEntry.getGeneratedResourcePath(), externalResource);
+			final List<Resource> result = new ArrayList<Resource>();
+			final Resource finalExternalResource = externalResource;
+			adapter.execute(new IntentCommand() {
+
+				public void execute() {
+					result.add(synchronizerStrategy.handleNullInternalResource(
+							indexEntry.getGeneratedResourcePath(), finalExternalResource));
+
+				}
+			});
+			if (!result.isEmpty()) {
+				internalResource = result.get(0);
+			}
+
 			// TODO : we can create here a status if the internal Resource has not been created
 			continueSynchronization = internalResource != null;
 		}
 		if (externalResource == null) {
-			externalResource = synchronizerStrategy.handleNullExternalResource(indexEntry
-					.getResourceDeclaration(), internalResource, (String)indexEntry.getResourceDeclaration()
-					.getUri());
+			final List<Resource> result = new ArrayList<Resource>();
+			final Resource finalInternalResource = internalResource;
+			adapter.execute(new IntentCommand() {
+
+				public void execute() {
+					result.add(synchronizerStrategy.handleNullExternalResource(indexEntry
+							.getResourceDeclaration(), finalInternalResource, (String)indexEntry
+							.getResourceDeclaration().getUri()));
+
+				}
+			});
+			if (!result.isEmpty()) {
+				externalResource = result.get(0);
+			}
+
 			// TODO : we can create here a status if the external Resource has not been created
 			continueSynchronization = externalResource != null;
 		}
