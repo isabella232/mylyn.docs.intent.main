@@ -29,7 +29,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -93,7 +92,6 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 				}
 				IDEApplicationManager.initializeContent(project, getInitialContent());
 				ToggleNatureAction.toggleNature(project);
-				IntentProjectManager.getInstance(project).launchIndexer();
 			}
 		};
 		try {

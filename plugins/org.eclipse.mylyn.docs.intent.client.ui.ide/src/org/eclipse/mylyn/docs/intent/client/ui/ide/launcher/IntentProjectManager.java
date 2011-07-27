@@ -118,6 +118,9 @@ public final class IntentProjectManager {
 					indexerClient = IndexerCreator.launchIndexer(getRepository());
 				}
 
+				// notifies the indexer, to launch the first indexing
+				indexerClient.handleChangeNotification(null);
+
 				// Project explorer refresher
 				if (refresher == null) {
 					refresher = ProjectExplorerRefresher.createProjectExplorerRefresher(project);
@@ -238,29 +241,4 @@ public final class IntentProjectManager {
 		return projectManagers.get(project) != null;
 	}
 
-	public void launchIndexer() {
-		// Indexer
-		if (indexerClient == null) {
-			try {
-				indexerClient = IndexerCreator.launchIndexer(getRepository());
-			} catch (RepositoryConnectionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		indexerClient.handleChangeNotification(null);
-	}
-
-	public void launchSynchronizer() {
-		if (synchronizerClient == null) {
-			try {
-				synchronizerClient = SynchronizerCreator.createSynchronizer(getRepository(),
-						new IDEGeneratedElementListener());
-			} catch (RepositoryConnectionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		synchronizerClient.handleChangeNotification(null);
-	}
 }
