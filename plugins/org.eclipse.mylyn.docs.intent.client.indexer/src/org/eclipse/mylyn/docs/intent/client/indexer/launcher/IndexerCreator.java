@@ -55,9 +55,7 @@ public final class IndexerCreator {
 		final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
 				.createRepositoryAdapterForRepository(repository);
 
-		// Step 2 : getting the Index to listen
-
-		// Step 3 : creating the handler
+		// Step 2 : creating the handler
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 		Set<EStructuralFeature> listenedFeatures = new HashSet<EStructuralFeature>();
 		listenedFeatures.add(IntentDocumentPackage.eINSTANCE.getIntentDocument_Chapters());
