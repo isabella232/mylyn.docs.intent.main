@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 
 /**
  * Provide a scope for any ReStructurde Models element, providing objects and features to ignore during the
@@ -71,9 +70,9 @@ public class IntentScope implements IMatchScope {
 	 */
 	private void initializeIgnoredFeaturesList() {
 		elementToIgnoreList = new ArrayList<EClass>();
-		elementToIgnoreList.add(ModelingUnitPackage.eINSTANCE.getTypeReference());
+		// elementToIgnoreList.add(ModelingUnitPackage.eINSTANCE.getTypeReference());
 		elementToIgnoreList.add(CompilerPackage.eINSTANCE.getCompilationStatus());
-
+		elementToIgnoreList.add(CompilerPackage.eINSTANCE.getSynchronizerCompilationStatus());
 	}
 
 	/**
