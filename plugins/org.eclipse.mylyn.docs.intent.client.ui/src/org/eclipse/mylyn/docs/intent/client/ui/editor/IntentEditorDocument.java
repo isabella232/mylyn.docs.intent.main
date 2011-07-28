@@ -84,10 +84,8 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * 
 	 * @param newAST
 	 *            the ast to use
-	 * @param isSynchronizedWithRepository
-	 *            indicates if the given ast is synchronized with the repository or is a local version.
 	 */
-	public void setAST(EObject newAST, boolean isSynchronizedWithRepository) {
+	public void setAST(EObject newAST) {
 		this.lastSavedAst = newAST;
 	}
 
@@ -120,10 +118,8 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * 
 	 * @param newAST
 	 *            the new value of the ast
-	 * @param isSynchronizedWithRepository
-	 *            indicates if the given ast is synchronized with the repository or is a local version.
 	 */
-	public void reloadFromAST(final EObject newAST, final boolean isSynchronizedWithRepository) {
+	public void reloadFromAST(final EObject newAST) {
 		Display.getDefault().syncExec(new Runnable() {
 
 			public void run() {
@@ -133,7 +129,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 					if (!get().equals(serializedForm)) {
 						replace(0, getLength(), serializedForm);
 					}
-					setAST(newAST, isSynchronizedWithRepository);
+					setAST(newAST);
 				} catch (BadLocationException e) {
 					IntentUiLogger.logError("Error encountered while refreshing the document ", e);
 				}

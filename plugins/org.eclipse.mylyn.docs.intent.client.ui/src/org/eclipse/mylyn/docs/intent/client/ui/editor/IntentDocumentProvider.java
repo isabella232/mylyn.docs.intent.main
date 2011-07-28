@@ -253,7 +253,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		localAST = new IntentParser().parse(document.get());
 
 		if (setAST) {
-			document.reloadFromAST(localAST, false);
+			document.reloadFromAST(localAST);
 		}
 		return localAST;
 	}
