@@ -14,6 +14,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
@@ -73,44 +74,48 @@ public abstract class AbstractRepositoryTest extends TestCase {
 	 *            the {@link Repository} to clear
 	 */
 	private void clearRepositoryContent(Repository repositoryToClear) {
-		RepositoryAdapter repositoryAdapter = null;
+		// We first get an adapter for using the repository
+		RepositoryAdapter repositoryAdapter;
 		try {
-
-			// We first get an adapter for using the repository
 			repositoryAdapter = RepositoryCreatorHolder.getCreator().createRepositoryAdapterForRepository(
 					repositoryToClear);
 			// We open a save Context
 			repositoryAdapter.openSaveContext();
+			final RepositoryAdapter finalRepoAdapter = repositoryAdapter;
+			final Resource indexResource = finalRepoAdapter
+					.getOrCreateResource(TestCollabSettings.TEST_INDEX);
 
-			Resource indexResource = repositoryAdapter.getOrCreateResource(TestCollabSettings.TEST_INDEX);
-			// If the an index was already define
-			if (!(indexResource.getContents().isEmpty())) {
-				// We delete all the reference objects
-				TestIndex testIndex = (TestIndex)indexResource.getContents().get(0);
-				for (TestIndexEntry entry : testIndex.getEntries()) {
-					Resource resourceToDelete = entry.getReferencedElement().eResource();
-					resourceToDelete.getContents().clear();
+			repositoryAdapter.execute(new IntentCommand() {
+				public void execute() {
+					try {
+						// If the an index was already define
+						if (!(indexResource.getContents().isEmpty())) {
+							// We delete all the reference objects
+							TestIndex testIndex = (TestIndex)indexResource.getContents().get(0);
+							for (TestIndexEntry entry : testIndex.getEntries()) {
+								Resource resourceToDelete = entry.getReferencedElement().eResource();
+								resourceToDelete.getContents().clear();
+							}
+							testIndex.getEntries().clear();
+						} else {
+							// Otherwise, we create an empty index
+							indexResource.getContents().add(TestPackageFactory.eINSTANCE.createTestIndex());
+						}
+						finalRepoAdapter.save();
+						finalRepoAdapter.closeContext();
+					} catch (ReadOnlyException e) {
+						e.printStackTrace();
+					} catch (SaveException e) {
+						e.printStackTrace();
+					}
 				}
-				testIndex.getEntries().clear();
-			} else {
-				// Otherwise, we create an empty index
-				indexResource.getContents().add(TestPackageFactory.eINSTANCE.createTestIndex());
-			}
-			repositoryAdapter.save();
-			repositoryAdapter.closeContext();
-		} catch (RepositoryConnectionException e) {
-			// As this a test, we expect that the repository can be accessed
-			e.printStackTrace();
-		} catch (ReadOnlyException e) {
+			});
+		} catch (RepositoryConnectionException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (ReadOnlyException e1) {
 			// As we have opened a save context, this exception can never occur
-			e.printStackTrace();
-		} catch (SaveException e) {
-			e.printStackTrace();
-			try {
-				repositoryAdapter.undo();
-			} catch (ReadOnlyException e1) {
-				// As we have opened a save context, this exception can never occur
-			}
+			e1.printStackTrace();
 		}
 
 	}

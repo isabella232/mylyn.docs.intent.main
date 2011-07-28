@@ -43,6 +43,7 @@ public class ElementListListenerTest extends AbstractWorkspaceRepositoryTest {
 		} catch (RepositoryConnectionException e) {
 			// As this a test, we expect that the repository can be accessed
 		}
+
 		initializeContent();
 		createElementListeningClients();
 	}

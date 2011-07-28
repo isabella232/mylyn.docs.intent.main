@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
@@ -105,8 +106,7 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 		// Step 1 : General configuration
 		// Step 1.1 : create a WorkspaceConfig (defining the location of the repository : relative path from
 		// platform:/).
-		WorkspaceConfig wpConfig = new WorkspaceConfig(repositoryProject,
-				TestCollabSettings.INDEXES_PATH);
+		WorkspaceConfig wpConfig = new WorkspaceConfig(repositoryProject, TestCollabSettings.INDEXES_PATH);
 
 		// Step 1.2 : defining a structurer that will structure the repository content
 		// here we use a structurer to handle the splitting strategy
@@ -224,53 +224,63 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 	 * elements).
 	 */
 	protected void initializeContent() {
-		RepositoryAdapter adapter = null;
+
 		try {
-			adapter = RepositoryCreatorHolder.getCreator().createRepositoryAdapterForRepository(repository);
+			final RepositoryAdapter adapter = RepositoryCreatorHolder.getCreator()
+					.createRepositoryAdapterForRepository(repository);
 
 			adapter.openSaveContext();
 			Resource indexResource = adapter.getResource(TestCollabSettings.TEST_INDEX);
-			TestIndex testIndex = (TestIndex)indexResource.getContents().get(0);
+			final TestIndex testIndex = (TestIndex)indexResource.getContents().get(0);
 			// Sample content creation
 			TestClass1 testClass1 = TestPackageFactory.eINSTANCE.createTestClass1();
 			testClass1.setName("sampleTestClass1");
 			testClass1.setTheAttributeToListen("theSampleAttributeToListen");
 			listenedTestElements.add(testClass1);
-			TestIndexEntry indexEntry1 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
+			final TestIndexEntry indexEntry1 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
 			indexEntry1.setReferencedElement(testClass1);
 
 			TestClass1 testClass1NotListened = TestPackageFactory.eINSTANCE.createTestClass1();
 			testClass1NotListened.setName("sampleTestClass1-notListened");
 			testClass1NotListened.setTheAttributeToListen("theSampleAttributeNotToListen");
 			nonListenedTestElements.add(testClass1NotListened);
-			TestIndexEntry indexEntry2 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
+			final TestIndexEntry indexEntry2 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
 			indexEntry2.setReferencedElement(testClass1NotListened);
 
 			TestClass2 testClass2 = TestPackageFactory.eINSTANCE.createTestClass2();
 			testClass2.setName("sampleTestClass2");
-			TestIndexEntry indexEntry3 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
+			final TestIndexEntry indexEntry3 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
 			indexEntry3.setReferencedElement(testClass2);
 			listenedTestElements.add(testClass2);
 
 			// Save the added informations in the index
+			adapter.execute(new IntentCommand() {
 
-			testIndex.getEntries().add(indexEntry1);
-			testIndex.getEntries().add(indexEntry2);
-			testIndex.getEntries().add(indexEntry3);
-			adapter.save();
+				public void execute() {
+					try {
+						testIndex.getEntries().add(indexEntry1);
+						testIndex.getEntries().add(indexEntry2);
+						testIndex.getEntries().add(indexEntry3);
+						adapter.save();
+					} catch (ReadOnlyException e) {
+						fail(e.getMessage());
+						// Cannot occur as we have opened a save context
+					} catch (SaveException e) {
+						fail(e.getMessage());
+						try {
+							adapter.undo();
+						} catch (ReadOnlyException e1) {
+							// Cannot occur as we have opened a save context
+						}
+					}
+				}
+
+			});
 
 			adapter.closeContext();
-		} catch (RepositoryConnectionException e) {
-			// As this a test, we expect that the repository can be accessed
-		} catch (ReadOnlyException e) {
-			// Cannot occur as we have opened a save context
-		} catch (SaveException e) {
-			e.printStackTrace();
-			try {
-				adapter.undo();
-			} catch (ReadOnlyException e1) {
-				// Cannot occur as we have opened a save context
-			}
+
+		} catch (RepositoryConnectionException e2) {
+			fail(e2.getMessage());
 		}
 
 	}

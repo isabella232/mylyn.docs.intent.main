@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.collab.test.clients;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.handlers.ReadWriteRepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
@@ -45,6 +46,7 @@ public class RepositoryWriterTestRepositoryClient extends AbstractTestRepository
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.test.clients.AbstractTestRepositoryClient#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
 	@Override
@@ -96,7 +98,7 @@ public class RepositoryWriterTestRepositoryClient extends AbstractTestRepository
 	 */
 	public AbstractTestClass createNewInstance(EClass newElementEClass, String newElementName) {
 
-		TestIndex testIndex = getIndex();
+		final TestIndex testIndex = getIndex();
 
 		// We create a new instance and add it to the index
 		AbstractTestClass createdElement = (AbstractTestClass)TestPackageFactory.eINSTANCE
@@ -105,12 +107,19 @@ public class RepositoryWriterTestRepositoryClient extends AbstractTestRepository
 		if (createdElement instanceof TestClass1) {
 			((TestClass1)createdElement).setTheAttributeToListen("attToListenValue");
 		}
-		TestIndexEntry indexEntry = TestPackageFactory.eINSTANCE.createTestIndexEntry();
+		final TestIndexEntry indexEntry = TestPackageFactory.eINSTANCE.createTestIndexEntry();
 		indexEntry.setReferencedElement(createdElement);
-		testIndex.getEntries().add(indexEntry);
 
-		// we save the modifications
-		saveModifications();
+		this.repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
+
+			public void execute() {
+				testIndex.getEntries().add(indexEntry);
+				// we save the modifications
+				saveModifications();
+			}
+
+		});
+
 		return createdElement;
 	}
 
@@ -124,12 +133,20 @@ public class RepositoryWriterTestRepositoryClient extends AbstractTestRepository
 	public AbstractTestClass modifyElementAndSave(AbstractTestClass elementToModify) {
 		this.repositoryObjectHandler.getRepositoryAdapter().openSaveContext();
 
-		AbstractTestClass updatedElementToModify = (AbstractTestClass)this.repositoryObjectHandler
+		final AbstractTestClass updatedElementToModify = (AbstractTestClass)this.repositoryObjectHandler
 				.getRepositoryAdapter().reload(elementToModify);
-		modifyElement(updatedElementToModify);
 
-		// we save the modifications
-		saveModifications();
+		this.repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
+
+			public void execute() {
+				modifyElement(updatedElementToModify);
+
+				// we save the modifications
+				saveModifications();
+			}
+
+		});
+
 		this.repositoryObjectHandler.getRepositoryAdapter().closeContext();
 		return updatedElementToModify;
 	}
@@ -140,13 +157,17 @@ public class RepositoryWriterTestRepositoryClient extends AbstractTestRepository
 	 * @param elementToModify
 	 *            the element to modify
 	 */
-	public void modifyElement(AbstractTestClass elementToModify) {
+	public void modifyElement(final AbstractTestClass elementToModify) {
+		this.repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
 
-		if (elementToModify instanceof TestClass1) {
-			((TestClass1)elementToModify).setTheAttributeToListen("new"
-					+ ((TestClass1)elementToModify).getTheAttributeToListen());
-		} else {
-			((TestClass2)elementToModify).setName("new" + ((TestClass2)elementToModify).getName());
-		}
+			public void execute() {
+				if (elementToModify instanceof TestClass1) {
+					((TestClass1)elementToModify).setTheAttributeToListen("new"
+							+ ((TestClass1)elementToModify).getTheAttributeToListen());
+				} else {
+					((TestClass2)elementToModify).setName("new" + ((TestClass2)elementToModify).getName());
+				}
+			}
+		});
 	}
 }
