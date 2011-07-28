@@ -103,8 +103,10 @@ public final class SynchronizerCreator {
 				.getEntries().iterator();
 		while (indexEntryIterator.hasNext()) {
 			TraceabilityIndexEntry indexEntry = indexEntryIterator.next();
-			generatedElementListener.addElementToListen(URI.createURI(indexEntry.getResourceDeclaration()
-					.getUri().toString()));
+			String resourceURI = indexEntry.getResourceDeclaration().getUri().toString();
+			if (resourceURI != null) {
+				generatedElementListener.addElementToListen(URI.createURI(resourceURI));
+			}
 		}
 
 		// We don't need to launch the synchronizer until the change of the compiler's generatedElement index.
