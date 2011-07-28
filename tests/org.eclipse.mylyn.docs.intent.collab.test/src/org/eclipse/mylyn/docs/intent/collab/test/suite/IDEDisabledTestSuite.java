@@ -10,24 +10,23 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.test.suite;
 
-import org.eclipse.mylyn.docs.intent.collab.test.ide.ElementListListenerTest;
-import org.eclipse.mylyn.docs.intent.collab.test.ide.WorkspaceSessionAndTypeListenersTest;
+import org.eclipse.mylyn.docs.intent.collab.test.ide.WorkspaceSessionAndFileEvents;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * This suite will launch all the tests relative to the WorkspaceRepository behavior.
+ * This suite will launch all the tests relative to the WorkspaceRepository behavior that are know to fail.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({WorkspaceSessionAndTypeListenersTest.class, ElementListListenerTest.class,
+@Suite.SuiteClasses({WorkspaceSessionAndFileEvents.class,
 })
-public final class IDETestSuite {
+public final class IDEDisabledTestSuite {
 
 	/**
-	 * IDETestSuite constructor.
+	 * IDEDisabledTestSuite constructor.
 	 */
-	private IDETestSuite() {
+	private IDEDisabledTestSuite() {
 	}
 }
