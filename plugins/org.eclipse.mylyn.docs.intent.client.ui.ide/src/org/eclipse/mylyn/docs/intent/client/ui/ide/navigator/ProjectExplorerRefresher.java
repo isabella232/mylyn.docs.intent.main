@@ -96,7 +96,7 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 	@Override
 	protected Job createNotificationJob(RepositoryChangeNotification notification) {
 		Job res = null;
-		if (notification.getRightRoots().isEmpty()) {
+		if (notification != null && notification.getRightRoots().isEmpty()) {
 			res = new ProjectExplorerRefreshJob(project, notification.getRightRoots().iterator().next());
 		} else {
 			res = new ProjectExplorerRefreshJob(project, null);

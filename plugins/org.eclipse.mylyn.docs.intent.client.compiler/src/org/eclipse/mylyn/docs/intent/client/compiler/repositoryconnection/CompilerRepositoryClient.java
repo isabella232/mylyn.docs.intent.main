@@ -49,4 +49,14 @@ public class CompilerRepositoryClient extends AbstractRepositoryClient {
 	protected Job createNotificationJob(RepositoryChangeNotification notification) {
 		return new CompilationJob(this.repository, this.repositoryObjectHandler);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#dispose()
+	 */
+	public void dispose() {
+		this.repository.unregister(this);
+		super.dispose();
+	}
 }

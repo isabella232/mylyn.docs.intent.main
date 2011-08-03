@@ -19,7 +19,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.text.IDocument;
@@ -34,6 +33,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -283,14 +283,25 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				this.removeSyntaxErrors();
 				localAST = reparseDocument((IntentEditorDocument)document, false);
 				this.associatedEditor.refreshTitle(localAST);
-				this.listenedElementsHandler.getRepositoryAdapter().execute(new IntentCommand() {
+				final RepositoryAdapter repositoryAdapter = this.listenedElementsHandler
+						.getRepositoryAdapter();
+				repositoryAdapter.execute(new IntentCommand() {
 
 					public void execute() {
-						merge(document, localAST);
+						repositoryAdapter.openSaveContext();
+						try {
+							merge(document, localAST);
+							repositoryAdapter.save();
+						} catch (ReadOnlyException e) {
+							IntentUiLogger.logError(e);
+						} catch (SaveException e) {
+							IntentUiLogger.logError(e);
+						}
+						repositoryAdapter.closeContext();
 					}
 
 				});
-				this.listenedElementsHandler.getRepositoryAdapter().closeContext();
+				repositoryAdapter.closeContext();
 			} catch (ParseException e) {
 				this.createSyntaxErrorAnnotation(e.getMessage(), e.getErrorOffset(), e.getErrorLength());
 			}
@@ -311,7 +322,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		final IntentASTMerger merger = new IntentASTMerger();
 		boolean mustUndo = false;
 		try {
-			listenedElementsHandler.getRepositoryAdapter().openSaveContext();
 			final EObject remoteAST = (EObject)((IntentEditorDocument)document).getAST();
 
 			try {
@@ -321,27 +331,20 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				IntentUiLogger.logError(e);
 			}
 
-			Job job = new Job("Saving " + associatedEditor.getTitle()) {
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					try {
-						listenedElementsHandler.getRepositoryAdapter().save();
-					} catch (ReadOnlyException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (SaveException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					return Status.OK_STATUS;
-				}
-			};
-			job.schedule();
+			try {
+				listenedElementsHandler.getRepositoryAdapter().save();
+			} catch (ReadOnlyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SaveException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 			// We update the mapping between elements and documents
 			addAllContentAsIntentElement(documentRoot, (IntentEditorDocument)document);
 
-		} catch (NullPointerException npe) {
+		} catch (NullPointerException npe) { // FIXME catch NPE ??
 			mustUndo = true;
 			IntentUiLogger.logError(npe);
 		}
@@ -595,5 +598,15 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	public void removeSyntaxErrors() {
 		this.annotationModelManager.removeSyntaxErrorsAnnotations();
 
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#dispose()
+	 */
+	public void dispose() {
+		listenedElementsHandler.removeClient(this);
+		listenedElementsHandler = null;
 	}
 }

@@ -28,6 +28,7 @@ import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -77,98 +78,104 @@ public class CompilationJob extends Job {
 	 */
 	@Override
 	protected IStatus run(final IProgressMonitor monitor) {
-		try {
-			if (!monitor.isCanceled()) {
-				ModelingUnitCompiler compiler = null;
-				ModelingUnitLinkResolver resolver = null;
+		final RepositoryAdapter repositoryAdapter = repositoryObjectHandler.getRepositoryAdapter();
+		// Compilation
+		if (repositoryAdapter != null) {
+			repositoryAdapter.execute(new IntentCommand() {
 
-				final List<ModelingUnit> modelingUnitsToCompile = new ArrayList<ModelingUnit>();
-
-				// InformationHolder Initialization
-				final Resource resourceIndex = repositoryObjectHandler.getRepositoryAdapter().getResource(
-						IntentLocations.INTENT_INDEX);
-
-				final IntentCompilerInformationHolder informationHolder = IntentCompilerInformationHolder
-						.getInstance();
-				informationHolder.initialize();
-
-				// LinkResolver initialization
-				if (!monitor.isCanceled()) {
-					resolver = new ModelingUnitLinkResolver(repository, informationHolder);
+				public void execute() {
+					compile(monitor, repositoryAdapter);
 				}
 
-				// Compiler initialization
-				if (!monitor.isCanceled()) {
-					compiler = new ModelingUnitCompiler(repository, resolver, informationHolder,
-							BasicMonitor.toMonitor(monitor));
-
-					for (EObject resourceContent : resourceIndex.getContents()) {
-						modelingUnitsToCompile.addAll(UnitGetter
-								.getAllModelingUnitsContainedInElement(resourceContent));
-					}
-				}
-
-				// Compilation
-				if (!monitor.isCanceled()) {
-					final ModelingUnitCompiler finalCompiler = compiler;
-					repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
-
-						public void execute() {
-							finalCompiler.compile(modelingUnitsToCompile);
-						}
-					});
-				}
-
-				// Saving the new compilations errors
-				if (!monitor.isCanceled()) {
-					System.err.println("[Compiler] compiled : "
-							+ informationHolder.getDeclaredResources().size() + " resources. ");
-					System.err.println("[Compiler] saving... ("
-							+ informationHolder.getCompilationStatusList().size() + " errors detected)");
-					repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
-						public void execute() {
-							saveCompilationInformations(informationHolder, monitor);
-						}
-					});
-					System.err.println("[Compiler] =====================> saved.");
-				}
-			}
-		} catch (RepositoryConnectionException e) {
-			e.printStackTrace();
-			System.err.println("[Compiler] Compilation  Failed");
+			});
 		}
 		return Status.OK_STATUS;
 	}
 
 	/**
+	 * Compile.
+	 * 
+	 * @param monitor
+	 *            the progress monitor
+	 * @param repositoryAdapter
+	 *            the repository adapter
+	 */
+	private void compile(final IProgressMonitor monitor, final RepositoryAdapter repositoryAdapter) {
+		ModelingUnitCompiler compiler = null;
+		ModelingUnitLinkResolver resolver = null;
+
+		final List<ModelingUnit> modelingUnitsToCompile = new ArrayList<ModelingUnit>();
+
+		// InformationHolder Initialization
+		final Resource resourceIndex = repositoryAdapter.getResource(IntentLocations.INTENT_INDEX);
+
+		final IntentCompilerInformationHolder informationHolder = IntentCompilerInformationHolder
+				.getInstance();
+		informationHolder.initialize();
+
+		// LinkResolver initialization
+		if (!monitor.isCanceled()) {
+			try {
+				resolver = new ModelingUnitLinkResolver(repository, informationHolder);
+			} catch (RepositoryConnectionException e) {
+				e.printStackTrace();
+				System.out.println("[Compiler] Compilation  Failed");
+			}
+		}
+
+		// Compiler initialization
+		if (!monitor.isCanceled()) {
+			compiler = new ModelingUnitCompiler(repository, resolver, informationHolder,
+					BasicMonitor.toMonitor(monitor));
+
+			for (EObject resourceContent : resourceIndex.getContents()) {
+				modelingUnitsToCompile.addAll(UnitGetter
+						.getAllModelingUnitsContainedInElement(resourceContent));
+			}
+		}
+
+		compiler.compile(modelingUnitsToCompile);
+
+		// Saving the new compilations errors
+		if (!monitor.isCanceled()) {
+			System.out.println("[Compiler] compiled : " + informationHolder.getDeclaredResources().size()
+					+ " resources. ");
+			System.out.println("[Compiler] saving... (" + informationHolder.getCompilationStatusList().size()
+					+ " errors detected)");
+			saveCompilationInformations(repositoryAdapter, informationHolder, monitor);
+			System.out.println("[Compiler] =====================> saved.");
+		}
+	}
+
+	/**
 	 * Saves the informations calculated during the compilationOperation.
 	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter
 	 * @param compilationInformationHolder
 	 *            the entity containing all informations needed by this compiler
 	 * @param monitor
 	 *            The progressMonitor to use for compilation ; if canceled, the compilation will stop
 	 *            immediately.
 	 */
-	public void saveCompilationInformations(IntentCompilerInformationHolder compilationInformationHolder,
-			IProgressMonitor monitor) {
+	public void saveCompilationInformations(RepositoryAdapter repositoryAdapter,
+			IntentCompilerInformationHolder compilationInformationHolder, IProgressMonitor monitor) {
 		repositoryObjectHandler.getRepositoryAdapter().openSaveContext();
 		CompilerInformationsSaver saver = new CompilerInformationsSaver(monitor);
 		if (monitor != null && !monitor.isCanceled()) {
 			saver.saveOnRepository(compilationInformationHolder, repositoryObjectHandler);
 		}
 		try {
-			repositoryObjectHandler.getRepositoryAdapter().save();
+			repositoryAdapter.save();
 		} catch (ReadOnlyException e) {
 			// We are sure that this compiler isn't in read-only mode
 		} catch (SaveException e) {
 			try {
-				repositoryObjectHandler.getRepositoryAdapter().undo();
+				repositoryAdapter.undo();
 			} catch (ReadOnlyException e1) {
 				// We are sure that this compiler isn't in read-only mode
 			}
-
 		}
 		repositoryObjectHandler.getRepositoryAdapter().closeContext();
-
 	}
 }

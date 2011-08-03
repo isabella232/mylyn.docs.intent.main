@@ -68,4 +68,14 @@ public abstract class AbstractTestRepositoryClient implements RepositoryClient {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
 	public abstract void handleChangeNotification(RepositoryChangeNotification notification);
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#dispose()
+	 */
+	public void dispose() {
+		removeRepositoryObjectHandler(repositoryObjectHandler);
+	}
+
 }

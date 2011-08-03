@@ -23,6 +23,8 @@ import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.indexer.launcher.IndexerCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.launcher.SynchronizerCreator;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.generatedelementlistener.IDEGeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.ProjectExplorerRefresher;
@@ -41,6 +43,10 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Handles an Intent Project lifecycle :
@@ -50,6 +56,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
  * </ul>
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public final class IntentProjectManager {
 
@@ -102,6 +109,7 @@ public final class IntentProjectManager {
 				connect();
 
 				// Clients creation (if needed)
+
 				// Compiler
 				if (compilerClient == null) {
 					compilerClient = CompilerCreator.createCompilerClient(getRepository());
@@ -118,13 +126,18 @@ public final class IntentProjectManager {
 					indexerClient = IndexerCreator.launchIndexer(getRepository());
 				}
 
-				// notifies the indexer, to launch the first indexing
-				indexerClient.handleChangeNotification(null);
-
 				// Project explorer refresher
 				if (refresher == null) {
 					refresher = ProjectExplorerRefresher.createProjectExplorerRefresher(project);
 				}
+
+				// notifies the clients
+
+				// launch the indexer in order to allow navigation within the document
+				indexerClient.handleChangeNotification(null);
+
+				// launch the compiler to detect eventual existing issues
+				compilerClient.handleChangeNotification(null);
 
 			} else {
 				IntentUiLogger.logError(new RepositoryConnectionException(
@@ -152,9 +165,34 @@ public final class IntentProjectManager {
 	 *             if the {@link Repository} cannot be deleted or accessed
 	 */
 	public void disconnect() throws RepositoryConnectionException {
-		getRepository().closeSession();
-		repository = null;
-		projectManagers.remove(this);
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				IEditorReference[] references = page.getEditorReferences();
+				for (IEditorReference reference : references) {
+					IEditorPart part = reference.getEditor(false);
+					if (part instanceof IntentEditor) {
+						IntentEditor editor = (IntentEditor)part;
+						IntentDocumentProvider provider = (IntentDocumentProvider)editor
+								.getDocumentProvider();
+						if (repository.equals(provider.getRepository())) {
+							editor.close(editor.isSaveOnCloseNeeded()); // this will dispose clients
+						}
+					}
+				}
+
+			}
+		});
+		compilerClient.dispose();
+		synchronizerClient.dispose();
+		indexerClient.dispose();
+		refresher.dispose();
+
+		if (repository != null) {
+			repository.closeSession();
+		}
+
+		projectManagers.remove(project);
 	}
 
 	/**
@@ -207,7 +245,7 @@ public final class IntentProjectManager {
 	 */
 	public static Repository getRepository(IProject project) {
 		try {
-			return getInstance(project).getRepository();
+			return getInstance(project, true).getRepository();
 		} catch (RepositoryConnectionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -221,10 +259,12 @@ public final class IntentProjectManager {
 	 * 
 	 * @param project
 	 *            the Intent project to get the {@link IntentProjectManager} from
+	 * @param create
+	 *            if true, creates a new project manager instance
 	 * @return the {@link IntentProjectManager} handling the given Intent project
 	 */
-	public static IntentProjectManager getInstance(IProject project) {
-		if (projectManagers.get(project) == null) {
+	public static IntentProjectManager getInstance(IProject project, boolean create) {
+		if (projectManagers.get(project) == null && create) {
 			projectManagers.put(project, new IntentProjectManager(project));
 		}
 		return projectManagers.get(project);

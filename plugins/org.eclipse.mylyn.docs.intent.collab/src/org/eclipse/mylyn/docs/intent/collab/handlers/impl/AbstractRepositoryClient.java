@@ -86,4 +86,16 @@ public abstract class AbstractRepositoryClient implements RepositoryClient {
 		return repositoryObjectHandler;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#dispose()
+	 */
+	public void dispose() {
+		if (notificationJob != null) {
+			notificationJob.cancel();
+		}
+		removeRepositoryObjectHandler(repositoryObjectHandler);
+	}
+
 }

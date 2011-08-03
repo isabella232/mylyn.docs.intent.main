@@ -12,11 +12,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.builder;
 
-import com.google.common.collect.Sets;
-
-import java.util.Set;
-
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
@@ -32,6 +29,7 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
  * Repository and launching clients.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentProjectListener implements IResourceChangeListener {
 
@@ -52,7 +50,7 @@ public class IntentProjectListener implements IResourceChangeListener {
 		for (IProject project : allProjects) {
 			try {
 				if (project.isAccessible() && project.hasNature(IntentNature.NATURE_ID)) {
-					handleOpenedProjects(Sets.newHashSet(project));
+					handleOpenedProject(project);
 				}
 			} catch (CoreException e) {
 				IntentUiLogger.logError(e);
@@ -72,23 +70,33 @@ public class IntentProjectListener implements IResourceChangeListener {
 	 * @see org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org.eclipse.core.resources.IResourceChangeEvent)
 	 */
 	public void resourceChanged(IResourceChangeEvent event) {
-
-		// We want to be notified AFTER any changed that occurred
-		if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
-			final IResourceDelta rootDelta = event.getDelta();
-			// If any resource of the repository has changed
-			if (rootDelta != null) {
-				// We launch the analysis of the delta in a new thread
-				Runnable runnable = new Runnable() {
-					public void run() {
-						analyseWorkspaceDelta(rootDelta);
-					}
-				};
-				Thread t = new Thread(runnable);
-				t.start();
+		if (event.getType() == IResourceChangeEvent.PRE_CLOSE
+				|| event.getType() == IResourceChangeEvent.PRE_DELETE) {
+			IResource resource = event.getResource();
+			try {
+				if (resource instanceof IProject && ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
+					handleClosedProject((IProject)resource);
+				}
+			} catch (CoreException e) {
+				IntentUiLogger.logError(e);
+			}
+		} else {
+			// We want to be notified AFTER any changed that occurred
+			if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
+				final IResourceDelta rootDelta = event.getDelta();
+				// If any resource of the repository has changed
+				if (rootDelta != null) {
+					// We launch the analysis of the delta in a new thread
+					Runnable runnable = new Runnable() {
+						public void run() {
+							analyseWorkspaceDelta(rootDelta);
+						}
+					};
+					Thread t = new Thread(runnable);
+					t.start();
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -98,20 +106,23 @@ public class IntentProjectListener implements IResourceChangeListener {
 	 *            the {@link IResourceDelta} to analyze
 	 */
 	protected void analyseWorkspaceDelta(IResourceDelta repositoryDelta) {
-
 		try {
 			// Step 1 : We visit the given delta using a IntentBuilderDeltaVisitor visitor
 			final IntentBuilderDeltaVisitor visitor = new IntentBuilderDeltaVisitor();
 			repositoryDelta.accept(visitor);
 
 			// Step 2 : if any project has been opened, we handle this creation
-			handleOpenedProjects(visitor.getOpenedProjects());
+			for (IProject project : visitor.getOpenedProjects()) {
+				handleOpenedProject(project);
+			}
 
-			// Step 2 : if any project has been opened, we handle this creation
-			handleClosedProjects(visitor.getClosedProjects());
+			// Step 3 : if any project has been closed, we handle this creation
+			for (IProject project : visitor.getClosedProjects()) {
+				handleClosedProject(project);
+			}
 
 		} catch (CoreException e) {
-			// TODO
+			IntentUiLogger.logError(e);
 		}
 
 	}
@@ -119,35 +130,30 @@ public class IntentProjectListener implements IResourceChangeListener {
 	/**
 	 * Handles the creation or opening of Intent projects by launching all clients.
 	 * 
-	 * @param openedProjects
-	 *            the created or opened projects to handle
+	 * @param project
+	 *            the created or opened project to handle
 	 */
-	public void handleOpenedProjects(Set<IProject> openedProjects) {
-		for (IProject project : openedProjects) {
-			IntentProjectManager projectManager = IntentProjectManager.getInstance(project);
-			try {
-				projectManager.createAndLaunchClients();
-			} catch (RepositoryConnectionException e) {
-				IntentUiLogger.logError(e);
-			}
-
+	public void handleOpenedProject(IProject project) {
+		IntentProjectManager projectManager = IntentProjectManager.getInstance(project, true);
+		try {
+			projectManager.createAndLaunchClients();
+		} catch (RepositoryConnectionException e) {
+			IntentUiLogger.logError(e);
 		}
 	}
 
 	/**
 	 * Handles the deletion or closing of Intent projects by stopping all clients and closing repository.
 	 * 
-	 * @param closedProjects
-	 *            the deleted or closed projects to handle
+	 * @param project
+	 *            the deleted or closed project to handle
 	 */
-	public void handleClosedProjects(Set<IProject> closedProjects) {
-		for (IProject project : closedProjects) {
-			IntentProjectManager projectManager = IntentProjectManager.getInstance(project);
-			try {
-				projectManager.disconnect();
-			} catch (RepositoryConnectionException e) {
-				IntentUiLogger.logError(e);
-			}
+	public void handleClosedProject(IProject project) {
+		IntentProjectManager projectManager = IntentProjectManager.getInstance(project, false);
+		try {
+			projectManager.disconnect();
+		} catch (RepositoryConnectionException e) {
+			IntentUiLogger.logError(e);
 		}
 	}
 

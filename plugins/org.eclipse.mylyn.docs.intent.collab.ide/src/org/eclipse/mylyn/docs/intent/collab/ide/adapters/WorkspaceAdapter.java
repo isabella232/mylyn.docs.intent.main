@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -47,6 +48,7 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
  * Adapter that allows the RepositoryObjectHandler to work with an Eclipse Workspace.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class WorkspaceAdapter implements RepositoryAdapter {
 
@@ -200,21 +202,14 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 					"Cannot save with a read-only context. The context should have been started with the 'openSaveContext' method.");
 		}
 
-		try {
-			// First of all, we use the documentStructurer to structure the resource set
-			if (documentStructurer != null) {
-				execute(new IntentCommand() {
+		// First of all, we use the documentStructurer to structure the resource set
+		if (documentStructurer != null) {
+			documentStructurer.structure(WorkspaceAdapter.this);
+		}
+		final Collection<Resource> resources = this.repository.getResourceSet().getResources();
 
-					public void execute() {
-						try {
-							documentStructurer.structure(WorkspaceAdapter.this);
-						} catch (ReadOnlyException e) {
-							// throw new SaveException(e.getMessage()); // TODO FIXME throw exception
-						}
-					}
-				});
-			}
-			for (Resource resource : this.repository.getResourceSet().getResources()) {
+		try {
+			for (Resource resource : resources) {
 
 				// We only save the resource if it has been modified
 				if (resource.isModified() || !resource.isTrackingModification()) {
@@ -303,7 +298,12 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	public void undo() throws ReadOnlyException {
 		// TODO accurate undo strategy
-		repository.getEditingDomain().getCommandStack().undo();
+		CommandStack commandStack = repository.getEditingDomain().getCommandStack();
+		if (commandStack != null) {
+			commandStack.undo();
+		} else {
+			// TODO ?
+		}
 	}
 
 	/**
@@ -403,18 +403,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getResource(java.lang.String)
 	 */
 	public Resource getResource(String repositoryRelativePath) {
-		Resource resource = getResource(repositoryRelativePath, true);
-		// if (resource != null) {
-		// try {
-		// resource.load(getLoadOptions());
-		// } catch (IOException e) {
-		// // We will simply return a null resource
-		// }
-		// }
-		// if (resource != null) {
-		// resource.setTrackingModification(true);
-		// }
-		return resource;
+		return getResource(repositoryRelativePath, true);
 	}
 
 	/**
@@ -431,13 +420,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		URI uri = this.repository.getURIMatchingPath(repositoryRelativePath);
 		final Resource resource = this.repository.getResourceSet().getResource(uri, loadResourceOnDemand);
 		if (resource != null) {
-			execute(new IntentCommand() {
-
-				public void execute() {
-					resource.setTrackingModification(true);
-
-				}
-			});
+			resource.setTrackingModification(true);
 		}
 		return resource;
 	}
@@ -558,14 +541,17 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	public void execute(final IntentCommand command) {
 		final TransactionalEditingDomain editingDomain = repository.getEditingDomain();
-		RecordingCommand recordingCommand = new RecordingCommand(editingDomain) {
 
-			@Override
-			protected void doExecute() {
-				command.execute();
-			}
-		};
-		editingDomain.getCommandStack().execute(recordingCommand);
+		// first we check that the repository has not been disposed
+		if (editingDomain.getCommandStack() != null) {
+			RecordingCommand recordingCommand = new RecordingCommand(editingDomain) {
+				@Override
+				protected void doExecute() {
+					command.execute();
+				}
+			};
+			editingDomain.getCommandStack().execute(recordingCommand);
+		}
 	}
 
 }

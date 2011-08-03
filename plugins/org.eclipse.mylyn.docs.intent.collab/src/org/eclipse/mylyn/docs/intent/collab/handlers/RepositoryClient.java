@@ -16,6 +16,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChan
  * Client of a RepositoryObjectHandler : must have methods for handling notifications.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public interface RepositoryClient {
 
@@ -46,4 +47,9 @@ public interface RepositoryClient {
 	 *            client
 	 */
 	void handleChangeNotification(RepositoryChangeNotification notification);
+
+	/**
+	 * Disposes the client.
+	 */
+	void dispose();
 }

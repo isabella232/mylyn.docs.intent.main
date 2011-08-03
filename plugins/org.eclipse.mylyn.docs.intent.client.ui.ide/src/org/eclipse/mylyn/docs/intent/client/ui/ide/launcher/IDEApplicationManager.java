@@ -36,6 +36,7 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
  * In charge of creating the repository and launching clients in the context of a Workspace Intent Repository.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public final class IDEApplicationManager {
 
@@ -57,7 +58,7 @@ public final class IDEApplicationManager {
 	public static void initializeContent(IProject project, String initialContent) {
 		try {
 			if (project.isAccessible()) {
-				IntentProjectManager.getInstance(project).connect();
+				IntentProjectManager.getInstance(project, true).connect();
 				if (project.exists()) {
 					if (!project.isOpen()) {
 						project.open(null);
@@ -90,19 +91,19 @@ public final class IDEApplicationManager {
 		repositoryAdapter.execute(new IntentCommand() {
 
 			public void execute() {
+				repositoryAdapter.openSaveContext();
 				try {
 					initializeInRepository(initialContent, repositoryAdapter);
-				} catch (ParseException e) {
-					IntentUiLogger.logError(e);
 				} catch (ReadOnlyException e) {
+					IntentUiLogger.logError(e);
+				} catch (ParseException e) {
 					IntentUiLogger.logError(e);
 				} catch (SaveException e) {
 					IntentUiLogger.logError(e);
 				}
-
+				repositoryAdapter.closeContext();
 			}
 		});
-		repositoryAdapter.closeContext();
 	}
 
 	/**

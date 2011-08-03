@@ -19,6 +19,7 @@ import org.eclipse.mylyn.docs.intent.client.indexer.tocmaker.TocMaker;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
@@ -30,6 +31,7 @@ import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerFactory;
  * When notified about modifications on the listened elements, update the index.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IndexerRepositoryClient extends AbstractRepositoryClient {
 
@@ -52,10 +54,24 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 		final IntentIndex index = getIntentIndex();
 		final IntentDocument document = getIntentDocument();
 		System.out.println("[Indexer] Making Toc on " + document.getChapters().size() + "chapters...");
-		repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
+		final RepositoryAdapter repositoryAdapter = repositoryObjectHandler.getRepositoryAdapter();
+		repositoryAdapter.execute(new IntentCommand() {
 
 			public void execute() {
+				repositoryAdapter.openSaveContext();
 				indexComputor.computeIndex(index, document);
+				try {
+					repositoryAdapter.save();
+				} catch (SaveException e) {
+					try {
+						repositoryAdapter.undo();
+					} catch (ReadOnlyException e1) {
+						e1.printStackTrace(); // initially was "CANCEL_STATUS" return
+					}
+				} catch (ReadOnlyException e) {
+					e.printStackTrace(); // initially was "CANCEL_STATUS" return
+				}
+				repositoryAdapter.closeContext();
 			}
 		});
 		System.out.println("[Indexer] Toc made.");
@@ -102,21 +118,7 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				IStatus res = Status.OK_STATUS;
-				System.out.println("[Index] Detected changes... " + notification);
-				try {
-					repositoryObjectHandler.getRepositoryAdapter().openSaveContext();
-					makeToc();
-					repositoryObjectHandler.getRepositoryAdapter().save();
-				} catch (SaveException e) {
-					try {
-						repositoryObjectHandler.getRepositoryAdapter().undo();
-					} catch (ReadOnlyException e1) {
-						res = Status.CANCEL_STATUS;
-					}
-				} catch (ReadOnlyException e) {
-					res = Status.CANCEL_STATUS;
-				}
-				repositoryObjectHandler.getRepositoryAdapter().closeContext();
+				makeToc();
 				return res;
 			}
 		};

@@ -27,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager
  * Visitor used by the Intent builder.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 	/**
@@ -53,22 +54,12 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 					openedProjects.add((IProject)resource);
 				}
 				break;
-			case IResourceDelta.REMOVED:
-				// if an intent project has been removed
-				if (resource instanceof IProject && ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
-					closedProjects.add((IProject)resource);
-				}
-				break;
 			case IResourceDelta.CHANGED:
-				// If an intent project has been opened or closed
 				if ((IResourceDelta.OPEN & delta.getFlags()) != 0) {
-
-					if (resource instanceof IProject
+					if (resource instanceof IProject && resource.isAccessible()
 							&& ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
 						if (((IProject)resource).isOpen()) {
 							openedProjects.add((IProject)resource);
-						} else {
-							closedProjects.add((IProject)resource);
 						}
 					}
 				}
