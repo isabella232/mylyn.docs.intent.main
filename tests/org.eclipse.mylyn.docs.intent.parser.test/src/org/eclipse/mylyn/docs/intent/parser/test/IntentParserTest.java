@@ -50,7 +50,7 @@ public class IntentParserTest {
 	@Test
 	public void testSerialization() {
 		try {
-			File file = new File("dataTests/intentDocuments/intentDocumentspecification/document.intent");
+			File file = new File("dataTests/intentDocuments/intentdocumentspecification/document.intent");
 
 			String section = FileToStringConverter.getFileAsString(file);
 			EObject generated = parser.parse(section);
@@ -88,7 +88,7 @@ public class IntentParserTest {
 	@Test
 	public void testDescriptionUnitOrder() {
 		try {
-			File file = new File("dataTests/intentDocuments/intentDocumentspecification/du_order.intent");
+			File file = new File("dataTests/intentDocuments/intentdocumentspecification/du_order.intent");
 
 			String section = FileToStringConverter.getFileAsString(file);
 			EObject generated = parser.parse(section);
