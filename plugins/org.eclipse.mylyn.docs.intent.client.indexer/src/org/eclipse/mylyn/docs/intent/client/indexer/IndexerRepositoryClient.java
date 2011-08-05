@@ -51,13 +51,14 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 	 * Replace the repository index content with the repository document's table of contents.
 	 */
 	public void makeToc() {
-		final IntentIndex index = getIntentIndex();
-		final IntentDocument document = getIntentDocument();
-		System.out.println("[Indexer] Making Toc on " + document.getChapters().size() + "chapters...");
 		final RepositoryAdapter repositoryAdapter = repositoryObjectHandler.getRepositoryAdapter();
 		repositoryAdapter.execute(new IntentCommand() {
 
 			public void execute() {
+				final IntentIndex index = getIntentIndex();
+				final IntentDocument document = getIntentDocument();
+				System.out.println("[Indexer] Making Toc on " + document.getChapters().size() + "chapters...");
+				
 				repositoryAdapter.openSaveContext();
 				indexComputor.computeIndex(index, document);
 				try {

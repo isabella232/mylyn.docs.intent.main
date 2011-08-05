@@ -36,6 +36,7 @@ import org.eclipse.mylyn.docs.intent.collab.ide.notification.WorkspaceTypeListen
  * corresponding to repository resources.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class WorkspaceSession implements IResourceChangeListener {
 
@@ -47,7 +48,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	/**
 	 * The {@link WorkspaceRepository} associated to this session.
 	 */
-	private final WorkspaceRepository repository;
+	private WorkspaceRepository repository;
 
 	/**
 	 * The path of the listened repository.
@@ -57,7 +58,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	/**
 	 * The WorkspaceRepository resource set used to access the EMF Resources.
 	 */
-	private final WorkspaceAdapter repositoryAdapter;
+	private WorkspaceAdapter repositoryAdapter;
 
 	/**
 	 * List of all registered listeners that should be notified of each modification on a resource.
@@ -201,7 +202,9 @@ public class WorkspaceSession implements IResourceChangeListener {
 
 	/**
 	 * Reloads the given resource.
-	 * @param changedResource the changed resource
+	 * 
+	 * @param changedResource
+	 *            the changed resource
 	 */
 	private void reloadResource(final Resource changedResource) {
 		// We get the adapters defined on the roots (in order to re-attach them after this
@@ -341,6 +344,8 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 */
 	public void close() {
 		// Nothing to do as the repository removed this WorkspaceSession from the workspace listeners
+		repository = null;
+		repositoryAdapter = null;
 	}
 
 }

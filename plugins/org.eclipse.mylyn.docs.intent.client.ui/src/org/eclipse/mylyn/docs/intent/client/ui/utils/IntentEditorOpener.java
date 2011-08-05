@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.utils;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IStatus;
@@ -24,6 +24,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection.EditorElementListAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadOnlyRepositoryObjectHandlerImpl;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
@@ -62,29 +63,48 @@ public final class IntentEditorOpener {
 	 * 
 	 * @param repository
 	 *            The repository to use for this editor
-	 * @param identifier
-	 *            the identifier of the element.
+	 * @param elementToOpen
+	 *            the element to open.
 	 * @param readOnlyMode
 	 *            indicates if the editor should be opened in readOnly mode.
+	 * @param elementToSelectRangeWith
+	 *            the element on which the created editor should select its range (can be null).
 	 * @param forceNewEditor
 	 *            if true, will open in a new editor anyway. If false, will open in a new editor or select
 	 *            inside of an already opened editor
-	 * @return the opened editor
-	 * @throws PartInitException
-	 *             if the editor cannot be opened.
 	 */
-	public static IntentEditor openIntentEditor(Repository repository, Object identifier, boolean readOnlyMode,
-			boolean forceNewEditor) throws PartInitException {
-		return openIntentEditor(repository, identifier, readOnlyMode, null, forceNewEditor);
+	public static void openIntentEditor(final Repository repository, final EObject elementToOpen,
+			boolean readOnlyMode, EObject elementToSelectRangeWith, boolean forceNewEditor) {
+		try {
+			final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
+					.createRepositoryAdapterForRepository(repository);
+
+			// We need to launch through a command because the editor register adapters on the model, which
+			// makes the resource appear as modified and being updated by the repository save.
+			repositoryAdapter.execute(new IntentCommand() {
+				public void execute() {
+					try {
+						openIntentEditor(repositoryAdapter, repository, elementToOpen, false, elementToOpen,
+								false);
+					} catch (PartInitException e) {
+						IntentUiLogger.logError(e);
+					}
+				}
+			});
+		} catch (RepositoryConnectionException rce) {
+			IntentUiLogger.logError(rce);
+		}
 	}
 
 	/**
 	 * Open an editor on the element with the given identifier.
 	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter
 	 * @param repository
 	 *            The repository to use for this editor
-	 * @param identifier
-	 *            the identifier of the element.
+	 * @param elementToOpen
+	 *            the element to open.
 	 * @param readOnlyMode
 	 *            indicates if the editor should be opened in readOnly mode.
 	 * @param elementToSelectRangeWith
@@ -96,77 +116,63 @@ public final class IntentEditorOpener {
 	 * @throws PartInitException
 	 *             if the editor cannot be opened.
 	 */
-	public static IntentEditor openIntentEditor(Repository repository, Object identifier, boolean readOnlyMode,
-			EObject elementToSelectRangeWith, boolean forceNewEditor) throws PartInitException {
+	private static IntentEditor openIntentEditor(RepositoryAdapter repositoryAdapter, Repository repository,
+			EObject elementToOpen, boolean readOnlyMode, EObject elementToSelectRangeWith,
+			boolean forceNewEditor) throws PartInitException {
 		IntentEditor openedEditor = null;
 		IStatus status = null;
+		repositoryAdapter.setSendSessionWarningBeforeSaving(false);
+		// We get the element on which open this editor
+		if (readOnlyMode) {
+			repositoryAdapter.openReadOnlyContext();
+		} else {
+			repositoryAdapter.openSaveContext();
+		}
 
-		try {
-			// We get the element on which open this editor
+		if (!forceNewEditor) {
+			// Step 2 : if an editor containing this element is already opened
+			IntentEditor editor = getAlreadyOpenedEditor(elementToOpen);
+			if (editor != null) {
+				editor.getEditorSite().getPage().activate(editor);
+				openedEditor = editor;
+				editor.selectRange((IntentGenericElement)elementToOpen);
+			}
+		}
 
-			RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
-					.createRepositoryAdapterForRepository(repository);
-			repositoryAdapter.setSendSessionWarningBeforeSaving(false);
+		if (openedEditor == null) {
+
+			// Step 3 : creation of the Handler in the correct mode
+			RepositoryObjectHandler elementHandler = null;
 
 			if (readOnlyMode) {
-				repositoryAdapter.openReadOnlyContext();
+				elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
+				elementHandler.setRepositoryAdapter(repositoryAdapter);
 			} else {
-				repositoryAdapter.openSaveContext();
+				elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 			}
 
-			EObject elementToOpen = null;
-			elementToOpen = repositoryAdapter.getElementWithID(identifier);
+			// Step 4 : creation of a Notificator listening changes on this element and compilation
+			// errors.
+			Set<EObject> listenedObjects = new LinkedHashSet<EObject>();
+			listenedObjects.add(elementToOpen);
+			ElementListAdapter adapter = new EditorElementListAdapter();
+			Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects, adapter);
+			elementHandler.setNotificator(listenedElementsNotificator);
 
-			if (!forceNewEditor) {
-				// Step 2 : if an editor containing this element is already opened
-				IntentEditor editor = getAlreadyOpenedEditor(elementToOpen);
-				if (editor != null) {
-					editor.getEditorSite().getPage().activate(editor);
-					openedEditor = editor;
-					editor.selectRange((IntentGenericElement)elementToOpen);
-				}
+			// Step 5 : we open a new editor.
+			IWorkbenchPage page = null;
+			try {
+				page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				openedEditor = IntentEditorOpener.openEditor(page, elementToOpen, repository, elementHandler);
+
+			} catch (NullPointerException e) {
+				status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
+						"An unexpected error has occured");
+				throw new PartInitException(status);
 			}
-
-			if (openedEditor == null) {
-
-				// Step 3 : creation of the Handler in the correct mode
-				RepositoryObjectHandler elementHandler = null;
-
-				if (readOnlyMode) {
-					elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
-					elementHandler.setRepositoryAdapter(repositoryAdapter);
-				} else {
-					elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
-				}
-
-				// Step 4 : creation of a Notificator listening changes on this element and compilation
-				// errors.
-				Set<EObject> listenedObjects = new HashSet<EObject>();
-				listenedObjects.add(elementToOpen);
-				ElementListAdapter adapter = new EditorElementListAdapter();
-				Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects, adapter);
-				elementHandler.setNotificator(listenedElementsNotificator);
-
-				// Step 5 : we open a new editor.
-				IWorkbenchPage page = null;
-				try {
-					page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-					openedEditor = IntentEditorOpener.openEditor(page, elementToOpen, repository,
-							elementHandler);
-
-				} catch (NullPointerException e) {
-					status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
-							"An unexpected error has occured");
-					throw new PartInitException(status);
-				}
-			}
-
-			return openedEditor;
-		} catch (RepositoryConnectionException e) {
-			status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
-					"Editor cannot be openned : can't connect to the repository ");
-			throw new PartInitException(status);
 		}
+
+		return openedEditor;
 	}
 
 	/**
@@ -221,8 +227,8 @@ public final class IntentEditorOpener {
 	 * @throws PartInitException
 	 *             if the editor cannot be opened.
 	 */
-	private static IntentEditor openEditor(IWorkbenchPage page, Object intentElementToOpen, Repository repository,
-			RepositoryObjectHandler handler) throws PartInitException {
+	private static IntentEditor openEditor(IWorkbenchPage page, Object intentElementToOpen,
+			Repository repository, RepositoryObjectHandler handler) throws PartInitException {
 
 		// If we can't open a IntentEditor on the given element, we try to get its container until null or an
 		// editable intent element is found

@@ -11,7 +11,7 @@
 package org.eclipse.mylyn.docs.intent.collab.test.ide;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -35,8 +35,8 @@ public class ElementListListenerTest extends AbstractWorkspaceRepositoryTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		listenedTestElements = new HashSet<AbstractTestClass>();
-		nonListenedTestElements = new HashSet<AbstractTestClass>();
+		listenedTestElements = new LinkedHashSet<AbstractTestClass>();
+		nonListenedTestElements = new LinkedHashSet<AbstractTestClass>();
 		// We first open a WorkspaceSession.
 		try {
 			repository.getOrCreateSession();

@@ -183,14 +183,15 @@ public final class IntentProjectManager {
 
 			}
 		});
-		compilerClient.dispose();
-		synchronizerClient.dispose();
-		indexerClient.dispose();
-		refresher.dispose();
 
 		if (repository != null) {
 			repository.closeSession();
 		}
+
+		compilerClient.dispose();
+		synchronizerClient.dispose();
+		indexerClient.dispose();
+		refresher.dispose();
 
 		projectManagers.remove(project);
 	}

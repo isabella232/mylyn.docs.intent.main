@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.handlers.impl;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -48,7 +48,7 @@ public abstract class AbstractRepositoryObjectHandler implements RepositoryObjec
 	 * Default constructor for an AbstractRepositoryObjectHandler.
 	 */
 	public AbstractRepositoryObjectHandler() {
-		subscribedClients = new HashSet<RepositoryClient>();
+		subscribedClients = new LinkedHashSet<RepositoryClient>();
 	}
 
 	/**
@@ -167,7 +167,6 @@ public abstract class AbstractRepositoryObjectHandler implements RepositoryObjec
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
 	public void handleChangeNotification(RepositoryChangeNotification notification) {
-
 		for (RepositoryClient client : subscribedClients) {
 			client.handleChangeNotification(notification);
 		}

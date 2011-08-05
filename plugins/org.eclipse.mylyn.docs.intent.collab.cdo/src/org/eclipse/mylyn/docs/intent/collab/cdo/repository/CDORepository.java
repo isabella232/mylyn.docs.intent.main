@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.cdo.repository;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
@@ -58,7 +58,7 @@ public class CDORepository implements Repository {
 	/**
 	 * List of the active repositories (while not empty, we can't close the session).
 	 */
-	private static Set<CDORepository> activeRepositories = new HashSet<CDORepository>();
+	private static Set<CDORepository> activeRepositories = new LinkedHashSet<CDORepository>();
 
 	/**
 	 * Configuration of this CDORepository (abstract notion).
@@ -78,7 +78,7 @@ public class CDORepository implements Repository {
 	 */
 	public CDORepository(CDOConfig configuration) {
 		this.repositoryConfiguration = configuration;
-		this.clientRegistry = new HashSet<RepositoryClient>();
+		this.clientRegistry = new LinkedHashSet<RepositoryClient>();
 	}
 
 	/**

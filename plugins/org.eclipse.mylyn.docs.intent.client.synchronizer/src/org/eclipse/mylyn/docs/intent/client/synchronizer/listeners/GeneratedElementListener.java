@@ -18,6 +18,7 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryC
  * change.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public interface GeneratedElementListener {
 
@@ -57,5 +58,10 @@ public interface GeneratedElementListener {
 	 * Clears the element to listen list.
 	 */
 	void clearElementToListen();
+
+	/**
+	 * Disposes the listener.
+	 */
+	void dispose();
 
 }

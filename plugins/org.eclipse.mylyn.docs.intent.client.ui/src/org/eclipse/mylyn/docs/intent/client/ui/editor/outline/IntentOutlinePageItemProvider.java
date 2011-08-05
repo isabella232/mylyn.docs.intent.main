@@ -11,8 +11,8 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor.outline;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -208,8 +208,8 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 		Image decoratedImage = baseImage;
 		if (element instanceof IntentGenericElement) {
 
-			Iterator<CompilationStatus> statusIterator = IntentHelper.getAllStatus((IntentGenericElement)element)
-					.iterator();
+			Iterator<CompilationStatus> statusIterator = IntentHelper.getAllStatus(
+					(IntentGenericElement)element).iterator();
 			boolean foundError = false;
 			boolean foundWarning = false;
 			boolean foundSyncWarning = false;
@@ -374,8 +374,8 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 				text.append(textValue);
 				break;
 			case ModelingUnitPackage.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE:
-				text.append(((ReferenceValueForStructuralFeature)eObject).getReferencedElement().getIntentHref()
-						+ " (Reference to)");
+				text.append(((ReferenceValueForStructuralFeature)eObject).getReferencedElement()
+						.getIntentHref() + " (Reference to)");
 				break;
 
 			case ModelingUnitPackage.INSTANCIATION_INSTRUCTION:
@@ -416,7 +416,7 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<?> getChildren(Object object) {
-		Collection<IntentGenericElement> childrens = new HashSet<IntentGenericElement>();
+		Collection<IntentGenericElement> childrens = new LinkedHashSet<IntentGenericElement>();
 
 		// An object has children only if it's a Genericelement
 		if (object instanceof IntentGenericElement) {
@@ -425,7 +425,8 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 			for (EObject potentialChildren : ((EObject)object).eContents()) {
 				if (potentialChildren instanceof IntentGenericElement) {
 					childrens.add((IntentGenericElement)potentialChildren);
-					childrens.addAll((Collection<? extends IntentGenericElement>)getChildren(potentialChildren));
+					childrens
+							.addAll((Collection<? extends IntentGenericElement>)getChildren(potentialChildren));
 				}
 			}
 		}

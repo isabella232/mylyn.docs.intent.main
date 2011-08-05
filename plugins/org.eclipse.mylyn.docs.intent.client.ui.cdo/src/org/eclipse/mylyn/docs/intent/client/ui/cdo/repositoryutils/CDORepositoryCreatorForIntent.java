@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.cdo.repositoryutils;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
@@ -106,7 +106,7 @@ public final class CDORepositoryCreatorForIntent extends CDORepositoryCreator {
 		Resource resourceFromPath = repositoryAdapter.getResource(pathToListenedResource);
 
 		// We get the contained elements
-		Set<EObject> listenedElements = new HashSet<EObject>();
+		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 		listenedElements.addAll(resourceFromPath.getContents());
 
 		// We create the handler

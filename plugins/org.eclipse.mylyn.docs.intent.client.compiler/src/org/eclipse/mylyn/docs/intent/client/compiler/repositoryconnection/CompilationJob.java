@@ -134,7 +134,9 @@ public class CompilationJob extends Job {
 			}
 		}
 
-		compiler.compile(modelingUnitsToCompile);
+		if (!monitor.isCanceled()) {
+			compiler.compile(modelingUnitsToCompile);
+		}
 
 		// Saving the new compilations errors
 		if (!monitor.isCanceled()) {
@@ -160,7 +162,7 @@ public class CompilationJob extends Job {
 	 */
 	public void saveCompilationInformations(RepositoryAdapter repositoryAdapter,
 			IntentCompilerInformationHolder compilationInformationHolder, IProgressMonitor monitor) {
-		repositoryObjectHandler.getRepositoryAdapter().openSaveContext();
+		repositoryAdapter.openSaveContext();
 		CompilerInformationsSaver saver = new CompilerInformationsSaver(monitor);
 		if (monitor != null && !monitor.isCanceled()) {
 			saver.saveOnRepository(compilationInformationHolder, repositoryObjectHandler);
@@ -176,6 +178,6 @@ public class CompilationJob extends Job {
 				// We are sure that this compiler isn't in read-only mode
 			}
 		}
-		repositoryObjectHandler.getRepositoryAdapter().closeContext();
+		repositoryAdapter.closeContext();
 	}
 }

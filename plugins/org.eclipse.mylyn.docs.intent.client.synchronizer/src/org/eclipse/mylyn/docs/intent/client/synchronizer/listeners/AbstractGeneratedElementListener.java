@@ -20,7 +20,7 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryC
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class AbstractGeneratedElementListener implements GeneratedElementListener {
+public abstract class AbstractGeneratedElementListener implements GeneratedElementListener {
 
 	/**
 	 * The synchronizer to notify if changes are detected.

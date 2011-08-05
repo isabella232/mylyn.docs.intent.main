@@ -19,13 +19,8 @@ import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
-import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
-import org.eclipse.ui.PartInitException;
 
 /**
  * Action that opens editor on the selected Project Explorer elements.
@@ -56,26 +51,12 @@ public class OpenEditorAction extends Action {
 	 */
 	public void run() {
 		// We first test if the current selection is correct
-		IntentGenericElement element = getIndexEntryFromSelection();
+		final IntentGenericElement element = getIndexEntryFromSelection();
 
-		if (element != null) {
-			try {
-				if (element.eResource() != null) {
-					IProject project = findProjectForModelURI(element.eResource().getURI());
-					Repository repository = IntentProjectManager.getRepository(project);
-					RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
-							.createRepositoryAdapterForRepository(repository);
-
-					IntentEditorOpener.openIntentEditor(repository,
-							repositoryAdapter.getIDFromElement(element), false, forceNewEditor);
-				} else {
-					// FIXME: the viewer needs a refresh
-				}
-			} catch (RepositoryConnectionException e) {
-				// We just don't open the editor
-			} catch (PartInitException e) {
-				// We just don't open the editor
-			}
+		if (element != null && element.eResource() != null) {
+			IntentEditorOpener.openIntentEditor(
+					IntentProjectManager.getRepository(findProjectForModelURI(element.eResource().getURI())),
+					element, false, element, forceNewEditor);
 		}
 
 	}

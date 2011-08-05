@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.indexer.launcher;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -57,7 +57,7 @@ public final class IndexerCreator {
 
 		// Step 2 : creating the handler
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
-		Set<EStructuralFeature> listenedFeatures = new HashSet<EStructuralFeature>();
+		Set<EStructuralFeature> listenedFeatures = new LinkedHashSet<EStructuralFeature>();
 		listenedFeatures.add(IntentDocumentPackage.eINSTANCE.getIntentDocument_Chapters());
 		listenedFeatures.add(IntentDocumentPackage.eINSTANCE.getIntentSubSectionContainer_SubSections());
 

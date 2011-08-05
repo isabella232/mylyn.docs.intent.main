@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.ide.notification;
 
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
@@ -51,7 +51,7 @@ public class WorkspaceTypeListener {
 	 */
 	public WorkspaceTypeListener(Notificator typeNotificator, Set<EStructuralFeature> typesToListen) {
 		this.typeNotificator = typeNotificator;
-		this.listenedTypes = new HashSet<EStructuralFeature>();
+		this.listenedTypes = new LinkedHashSet<EStructuralFeature>();
 		this.listenedTypes.addAll(typesToListen);
 	}
 

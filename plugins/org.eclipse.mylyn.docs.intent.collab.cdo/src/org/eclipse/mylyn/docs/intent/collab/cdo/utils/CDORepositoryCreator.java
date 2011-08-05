@@ -89,7 +89,7 @@ public class CDORepositoryCreator implements RepositoryCreator {
 	// Resource resourceFromPath = repositoryAdapter.getResource(pathToListenedResource);
 
 	// We get the contained elements
-	// Set<EObject> listenedElements = new HashSet<EObject>();
+	// Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 	// listenedElements.addAll(resourceFromPath.getContents());
 	//
 	// // We create the handler

@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.test.ide;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -145,7 +145,7 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 			try {
 				// Step 1 : creating the listening client
 				// Step 1.1 : defining the listened features (here the attribute To Listen of sampleClass1)
-				Set<EStructuralFeature> listenedTypes = new HashSet<EStructuralFeature>();
+				Set<EStructuralFeature> listenedTypes = new LinkedHashSet<EStructuralFeature>();
 				listenedTypes.add(TestPackagePackage.eINSTANCE.getTestClass1_TheAttributeToListen());
 
 				// Step 1.2 : create the handler for these types
@@ -187,7 +187,7 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 			try {
 				// Step 1 : creating the listening client
 				// Step 1.1 : defining the listened elements
-				Set<EObject> listenedElements = new HashSet<EObject>();
+				Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 				listenedElements.addAll(this.listenedTestElements);
 
 				// Step 1.2 : create the handler for these types

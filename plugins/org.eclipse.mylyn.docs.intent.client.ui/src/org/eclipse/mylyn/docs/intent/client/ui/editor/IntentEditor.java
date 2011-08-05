@@ -32,7 +32,6 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentQuickOutline
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.QuickOutlineInformationProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.ModelingUnitDecorationPainter;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
-import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
@@ -295,7 +294,7 @@ public class IntentEditor extends TextEditor {
 	 * @param element
 	 *            the element to highlight
 	 */
-	public void selectRange(IntentGenericElement element) {
+	public void selectRange(final IntentGenericElement element) {
 
 		// We first get the position of the element
 		ParsedElementPosition position = null;
@@ -336,16 +335,9 @@ public class IntentEditor extends TextEditor {
 			} else {
 
 				if (element != null) {
-					try {
-						Repository repository = ((IntentDocumentProvider)this.getDocumentProvider())
-								.getRepository();
-						RepositoryObjectHandler listenedElementsHandler = ((IntentDocumentProvider)this
-								.getDocumentProvider()).getListenedElementsHandler();
-						IntentEditorOpener.openIntentEditor(repository, listenedElementsHandler
-								.getRepositoryAdapter().getIDFromElement(element), false, element, false);
-					} catch (PartInitException e) {
-						// FIXME define a correct behavior : log Error ?
-					}
+					Repository repository = ((IntentDocumentProvider)this.getDocumentProvider())
+							.getRepository();
+					IntentEditorOpener.openIntentEditor(repository, element, false, element, false);
 				}
 			}
 		}

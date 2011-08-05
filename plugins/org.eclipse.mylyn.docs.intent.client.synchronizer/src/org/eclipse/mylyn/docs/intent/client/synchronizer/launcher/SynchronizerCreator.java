@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.launcher;
 
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
@@ -65,7 +65,7 @@ public final class SynchronizerCreator {
 		// Step 1 : we initialize the listened elements
 		final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
 				.createRepositoryAdapterForRepository(repository);
-		Set<EObject> listenedElements = new HashSet<EObject>();
+		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 
 		repositoryAdapter.openReadOnlyContext();
 		final Resource traceabilityResource = repositoryAdapter

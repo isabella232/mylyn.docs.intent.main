@@ -11,7 +11,7 @@
 package org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -48,7 +48,7 @@ public class TypeNotificator implements Notificator {
 	 */
 	public TypeNotificator(Set<EStructuralFeature> listenedTypes) {
 		this.listenedTypes = listenedTypes;
-		this.listeningHandlers = new HashSet<RepositoryObjectHandler>();
+		this.listeningHandlers = new LinkedHashSet<RepositoryObjectHandler>();
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class TypeNotificator implements Notificator {
 	public TypeNotificator(Set<EStructuralFeature> listenedTypes,
 			Set<RepositoryObjectHandler> listeningHandlers) {
 		this.listenedTypes = listenedTypes;
-		this.listeningHandlers = new HashSet<RepositoryObjectHandler>();
+		this.listeningHandlers = new LinkedHashSet<RepositoryObjectHandler>();
 		for (RepositoryObjectHandler listeningHandler : listeningHandlers) {
 			addRepositoryObjectHandler(listeningHandler);
 		}

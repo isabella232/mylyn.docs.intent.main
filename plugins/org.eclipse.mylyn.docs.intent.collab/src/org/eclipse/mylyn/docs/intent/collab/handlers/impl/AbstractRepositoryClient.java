@@ -54,6 +54,7 @@ public abstract class AbstractRepositoryClient implements RepositoryClient {
 	 */
 	public void removeRepositoryObjectHandler(RepositoryObjectHandler handler) {
 		handler.removeClient(this);
+		repositoryObjectHandler.stop();
 		this.repositoryObjectHandler = null;
 	}
 

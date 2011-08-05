@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -50,7 +50,7 @@ public class ElementListNotificator implements Notificator {
 	 */
 	public ElementListNotificator(Set<EObject> listenedObjects) {
 		this.listenedObjects = listenedObjects;
-		this.listeningHandlers = new HashSet<RepositoryObjectHandler>();
+		this.listeningHandlers = new LinkedHashSet<RepositoryObjectHandler>();
 		this.elementAdapter = new ElementListAdapter(this);
 
 		initialise(listeningHandlers);
@@ -67,7 +67,7 @@ public class ElementListNotificator implements Notificator {
 	public ElementListNotificator(Set<EObject> listenedObjects,
 			Set<RepositoryObjectHandler> listeningHandlersToCreate) {
 		this.listenedObjects = listenedObjects;
-		this.listeningHandlers = new HashSet<RepositoryObjectHandler>();
+		this.listeningHandlers = new LinkedHashSet<RepositoryObjectHandler>();
 		this.elementAdapter = new ElementListAdapter(this);
 
 		initialise(listeningHandlersToCreate);
@@ -83,7 +83,7 @@ public class ElementListNotificator implements Notificator {
 	 */
 	public ElementListNotificator(Set<EObject> listenedObjects, ElementListAdapter listAdapter) {
 		this.listenedObjects = listenedObjects;
-		this.listeningHandlers = new HashSet<RepositoryObjectHandler>();
+		this.listeningHandlers = new LinkedHashSet<RepositoryObjectHandler>();
 		this.elementAdapter = listAdapter;
 		listAdapter.setNotificator(this);
 

@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.cdo.adapters;
 
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.cdo.common.revision.CDORevisionKey;
@@ -55,7 +55,7 @@ public class CDOTypeListener implements IListener {
 	 */
 	public CDOTypeListener(Notificator typeNotificator, Set<EStructuralFeature> types) {
 		this.listeningTypeNotificator = typeNotificator;
-		this.listennedTypes = new HashSet<EStructuralFeature>();
+		this.listennedTypes = new LinkedHashSet<EStructuralFeature>();
 		this.listennedTypes.addAll(types);
 	}
 

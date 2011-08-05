@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.indexer.repositoryconnection;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
@@ -52,7 +52,7 @@ public class HandlerCreator {
 		Resource resourceFromPath = cdoAdapter.getResource(pathToListenedResource);
 
 		// We get the contained elements
-		Set<EObject> listenedElements = new HashSet<EObject>();
+		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 		listenedElements.addAll(resourceFromPath.getContents());
 
 		// We create the handler

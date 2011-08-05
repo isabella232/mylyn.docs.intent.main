@@ -12,7 +12,7 @@ package org.eclipse.mylyn.docs.intent.client.compiler.launcher;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
@@ -59,7 +59,7 @@ public final class CompilerCreator {
 			throws RepositoryConnectionException {
 
 		// Step 1 : intialize the listened types
-		Set<EStructuralFeature> listenedTypes = new HashSet<EStructuralFeature>();
+		Set<EStructuralFeature> listenedTypes = new LinkedHashSet<EStructuralFeature>();
 
 		for (EObject obj : ModelingUnitPackage.eINSTANCE.eContents()) {
 			if (obj instanceof EClass) {

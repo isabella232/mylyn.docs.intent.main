@@ -11,7 +11,7 @@
 package org.eclipse.mylyn.docs.intent.collab.test.ide;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import junit.framework.Assert;
 
@@ -55,8 +55,8 @@ public class WorkspaceSessionAndFileEvents extends AbstractWorkspaceRepositoryTe
 		}
 
 		// We create test elements on the repository
-		listenedTestElements = new HashSet<AbstractTestClass>();
-		nonListenedTestElements = new HashSet<AbstractTestClass>();
+		listenedTestElements = new LinkedHashSet<AbstractTestClass>();
+		nonListenedTestElements = new LinkedHashSet<AbstractTestClass>();
 		initializeContent();
 	}
 

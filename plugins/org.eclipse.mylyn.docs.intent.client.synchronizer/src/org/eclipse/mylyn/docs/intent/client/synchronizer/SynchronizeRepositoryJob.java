@@ -63,12 +63,11 @@ public class SynchronizeRepositoryJob extends Job {
 			repositoryAdapter.execute(new IntentCommand() {
 
 				public void execute() {
+					repositoryAdapter.openSaveContext();
 					client.setTraceabilityIndex((TraceabilityIndex)repositoryAdapter.reload(client
 							.getTraceabilityIndex()));
 
 					System.out.println("[Synchroniser] Detected changes on the TraceabilityResourceIndex.");
-
-					repositoryAdapter.openSaveContext();
 
 					synchronize(monitor, repositoryAdapter);
 					repositoryAdapter.closeContext();

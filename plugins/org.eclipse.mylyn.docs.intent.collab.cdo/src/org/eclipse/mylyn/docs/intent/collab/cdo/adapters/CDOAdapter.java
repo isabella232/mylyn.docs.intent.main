@@ -12,7 +12,7 @@ package org.eclipse.mylyn.docs.intent.collab.cdo.adapters;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -215,7 +215,7 @@ public class CDOAdapter implements RepositoryAdapter {
 		this.session.options().setPassiveUpdateMode(PassiveUpdateMode.ADDITIONS);
 		CDOTypeListener typeListener = new CDOTypeListener(typeNotificator, types);
 		if (this.notificatorToListener.get(typeNotificator) == null) {
-			this.notificatorToListener.put(typeNotificator, new HashSet<IListener>());
+			this.notificatorToListener.put(typeNotificator, new LinkedHashSet<IListener>());
 		}
 		this.notificatorToListener.get(typeNotificator).add(typeListener);
 		this.session.addListener(typeListener);

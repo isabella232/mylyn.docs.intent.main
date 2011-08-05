@@ -120,4 +120,15 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	protected Job createNotificationJob(RepositoryChangeNotification notification) {
 		return new SynchronizeRepositoryJob(this);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient#dispose()
+	 */
+	@Override
+	public void dispose() {
+		synchronizer.dispose();
+		super.dispose();
+	}
 }

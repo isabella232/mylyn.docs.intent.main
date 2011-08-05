@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.annotation;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
@@ -83,7 +83,7 @@ public final class IntentAnnotationFactory {
 				if (compilationStatus.getType() == CompilationMessageType.SYNCHRONIZER_WARNING) {
 					annotation.setType(INTENT_ANNOT_SYNC_WARNING);
 					SynchronizerCompilationStatus syncStatus = (SynchronizerCompilationStatus)compilationStatus;
-					Set<String> additionalInformations = new HashSet<String>();
+					Set<String> additionalInformations = new LinkedHashSet<String>();
 					additionalInformations.add(syncStatus.getWorkingCopyResourceURI());
 					if (targetURI != null) {
 						additionalInformations.add(targetURI.toString());

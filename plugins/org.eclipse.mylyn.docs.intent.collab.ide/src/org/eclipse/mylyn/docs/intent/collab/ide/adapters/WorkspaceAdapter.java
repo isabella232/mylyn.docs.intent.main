@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -350,7 +350,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 
 			WorkspaceTypeListener typeListener = new WorkspaceTypeListener(typeNotificator, listenedTypes);
 			if (this.notificatorToListener.get(typeNotificator) == null) {
-				this.notificatorToListener.put(typeNotificator, new HashSet<WorkspaceTypeListener>());
+				this.notificatorToListener.put(typeNotificator, new LinkedHashSet<WorkspaceTypeListener>());
 			}
 			this.notificatorToListener.get(typeNotificator).add(typeListener);
 			((WorkspaceSession)this.repository.getOrCreateSession()).addListener(typeListener);

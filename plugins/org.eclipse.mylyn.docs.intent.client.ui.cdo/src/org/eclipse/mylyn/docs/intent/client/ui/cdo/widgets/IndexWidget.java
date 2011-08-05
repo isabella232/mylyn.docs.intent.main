@@ -20,7 +20,6 @@ import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -44,12 +43,10 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Creates a selection widget allowing the userallowing the user to select the Intent element to
- * open.
+ * Creates a selection widget allowing the user to select the Intent element to open.
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
@@ -147,15 +144,10 @@ public final class IndexWidget {
 					if (selection instanceof IStructuredSelection) {
 						IStructuredSelection structSelection = (IStructuredSelection)selection;
 						Object element = structSelection.getFirstElement();
-						if ((element instanceof GenericUnit)
-								|| (element instanceof IntentStructuredElement)) {
+						if ((element instanceof GenericUnit) || (element instanceof IntentStructuredElement)) {
 							shell.close();
-							try {
-								IntentEditorOpener.openIntentEditor(repository,
-										repositoryAdapter.getIDFromElement((EObject)element), false, false);
-							} catch (PartInitException exception) {
-								IntentUiLogger.logError(exception);
-							}
+							IntentEditorOpener.openIntentEditor(repository, (EObject)element, false,
+									(EObject)element, false);
 						}
 					}
 

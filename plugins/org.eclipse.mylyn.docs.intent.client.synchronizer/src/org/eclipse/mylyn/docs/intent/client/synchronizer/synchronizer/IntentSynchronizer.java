@@ -47,6 +47,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
  * location indicated by a Intent ResourceDeclaration.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentSynchronizer {
 
@@ -409,6 +410,13 @@ public class IntentSynchronizer {
 			return new ArrayList<DiffElement>();
 		}
 
+	}
+
+	/**
+	 * Disposes elements.
+	 */
+	public void dispose() {
+		generatedElementListener.dispose();
 	}
 
 }

@@ -27,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.AbstractGener
  * change.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IDEGeneratedElementListener extends AbstractGeneratedElementListener implements IResourceChangeListener {
 
@@ -127,5 +128,15 @@ public class IDEGeneratedElementListener extends AbstractGeneratedElementListene
 		if (!changedResources.isEmpty()) {
 			this.synchronizer.handleChangeNotification(null);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener#dispose()
+	 */
+	public void dispose() {
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		workspace.removeResourceChangeListener(this);
 	}
 }
