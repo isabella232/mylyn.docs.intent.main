@@ -80,7 +80,8 @@ public class IntentSynchronizationCompletionProposal implements ICompletionPropo
 	 */
 	public void apply(IDocument document) {
 		// Step 1 : getting the resources to compare URI
-		String generatedResourceURI = syncAnnotation.getAdditionalInformations().iterator().next();
+		String generatedResourceURI = syncAnnotation.getAdditionalInformations().iterator().next()
+				.replace("\"", "");
 		String workingCopyResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[1])
 				.replace("\"", "");
 
