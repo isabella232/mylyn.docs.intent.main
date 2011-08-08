@@ -227,7 +227,7 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	@Override
 	public List<Object> caseContributionInstruction(ContributionInstruction contributionInstruction) {
 		List<Object> createdObject = new ArrayList<Object>();
-		// We simply do nothing, as
+		// We simply do nothing
 		return createdObject;
 	}
 
@@ -238,6 +238,7 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	 */
 	@Override
 	public List<Object> caseResourceDeclaration(ResourceDeclaration resourceDeclaration) {
+		ModelingUnitGenerator.clearCompilationStatus(resourceDeclaration);
 		this.resourceDeclarations.add(resourceDeclaration);
 		return new ArrayList<Object>();
 	}
