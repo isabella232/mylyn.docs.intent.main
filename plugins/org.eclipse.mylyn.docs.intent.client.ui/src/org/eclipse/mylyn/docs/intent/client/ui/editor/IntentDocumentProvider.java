@@ -201,7 +201,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 
 		// We obtain the root of the document
 		documentRoot = ((IntentEditorInput)element).getIntentElement();
-		createdDocument = new IntentEditorDocument(documentRoot);
+		createdDocument = new IntentEditorDocument(documentRoot, this.associatedEditor);
 
 		partitioner = new IntentPartitioner(LEGAL_CONTENT_TYPES);
 		partitioner.connect(createdDocument);
@@ -425,8 +425,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				for (final IntentEditorDocument relatedDocument : elementsToDocuments
 						.get(modifiedObjectIdentifier)) {
 
-					// TODO [DISABLED] re-enable reloading (for external changes)
-					// relatedDocument.reloadFromAST(documentRoot, true);
+					relatedDocument.reloadFromAST(documentRoot);
 
 					// We update the mapping between elements and documents
 					addAllContentAsIntentElement(documentRoot, relatedDocument);

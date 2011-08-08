@@ -17,6 +17,7 @@ import org.eclipse.jface.text.CopyOnWriteTextStore;
 import org.eclipse.jface.text.DefaultLineTracker;
 import org.eclipse.jface.text.GapTextStore;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
@@ -45,14 +46,20 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	private IntentSerializer serializer;
 
 	/**
+	 * The editor associated to this document.
+	 */
+	private IntentEditor associatedEditor;
+
+	/**
 	 * IntentDocument constructor.
 	 * 
 	 * @param root
 	 *            the element to associate to this IntentDocument.
 	 */
-	public IntentEditorDocument(EObject root) {
+	public IntentEditorDocument(EObject root, IntentEditor editor) {
 		super();
 		serializer = new IntentSerializer(MODELING_PREFIX_DECORATION, MODELING_SUFFIX_DECORATION);
+		this.associatedEditor = editor;
 		this.lastSavedAst = root;
 		setTextStore(new CopyOnWriteTextStore(new GapTextStore()));
 		setLineTracker(new DefaultLineTracker());
@@ -123,7 +130,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 		Display.getDefault().syncExec(new Runnable() {
 
 			public void run() {
-
+				ISelection selection = associatedEditor.getSelectionProvider().getSelection();
 				try {
 					String serializedForm = serializer.serialize(newAST);
 					if (!get().equals(serializedForm)) {
@@ -133,6 +140,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 				} catch (BadLocationException e) {
 					IntentUiLogger.logError("Error encountered while refreshing the document ", e);
 				}
+				associatedEditor.getSelectionProvider().setSelection(selection);
 			}
 		});
 
