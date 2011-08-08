@@ -547,14 +547,15 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	public void close() {
 		if (this.repository != null) {
-			// If the editor is editable, we undo all the unsaved modifications
-			if (this.associatedEditor.isEditable()) {
-				try {
-					this.listenedElementsHandler.getRepositoryAdapter().undo();
-				} catch (ReadOnlyException e) {
-					// The readOnly property has already been tested by calling isEditable.
-				}
-			}
+			// TODO ??? at this time cause project explorer desynchronization. Repository is saved anyway
+			// // If the editor is editable, we undo all the unsaved modifications
+			// if (this.associatedEditor.isEditable()) {
+			// try {
+			// this.listenedElementsHandler.getRepositoryAdapter().undo();
+			// } catch (ReadOnlyException e) {
+			// // The readOnly property has already been tested by calling isEditable.
+			// }
+			// }
 			this.listenedElementsHandler.getRepositoryAdapter().closeContext();
 			this.repository.unregister(this);
 		}
