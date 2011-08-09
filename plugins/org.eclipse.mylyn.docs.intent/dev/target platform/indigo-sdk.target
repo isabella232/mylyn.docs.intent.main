@@ -22,7 +22,7 @@
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/updateSite"/>
 </location>
 <location includeAllPlatforms="false" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.emf.compare.sdk.feature.group" version="1.2.0.v20110805-1412"/>
+<unit id="org.eclipse.emf.compare.sdk.feature.group" version="1.2.0.v20110809-0812"/>
 <repository location="http://download.eclipse.org/modeling/emf/compare/updates/interim/1.2"/>
 </location>
 </locations>
