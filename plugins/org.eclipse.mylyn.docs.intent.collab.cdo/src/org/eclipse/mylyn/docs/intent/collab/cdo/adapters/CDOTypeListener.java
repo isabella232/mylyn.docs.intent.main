@@ -81,7 +81,7 @@ public class CDOTypeListener implements IListener {
 
 				for (CDOFeatureDelta delta : revisionDelta.getFeatureDeltas()) {
 
-					if (isListennedTypeModification(delta.getFeature())) {
+					if (isListenedTypeModification(delta.getFeature())) {
 						changesDetected = true;
 						break;
 					}
@@ -106,7 +106,7 @@ public class CDOTypeListener implements IListener {
 	 *            the feature to test.
 	 * @return true if the given feature matches any listened types of this typeListener, false otherwise.
 	 */
-	private boolean isListennedTypeModification(EStructuralFeature feature) {
+	private boolean isListenedTypeModification(EStructuralFeature feature) {
 		boolean isListennedType = false;
 
 		for (Iterator<EStructuralFeature> iterator = listennedTypes.iterator(); iterator.hasNext()

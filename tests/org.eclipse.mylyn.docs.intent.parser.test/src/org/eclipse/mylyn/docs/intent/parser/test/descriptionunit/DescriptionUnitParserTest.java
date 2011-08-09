@@ -26,7 +26,7 @@ public class DescriptionUnitParserTest {
 	 * Tests the excractFirstString method with different reprensentative examples.
 	 */
 	@Test
-	public void testExcratFirstString() {
+	public void testExtractFirstString() {
 		DescriptionUnitParser parser = new DescriptionUnitParser();
 		// 'FirstString'
 		Assert.assertEquals("firstString", parser.extractFirstString("'firstString' and 'secondString'"));

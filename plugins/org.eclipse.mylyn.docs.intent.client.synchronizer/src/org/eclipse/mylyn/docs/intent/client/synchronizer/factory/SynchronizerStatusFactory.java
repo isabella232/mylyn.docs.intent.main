@@ -118,7 +118,7 @@ public final class SynchronizerStatusFactory {
 		}
 		// If no instruction has been found, we associated the status with the currently compiled resource
 		if (targetInstruction == null) {
-			System.err.println("CANNOT FIND ANNY INSTRUCTION FOR " + compiledElement);
+			System.err.println("CANNOT FIND ANY INSTRUCTION FOR " + compiledElement);
 			targetInstruction = indexEntry.getResourceDeclaration();
 		}
 

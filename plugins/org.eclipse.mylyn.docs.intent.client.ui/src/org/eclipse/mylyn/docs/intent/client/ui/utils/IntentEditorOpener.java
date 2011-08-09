@@ -196,8 +196,8 @@ public final class IntentEditorOpener {
 			IEditorReference[] editorReferences = activePage.getEditorReferences();
 			int editorCount = 0;
 			while ((editorCount < editorReferences.length) && alreadyOpenedEditor == null) {
-				IEditorReference editorRefrence = editorReferences[editorCount];
-				IEditorPart editor = editorRefrence.getEditor(false);
+				IEditorReference editorReference = editorReferences[editorCount];
+				IEditorPart editor = editorReference.getEditor(false);
 
 				if (editor instanceof IntentEditor) {
 					if (((IntentEditor)editor).containsElement((IntentGenericElement)elementToOpen)) {

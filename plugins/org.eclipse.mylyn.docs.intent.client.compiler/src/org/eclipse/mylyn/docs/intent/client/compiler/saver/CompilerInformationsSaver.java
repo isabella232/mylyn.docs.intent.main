@@ -344,7 +344,6 @@ public class CompilerInformationsSaver {
 
 		List<IntentGenericElement> genEl = new ArrayList<IntentGenericElement>();
 		for (CompilationStatus compilationStatus : repositoryStatusManager.getCompilationStatusList()) {
-			// System.err.println(compilationStatus.getTarget());
 			genEl.add(compilationStatus.getTarget());
 		}
 
