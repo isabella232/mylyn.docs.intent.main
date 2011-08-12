@@ -20,7 +20,7 @@ import org.junit.Test;
 public class TestWikiTextParserUnresolvedProblems {
 
 	@Test
-	public void unresolvedProblems() {
+	public void unresolvedProblems() throws Exception {
 		// Objectives :
 		// show that some problems remains
 		TestWikiTextParserGeneral.compareTextSerialization("unresolvedProblems/fancyUnresolved.textile");

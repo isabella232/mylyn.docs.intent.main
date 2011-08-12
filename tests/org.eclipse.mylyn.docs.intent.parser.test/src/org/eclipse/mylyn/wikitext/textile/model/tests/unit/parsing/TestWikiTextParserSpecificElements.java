@@ -22,7 +22,7 @@ import org.junit.Test;
 public class TestWikiTextParserSpecificElements {
 
 	@Test
-	public void testTOCDetection() {
+	public void testTOCDetection() throws Exception{
 		// Objectives :
 		// Ensure that TOC are correctly detected (see the textile File for details).
 
@@ -40,7 +40,7 @@ public class TestWikiTextParserSpecificElements {
 	}
 
 	@Test
-	public void testHTMLEntities() {
+	public void testHTMLEntities() throws Exception {
 		// Objectives :
 		// Ensure that HTMLEntites are correctly managed.
 
