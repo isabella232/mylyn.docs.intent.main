@@ -65,8 +65,9 @@ public class TestWikiTextParserGeneral {
 
 		EPackage.Registry.INSTANCE.put(MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
 
-		String actual = FileToStringConverter.getFileAsString(new File(TestWikiTextParserConfigurator
-				.getGeneratedFolder() + fileToGenerate));
+		final File file = new File(TestWikiTextParserConfigurator.getGeneratedFolder() + fileToGenerate);
+		String actual = FileToStringConverter.getFileAsString(file);
+		System.out.println("actual (" + file + "): " + actual);
 		String fromResource = WikiTextResourceSerializer.getSerializer().serialize(resourceTextile);
 
 		String[] result = new String[3];
