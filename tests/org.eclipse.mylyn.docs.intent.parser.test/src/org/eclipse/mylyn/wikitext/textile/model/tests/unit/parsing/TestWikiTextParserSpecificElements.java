@@ -22,11 +22,12 @@ import org.junit.Test;
 public class TestWikiTextParserSpecificElements {
 
 	@Test
-	public void testTOCDetection() throws Exception{
+	public void testTOCDetection() throws Exception {
 		// Objectives :
 		// Ensure that TOC are correctly detected (see the textile File for details).
 
-		String[] result = TestWikiTextParserGeneral.getTextSerializations("specificElements/tocDetection.textile");
+		String[] result = TestWikiTextParserGeneral
+				.getTextSerializations("specificElements/tocDetection.textile");
 		String actual = result[1];
 
 		String expected = result[0];

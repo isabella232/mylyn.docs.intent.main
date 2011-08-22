@@ -12,8 +12,6 @@ package org.eclipse.mylyn.wikitext.textile.model.tests.unit.parsing;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,16 +42,13 @@ public class TestWikiTextParserGeneral {
 		// InputStream input = getClass().getClassLoader().getResourceAsStream(
 		// TestParsingTextile.PARSING_TEST_DATA + fileToTest);
 		InputStream input = null;
-		input = new FileInputStream(new File(
-				TestWikiTextParserConfigurator.getDatatestsFolder()
-						+ fileToTest));
+		input = new FileInputStream(
+				new File(TestWikiTextParserConfigurator.getDatatestsFolder() + fileToTest));
 
 		// Step 2 : creation of a Wikitext Resource linked from this
 		// inputStream.
-		Resource resourceTextile = new WikitextResourceFactory()
-				.createResource(URI
-						.createFileURI(TestWikiTextParserConfigurator
-								.getGeneratedFolder() + fileToGenerate));
+		Resource resourceTextile = new WikitextResourceFactory().createResource(URI
+				.createFileURI(TestWikiTextParserConfigurator.getGeneratedFolder() + fileToGenerate));
 
 		// Step 3 : Generation of a textile file.
 		Map<String, String> options = new HashMap<String, String>();
@@ -65,18 +60,14 @@ public class TestWikiTextParserGeneral {
 		// Step 4 : Build the result
 		String expected;
 
-		expected = FileToStringConverter.getFileAsString(new File(
-				TestWikiTextParserConfigurator.getDatatestsFolder()
-						+ fileToTest));
+		expected = FileToStringConverter.getFileAsString(new File(TestWikiTextParserConfigurator
+				.getDatatestsFolder() + fileToTest));
 
-		EPackage.Registry.INSTANCE.put(MarkupPackage.eNS_URI,
-				MarkupPackage.eINSTANCE);
+		EPackage.Registry.INSTANCE.put(MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
 
-		String actual = FileToStringConverter.getFileAsString(new File(
-				TestWikiTextParserConfigurator.getGeneratedFolder()
-						+ fileToGenerate));
-		String fromResource = WikiTextResourceSerializer.getSerializer()
-				.serialize(resourceTextile);
+		String actual = FileToStringConverter.getFileAsString(new File(TestWikiTextParserConfigurator
+				.getGeneratedFolder() + fileToGenerate));
+		String fromResource = WikiTextResourceSerializer.getSerializer().serialize(resourceTextile);
 
 		String[] result = new String[3];
 		result[0] = expected;
@@ -100,9 +91,8 @@ public class TestWikiTextParserGeneral {
 	}
 
 	/*
-	 * @Test public void testSimpleDocument() { // Objectives : // parse a
-	 * simple document(entities, images, code and TOC).
-	 * compareTextSerialization("simpleDocument.textile"); }
+	 * @Test public void testSimpleDocument() { // Objectives : // parse a simple document(entities, images,
+	 * code and TOC). compareTextSerialization("simpleDocument.textile"); }
 	 */
 
 	@Test
