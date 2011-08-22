@@ -543,6 +543,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		final TransactionalEditingDomain editingDomain = repository.getEditingDomain();
 
 		// first we check that the repository has not been disposed
+		// TODO replace by a proper closing strategy
 		if (editingDomain.getCommandStack() != null) {
 			RecordingCommand recordingCommand = new RecordingCommand(editingDomain) {
 				@Override
