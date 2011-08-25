@@ -67,7 +67,6 @@ public class TestWikiTextParserGeneral {
 
 		final File file = new File(TestWikiTextParserConfigurator.getGeneratedFolder() + fileToGenerate);
 		String actual = FileToStringConverter.getFileAsString(file);
-		System.out.println("actual (" + file + "): " + actual);
 		String fromResource = WikiTextResourceSerializer.getSerializer().serialize(resourceTextile);
 
 		String[] result = new String[3];
@@ -83,8 +82,6 @@ public class TestWikiTextParserGeneral {
 		String expected = serialization[0];
 		String actual = serialization[1];
 		String fromResource = serialization[2];
-
-		System.out.println("actual2 : " + actual);
 
 		// We ensure that the 2 files are equals,
 		// and that these files are also equals to the resource's serialisation.
