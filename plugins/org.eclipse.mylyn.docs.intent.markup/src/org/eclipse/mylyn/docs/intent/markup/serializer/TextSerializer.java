@@ -46,7 +46,7 @@ public final class TextSerializer {
 	 * @return the serialized form of the given element.
 	 */
 	public static String render(Text textElement) {
-
+		System.out.println("data:" + textElement.getData());
 		String renderedText = "";
 
 		// Step 1 : calculate the formats to declare and to close.
@@ -78,6 +78,7 @@ public final class TextSerializer {
 		if (textElement.isLineBreak()) {
 			renderedText += WikiTextResourceSerializer.LINE_BREAK;
 		}
+		System.out.println("rendered:" + renderedText);
 		return renderedText;
 	}
 
