@@ -44,13 +44,19 @@ public final class EntitySerializer {
 
 	private static String SIMPLEQUOTE3_CODE = "#8250";
 
+	private static String SIMPLEQUOTE4_CODE = "#8216";
+
 	private static String SIMPLEQUOTE_TRADUCTION = "'";
 
 	private static String LEFTDOUBLEQUOTE_CODE = "#171";
 
+	private static String LEFTDOUBLEQUOTE1_CODE = "#8220";
+
 	private static String LEFTDOUBLEQUOTE_TRADUCTION = "\"";
 
 	private static String RIGHTDOUBLEQUOTE_CODE = "#187";
+
+	private static String RIGHTDOUBLEQUOTE1_CODE = "#8221";
 
 	private static String RIGHTDOUBLEQUOTE_TRADUCTION = "\"";
 
@@ -101,8 +107,11 @@ public final class EntitySerializer {
 			entityMapping.put(SIMPLEQUOTE_CODE, SIMPLEQUOTE_TRADUCTION);
 			entityMapping.put(SIMPLEQUOTE2_CODE, SIMPLEQUOTE_TRADUCTION);
 			entityMapping.put(SIMPLEQUOTE3_CODE, SIMPLEQUOTE_TRADUCTION);
+			entityMapping.put(SIMPLEQUOTE4_CODE, SIMPLEQUOTE_TRADUCTION);
 			entityMapping.put(LEFTDOUBLEQUOTE_CODE, LEFTDOUBLEQUOTE_TRADUCTION);
+			entityMapping.put(LEFTDOUBLEQUOTE1_CODE, LEFTDOUBLEQUOTE_TRADUCTION);
 			entityMapping.put(RIGHTDOUBLEQUOTE_CODE, RIGHTDOUBLEQUOTE_TRADUCTION);
+			entityMapping.put(RIGHTDOUBLEQUOTE1_CODE, RIGHTDOUBLEQUOTE_TRADUCTION);
 
 			entityMapping.put(TABULATION_SYMBOL, TABULATION_TRADUCTION);
 		}
