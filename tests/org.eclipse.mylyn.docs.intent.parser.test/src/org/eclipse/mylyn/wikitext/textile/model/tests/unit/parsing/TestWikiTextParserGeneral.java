@@ -84,6 +84,8 @@ public class TestWikiTextParserGeneral {
 		String actual = serialization[1];
 		String fromResource = serialization[2];
 
+		System.out.println("actual2 : " + actual);
+
 		// We ensure that the 2 files are equals,
 		// and that these files are also equals to the resource's serialisation.
 		Assert.assertEquals(expected, actual);
