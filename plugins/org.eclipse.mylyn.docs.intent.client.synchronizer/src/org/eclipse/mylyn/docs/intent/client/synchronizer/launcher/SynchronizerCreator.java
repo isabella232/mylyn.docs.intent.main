@@ -103,9 +103,12 @@ public final class SynchronizerCreator {
 				.getEntries().iterator();
 		while (indexEntryIterator.hasNext()) {
 			TraceabilityIndexEntry indexEntry = indexEntryIterator.next();
-			String resourceURI = indexEntry.getResourceDeclaration().getUri().toString();
-			if (resourceURI != null) {
-				generatedElementListener.addElementToListen(URI.createURI(resourceURI));
+			if (indexEntry.getResourceDeclaration() != null
+					&& indexEntry.getResourceDeclaration().getUri() != null) {
+				String resourceURI = indexEntry.getResourceDeclaration().getUri().toString();
+				if (resourceURI != null) {
+					generatedElementListener.addElementToListen(URI.createURI(resourceURI));
+				}
 			}
 		}
 
