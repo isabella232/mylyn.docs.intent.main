@@ -36,8 +36,8 @@
       <includes>
       <include>org/eclipse/mylyn/docs/intent/client/ui/test/suite/UITestSuite.class</include>
       </includes>
-      <useUIHarness>false</useUIHarness>
-      <useUIThread>false</useUIThread>
+      <useUIHarness>true</useUIHarness>
+      <useUIThread>true</useUIThread>
       <argLine>-Xmx1024m</argLine>
       <argLine>-XX:MaxPermSize=256m</argLine>
       <testIgnoreFailure>true</testIgnoreFailure>
