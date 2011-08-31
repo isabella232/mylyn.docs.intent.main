@@ -107,15 +107,17 @@ public class ProjectExplorerRefreshJob extends Job {
 	 */
 	private void refreshProjectExplorer(final ProjectExplorer projectExplorer) {
 		CommonViewer commonViewer = projectExplorer.getCommonViewer();
-		if (elementToRefresh != null) {
-			// We try to refresh the element container (if not null)
-			if (elementToRefresh.eContainer() != null) {
-				commonViewer.refresh(elementToRefresh.eContainer(), true);
+		if (!commonViewer.getControl().isDisposed()) {
+			if (elementToRefresh != null) {
+				// We try to refresh the element container (if not null)
+				if (elementToRefresh.eContainer() != null) {
+					commonViewer.refresh(elementToRefresh.eContainer(), true);
+				} else {
+					commonViewer.refresh(elementToRefresh, true);
+				}
 			} else {
-				commonViewer.refresh(elementToRefresh, true);
+				commonViewer.refresh(project, true);
 			}
-		} else {
-			commonViewer.refresh(project, true);
 		}
 	}
 }

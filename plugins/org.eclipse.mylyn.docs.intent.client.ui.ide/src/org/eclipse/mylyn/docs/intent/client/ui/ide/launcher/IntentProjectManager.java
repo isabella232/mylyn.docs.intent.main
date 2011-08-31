@@ -29,7 +29,6 @@ import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.generatedelementlistener.IDEGeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.ProjectExplorerRefresher;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.structurer.IntentWorkspaceRepositoryStructurer;
-import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotificationFactoryHolder;
 import org.eclipse.mylyn.docs.intent.collab.ide.notification.WorkspaceRepositoryChangeNotificationFactory;
@@ -46,6 +45,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -103,10 +103,10 @@ public final class IntentProjectManager {
 	 * @throws RepositoryConnectionException
 	 *             if the {@link Repository} cannot be created or accessed
 	 */
-	public void createAndLaunchClients() throws RepositoryConnectionException {
+	public synchronized void connect() throws RepositoryConnectionException {
 		try {
 			if (project.isAccessible() && project.getNature(IntentNature.NATURE_ID) != null) {
-				connect();
+				getRepository().getOrCreateSession();
 
 				// Clients creation (if needed)
 
@@ -140,22 +140,12 @@ public final class IntentProjectManager {
 				compilerClient.handleChangeNotification(null);
 
 			} else {
-				IntentUiLogger.logError(new RepositoryConnectionException(
-						"Cannot create Repository on project " + project.getName()));
+				throw new RepositoryConnectionException("Cannot create Repository on project "
+						+ project.getName());
 			}
 		} catch (CoreException e) {
 			throw new RepositoryConnectionException(e.getMessage());
 		}
-	}
-
-	/**
-	 * Connects to the {@link Repository}.
-	 * 
-	 * @throws RepositoryConnectionException
-	 *             if the {@link Repository} cannot be created or accessed
-	 */
-	public void connect() throws RepositoryConnectionException {
-		getRepository().getOrCreateSession();
 	}
 
 	/**
@@ -164,19 +154,23 @@ public final class IntentProjectManager {
 	 * @throws RepositoryConnectionException
 	 *             if the {@link Repository} cannot be deleted or accessed
 	 */
-	public void disconnect() throws RepositoryConnectionException {
+	public synchronized void disconnect() throws RepositoryConnectionException {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			public void run() {
-				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IEditorReference[] references = page.getEditorReferences();
-				for (IEditorReference reference : references) {
-					IEditorPart part = reference.getEditor(false);
-					if (part instanceof IntentEditor) {
-						IntentEditor editor = (IntentEditor)part;
-						IntentDocumentProvider provider = (IntentDocumentProvider)editor
-								.getDocumentProvider();
-						if (repository.equals(provider.getRepository())) {
-							editor.close(editor.isSaveOnCloseNeeded()); // this will dispose clients
+				final IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow();
+				if (activeWorkbenchWindow != null) {
+					IWorkbenchPage page = activeWorkbenchWindow.getActivePage();
+					IEditorReference[] references = page.getEditorReferences();
+					for (IEditorReference reference : references) {
+						IEditorPart part = reference.getEditor(false);
+						if (part instanceof IntentEditor) {
+							IntentEditor editor = (IntentEditor)part;
+							IntentDocumentProvider provider = (IntentDocumentProvider)editor
+									.getDocumentProvider();
+							if (repository.equals(provider.getRepository())) {
+								editor.close(editor.isSaveOnCloseNeeded()); // this will dispose clients
+							}
 						}
 					}
 				}
@@ -184,9 +178,7 @@ public final class IntentProjectManager {
 			}
 		});
 
-		if (repository != null) {
-			repository.closeSession();
-		}
+		repository.closeSession();
 
 		compilerClient.dispose();
 		synchronizerClient.dispose();

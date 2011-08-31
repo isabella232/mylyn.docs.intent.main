@@ -55,7 +55,7 @@ public class RepositoryContentProvider implements ITreeContentProvider {
 			IFile file = (IFile)parentElement;
 			// We connect to the repository
 			try {
-				IntentProjectManager.getInstance(file.getProject(), true).connect();
+				IntentProjectManager.getRepository(file.getProject()).getOrCreateSession();
 				RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
 						.createRepositoryAdapterForRepository(
 								IntentProjectManager.getRepository(file.getProject()));

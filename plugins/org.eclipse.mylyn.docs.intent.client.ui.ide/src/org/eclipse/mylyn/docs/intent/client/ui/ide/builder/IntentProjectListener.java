@@ -74,7 +74,9 @@ public class IntentProjectListener implements IResourceChangeListener {
 				|| event.getType() == IResourceChangeEvent.PRE_DELETE) {
 			IResource resource = event.getResource();
 			try {
-				if (resource instanceof IProject && ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
+				// TODO check if there is a repository associated to this project, even if not accessible
+				if (resource instanceof IProject && resource.isAccessible()
+						&& ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
 					handleClosedProject((IProject)resource);
 				}
 			} catch (CoreException e) {
@@ -136,7 +138,7 @@ public class IntentProjectListener implements IResourceChangeListener {
 	public void handleOpenedProject(IProject project) {
 		IntentProjectManager projectManager = IntentProjectManager.getInstance(project, true);
 		try {
-			projectManager.createAndLaunchClients();
+			projectManager.connect();
 		} catch (RepositoryConnectionException e) {
 			IntentUiLogger.logError(e);
 		}

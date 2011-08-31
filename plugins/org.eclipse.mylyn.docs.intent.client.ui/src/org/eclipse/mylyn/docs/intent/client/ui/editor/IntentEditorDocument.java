@@ -130,17 +130,19 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 		Display.getDefault().syncExec(new Runnable() {
 
 			public void run() {
-				ISelection selection = associatedEditor.getSelectionProvider().getSelection();
-				try {
-					String serializedForm = serializer.serialize(newAST);
-					if (!get().equals(serializedForm)) {
-						replace(0, getLength(), serializedForm);
+				if (associatedEditor.getSelectionProvider() != null) {
+					ISelection selection = associatedEditor.getSelectionProvider().getSelection();
+					try {
+						String serializedForm = serializer.serialize(newAST);
+						if (!get().equals(serializedForm)) {
+							replace(0, getLength(), serializedForm);
+						}
+						setAST(newAST);
+					} catch (BadLocationException e) {
+						IntentUiLogger.logError("Error encountered while refreshing the document ", e);
 					}
-					setAST(newAST);
-				} catch (BadLocationException e) {
-					IntentUiLogger.logError("Error encountered while refreshing the document ", e);
+					associatedEditor.getSelectionProvider().setSelection(selection);
 				}
-				associatedEditor.getSelectionProvider().setSelection(selection);
 			}
 		});
 

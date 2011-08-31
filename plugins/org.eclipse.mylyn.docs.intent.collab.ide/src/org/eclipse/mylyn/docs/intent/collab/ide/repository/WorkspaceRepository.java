@@ -159,10 +159,9 @@ public class WorkspaceRepository implements Repository {
 	 */
 	public void closeSession() throws RepositoryConnectionException {
 		if (this.session != null) {
+			ResourcesPlugin.getWorkspace().removeResourceChangeListener(session);
 			this.session.close();
-			IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			workspace.removeResourceChangeListener(session);
-			session = null;
+			this.session = null;
 		}
 		this.editingDomain.dispose();
 	}

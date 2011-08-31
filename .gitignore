@@ -17,6 +17,7 @@
 /tests/org.eclipse.mylyn.docs.intent.collab.test/bin
 /tests/org.eclipse.mylyn.docs.intent.markup.test/bin
 /tests/org.eclipse.mylyn.docs.intent.parser.test/bin
+/tests/org.eclipse.mylyn.docs.intent.client.ui.test/bin
 /examples/org.eclipse.mylyn.docs.intent.retro/bin
 /plugins/org.eclipse.mylyn.docs.intent/target
 /plugins/org.eclipse.mylyn.docs.intent.client.compiler/target
@@ -37,6 +38,7 @@
 /tests/org.eclipse.mylyn.docs.intent.collab.test/target
 /tests/org.eclipse.mylyn.docs.intent.markup.test/target
 /tests/org.eclipse.mylyn.docs.intent.parser.test/target
+/tests/org.eclipse.mylyn.docs.intent.client.ui.test/target
 /examples/org.eclipse.mylyn.docs.intent.retro/target
 features/org.eclipse.mylyn.docs.intent-feature/target/
 features/org.eclipse.mylyn.docs.intent.markup-feature/target/

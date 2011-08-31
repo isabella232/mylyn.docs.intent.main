@@ -78,21 +78,11 @@ public final class IntentEditorOpener {
 		try {
 			final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
 					.createRepositoryAdapterForRepository(repository);
-
-			// We need to launch through a command because the editor register adapters on the model, which
-			// makes the resource appear as modified and being updated by the repository save.
-			repositoryAdapter.execute(new IntentCommand() {
-				public void execute() {
-					try {
-						openIntentEditor(repositoryAdapter, repository, elementToOpen, false, elementToOpen,
-								false);
-					} catch (PartInitException e) {
-						IntentUiLogger.logError(e);
-					}
-				}
-			});
+			openIntentEditor(repositoryAdapter, repository, elementToOpen, false, elementToOpen, false);
 		} catch (RepositoryConnectionException rce) {
 			IntentUiLogger.logError(rce);
+		} catch (PartInitException e) {
+			IntentUiLogger.logError(e);
 		}
 	}
 
@@ -142,22 +132,23 @@ public final class IntentEditorOpener {
 		if (openedEditor == null) {
 
 			// Step 3 : creation of the Handler in the correct mode
-			RepositoryObjectHandler elementHandler = null;
-
-			if (readOnlyMode) {
-				elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
-				elementHandler.setRepositoryAdapter(repositoryAdapter);
-			} else {
-				elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
-			}
+			final RepositoryObjectHandler elementHandler = createElementHandler(repositoryAdapter,
+					readOnlyMode);
 
 			// Step 4 : creation of a Notificator listening changes on this element and compilation
 			// errors.
-			Set<EObject> listenedObjects = new LinkedHashSet<EObject>();
+			final Set<EObject> listenedObjects = new LinkedHashSet<EObject>();
 			listenedObjects.add(elementToOpen);
-			ElementListAdapter adapter = new EditorElementListAdapter();
-			Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects, adapter);
-			elementHandler.setNotificator(listenedElementsNotificator);
+			final ElementListAdapter adapter = new EditorElementListAdapter();
+
+			repositoryAdapter.execute(new IntentCommand() {
+
+				public void execute() {
+					Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects,
+							adapter);
+					elementHandler.setNotificator(listenedElementsNotificator);
+				}
+			});
 
 			// Step 5 : we open a new editor.
 			IWorkbenchPage page = null;
@@ -173,6 +164,27 @@ public final class IntentEditorOpener {
 		}
 
 		return openedEditor;
+	}
+
+	/**
+	 * Creates the element handler matching the given mode.
+	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter
+	 * @param readOnlyMode
+	 *            the access mode
+	 * @return the handler
+	 */
+	private static RepositoryObjectHandler createElementHandler(RepositoryAdapter repositoryAdapter,
+			boolean readOnlyMode) {
+		final RepositoryObjectHandler elementHandler;
+		if (readOnlyMode) {
+			elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
+			elementHandler.setRepositoryAdapter(repositoryAdapter);
+		} else {
+			elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
+		}
+		return elementHandler;
 	}
 
 	/**

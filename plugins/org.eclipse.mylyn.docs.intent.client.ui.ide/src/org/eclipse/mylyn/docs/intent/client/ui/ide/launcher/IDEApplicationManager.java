@@ -58,7 +58,7 @@ public final class IDEApplicationManager {
 	public static void initializeContent(IProject project, String initialContent) {
 		try {
 			if (project.isAccessible()) {
-				IntentProjectManager.getInstance(project, true).connect();
+				IntentProjectManager.getRepository(project).getOrCreateSession();
 				if (project.exists()) {
 					if (!project.isOpen()) {
 						project.open(null);

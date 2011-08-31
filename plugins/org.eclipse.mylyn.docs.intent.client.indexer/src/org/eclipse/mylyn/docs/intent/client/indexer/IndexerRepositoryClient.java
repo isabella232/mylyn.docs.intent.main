@@ -52,30 +52,33 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 	 */
 	public void makeToc() {
 		final RepositoryAdapter repositoryAdapter = repositoryObjectHandler.getRepositoryAdapter();
-		repositoryAdapter.execute(new IntentCommand() {
+		if (repositoryAdapter != null) {
+			repositoryAdapter.execute(new IntentCommand() {
 
-			public void execute() {
-				final IntentIndex index = getIntentIndex();
-				final IntentDocument document = getIntentDocument();
-				System.out.println("[Indexer] Making Toc on " + document.getChapters().size() + "chapters...");
-				
-				repositoryAdapter.openSaveContext();
-				indexComputor.computeIndex(index, document);
-				try {
-					repositoryAdapter.save();
-				} catch (SaveException e) {
+				public void execute() {
+					final IntentIndex index = getIntentIndex();
+					final IntentDocument document = getIntentDocument();
+					System.out.println("[Indexer] Making Toc on " + document.getChapters().size()
+							+ "chapters...");
+
+					repositoryAdapter.openSaveContext();
+					indexComputor.computeIndex(index, document);
 					try {
-						repositoryAdapter.undo();
-					} catch (ReadOnlyException e1) {
-						e1.printStackTrace(); // initially was "CANCEL_STATUS" return
+						repositoryAdapter.save();
+					} catch (SaveException e) {
+						try {
+							repositoryAdapter.undo();
+						} catch (ReadOnlyException e1) {
+							e1.printStackTrace(); // initially was "CANCEL_STATUS" return
+						}
+					} catch (ReadOnlyException e) {
+						e.printStackTrace(); // initially was "CANCEL_STATUS" return
 					}
-				} catch (ReadOnlyException e) {
-					e.printStackTrace(); // initially was "CANCEL_STATUS" return
+					repositoryAdapter.closeContext();
+					System.out.println("[Indexer] Toc made.");
 				}
-				repositoryAdapter.closeContext();
-			}
-		});
-		System.out.println("[Indexer] Toc made.");
+			});
+		}
 	}
 
 	/**
