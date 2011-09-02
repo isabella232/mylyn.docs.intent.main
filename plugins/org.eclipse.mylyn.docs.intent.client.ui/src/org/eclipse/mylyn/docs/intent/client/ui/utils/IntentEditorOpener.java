@@ -78,7 +78,8 @@ public final class IntentEditorOpener {
 		try {
 			final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
 					.createRepositoryAdapterForRepository(repository);
-			openIntentEditor(repositoryAdapter, repository, elementToOpen, false, elementToOpen, false);
+			openIntentEditor(repositoryAdapter, repository, elementToOpen, false, elementToOpen,
+					forceNewEditor);
 		} catch (RepositoryConnectionException rce) {
 			IntentUiLogger.logError(rce);
 		} catch (PartInitException e) {
