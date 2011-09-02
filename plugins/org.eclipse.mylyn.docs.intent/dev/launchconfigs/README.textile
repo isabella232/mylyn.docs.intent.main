@@ -17,8 +17,13 @@ Allow you to launch Intent Models Clients.
 h2. Tests 
 
 Contains the launch configurations for all tests : 
-* Parser-All : tests the modeling unit parser (Xtext), the Markup langage parser (WikiText) and the general parser
-* Repository-Workspace : tests for the Repository using the Eclipse Workspace
+* Parser-All-TestSuite : tests the modeling unit parser (Xtext), the Markup langage parser (WikiText) and the general parser
+* Parser- Disabled TestSuite : tests that identify known issues and hence are not successful
+* MarkupModel-All-TestSuite : a subSet of Parser-All-TestSuite that regroup all tests relative to the Markup langage parser
+* Collab IDE-All-TestSuite : tests for the Repository using the Eclipse Workspace
+* Collab IDE- Disabled TestSuite :tests that identify known issues and hence are not successful
+* UI-TestSuite : tests relative to Intent UI (editor manipulation, Intent project creation...)
+
 
 h2. Xtext
 
