@@ -10,18 +10,28 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractUITest;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 
 /**
- * Tests the correct behavior of Intent editor changes.
+ * Tests the correct behavior of Intent editor changes. Ensures that EMF Compare is able to maintain order and
+ * structure of the Intent document.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class ChangeEditorUpdateTest extends AbstractUITest {
+
+	private static final String PREFIX_STRING_1 = "* an element defined in the right model is not matching any element in the left model (added element)";
+
+	private static final String PREFIX_STRING_2 = "Otherwise, it is a deleted element.";
+
+	private static final String NEW_SECTION_1 = "\n\tSection {\n\t\t\tSubSection1\n\n\t\tMySubSection\n\t}";
+
+	private static final String NEW_SECTION_2 = "\n\tSection {\n\t\t\tSubSection2\n\n\t\tMySubSection\n\t}";
 
 	private IntentSection section;
 
@@ -41,20 +51,25 @@ public class ChangeEditorUpdateTest extends AbstractUITest {
 	}
 
 	/**
-	 * Ensures that changes are correctly managed by the editor.
+	 * Ensures that when typing new sections inside the Intent Document, when emf compare is used to update
+	 * the repository the structure is respected.
 	 */
-	public void testChanges() {
+	public void testSectionOrder() {
 		IntentEditorDocument document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(
 				editor.getEditorInput());
 
-		String string = document.get();
-		document.set(string + "test");
+		String documentContent = document.get();
+		String expectedDocumentContent = documentContent.replace(PREFIX_STRING_1, PREFIX_STRING_1
+				+ NEW_SECTION_1);
+		expectedDocumentContent = expectedDocumentContent.replace(PREFIX_STRING_2, PREFIX_STRING_2
+				+ NEW_SECTION_2);
+		document.set(expectedDocumentContent);
+		editor.doSave(new NullProgressMonitor());
+		waitForAllOperationsInUIThread();
 
-		// Iterator annotationIterator = ((IntentDocumentProvider)editor.getDocumentProvider())
-		// .getAnnotationModel(null).getAnnotationIterator();
-		// while (annotationIterator.hasNext()) {
-		// System.err.println(annotationIterator.next());
-		// }
+		String newDocumentContent = document.get();
+		assertEquals("Editor update dit not occur has expected", expectedDocumentContent, newDocumentContent);
+
 	}
 
 	/**

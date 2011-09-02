@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
+import com.google.common.collect.Lists;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
@@ -74,6 +76,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		cleanWorkspace();
 		closeWelcomePage();
 		IntentEditorActivator.getDefault().getLog().addLogListener(this);
 	}
@@ -89,6 +92,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 			intentProject.delete(true, true, new NullProgressMonitor());
 		}
 		IntentEditorActivator.getDefault().getLog().removeLogListener(this);
+		cleanWorkspace();
 		super.tearDown();
 	}
 
@@ -270,6 +274,30 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 		}
 	}
 
+	/**
+	 * Deletes every project in the workspace.
+	 */
+	protected void cleanWorkspace() {
+		for (final IProject proj : Lists.newArrayList(ResourcesPlugin.getWorkspace().getRoot().getProjects())) {
+			try {
+				proj.delete(true, new NullProgressMonitor());
+			} catch (CoreException e) {
+				// Nothing we can do
+			}
+		}
+	}
+
+	/**
+	 * Creates an IProject with the given name.
+	 * 
+	 * @param projectName
+	 *            the name of the project to create
+	 * @param monitor
+	 *            the monitor to use when creating the project
+	 * @return the create IProject
+	 * @throws CoreException
+	 *             can occur if the project cannot be created properly
+	 */
 	private static IProject createProject(final String projectName, IProgressMonitor monitor)
 			throws CoreException {
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);

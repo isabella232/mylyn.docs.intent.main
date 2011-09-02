@@ -10,9 +10,7 @@ Document {
 		
 			* an element defined in the left model is not matching any element in the right model (deleted element)
 			* an element defined in the right model is not matching any element in the left model (added element)
-			
-		
-			
+				
 			
 			@M SidedataTypeDefinition 
 				match {
