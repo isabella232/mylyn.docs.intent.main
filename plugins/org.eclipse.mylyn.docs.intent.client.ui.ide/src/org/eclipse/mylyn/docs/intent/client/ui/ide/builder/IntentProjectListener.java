@@ -38,14 +38,14 @@ public class IntentProjectListener implements IResourceChangeListener {
 	 */
 	public IntentProjectListener() {
 		// We first treat the existing projects
-		treatExistingIntentrojects();
+		treatExistingIntentProjects();
 	}
 
 	/**
 	 * Treats all IProjects already opened when the plugin get activated, if they are associated to the intent
 	 * Nature.
 	 */
-	public void treatExistingIntentrojects() {
+	public void treatExistingIntentProjects() {
 		IProject[] allProjects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		for (IProject project : allProjects) {
 			try {
