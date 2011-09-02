@@ -12,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -25,10 +26,12 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.wizard.IWizard;
-import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
@@ -42,11 +45,9 @@ import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.wizards.IWizardDescriptor;
 
 /**
  * An abstract test class providing API for manage an Intent IDE projects and editors.
@@ -166,19 +167,6 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 		}
 	}
 
-	private static IProject createProject(final String projectName, IProgressMonitor monitor)
-			throws CoreException {
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		if (!project.exists()) {
-			project.create(monitor);
-			project.open(monitor);
-		}
-		if (!project.isOpen()) {
-			project.open(monitor);
-		}
-		return project;
-	}
-
 	/**
 	 * Returns the intentDocument associated to the current Intent project.
 	 * 
@@ -202,13 +190,23 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 
 	/**
 	 * Opens an editor on the Document contained in the intent project.
+	 * 
+	 * @return the opened editor
 	 */
 	public IntentEditor openIntentEditor() {
 		return openIntentEditor(getIntentDocument());
 	}
 
+	/**
+	 * Opens an editor on the given {@link IntentStructuredElement}.
+	 * 
+	 * @param element
+	 *            the {@link IntentStructuredElement} to open an editor on
+	 * @return the opened editor
+	 */
 	public IntentEditor openIntentEditor(IntentStructuredElement element) {
 		IntentEditorOpener.openIntentEditor(repository, element, true, null, true);
+		waitForAllOperationsInUIThread();
 		return IntentEditorOpener.getAlreadyOpenedEditor(element);
 	}
 
@@ -226,35 +224,39 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	}
 
 	/**
-	 * Opens the intent wizard.
+	 * Indicates if the given editor contains an annotation of the given {@link IntentAnnotationMessageType},
+	 * with the given expectedMessage exactly if the exactMessage parameter is true, or containing the given
+	 * expectedMessage if false.
+	 * 
+	 * @param intentEditor
+	 *            the editor to search into
+	 * @param messageType
+	 *            the searched {@link IntentAnnotationMessageType}
+	 * @param expectedMessage
+	 *            the searched message
+	 * @param exactMessage
+	 *            indicates if the annotation's message should be exactly the same as the expectedMessage (if
+	 *            true), or should contain the given expectedMessage (if false)
+	 * @return true if the given editor contains the searched annotation, false otherwise
 	 */
-	private void openIntentWizard() {
-		IWizardDescriptor descriptor = PlatformUI.getWorkbench().getNewWizardRegistry()
-				.findWizard(INTENT_NEW_PROJECT_WIZARD_ID);
-		// If not check if it is an "import wizard".
-		if (descriptor == null) {
-			descriptor = PlatformUI.getWorkbench().getImportWizardRegistry()
-					.findWizard(INTENT_NEW_PROJECT_WIZARD_ID);
-		}
-		// Or maybe an export wizard
-		if (descriptor == null) {
-			descriptor = PlatformUI.getWorkbench().getExportWizardRegistry()
-					.findWizard(INTENT_NEW_PROJECT_WIZARD_ID);
-		}
-		try {
-			// Then if we have a wizard, open it.
-			if (descriptor != null) {
-				IWizard wizard = descriptor.createWizard();
-				WizardDialog wd = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
-				wd.setTitle(wizard.getWindowTitle());
-				wd.open();
+	public boolean hasIntentAnnotation(IntentEditor intentEditor, IntentAnnotationMessageType messageType,
+			String expectedMessage, boolean exactMessage) {
+		Iterator annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
+				.getAnnotationModel(null).getAnnotationIterator();
+		while (annotationIterator.hasNext()) {
+			Object annotation = annotationIterator.next();
+			if (annotation instanceof IntentAnnotation) {
+				if (messageType.equals(((IntentAnnotation)annotation).getMessageType())) {
+					String annotationMessage = ((Annotation)annotation).getText();
+					if (exactMessage && expectedMessage.equals(annotationMessage)
+							|| annotationMessage.contains(expectedMessage)) {
+						return true;
+					}
+				}
 			}
-		} catch (CoreException e) {
-			AssertionFailedError error = new AssertionFailedError(
-					"Failed to create Intent project : cannot properly open wizard");
-			error.setStackTrace(e.getStackTrace());
-			throw error;
 		}
+
+		return false;
 	}
 
 	/**
@@ -266,5 +268,18 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 		if (status.getSeverity() == IStatus.ERROR) {
 			fail(status.getMessage());
 		}
+	}
+
+	private static IProject createProject(final String projectName, IProgressMonitor monitor)
+			throws CoreException {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		if (!project.exists()) {
+			project.create(monitor);
+			project.open(monitor);
+		}
+		if (!project.isOpen()) {
+			project.open(monitor);
+		}
+		return project;
 	}
 }
