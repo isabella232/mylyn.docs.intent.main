@@ -1,0 +1,26 @@
+Document {
+	Chapter {
+		Section {
+			Abstract Resources Test
+
+			These resources are used to define models having no relations with any concrete artifact.
+			
+			@M
+				Resource abstractResource {
+					content += myAbstractRoot;
+				}
+			M@
+			
+
+			Hence this resource will not be synchronized :
+			
+			@M
+				new EPackage myAbstractRoot {
+					eClassifiers += new EClass myEClass {};
+				}
+			M@
+			
+		}
+	}
+}
+

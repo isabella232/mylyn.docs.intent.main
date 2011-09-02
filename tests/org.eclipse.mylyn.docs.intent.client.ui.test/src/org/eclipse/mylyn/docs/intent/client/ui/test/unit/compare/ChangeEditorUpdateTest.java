@@ -27,8 +27,6 @@ public class ChangeEditorUpdateTest extends AbstractUITest {
 
 	private static final String FAILURE_MESSAGE = "Editor update dit not occur has expected";
 
-	private static String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/editorupdates/changeEditorUpdateTest.intent";
-
 	private static final String PREFIX_SECTION_1_1 = "* an element defined in the right model is not matching any element in the left model (added element)";
 
 	private static final String PREFIX_SECTION_1_2 = "Otherwise, it is a deleted element.";
@@ -40,6 +38,8 @@ public class ChangeEditorUpdateTest extends AbstractUITest {
 	private static final String PREFIX_CHAPTER_1 = "Document {\n\tChapter {";
 
 	private static final String PREFIX_CHAPTER_2 = "\t}\n\tChapter {";
+
+	private static String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/editorupdates/changeEditorUpdateTest.intent";
 
 	private IntentSection section;
 
@@ -70,7 +70,6 @@ public class ChangeEditorUpdateTest extends AbstractUITest {
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 
 		// Step 2 : update section by adding 2 subsections textually
-
 		String documentContent = document.get();
 		String expectedDocumentContent = documentContent.replace(PREFIX_CHAPTER_1, PREFIX_CHAPTER_1
 				+ "\n\t\tMy Chapter Title");
@@ -95,7 +94,6 @@ public class ChangeEditorUpdateTest extends AbstractUITest {
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 
 		// Step 2 : update section by adding 2 subsections textually
-
 		String documentContent = document.get();
 		String expectedDocumentContent = documentContent.replace(PREFIX_CHAPTER_2, PREFIX_CHAPTER_2
 				+ "\n\n\t\tA new description Unit");
