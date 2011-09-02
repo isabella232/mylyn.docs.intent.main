@@ -1,0 +1,21 @@
+h1. Intent : identifies Issues and features request
+
+h2. Feature Requests
+
+h3. Chapter & Section titles
+
+We should define a determinist we of interpreting the following expression : 
+
+bq.. 
+Section {
+	Is it a title or a paragraph ?
+}
+
+p. To do so, one could propose the following syntax for titles : 
+
+bq.. 
+Section This is *clearly* a title {
+	This is *clearly* a paragraph.
+}
+
+p. 

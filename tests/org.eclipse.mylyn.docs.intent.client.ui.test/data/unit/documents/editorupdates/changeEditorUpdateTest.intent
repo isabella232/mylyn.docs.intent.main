@@ -1,6 +1,7 @@
 Document {
 	Chapter {
 		
+		The first chapter is the best.
 		Section {
 			Differencing the left model from right model when comparaison fails
 		
@@ -37,6 +38,14 @@ Document {
 			The MatchModel store suchs an element using @UnmatchElement@s (
 			@see "TheUnmatchElementConcept" ). To differenciate
 			added element from deleted element, we define the @EEnum@ *Side* :
+		}
+	}
+	Chapter {
+		
+		Section {
+			Section 2.1
+			
+			The 2.1 Section.
 		}
 	}
 }
