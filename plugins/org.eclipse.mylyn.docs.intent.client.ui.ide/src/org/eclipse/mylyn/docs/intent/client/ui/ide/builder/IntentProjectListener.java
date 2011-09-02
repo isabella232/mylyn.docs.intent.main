@@ -152,10 +152,12 @@ public class IntentProjectListener implements IResourceChangeListener {
 	 */
 	public void handleClosedProject(IProject project) {
 		IntentProjectManager projectManager = IntentProjectManager.getInstance(project, false);
-		try {
-			projectManager.disconnect();
-		} catch (RepositoryConnectionException e) {
-			IntentUiLogger.logError(e);
+		if (projectManager != null) { // should not happen
+			try {
+				projectManager.disconnect();
+			} catch (RepositoryConnectionException e) {
+				IntentUiLogger.logError(e);
+			}
 		}
 	}
 

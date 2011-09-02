@@ -37,6 +37,13 @@ public class ProjectTest extends AbstractUITest {
 	/**
 	 * Ensures that a project can be closed.
 	 */
+	public void testDeleteProject() {
+		// already managed by tearDown()
+	}
+
+	/**
+	 * Ensures that a project can be closed.
+	 */
 	public void testCloseProject() {
 		try {
 			intentProject.close(new NullProgressMonitor());

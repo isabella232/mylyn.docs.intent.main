@@ -178,14 +178,14 @@ public final class IntentProjectManager {
 			}
 		});
 
-		repository.closeSession();
+		projectManagers.remove(project);
 
 		compilerClient.dispose();
 		synchronizerClient.dispose();
 		indexerClient.dispose();
 		refresher.dispose();
 
-		projectManagers.remove(project);
+		repository.closeSession();
 	}
 
 	/**
@@ -235,15 +235,11 @@ public final class IntentProjectManager {
 	 * @param project
 	 *            the Intent project to get the Repository from
 	 * @return the {@link Repository} associated to the given Intent project
+	 * @throws RepositoryConnectionException
+	 *             if the repository cannot be created
 	 */
-	public static Repository getRepository(IProject project) {
-		try {
-			return getInstance(project, true).getRepository();
-		} catch (RepositoryConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+	public static Repository getRepository(IProject project) throws RepositoryConnectionException {
+		return getInstance(project, true).getRepository();
 	}
 
 	/**

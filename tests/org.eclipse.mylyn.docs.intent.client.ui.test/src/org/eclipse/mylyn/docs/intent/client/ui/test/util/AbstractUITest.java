@@ -17,16 +17,17 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
@@ -52,7 +53,7 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public abstract class AbstractUITest extends TestCase {
+public abstract class AbstractUITest extends TestCase implements ILogListener {
 
 	public static final String INTENT_NEW_PROJECT_WIZARD_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.wizards.NewIntentProjectWizard";
 
@@ -73,6 +74,7 @@ public abstract class AbstractUITest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		closeWelcomePage();
+		IntentEditorActivator.getDefault().getLog().addLogListener(this);
 	}
 
 	/**
@@ -83,8 +85,9 @@ public abstract class AbstractUITest extends TestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		if (intentProject != null) {
-			intentProject.delete(true, new NullProgressMonitor());
+			intentProject.delete(true, true, new NullProgressMonitor());
 		}
+		IntentEditorActivator.getDefault().getLog().removeLogListener(this);
 		super.tearDown();
 	}
 
@@ -126,8 +129,8 @@ public abstract class AbstractUITest extends TestCase {
 
 					// Step 3 : initializing all useful informations
 					intentProject = project;
-					repository = IntentProjectManager.getRepository(project);
 					try {
+						repository = IntentProjectManager.getRepository(project);
 						repositoryAdapter = RepositoryCreatorHolder.getCreator()
 								.createRepositoryAdapterForRepository(repository);
 					} catch (RepositoryConnectionException e) {
@@ -166,14 +169,8 @@ public abstract class AbstractUITest extends TestCase {
 	private static IProject createProject(final String projectName, IProgressMonitor monitor)
 			throws CoreException {
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		IPath location = project.getFullPath();
 		if (!project.exists()) {
-			IProjectDescription desc = project.getWorkspace().newProjectDescription(projectName);
-			if (location != null && ResourcesPlugin.getWorkspace().getRoot().getLocation().equals(location)) {
-				location = null;
-			}
-			desc.setLocation(location);
-			project.create(desc, monitor);
+			project.create(monitor);
 			project.open(monitor);
 		}
 		if (!project.isOpen()) {
@@ -257,6 +254,17 @@ public abstract class AbstractUITest extends TestCase {
 					"Failed to create Intent project : cannot properly open wizard");
 			error.setStackTrace(e.getStackTrace());
 			throw error;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.core.runtime.ILogListener#logging(org.eclipse.core.runtime.IStatus, java.lang.String)
+	 */
+	public void logging(IStatus status, String plugin) {
+		if (status.getSeverity() == IStatus.ERROR) {
+			fail(status.getMessage());
 		}
 	}
 }

@@ -18,7 +18,9 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
+import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
+import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
 
@@ -54,9 +56,13 @@ public class OpenEditorAction extends Action {
 		final IntentGenericElement element = getIndexEntryFromSelection();
 
 		if (element != null && element.eResource() != null) {
-			IntentEditorOpener.openIntentEditor(
-					IntentProjectManager.getRepository(findProjectForModelURI(element.eResource().getURI())),
-					element, false, element, forceNewEditor);
+			try {
+				IntentEditorOpener.openIntentEditor(IntentProjectManager
+						.getRepository(findProjectForModelURI(element.eResource().getURI())), element, false,
+						element, forceNewEditor);
+			} catch (RepositoryConnectionException e) {
+				IntentUiLogger.logError(e);
+			}
 		}
 
 	}

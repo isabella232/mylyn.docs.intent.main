@@ -16,6 +16,7 @@ import java.util.Collection;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter;
@@ -57,6 +58,7 @@ public class WorkspaceSessionDeltaVisitor implements IResourceDeltaVisitor {
 	 *            the path indicating the location of the listened WorkspaceRepository
 	 */
 	public WorkspaceSessionDeltaVisitor(WorkspaceAdapter repositoryAdapter, Path repositoryPath) {
+		Assert.isNotNull(repositoryAdapter);
 		this.repositoryAdapter = repositoryAdapter;
 		this.changedResources = new ArrayList<Resource>();
 		this.removedResources = new ArrayList<Resource>();
