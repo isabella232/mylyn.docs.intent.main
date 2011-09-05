@@ -16,11 +16,11 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
 
 /**
- * Tests the Intent demo.
+ * Tests the Intent demo, part 1: navigation behavior.
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class DemoTest extends AbstractUITest {
+public abstract class AbstractDemoTest extends AbstractUITest {
 	private static final String DEMO_ZIP_LOCATION = "data/unit/demo/demo.zip";
 
 	private static final String BUNDLE_NAME = "org.eclipse.mylyn.docs.intent.client.ui.test";
@@ -38,12 +38,8 @@ public class DemoTest extends AbstractUITest {
 		WorkspaceUtils.unzipAllProjects(BUNDLE_NAME, DEMO_ZIP_LOCATION, new NullProgressMonitor());
 		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
 		setUpRepository(intentProject);
-	}
 
-	/**
-	 * Tests the demo.
-	 */
-	public void testDemo() {
+		waitForAllOperationsInUIThread(); // TODO check why necessary
 	}
 
 }
