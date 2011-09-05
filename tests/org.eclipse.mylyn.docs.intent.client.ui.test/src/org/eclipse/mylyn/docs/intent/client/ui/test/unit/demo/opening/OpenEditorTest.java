@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.navigation;
+package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening;
 
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.AbstractDemoTest;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
@@ -21,7 +21,7 @@ import org.eclipse.ui.PlatformUI;
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class NavigateTest extends AbstractDemoTest {
+public class OpenEditorTest extends AbstractDemoTest {
 
 	private static final String[] EDITOR_REFERENCES_NAMES = new String[] {"IntentDocument", "Architecture",
 			"Comparison process",
@@ -51,5 +51,4 @@ public class NavigateTest extends AbstractDemoTest {
 		}
 	}
 
-	// TODO ensure that the quick outline allow navigation
 }
