@@ -11,8 +11,6 @@
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening;
 
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.AbstractDemoTest;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 
@@ -35,12 +33,10 @@ public class OpenEditorTest extends AbstractDemoTest {
 		openIntentEditor();
 
 		// Opens a chapter in a separate editor
-		IntentChapter chapter = getIntentDocument().getChapters().get(1); // "2. Architecture"
-		openIntentEditor(chapter);
+		openIntentEditor(getIntentChapter(2)); // "2. Architecture"
 
 		// Opens a section in a separate editor
-		IntentSection section = chapter.getSubSections().get(0); // "2.1 Comparison process"
-		openIntentEditor(section);
+		openIntentEditor(getIntentSection(2, 1)); // "2.1 Comparison process"
 
 		// Ensures that all 3 editors are opened
 		int i = 0;

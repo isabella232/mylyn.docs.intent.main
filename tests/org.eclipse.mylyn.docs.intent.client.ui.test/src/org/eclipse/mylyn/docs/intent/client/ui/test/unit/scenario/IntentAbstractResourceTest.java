@@ -38,7 +38,7 @@ import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class AbstractResourceTest extends AbstractUITest {
+public class IntentAbstractResourceTest extends AbstractUITest {
 	private static String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/scenario/abstract_resources.intent";
 
 	private IntentEditor editor;

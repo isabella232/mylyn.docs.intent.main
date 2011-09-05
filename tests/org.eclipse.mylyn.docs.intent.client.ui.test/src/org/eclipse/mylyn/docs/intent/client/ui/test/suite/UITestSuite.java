@@ -19,7 +19,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpd
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.compilation.CompileTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening.OpenEditorTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.AbstractResourceTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 
 /**
  * This suite will launch all the tests relative to the UI behavior.
@@ -58,7 +58,7 @@ public class UITestSuite extends TestCase {
 		// Scenario tests
 		// all tests that test an identified scenario for the end-user (very simple use case)
 		final TestSuite scenarioSuite = new TestSuite("Simple End-User Scenarios");
-		scenarioSuite.addTestSuite(AbstractResourceTest.class);
+		scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
 
 		suite.addTest(scenarioSuite);
 

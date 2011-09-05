@@ -40,70 +40,75 @@ public class CompileTest extends AbstractDemoTest {
 	private IntentEditorDocument document;
 
 	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.AbstractDemoTest#setUp()
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		// Initialization : opening an editor on the document
+		editor = openIntentEditor(getIntentSection(4, 1)); // "4.1 Match model : main concepts"
+		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
+	}
+
+	/**
 	 * Ensures that compilation errors are detected and can be fixed.
 	 */
 	public void testCompilationErrors() {
-		// Step 1 : opening an editor on the document
-		editor = openIntentEditor(getIntentDocument().getChapters().get(3).getSubSections().get(0));
-		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
-
-		// Step 2 : update section by adding incorrect content
+		// Step 1 : update section by adding incorrect content
 		String initialContent = document.get();
 		String newContent = initialContent.replaceFirst(NO_ERROR_TEXT_PATTERN, ERROR_TEXT_PATTERN);
 		document.set(newContent);
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
 
-		// Step 3 : ensure that the compilation error has been detected
+		// Step 2 : ensure that the compilation error has been detected
 		assertEquals(
 				true,
 				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
 						COMPILATION_ERROR_MESSAGE, true));
 
-		// Step 4 : fix the error by resetting the content
+		// Step 3 : fix the error by resetting the content
 		document.set(initialContent);
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
 
-		// Step 5 : ensure that the compilation error no longer exists
+		// Step 4 : ensure that the compilation error no longer exists
 		assertEquals(
 				false,
 				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
 						COMPILATION_ERROR_MESSAGE, true));
 	}
 
-	// TODO test compilation warnings ?
-
 	/**
-	 * Ensures that compilation infos are detected and can be fixed.
+	 * Ensures that compilation informations are detected and can be fixed.
 	 */
 	public void testCompilationInfos() {
-		// Step 1 : opening an editor on the document
-		editor = openIntentEditor(getIntentDocument().getChapters().get(3).getSubSections().get(0));
-		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
-
-		// Step 2 : update section by adding incorrect content
+		// Step 1 : update section by adding incorrect content
 		String initialContent = document.get();
 		String newContent = initialContent.replaceFirst(NO_INFOS_TEXT_PATTERN, INFOS_TEXT_PATTERN);
 		document.set(newContent);
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
 
-		// Step 3 : ensure that the compilation info has been detected
+		// Step 2 : ensure that the compilation info has been detected
 		assertEquals(
 				true,
 				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO,
 						COMPILATION_INFO_MESSAGE, true));
 
-		// Step 4 : fix the info by resetting the content
+		// Step 3 : fix the info by resetting the content
 		document.set(initialContent);
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
 
-		// Step 5 : ensure that the compilation info no longer exists
+		// Step 4 : ensure that the compilation info no longer exists
 		assertEquals(
 				false,
 				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO,
 						COMPILATION_INFO_MESSAGE, true));
 	}
+
+	// TODO test compilation warnings
 }
