@@ -79,13 +79,13 @@ public class ChangeEditorUpdateTest extends AbstractUITest {
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
 
-		// Step 4 : checking that when resierializing the parsed document we obtain the expected text
+		// Step 4 : checking that when reserializing the parsed document we obtain the expected text
 		String newDocumentContent = document.get();
 		assertEquals(FAILURE_MESSAGE, expectedDocumentContent, newDocumentContent);
 	}
 
 	/**
-	 * Ensures that, when adding a new parapraph to a chapter containing no description unit, when emf compare
+	 * Ensures that, when adding a new paragraph to a chapter containing no description unit, when emf compare
 	 * is used to update the repository the chapter keeps its expected location and structure.
 	 */
 	public void testAddParagraphToChapterWithoutDescriptionUnits() {
@@ -103,7 +103,7 @@ public class ChangeEditorUpdateTest extends AbstractUITest {
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
 
-		// Step 4 : checking that when resierializing the parsed document we obtain the expected text
+		// Step 4 : checking that when reserializing the parsed document we obtain the expected text
 		String newDocumentContent = document.get();
 		assertEquals(FAILURE_MESSAGE, expectedDocumentContent, newDocumentContent);
 	}
@@ -129,7 +129,7 @@ public class ChangeEditorUpdateTest extends AbstractUITest {
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
 
-		// Step 4 : checking that when resierializing the parsed section we obtain the expected text
+		// Step 4 : checking that when reserializing the parsed section we obtain the expected text
 		String newDocumentContent = document.get();
 		assertEquals(FAILURE_MESSAGE, expectedDocumentContent, newDocumentContent);
 	}
