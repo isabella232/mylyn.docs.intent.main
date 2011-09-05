@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.compilation;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.AbstractDemoTest;
 
 /**
@@ -19,17 +23,77 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.AbstractDemoTest;
  */
 public class CompileTest extends AbstractDemoTest {
 
+	private static final String ERROR_TEXT_PATTERN = "nsPrefixx = \"match\";";
+
+	private static final String NO_ERROR_TEXT_PATTERN = "nsPrefix = \"match\";";
+
+	private static final String COMPILATION_ERROR_MESSAGE = "The feature nsPrefixx doesn't exists in EPackage";
+
+	private static final String WARNING_TEXT_PATTERN = "nsURI = \"\";";
+
+	private static final String NO_WARNING_TEXT_PATTERN = "nsURI = \"http://www.eclipse.org/emf/compare/match/1.1\";";
+
+	private static final String COMPILATION_WARNING_MESSAGE = "-The namespace URI '' is not well formed";
+
+	private IntentEditor editor;
+
+	private IntentEditorDocument document;
+
 	/**
 	 * Ensures that compilation errors are detected and can be fixed.
 	 */
 	public void testCompilationErrors() {
-		// TODO
+		// Step 1 : opening an editor on the document
+		editor = openIntentEditor(getIntentDocument().getChapters().get(3).getSubSections().get(0));
+		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
+
+		// Step 2 : update section by adding incorrect content
+		String initialContent = document.get();
+		String newContent = initialContent.replaceFirst(NO_ERROR_TEXT_PATTERN, ERROR_TEXT_PATTERN);
+		document.set(newContent);
+		editor.doSave(new NullProgressMonitor());
+		waitForAllOperationsInUIThread();
+
+		// Step 3 : ensure that the compilation error has been detected
+		assertTrue(hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
+				COMPILATION_ERROR_MESSAGE, true));
+
+		// Step 4 : fix the error by resetting the content
+		document.set(initialContent);
+		editor.doSave(new NullProgressMonitor());
+		waitForAllOperationsInUIThread();
+
+		// Step 5 : ensure that the compilation error has been detected
+		assertFalse(hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
+				COMPILATION_ERROR_MESSAGE, true));
 	}
 
 	/**
 	 * Ensures that compilation warnings are detected and can be fixed.
 	 */
 	public void testCompilationWarnings() {
-		// TODO
+		// Step 1 : opening an editor on the document
+		editor = openIntentEditor(getIntentDocument().getChapters().get(3).getSubSections().get(0));
+		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
+
+		// Step 2 : update section by adding incorrect content
+		String initialContent = document.get();
+		String newContent = initialContent.replaceFirst(NO_WARNING_TEXT_PATTERN, WARNING_TEXT_PATTERN);
+		document.set(newContent);
+		editor.doSave(new NullProgressMonitor());
+		waitForAllOperationsInUIThread();
+
+		// Step 3 : ensure that the compilation warning has been detected
+		assertTrue(hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO,
+				COMPILATION_WARNING_MESSAGE, false));
+
+		// Step 4 : fix the warning by resetting the content
+		document.set(initialContent);
+		editor.doSave(new NullProgressMonitor());
+		waitForAllOperationsInUIThread();
+
+		// Step 5 : ensure that the compilation warning has been detected
+		assertFalse(hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_WARNING,
+				COMPILATION_WARNING_MESSAGE, false));
 	}
 }

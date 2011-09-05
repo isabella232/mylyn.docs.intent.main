@@ -18,8 +18,6 @@ import junit.textui.TestRunner;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.compilation.CompileTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.navigation.NavigateTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.EcoreTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.JavaTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.AbstractResourceTest;
 
@@ -69,8 +67,8 @@ public class UITestSuite extends TestCase {
 		final TestSuite demoSuite = new TestSuite("Intent Demo TestSuite");
 		demoSuite.addTestSuite(NavigateTest.class);
 		demoSuite.addTestSuite(CompileTest.class);
-		demoSuite.addTestSuite(EcoreTest.class);
-		demoSuite.addTestSuite(JavaTest.class);
+		// demoSuite.addTestSuite(EcoreTest.class);
+		// demoSuite.addTestSuite(JavaTest.class);
 
 		suite.addTest(demoSuite);
 
