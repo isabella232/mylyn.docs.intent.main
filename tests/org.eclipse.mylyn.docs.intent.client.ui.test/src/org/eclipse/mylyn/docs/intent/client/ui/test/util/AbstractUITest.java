@@ -134,16 +134,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 
 					// Step 3 : initializing all useful informations
 					intentProject = project;
-					try {
-						repository = IntentProjectManager.getRepository(project);
-						repositoryAdapter = RepositoryCreatorHolder.getCreator()
-								.createRepositoryAdapterForRepository(repository);
-					} catch (RepositoryConnectionException e) {
-						AssertionFailedError error = new AssertionFailedError(
-								"Cannot connect to the created IntentRepository");
-						error.setStackTrace(e.getStackTrace());
-						throw error;
-					}
+					setUpRepository(project);
 				}
 
 			};
@@ -166,6 +157,25 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 			throw error;
 		} catch (InterruptedException e) {
 			AssertionFailedError error = new AssertionFailedError("Failed to create Intent project");
+			error.setStackTrace(e.getStackTrace());
+			throw error;
+		}
+	}
+
+	/**
+	 * Set up the repository for the given project.
+	 * 
+	 * @param project
+	 *            the project
+	 */
+	protected void setUpRepository(IProject project) {
+		try {
+			repository = IntentProjectManager.getRepository(project);
+			repositoryAdapter = RepositoryCreatorHolder.getCreator().createRepositoryAdapterForRepository(
+					repository);
+		} catch (RepositoryConnectionException e) {
+			AssertionFailedError error = new AssertionFailedError(
+					"Cannot connect to the created IntentRepository");
 			error.setStackTrace(e.getStackTrace());
 			throw error;
 		}

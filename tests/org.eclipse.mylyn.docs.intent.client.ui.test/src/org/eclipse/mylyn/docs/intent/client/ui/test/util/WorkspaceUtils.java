@@ -133,13 +133,7 @@ public final class WorkspaceUtils {
 		}
 
 		for (IProject project : projects) {
-			project.open(monitor);
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-
-			// Close and re-open the project to force eclipse to re-evaluate
-			// any natures that this project may have.
-			project.close(monitor);
-			project.open(monitor);
 		}
 	}
 }

@@ -541,16 +541,15 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	public void execute(final IntentCommand command) {
 		final TransactionalEditingDomain editingDomain = repository.getEditingDomain();
-
+		RecordingCommand recordingCommand = new RecordingCommand(editingDomain) {
+			@Override
+			protected void doExecute() {
+				command.execute();
+			}
+		};
 		// first we check that the repository has not been disposed
 		final CommandStack commandStack = editingDomain.getCommandStack();
 		if (commandStack != null) {
-			RecordingCommand recordingCommand = new RecordingCommand(editingDomain) {
-				@Override
-				protected void doExecute() {
-					command.execute();
-				}
-			};
 			commandStack.execute(recordingCommand);
 		}
 	}

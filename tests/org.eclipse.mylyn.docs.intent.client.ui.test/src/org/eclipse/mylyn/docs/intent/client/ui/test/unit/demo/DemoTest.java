@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractUITest;
@@ -26,6 +25,8 @@ public class DemoTest extends AbstractUITest {
 
 	private static final String BUNDLE_NAME = "org.eclipse.mylyn.docs.intent.client.ui.test";
 
+	private static final String INTENT_PROJECT_NAME = "org.eclipse.emf.compare.idoc";
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -35,6 +36,8 @@ public class DemoTest extends AbstractUITest {
 	protected void setUp() throws Exception {
 		super.setUp();
 		WorkspaceUtils.unzipAllProjects(BUNDLE_NAME, DEMO_ZIP_LOCATION, new NullProgressMonitor());
+		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
+		setUpRepository(intentProject);
 	}
 
 	/**
@@ -43,16 +46,4 @@ public class DemoTest extends AbstractUITest {
 	public void testDemo() {
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractUITest#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-			project.delete(true, true, new NullProgressMonitor());
-		}
-		super.tearDown();
-	}
 }
