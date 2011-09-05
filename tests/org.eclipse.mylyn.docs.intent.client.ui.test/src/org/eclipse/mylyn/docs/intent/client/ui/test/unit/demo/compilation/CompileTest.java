@@ -55,8 +55,10 @@ public class CompileTest extends AbstractDemoTest {
 		waitForAllOperationsInUIThread();
 
 		// Step 3 : ensure that the compilation error has been detected
-		assertTrue(hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
-				COMPILATION_ERROR_MESSAGE, true));
+		assertEquals(
+				true,
+				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
+						COMPILATION_ERROR_MESSAGE, true));
 
 		// Step 4 : fix the error by resetting the content
 		document.set(initialContent);
@@ -64,8 +66,10 @@ public class CompileTest extends AbstractDemoTest {
 		waitForAllOperationsInUIThread();
 
 		// Step 5 : ensure that the compilation error has been detected
-		assertFalse(hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
-				COMPILATION_ERROR_MESSAGE, true));
+		assertEquals(
+				false,
+				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
+						COMPILATION_ERROR_MESSAGE, true));
 	}
 
 	/**
@@ -84,8 +88,10 @@ public class CompileTest extends AbstractDemoTest {
 		waitForAllOperationsInUIThread();
 
 		// Step 3 : ensure that the compilation warning has been detected
-		assertTrue(hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO,
-				COMPILATION_WARNING_MESSAGE, false));
+		assertEquals(
+				true,
+				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO,
+						COMPILATION_WARNING_MESSAGE, true));
 
 		// Step 4 : fix the warning by resetting the content
 		document.set(initialContent);
@@ -93,7 +99,9 @@ public class CompileTest extends AbstractDemoTest {
 		waitForAllOperationsInUIThread();
 
 		// Step 5 : ensure that the compilation warning has been detected
-		assertFalse(hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_WARNING,
-				COMPILATION_WARNING_MESSAGE, false));
+		assertEquals(
+				false,
+				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_WARNING,
+						COMPILATION_WARNING_MESSAGE, true));
 	}
 }
