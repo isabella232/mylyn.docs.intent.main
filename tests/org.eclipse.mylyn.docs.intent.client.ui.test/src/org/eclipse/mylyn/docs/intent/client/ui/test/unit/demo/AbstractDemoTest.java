@@ -38,8 +38,6 @@ public abstract class AbstractDemoTest extends AbstractUITest {
 		WorkspaceUtils.unzipAllProjects(BUNDLE_NAME, DEMO_ZIP_LOCATION, new NullProgressMonitor());
 		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
 		setUpRepository(intentProject);
-
-		waitForAllOperationsInUIThread(); // TODO check why necessary
 	}
 
 }

@@ -181,6 +181,8 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 			error.setStackTrace(e.getStackTrace());
 			throw error;
 		}
+		// wait for initialization completed
+		waitForAllOperationsInUIThread();
 	}
 
 	/**

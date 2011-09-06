@@ -48,7 +48,7 @@ public class CompileTest extends AbstractDemoTest {
 	protected void setUp() throws Exception {
 		super.setUp();
 		// Initialization : opening an editor on the document
-		editor = openIntentEditor(getIntentSection(4, 1)); // "4.1 Match model : main concepts"
+		editor = openIntentEditor(getIntentSection(4, 1));
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 	}
 
@@ -64,8 +64,8 @@ public class CompileTest extends AbstractDemoTest {
 		waitForAllOperationsInUIThread();
 
 		// Step 2 : ensure that the compilation error has been detected
-		assertEquals(
-				true,
+		assertTrue(
+				"The compiler failed to detect errors",
 				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
 						COMPILATION_ERROR_MESSAGE, true));
 
@@ -75,8 +75,8 @@ public class CompileTest extends AbstractDemoTest {
 		waitForAllOperationsInUIThread();
 
 		// Step 4 : ensure that the compilation error no longer exists
-		assertEquals(
-				false,
+		assertFalse(
+				"The compiler detected invalid errors",
 				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
 						COMPILATION_ERROR_MESSAGE, true));
 	}
@@ -93,8 +93,8 @@ public class CompileTest extends AbstractDemoTest {
 		waitForAllOperationsInUIThread();
 
 		// Step 2 : ensure that the compilation info has been detected
-		assertEquals(
-				true,
+		assertTrue(
+				"The compiler failed to detect infos",
 				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO,
 						COMPILATION_INFO_MESSAGE, true));
 
@@ -104,8 +104,8 @@ public class CompileTest extends AbstractDemoTest {
 		waitForAllOperationsInUIThread();
 
 		// Step 4 : ensure that the compilation info no longer exists
-		assertEquals(
-				false,
+		assertFalse(
+				"The compiler detected invalid infos",
 				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO,
 						COMPILATION_INFO_MESSAGE, true));
 	}
