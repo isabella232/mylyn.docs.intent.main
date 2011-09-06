@@ -151,7 +151,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 
 			// Finally, we treat each removed or changed resource.
 			treatRemovedResources(removedResources);
-			treatChangeResources(changedResources);
+			treatChangedResources(changedResources);
 
 		} catch (CoreException e) {
 			// TODO define a standard reaction to this exception :
@@ -168,7 +168,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 * @param changedResources
 	 *            the list of the recently changed resources
 	 */
-	private void treatChangeResources(Collection<Resource> changedResources) {
+	private void treatChangedResources(Collection<Resource> changedResources) {
 		// For each changed resources
 		for (final Resource changedResource : changedResources) {
 
