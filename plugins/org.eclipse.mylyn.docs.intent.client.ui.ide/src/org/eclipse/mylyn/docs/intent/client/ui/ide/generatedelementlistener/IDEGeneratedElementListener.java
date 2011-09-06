@@ -107,7 +107,7 @@ public class IDEGeneratedElementListener extends AbstractGeneratedElementListene
 			}
 
 			// Finally, we treat each removed or changed resource.
-			treatChangeResources(changedResources);
+			treatChangedResources(changedResources);
 
 		} catch (CoreException e) {
 			// TODO define a standard reaction to this exception :
@@ -123,7 +123,7 @@ public class IDEGeneratedElementListener extends AbstractGeneratedElementListene
 	 * @param changedResources
 	 *            the list of listened resources that have changed
 	 */
-	private void treatChangeResources(Collection<URI> changedResources) {
+	private void treatChangedResources(Collection<URI> changedResources) {
 		// TODO construct a proper change Notification
 		if (!changedResources.isEmpty()) {
 			this.synchronizer.handleChangeNotification(null);
