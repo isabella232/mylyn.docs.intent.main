@@ -50,7 +50,8 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 		switch (delta.getKind()) {
 			case IResourceDelta.ADDED:
 				// If an intent project has been created
-				if (resource instanceof IProject && ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
+				if (resource instanceof IProject && resource.isAccessible()
+						&& ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
 					openedProjects.add((IProject)resource);
 				}
 				break;
@@ -67,7 +68,7 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 				if ((IResourceDelta.DESCRIPTION & delta.getFlags()) != 0) {
 					if (resource instanceof IProject) {
 						// If the Intent Nature has been added
-						if (((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
+						if (resource.isAccessible() && ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
 							openedProjects.add((IProject)resource);
 						} else {
 							// If the project had the Intent Nature but not anymore
