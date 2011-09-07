@@ -89,7 +89,6 @@ public final class CompilerCreator {
 		compilerClient.setRepository(repository);
 		compilerClient.addRepositoryObjectHandler(handler);
 
-		System.err.println("Created : " + compilerClient);
 		return compilerClient;
 
 	}
