@@ -25,6 +25,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractUITest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.util.AnnotationUtils;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 
 /**
@@ -68,11 +69,13 @@ public class IntentAbstractResourceTest extends AbstractUITest {
 		String expectedDocumentContent = documentContent.replace("myEClass", "myEClass2");
 		document.set(expectedDocumentContent);
 		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
+
+		waitForSynchronizer();
 
 		// Step 2 : we check that no synchronization error has been detected
 		assertFalse("An abstract resource should not be handled by the Intent synchronizer",
-				hasIntentAnnotation(editor, IntentAnnotationMessageType.SYNC_WARNING, "", false));
+				AnnotationUtils.hasIntentAnnotation(editor, IntentAnnotationMessageType.SYNC_WARNING, "",
+						false));
 	}
 
 	/**
@@ -84,19 +87,22 @@ public class IntentAbstractResourceTest extends AbstractUITest {
 		String expectedDocumentContent = documentContent.replace("myEClass", "myEClass2");
 		document.set(expectedDocumentContent);
 		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
+
+		waitForCompiler();
 
 		// Step 2 : we check that the resource has correctly been compiled :
 		// => no error should have been found
-		assertFalse("The Abstract Resource was not correctly compiled",
-				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR, "", false));
+		assertFalse("The Abstract Resource was not correctly compiled", AnnotationUtils.hasIntentAnnotation(
+				editor, IntentAnnotationMessageType.COMPILER_ERROR, "", false));
 
 		// => a compiler warning should inform the end-user that the EPackage's URI and prefix are not
 		// properly set
 		assertTrue("The Abstract Resource was not correctly validated by Intent compiler",
-				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO, "URI", false));
+				AnnotationUtils.hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO, "URI",
+						false));
 		assertTrue("The Abstract Resource was not correctly validated by Intent compiler",
-				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO, "prefix", false));
+				AnnotationUtils.hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO,
+						"prefix", false));
 
 		// => a cache of the resource should have been created inside the repository.
 		Resource generatedResource = repositoryAdapter
@@ -131,20 +137,24 @@ public class IntentAbstractResourceTest extends AbstractUITest {
 					"Resource abstractResource {" + resourceURIDeclaration);
 			document.set(expectedDocumentContent);
 			editor.doSave(new NullProgressMonitor());
-			waitForAllOperationsInUIThread();
+
+			waitForSynchronizer();
 
 			// Step 3 : we check that new synchronization errors have been detected
 			assertTrue("A concrete resource should be handled by the Intent synchronizer",
-					hasIntentAnnotation(editor, IntentAnnotationMessageType.SYNC_WARNING, "", false));
+					AnnotationUtils.hasIntentAnnotation(editor, IntentAnnotationMessageType.SYNC_WARNING, "",
+							false));
 
 			// Step 4 : we make this concrete resource abstract again
 			document.set(document.get().replace(resourceURIDeclaration, ""));
 			editor.doSave(new NullProgressMonitor());
-			waitForAllOperationsInUIThread();
+
+			waitForSynchronizer();
 
 			// Step 5 : we check that no synchronization errors has been detected
 			assertFalse("An abstract resource should not be handled by the Intent synchronizer",
-					hasIntentAnnotation(editor, IntentAnnotationMessageType.SYNC_WARNING, "", false));
+					AnnotationUtils.hasIntentAnnotation(editor, IntentAnnotationMessageType.SYNC_WARNING, "",
+							false));
 
 		} catch (IOException e) {
 			AssertionFailedError assertFailed = new AssertionFailedError(

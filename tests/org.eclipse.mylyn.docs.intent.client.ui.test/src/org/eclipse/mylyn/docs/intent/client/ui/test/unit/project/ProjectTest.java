@@ -57,7 +57,13 @@ public class ProjectTest extends AbstractUITest {
 	 */
 	public void testToggleNature() {
 		ToggleNatureAction.toggleNature(intentProject);
+
+		waitForAllOperationsInUIThread();
+
 		ToggleNatureAction.toggleNature(intentProject);
+
+		waitForAllOperationsInUIThread();
+
 		openIntentEditor();
 	}
 

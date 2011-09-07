@@ -15,6 +15,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.AbstractDemoTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.util.AnnotationUtils;
 
 /**
  * Tests the Intent demo, part 2: compilation behavior.
@@ -47,6 +48,7 @@ public class CompileTest extends AbstractDemoTest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+
 		// Initialization : opening an editor on the document
 		editor = openIntentEditor(getIntentSection(4, 1));
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
@@ -61,24 +63,22 @@ public class CompileTest extends AbstractDemoTest {
 		String newContent = initialContent.replaceFirst(NO_ERROR_TEXT_PATTERN, ERROR_TEXT_PATTERN);
 		document.set(newContent);
 		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
+
+		waitForCompiler();
 
 		// Step 2 : ensure that the compilation error has been detected
-		assertTrue(
-				"The compiler failed to detect errors",
-				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
-						COMPILATION_ERROR_MESSAGE, true));
+		assertTrue("The compiler failed to detect errors", AnnotationUtils.hasIntentAnnotation(editor,
+				IntentAnnotationMessageType.COMPILER_ERROR, COMPILATION_ERROR_MESSAGE, true));
 
 		// Step 3 : fix the error by resetting the content
 		document.set(initialContent);
 		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
+
+		waitForCompiler();
 
 		// Step 4 : ensure that the compilation error no longer exists
-		assertFalse(
-				"The compiler detected invalid errors",
-				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_ERROR,
-						COMPILATION_ERROR_MESSAGE, true));
+		assertFalse("The compiler detected invalid errors", AnnotationUtils.hasIntentAnnotation(editor,
+				IntentAnnotationMessageType.COMPILER_ERROR, COMPILATION_ERROR_MESSAGE, true));
 	}
 
 	/**
@@ -90,25 +90,22 @@ public class CompileTest extends AbstractDemoTest {
 		String newContent = initialContent.replaceFirst(NO_INFOS_TEXT_PATTERN, INFOS_TEXT_PATTERN);
 		document.set(newContent);
 		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
+
+		waitForCompiler();
 
 		// Step 2 : ensure that the compilation info has been detected
-		assertTrue(
-				"The compiler failed to detect infos",
-				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO,
-						COMPILATION_INFO_MESSAGE, true));
+		assertTrue("The compiler failed to detect infos", AnnotationUtils.hasIntentAnnotation(editor,
+				IntentAnnotationMessageType.COMPILER_INFO, COMPILATION_INFO_MESSAGE, true));
 
 		// Step 3 : fix the info by resetting the content
 		document.set(initialContent);
 		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
+
+		waitForCompiler();
 
 		// Step 4 : ensure that the compilation info no longer exists
-		assertFalse(
-				"The compiler detected invalid infos",
-				hasIntentAnnotation(editor, IntentAnnotationMessageType.COMPILER_INFO,
-						COMPILATION_INFO_MESSAGE, true));
+		assertFalse("The compiler detected invalid infos", AnnotationUtils.hasIntentAnnotation(editor,
+				IntentAnnotationMessageType.COMPILER_INFO, COMPILATION_INFO_MESSAGE, true));
 	}
 
-	// TODO test compilation warnings
 }

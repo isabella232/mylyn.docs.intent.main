@@ -10,11 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
-import com.google.common.collect.Lists;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -28,12 +25,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
@@ -49,8 +42,6 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -61,6 +52,12 @@ import org.eclipse.ui.PlatformUI;
 public abstract class AbstractUITest extends TestCase implements ILogListener {
 
 	public static final String INTENT_NEW_PROJECT_WIZARD_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.wizards.NewIntentProjectWizard";
+
+	private static final int COMPILER_DELAY = 1000;
+
+	private static final int SYNCHRONIZER_DELAY = 2000;
+
+	private static final int REPOSITORY_DELAY = 1000;
 
 	protected IProject intentProject;
 
@@ -78,8 +75,9 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		cleanWorkspace();
-		closeWelcomePage();
+		WorkspaceUtils.cleanWorkspace();
+		WorkspaceUtils.closeWelcomePage();
+		waitForAllOperationsInUIThread();
 		IntentEditorActivator.getDefault().getLog().addLogListener(this);
 	}
 
@@ -94,21 +92,8 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 			intentProject.delete(true, true, new NullProgressMonitor());
 		}
 		IntentEditorActivator.getDefault().getLog().removeLogListener(this);
-		cleanWorkspace();
+		WorkspaceUtils.cleanWorkspace();
 		super.tearDown();
-	}
-
-	/**
-	 * Close the welcomePage.
-	 */
-	protected void closeWelcomePage() {
-		IWorkbenchPart activePart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.getActivePart();
-		if (activePart != null && "Welcome".equals(activePart.getTitle()) && activePart instanceof IViewPart) {
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-					.hideView((IViewPart)activePart);
-		}
-		waitForAllOperationsInUIThread();
 	}
 
 	/**
@@ -120,7 +105,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	 *            the path of the intent document to use (relative to the
 	 *            org.eclipse.mylyn.docs.intent.client.ui.test project).
 	 */
-	public void setUpIntentProject(final String projectName, String intentDocumentPath) {
+	protected void setUpIntentProject(final String projectName, String intentDocumentPath) {
 		try {
 			// Step 1 : getting the content of the intent document located at the given path.
 			File file = new File(intentDocumentPath);
@@ -129,7 +114,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 			// Step 2 : creating the intent project
 			IWorkspaceRunnable create = new IWorkspaceRunnable() {
 				public void run(IProgressMonitor monitor) throws CoreException {
-					IProject project = createProject(projectName, monitor);
+					IProject project = WorkspaceUtils.createProject(projectName, monitor);
 
 					IDEApplicationManager.initializeContent(project, intentDocumentContent);
 					ToggleNatureAction.toggleNature(project);
@@ -190,7 +175,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	 * 
 	 * @return the intentDocument associated to the current Intent project
 	 */
-	public IntentDocument getIntentDocument() {
+	protected IntentDocument getIntentDocument() {
 		if (intentDocument == null) {
 			try {
 				Resource documentResource = repositoryAdapter
@@ -213,7 +198,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	 *            the number of the chapter
 	 * @return the chapter
 	 */
-	public IntentChapter getIntentChapter(int number) {
+	protected IntentChapter getIntentChapter(int number) {
 		return getIntentDocument().getChapters().get(number - 1);
 	}
 
@@ -224,7 +209,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	 *            the number of the section
 	 * @return the section
 	 */
-	public IntentSection getIntentSection(int... number) {
+	protected IntentSection getIntentSection(int... number) {
 		IntentSection section = getIntentChapter(number[0]).getSubSections().get(number[1] - 1);
 		if (number.length > 2) {
 			for (int i = 2; i < number.length; i++) {
@@ -239,7 +224,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	 * 
 	 * @return the opened editor
 	 */
-	public IntentEditor openIntentEditor() {
+	protected IntentEditor openIntentEditor() {
 		return openIntentEditor(getIntentDocument());
 	}
 
@@ -250,59 +235,10 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	 *            the {@link IntentStructuredElement} to open an editor on
 	 * @return the opened editor
 	 */
-	public IntentEditor openIntentEditor(IntentStructuredElement element) {
+	protected IntentEditor openIntentEditor(IntentStructuredElement element) {
 		IntentEditorOpener.openIntentEditor(repository, element, true, null, true);
 		waitForAllOperationsInUIThread();
 		return IntentEditorOpener.getAlreadyOpenedEditor(element);
-	}
-
-	/**
-	 * Wait until the end of all asynchronous operations launched in the UI Thread.
-	 */
-	public static void waitForAllOperationsInUIThread() {
-		while (PlatformUI.getWorkbench().getDisplay().readAndDispatch()) {
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// Nothing to do
-			}
-		}
-	}
-
-	/**
-	 * Indicates if the given editor contains an annotation of the given {@link IntentAnnotationMessageType},
-	 * with the given expectedMessage exactly if the exactMessage parameter is true, or containing the given
-	 * expectedMessage if false.
-	 * 
-	 * @param intentEditor
-	 *            the editor to search into
-	 * @param messageType
-	 *            the searched {@link IntentAnnotationMessageType}
-	 * @param expectedMessage
-	 *            the searched message
-	 * @param exactMessage
-	 *            indicates if the annotation's message should be exactly the same as the expectedMessage (if
-	 *            true), or should contain the given expectedMessage (if false)
-	 * @return true if the given editor contains the searched annotation, false otherwise
-	 */
-	public boolean hasIntentAnnotation(IntentEditor intentEditor, IntentAnnotationMessageType messageType,
-			String expectedMessage, boolean exactMessage) {
-		Iterator annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
-				.getAnnotationModel(null).getAnnotationIterator();
-		while (annotationIterator.hasNext()) {
-			Object annotation = annotationIterator.next();
-			if (annotation instanceof IntentAnnotation) {
-				if (messageType.equals(((IntentAnnotation)annotation).getMessageType())) {
-					String annotationMessage = ((Annotation)annotation).getText();
-					if (exactMessage && expectedMessage.equals(annotationMessage)
-							|| annotationMessage.contains(expectedMessage)) {
-						return true;
-					}
-				}
-			}
-		}
-
-		return false;
 	}
 
 	/**
@@ -317,39 +253,52 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	}
 
 	/**
-	 * Deletes every project in the workspace.
+	 * Wait until the end of all asynchronous operations launched in the UI Thread.
 	 */
-	protected void cleanWorkspace() {
-		for (final IProject proj : Lists.newArrayList(ResourcesPlugin.getWorkspace().getRoot().getProjects())) {
+	protected static void waitForAllOperationsInUIThread() {
+		while (PlatformUI.getWorkbench().getDisplay().readAndDispatch()) {
 			try {
-				proj.delete(true, new NullProgressMonitor());
-			} catch (CoreException e) {
-				// Nothing we can do
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// Nothing to do
 			}
 		}
 	}
 
 	/**
-	 * Creates an IProject with the given name.
-	 * 
-	 * @param projectName
-	 *            the name of the project to create
-	 * @param monitor
-	 *            the monitor to use when creating the project
-	 * @return the create IProject
-	 * @throws CoreException
-	 *             can occur if the project cannot be created properly
+	 * Wait for synchronizer to complete work.
 	 */
-	private static IProject createProject(final String projectName, IProgressMonitor monitor)
-			throws CoreException {
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		if (!project.exists()) {
-			project.create(monitor);
-			project.open(monitor);
+	protected static void waitForSynchronizer() {
+		try {
+			Thread.sleep(SYNCHRONIZER_DELAY);
+		} catch (InterruptedException e) {
+			// Nothing to do
 		}
-		if (!project.isOpen()) {
-			project.open(monitor);
-		}
-		return project;
+		waitForAllOperationsInUIThread();
 	}
+
+	/**
+	 * Wait for repository to complete work.
+	 */
+	protected static void waitForIndexer() {
+		try {
+			Thread.sleep(REPOSITORY_DELAY);
+		} catch (InterruptedException e) {
+			// Nothing to do
+		}
+		waitForAllOperationsInUIThread();
+	}
+
+	/**
+	 * Wait for compiler to complete work.
+	 */
+	protected static void waitForCompiler() {
+		try {
+			Thread.sleep(COMPILER_DELAY);
+		} catch (InterruptedException e) {
+			// Nothing to do
+		}
+		waitForAllOperationsInUIThread();
+	}
+
 }

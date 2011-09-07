@@ -21,6 +21,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public abstract class AbstractDemoTest extends AbstractUITest {
+
 	private static final String DEMO_ZIP_LOCATION = "data/unit/demo/demo.zip";
 
 	private static final String BUNDLE_NAME = "org.eclipse.mylyn.docs.intent.client.ui.test";
@@ -38,6 +39,7 @@ public abstract class AbstractDemoTest extends AbstractUITest {
 		WorkspaceUtils.unzipAllProjects(BUNDLE_NAME, DEMO_ZIP_LOCATION, new NullProgressMonitor());
 		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
 		setUpRepository(intentProject);
+		waitForIndexer();
 	}
 
 }
