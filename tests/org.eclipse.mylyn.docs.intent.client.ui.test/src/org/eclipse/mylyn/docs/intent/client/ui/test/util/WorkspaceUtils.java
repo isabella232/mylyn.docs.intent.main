@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
+import com.google.common.collect.Lists;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,8 +28,12 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Provide utilities to ease workspace manipulation.
@@ -134,6 +140,32 @@ public final class WorkspaceUtils {
 
 		for (IProject project : projects) {
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		}
+	}
+
+	/**
+	 * Deletes every project in the workspace.
+	 */
+	public static void cleanWorkspace() {
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
+		for (final IProject proj : Lists.newArrayList(ResourcesPlugin.getWorkspace().getRoot().getProjects())) {
+			try {
+				proj.delete(true, new NullProgressMonitor());
+			} catch (CoreException e) {
+				// Nothing we can do
+			}
+		}
+	}
+
+	/**
+	 * Close the welcomePage.
+	 */
+	public static void closeWelcomePage() {
+		IWorkbenchPart activePart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.getActivePart();
+		if (activePart != null && "Welcome".equals(activePart.getTitle()) && activePart instanceof IViewPart) {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.hideView((IViewPart)activePart);
 		}
 	}
 }
