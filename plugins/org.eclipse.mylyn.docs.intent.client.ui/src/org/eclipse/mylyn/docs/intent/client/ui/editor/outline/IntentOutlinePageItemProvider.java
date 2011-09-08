@@ -101,7 +101,7 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 		String imagePath = null;
 		Image returnedImage = null;
 
-		imagePath = getImageForStructureElmement(object);
+		imagePath = getImageForStructureElement(object);
 
 		if (imagePath == null) {
 			imagePath = getImageForDescriptionUnitElement(object);
@@ -179,7 +179,7 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 		return imagePath;
 	}
 
-	private String getImageForStructureElmement(Object object) {
+	private String getImageForStructureElement(Object object) {
 		String imagePath = null;
 		if (object instanceof IntentDocument) {
 			imagePath = "document.gif"; //$NON-NLS-1$
