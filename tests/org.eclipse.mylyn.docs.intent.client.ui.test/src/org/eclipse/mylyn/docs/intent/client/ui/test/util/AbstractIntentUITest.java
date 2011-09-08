@@ -12,6 +12,10 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -24,6 +28,7 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
@@ -32,11 +37,16 @@ import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManage
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator;
+import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -49,21 +59,17 @@ import org.eclipse.ui.PlatformUI;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public abstract class AbstractUITest extends TestCase implements ILogListener {
+public abstract class AbstractIntentUITest extends TestCase implements ILogListener {
 
 	public static final String INTENT_NEW_PROJECT_WIZARD_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.wizards.NewIntentProjectWizard";
-
-	private static final int COMPILER_DELAY = 1500;
-
-	private static final int SYNCHRONIZER_DELAY = 2000;
-
-	private static final int REPOSITORY_DELAY = 1000;
 
 	protected IProject intentProject;
 
 	protected Repository repository;
 
 	protected RepositoryAdapter repositoryAdapter;
+
+	protected RepositoryListenerForTests repositoryListener;
 
 	private IntentDocument intentDocument;
 
@@ -88,13 +94,37 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	 */
 	@Override
 	protected void tearDown() throws Exception {
+
+		// Step 1 : clean workspace
 		waitForAllOperationsInUIThread();
 		if (intentProject != null) {
 			intentProject.delete(true, true, new NullProgressMonitor());
 		}
 		IntentEditorActivator.getDefault().getLog().removeLogListener(this);
 		WorkspaceUtils.cleanWorkspace();
+
+		// Step 2 : setting all fields to null (to avoid memory leaks)
+		setAllFieldsToNull();
+
 		super.tearDown();
+	}
+
+	/**
+	 * Creates and register an new {@link org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient } in
+	 * charge of detecting that events happened on the repository.
+	 */
+	protected void registerRepositoryListener() {
+		// Step 1 : creating the handler
+		// we listen for all modifications made on the traceability index
+		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
+		Set<EStructuralFeature> listenedFeatures = new LinkedHashSet<EStructuralFeature>();
+		listenedFeatures.addAll(CompilerPackage.eINSTANCE.getTraceabilityIndex().getEStructuralFeatures());
+		Notificator listenedElementsNotificator = new TypeNotificator(listenedFeatures);
+		handler.setNotificator(listenedElementsNotificator);
+
+		// Step 2 : creating the client
+		this.repositoryListener = new RepositoryListenerForTests();
+		repositoryListener.addRepositoryObjectHandler(handler);
 	}
 
 	/**
@@ -107,6 +137,24 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	 *            org.eclipse.mylyn.docs.intent.client.ui.test project).
 	 */
 	protected void setUpIntentProject(final String projectName, String intentDocumentPath) {
+		setUpIntentProject(projectName, intentDocumentPath, false);
+	}
+
+	/**
+	 * Creates a new Intent project using the intent document located at the given path.
+	 * 
+	 * @param projectName
+	 *            the intent project name
+	 * @param intentDocumentPath
+	 *            the path of the intent document to use (relative to the
+	 *            org.eclipse.mylyn.docs.intent.client.ui.test project)
+	 * @param listenForRepository
+	 *            indicates whether a repository listener should be registered. If you want to determine if a
+	 *            client has done a job (by calling {@link AbstractIntentUITest#waitForIndexer() for example}
+	 *            ), this must be true.
+	 */
+	protected void setUpIntentProject(final String projectName, String intentDocumentPath,
+			boolean listenForRepository) {
 		try {
 			// Step 1 : getting the content of the intent document located at the given path.
 			File file = new File(intentDocumentPath);
@@ -134,6 +182,10 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 			) {
 				Thread.sleep(10);
 			}
+
+			// Step 3 : registering the repository listener
+			registerRepositoryListener();
+
 		} catch (CoreException e) {
 			AssertionFailedError error = new AssertionFailedError("Failed to create Intent project");
 			error.setStackTrace(e.getStackTrace());
@@ -269,37 +321,66 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	/**
 	 * Wait for synchronizer to complete work.
 	 */
-	protected static void waitForSynchronizer() {
-		try {
-			Thread.sleep(SYNCHRONIZER_DELAY);
-		} catch (InterruptedException e) {
-			// Nothing to do
-		}
+	protected void waitForSynchronizer() {
+		assertNotNull(
+				"Cannot wait for synchronizer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
+				repositoryListener);
+		assertTrue("Time out : synchronizer should have handle changes but did not",
+				repositoryListener.waitForModificationOn(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH));
 		waitForAllOperationsInUIThread();
 	}
 
 	/**
 	 * Wait for repository to complete work.
 	 */
-	protected static void waitForIndexer() {
-		try {
-			Thread.sleep(REPOSITORY_DELAY);
-		} catch (InterruptedException e) {
-			// Nothing to do
-		}
+	protected void waitForIndexer() {
+		assertNotNull(
+				"Cannot wait for Indexer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
+				repositoryListener);
+		assertTrue("Time out : indexer should have handle changes but did not",
+				repositoryListener.waitForModificationOn(IntentLocations.INTENT_INDEX));
 		waitForAllOperationsInUIThread();
 	}
 
 	/**
 	 * Wait for compiler to complete work.
 	 */
-	protected static void waitForCompiler() {
-		try {
-			Thread.sleep(COMPILER_DELAY);
-		} catch (InterruptedException e) {
-			// Nothing to do
-		}
+	protected void waitForCompiler() {
+		assertNotNull(
+				"Cannot wait for compiler : you need to initialize a repository listener by calling the registerRepositoryListener() method",
+				repositoryListener);
+		assertTrue("Time out : compiler should have handle changes but did not",
+				repositoryListener.waitForModificationOn(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH));
 		waitForAllOperationsInUIThread();
+	}
+
+	/**
+	 * Sets all fields of the current test case to null (to avoid memory leaks).
+	 */
+	private void setAllFieldsToNull() {
+		// For all fields defined in the current test and all its superclasses
+		for (Class<?> clazz = this.getClass(); clazz != TestCase.class; clazz = clazz.getSuperclass()) {
+			for (Field field : clazz.getDeclaredFields()) {
+				boolean isReference = !field.getType().isPrimitive();
+				try {
+					field.setAccessible(true);
+					boolean isSet = field.get(this) != null;
+					// We do not clean non set references
+					if (isReference && isSet) {
+						boolean isFinal = Modifier.isFinal(field.getModifiers());
+						// We do not clean final fields
+						if (!isFinal) {
+							// Setting the field to null
+							field.set(this, null);
+						}
+					}
+				} catch (IllegalArgumentException e) {
+					// Do nothing
+				} catch (IllegalAccessException e) {
+					// Do nothing
+				}
+			}
+		}
 	}
 
 }

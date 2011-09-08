@@ -13,14 +13,14 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.unit.project;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
-import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractUITest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 
 /**
  * Tests the correct behavior of Intent projects.
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class ProjectTest extends AbstractUITest {
+public class ProjectTest extends AbstractIntentUITest {
 
 	/**
 	 * {@inheritDoc}

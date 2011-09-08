@@ -72,8 +72,9 @@ public class JavaTest extends AbstractDemoTest {
 
 		// Step 2 : create a modeling unit section, check for the annotation
 		document37.set(getFileContent(SECTION_37_V1_FILENAME));
-		editor37.doSave(new NullProgressMonitor());
 
+		repositoryListener.startRecording();
+		editor37.doSave(new NullProgressMonitor());
 		waitForCompiler();
 
 		assertTrue(TEST_COMPILER_NO_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor37,
@@ -85,8 +86,9 @@ public class JavaTest extends AbstractDemoTest {
 
 		// Step 3 : update the modeling unit section, check that the last annotation disappeared
 		document37.set(getFileContent(SECTION_37_V2_FILENAME));
-		editor37.doSave(new NullProgressMonitor());
 
+		repositoryListener.startRecording();
+		editor37.doSave(new NullProgressMonitor());
 		waitForCompiler();
 
 		assertFalse(TEST_COMPILER_INVALID_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor37,
@@ -94,6 +96,7 @@ public class JavaTest extends AbstractDemoTest {
 				"-The required feature 'accessibleThrough' of 'patchingDifferences' must be set", true));
 
 		// Step 4 : create a java test class
+		repositoryListener.startRecording();
 		File javaTestFile = new File(JAVA_TEST_FILENAME);
 		IProject testProject = ResourcesPlugin.getWorkspace().getRoot()
 				.getProject("org.eclipse.emf.compare.tests");
@@ -103,6 +106,7 @@ public class JavaTest extends AbstractDemoTest {
 		newJavaTestIFile.create(is, false, new NullProgressMonitor());
 		is.close();
 		newJavaTestIFile.getParent().refreshLocal(IContainer.DEPTH_INFINITE, new NullProgressMonitor());
+		waitForSynchronizer();
 
 		// Step 5 : open 7.1, then check for the annotation
 		IntentEditor editor71 = openIntentEditor(getIntentSection(EDITOR_SECTION_7_1));
@@ -118,8 +122,9 @@ public class JavaTest extends AbstractDemoTest {
 
 		// Step 6.2 : update 7.2
 		document72.set(getFileContent(SECTION_72_FILENAME));
-		editor72.doSave(new NullProgressMonitor());
 
+		repositoryListener.startRecording();
+		editor72.doSave(new NullProgressMonitor());
 		waitForCompiler();
 
 		// Step 6.3 : check 7.1

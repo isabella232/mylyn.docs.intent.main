@@ -13,7 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
-import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractUITest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 
 /**
@@ -23,7 +23,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class ChangeEditorUpdateTest extends AbstractUITest {
+public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 
 	private static final String FAILURE_MESSAGE = "Editor update dit not occur has expected";
 
@@ -39,7 +39,7 @@ public class ChangeEditorUpdateTest extends AbstractUITest {
 
 	private static final String PREFIX_CHAPTER_2 = "\t}\n\tChapter {";
 
-	private static String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/editorupdates/changeEditorUpdateTest.intent";
+	private static final String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/editorupdates/changeEditorUpdateTest.intent";
 
 	private IntentSection section;
 

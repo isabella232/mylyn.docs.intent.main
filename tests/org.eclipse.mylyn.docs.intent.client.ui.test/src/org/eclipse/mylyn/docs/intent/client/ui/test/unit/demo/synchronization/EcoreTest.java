@@ -79,9 +79,12 @@ public class EcoreTest extends AbstractDemoTest {
 		EEnum sideEnum = (EEnum)matchPackage.getEClassifier("Side");
 		sideEnum.getEEnumLiteral("Left").setLiteral("Old");
 		sideEnum.getEEnumLiteral("Right").setLiteral("New");
-		modelResource.save(null);
 
-		waitForCompiler();
+		// we start recording for any modification made on the repository
+		repositoryListener.startRecording();
+		// save the changes made on the match.ecore model
+		modelResource.save(null);
+		// and wait the synchronizer to be notified
 		waitForSynchronizer();
 
 		// Step 2 : ensure that synchronization issues are detected
@@ -124,23 +127,27 @@ public class EcoreTest extends AbstractDemoTest {
 		String newContent = initialContent.substring(0, INSERTION_INDEX) + NEW_LITERAL_STRING
 				+ initialContent.substring(INSERTION_INDEX, initialContent.length());
 		document.set(newContent);
-		editor.doSave(new NullProgressMonitor());
 
+		// Step 2 : we start recording for any modification made on the repository
+		repositoryListener.startRecording();
+		// save
+		editor.doSave(new NullProgressMonitor());
+		// and wait the synchronizer and the compiler to be notified
 		waitForCompiler();
 		waitForSynchronizer();
 
-		// Step 2 : ensure that synchronization issues are detected
+		// Step 3 : ensure that synchronization issues are detected
 		IntentAnnotation annotation = AnnotationUtils.getIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_ANCESTOR, true);
 		assertNotNull(TEST_SYNCHRONIZER_NO_WARNING_MSG, annotation);
 
-		// Step 3 : apply quick fix
+		// Step 4 : apply quick fix
 		AnnotationUtils.applyAnnotationFix(annotation);
 
 		waitForCompiler();
 		waitForSynchronizer();
 
-		// Step 4 : ensure that synchronization issues no longer exists
+		// Step 5 : ensure that synchronization issues no longer exists
 		assertFalse(TEST_SYNCHRONIZER_INVALID_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_ANCESTOR, true));
 	}

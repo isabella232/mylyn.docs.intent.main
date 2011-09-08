@@ -14,6 +14,10 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.mylyn.docs.intent.collab.handlers.LockMode;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
@@ -166,9 +170,20 @@ public abstract class AbstractRepositoryObjectHandler implements RepositoryObjec
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
-	public void handleChangeNotification(RepositoryChangeNotification notification) {
-		for (RepositoryClient client : subscribedClients) {
-			client.handleChangeNotification(notification);
+	public void handleChangeNotification(final RepositoryChangeNotification notification) {
+		if (!subscribedClients.isEmpty()) {
+			Job notifyClientsJob = new Job("Notifying Intent clients") {
+
+				@Override
+				protected IStatus run(IProgressMonitor monitor) {
+					for (RepositoryClient client : subscribedClients) {
+						client.handleChangeNotification(notification);
+					}
+					return Status.OK_STATUS;
+				}
+
+			};
+			notifyClientsJob.schedule();
 		}
 	}
 }

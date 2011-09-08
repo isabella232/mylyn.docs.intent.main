@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
-import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractUITest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AnnotationUtils;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 
@@ -39,8 +39,8 @@ import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class IntentAbstractResourceTest extends AbstractUITest {
-	private static String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/scenario/abstract_resources.intent";
+public class IntentAbstractResourceTest extends AbstractIntentUITest {
+	private static final String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/scenario/abstract_resources.intent";
 
 	private IntentEditor editor;
 
@@ -54,7 +54,11 @@ public class IntentAbstractResourceTest extends AbstractUITest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		setUpIntentProject("intentProject", INTENT_DOCUMENT_EXAMPLE_PATH);
+
+		// Step 1 : Generic set up
+		setUpIntentProject("intentProject", INTENT_DOCUMENT_EXAMPLE_PATH, true);
+
+		// Step 2 : open an editor on the root document
 		editor = openIntentEditor();
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 	}
@@ -63,16 +67,19 @@ public class IntentAbstractResourceTest extends AbstractUITest {
 	 * Ensures that abstract resources are not synchronized.
 	 */
 	public void testAbstractResourceIsNotSynchronized() {
-
 		// Step 1 : make a sample modification on modeling units, just to launch the synchronizer
 		String documentContent = document.get();
 		String expectedDocumentContent = documentContent.replace("myEClass", "myEClass2");
 		document.set(expectedDocumentContent);
-		editor.doSave(new NullProgressMonitor());
 
+		// Step 2 : we start recording for any modification made on the repository
+		repositoryListener.startRecording();
+		// save
+		editor.doSave(new NullProgressMonitor());
+		// and wait the synchronizer to be notified
 		waitForSynchronizer();
 
-		// Step 2 : we check that no synchronization error has been detected
+		// Step 3 : we check that no synchronization error has been detected
 		assertFalse("An abstract resource should not be handled by the Intent synchronizer",
 				AnnotationUtils.hasIntentAnnotation(editor, IntentAnnotationMessageType.SYNC_WARNING, "",
 						false));
@@ -86,11 +93,15 @@ public class IntentAbstractResourceTest extends AbstractUITest {
 		String documentContent = document.get();
 		String expectedDocumentContent = documentContent.replace("myEClass", "myEClass2");
 		document.set(expectedDocumentContent);
-		editor.doSave(new NullProgressMonitor());
 
+		// Step 2 : we start recording for any modification made on the repository
+		repositoryListener.startRecording();
+		// save
+		editor.doSave(new NullProgressMonitor());
+		// and wait the compiler to be notified
 		waitForCompiler();
 
-		// Step 2 : we check that the resource has correctly been compiled :
+		// Step 3 : we check that the resource has correctly been compiled :
 		// => no error should have been found
 		assertFalse("The Abstract Resource was not correctly compiled", AnnotationUtils.hasIntentAnnotation(
 				editor, IntentAnnotationMessageType.COMPILER_ERROR, "", false));
@@ -136,22 +147,27 @@ public class IntentAbstractResourceTest extends AbstractUITest {
 			String expectedDocumentContent = documentContent.replace("Resource abstractResource {",
 					"Resource abstractResource {" + resourceURIDeclaration);
 			document.set(expectedDocumentContent);
-			editor.doSave(new NullProgressMonitor());
 
+			// Step 3 : we start recording for any modification made on the repository
+			repositoryListener.startRecording();
+			// save
+			editor.doSave(new NullProgressMonitor());
+			// and wait the synchronizer to be notified
 			waitForSynchronizer();
 
-			// Step 3 : we check that new synchronization errors have been detected
+			// Step 4 : we check that new synchronization errors have been detected
 			assertTrue("A concrete resource should be handled by the Intent synchronizer",
 					AnnotationUtils.hasIntentAnnotation(editor, IntentAnnotationMessageType.SYNC_WARNING, "",
 							false));
 
-			// Step 4 : we make this concrete resource abstract again
+			// Step 5 : we make this concrete resource abstract again
 			document.set(document.get().replace(resourceURIDeclaration, ""));
-			editor.doSave(new NullProgressMonitor());
 
+			repositoryListener.startRecording();
+			editor.doSave(new NullProgressMonitor());
 			waitForSynchronizer();
 
-			// Step 5 : we check that no synchronization errors has been detected
+			// Step 6 : we check that no synchronization errors has been detected
 			assertFalse("An abstract resource should not be handled by the Intent synchronizer",
 					AnnotationUtils.hasIntentAnnotation(editor, IntentAnnotationMessageType.SYNC_WARNING, "",
 							false));

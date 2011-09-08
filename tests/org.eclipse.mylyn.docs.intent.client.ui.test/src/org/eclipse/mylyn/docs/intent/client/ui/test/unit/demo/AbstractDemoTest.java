@@ -12,7 +12,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractUITest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
 
 /**
@@ -20,7 +20,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public abstract class AbstractDemoTest extends AbstractUITest {
+public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 	protected static final String TEST_COMPILER_NO_ERROR_MSG = "The compiler failed to detect errors";
 
@@ -43,7 +43,7 @@ public abstract class AbstractDemoTest extends AbstractUITest {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractUITest#setUp()
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest#setUp()
 	 */
 	@Override
 	protected void setUp() throws Exception {
@@ -51,7 +51,8 @@ public abstract class AbstractDemoTest extends AbstractUITest {
 		WorkspaceUtils.unzipAllProjects(BUNDLE_NAME, DEMO_ZIP_LOCATION, new NullProgressMonitor());
 		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
 		setUpRepository(intentProject);
-		waitForIndexer();
+		registerRepositoryListener();
+		// waitForIndexer();
 	}
 
 }

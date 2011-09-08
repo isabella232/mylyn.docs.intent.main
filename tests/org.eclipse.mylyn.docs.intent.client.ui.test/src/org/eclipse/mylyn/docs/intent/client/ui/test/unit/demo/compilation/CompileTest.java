@@ -62,21 +62,25 @@ public class CompileTest extends AbstractDemoTest {
 		String initialContent = document.get();
 		String newContent = initialContent.replaceFirst(NO_ERROR_TEXT_PATTERN, ERROR_TEXT_PATTERN);
 		document.set(newContent);
-		editor.doSave(new NullProgressMonitor());
 
+		// Step 2 : we start recording for any modification made on the repository
+		repositoryListener.startRecording();
+		// save
+		editor.doSave(new NullProgressMonitor());
+		// and wait the compiler to be notified
 		waitForCompiler();
 
-		// Step 2 : ensure that the compilation error has been detected
+		// Step 3 : ensure that the compilation error has been detected
 		assertTrue(TEST_COMPILER_NO_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, COMPILATION_ERROR_MESSAGE, true));
 
-		// Step 3 : fix the error by resetting the content
+		// Step 4 : fix the error by resetting the content
 		document.set(initialContent);
 		editor.doSave(new NullProgressMonitor());
 
 		waitForCompiler();
 
-		// Step 4 : ensure that the compilation error no longer exists
+		// Step 5 : ensure that the compilation error no longer exists
 		assertFalse(TEST_COMPILER_INVALID_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, COMPILATION_ERROR_MESSAGE, true));
 	}
@@ -89,8 +93,12 @@ public class CompileTest extends AbstractDemoTest {
 		String initialContent = document.get();
 		String newContent = initialContent.replaceFirst(NO_INFOS_TEXT_PATTERN, INFOS_TEXT_PATTERN);
 		document.set(newContent);
-		editor.doSave(new NullProgressMonitor());
 
+		// Step 2 : we start recording for any modification made on the repository
+		repositoryListener.startRecording();
+		// save
+		editor.doSave(new NullProgressMonitor());
+		// and wait the compiler to be notified
 		waitForCompiler();
 
 		// Step 2 : ensure that the compilation info has been detected
@@ -99,8 +107,8 @@ public class CompileTest extends AbstractDemoTest {
 
 		// Step 3 : fix the info by resetting the content
 		document.set(initialContent);
+		repositoryListener.startRecording();
 		editor.doSave(new NullProgressMonitor());
-
 		waitForCompiler();
 
 		// Step 4 : ensure that the compilation info no longer exists
