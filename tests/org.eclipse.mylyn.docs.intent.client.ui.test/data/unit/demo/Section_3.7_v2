@@ -1,0 +1,15 @@
+Section {
+	Using patches for merging models
+
+	With EMF Compare, you will be able patch differences between two models and apply 
+	them using the standard Eclipse API.
+	
+	@M
+		emfCompareProduct {
+			features += new EndUserFeature patchingDifferences {
+				accessibleThrough += compareDialog;
+			};
+		}
+	M@
+	
+}

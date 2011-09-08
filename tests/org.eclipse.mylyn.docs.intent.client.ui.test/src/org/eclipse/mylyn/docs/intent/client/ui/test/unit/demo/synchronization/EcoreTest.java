@@ -39,8 +39,6 @@ public class EcoreTest extends AbstractDemoTest {
 
 	private static final String SYNC_WARNING_MESSAGE_ANCESTOR = "The EEnumLiteral Ancestor is defined in the <b>Current Document</b> model<br/>but not in the <b>Working Copy</b> model.";
 
-	private static final String SYNCHRONIZATION_FAILED_MSG = "The synchronizer failed to detect the warning";
-
 	private static final String MATCH_MODEL_URI = "platform:/resource/org.eclipse.emf.compare.match/model/match.ecore";
 
 	private static final int INSERTION_INDEX = 912;
@@ -87,9 +85,9 @@ public class EcoreTest extends AbstractDemoTest {
 		waitForSynchronizer();
 
 		// Step 2 : ensure that synchronization issues are detected
-		assertTrue(SYNCHRONIZATION_FAILED_MSG, AnnotationUtils.hasIntentAnnotation(editor,
+		assertTrue(TEST_SYNCHRONIZER_NO_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_LEFT, true));
-		assertTrue(SYNCHRONIZATION_FAILED_MSG, AnnotationUtils.hasIntentAnnotation(editor,
+		assertTrue(TEST_SYNCHRONIZER_NO_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_RIGHT, true));
 
 		// Step 3 : update the document
@@ -104,9 +102,9 @@ public class EcoreTest extends AbstractDemoTest {
 		waitForSynchronizer();
 
 		// Step 4 : ensure that synchronization issues no longer exists
-		assertFalse(SYNCHRONIZATION_FAILED_MSG, AnnotationUtils.hasIntentAnnotation(editor,
+		assertFalse(TEST_SYNCHRONIZER_INVALID_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_LEFT, true));
-		assertFalse(SYNCHRONIZATION_FAILED_MSG, AnnotationUtils.hasIntentAnnotation(editor,
+		assertFalse(TEST_SYNCHRONIZER_INVALID_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_RIGHT, true));
 
 	}
@@ -134,7 +132,7 @@ public class EcoreTest extends AbstractDemoTest {
 		// Step 2 : ensure that synchronization issues are detected
 		IntentAnnotation annotation = AnnotationUtils.getIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_ANCESTOR, true);
-		assertNotNull(SYNCHRONIZATION_FAILED_MSG, annotation);
+		assertNotNull(TEST_SYNCHRONIZER_NO_WARNING_MSG, annotation);
 
 		// Step 3 : apply quick fix
 		AnnotationUtils.applyAnnotationFix(annotation);
@@ -143,7 +141,7 @@ public class EcoreTest extends AbstractDemoTest {
 		waitForSynchronizer();
 
 		// Step 4 : ensure that synchronization issues no longer exists
-		assertFalse(SYNCHRONIZATION_FAILED_MSG, AnnotationUtils.hasIntentAnnotation(editor,
+		assertFalse(TEST_SYNCHRONIZER_INVALID_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_ANCESTOR, true));
 	}
 

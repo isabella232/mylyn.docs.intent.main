@@ -105,7 +105,9 @@ public final class AnnotationUtils {
 	 * @param syncAnnotation
 	 *            the sync annotation
 	 * @throws InterruptedException
-	 *             if the match fails
+	 *             if matching fails
+	 * @throws IOException
+	 *             if merging fails
 	 */
 	public static void applyAnnotationFix(IntentAnnotation syncAnnotation) throws IOException,
 			InterruptedException {
@@ -131,4 +133,25 @@ public final class AnnotationUtils {
 		// Step 3.3 : Save model
 		workingCopyResource.save(null);
 	}
+
+	/**
+	 * Displays the annotations for the given editor.
+	 * 
+	 * @param intentEditor
+	 *            the editor
+	 */
+	public static void displayAnnotations(IntentEditor intentEditor) {
+		System.err.println("Annotations in \"" + intentEditor.getPartName() + "\":");
+		Iterator annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
+				.getAnnotationModel(null).getAnnotationIterator();
+		while (annotationIterator.hasNext()) {
+			Object o = annotationIterator.next();
+			if (o instanceof IntentAnnotation) {
+				IntentAnnotation annotation = (IntentAnnotation)o;
+				System.err.println(annotation.getType() + " " + annotation.getText());
+			}
+		}
+		System.err.println();
+	}
+
 }

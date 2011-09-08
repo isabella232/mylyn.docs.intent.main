@@ -19,6 +19,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpd
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.compilation.CompileTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening.OpenEditorTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.EcoreTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.JavaTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 
@@ -69,7 +70,7 @@ public class UITestSuite extends TestCase {
 		demoSuite.addTestSuite(OpenEditorTest.class);
 		demoSuite.addTestSuite(CompileTest.class);
 		demoSuite.addTestSuite(EcoreTest.class);
-		// demoSuite.addTestSuite(JavaTest.class);
+		demoSuite.addTestSuite(JavaTest.class);
 
 		suite.addTest(demoSuite);
 

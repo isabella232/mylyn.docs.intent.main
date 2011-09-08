@@ -53,7 +53,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 
 	public static final String INTENT_NEW_PROJECT_WIZARD_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.wizards.NewIntentProjectWizard";
 
-	private static final int COMPILER_DELAY = 1000;
+	private static final int COMPILER_DELAY = 1500;
 
 	private static final int SYNCHRONIZER_DELAY = 2000;
 
@@ -88,6 +88,7 @@ public abstract class AbstractUITest extends TestCase implements ILogListener {
 	 */
 	@Override
 	protected void tearDown() throws Exception {
+		waitForAllOperationsInUIThread();
 		if (intentProject != null) {
 			intentProject.delete(true, true, new NullProgressMonitor());
 		}

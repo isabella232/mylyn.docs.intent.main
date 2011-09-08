@@ -67,7 +67,7 @@ public class CompileTest extends AbstractDemoTest {
 		waitForCompiler();
 
 		// Step 2 : ensure that the compilation error has been detected
-		assertTrue("The compiler failed to detect errors", AnnotationUtils.hasIntentAnnotation(editor,
+		assertTrue(TEST_COMPILER_NO_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, COMPILATION_ERROR_MESSAGE, true));
 
 		// Step 3 : fix the error by resetting the content
@@ -77,7 +77,7 @@ public class CompileTest extends AbstractDemoTest {
 		waitForCompiler();
 
 		// Step 4 : ensure that the compilation error no longer exists
-		assertFalse("The compiler detected invalid errors", AnnotationUtils.hasIntentAnnotation(editor,
+		assertFalse(TEST_COMPILER_INVALID_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, COMPILATION_ERROR_MESSAGE, true));
 	}
 
@@ -94,7 +94,7 @@ public class CompileTest extends AbstractDemoTest {
 		waitForCompiler();
 
 		// Step 2 : ensure that the compilation info has been detected
-		assertTrue("The compiler failed to detect infos", AnnotationUtils.hasIntentAnnotation(editor,
+		assertTrue(TEST_COMPILER_NO_INFO_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_INFO, COMPILATION_INFO_MESSAGE, true));
 
 		// Step 3 : fix the info by resetting the content
@@ -104,7 +104,7 @@ public class CompileTest extends AbstractDemoTest {
 		waitForCompiler();
 
 		// Step 4 : ensure that the compilation info no longer exists
-		assertFalse("The compiler detected invalid infos", AnnotationUtils.hasIntentAnnotation(editor,
+		assertFalse(TEST_COMPILER_INVALID_INFO_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_INFO, COMPILATION_INFO_MESSAGE, true));
 	}
 

@@ -22,6 +22,18 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
  */
 public abstract class AbstractDemoTest extends AbstractUITest {
 
+	protected static final String TEST_COMPILER_NO_ERROR_MSG = "The compiler failed to detect errors";
+
+	protected static final String TEST_COMPILER_INVALID_ERROR_MSG = "The compiler detected invalid errors";
+
+	protected static final String TEST_COMPILER_NO_INFO_MSG = "The compiler failed to detect infos";
+
+	protected static final String TEST_COMPILER_INVALID_INFO_MSG = "The compiler detected invalid infos";
+
+	protected static final String TEST_SYNCHRONIZER_NO_WARNING_MSG = "The synchronizer failed to detect errors";
+
+	protected static final String TEST_SYNCHRONIZER_INVALID_WARNING_MSG = "The synchronizer failed to detect errors";
+
 	private static final String DEMO_ZIP_LOCATION = "data/unit/demo/demo.zip";
 
 	private static final String BUNDLE_NAME = "org.eclipse.mylyn.docs.intent.client.ui.test";

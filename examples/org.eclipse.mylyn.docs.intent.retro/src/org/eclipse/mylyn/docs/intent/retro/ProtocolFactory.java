@@ -60,7 +60,7 @@ public class ProtocolFactory implements Resource.Factory {
 					tst.setSwtBotClassName(string.substring(lastIndexOf + 1).replace(".java", ""));
 					System.err.println(string.substring(0, lastIndexOf));
 					System.err.println(string.substring(lastIndexOf));
-					// rPrj.getAcceptanceTests().add(tst);
+					rPrj.getAcceptanceTests().add(tst);
 
 				}
 				return true;

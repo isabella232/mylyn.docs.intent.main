@@ -1,0 +1,14 @@
+Section {
+	Acceptance tests
+
+	In this section, we will present all the acceptance tests that have been written in EMF Compare.
+	
+	@M
+		emfCompareTestProject {
+			acceptanceTests += new AcceptanceTest patchCreationTest {
+				package = "acceptance.comparedialog.patch";
+				swtBotClassName = "PatchCreationThroughCompareDialogTest";
+			};
+		}
+	M@
+}
