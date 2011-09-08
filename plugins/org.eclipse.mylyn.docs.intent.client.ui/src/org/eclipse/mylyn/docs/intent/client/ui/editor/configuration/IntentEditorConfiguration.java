@@ -14,12 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.text.contentassist.ContentAssistant;
+import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.quickassist.IQuickAssistAssistant;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.completion.DescriptionUnitCompletionProcessor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix.IntentQuickAssistant;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.AbstractIntentScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentDescriptionUnitScanner;
@@ -36,13 +40,6 @@ import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
  *         contributed by @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
-
-	/**
-	 * The delay after which the content assistant is automatically invoked if the cursor is behind an auto
-	 * activation character.
-	 */
-	// private static final int COMPLETION_AUTO_ACTIVATION_DELAY = 1000;
-
 	/**
 	 * The editor.
 	 */
@@ -126,5 +123,20 @@ public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
 	public IQuickAssistAssistant getQuickAssistAssistant(ISourceViewer sourceViewer) {
 		// We create an IntentQuickAssistant
 		return new IntentQuickAssistant();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getContentAssistant(org.eclipse.jface.text.source.ISourceViewer)
+	 */
+	@Override
+	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
+		ContentAssistant ca = new ContentAssistant();
+		ca.setContentAssistProcessor(new DescriptionUnitCompletionProcessor(),
+				IntentDocumentProvider.INTENT_DESCRIPTIONUNIT);
+		// TODO manage other partitions
+		ca.setInformationControlCreator(getInformationControlCreator(sourceViewer));
+		return ca;
 	}
 }
