@@ -109,24 +109,24 @@ public class JavaTest extends AbstractDemoTest {
 		assertTrue(TEST_SYNCHRONIZER_NO_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor71,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MSG, false));
 
-		// Step 5 : fix error from 7.1 in 7.2
+		// Step 6 : fix error from 7.1 in 7.2
 
-		// Step 5.1 : open 7.2
+		// Step 6.1 : open 7.2
 		IntentEditor editor72 = openIntentEditor(getIntentSection(EDITOR_SECTION_7_2));
 		IntentEditorDocument document72 = (IntentEditorDocument)editor72.getDocumentProvider().getDocument(
 				editor72.getEditorInput());
 
-		// Step 5.2 : update 7.2
+		// Step 6.2 : update 7.2
 		document72.set(getFileContent(SECTION_72_FILENAME));
 		editor72.doSave(new NullProgressMonitor());
 
 		waitForCompiler();
 
-		// Step 5.3 : check 7.1
+		// Step 6.3 : check 7.1
 		assertFalse(TEST_SYNCHRONIZER_NO_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor71,
 				IntentAnnotationMessageType.COMPILER_INFO, SYNC_WARNING_MSG, true));
 
-		// Step 6 : fix error in 3.7
+		// Step 7 : fix error in 3.7
 		document37.set(getFileContent(SECTION_37_V3_FILENAME));
 		editor37.doSave(new NullProgressMonitor());
 		assertFalse(TEST_COMPILER_INVALID_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor37,
