@@ -74,7 +74,7 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 		offsetsByContextType[DOCUMENT_CONTEXT] = getLastIndexOf(startText, DOCUMENT_PATTERN);
 		offsetsByContextType[CHAPTER_CONTEXT] = getLastIndexOf(startText, CHAPTER_PATTERN);
 		offsetsByContextType[SECTION_CONTEXT] = getLastIndexOf(startText, SECTION_PATTERN);
-
+		// TODO improve with pair matcher
 		int res = DOCUMENT_CONTEXT;
 		int maxValue = offsetsByContextType[0];
 		for (int i = 1; i < offsetsByContextType.length; i++) {
