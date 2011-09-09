@@ -13,10 +13,19 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.completion;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.Region;
+import org.eclipse.jface.text.contentassist.CompletionProposal;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.jface.text.contentassist.IContextInformationValidator;
+import org.eclipse.jface.text.templates.DocumentTemplateContext;
+import org.eclipse.jface.text.templates.Template;
+import org.eclipse.jface.text.templates.TemplateContext;
+import org.eclipse.jface.text.templates.TemplateContextType;
+import org.eclipse.jface.text.templates.TemplateProposal;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * Computes the completion proposals.
@@ -39,6 +48,11 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	protected int offset;
 
 	/**
+	 * The current word.
+	 */
+	protected String start;
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#computeCompletionProposals(org.eclipse.jface.text.ITextViewer,
@@ -52,6 +66,13 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 		} else {
 			offset = currentOffset;
 		}
+		// get the currently typed word
+		int index = offset;
+		String text = document.get();
+		while (index > 0 && Character.isJavaIdentifierPart(text.charAt(index - 1))) {
+			index--;
+		}
+		start = text.substring(index, offset);
 		try {
 			return computeCompletionProposals();
 		} finally {
@@ -111,6 +132,50 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	 */
 	public IContextInformationValidator getContextInformationValidator() {
 		return null;
+	}
+
+	/**
+	 * Returns the context type related to the completion processor.
+	 * 
+	 * @return the context type related to the completion processor
+	 */
+	public abstract String getContextType();
+
+	/**
+	 * Create a keyword proposal with the given parameters.
+	 * 
+	 * @param keyword
+	 *            the keyword
+	 * @return the keyword proposal
+	 */
+	protected ICompletionProposal createKeyWordProposal(String keyword) {
+		return new CompletionProposal(keyword, offset, 0, keyword.length());
+	}
+
+	/**
+	 * Create a template proposal with the given parameters.
+	 * 
+	 * @param templateName
+	 *            the template name
+	 * @param templateDescription
+	 *            the template description
+	 * @param templatePattern
+	 *            the template pattern
+	 * @param templateImagePath
+	 *            the template image
+	 * @return the template proposal
+	 */
+	protected TemplateProposal createTemplateProposal(String templateName, String templateDescription,
+			String templatePattern, String templateImagePath) {
+		int startLength = start.length();
+		Template template = new Template(templateName, templateDescription, getContextType(),
+				templatePattern, true);
+		TemplateContextType type = new TemplateContextType(getContextType(), getContextType());
+		TemplateContext context = new DocumentTemplateContext(type, document, offset - startLength,
+				startLength);
+		Region region = new Region(offset - startLength, startLength);
+		Image image = IntentEditorActivator.getDefault().getImage(templateImagePath);
+		return new TemplateProposal(template, context, region, image);
 	}
 
 }
