@@ -12,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.AbstractInformationControlManager;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IInformationControl;
@@ -25,12 +26,14 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditorConfiguration;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentOutlinePage;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentQuickOutlineControl;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.QuickOutlineInformationProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.ModelingUnitDecorationPainter;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -45,6 +48,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.texteditor.ChainedPreferenceStore;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
@@ -55,17 +59,6 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentEditor extends TextEditor {
-
-	// /**
-	// * Preference key for matching brackets.
-	// */
-	// private static final String MATCHING_BRACKETS = PreferenceConstants.EDITOR_MATCHING_BRACKETS;
-	//
-	// /**
-	// * Preference key for matching brackets color.
-	// */
-	// private static final String MATCHING_BRACKETS_COLOR =
-	// PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR;
 
 	/**
 	 * The String representing this Editor context.
@@ -414,12 +407,13 @@ public class IntentEditor extends TextEditor {
 	@Override
 	protected void configureSourceViewerDecorationSupport(SourceViewerDecorationSupport support) {
 		support.setCharacterPairMatcher(blockMatcher);
-		// support.setMatchingCharacterPainterPreferenceKeys(MATCHING_BRACKETS, MATCHING_BRACKETS_COLOR);
-		// IPreferenceStore pref = JavaPlugin.getDefault().getPreferenceStore();
-		// IPreferenceStore[] stores = {getPreferenceStore(), pref,
-		// };
-		// setPreferenceStore(new ChainedPreferenceStore(stores));
-		// support.install(getPreferenceStore());
+		support.setMatchingCharacterPainterPreferenceKeys(IntentPreferenceConstants.MATCHING_BRACKETS,
+				IntentPreferenceConstants.MATCHING_BRACKETS_COLOR);
+		IPreferenceStore pref = IntentEditorActivator.getDefault().getPreferenceStore();
+		IPreferenceStore[] stores = {getPreferenceStore(), pref,
+		};
+		setPreferenceStore(new ChainedPreferenceStore(stores));
+		support.install(getPreferenceStore());
 		super.configureSourceViewerDecorationSupport(support);
 	}
 }

@@ -263,4 +263,11 @@
             parentId="org.eclipse.ui.textEditorScope">
       </context>
    </extension>
+   
+       <extension
+          point="org.eclipse.core.runtime.preferences">
+       <initializer
+             class="org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceInitializer">
+       </initializer>
+    </extension>
 </plugin>
