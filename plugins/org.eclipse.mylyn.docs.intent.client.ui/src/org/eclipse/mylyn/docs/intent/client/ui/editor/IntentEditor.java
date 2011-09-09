@@ -45,6 +45,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
 /**
@@ -54,6 +55,17 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentEditor extends TextEditor {
+
+	// /**
+	// * Preference key for matching brackets.
+	// */
+	// private static final String MATCHING_BRACKETS = PreferenceConstants.EDITOR_MATCHING_BRACKETS;
+	//
+	// /**
+	// * Preference key for matching brackets color.
+	// */
+	// private static final String MATCHING_BRACKETS_COLOR =
+	// PreferenceConstants.EDITOR_MATCHING_BRACKETS_COLOR;
 
 	/**
 	 * The String representing this Editor context.
@@ -78,11 +90,17 @@ public class IntentEditor extends TextEditor {
 	private IntentQuickOutlineControl currentQuickOutline;
 
 	/**
+	 * The editor's blocks matcher.
+	 */
+	private IntentPairMatcher blockMatcher;
+
+	/**
 	 * Default constructor.
 	 */
 	public IntentEditor() {
 		super();
 		colorManager = new ColorManager();
+		blockMatcher = new IntentPairMatcher();
 	}
 
 	/**
@@ -147,6 +165,13 @@ public class IntentEditor extends TextEditor {
 	public void dispose() {
 		((IntentDocumentProvider)this.getDocumentProvider()).close();
 		super.dispose();
+		/*
+		 * Dispose the block matcher
+		 */
+		if (blockMatcher != null) {
+			blockMatcher.dispose();
+			blockMatcher = null;
+		}
 		colorManager.dispose();
 	}
 
@@ -377,4 +402,24 @@ public class IntentEditor extends TextEditor {
 		setPartName(titleFromElement);
 	}
 
+	public IntentPairMatcher getBlockMatcher() {
+		return blockMatcher;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#configureSourceViewerDecorationSupport(org.eclipse.ui.texteditor.SourceViewerDecorationSupport)
+	 */
+	@Override
+	protected void configureSourceViewerDecorationSupport(SourceViewerDecorationSupport support) {
+		support.setCharacterPairMatcher(blockMatcher);
+		// support.setMatchingCharacterPainterPreferenceKeys(MATCHING_BRACKETS, MATCHING_BRACKETS_COLOR);
+		// IPreferenceStore pref = JavaPlugin.getDefault().getPreferenceStore();
+		// IPreferenceStore[] stores = {getPreferenceStore(), pref,
+		// };
+		// setPreferenceStore(new ChainedPreferenceStore(stores));
+		// support.install(getPreferenceStore());
+		super.configureSourceViewerDecorationSupport(support);
+	}
 }

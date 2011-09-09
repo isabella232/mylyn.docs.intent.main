@@ -133,7 +133,7 @@ public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
 	@Override
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 		ContentAssistant ca = new ContentAssistant();
-		ca.setContentAssistProcessor(new DescriptionUnitCompletionProcessor(),
+		ca.setContentAssistProcessor(new DescriptionUnitCompletionProcessor(editor.getBlockMatcher()),
 				IntentDocumentProvider.INTENT_DESCRIPTIONUNIT);
 		// TODO manage other partitions
 		ca.setInformationControlCreator(getInformationControlCreator(sourceViewer));

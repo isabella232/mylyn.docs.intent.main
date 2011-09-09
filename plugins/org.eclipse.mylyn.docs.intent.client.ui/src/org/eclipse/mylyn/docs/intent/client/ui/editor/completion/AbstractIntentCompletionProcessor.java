@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.completion;
 
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -28,14 +29,9 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	};
 
 	/**
-	 * The current text viewer.
+	 * The document.
 	 */
-	protected ITextViewer textViewer;
-
-	/**
-	 * The text used to compute the proposals.
-	 */
-	protected String text;
+	protected IDocument document;
 
 	/**
 	 * An offset within the text for which completions should be computed.
@@ -49,8 +45,7 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	 *      int)
 	 */
 	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int currentOffset) {
-		textViewer = viewer;
-		text = viewer.getDocument().get();
+		document = viewer.getDocument();
 		ITextSelection selection = (ITextSelection)viewer.getSelectionProvider().getSelection();
 		if (selection != null && selection.getOffset() == currentOffset) {
 			offset = selection.getOffset() + selection.getLength();
@@ -60,8 +55,7 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 		try {
 			return computeCompletionProposals();
 		} finally {
-			textViewer = null;
-			text = null;
+			document = null;
 			offset = 0;
 		}
 	}

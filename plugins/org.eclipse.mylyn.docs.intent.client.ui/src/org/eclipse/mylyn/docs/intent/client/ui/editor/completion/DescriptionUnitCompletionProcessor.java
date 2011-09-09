@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.templates.DocumentTemplateContext;
@@ -24,6 +26,8 @@ import org.eclipse.jface.text.templates.TemplateContextType;
 import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentPairMatcher;
+import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -39,6 +43,8 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 
 	private static final Pattern DOCUMENT_PATTERN = Pattern.compile("Document\\s*\\{");
 
+	private static final int NULL_CONTEXT = -1;
+
 	private static final int DOCUMENT_CONTEXT = 0;
 
 	private static final int CHAPTER_CONTEXT = 1;
@@ -47,16 +53,32 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 
 	private int accurateContext;
 
+	private IntentPairMatcher blockMatcher;
+
+	/**
+	 * Creates a new {@link DescriptionUnitCompletionProcessor} with the given {@link IntentPairMatcher}.
+	 * 
+	 * @param matcher
+	 *            the block matcher
+	 */
+	public DescriptionUnitCompletionProcessor(IntentPairMatcher matcher) {
+		this.blockMatcher = matcher;
+	}
+
 	/**
 	 * Computes the completion proposals.
 	 * 
 	 * @return the completion proposals
 	 */
 	protected ICompletionProposal[] computeCompletionProposals() {
-		computeAccurateContext();
-
+		try {
+			computeAccurateContext();
+		} catch (BadLocationException e) {
+			IntentUiLogger.logError(e);
+		}
 		// get the currently typed word
 		int index = offset;
+		String text = document.get();
 		while (index > 0 && Character.isJavaIdentifierPart(text.charAt(index - 1))) {
 			index--;
 		}
@@ -68,19 +90,21 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 		return proposals.toArray(new ICompletionProposal[proposals.size()]);
 	}
 
-	private void computeAccurateContext() {
+	private void computeAccurateContext() throws BadLocationException {
 		int[] offsetsByContextType = new int[3];
-		final String startText = text.substring(0, offset);
+		final String startText = document.get(0, offset);
 		offsetsByContextType[DOCUMENT_CONTEXT] = getLastIndexOf(startText, DOCUMENT_PATTERN);
 		offsetsByContextType[CHAPTER_CONTEXT] = getLastIndexOf(startText, CHAPTER_PATTERN);
 		offsetsByContextType[SECTION_CONTEXT] = getLastIndexOf(startText, SECTION_PATTERN);
-		// TODO improve with pair matcher
-		int res = DOCUMENT_CONTEXT;
-		int maxValue = offsetsByContextType[0];
-		for (int i = 1; i < offsetsByContextType.length; i++) {
+		int res = NULL_CONTEXT;
+		int maxValue = -1;
+		for (int i = 0; i < offsetsByContextType.length; i++) {
 			if (offsetsByContextType[i] > maxValue) {
-				maxValue = offsetsByContextType[i];
-				res = i;
+				IRegion region = blockMatcher.match(document, offsetsByContextType[i]);
+				if (region != null && region.getOffset() + region.getLength() > offset) {
+					maxValue = offsetsByContextType[i];
+					res = i;
+				}
 			}
 		}
 		accurateContext = res;
@@ -88,10 +112,11 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 
 	private int getLastIndexOf(String text, Pattern pattern) {
 		Matcher matcher = pattern.matcher(text);
-		if (matcher.find()) {
-			return matcher.end();
+		int end = -1;
+		while (matcher.find()) {
+			end = matcher.end();
 		}
-		return -1;
+		return end;
 	}
 
 	private List<TemplateProposal> createTemplatesProposals(String start) {
@@ -129,8 +154,8 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 				IntentDocumentProvider.INTENT_DESCRIPTIONUNIT, templatePattern, true);
 		TemplateContextType type = new TemplateContextType(IntentDocumentProvider.INTENT_DESCRIPTIONUNIT,
 				IntentDocumentProvider.INTENT_DESCRIPTIONUNIT);
-		TemplateContext context = new DocumentTemplateContext(type, textViewer.getDocument(), offset
-				- startLength, startLength);
+		TemplateContext context = new DocumentTemplateContext(type, document, offset - startLength,
+				startLength);
 		Region region = new Region(offset - startLength, startLength);
 		Image image = IntentEditorActivator.getDefault().getImage(templateImagePath);
 		final TemplateProposal templateProposal = new TemplateProposal(template, context, region, image);
