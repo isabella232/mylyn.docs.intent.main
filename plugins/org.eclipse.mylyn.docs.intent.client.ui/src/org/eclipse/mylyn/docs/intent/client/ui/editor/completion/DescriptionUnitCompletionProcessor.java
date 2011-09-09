@@ -58,7 +58,7 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 			new String[] {"Section",
 			},
 			// Section-level keywords
-			new String[] {"Section", "@M", "M@",
+			new String[] {"Section", "@M",
 			},
 	};
 
