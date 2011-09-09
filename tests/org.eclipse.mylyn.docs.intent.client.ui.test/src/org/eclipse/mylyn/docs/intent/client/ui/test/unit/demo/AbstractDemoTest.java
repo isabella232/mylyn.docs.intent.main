@@ -12,8 +12,10 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
+import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 
 /**
  * Tests the Intent demo, part 1: navigation behavior.
@@ -34,6 +36,8 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 	protected static final String TEST_SYNCHRONIZER_INVALID_WARNING_MSG = "The synchronizer failed to detect errors";
 
+	private static final int TIME_TO_WAIT = 150;
+
 	private static final String DEMO_ZIP_LOCATION = "data/unit/demo/demo.zip";
 
 	private static final String BUNDLE_NAME = "org.eclipse.mylyn.docs.intent.client.ui.test";
@@ -48,11 +52,24 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+
+		// Step 1 : import the demo projects
 		WorkspaceUtils.unzipAllProjects(BUNDLE_NAME, DEMO_ZIP_LOCATION, new NullProgressMonitor());
 		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
-		setUpRepository(intentProject);
-		registerRepositoryListener();
-		// waitForIndexer();
-	}
 
+		// Step 2 : setting the intent repository
+		// and wait its complete initialization
+		setUpRepository(intentProject);
+		boolean repositoryInitialized = false;
+		while (!repositoryInitialized) {
+			try {
+				Thread.sleep(TIME_TO_WAIT);
+				repositoryInitialized = !repositoryAdapter.getResource(IntentLocations.INTENT_INDEX)
+						.getContents().isEmpty();
+			} catch (WrappedException e) {
+				// Try again
+			}
+		}
+		registerRepositoryListener();
+	}
 }
