@@ -138,6 +138,7 @@ public class IntentProjectListener implements IResourceChangeListener {
 	public void handleOpenedProject(IProject project) {
 		IntentProjectManager projectManager = IntentProjectManager.getInstance(project, true);
 		try {
+			System.out.println("[IntentProjectListener] now handling project " + project.getName());
 			projectManager.connect();
 		} catch (RepositoryConnectionException e) {
 			IntentUiLogger.logError(e);

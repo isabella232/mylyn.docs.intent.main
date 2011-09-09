@@ -50,6 +50,8 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 	private static final int RECENT_COMPILATION_DELAY = 60000;
 
+	private static final long TIME_OUT_DELAY = 10000;
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -67,7 +69,9 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 		// and wait its complete initialization
 		setUpRepository(intentProject);
 		boolean repositoryInitialized = false;
-		while (!repositoryInitialized) {
+		long startTime = System.currentTimeMillis();
+		boolean timeOutDetected = false;
+		while (!repositoryInitialized && !timeOutDetected) {
 			try {
 				Resource resource = repositoryAdapter
 						.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
@@ -76,11 +80,14 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 						&& !resource.getContents().isEmpty()
 						&& isRecentTraceabilityIndex((TraceabilityIndex)resource.getContents().iterator()
 								.next());
+				timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
 				Thread.sleep(TIME_TO_WAIT);
 			} catch (WrappedException e) {
 				// Try again
 			}
 		}
+		assertFalse("The Intent clients have not been launched although the project has been imported",
+				timeOutDetected);
 		registerRepositoryListener();
 	}
 
