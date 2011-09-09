@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
-import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
+import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 
 /**
  * Tests the Intent demo, part 1: navigation behavior.
@@ -66,9 +66,11 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 		while (!repositoryInitialized) {
 			try {
 				Thread.sleep(TIME_TO_WAIT);
-				Resource resource = repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH);
-				repositoryInitialized = resource != null && !resource.getContents().isEmpty()
-						&& !((IntentIndex)resource.getContents().iterator().next()).getEntries().isEmpty();
+				Resource resource = repositoryAdapter
+						.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
+				repositoryInitialized = resource != null
+						&& !resource.getContents().isEmpty()
+						&& ((TraceabilityIndex)resource.getContents().iterator().next()).getEntries().size() >= 3;
 			} catch (WrappedException e) {
 				// Try again
 			}
