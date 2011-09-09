@@ -13,9 +13,11 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 
 /**
  * Tests the Intent demo, part 1: navigation behavior.
@@ -36,7 +38,7 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 	protected static final String TEST_SYNCHRONIZER_INVALID_WARNING_MSG = "The synchronizer failed to detect errors";
 
-	private static final int TIME_TO_WAIT = 150;
+	private static final int TIME_TO_WAIT = 300;
 
 	private static final String DEMO_ZIP_LOCATION = "data/unit/demo/demo.zip";
 
@@ -64,8 +66,9 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 		while (!repositoryInitialized) {
 			try {
 				Thread.sleep(TIME_TO_WAIT);
-				repositoryInitialized = !repositoryAdapter.getResource(IntentLocations.INTENT_INDEX)
-						.getContents().isEmpty();
+				Resource resource = repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH);
+				repositoryInitialized = resource != null && !resource.getContents().isEmpty()
+						&& !((IntentIndex)resource.getContents().iterator().next()).getEntries().isEmpty();
 			} catch (WrappedException e) {
 				// Try again
 			}
