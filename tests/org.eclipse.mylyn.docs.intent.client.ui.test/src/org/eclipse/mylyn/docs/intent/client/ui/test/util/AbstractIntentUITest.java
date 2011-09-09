@@ -103,6 +103,19 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		WorkspaceUtils.closeWelcomePage();
 		waitForAllOperationsInUIThread();
 		IntentEditorActivator.getDefault().getLog().addLogListener(this);
+
+		System.out.println("-- SETTED UP.;");
+		traceHeapSize();
+	}
+
+	private void traceHeapSize() {
+		long maxHeapSize = Runtime.getRuntime().maxMemory();
+		long allocatedHeapSize = Runtime.getRuntime().totalMemory();
+		long usedHeap = allocatedHeapSize - Runtime.getRuntime().freeMemory();
+
+		System.out.println(" Heap size : " + usedHeap + "/" + allocatedHeapSize + "("
+				+ Math.ceil(usedHeap * 100 / allocatedHeapSize) + "% - "
+				+ Math.ceil(usedHeap * 100 / maxHeapSize) + "% of max heap size)");
 	}
 
 	/**
@@ -125,6 +138,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		setAllFieldsToNull();
 
 		super.tearDown();
+		long totalHeapSize = Runtime.getRuntime().totalMemory();
+		long usedHeap = totalHeapSize - Runtime.getRuntime().freeMemory();
+		System.out.println("-- TEARED DOWN.");
+		traceHeapSize();
 	}
 
 	/**
