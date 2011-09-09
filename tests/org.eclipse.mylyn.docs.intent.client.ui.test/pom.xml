@@ -37,8 +37,9 @@
       </includes>
       <useUIHarness>true</useUIHarness>
       <useUIThread>true</useUIThread>
-      <argLine>-Xmx1024m</argLine>
-      <argLine>-XX:MaxPermSize=256m</argLine>
+      <argLine>-Xmx512m</argLine>
+      <argLine>-XX:MaxPermSize=512M</argLine>
+      <argLine>-Xms200m</argLine>
       <testIgnoreFailure>true</testIgnoreFailure>
       <testFailureIgnore>true</testFailureIgnore>
 

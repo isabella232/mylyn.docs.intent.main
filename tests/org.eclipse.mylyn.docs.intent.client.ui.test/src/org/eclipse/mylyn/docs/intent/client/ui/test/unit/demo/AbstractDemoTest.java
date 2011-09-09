@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo;
 
+import java.math.BigInteger;
+
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.WrappedException;
@@ -38,13 +40,15 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 	protected static final String TEST_SYNCHRONIZER_INVALID_WARNING_MSG = "The synchronizer failed to detect errors";
 
-	private static final int TIME_TO_WAIT = 300;
-
 	private static final String DEMO_ZIP_LOCATION = "data/unit/demo/demo.zip";
 
 	private static final String BUNDLE_NAME = "org.eclipse.mylyn.docs.intent.client.ui.test";
 
 	private static final String INTENT_PROJECT_NAME = "org.eclipse.emf.compare.idoc";
+
+	private static final int TIME_TO_WAIT = 300;
+
+	private static final int RECENT_COMPILATION_DELAY = 60000;
 
 	/**
 	 * {@inheritDoc}
@@ -65,16 +69,34 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 		boolean repositoryInitialized = false;
 		while (!repositoryInitialized) {
 			try {
-				Thread.sleep(TIME_TO_WAIT);
 				Resource resource = repositoryAdapter
 						.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
+				// We ensure that the compiler did its work less that one minute ago
 				repositoryInitialized = resource != null
 						&& !resource.getContents().isEmpty()
-						&& ((TraceabilityIndex)resource.getContents().iterator().next()).getEntries().size() >= 3;
+						&& isRecentTraceabilityIndex((TraceabilityIndex)resource.getContents().iterator()
+								.next());
+				Thread.sleep(TIME_TO_WAIT);
 			} catch (WrappedException e) {
 				// Try again
 			}
 		}
 		registerRepositoryListener();
+	}
+
+	/**
+	 * Indicates if the given traceability index is recent or is old.
+	 * 
+	 * @param traceabilityIndex
+	 *            the traceability index to test
+	 * @return true if the given traceability index has been compiled less than a minute ago, false otherwise
+	 */
+	private boolean isRecentTraceabilityIndex(TraceabilityIndex traceabilityIndex) {
+		if (traceabilityIndex.getEntries().size() > 0) {
+			BigInteger compilationTime = traceabilityIndex.getEntries().iterator().next()
+					.getCompilationTime();
+			return compilationTime.doubleValue() > (System.currentTimeMillis() - RECENT_COMPILATION_DELAY);
+		}
+		return false;
 	}
 }
