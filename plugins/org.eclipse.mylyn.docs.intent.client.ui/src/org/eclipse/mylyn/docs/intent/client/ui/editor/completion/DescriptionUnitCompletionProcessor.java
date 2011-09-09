@@ -133,7 +133,9 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 		List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
 		if (accurateContext >= 0) {
 			for (String keyword : KEYWORDS_BY_CONTEXT[accurateContext]) {
-				proposals.add(createKeyWordProposal(keyword));
+				if (keyword.startsWith(start)) {
+					proposals.add(createKeyWordProposal(keyword));
+				}
 			}
 		}
 		return proposals;

@@ -69,7 +69,7 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 		// get the currently typed word
 		int index = offset;
 		String text = document.get();
-		while (index > 0 && Character.isJavaIdentifierPart(text.charAt(index - 1))) {
+		while (index > 0 && isIntentIdentifierPart(text.charAt(index - 1))) {
 			index--;
 		}
 		start = text.substring(index, offset);
@@ -79,6 +79,10 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 			document = null;
 			offset = 0;
 		}
+	}
+
+	private boolean isIntentIdentifierPart(char c) {
+		return c == '@' || Character.isJavaIdentifierPart(c);
 	}
 
 	/**
