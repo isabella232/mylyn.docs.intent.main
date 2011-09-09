@@ -33,7 +33,7 @@ public class RepositoryListenerForTests extends AbstractRepositoryClient {
 	/**
 	 * Delay to wait before checking again that an event occurred.
 	 */
-	private static final int WAITING_STEP_DELAY = 200;
+	private static final int WAITING_STEP_DELAY = 500;
 
 	/**
 	 * Delay to wait before considering that an expected event never occurred.
