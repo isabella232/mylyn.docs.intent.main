@@ -21,6 +21,8 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -80,7 +82,23 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	@Override
 	protected void setUp() throws Exception {
+		// Step 1 : printing testclass name (make hudson debugs easier)
+		for (int i = 0; i < getClass().getName().length() - 1; i++) {
+			System.out.print("=");
+		}
+		System.out.println("=");
+		System.out.println(getClass().getName());
 		super.setUp();
+
+		// Step 2 : deactivating the automatic build of the workspace (if needed)
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IWorkspaceDescription description = workspace.getDescription();
+		if (description.isAutoBuilding()) {
+			description.setAutoBuilding(false);
+			workspace.setDescription(description);
+		}
+
+		// Step 3 : clean workspace, close welcome page
 		WorkspaceUtils.cleanWorkspace();
 		WorkspaceUtils.closeWelcomePage();
 		waitForAllOperationsInUIThread();
