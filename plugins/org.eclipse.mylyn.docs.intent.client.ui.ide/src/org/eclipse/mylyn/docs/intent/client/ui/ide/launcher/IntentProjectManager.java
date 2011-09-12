@@ -105,8 +105,7 @@ public final class IntentProjectManager {
 	 */
 	public synchronized void connect() throws RepositoryConnectionException {
 		try {
-			System.out.println("[IntentProjectManager] Connecting to project " + project.isAccessible()
-					+ "  " + project.getNature(IntentNature.NATURE_ID) != null);
+			System.out.println("[IntentProjectManager] Connecting to project " + project);
 			if (project.isAccessible() && project.getNature(IntentNature.NATURE_ID) != null) {
 				getRepository().getOrCreateSession();
 
