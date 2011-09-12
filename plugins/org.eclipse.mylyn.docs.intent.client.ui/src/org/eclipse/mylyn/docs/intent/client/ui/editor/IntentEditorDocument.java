@@ -20,6 +20,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
 import org.eclipse.swt.widgets.Display;
@@ -55,6 +56,8 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * 
 	 * @param root
 	 *            the element to associate to this IntentDocument.
+	 * @param editor
+	 *            the intent editor
 	 */
 	public IntentEditorDocument(EObject root, IntentEditor editor) {
 		super();
@@ -105,9 +108,13 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	public void replace(int pos, int length, String text) throws BadLocationException {
 		// We don't allow the replacement of a decorated line
 		if (!containsDecorationLine(pos, length, text.length() - length >= 0)) {
-			this.serializer.updatePositions(pos, text.length() - length);
+			getPositionManager().updatePositions(pos, text.length() - length);
 			super.replace(pos, length, text);
 		}
+	}
+
+	private IntentPositionManager getPositionManager() {
+		return this.serializer.getPositionManager();
 	}
 
 	/**
@@ -157,7 +164,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 */
 	public ParsedElementPosition getIntentPosition(EObject element) {
 
-		ParsedElementPosition positionForElement = this.serializer.getPositionForElement(element);
+		ParsedElementPosition positionForElement = getPositionManager().getPositionForElement(element);
 		return positionForElement;
 	}
 
@@ -169,7 +176,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * @return the element located at the given position
 	 */
 	public EObject getElementAtOffset(int offset) {
-		return this.serializer.getElementAtPosition(offset);
+		return getPositionManager().getElementAtPosition(offset);
 	}
 
 	/**
@@ -180,7 +187,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * @return the element corresponding to the given position
 	 */
 	public EObject getElementAtPosition(int offset) {
-		return this.serializer.getElementAtPosition(offset);
+		return getPositionManager().getElementAtPosition(offset);
 	}
 
 	/**
@@ -217,20 +224,20 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 		// while (selectionCursor <= (offset + length)) {
 		//
 		// IRegion lineInformation = this.getLineInformationOfOffset(selectionCursor);
-		// containsDecorationLine = this.serializer.isDecorationLine(lineInformation.getOffset());
+		// containsDecorationLine = getPositionManager().isDecorationLine(lineInformation.getOffset());
 		//
 		// if (!addingMode
 		// && this.getLineInformationOfOffset(selectionCursor + 1).getOffset() != lineInformation
 		// .getOffset()) {
 		// containsDecorationLine = containsDecorationLine
-		// || this.serializer.isDecorationLine(this.getLineInformationOfOffset(
+		// || getPositionManager().isDecorationLine(this.getLineInformationOfOffset(
 		// selectionCursor + 1).getOffset());
 		// }
 		// if (!addingMode
 		// && this.getLineInformationOfOffset(selectionCursor - 1).getOffset() != lineInformation
 		// .getOffset()) {
 		// containsDecorationLine = containsDecorationLine
-		// || this.serializer.isDecorationLine(this.getLineInformationOfOffset(
+		// || getPositionManager().isDecorationLine(this.getLineInformationOfOffset(
 		// selectionCursor - 1).getOffset());
 		// }
 		//
@@ -255,7 +262,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * @return the size of the decoration added by this document before the given Modeling Unit
 	 */
 	public int getModelingUnitPrefixDecorationSize(ModelingUnit element) {
-		return MODELING_PREFIX_DECORATION.length() + this.serializer.getIndentationLevelForElement(element);
+		return MODELING_PREFIX_DECORATION.length() + getPositionManager().getIndentationLevel(element);
 	}
 
 	/**

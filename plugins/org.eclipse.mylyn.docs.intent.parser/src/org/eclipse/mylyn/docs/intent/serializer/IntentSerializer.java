@@ -76,7 +76,7 @@ public class IntentSerializer {
 	/**
 	 * Clears all informations contained by all used serializers (elements positions, current offset...).
 	 */
-	public void clear() {
+	private void clear() {
 		this.positionManager.clear();
 		this.documentSerializer.clear();
 		this.descriptionUnitSerializer.clear();
@@ -90,7 +90,7 @@ public class IntentSerializer {
 	 *            Unit or a Description Unit).
 	 * @return the textual form of the given elementToSerialize
 	 */
-	public String serialize(EObject elementToSerialize) {
+	public synchronized String serialize(EObject elementToSerialize) {
 		clear();
 		if (elementToSerialize == null) {
 			throw new IllegalArgumentException("Cannot serialize a null element.");
@@ -135,63 +135,7 @@ public class IntentSerializer {
 
 	}
 
-	/**
-	 * Returns the position of the given instruction element.
-	 * 
-	 * @param element
-	 *            the element for witch we want the position
-	 * @return the position of the given instruction element (null if no position).
-	 */
-	public ParsedElementPosition getPositionForElement(EObject element) {
-		return this.positionManager.getPositionForElement(element);
-	}
-
-	/**
-	 * Returns the indentation level of the given element, or -1 if this level is unknown.
-	 * 
-	 * @param element
-	 *            the element from which we want to know the indentation level
-	 * @return the indentation level of the given element, or -1 if this level is unknown
-	 */
-	public int getIndentationLevelForElement(ModelingUnit element) {
-		return positionManager.getIndentationLevel(element);
-	}
-
-	/**
-	 * Indicates if the line at the given offset is a decoration line (and shouldn't be editable, for
-	 * example).
-	 * 
-	 * @param offset
-	 *            the offset of the line
-	 * @return true if the line at the given offset have been decorated, false otherwise.
-	 */
-	public boolean isDecorationLine(int offset) {
-		return positionManager.isDecorationLine(offset);
-	}
-
-	/**
-	 * Update the positions of element located after the given start offset, by adding the gap value to the
-	 * old position.
-	 * 
-	 * @param startOffset
-	 *            the start offset
-	 * @param gap
-	 *            the gap to add to each eleme,t
-	 */
-	public void updatePositions(int startOffset, int gap) {
-		positionManager.updatePositions(startOffset, gap);
-
-	}
-
-	/**
-	 * Returns the element corresponding to the given position.
-	 * 
-	 * @param offset
-	 *            the current offset
-	 * @return the element corresponding to the given position
-	 */
-	public EObject getElementAtPosition(int offset) {
-
-		return positionManager.getElementAtPosition(offset);
+	public synchronized IntentPositionManager getPositionManager() {
+		return positionManager;
 	}
 }

@@ -114,10 +114,8 @@ public class IntentAnnotationModelManager {
 	 * @param position
 	 *            the position of this annotation
 	 */
-	private void addAnnotation(Annotation annotation, Position position) {
-		synchronized(getLockObject(annotationModel)) {
-			annotationModel.addAnnotation(annotation, position);
-		}
+	private synchronized void addAnnotation(Annotation annotation, Position position) {
+		annotationModel.addAnnotation(annotation, position);
 	}
 
 	/**
@@ -126,26 +124,23 @@ public class IntentAnnotationModelManager {
 	 * @return the handled annotationModel
 	 */
 	public IAnnotationModel getAnnotationModel() {
-
 		return annotationModel;
 	}
 
 	/**
 	 * Removes all the compiler annotations from the handled annotationModel.
 	 */
-	public void removeAllCompilerAnnotations() {
-		synchronized(getLockObject(annotationModel)) {
-			@SuppressWarnings("unchecked")
-			Iterator<Annotation> annotationIterator = annotationModel.getAnnotationIterator();
+	public synchronized void removeAllCompilerAnnotations() {
+		@SuppressWarnings("unchecked")
+		Iterator<Annotation> annotationIterator = annotationModel.getAnnotationIterator();
 
-			while (annotationIterator.hasNext()) {
-				Annotation annotation = annotationIterator.next();
-				if (isCompilerAnnotation(annotation.getType())) {
-					annotationModel.removeAnnotation(annotation);
-				}
+		while (annotationIterator.hasNext()) {
+			Annotation annotation = annotationIterator.next();
+			if (isCompilerAnnotation(annotation.getType())) {
+				annotationModel.removeAnnotation(annotation);
 			}
-			handledCompilationStatus.clear();
 		}
+		handledCompilationStatus.clear();
 	}
 
 	/**
@@ -157,7 +152,8 @@ public class IntentAnnotationModelManager {
 	 * @param element
 	 *            the element to inspect
 	 */
-	public void removeInvalidCompilerAnnotations(RepositoryAdapter adapter, IntentGenericElement element) {
+	public synchronized void removeInvalidCompilerAnnotations(RepositoryAdapter adapter,
+			IntentGenericElement element) {
 		// For each compilationStatus associated to the given element
 		Iterator<CompilationStatus> compilationStatusIterator = handledCompilationStatus.keySet().iterator();
 		while (compilationStatusIterator.hasNext()) {
@@ -176,10 +172,8 @@ public class IntentAnnotationModelManager {
 				}
 			}
 			if (removeCurrentStatus) {
-				synchronized(getLockObject(annotationModel)) {
-					annotationModel.removeAnnotation(this.handledCompilationStatus.get(currentStatus));
-					compilationStatusIterator.remove();
-				}
+				annotationModel.removeAnnotation(this.handledCompilationStatus.get(currentStatus));
+				compilationStatusIterator.remove();
 			}
 		}
 	}
@@ -204,16 +198,14 @@ public class IntentAnnotationModelManager {
 	/**
 	 * Removes all the syntax error annotations from the manage annotation model.
 	 */
-	public void removeSyntaxErrorsAnnotations() {
-		synchronized(getLockObject(annotationModel)) {
-			@SuppressWarnings("unchecked")
-			Iterator<Annotation> annotationIterator = (Iterator<Annotation>)annotationModel
-					.getAnnotationIterator();
-			while (annotationIterator.hasNext()) {
-				Annotation next = annotationIterator.next();
-				if (IntentAnnotationFactory.INTENT_ANNOT_SYNTAX_ERROR.equals(next.getType())) {
-					annotationModel.removeAnnotation(next);
-				}
+	public synchronized void removeSyntaxErrorsAnnotations() {
+		@SuppressWarnings("unchecked")
+		Iterator<Annotation> annotationIterator = (Iterator<Annotation>)annotationModel
+				.getAnnotationIterator();
+		while (annotationIterator.hasNext()) {
+			Annotation next = annotationIterator.next();
+			if (IntentAnnotationFactory.INTENT_ANNOT_SYNTAX_ERROR.equals(next.getType())) {
+				annotationModel.removeAnnotation(next);
 			}
 		}
 	}
