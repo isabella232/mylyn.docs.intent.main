@@ -70,12 +70,14 @@ public final class SectionSerializer {
 
 		// Step 3 : serialize the title
 		// For all the Text and Entities that represent this section's title
-		for (BlockContent titleElement : section.getTitle().getContent()) {
-			// We render it
-			renderedForm += dispatcher.doSwitch(titleElement);
+		if (section.getTitle() != null) {
+			for (BlockContent titleElement : section.getTitle().getContent()) {
+				// We render it
+				renderedForm += dispatcher.doSwitch(titleElement);
+			}
+			renderedForm = breakLine + renderedForm + WikiTextResourceSerializer.LINE_BREAK
+					+ WikiTextResourceSerializer.LINE_BREAK;
 		}
-		renderedForm = breakLine + renderedForm + WikiTextResourceSerializer.LINE_BREAK
-				+ WikiTextResourceSerializer.LINE_BREAK;
 
 		// Step 4 : serialize the contents of this section by calling the dispatcher
 		for (StructureElement blockContent : section.getContent()) {
