@@ -58,16 +58,10 @@ public class RepositoryListenerForTests extends AbstractRepositoryClient {
 	private boolean isRecording;
 
 	/**
-	 * Indicates whether the expected event occurred.
-	 */
-	private boolean expectedEventOccured;
-
-	/**
 	 * Removes all registered notifications and start listening to the repository.
 	 */
 	public void startRecording() {
 		isRecording = true;
-		expectedEventOccured = false;
 		modifiedElements.clear();
 		modifiedResourcesURI.clear();
 	}
