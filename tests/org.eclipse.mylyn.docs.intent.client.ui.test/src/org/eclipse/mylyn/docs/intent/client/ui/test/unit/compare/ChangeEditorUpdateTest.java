@@ -25,6 +25,8 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
  */
 public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 
+	private static final String A_NEW_DESCRIPTION_UNIT = "\n\n\tA new description Unit";
+
 	private static final String LINEBREAK_AND_INDENT = "\n\t";
 
 	private static final String FAILURE_MESSAGE = "Editor update dit not occur as";
@@ -63,39 +65,6 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	}
 
 	/**
-	 * Ensures that, when adding a new paragraph to a chapter containing no description unit, when emf compare
-	 * is used to update the repository the chapter keeps its expected location and structure.
-	 */
-	public void testAddParagraphToBeginningOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
-		// opening an editor on the second chapter
-		editor = openIntentEditor(getIntentChapter(2));
-
-		genericTestAddParagraphToChapterWithoutDescriptionUnits("Chapter {");
-	}
-
-	/**
-	 * Ensures that, when adding a new paragraph to a chapter containing no description unit, when emf compare
-	 * is used to update the repository the chapter keeps its expected location and structure.
-	 */
-	public void testAddParagraphToMiddleOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
-		// opening an editor on the second chapter
-		editor = openIntentEditor(getIntentChapter(2));
-
-		genericTestAddParagraphToChapterWithoutDescriptionUnits("The 2.1 Section.\n\t}");
-	}
-
-	/**
-	 * Ensures that, when adding a new paragraph to a chapter containing no description unit, when emf compare
-	 * is used to update the repository the chapter keeps its expected location and structure.
-	 */
-	public void testAddParagraphToBottomOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
-		// opening an editor on the second chapter
-		editor = openIntentEditor(getIntentChapter(2));
-
-		genericTestAddParagraphToChapterWithoutDescriptionUnits("The 2.2 Section.\n\t}");
-	}
-
-	/**
 	 * Ensures that when typing new sections inside the Intent Document, when emf compare is used to update
 	 * the repository the structure is respected.
 	 */
@@ -115,6 +84,41 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 		editor = openIntentEditor(section);
 
 		genericTestSubSectionOrderWithFocusOnDocuments(1);
+	}
+
+	/**
+	 * Ensures that, when adding a new paragraph to a chapter containing no description unit, when emf compare
+	 * is used to update the repository the chapter keeps its expected location and structure.
+	 */
+	public void testAddParagraphToBeginningOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
+		// opening an editor on the second chapter
+		editor = openIntentEditor(getIntentChapter(2));
+
+		genericTestAddParagraphToChapterWithoutDescriptionUnits("Chapter {", A_NEW_DESCRIPTION_UNIT);
+	}
+
+	/**
+	 * Ensures that, when adding a new paragraph to a chapter containing no description unit, when emf compare
+	 * is used to update the repository the chapter keeps its expected location and structure.
+	 */
+	public void testAddParagraphToMiddleOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
+		// opening an editor on the second chapter
+		editor = openIntentEditor(getIntentChapter(2));
+
+		genericTestAddParagraphToChapterWithoutDescriptionUnits("The 2.1 Section.\n\t}",
+				A_NEW_DESCRIPTION_UNIT);
+	}
+
+	/**
+	 * Ensures that, when adding a new paragraph to a chapter containing no description unit, when emf compare
+	 * is used to update the repository the chapter keeps its expected location and structure.
+	 */
+	public void testAddParagraphToBottomOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
+		// opening an editor on the second chapter
+		editor = openIntentEditor(getIntentChapter(2));
+
+		genericTestAddParagraphToChapterWithoutDescriptionUnits("The 2.2 Section.\n\t}",
+				A_NEW_DESCRIPTION_UNIT);
 	}
 
 	/**
@@ -145,24 +149,27 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 		// opening an editor on the document
 		editor = openIntentEditor();
 
-		genericTestAddParagraphToChapterWithoutDescriptionUnits(PREFIX_CHAPTER_2_FOCUS_DOCUMENT);
+		genericTestAddParagraphToChapterWithoutDescriptionUnits(PREFIX_CHAPTER_2_FOCUS_DOCUMENT,
+				"\n\n\t\tA new description Unit");
 	}
 
 	/**
 	 * Ensures that, when adding a new paragraph to a chapter containing no description unit, when emf compare
 	 * is used to update the repository the chapter keeps its expected location and structure.
 	 * 
+	 * @param newDescriptionUnit
+	 *            the string corresponding to the new description unit to add
 	 * @param prefix
 	 *            the prefix to use for identifying the chapter to modify
 	 */
-	private void genericTestAddParagraphToChapterWithoutDescriptionUnits(String prefix) {
+	private void genericTestAddParagraphToChapterWithoutDescriptionUnits(String prefix,
+			String newDescriptionUnit) {
 		// Step 1 : getting the document associated to the opened editor
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 
 		// Step 2 : update section by adding 2 subsections textually
 		String documentContent = document.get();
-		String expectedDocumentContent = documentContent.replace(prefix, prefix
-				+ "\n\n\tA new description Unit");
+		String expectedDocumentContent = documentContent.replace(prefix, prefix + newDescriptionUnit);
 
 		// Step 3 : check merge
 		checkMerging(expectedDocumentContent);
