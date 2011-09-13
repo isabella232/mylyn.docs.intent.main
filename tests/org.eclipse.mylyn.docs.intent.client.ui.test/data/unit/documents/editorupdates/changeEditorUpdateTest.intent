@@ -47,5 +47,11 @@ Document {
 			
 			The 2.1 Section.
 		}
+		
+		Section {
+			Section 2.2
+			
+			The 2.2 Section.
+		}
 	}
 }
