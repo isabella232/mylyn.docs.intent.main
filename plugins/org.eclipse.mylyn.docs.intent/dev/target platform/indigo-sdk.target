@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.6"?>
 
-<target name="Intent - Indigo TP" sequenceNumber="22">
+<target name="Intent - Indigo TP" sequenceNumber="23">
 <locations>
 <location includeAllPlatforms="false" includeMode="planner" includeSource="false" type="InstallableUnit">
 <unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.5.0.v20110608-1400"/>
@@ -22,8 +22,8 @@
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/updateSite"/>
 </location>
 <location includeAllPlatforms="false" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.emf.compare.sdk.feature.group" version="1.2.0.v20110809-0812"/>
-<repository location="http://download.eclipse.org/modeling/emf/compare/updates/interim/1.2"/>
+<unit id="org.eclipse.emf.compare.sdk.feature.group" version="1.2.1.v20110913-0926"/>
+<repository location="http://download.eclipse.org/modeling/emf/compare/updates/releases/1.2"/>
 </location>
 </locations>
 </target>
