@@ -151,8 +151,10 @@ public final class WorkspaceUtils {
 		for (final IProject proj : Lists.newArrayList(ResourcesPlugin.getWorkspace().getRoot().getProjects())) {
 			try {
 				proj.delete(true, new NullProgressMonitor());
+				System.out.println("deleting " + proj);
 			} catch (CoreException e) {
 				// Nothing we can do
+				e.printStackTrace();
 			}
 		}
 	}
