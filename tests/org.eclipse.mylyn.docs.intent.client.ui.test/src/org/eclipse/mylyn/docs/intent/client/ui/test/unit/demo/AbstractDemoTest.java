@@ -75,6 +75,7 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 			try {
 				Resource resource = repositoryAdapter
 						.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
+				System.out.println("traceability index resource : " + resource);
 				// We ensure that the compiler did its work less that one minute ago
 				repositoryInitialized = resource != null
 						&& !resource.getContents().isEmpty()
