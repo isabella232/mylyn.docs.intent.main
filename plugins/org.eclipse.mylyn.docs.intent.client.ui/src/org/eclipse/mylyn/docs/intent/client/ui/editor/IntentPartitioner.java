@@ -12,27 +12,23 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.TextUtilities;
 import org.eclipse.jface.text.TypedRegion;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
-import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.query.IntentStructuredElementGetter;
-import org.eclipse.mylyn.docs.intent.core.query.UnitGetter;
-import org.eclipse.mylyn.docs.intent.parser.IntentParser;
-import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
+import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 
 /**
  * Computes the partitions of a document using the Intent parser.
@@ -40,17 +36,33 @@ import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentPartitioner implements IDocumentPartitioner {
-	private static final int PARSING_JOB_DELAY = 400;
+
+	private static final Map<Pattern, Integer> TYPE_BY_REGEXPS;
+
+	private static final int SU_START_TYPE = 0;
+
+	private static final int SU_END_TYPE = 1;
+
+	private static final int MU_TYPE = 2;
 
 	/** The legal content types of this partitioner. */
 	protected final String[] fLegalContentTypes;
 
 	/** The partitioner's document. */
-	protected IDocument fDocument;
+	protected IDocument document;
 
-	private Job parsingJob;
-
-	private List<ITypedRegion> regions = new ArrayList<ITypedRegion>();
+	private List<IntentRegion> regions = new ArrayList<IntentRegion>();
+	static {
+		TYPE_BY_REGEXPS = new LinkedHashMap<Pattern, Integer>();
+		TYPE_BY_REGEXPS.put(Pattern.compile("@M((?!M@).)*M@", Pattern.MULTILINE | Pattern.DOTALL), MU_TYPE);
+		TYPE_BY_REGEXPS.put(Pattern.compile("Document\\s*\\{\\s*", Pattern.MULTILINE | Pattern.DOTALL),
+				SU_START_TYPE);
+		TYPE_BY_REGEXPS.put(Pattern.compile("Chapter\\s*\\{\\s*", Pattern.MULTILINE | Pattern.DOTALL),
+				SU_START_TYPE);
+		TYPE_BY_REGEXPS.put(Pattern.compile("Section\\s*\\{\\s*", Pattern.MULTILINE | Pattern.DOTALL),
+				SU_START_TYPE);
+		TYPE_BY_REGEXPS.put(Pattern.compile("}\\s*", Pattern.MULTILINE | Pattern.DOTALL), SU_END_TYPE);
+	}
 
 	/**
 	 * Creates a new Partitioner using the given content types.
@@ -67,8 +79,8 @@ public class IntentPartitioner implements IDocumentPartitioner {
 	 * 
 	 * @see org.eclipse.jface.text.IDocumentPartitioner#connect(org.eclipse.jface.text.IDocument)
 	 */
-	public void connect(IDocument document) {
-		fDocument = document;
+	public void connect(IDocument currentDocument) {
+		document = currentDocument;
 		updateRegions();
 	}
 
@@ -94,15 +106,6 @@ public class IntentPartitioner implements IDocumentPartitioner {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.jface.text.IDocumentPartitioner#getLegalContentTypes()
-	 */
-	public String[] getLegalContentTypes() {
-		return TextUtilities.copy(fLegalContentTypes);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.jface.text.IDocumentPartitioner#getContentType(int)
 	 */
 	public String getContentType(int offset) {
@@ -116,28 +119,19 @@ public class IntentPartitioner implements IDocumentPartitioner {
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see org.eclipse.jface.text.IDocumentPartitioner#getLegalContentTypes()
+	 */
+	public String[] getLegalContentTypes() {
+		return TextUtilities.copy(fLegalContentTypes);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.text.IDocumentPartitioner#documentChanged(org.eclipse.jface.text.DocumentEvent)
 	 */
 	public boolean documentChanged(final DocumentEvent event) {
-		if (event.fText.length() == 0) {
-			// shift backward
-			shiftRegions(event.fOffset, -event.fLength);
-		} else {
-			// shift forward
-			shiftRegions(event.fOffset, event.fText.length() - event.fLength);
-		}
-		if (parsingJob != null) {
-			parsingJob.cancel();
-		}
-		parsingJob = new Job("parse") {
-
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				updateRegions();
-				return Status.OK_STATUS;
-			}
-		};
-		parsingJob.schedule(PARSING_JOB_DELAY);
+		updateRegions();
 		return false;
 	}
 
@@ -171,125 +165,160 @@ public class IntentPartitioner implements IDocumentPartitioner {
 		return new TypedRegion(offset, 1, IntentDocumentProvider.INTENT_DESCRIPTIONUNIT);
 	}
 
-	/**
-	 * Shift the regions.
-	 * 
-	 * @param offset
-	 *            the offset from where the shift begins
-	 * @param shift
-	 *            the shift length
-	 */
-	private void shiftRegions(int offset, int shift) {
-		List<ITypedRegion> shiftRegions = new ArrayList<ITypedRegion>();
-		for (ITypedRegion region : regions) {
-			ITypedRegion tmp = null;
-			if (region.getOffset() <= offset && (region.getOffset() + region.getLength()) >= offset) {
-				tmp = shiftRegionLength(region, shift);
-			} else if (region.getOffset() > offset) {
-				tmp = shiftRegionOffset(region, shift);
-			} else {
-				tmp = region;
-			}
-			if (tmp != null) {
-				shiftRegions.add(tmp);
+	private boolean alreadyIncluded(List<IntentRegion> existingRegions, ITypedRegion region) {
+		for (IntentRegion existingRegion : existingRegions) {
+			if (existingRegion.contains(region)) {
+				return true;
 			}
 		}
-		regions = shiftRegions;
+		return false;
 	}
 
 	/**
-	 * Shifts the current region.
-	 * 
-	 * @param region
-	 *            the region
-	 * @param shift
-	 *            the shift to apply
-	 * @return the shifted region, or null if the region is invalidated
-	 */
-	private ITypedRegion shiftRegionLength(ITypedRegion region, int shift) {
-		if ((region.getLength() + shift) > 0) {
-			return createRegion(region.getOffset(), region.getLength() + shift, region.getType());
-		}
-		return null;
-	}
-
-	/**
-	 * Shifts a following region.
-	 * 
-	 * @param region
-	 *            the region
-	 * @param shift
-	 *            the shift to apply
-	 * @return the shifted region, or null if the region is invalidated
-	 */
-	private ITypedRegion shiftRegionOffset(ITypedRegion region, int shift) {
-		if ((region.getOffset() + shift) > 0) {
-			return createRegion(region.getOffset() + shift, region.getLength(), region.getType());
-		}
-		return null;
-	}
-
-	private ITypedRegion createRegion(int offset, int length, String type) {
-		if ((length > 0) && (offset >= 0) && ((offset + length) <= fDocument.getLength())) {
-			return new TypedRegion(offset, length, type);
-		}
-		return null;
-	}
-
-	/**
-	 * Updates the regions by reparsing the document.
+	 * Regexp-based partitions computation.
 	 */
 	private void updateRegions() {
-		List<ITypedRegion> regionsList = new ArrayList<ITypedRegion>();
-		if (!(fDocument instanceof IntentEditorDocument)) {
-			throw new UnsupportedOperationException("This scanner can only parse "
-					+ IntentEditorDocument.class.getSimpleName());
-		}
-		try {
-			IntentParser parser = new IntentParser();
-			EObject root = parser.parse(fDocument.get());
-			if (root != null) {
-				for (ModelingUnit mu : UnitGetter.getAllModelingUnitsContainedInElement(root)) {
-					ParsedElementPosition position = parser.getPositionForElement(mu);
-					ITypedRegion tmp = createRegion(position.getOffset(), position.getLength(),
-							IntentDocumentProvider.INTENT_MODELINGUNIT);
-					if (tmp != null) {
-						regionsList.add(tmp);
-					}
-				}
-				for (DescriptionUnit du : UnitGetter.getAllDescriptionUnitsContainedInElement(root)) {
-					ParsedElementPosition position = parser.getPositionForElement(du);
-					ITypedRegion tmp = createRegion(position.getOffset(), position.getLength(),
-							IntentDocumentProvider.INTENT_DESCRIPTIONUNIT);
-					if (tmp != null) {
-						regionsList.add(tmp);
-					}
-				}
-				for (IntentStructuredElement structured : IntentStructuredElementGetter
-						.getAllStructuredElement(root)) {
-					ParsedElementPosition position = parser.getPositionForElement(structured);
-					ITypedRegion tmp = createRegion(position.getOffset(), position.getLength(),
-							IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT);
-					if (tmp != null) {
-						regionsList.add(tmp);
-					}
-					// If this element has a title, we add a token too.
-					if (structured.getTitle() != null) {
-						ParsedElementPosition titlePosition = parser.getPositionForElement(structured
-								.getTitle());
-						ITypedRegion tmp2 = createRegion(titlePosition.getOffset(),
-								titlePosition.getLength(), IntentDocumentProvider.INTENT_TITLE);
-						if (tmp2 != null) {
-							regionsList.add(tmp2);
-						}
-					}
+		double deb = System.currentTimeMillis();
+
+		List<IntentRegion> newRegions = new ArrayList<IntentRegion>();
+		String text = document.get();
+
+		// Step 1 : Computing simple partitions: modeling units & structural content
+		for (Entry<Pattern, Integer> regexpEntry : TYPE_BY_REGEXPS.entrySet()) {
+			Matcher m = regexpEntry.getKey().matcher(text);
+			while (m.find()) {
+				IntentRegion newRegion = new IntentRegion(m.start(), m.end() - m.start(),
+						regexpEntry.getValue());
+				if (!alreadyIncluded(newRegions, newRegion)) {
+					newRegions.add(newRegion);
 				}
 			}
-			regions = regionsList;
-			// CHECKSTYLE:OFF
-		} catch (Exception e) {
-			// CHECKSTYLE:ON
-			// fail silently
 		}
+
+		// Step 2 : Sorting partitions & fill the blanks with description units
+		Collections.sort(newRegions);
+		int lastOffset = 0;
+		IntentRegion lastRegion = null;
+		List<IntentRegion> regionsToAdd = new ArrayList<IntentRegion>();
+		for (IntentRegion region : newRegions) {
+			if (region.getOffset() > lastOffset) {
+				// we fill the blanks with description units partitions
+				regionsToAdd.addAll(createDescriptionAndTitle(lastOffset, region.getOffset() - lastOffset,
+						lastRegion));
+			}
+			lastOffset = region.getOffset() + region.getLength();
+			lastRegion = region;
+		}
+
+		// Step 3 : Adding new partitions to the existing
+		for (IntentRegion intentTokenToAdd : regionsToAdd) {
+			newRegions.add(intentTokenToAdd);
+		}
+		Collections.sort(newRegions);
+		regions = newRegions;
+	}
+
+	/**
+	 * Creates the region for the description unit and its title if present.
+	 * 
+	 * @param offset
+	 *            the description unit offset
+	 * @param length
+	 *            the description unit length
+	 * @param previousRegion
+	 *            the previous region contentType
+	 * @return the description unit & the title if present
+	 */
+	private List<IntentRegion> createDescriptionAndTitle(int offset, int length, IntentRegion previousRegion) {
+		List<IntentRegion> unitRegions = new ArrayList<IntentRegion>();
+		int unitOffset = offset;
+		int unitLength = length;
+		if (SU_START_TYPE == previousRegion.getKind()) {
+			try {
+				String text = document.get(unitOffset, unitLength);
+				String[] lines = text.split("\\n");
+				if (lines.length > 1) {
+					final int titleLength = lines[0].length();
+					unitRegions.add(new IntentRegion(unitOffset, titleLength,
+							IntentDocumentProvider.INTENT_TITLE));
+					unitOffset += titleLength;
+					unitLength -= titleLength;
+				}
+			} catch (BadLocationException e) {
+				IntentUiLogger.logError(e);
+			}
+		}
+		unitRegions.add(new IntentRegion(unitOffset, unitLength,
+				IntentDocumentProvider.INTENT_DESCRIPTIONUNIT));
+		return unitRegions;
+	}
+
+	/**
+	 * A comparable ITypedRegion.
+	 */
+	class IntentRegion extends TypedRegion implements Comparable<ITypedRegion> {
+
+		private int kind = -1;
+
+		public IntentRegion(int offset, int length, String type) {
+			super(offset, length, type);
+		}
+
+		public IntentRegion(int offset, int length, int kind) {
+			super(offset, length, IntentDocumentProvider.INTENT_DESCRIPTIONUNIT); // default type
+			this.kind = kind;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.jface.text.TypedRegion#getType()
+		 */
+		@Override
+		public String getType() {
+			String res = super.getType();
+			switch (kind) {
+				case -1:
+					break;
+				case SU_START_TYPE:
+					res = IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT;
+					break;
+				case SU_END_TYPE:
+					res = IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT;
+					break;
+				case MU_TYPE:
+					res = IntentDocumentProvider.INTENT_MODELINGUNIT;
+					break;
+				default:
+					break;
+			}
+			return res;
+		}
+
+		/**
+		 * Returns true if the current region contains the given one.
+		 * 
+		 * @param o
+		 *            the given region
+		 * @return true if the current region contains the given one
+		 */
+		public boolean contains(ITypedRegion o) {
+			return o.getOffset() >= getOffset()
+					&& (o.getOffset() + o.getLength()) <= (getOffset() + getLength());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see java.lang.Comparable#compareTo(java.lang.Object)
+		 */
+		public int compareTo(ITypedRegion o) {
+			return new Integer(getOffset()).compareTo(o.getOffset());
+		}
+
+		public int getKind() {
+			return kind;
+		}
+
 	}
 }
