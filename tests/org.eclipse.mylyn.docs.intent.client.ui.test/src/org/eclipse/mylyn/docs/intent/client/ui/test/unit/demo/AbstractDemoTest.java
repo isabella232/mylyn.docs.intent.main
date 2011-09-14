@@ -76,6 +76,13 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 				Resource resource = repositoryAdapter
 						.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
 				// We ensure that the compiler did its work less that one minute ago
+				if (resource != null) {
+					if (!resource.getContents().isEmpty()) {
+						System.out.println("compilation time : "
+								+ isRecentTraceabilityIndex((TraceabilityIndex)resource.getContents()
+										.iterator().next()));
+					}
+				}
 				repositoryInitialized = resource != null
 						&& !resource.getContents().isEmpty()
 						&& isRecentTraceabilityIndex((TraceabilityIndex)resource.getContents().iterator()
@@ -102,6 +109,9 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 		if (traceabilityIndex.getEntries().size() > 0) {
 			BigInteger compilationTime = traceabilityIndex.getEntries().iterator().next()
 					.getCompilationTime();
+			System.out.println(compilationTime);
+			System.out.println(System.currentTimeMillis() - RECENT_COMPILATION_DELAY);
+			System.out.println();
 			return compilationTime.doubleValue() > (System.currentTimeMillis() - RECENT_COMPILATION_DELAY);
 		}
 		return false;
