@@ -14,7 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.AssertionFailedError;
@@ -75,6 +77,8 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 
 	private IntentDocument intentDocument;
 
+	private List<IntentEditor> openedEditors;
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -106,6 +110,8 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 
 		System.out.println("-- SETTED UP.;");
 		traceHeapSize();
+
+		openedEditors = new ArrayList<IntentEditor>();
 	}
 
 	private void traceHeapSize() {
@@ -125,8 +131,13 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	@Override
 	protected void tearDown() throws Exception {
+		waitForAllOperationsInUIThread();
+		// Step 1 : close editors
+		for (IntentEditor editor : openedEditors) {
+			editor.close(false);
+		}
 
-		// Step 1 : clean workspace
+		// Step 2 : clean workspace
 		waitForAllOperationsInUIThread();
 		if (intentProject != null) {
 			intentProject.delete(true, true, new NullProgressMonitor());
@@ -134,7 +145,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		IntentEditorActivator.getDefault().getLog().removeLogListener(this);
 		WorkspaceUtils.cleanWorkspace();
 
-		// Step 2 : setting all fields to null (to avoid memory leaks)
+		// Step 3 : setting all fields to null (to avoid memory leaks)
 		setAllFieldsToNull();
 
 		super.tearDown();
@@ -326,7 +337,9 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	protected IntentEditor openIntentEditor(IntentStructuredElement element) {
 		IntentEditorOpener.openIntentEditor(repository, element, true, null, true);
 		waitForAllOperationsInUIThread();
-		return IntentEditorOpener.getAlreadyOpenedEditor(element);
+		IntentEditor editor = IntentEditorOpener.getAlreadyOpenedEditor(element);
+		openedEditors.add(editor);
+		return editor;
 	}
 
 	/**
