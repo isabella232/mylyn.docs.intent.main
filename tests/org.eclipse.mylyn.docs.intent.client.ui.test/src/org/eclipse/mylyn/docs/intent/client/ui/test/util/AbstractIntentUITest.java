@@ -131,6 +131,8 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	@Override
 	protected void tearDown() throws Exception {
+		System.out.println("-- TEARING DOWN...");
+
 		waitForAllOperationsInUIThread();
 		// Step 1 : close editors
 		for (IntentEditor editor : openedEditors) {
