@@ -232,16 +232,4 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 		assertEquals(FAILURE_MESSAGE, expectedDocumentContent, newDocumentContent);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see junit.framework.TestCase#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		if (editor != null) {
-			editor.close(false);
-		}
-		super.tearDown();
-	}
 }
