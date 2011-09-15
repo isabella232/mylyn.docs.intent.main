@@ -115,7 +115,6 @@ public class IntentProjectListener implements IResourceChangeListener {
 
 			// Step 2 : if any project has been opened, we handle this creation
 			for (IProject project : visitor.getOpenedProjects()) {
-				System.out.println("from delta");
 				handleOpenedProject(project);
 			}
 
