@@ -62,11 +62,15 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 						if (((IProject)resource).isOpen()) {
 							openedProjects.add((IProject)resource);
 						} else {
-							System.out.println(resource + " not open");
+							if (resource instanceof IProject) {
+								System.out.println(resource + " not open");
+							}
 						}
 					}
 				} else {
-					System.out.println("no OPEN flag for " + resource);
+					if (resource instanceof IProject) {
+						System.out.println("no OPEN flag for " + resource);
+					}
 				}
 				// If the Nature of a project has changed
 				if ((IResourceDelta.DESCRIPTION & delta.getFlags()) != 0) {
@@ -79,12 +83,16 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 							if (IntentProjectManager.isManagedProject((IProject)resource)) {
 								closedProjects.add((IProject)resource);
 							} else {
-								System.out.println(resource + " close, not managed");
+								if (resource instanceof IProject) {
+									System.out.println(resource + " close, not managed");
+								}
 							}
 						}
 					}
 				} else {
-					System.out.println("no DESCRIPTION flag for " + resource);
+					if (resource instanceof IProject) {
+						System.out.println("no DESCRIPTION flag for " + resource);
+					}
 				}
 				break;
 			default:
