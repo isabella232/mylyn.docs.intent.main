@@ -50,7 +50,16 @@ public class IntentProjectListener implements IResourceChangeListener {
 		for (IProject project : allProjects) {
 			try {
 				if (project.isAccessible() && project.hasNature(IntentNature.NATURE_ID)) {
+					System.out.println("from init");
 					handleOpenedProject(project);
+				} else {
+					String cause = "";
+					if (project.isAccessible()) {
+						cause = "not an intent project";
+					} else {
+						cause = "not accessible";
+					}
+					System.out.println("ignoring " + project + " : " + cause);
 				}
 			} catch (CoreException e) {
 				IntentUiLogger.logError(e);
@@ -115,6 +124,7 @@ public class IntentProjectListener implements IResourceChangeListener {
 
 			// Step 2 : if any project has been opened, we handle this creation
 			for (IProject project : visitor.getOpenedProjects()) {
+				System.out.println("from delta");
 				handleOpenedProject(project);
 			}
 
