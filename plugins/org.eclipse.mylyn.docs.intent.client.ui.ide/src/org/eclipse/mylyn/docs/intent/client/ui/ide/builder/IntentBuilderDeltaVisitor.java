@@ -47,7 +47,11 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 	 */
 	public boolean visit(IResourceDelta delta) throws CoreException {
 		IResource resource = delta.getResource();
-		System.out.println("visiting " + resource);
+		if (resource instanceof IProject) {
+			System.out
+					.println("visiting " + resource + " " + delta.getKind() + " " + resource.isAccessible());
+		}
+
 		switch (delta.getKind()) {
 			case IResourceDelta.ADDED:
 				// If an intent project has been created

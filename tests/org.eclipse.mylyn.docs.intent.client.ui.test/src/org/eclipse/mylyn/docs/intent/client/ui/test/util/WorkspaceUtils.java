@@ -31,8 +31,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
-import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -151,20 +149,6 @@ public final class WorkspaceUtils {
 		}
 
 		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
-
-		IProject intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(intentProjectName);
-		long startTime = System.currentTimeMillis();
-		boolean timeOutDetected = false;
-		try {
-			while (!(intentProject.isAccessible() && intentProject.hasNature(IntentNature.NATURE_ID))
-					&& !timeOutDetected) {
-				Thread.sleep(WAITING_STEP_DELAY);
-				timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
-			}
-			Thread.sleep(WAITING_STEP_DELAY);
-		} catch (InterruptedException e) {
-			IntentUiLogger.logError(e);
-		}
 	}
 
 	/**

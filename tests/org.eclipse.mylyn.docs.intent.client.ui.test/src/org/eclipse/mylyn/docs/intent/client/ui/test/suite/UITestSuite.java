@@ -15,10 +15,13 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.compilation.CompileTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening.OpenEditorTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.EcoreTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.JavaTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 
 /**
  * This suite will launch all the tests relative to the UI behavior.
@@ -46,20 +49,20 @@ public class UITestSuite extends TestCase {
 	public static Test suite() {
 		final TestSuite suite = new TestSuite("Intent UI TestSuite");
 
-		// // Core tests
-		// // All tests that test a technical concern (emf compare behavior, project lifecycle...)
-		// final TestSuite basicTestSuite = new TestSuite("Technical tests");
-		// basicTestSuite.addTestSuite(ProjectTest.class);
-		// basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
-		//
-		// suite.addTest(basicTestSuite);
-		//
-		// // Scenario tests
-		// // all tests that test an identified scenario for the end-user (very simple use case)
-		// final TestSuite scenarioSuite = new TestSuite("Simple End-User Scenarios");
-		// scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
-		//
-		// suite.addTest(scenarioSuite);
+		// Core tests
+		// All tests that test a technical concern (emf compare behavior, project lifecycle...)
+		final TestSuite basicTestSuite = new TestSuite("Technical tests");
+		basicTestSuite.addTestSuite(ProjectTest.class);
+		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
+
+		suite.addTest(basicTestSuite);
+
+		// Scenario tests
+		// all tests that test an identified scenario for the end-user (very simple use case)
+		final TestSuite scenarioSuite = new TestSuite("Simple End-User Scenarios");
+		scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
+
+		suite.addTest(scenarioSuite);
 
 		// Complete use case testSuite
 		// all tests that ensures the behavior of complete use cases
