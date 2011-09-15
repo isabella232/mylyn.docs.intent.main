@@ -138,9 +138,7 @@ public final class WorkspaceUtils {
 			zipEntry = zipFileStream.getNextEntry();
 		}
 
-		for (IProject project : projects) {
-			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-		}
+		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
 	}
 
 	/**
