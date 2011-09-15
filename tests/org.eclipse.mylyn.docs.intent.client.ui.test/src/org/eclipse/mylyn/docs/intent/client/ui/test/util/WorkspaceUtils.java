@@ -31,6 +31,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
+import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -41,6 +43,16 @@ import org.eclipse.ui.PlatformUI;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public final class WorkspaceUtils {
+
+	/**
+	 * Delay to wait before checking again that an event occurred.
+	 */
+	private static final int WAITING_STEP_DELAY = 600;
+
+	/**
+	 * Delay to wait before considering that an expected event never occurred.
+	 */
+	private static final long TIME_OUT_DELAY = 20000;
 
 	/**
 	 * Prevents instantiation.
@@ -86,8 +98,8 @@ public final class WorkspaceUtils {
 	 * @throws CoreException
 	 *             if there is an issue creating one of the projects
 	 */
-	public static void unzipAllProjects(String bundleName, String zipLocation, IProgressMonitor monitor)
-			throws IOException, CoreException {
+	public static void unzipAllProjects(String bundleName, String zipLocation, IProgressMonitor monitor,
+			String intentProjectName) throws IOException, CoreException {
 		final URL interpreterZipUrl = FileLocator.find(Platform.getBundle(bundleName), new Path(zipLocation),
 				null);
 		final ZipInputStream zipFileStream = new ZipInputStream(interpreterZipUrl.openStream());
@@ -139,6 +151,20 @@ public final class WorkspaceUtils {
 		}
 
 		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+
+		IProject intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(intentProjectName);
+		long startTime = System.currentTimeMillis();
+		boolean timeOutDetected = false;
+		try {
+			while (!(intentProject.isAccessible() && intentProject.hasNature(IntentNature.NATURE_ID))
+					&& !timeOutDetected) {
+				Thread.sleep(WAITING_STEP_DELAY);
+				timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
+			}
+			Thread.sleep(WAITING_STEP_DELAY);
+		} catch (InterruptedException e) {
+			IntentUiLogger.logError(e);
+		}
 	}
 
 	/**
