@@ -22,5 +22,6 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Import-Package: com.google.common.base,
  com.google.common.collect
-Export-Package: org.eclipse.mylyn.docs.intent.client.ui.ide.builder,
+Export-Package: org.eclipse.mylyn.docs.intent.client.ui.ide,
+ org.eclipse.mylyn.docs.intent.client.ui.ide.builder,
  org.eclipse.mylyn.docs.intent.client.ui.ide.launcher
