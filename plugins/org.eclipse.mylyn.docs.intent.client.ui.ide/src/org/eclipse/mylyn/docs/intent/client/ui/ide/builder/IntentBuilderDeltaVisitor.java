@@ -47,11 +47,6 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 	 */
 	public boolean visit(IResourceDelta delta) throws CoreException {
 		IResource resource = delta.getResource();
-		if (resource instanceof IProject) {
-			System.out
-					.println("visiting " + resource + " " + delta.getKind() + " " + resource.isAccessible());
-		}
-
 		switch (delta.getKind()) {
 			case IResourceDelta.ADDED:
 				// If an intent project has been created
@@ -68,6 +63,8 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 							openedProjects.add((IProject)resource);
 						}
 					}
+				} else {
+					System.out.println("no OPEN flag");
 				}
 				// If the Nature of a project has changed
 				if ((IResourceDelta.DESCRIPTION & delta.getFlags()) != 0) {
@@ -82,6 +79,8 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 							}
 						}
 					}
+				} else {
+					System.out.println("no DESCRIPTION flag");
 				}
 				break;
 			default:
