@@ -30,6 +30,13 @@ public class CompilerRepositoryClient extends AbstractRepositoryClient {
 	private Repository repository;
 
 	/**
+	 * Constructor.
+	 */
+	public CompilerRepositoryClient() {
+		System.out.println("[Compiler] Initialised.");
+	}
+
+	/**
 	 * Sets the repository to use for saving and closing getConnexion.
 	 * 
 	 * @param repository
