@@ -70,17 +70,12 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 						// If the Intent Nature has been added
 						if (resource.isAccessible() && ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
 							openedProjects.add((IProject)resource);
-							System.out.println("detected " + resource);
 						} else {
 							// If the project had the Intent Nature but not anymore
 							if (IntentProjectManager.isManagedProject((IProject)resource)) {
 								closedProjects.add((IProject)resource);
 							}
 						}
-					}
-				} else {
-					if (resource instanceof IProject) {
-						System.out.println("no DESCRIPTION flag for " + resource);
 					}
 				}
 				break;
