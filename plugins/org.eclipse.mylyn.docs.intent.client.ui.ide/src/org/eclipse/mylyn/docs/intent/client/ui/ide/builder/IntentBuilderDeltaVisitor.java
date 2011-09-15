@@ -61,15 +61,7 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 							&& ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
 						if (((IProject)resource).isOpen()) {
 							openedProjects.add((IProject)resource);
-						} else {
-							if (resource instanceof IProject) {
-								System.out.println(resource + " not open");
-							}
 						}
-					}
-				} else {
-					if (resource instanceof IProject) {
-						System.out.println("no OPEN flag for " + resource);
 					}
 				}
 				// If the Nature of a project has changed
@@ -78,14 +70,11 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 						// If the Intent Nature has been added
 						if (resource.isAccessible() && ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
 							openedProjects.add((IProject)resource);
+							System.out.println("detected " + resource);
 						} else {
 							// If the project had the Intent Nature but not anymore
 							if (IntentProjectManager.isManagedProject((IProject)resource)) {
 								closedProjects.add((IProject)resource);
-							} else {
-								if (resource instanceof IProject) {
-									System.out.println(resource + " close, not managed");
-								}
 							}
 						}
 					}
