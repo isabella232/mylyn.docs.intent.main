@@ -62,8 +62,7 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 		super.setUp();
 
 		// Step 1 : import the demo projects
-		WorkspaceUtils.unzipAllProjects(BUNDLE_NAME, DEMO_ZIP_LOCATION, new NullProgressMonitor(),
-				INTENT_PROJECT_NAME);
+		WorkspaceUtils.unzipAllProjects(BUNDLE_NAME, DEMO_ZIP_LOCATION, new NullProgressMonitor());
 
 		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
 

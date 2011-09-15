@@ -43,16 +43,6 @@ import org.eclipse.ui.PlatformUI;
 public final class WorkspaceUtils {
 
 	/**
-	 * Delay to wait before checking again that an event occurred.
-	 */
-	private static final int WAITING_STEP_DELAY = 600;
-
-	/**
-	 * Delay to wait before considering that an expected event never occurred.
-	 */
-	private static final long TIME_OUT_DELAY = 20000;
-
-	/**
 	 * Prevents instantiation.
 	 */
 	private WorkspaceUtils() {
@@ -96,8 +86,8 @@ public final class WorkspaceUtils {
 	 * @throws CoreException
 	 *             if there is an issue creating one of the projects
 	 */
-	public static void unzipAllProjects(String bundleName, String zipLocation, IProgressMonitor monitor,
-			String intentProjectName) throws IOException, CoreException {
+	public static void unzipAllProjects(String bundleName, String zipLocation, IProgressMonitor monitor)
+			throws IOException, CoreException {
 		final URL interpreterZipUrl = FileLocator.find(Platform.getBundle(bundleName), new Path(zipLocation),
 				null);
 		final ZipInputStream zipFileStream = new ZipInputStream(interpreterZipUrl.openStream());
