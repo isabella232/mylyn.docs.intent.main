@@ -178,8 +178,6 @@ public class IntentPartitioner implements IDocumentPartitioner {
 	 * Regexp-based partitions computation.
 	 */
 	private void updateRegions() {
-		double deb = System.currentTimeMillis();
-
 		List<IntentRegion> newRegions = new ArrayList<IntentRegion>();
 		String text = document.get();
 
