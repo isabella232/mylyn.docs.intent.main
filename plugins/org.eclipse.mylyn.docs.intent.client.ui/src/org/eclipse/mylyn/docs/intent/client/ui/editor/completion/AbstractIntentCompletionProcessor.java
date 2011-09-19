@@ -153,7 +153,7 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	 * @return the keyword proposal
 	 */
 	protected ICompletionProposal createKeyWordProposal(String keyword) {
-		return new CompletionProposal(keyword, offset, 0, keyword.length());
+		return new CompletionProposal(keyword, offset - start.length(), start.length(), keyword.length());
 	}
 
 	/**
