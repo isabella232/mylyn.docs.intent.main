@@ -112,6 +112,7 @@ public final class IntentProjectManager {
 				// Clients creation (if needed)
 
 				// Compiler
+				System.out.println("[IntentProjectManager] Launching clients " + compilerClient);
 				if (compilerClient == null) {
 					compilerClient = CompilerCreator.createCompilerClient(getRepository());
 				}
@@ -183,15 +184,19 @@ public final class IntentProjectManager {
 
 		if (compilerClient != null) {
 			compilerClient.dispose();
+			compilerClient = null;
 		}
 		if (synchronizerClient != null) {
 			synchronizerClient.dispose();
+			synchronizerClient = null;
 		}
 		if (indexerClient != null) {
 			indexerClient.dispose();
+			indexerClient = null;
 		}
 		if (refresher != null) {
 			refresher.dispose();
+			refresher = null;
 		}
 
 		repository.closeSession();
