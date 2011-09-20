@@ -10,12 +10,13 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
+import com.google.common.collect.Sets;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -32,7 +33,7 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
@@ -45,12 +46,12 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListNotificator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -163,11 +164,17 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		// Step 1 : creating the handler
 		// we listen for all modifications made on the traceability index
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
-		Set<EStructuralFeature> listenedFeatures = new LinkedHashSet<EStructuralFeature>();
-		listenedFeatures.addAll(CompilerPackage.eINSTANCE.getTraceabilityIndex().getEStructuralFeatures());
-		Notificator listenedElementsNotificator = new TypeNotificator(listenedFeatures);
-		handler.setNotificator(listenedElementsNotificator);
 
+		if (getIntentDocument() == null) {
+			fail("Cannot register a repository listener without having setted up an Intent Document");
+		}
+		Set<EObject> listenedElements = Sets.newLinkedHashSet();
+		listenedElements.add(getIntentDocument());
+		listenedElements.add(handler.getRepositoryAdapter()
+				.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH).getContents().iterator().next());
+		Notificator elementNotificator = new ElementListNotificator(listenedElements,
+				new ElementListAdapter());
+		handler.setNotificator(elementNotificator);
 		// Step 2 : creating the client
 		this.repositoryListener = new RepositoryListenerForTests();
 		repositoryListener.addRepositoryObjectHandler(handler);
@@ -218,7 +225,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 					intentProject = project;
 					setUpRepository(project);
 				}
-
 			};
 			ResourcesPlugin.getWorkspace().run(create, null);
 
@@ -374,7 +380,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 				"Cannot wait for synchronizer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
 				repositoryListener);
 		assertTrue("Time out : synchronizer should have handle changes but did not",
-				repositoryListener.waitForModificationOn(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH));
+				repositoryListener.waitForModificationOn(RepositoryListenerForTests.SYNCHRONIZER_ISSUE_PATH));
 		waitForAllOperationsInUIThread();
 	}
 

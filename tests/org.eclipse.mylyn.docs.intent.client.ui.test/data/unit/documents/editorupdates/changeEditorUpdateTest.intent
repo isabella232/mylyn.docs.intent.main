@@ -16,7 +16,6 @@ Document {
 			@M SidedataTypeDefinition 
 				match {
 					eClassifiers += new EEnum Side {
-						serializable = "true";
 						eLiterals += new EEnumLiteral {
 							name = "Left";
 							literal = "Left";
@@ -52,6 +51,29 @@ Document {
 			Section 2.2
 			
 			The 2.2 Section.
+		}
+	}
+	Chapter {
+	
+		Section {
+			Section {
+				Section 3.1.1
+				
+				Such a good section.
+			}
+			
+			@M myModelingUnit
+				Side {
+					serializable = "true";
+				}
+			M@
+			
+			Section {
+				Section 3.2.1
+				
+				The last Section.			
+			}		
+		
 		}
 	}
 }

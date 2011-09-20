@@ -74,22 +74,22 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	 * Ensures that, when adding a new paragraph to a chapter containing no description unit, when emf compare
 	 * is used to update the repository the chapter keeps its expected location and structure.
 	 */
-	public void testAddParagraphToBeginningOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
+	public void testAddParagraphToMiddleOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
 		// opening an editor on the second chapter
 		editor = openIntentEditor(getIntentChapter(2));
-
-		genericUpdateTest("Chapter {", A_NEW_DESCRIPTION_UNIT);
+	
+		genericUpdateTest("The 2.1 Section.\n\t}", A_NEW_DESCRIPTION_UNIT);
 	}
 
 	/**
 	 * Ensures that, when adding a new paragraph to a chapter containing no description unit, when emf compare
 	 * is used to update the repository the chapter keeps its expected location and structure.
 	 */
-	public void testAddParagraphToMiddleOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
+	public void testAddParagraphToBeginningOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
 		// opening an editor on the second chapter
 		editor = openIntentEditor(getIntentChapter(2));
 
-		genericUpdateTest("The 2.1 Section.\n\t}", A_NEW_DESCRIPTION_UNIT);
+		genericUpdateTest("Chapter {", A_NEW_DESCRIPTION_UNIT);
 	}
 
 	/**
