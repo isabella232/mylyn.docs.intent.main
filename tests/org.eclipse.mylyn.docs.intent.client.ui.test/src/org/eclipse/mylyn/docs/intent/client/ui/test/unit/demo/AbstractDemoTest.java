@@ -16,6 +16,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
@@ -85,6 +86,31 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 				Thread.sleep(TIME_TO_WAIT);
 			} catch (WrappedException e) {
 				// Try again
+			}
+		}
+
+		// Work-around to fix hudson tests :
+		// we toggle the nature twice to make sure that the imported project is detected
+		if (timeOutDetected) {
+			ToggleNatureAction.toggleNature(intentProject);
+			ToggleNatureAction.toggleNature(intentProject);
+			repositoryInitialized = false;
+			startTime = System.currentTimeMillis();
+			timeOutDetected = false;
+			while (!repositoryInitialized && !timeOutDetected) {
+				try {
+					Resource resource = repositoryAdapter
+							.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
+					// We ensure that the compiler did its work less that one minute ago
+					repositoryInitialized = resource != null
+							&& !resource.getContents().isEmpty()
+							&& isRecentTraceabilityIndex((TraceabilityIndex)resource.getContents().iterator()
+									.next());
+					timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
+					Thread.sleep(TIME_TO_WAIT);
+				} catch (WrappedException e) {
+					// Try again
+				}
 			}
 		}
 		assertFalse("The Intent clients have not been launched although the project has been imported",
