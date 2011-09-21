@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.testSuite;
 
+import org.eclipse.mylyn.docs.intent.parser.errors.test.TestParserErrors;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.TestModelingUnitSuite;
 import org.eclipse.mylyn.docs.intent.parser.test.IntentParserTest;
 import org.eclipse.mylyn.docs.intent.parser.test.descriptionunit.DescriptionUnitParserTest;
@@ -24,7 +25,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({TestModelingUnitSuite.class, TestWikiTextParserSuite.class,
-		DescriptionUnitParserTest.class, IntentParserTest.class,
+		DescriptionUnitParserTest.class, IntentParserTest.class, TestParserErrors.class,
 
 })
 public class TestAllParsersSuite {

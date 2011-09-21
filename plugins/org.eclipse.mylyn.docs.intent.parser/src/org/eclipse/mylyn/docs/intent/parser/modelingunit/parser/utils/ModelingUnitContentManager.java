@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
@@ -140,9 +141,27 @@ public class ModelingUnitContentManager<T> {
 			// do nothing
 		}
 		if (!isSpace(invalidContent) && !isComment(invalidContent.trim())) {
-			throw new ParseException("Unrecognized content", startOffset + rootOffset, endOffset
-					- startOffset);
+			final int errorOffset = rootOffset + startOffset + getBeginningSpaceLength(invalidContent);
+			final int errorLength = invalidContent.trim().length();
+			throw new ParseException("Unrecognized content", errorOffset, errorLength);
 		}
+	}
+
+	/**
+	 * Returns the length of the spaces at the beginning of the string..
+	 * 
+	 * @param string
+	 *            the string
+	 * @return the space length
+	 */
+	private static int getBeginningSpaceLength(String string) {
+		Pattern p = Pattern.compile("^\\s+");
+		Matcher m = p.matcher(string);
+		int index = 0;
+		if (m.find()) {
+			index = m.group().length();
+		}
+		return index;
 	}
 
 	/**

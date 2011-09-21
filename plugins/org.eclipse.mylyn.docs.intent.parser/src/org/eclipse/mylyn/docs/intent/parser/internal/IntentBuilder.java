@@ -131,7 +131,7 @@ public class IntentBuilder {
 					positionManager);
 			increaseImbricationLevel();
 		} else {
-			throw new ParseException("Can't open any document here.");
+			throw new ParseException("Can't open any document here.", offset, declarationLength);
 		}
 	}
 
@@ -243,7 +243,7 @@ public class IntentBuilder {
 	 */
 	public void modelingUnitContent(int offset, String modelingUnitContent) throws ParseException {
 		currentState = currentState.modelingUnitContent(offset, modelingUnitContent.length(),
-				formatUsingImbricationLevel(modelingUnitContent, true));
+				modelingUnitContent);
 	}
 
 	/**

@@ -89,7 +89,8 @@ public class SSection extends IntentSubSectionContainerState {
 
 		// The title of this Section cannot be set anymore
 		this.titleCanBeSet = false;
-		ModelingUnit modelingUnit = (ModelingUnit)getModelingUnitParser().parseString(modelingUnitContent);
+		ModelingUnit modelingUnit = (ModelingUnit)getModelingUnitParser().parseString(offset,
+				modelingUnitContent);
 
 		((IntentSection)this.currentElement).getIntentContent().add(modelingUnit);
 

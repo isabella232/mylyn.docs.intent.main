@@ -64,7 +64,7 @@ public class IntentParser {
 			// We have 3 possibilities for the type of the element to parse :
 			// If it matches "@M (.*) M@", it's a modelingUnit
 			if (modelingUnitParser.isParserFor(contentToParse)) {
-				generatedObject = modelingUnitParser.parseString(contentToParse);
+				generatedObject = modelingUnitParser.parseString(0, contentToParse);
 			} else {
 				// If it starts with a IntentDocument's Keyword (like "Section, Document, Chapter..."
 				if (documentParser.isParserFor(contentToParse)) {

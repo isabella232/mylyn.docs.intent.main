@@ -138,7 +138,8 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 			if (title instanceof DescriptionBloc) {
 				EList<StructureElement> contents = ((DescriptionBloc)title).getDescriptionBloc().getContent();
 				if (contents.size() != 1) {
-					throw new ParseException("The title of this section isn't well formed");
+					throw new ParseException("The title of this section isn't well formed", offset,
+							sectionTitle.trim().length());
 				}
 
 				Block titleBlock = (Block)contents.get(0);

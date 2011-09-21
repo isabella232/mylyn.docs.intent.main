@@ -35,13 +35,15 @@ public interface ModelingUnitParser {
 	/**
 	 * Parse the given String and return its AST.
 	 * 
+	 * @param rootOffset
+	 *            the offset of the string to parse
 	 * @param stringToParse
 	 *            String representing the Modeling Unit to parse
 	 * @return the AST corresponding to the given String
 	 * @throws ParseException
 	 *             if the given String cannot be parsed
 	 */
-	EObject parseString(String stringToParse) throws ParseException;
+	EObject parseString(int rootOffset, String stringToParse) throws ParseException;
 
 	/**
 	 * Parse the file located at the given filePath and return its AST.

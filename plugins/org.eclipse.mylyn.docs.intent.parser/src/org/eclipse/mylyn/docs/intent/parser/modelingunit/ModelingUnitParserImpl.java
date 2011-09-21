@@ -113,7 +113,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	 */
 	public EObject parseFile(String filePath) throws ParseException, IOException {
 		String contentToParse = FileToStringConverter.getFileAsString(new File(filePath));
-		return parseString(contentToParse);
+		return parseString(0, contentToParse);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser#parseString(java.lang.String)
 	 */
-	public EObject parseString(String stringToParse) throws ParseException {
+	public EObject parseString(int rootOffset, String stringToParse) throws ParseException {
 		// Root creation
 		ModelingUnit modelingUnit = ModelingUnitFactory.eINSTANCE.createModelingUnit();
 		Pattern modelingUnitPattern = Pattern.compile("@M([ \t\f]+" + STRING_REGEX + ")?([ \t\f]+\\[(" //$NON-NLS-1$ //$NON-NLS-2$
@@ -143,13 +143,13 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 
 		// Content detection
 		ModelingUnitContentManager<UnitInstruction> manager = new ModelingUnitContentManager<UnitInstruction>();
-		manager.addAllContent(getResourceDeclarations(0, stringToParse));
-		manager.addAllContent(getInstanciationInstructions(0, stringToParse, true));
-		manager.addAllContent(getContributionInstructions(0, stringToParse, true));
+		manager.addAllContent(getResourceDeclarations(rootOffset, stringToParse));
+		manager.addAllContent(getInstanciationInstructions(rootOffset, stringToParse, true));
+		manager.addAllContent(getContributionInstructions(rootOffset, stringToParse, true));
 		manager.addAllContent(getIntentSectionReferencesinModelingUnit(stringToParse));
 		manager.addAllContent(getAnnotationDeclarations(stringToParse));
 		manager.addAllContent(getLabelsinModelingUnit(stringToParse));
-		manager.validateContent(stringToParse, startOffset, endOffset, 0);
+		manager.validateContent(stringToParse, startOffset, endOffset, rootOffset);
 
 		modelingUnit.getInstructions().addAll(manager.getContent().values());
 
@@ -175,7 +175,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	private Map<Location, UnitInstruction> getContributionInstructions(int rootOffset, String string,
 			boolean lineBreak) throws ParseException {
 		Map<Location, UnitInstruction> res = new HashMap<Location, UnitInstruction>();
-		Pattern startPattern = Pattern.compile("^" + STRING_REGEX + "\\s*\\{\\s*", Pattern.MULTILINE //$NON-NLS-1$ //$NON-NLS-2$
+		Pattern startPattern = Pattern.compile("^\\s*" + STRING_REGEX + "\\s*\\{\\s*", Pattern.MULTILINE //$NON-NLS-1$ //$NON-NLS-2$
 				| Pattern.DOTALL);
 
 		Matcher matcher = startPattern.matcher(string);
@@ -206,8 +206,9 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 						(Collection<? extends ModelingUnitInstruction>)manager.getContent().values());
 				index = endIndex;
 			} catch (IndexOutOfBoundsException e) {
-				throw new ParseException(Messages.getString(
-						"ModelingUnitParserImpl.INCORRECT_CONTRIBUTION_END", matcher.group())); //$NON-NLS-1$
+				throw new ParseException(
+						Messages.getString(
+								"ModelingUnitParserImpl.INCORRECT_CONTRIBUTION_END", matcher.group()), matcher.start(), matcher.group().length()); //$NON-NLS-1$
 			}
 
 			res.put(new Location(matcher.start(), index), instance);
@@ -261,8 +262,9 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 						(Collection<? extends StructuralFeatureAffectation>)manager.getContent().values());
 				index = endIndex;
 			} catch (IndexOutOfBoundsException e) {
-				throw new ParseException(Messages.getString(
-						"ModelingUnitParserImpl.INCORRECT_INSTANCIATION_END", matcher.group())); //$NON-NLS-1$
+				throw new ParseException(
+						Messages.getString(
+								"ModelingUnitParserImpl.INCORRECT_INSTANCIATION_END", matcher.group()), matcher.start(), matcher.group().length()); //$NON-NLS-1$
 			}
 
 			res.put(new Location(matcher.start(), index), instance);
@@ -321,10 +323,10 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 				manager.validateContent(stringContent, rootOffset + index);
 				index = endIndex;
 			} catch (IndexOutOfBoundsException e) {
-				throw new ParseException(Messages.getString(
-						"ModelingUnitParserImpl.INCORRECT_RESOURCE_DECLARATION_END", matcher.group())); //$NON-NLS-1$
+				throw new ParseException(
+						Messages.getString(
+								"ModelingUnitParserImpl.INCORRECT_RESOURCE_DECLARATION_END", matcher.group()), matcher.start(), matcher.group().length()); //$NON-NLS-1$
 			}
-
 			res.put(new Location(matcher.start(), index), instance);
 		}
 		return res;
@@ -567,8 +569,9 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 				}
 				index = endIndex;
 			} catch (IndexOutOfBoundsException e) {
-				throw new ParseException(Messages.getString(
-						"ModelingUnitParserImpl.INCORRECT_SINGLE_AFFECTATION_END", matcher.group())); //$NON-NLS-1$
+				throw new ParseException(
+						Messages.getString(
+								"ModelingUnitParserImpl.INCORRECT_SINGLE_AFFECTATION_END", matcher.group()), matcher.start(), matcher.group().length()); //$NON-NLS-1$
 			}
 		}
 		return res;
@@ -601,8 +604,9 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 				affectation.values.addAll(customTokenizer(valuesContent, TOKEN_DELIMITER));
 				index = endIndex;
 			} catch (IndexOutOfBoundsException e) {
-				throw new ParseException(Messages.getString(
-						"ModelingUnitParserImpl.INCORRECT_MULTIPLE_AFFECTATION_END", matcher.group())); //$NON-NLS-1$
+				throw new ParseException(
+						Messages.getString(
+								"ModelingUnitParserImpl.INCORRECT_MULTIPLE_AFFECTATION_END", matcher.group()), matcher.start(), matcher.group().length()); //$NON-NLS-1$
 			}
 			affectation.keyLength = middleOffset;
 			affectation.location = new Location(matcher.start(), getEndIndex(string, index, ';'));
