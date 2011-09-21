@@ -37,13 +37,13 @@ import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
  */
 public class IntentPartitioner implements IDocumentPartitioner {
 
-	private static final Map<Pattern, Integer> TYPE_BY_REGEXPS;
+	private static final Map<Pattern, Integer> KIND_BY_REGEXPS;
 
-	private static final int SU_START_TYPE = 0;
+	private static final int SU_START_KIND = 0;
 
-	private static final int SU_END_TYPE = 1;
+	private static final int SU_END_KIND = 1;
 
-	private static final int MU_TYPE = 2;
+	private static final int MU_KIND = 2;
 
 	/** The legal content types of this partitioner. */
 	protected final String[] fLegalContentTypes;
@@ -53,15 +53,15 @@ public class IntentPartitioner implements IDocumentPartitioner {
 
 	private List<IntentRegion> regions = new ArrayList<IntentRegion>();
 	static {
-		TYPE_BY_REGEXPS = new LinkedHashMap<Pattern, Integer>();
-		TYPE_BY_REGEXPS.put(Pattern.compile("@M((?!M@).)*M@", Pattern.MULTILINE | Pattern.DOTALL), MU_TYPE);
-		TYPE_BY_REGEXPS.put(Pattern.compile("Document\\s*\\{\\s*", Pattern.MULTILINE | Pattern.DOTALL),
-				SU_START_TYPE);
-		TYPE_BY_REGEXPS.put(Pattern.compile("Chapter\\s*\\{\\s*", Pattern.MULTILINE | Pattern.DOTALL),
-				SU_START_TYPE);
-		TYPE_BY_REGEXPS.put(Pattern.compile("Section\\s*\\{\\s*", Pattern.MULTILINE | Pattern.DOTALL),
-				SU_START_TYPE);
-		TYPE_BY_REGEXPS.put(Pattern.compile("}\\s*", Pattern.MULTILINE | Pattern.DOTALL), SU_END_TYPE);
+		KIND_BY_REGEXPS = new LinkedHashMap<Pattern, Integer>();
+		KIND_BY_REGEXPS.put(Pattern.compile("@M((?!M@).)*M@", Pattern.MULTILINE | Pattern.DOTALL), MU_KIND);
+		KIND_BY_REGEXPS.put(Pattern.compile("Document\\s*\\{\\s*", Pattern.MULTILINE | Pattern.DOTALL),
+				SU_START_KIND);
+		KIND_BY_REGEXPS.put(Pattern.compile("Chapter\\s*\\{\\s*", Pattern.MULTILINE | Pattern.DOTALL),
+				SU_START_KIND);
+		KIND_BY_REGEXPS.put(Pattern.compile("Section\\s*\\{\\s*", Pattern.MULTILINE | Pattern.DOTALL),
+				SU_START_KIND);
+		KIND_BY_REGEXPS.put(Pattern.compile("}\\s*", Pattern.MULTILINE | Pattern.DOTALL), SU_END_KIND);
 	}
 
 	/**
@@ -182,10 +182,10 @@ public class IntentPartitioner implements IDocumentPartitioner {
 		String text = document.get();
 
 		// Step 1 : Computing simple partitions: modeling units & structural content
-		for (Entry<Pattern, Integer> regexpEntry : TYPE_BY_REGEXPS.entrySet()) {
+		for (Entry<Pattern, Integer> regexpEntry : KIND_BY_REGEXPS.entrySet()) {
 			Matcher m = regexpEntry.getKey().matcher(text);
 			while (m.find()) {
-				IntentRegion newRegion = new IntentRegion(m.start(), m.end() - m.start(),
+				IntentRegion newRegion = createIntentRegion(m.start(), m.end() - m.start(),
 						regexpEntry.getValue());
 				if (!alreadyIncluded(newRegions, newRegion)) {
 					newRegions.add(newRegion);
@@ -231,7 +231,7 @@ public class IntentPartitioner implements IDocumentPartitioner {
 		List<IntentRegion> unitRegions = new ArrayList<IntentRegion>();
 		int unitOffset = offset;
 		int unitLength = length;
-		if (SU_START_TYPE == previousRegion.getKind()) {
+		if (SU_START_KIND == previousRegion.getKind()) {
 			try {
 				String text = document.get(unitOffset, unitLength);
 				String[] lines = text.split("\\n");
@@ -251,46 +251,43 @@ public class IntentPartitioner implements IDocumentPartitioner {
 		return unitRegions;
 	}
 
+	public IntentRegion createIntentRegion(int offset, int length, int kind) {
+		String type = IntentDocumentProvider.INTENT_DESCRIPTIONUNIT;
+		switch (kind) {
+			case -1:
+				break;
+			case SU_START_KIND:
+				type = IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT;
+				break;
+			case SU_END_KIND:
+				type = IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT;
+				break;
+			case MU_KIND:
+				type = IntentDocumentProvider.INTENT_MODELINGUNIT;
+				break;
+			default:
+				break;
+		}
+		return new IntentRegion(offset, length, type);
+	}
+
 	/**
 	 * A comparable ITypedRegion.
 	 */
 	class IntentRegion extends TypedRegion implements Comparable<ITypedRegion> {
-
-		private int kind = -1;
+		int kind = -1;
 
 		public IntentRegion(int offset, int length, String type) {
 			super(offset, length, type);
 		}
 
-		public IntentRegion(int offset, int length, int kind) {
-			super(offset, length, IntentDocumentProvider.INTENT_DESCRIPTIONUNIT); // default type
+		public IntentRegion(int offset, int length, String type, int kind) {
+			this(offset, length, type);
 			this.kind = kind;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.jface.text.TypedRegion#getType()
-		 */
-		@Override
-		public String getType() {
-			String res = super.getType();
-			switch (kind) {
-				case -1:
-					break;
-				case SU_START_TYPE:
-					res = IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT;
-					break;
-				case SU_END_TYPE:
-					res = IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT;
-					break;
-				case MU_TYPE:
-					res = IntentDocumentProvider.INTENT_MODELINGUNIT;
-					break;
-				default:
-					break;
-			}
-			return res;
+		public int getKind() {
+			return kind;
 		}
 
 		/**
@@ -313,10 +310,5 @@ public class IntentPartitioner implements IDocumentPartitioner {
 		public int compareTo(ITypedRegion o) {
 			return new Integer(getOffset()).compareTo(o.getOffset());
 		}
-
-		public int getKind() {
-			return kind;
-		}
-
 	}
 }
