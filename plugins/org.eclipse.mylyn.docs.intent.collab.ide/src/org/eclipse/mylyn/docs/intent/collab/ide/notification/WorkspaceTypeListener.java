@@ -74,7 +74,7 @@ public class WorkspaceTypeListener {
 					.iterator();
 			while (rootFeaturesIterator.hasNext() && !changesDetected) {
 				EStructuralFeature next = rootFeaturesIterator.next();
-				changesDetected = isListennedTypeModification(next);
+				changesDetected = isListenedTypeModification(next);
 			}
 		}
 
@@ -94,7 +94,7 @@ public class WorkspaceTypeListener {
 	 *            the feature to test.
 	 * @return true if the given feature matches any listened types of this typeListener, false otherwise.
 	 */
-	private boolean isListennedTypeModification(EStructuralFeature feature) {
+	private boolean isListenedTypeModification(EStructuralFeature feature) {
 		boolean isListennedType = false;
 		for (Iterator<EStructuralFeature> iterator = listenedTypes.iterator(); iterator.hasNext()
 				&& !isListennedType;) {
