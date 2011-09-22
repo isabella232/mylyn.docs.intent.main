@@ -22,6 +22,8 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -132,6 +134,17 @@ public final class WorkspaceUtils {
 					if (null != os) {
 						os.close();
 					}
+				}
+			} else {
+				IFolder folder = project.getFolder(file.getCanonicalPath().replace(
+						project.getLocation().toOSString(), ""));
+				IContainer parent = folder.getParent();
+				while (parent instanceof IFolder) {
+					((IFolder)parent).create(true, true, new NullProgressMonitor());
+					parent = parent.getParent();
+				}
+				if (!folder.exists()) {
+					folder.create(true, true, new NullProgressMonitor());
 				}
 			}
 			zipFileStream.closeEntry();

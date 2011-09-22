@@ -39,11 +39,21 @@ public class ProtocolFactory implements Resource.Factory {
 						e.printStackTrace();
 					}
 					result.getContents().add(rPrj);
+					addListeners(prj);
 					return result;
 				}
 			}
+
 		}
 		return null;
+	}
+
+	private void addListeners(IProject prj) {
+		if (RetroGeneratedElementListener.getInstance() != null) {
+			RetroGeneratedElementListener.getInstance().addElementToListen(
+					URI.createURI("retro:/" + prj.getName()));
+		}
+
 	}
 
 	private void fillProjectWithTests(final Project rPrj, IProject prj) throws CoreException {

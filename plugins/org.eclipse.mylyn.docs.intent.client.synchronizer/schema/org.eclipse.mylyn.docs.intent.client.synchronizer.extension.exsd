@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.mylyn.docs.intent.client.synchronizer" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.mylyn.docs.intent.client.synchronizer" id="org.eclipse.mylyn.docs.intent.client.synchronizer.extension" name="org.eclipse.mylyn.docs.intent.client.synchronizer.extension"/>
+      </appinfo>
+      <documentation>
+         Allows to define IURIBasedSynchronizerExtensions to the default behavior of the Synchronizer.
+
+Each extension must define : 
+- a supported scheme (for example, &quot;retro&quot; will indicates that this extension is handling all URIs starting with &quot;retro:/...&quot;). 
+
+- a mechanism that allows to detect any change made on the concrete artifacts described by the given URI and notify the Synchronizer of these changes.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="SynchronizerExtensionDescription"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="SynchronizerExtensionDescription">
+      <complexType>
+         <attribute name="class" type="string">
+            <annotation>
+               <documentation>
+                  The contributed SynchronizerExtension.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="handled_uri_scheme" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The Scheme handled by this SynchronizerExtension
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         You can see an example of this extension by considering the org.eclipse.mylyn.docs.intent.retro plugin.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="copyright"/>
+      </appinfo>
+      <documentation>
+         Copyright (c) 2010, 2011 Obeo.
+
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the Eclipse Public License v1.0
+which accompanies this distribution, and is available at
+http://www.eclipse.org/legal/epl-v10.html
+ 
+Contributors:
+Obeo - initial API and implementation
+      </documentation>
+   </annotation>
+
+</schema>

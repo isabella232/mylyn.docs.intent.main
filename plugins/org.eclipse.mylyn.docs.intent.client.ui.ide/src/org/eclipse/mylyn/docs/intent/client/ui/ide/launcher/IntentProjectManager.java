@@ -11,8 +11,11 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.launcher;
 
+import com.google.common.collect.Sets;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -271,6 +274,15 @@ public final class IntentProjectManager {
 			projectManagers.put(project, new IntentProjectManager(project));
 		}
 		return projectManagers.get(project);
+	}
+
+	/**
+	 * Returns all active project managers.
+	 * 
+	 * @return all active project managers
+	 */
+	public static Set<IntentProjectManager> getAllProjectManagers() {
+		return Sets.newLinkedHashSet(projectManagers.values());
 	}
 
 	/**

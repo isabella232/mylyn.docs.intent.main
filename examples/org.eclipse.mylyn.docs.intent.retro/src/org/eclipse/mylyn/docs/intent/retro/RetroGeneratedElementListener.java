@@ -8,10 +8,16 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.client.ui.ide.generatedelementlistener;
+package org.eclipse.mylyn.docs.intent.retro;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -20,27 +26,70 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
+import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension;
+import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtensionRegistry;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.AbstractGeneratedElementListener;
 
-/**
- * Listens all the generated element (must be on the workspace) and warn the synchronizer when one of them
- * change.
- * 
- * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
- * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
- */
-public class IDEGeneratedElementListener extends AbstractGeneratedElementListener implements IResourceChangeListener {
+public class RetroGeneratedElementListener extends AbstractGeneratedElementListener implements ISynchronizerExtension, IResourceChangeListener {
 
-	private Collection<URI> resourcesToIgnore;
+	public static final String RETRO_SCHEME = "retro";
+
+	protected Map<URI, Set<SynchronizerRepositoryClient>> uriToSynchronizers = Maps.newLinkedHashMap();
+
+	private ArrayList<URI> resourcesToIgnore;
 
 	/**
-	 * IDEGeneratedElementListener constructor.
+	 * Default constructor.
 	 */
-	public IDEGeneratedElementListener() {
+	public RetroGeneratedElementListener() {
 		super();
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		workspace.addResourceChangeListener(this);
 		resourcesToIgnore = new ArrayList<URI>();
+	}
+
+	/**
+	 * Returns the active instance.
+	 * 
+	 * @return the active instance
+	 */
+	public static RetroGeneratedElementListener getInstance() {
+		Iterable<RetroGeneratedElementListener> synchronizerExtensions = Iterables.filter(
+				ISynchronizerExtensionRegistry.getSynchronizerExtensions(RETRO_SCHEME),
+				RetroGeneratedElementListener.class);
+		if (synchronizerExtensions.iterator().hasNext()) {
+			return synchronizerExtensions.iterator().next();
+		}
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension#addListenedElements(org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient,
+	 *      java.util.Set)
+	 */
+	public void addListenedElements(SynchronizerRepositoryClient synchronizer, Set<URI> listenedElementsURIs) {
+		for (URI uri : listenedElementsURIs) {
+			if (!(uriToSynchronizers.containsKey(uri))) {
+				uriToSynchronizers.put(uri, Sets.<SynchronizerRepositoryClient> newLinkedHashSet());
+			}
+			uriToSynchronizers.get(uri).add(synchronizer);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension#removeListenedElements(org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient,
+	 *      java.util.Set)
+	 */
+	public void removeListenedElements(SynchronizerRepositoryClient synchronizer,
+			Set<URI> listenedElementsURIs) {
+		for (URI uri : listenedElementsURIs) {
+			uriToSynchronizers.remove(uri);
+		}
 	}
 
 	/**
@@ -71,39 +120,6 @@ public class IDEGeneratedElementListener extends AbstractGeneratedElementListene
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener#dispose()
-	 */
-	public void dispose() {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		workspace.removeResourceChangeListener(this);
-	}
-
-	/**
-	 * Creates a new DeltaVisitor that will be used to analyse workspaces delta and determine changed
-	 * resources.
-	 * 
-	 * @return a new DeltaVisitor that will be used to analyse workspaces delta.
-	 */
-	protected IDEGeneratedElementListenerDeltaVisitor createDeltaVisitor() {
-		return new IDEGeneratedElementListenerDeltaVisitor(listenedElementsURIs);
-	}
-
-	/**
-	 * Sends a notification to the synchronizer for each detected changedResource.
-	 * 
-	 * @param changedResources
-	 *            the list of listened resources that have changed
-	 */
-	protected void treatChangedResources(Collection<URI> changedResources) {
-		// TODO construct a proper change Notification
-		if (!changedResources.isEmpty()) {
-			this.synchronizer.handleChangeNotification(null);
-		}
-	}
-
-	/**
 	 * Analyzes the given IResourceDelta in a new thread ; reloads the resources if needed and send
 	 * notification to the registered Session listeners.
 	 * 
@@ -113,7 +129,8 @@ public class IDEGeneratedElementListener extends AbstractGeneratedElementListene
 	private void analyseWorkspaceDelta(IResourceDelta repositoryDelta) {
 
 		// We first create a DeltaVisitor on the repository Path
-		final IDEGeneratedElementListenerDeltaVisitor visitor = createDeltaVisitor();
+		final RetroGeneratedElementListenerDeltaVisitor visitor = new RetroGeneratedElementListenerDeltaVisitor(
+				listenedElementsURIs);
 		try {
 			// We visit the given delta using this visitor
 			repositoryDelta.accept(visitor);
@@ -146,6 +163,29 @@ public class IDEGeneratedElementListener extends AbstractGeneratedElementListene
 			// - try to visit the delta again
 			// - do nothing
 		}
+	}
+
+	protected void treatChangedResources(Collection<URI> changedResources) {
+		Set<SynchronizerRepositoryClient> synchronizersToNotify = Sets.newLinkedHashSet();
+		for (URI uri : changedResources) {
+			Set<SynchronizerRepositoryClient> listeningSynchronizers = uriToSynchronizers.get(uri);
+			if (listeningSynchronizers != null) {
+				synchronizersToNotify.addAll(listeningSynchronizers);
+			}
+		}
+		for (SynchronizerRepositoryClient listeningSynchronizer : synchronizersToNotify) {
+			listeningSynchronizer.handleChangeNotification(null);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener#dispose()
+	 */
+	public void dispose() {
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		workspace.removeResourceChangeListener(this);
 	}
 
 }

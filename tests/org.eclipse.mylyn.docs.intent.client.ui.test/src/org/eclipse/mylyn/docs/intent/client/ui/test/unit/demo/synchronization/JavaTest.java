@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -100,8 +101,15 @@ public class JavaTest extends AbstractDemoTest {
 		File javaTestFile = new File(JAVA_TEST_FILENAME);
 		IProject testProject = ResourcesPlugin.getWorkspace().getRoot()
 				.getProject("org.eclipse.emf.compare.tests");
+
+		// TODO remove this work-aourdn : update WorkspaceUtils.unzipAllProjects()
+		IFolder patchPackage = testProject
+				.getFolder("src/org/eclipse/emf/compare/tests/acceptance/comparedialog/patch");
+		if (!patchPackage.exists()) {
+			patchPackage.create(true, true, new NullProgressMonitor());
+		}
 		IFile newJavaTestIFile = testProject
-				.getFile("src/org/eclipse/emf/compare/tests/acceptance/comparedialog/patch");
+				.getFile("src/org/eclipse/emf/compare/tests/acceptance/comparedialog/patch/PatchCreationThroughCompareDialogTest.java");
 		FileInputStream is = new FileInputStream(javaTestFile);
 		newJavaTestIFile.create(is, false, new NullProgressMonitor());
 		is.close();

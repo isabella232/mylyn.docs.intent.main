@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.client.synchronizer
+Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.client.synchronizer;singleton:=true
 Bundle-Version: 0.7.0.qualifier
 Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.emf.common;bundle-version="2.6.0",
@@ -10,9 +10,12 @@ Require-Bundle: org.eclipse.emf.common;bundle-version="2.6.0",
  org.eclipse.mylyn.docs.intent.collab,
  org.eclipse.mylyn.docs.intent.collab.common,
  org.eclipse.emf.compare.match;bundle-version="1.2.0",
- org.eclipse.emf.edit.ui;bundle-version="2.6.0"
+ org.eclipse.emf.edit.ui;bundle-version="2.6.0",
+ com.google.collect;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.mylyn.docs.intent.client.synchronizer,
+ org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution,
  org.eclipse.mylyn.docs.intent.client.synchronizer.launcher,
  org.eclipse.mylyn.docs.intent.client.synchronizer.listeners
+Bundle-Activator: org.eclipse.mylyn.docs.intent.client.synchronizer.internal.SynchronizerPlugin

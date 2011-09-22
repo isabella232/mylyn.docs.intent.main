@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.listeners;
 
-import java.util.ArrayList;
+import com.google.common.collect.Sets;
+
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
@@ -30,13 +32,13 @@ public abstract class AbstractGeneratedElementListener implements GeneratedEleme
 	/**
 	 * The URI of listened elements.
 	 */
-	protected ArrayList<URI> listenedElementsURIs;
+	protected Set<URI> listenedElementsURIs;
 
 	/**
 	 * AbstractGeneratedElementListener constructor.
 	 */
 	public AbstractGeneratedElementListener() {
-		this.listenedElementsURIs = new ArrayList<URI>();
+		this.listenedElementsURIs = Sets.newLinkedHashSet();
 	}
 
 	/**

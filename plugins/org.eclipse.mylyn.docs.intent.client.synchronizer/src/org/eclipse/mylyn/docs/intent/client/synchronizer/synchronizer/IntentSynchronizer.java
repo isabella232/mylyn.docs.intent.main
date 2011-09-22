@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.synchronizer;
 
+import com.google.common.collect.Sets;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,6 +31,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
+import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension;
+import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtensionRegistry;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerMessageProvider;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerStatusFactory;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
@@ -59,12 +64,21 @@ public class IntentSynchronizer {
 	/**
 	 * Listens generated elements.
 	 */
-	private GeneratedElementListener generatedElementListener;
+	private GeneratedElementListener defaultSynchronizedElementListener;
+
+	/**
+	 * The repository client.
+	 */
+	private SynchronizerRepositoryClient repositoryClient;
 
 	/**
 	 * IntentSynchronizer constructor.
+	 * 
+	 * @param synchronizerRepositoryClient
+	 *            the repositoryClient
 	 */
-	public IntentSynchronizer() {
+	public IntentSynchronizer(SynchronizerRepositoryClient synchronizerRepositoryClient) {
+		this.repositoryClient = synchronizerRepositoryClient;
 		this.synchronizerStrategy = new CopyInternalResourceStrategy();
 	}
 
@@ -86,7 +100,7 @@ public class IntentSynchronizer {
 	 *            the GeneratedElementListener
 	 */
 	public void setGeneratedElementListener(GeneratedElementListener generatedElementListener) {
-		this.generatedElementListener = generatedElementListener;
+		this.defaultSynchronizedElementListener = generatedElementListener;
 	}
 
 	/**
@@ -107,8 +121,8 @@ public class IntentSynchronizer {
 	public Collection<? extends CompilationStatus> synchronize(RepositoryAdapter adapter,
 			TraceabilityIndex tracabilityIndex, Monitor progressMonitor) throws InterruptedException {
 		final List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
-		if (generatedElementListener != null) {
-			generatedElementListener.clearElementToListen();
+		if (defaultSynchronizedElementListener != null) {
+			defaultSynchronizedElementListener.clearElementToListen();
 		}
 		Iterator<TraceabilityIndexEntry> indexEntryIterator = tracabilityIndex.getEntries().iterator();
 		while (indexEntryIterator.hasNext()) {
@@ -265,9 +279,7 @@ public class IntentSynchronizer {
 			externalResource.unload();
 
 			// Step 7 : we ask the generated element listener to listen to the external Resource
-			if (this.generatedElementListener != null) {
-				this.generatedElementListener.addElementToListen(externalResource.getURI());
-			}
+			updateSynchronizedElementsListeners(externalResource.getURI());
 		} else {
 			stopIfCanceled(progressMonitor);
 			// TODO we can imagine creating a status, unless it's the responsability of the Strategy
@@ -275,6 +287,35 @@ public class IntentSynchronizer {
 		}
 
 		return statusList;
+	}
+
+	/**
+	 * Notifies the listeners in charge of detecting any changes made outside of repository that this
+	 * synchronizer wants to listen the resource located at the given uri.
+	 * 
+	 * @param uri
+	 *            the uri of the resource the synchronizer wants to listen
+	 */
+	private void updateSynchronizedElementsListeners(URI uri) {
+
+		boolean foundSpecificSynchronizer = false;
+
+		// Step 1 : searching through all contributed SynchronizerExtensions
+		// for an Extension matching the scheme of the given uri
+		if (uri.scheme() != null) {
+			for (ISynchronizerExtension synchronizerExtension : ISynchronizerExtensionRegistry
+					.getSynchronizerExtensions(uri.scheme())) {
+				synchronizerExtension.addListenedElements(repositoryClient, Sets.newHashSet(uri));
+				foundSpecificSynchronizer = true;
+			}
+		}
+
+		// Step 2 : if no synchronizer extensions is define for the given URI, then we notify the generated
+		// elements listener
+		if (!foundSpecificSynchronizer && this.defaultSynchronizedElementListener != null) {
+			this.defaultSynchronizedElementListener.addElementToListen(uri);
+		}
+
 	}
 
 	/**
@@ -416,7 +457,7 @@ public class IntentSynchronizer {
 	 * Disposes elements.
 	 */
 	public void dispose() {
-		generatedElementListener.dispose();
+		defaultSynchronizedElementListener.dispose();
 	}
 
 }

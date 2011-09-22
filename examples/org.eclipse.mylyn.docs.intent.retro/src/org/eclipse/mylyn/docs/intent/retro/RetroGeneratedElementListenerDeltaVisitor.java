@@ -8,9 +8,10 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.client.ui.ide.generatedelementlistener;
+package org.eclipse.mylyn.docs.intent.retro;
 
-import java.util.ArrayList;
+import com.google.common.collect.Sets;
+
 import java.util.Collection;
 import java.util.Set;
 
@@ -19,12 +20,8 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.emf.common.util.URI;
 
-/**
- * Visits a resource delta and detects the listened changed or removed resources.
- * 
- * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
- */
-public class IDEGeneratedElementListenerDeltaVisitor implements IResourceDeltaVisitor {
+public class RetroGeneratedElementListenerDeltaVisitor implements IResourceDeltaVisitor {
+
 	/**
 	 * All the EMF resource of the WorkspaceRepository that have changed.
 	 */
@@ -37,16 +34,10 @@ public class IDEGeneratedElementListenerDeltaVisitor implements IResourceDeltaVi
 
 	protected Set<URI> listennedElementsURIs;
 
-	/**
-	 * IDEGeneratedElementListenerDeltaVisitor constructor.
-	 * 
-	 * @param listenedElementsURIs
-	 *            the list of listened element's URIs
-	 */
-	public IDEGeneratedElementListenerDeltaVisitor(Set<URI> listenedElementsURIs) {
+	public RetroGeneratedElementListenerDeltaVisitor(Set<URI> listenedElementsURIs) {
 		this.listennedElementsURIs = listenedElementsURIs;
-		changedResources = new ArrayList<URI>();
-		removedResources = new ArrayList<URI>();
+		changedResources = Sets.newLinkedHashSet();
+		removedResources = Sets.newLinkedHashSet();
 	}
 
 	/**
@@ -55,7 +46,6 @@ public class IDEGeneratedElementListenerDeltaVisitor implements IResourceDeltaVi
 	 * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse.core.resources.IResourceDelta)
 	 */
 	public boolean visit(IResourceDelta delta) {
-
 		if (delta.getResource().getType() != IResource.FILE) {
 			return true;
 		}
@@ -65,16 +55,16 @@ public class IDEGeneratedElementListenerDeltaVisitor implements IResourceDeltaVi
 			// We first calculate the repository relative path for this resource
 			String uri = delta.getFullPath().toString();
 			URI changedResourceURI = URI.createPlatformResourceURI(uri, false);
-
-			if ((changedResourceURI != null) && (listennedElementsURIs.contains(changedResourceURI))) {
+			URI retroResourceURI = getRetroResourceURI(changedResourceURI);
+			if ((changedResourceURI != null) && (retroResourceURI != null)) {
 				switch (delta.getKind()) {
 					case IResourceDelta.REMOVED:
-						removedResources.add(changedResourceURI);
+						removedResources.add(retroResourceURI);
 						break;
 
 					case IResourceDelta.ADDED:
 					case IResourceDelta.CHANGED:
-						changedResources.add(changedResourceURI);
+						changedResources.add(retroResourceURI);
 						break;
 
 					default:
@@ -83,7 +73,6 @@ public class IDEGeneratedElementListenerDeltaVisitor implements IResourceDeltaVi
 			}
 
 		}
-
 		return true;
 	}
 
@@ -119,5 +108,15 @@ public class IDEGeneratedElementListenerDeltaVisitor implements IResourceDeltaVi
 	 */
 	public Collection<URI> getRemovedResources() {
 		return removedResources;
+	}
+
+	private URI getRetroResourceURI(URI changedResourceURI) {
+		for (URI listenedElementURI : listennedElementsURIs) {
+			if (changedResourceURI.toString().contains(
+					listenedElementURI.toString().replace(listenedElementURI.scheme() + ":/", ""))) {
+				return listenedElementURI;
+			}
+		}
+		return null;
 	}
 }

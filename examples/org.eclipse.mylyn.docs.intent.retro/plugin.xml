@@ -23,5 +23,11 @@
             protocolName="retro">
       </parser>
    </extension>
-
+   <extension
+         point="org.eclipse.mylyn.docs.intent.client.synchronizer.extension">
+      <SynchronizerExtensionDescription
+            class="org.eclipse.mylyn.docs.intent.retro.RetroGeneratedElementListener"
+            handled_uri_scheme="retro">
+      </SynchronizerExtensionDescription>
+   </extension>
 </plugin>

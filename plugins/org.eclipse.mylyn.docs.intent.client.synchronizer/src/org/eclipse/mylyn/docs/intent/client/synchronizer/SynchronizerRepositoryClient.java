@@ -50,7 +50,7 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	 */
 	public SynchronizerRepositoryClient(TraceabilityIndex traceabilityIndex) {
 		System.out.println("[Synchronizer] Initialised.");
-		this.synchronizer = new IntentSynchronizer();
+		this.synchronizer = new IntentSynchronizer(this);
 		this.traceabilityIndex = traceabilityIndex;
 	}
 
@@ -107,7 +107,7 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 		this.traceabilityIndex = traceabilityIndex;
 	}
 
-	public IntentSynchronizer getSynchronizer() {
+	IntentSynchronizer getSynchronizer() {
 		return synchronizer;
 	}
 
