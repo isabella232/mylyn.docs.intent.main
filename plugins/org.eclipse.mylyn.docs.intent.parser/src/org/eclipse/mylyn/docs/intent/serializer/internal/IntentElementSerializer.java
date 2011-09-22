@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitFormatter;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
@@ -22,8 +21,8 @@ import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
 import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.DescriptionUnitSerializer;
 
 /**
- * Serializer which serialize any IntentStructuredElement and its content ; acts like an EMF Switch an dispatch
- * the serialization of each element.
+ * Serializer which serialize any IntentStructuredElement and its content ; acts like an EMF Switch an
+ * dispatch the serialization of each element.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
@@ -113,7 +112,8 @@ public class IntentElementSerializer {
 
 		this.setCurrentOffset(this.getCurrentOffset() + serializedDescriptionUnit.length());
 
-		this.positionManager.addIntentPositionManagerInformations(descriptionUnitSerializer.getPositionManager());
+		this.positionManager.addIntentPositionManagerInformations(descriptionUnitSerializer
+				.getPositionManager());
 		return serializedDescriptionUnit;
 	}
 
@@ -132,7 +132,6 @@ public class IntentElementSerializer {
 		String serializedModelingUnit = "";
 		if (modelingUnitPrefixDecoration != null) {
 			serializedModelingUnit += modelingUnitPrefixDecoration;
-			this.positionManager.addDecoratedLine(initialOffset);
 			setCurrentOffset(initialOffset + modelingUnitPrefixDecoration.length());
 			prefixLength = serializedModelingUnit.length();
 		}
@@ -150,12 +149,12 @@ public class IntentElementSerializer {
 				length);
 
 		if (modelingUnitSuffixDecoration != null) {
-			this.positionManager.addDecoratedLine(initialOffset + serializedModelingUnitFormatted.length());
 			serializedModelingUnitFormatted += tabulation() + modelingUnitSuffixDecoration;
 		}
 
 		this.setCurrentOffset(initialOffset + serializedModelingUnitFormatted.length());
-		this.positionManager.addIntentPositionManagerInformations(modelingUnitSerializer.getPositionManager());
+		this.positionManager
+				.addIntentPositionManagerInformations(modelingUnitSerializer.getPositionManager());
 
 		return serializedModelingUnitFormatted;
 	}

@@ -107,10 +107,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	@Override
 	public void replace(int pos, int length, String text) throws BadLocationException {
 		// We don't allow the replacement of a decorated line
-		if (!containsDecorationLine(pos, length, text.length() - length >= 0)) {
-			getPositionManager().updatePositions(pos, text.length() - length);
-			super.replace(pos, length, text);
-		}
+		super.replace(pos, length, text);
 	}
 
 	private IntentPositionManager getPositionManager() {
@@ -202,56 +199,6 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 				// TODO : make the editor and the document unsavable and stop the automatic parsing of the AST
 			}
 		});
-	}
-
-	/**
-	 * Indicates if the line at the selection starting at the given offset is a decoration line (and shouldn't
-	 * be editable, for example).
-	 * 
-	 * @param offset
-	 *            starting offset of the selection
-	 * @param length
-	 *            of the selection
-	 * @param addingMode
-	 *            indicates if the current modification is not removing any content
-	 * @return true if the line at the given offset have been decorated, false otherwise.
-	 */
-	boolean containsDecorationLine(int offset, int length, boolean addingMode) {
-		// try {
-		// boolean containsDecorationLine = false;
-		//
-		// int selectionCursor = offset;
-		// while (selectionCursor <= (offset + length)) {
-		//
-		// IRegion lineInformation = this.getLineInformationOfOffset(selectionCursor);
-		// containsDecorationLine = getPositionManager().isDecorationLine(lineInformation.getOffset());
-		//
-		// if (!addingMode
-		// && this.getLineInformationOfOffset(selectionCursor + 1).getOffset() != lineInformation
-		// .getOffset()) {
-		// containsDecorationLine = containsDecorationLine
-		// || getPositionManager().isDecorationLine(this.getLineInformationOfOffset(
-		// selectionCursor + 1).getOffset());
-		// }
-		// if (!addingMode
-		// && this.getLineInformationOfOffset(selectionCursor - 1).getOffset() != lineInformation
-		// .getOffset()) {
-		// containsDecorationLine = containsDecorationLine
-		// || getPositionManager().isDecorationLine(this.getLineInformationOfOffset(
-		// selectionCursor - 1).getOffset());
-		// }
-		//
-		// if (lineInformation.getLength() > 0) {
-		// selectionCursor += lineInformation.getLength();
-		// } else {
-		// selectionCursor += 1;
-		// }
-		// }
-		// return containsDecorationLine;
-		// } catch (BadLocationException e) {
-		// return false;
-		// }
-		return false;
 	}
 
 	/**

@@ -10,10 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.serializer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -49,11 +47,6 @@ public class IntentPositionManager {
 	private Map<EObject, Integer> elementToIndentationLevel;
 
 	/**
-	 * List of the lines which have been decorated (the list contains each decorated line's offset).
-	 */
-	private List<Integer> decoratedLines;
-
-	/**
 	 * IntentPositionManager constructor.
 	 */
 	public IntentPositionManager() {
@@ -61,7 +54,6 @@ public class IntentPositionManager {
 		instructionToDeclarationPosition = new HashMap<EObject, ParsedElementPosition>();
 		positionToInstruction = new TreeMap<Integer, EObject>();
 		elementToIndentationLevel = new HashMap<EObject, Integer>();
-		decoratedLines = new ArrayList<Integer>();
 	}
 
 	/**
@@ -72,7 +64,6 @@ public class IntentPositionManager {
 		instructionToDeclarationPosition.clear();
 		positionToInstruction.clear();
 		elementToIndentationLevel.clear();
-		decoratedLines.clear();
 	}
 
 	/**
@@ -119,7 +110,6 @@ public class IntentPositionManager {
 		this.instructionToDeclarationPosition.putAll(positionManager.instructionToDeclarationPosition);
 		this.positionToInstruction.putAll(positionManager.positionToInstruction);
 		this.elementToIndentationLevel.putAll(positionManager.elementToIndentationLevel);
-		this.decoratedLines.addAll(positionManager.decoratedLines);
 	}
 
 	/**
@@ -246,54 +236,4 @@ public class IntentPositionManager {
 		return rF;
 	}
 
-	/**
-	 * Indicates if the line at the given offset is a decoration line (and shouldn't be editable, for
-	 * example).
-	 * 
-	 * @param offset
-	 *            the offset of the line
-	 * @return true if the line at the given offset have been decorated, false otherwise.
-	 */
-	public boolean isDecorationLine(int offset) {
-		return decoratedLines.contains(offset) || decoratedLines.contains(offset);
-	}
-
-	/**
-	 * Add the given offset to the decorated lines's offset list.
-	 * 
-	 * @param newDecoratedLineOffset
-	 *            the offset to add
-	 */
-	public void addDecoratedLine(int newDecoratedLineOffset) {
-		decoratedLines.add(newDecoratedLineOffset);
-	}
-
-	/**
-	 * Update the positions of element located after the given start offset, by adding the gap value to the
-	 * old position.
-	 * 
-	 * @param startOffset
-	 *            the start offset
-	 * @param gap
-	 *            the gap to add to each element
-	 */
-	public void updatePositions(int startOffset, int gap) {
-
-		List<Integer> positionsToAdd = new ArrayList<Integer>();
-		Iterator<Integer> positionIterator = decoratedLines.iterator();
-		while (positionIterator.hasNext()) {
-			Integer decoratedLinePosition = positionIterator.next();
-			if (decoratedLinePosition >= startOffset) {
-				positionsToAdd.add(decoratedLinePosition + gap);
-				positionIterator.remove();
-			}
-		}
-
-		for (Integer newPosition : positionsToAdd) {
-			decoratedLines.add(newPosition);
-		}
-
-		// TODO : update all other elements
-
-	}
 }
