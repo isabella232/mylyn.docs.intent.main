@@ -268,7 +268,7 @@ public class IntentPartitioner implements IDocumentPartitioner {
 			default:
 				break;
 		}
-		return new IntentRegion(offset, length, type);
+		return new IntentRegion(offset, length, type, kind);
 	}
 
 	/**
