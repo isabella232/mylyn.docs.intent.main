@@ -98,6 +98,7 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 		if (titleCanBeSet()) {
 			// We determine this title
 			if (descriptionUnitContent.trim().indexOf(IntentKeyWords.INTENT_LINEBREAK) != -1) {
+				// FIXME do not consider label & refs as titles (they are deleted)
 				titleLength = createSectionTitle(offset, descriptionUnitContent)
 						+ IntentKeyWords.INTENT_LINEBREAK.length();
 				descriptionUnitDescription = descriptionUnitDescription.trim().substring(
