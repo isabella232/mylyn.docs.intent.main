@@ -268,6 +268,8 @@ public class DescriptionUnitParser {
 				offSet++;
 				referenceInstruction.setLineBreak(true);
 			}
+		} else {
+			referenceInstruction.setLineBreak(true);
 		}
 		descriptionUnit.getInstructions().add(referenceInstruction);
 		return offSet;
@@ -302,6 +304,8 @@ public class DescriptionUnitParser {
 				offSet++;
 				labelDeclaration.setLineBreak(true);
 			}
+		} else {
+			labelDeclaration.setLineBreak(true);
 		}
 		descriptionUnit.getInstructions().add(labelDeclaration);
 		return offSet;
