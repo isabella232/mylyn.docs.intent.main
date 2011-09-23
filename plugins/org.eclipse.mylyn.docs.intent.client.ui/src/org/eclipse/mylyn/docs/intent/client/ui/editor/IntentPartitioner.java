@@ -235,7 +235,7 @@ public class IntentPartitioner implements IDocumentPartitioner {
 			try {
 				String text = document.get(unitOffset, unitLength);
 				String[] lines = text.split("\\n");
-				if (lines.length > 1) {
+				if (lines.length > 2) {
 					final int titleLength = lines[0].length();
 					unitRegions.add(new IntentRegion(unitOffset, titleLength,
 							IntentDocumentProvider.INTENT_TITLE));
