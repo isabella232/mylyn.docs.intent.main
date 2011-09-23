@@ -51,7 +51,7 @@ public final class IntentSectionSerializer {
 		}
 
 		renderedForm += IntentKeyWords.INTENT_KEYWORD_SECTION;
-		int intitialLength = renderedForm.length();
+		int initialLength = renderedForm.length();
 
 		// Header declarations
 		int numberOfHeaders = section.getImportedHeaders().size();
@@ -92,7 +92,7 @@ public final class IntentSectionSerializer {
 		renderedForm += serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE + IntentKeyWords.INTENT_LINEBREAK;
 		serializer.setCurrentOffset(initalOffset + renderedForm.length());
 		serializer.setDeclarationPositionForElement(section, initalOffset, renderedForm.length(),
-				intitialLength);
+				initialLength);
 		return renderedForm;
 	}
 }

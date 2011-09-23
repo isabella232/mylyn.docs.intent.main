@@ -46,7 +46,7 @@ public final class IntentDocumentSerializer {
 		int initalOffset = serializer.getCurrentOffset();
 
 		renderedForm += IntentKeyWords.INTENT_KEYWORD_DOCUMENT;
-		int intitialLength = renderedForm.length();
+		int initialLength = renderedForm.length();
 		renderedForm += IntentKeyWords.INTENT_WHITESPACE + IntentKeyWords.INTENT_KEYWORD_OPEN + IntentKeyWords.INTENT_LINEBREAK;
 
 		if (document.getTitle() != null) {
@@ -68,7 +68,7 @@ public final class IntentDocumentSerializer {
 		renderedForm += serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE + IntentKeyWords.INTENT_LINEBREAK;
 		serializer.setCurrentOffset(initalOffset + renderedForm.length());
 		serializer.setDeclarationPositionForElement(document, initalOffset, renderedForm.length(),
-				intitialLength);
+				initialLength);
 		return renderedForm;
 	}
 
