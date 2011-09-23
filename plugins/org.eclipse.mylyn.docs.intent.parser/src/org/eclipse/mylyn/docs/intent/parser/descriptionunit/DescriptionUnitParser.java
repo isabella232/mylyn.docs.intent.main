@@ -331,38 +331,38 @@ public class DescriptionUnitParser {
 
 			for (int i = 0; i < parsedSentence.length() && !foundFirstString; i++) {
 				temporaryOffset++;
-				char curentChar = parsedSentence.charAt(i);
+				char currentChar = parsedSentence.charAt(i);
 				// If the character is a quote (simple or double)
-				if ((curentChar == '"') || (curentChar == '\'')) {
+				if ((currentChar == '"') || (currentChar == '\'')) {
 					// If it wasn't prefixed by a backslash
 					if (previousCharacter != '\\') {
 						// If there was no begin Quote
 						// CHECKSTYLE:OFF
 						if (beginQuote == ' ') {
 							// We define the current character as the begin quote
-							beginQuote = curentChar;
+							beginQuote = currentChar;
 						} else {
 							// If there was a begin quote and the current Character is the same Symbol
 							// for instance : 'X' or "X" but not 'X"
-							if (curentChar == beginQuote) {
+							if (currentChar == beginQuote) {
 								foundFirstString = true;
 							} else {
-								firstString += curentChar;
-								previousCharacter = curentChar;
+								firstString += currentChar;
+								previousCharacter = currentChar;
 							}
 						}
 						// CHECKSTYLE:ON
 					} else {
-						firstString += curentChar;
-						previousCharacter = curentChar;
+						firstString += currentChar;
+						previousCharacter = currentChar;
 					}
 				} else {
 					// If the curent character is a backslash
-					if (curentChar == '\\') {
+					if (currentChar == '\\') {
 						// If the previous one was a backslash
 						if (previousCharacter == '\\') {
 							// We add the backslash character in the first String
-							firstString += curentChar;
+							firstString += currentChar;
 							previousCharacter = ' ';
 						} else {
 							previousCharacter = '\\';
@@ -370,8 +370,8 @@ public class DescriptionUnitParser {
 					} else {
 						if (beginQuote != ' ') {
 							// In all other cases, we add the current character to the constructed string
-							firstString += curentChar;
-							previousCharacter = curentChar;
+							firstString += currentChar;
+							previousCharacter = currentChar;
 						}
 					}
 
