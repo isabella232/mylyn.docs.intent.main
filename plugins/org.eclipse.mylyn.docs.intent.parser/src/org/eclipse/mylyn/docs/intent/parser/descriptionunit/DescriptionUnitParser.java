@@ -45,8 +45,7 @@ import org.eclipse.mylyn.wikitext.textile.core.TextileLanguage;
 public class DescriptionUnitParser {
 
 	/**
-	 * All the tokens that represent a instruction relative to Intent (section reference,
-	 * label...).
+	 * All the tokens that represent a instruction relative to Intent (section reference, label...).
 	 */
 	private static String[] intentTokens = {IntentKeyWords.INTENT_FCT_EXPLICIT_LABEL_DECLARATION,
 			IntentKeyWords.INTENT_FCT_LAZY_LABEL_DECLARATION, IntentKeyWords.INTENT_FCT_REFERENCE,
@@ -196,8 +195,7 @@ public class DescriptionUnitParser {
 	 * @param descriptionUnit
 	 *            the description unit currently being constructed
 	 * @param parsedSentence
-	 *            a String starting with the description of a Intent instruction (@see,
-	 *            \@lazylabel...).
+	 *            a String starting with the description of a Intent instruction (@see, \@lazylabel...).
 	 * @return the offset following the parsed instruction
 	 */
 	private int constructInstructionsFromSentence(DescriptionUnit descriptionUnit, String parsedSentence) {
@@ -265,9 +263,11 @@ public class DescriptionUnitParser {
 			((LabelReferenceInstruction)referenceInstruction).setReferencedLabel(reference);
 		}
 
-		if (parsedSentence.charAt(offSet - initialOffset) == '\n') {
-			offSet++;
-			referenceInstruction.setLineBreak(true);
+		if (parsedSentence.length() > (offSet - initialOffset)) {
+			if (parsedSentence.charAt(offSet - initialOffset) == '\n') {
+				offSet++;
+				referenceInstruction.setLineBreak(true);
+			}
 		}
 		descriptionUnit.getInstructions().add(referenceInstruction);
 		return offSet;
