@@ -130,7 +130,17 @@ public class DescriptionUnitSerializer {
 		this.genericDispatcher.setTabulationPrefix(tabulationPrefix);
 		// We calculate the prefix of this description unit
 		String renderedDescriptionUnit = "";
-		String prefixForDescriptionUnit = IntentKeyWords.INTENT_LINEBREAK + tabulationPrefix;
+
+		// TODO make a better strategy for indentation
+		// fix for when an instruction is first (instead of a description block)
+		// String prefixForDescriptionUnit = IntentKeyWords.INTENT_LINEBREAK + tabulationPrefix;
+		String prefixForDescriptionUnit = IntentKeyWords.INTENT_LINEBREAK;
+		if (!elementToSerialize.getInstructions().isEmpty()) {
+			if (elementToSerialize.getInstructions().get(0) instanceof DescriptionUnitInstruction) {
+				prefixForDescriptionUnit += tabulationPrefix;
+			}
+		}
+
 		int declarationOffset = initialOffset + prefixForDescriptionUnit.length();
 
 		// We use the correct dispatcher in order to serialize each instruction
