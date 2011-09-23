@@ -63,6 +63,21 @@ public class IntentParserTest {
 		}
 	}
 
+	@Test
+	public void testSerializationWithSingleReference() {
+		try {
+			File file = new File("dataTests/intentDocuments/intentdocumentspecification/indentation.intent");
+
+			String section = FileToStringConverter.getFileAsString(file);
+			EObject generated = parser.parse(section);
+			Assert.assertEquals(section, serializer.serialize(generated));
+		} catch (IOException e) {
+			throw new AssertionFailedError(e.getMessage());
+		} catch (ParseException e) {
+			throw new AssertionFailedError(e.getMessage());
+		}
+	}
+
 	/**
 	 * Tests parser and serializer behavior when faced to big documents.
 	 */
@@ -73,7 +88,6 @@ public class IntentParserTest {
 
 			String section = FileToStringConverter.getFileAsString(file);
 			EObject generated = parser.parse(section);
-			// XMISaver.saveASXMI(generated, new File("expectedResults/IntentDocuments/uml.xmi"));
 			Assert.assertEquals(section, serializer.serialize(generated));
 		} catch (IOException e) {
 			throw new AssertionFailedError(e.getMessage());

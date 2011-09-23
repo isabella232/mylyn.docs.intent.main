@@ -1,0 +1,19 @@
+Document {
+	Chapter {
+		title
+
+		@see "ref"
+	}
+	Chapter {
+		title
+
+		text
+		@label "ref"
+	}
+	Chapter {
+		title
+
+		@see "ref"
+		text
+	}
+}

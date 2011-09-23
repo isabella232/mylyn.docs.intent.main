@@ -12,7 +12,6 @@ package org.eclipse.mylyn.docs.intent.serializer.genericunit;
 
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
 import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
-
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 
 /**
@@ -52,16 +51,10 @@ public final class LabelDeclarationSerializer {
 		}
 
 		if (labelDeclaration.isLineBreak()) {
-			renderedForm += IntentKeyWords.INTENT_LINEBREAK + tabulationPrefix;
+			renderedForm += IntentKeyWords.INTENT_LINEBREAK;
 		} else {
 			renderedForm += IntentKeyWords.INTENT_WHITESPACE;
 		}
-
-		// modelingUnitElementDispatcher.setPositionForInstruction(labelinModelingUnit,
-		// modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length());
-		// modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
-		// + renderedForm.length());
-
 		return renderedForm;
 	}
 }

@@ -13,7 +13,6 @@ package org.eclipse.mylyn.docs.intent.serializer.genericunit;
 import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
-
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 
 /**
@@ -41,7 +40,8 @@ public final class LabelOrSectionReferenceSerializer {
 	 */
 	public static String serialize(UnitInstruction labelOrReferenceDeclaration, String tabulationPrefix) {
 
-		String renderedForm = tabulationPrefix + IntentKeyWords.INTENT_FCT_REFERENCE + IntentKeyWords.INTENT_WHITESPACE;
+		String renderedForm = tabulationPrefix + IntentKeyWords.INTENT_FCT_REFERENCE
+				+ IntentKeyWords.INTENT_WHITESPACE;
 
 		if (labelOrReferenceDeclaration instanceof IntentSectionReferenceInstruction) {
 			IntentSectionReferenceInstruction ref = (IntentSectionReferenceInstruction)labelOrReferenceDeclaration;
@@ -57,16 +57,10 @@ public final class LabelOrSectionReferenceSerializer {
 		}
 
 		if (labelOrReferenceDeclaration.isLineBreak()) {
-			renderedForm += IntentKeyWords.INTENT_LINEBREAK + tabulationPrefix;
+			renderedForm += IntentKeyWords.INTENT_LINEBREAK;
 		} else {
 			renderedForm += IntentKeyWords.INTENT_WHITESPACE;
 		}
-
-		// modelingUnitElementDispatcher.setPositionForInstruction(labelinModelingUnit,
-		// modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length());
-		// modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
-		// + renderedForm.length());
-
 		return renderedForm;
 	}
 }

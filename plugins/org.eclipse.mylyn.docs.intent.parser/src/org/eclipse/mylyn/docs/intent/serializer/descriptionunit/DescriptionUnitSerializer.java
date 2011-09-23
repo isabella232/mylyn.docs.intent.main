@@ -153,6 +153,14 @@ public class DescriptionUnitSerializer {
 				this.getPositionManager().setPositionForInstruction(instruction, getCurrentOffset(),
 						serializedInstruction.length());
 				renderedDescriptionUnit += serializedInstruction;
+
+				// TODO make a better strategy for indentation
+				// fix for when an instruction is last
+				if (instruction.isLineBreak()
+						&& elementToSerialize.getInstructions().indexOf(instruction) != (elementToSerialize
+								.getInstructions().size() - 1)) {
+					renderedDescriptionUnit += tabulationPrefix;
+				}
 			}
 		}
 
