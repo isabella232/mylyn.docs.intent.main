@@ -178,19 +178,13 @@ public class IntentTemplateWizardPage extends WizardPage {
 	}
 
 	private boolean validate() {
-		return combo.getText() != null && !"".equals(combo.getText());
+		boolean isValid = combo.getText() != null && !"".equals(combo.getText());
+		if (isValid) {
+			setErrorMessage(null);
+		} else {
+			setErrorMessage("A template must be selected");
+		}
+		return isValid;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.dialogs.DialogPage#getErrorMessage()
-	 */
-	@Override
-	public String getErrorMessage() {
-		if (!validate()) {
-			return "A template must be selected";
-		}
-		return super.getErrorMessage();
-	}
 }
