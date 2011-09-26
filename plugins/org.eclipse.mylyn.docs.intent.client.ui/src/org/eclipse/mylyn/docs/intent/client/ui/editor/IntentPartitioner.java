@@ -231,7 +231,7 @@ public class IntentPartitioner implements IDocumentPartitioner {
 		List<IntentRegion> unitRegions = new ArrayList<IntentRegion>();
 		int unitOffset = offset;
 		int unitLength = length;
-		if (SU_START_KIND == previousRegion.getKind()) {
+		if (previousRegion != null && SU_START_KIND == previousRegion.getKind()) {
 			try {
 				String text = document.get(unitOffset, unitLength);
 				String[] lines = text.split("\\n");
