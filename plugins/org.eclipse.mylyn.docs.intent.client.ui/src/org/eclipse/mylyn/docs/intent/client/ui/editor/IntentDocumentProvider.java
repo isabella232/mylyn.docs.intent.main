@@ -325,7 +325,13 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			final EObject remoteAST = (EObject)((IntentEditorDocument)document).getAST();
 
 			try {
-				merger.mergeFromLocalToRepository(localAST, remoteAST);
+				if (localAST != null && remoteAST != null && localAST.eClass().equals(remoteAST.eClass())) {
+					merger.mergeFromLocalToRepository(localAST, remoteAST);
+				} else {
+					this.createSyntaxErrorAnnotation("Unrecognized content: unable to merge "
+							+ localAST.eClass().getName() + " with " + remoteAST.eClass().getName() + ".", 0,
+							document.getLength());
+				}
 			} catch (MergingException e) {
 				mustUndo = true;
 				IntentUiLogger.logError(e);
