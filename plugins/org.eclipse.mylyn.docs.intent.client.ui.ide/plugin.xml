@@ -143,6 +143,14 @@
              template="templates/default.intent">
        </IntentDocumentTemplate>
     </extension>
+    <extension
+          point="org.eclipse.mylyn.docs.intent.client.ui.ide.template.extension">
+       <IntentDocumentTemplate
+             description="This templates helps initializing a documentation of a standard software."
+             name="Standard Software Template"
+             template="templates/software.intent">
+       </IntentDocumentTemplate>
+    </extension>
    
    
    
