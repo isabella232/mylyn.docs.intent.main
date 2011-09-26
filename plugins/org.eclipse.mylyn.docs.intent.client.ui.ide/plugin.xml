@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   
+     <extension-point id="org.eclipse.mylyn.docs.intent.client.ui.ide.template.extension" name="org.eclipse.mylyn.docs.intent.client.ui.ide.template.extension" schema="schema/org.eclipse.mylyn.docs.intent.client.ui.ide.template.exsd"/>
+     
    <!-- EXTENSIONS OF THE PROJECT EXPLORER -->
     <extension
           point="org.eclipse.ui.navigator.viewer">
@@ -133,6 +134,14 @@
              name="Intent project"
              project="true">
        </wizard>
+    </extension>
+    <extension
+          point="org.eclipse.mylyn.docs.intent.client.ui.ide.template.extension">
+       <IntentDocumentTemplate
+             description="A simple Intent document."
+             name="Default template"
+             template="templates/default.intent">
+       </IntentDocumentTemplate>
     </extension>
    
    

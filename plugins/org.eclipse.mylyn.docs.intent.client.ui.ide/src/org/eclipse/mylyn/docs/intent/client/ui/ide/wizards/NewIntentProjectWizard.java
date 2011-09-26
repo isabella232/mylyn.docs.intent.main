@@ -10,12 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.wizards;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -41,7 +35,11 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
  */
 public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
 
+	private static final String DEFAULT_INTENT_DOCUMENT = "Document {\n}";
+
 	protected WizardNewProjectCreationPage page;
+
+	protected IntentTemplateWizardPage templatePage;
 
 	protected IConfigurationElement configElement;
 
@@ -63,6 +61,10 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 		page.setTitle("New Intent project"); //$NON-NLS-1$
 		page.setDescription("Select project name"); //$NON-NLS-1$
 		addPage(page);
+
+		templatePage = new IntentTemplateWizardPage();
+		templatePage.setTitle("Template Selection");
+		addPage(templatePage);
 	}
 
 	/**
@@ -72,6 +74,7 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 	 */
 	@Override
 	public boolean performFinish() {
+		final String defaultContent = getDefaultContent();
 		IWorkspaceRunnable create = new IWorkspaceRunnable() {
 			public void run(IProgressMonitor monitor) throws CoreException {
 				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(page.getProjectName());
@@ -90,7 +93,7 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 				if (!project.isOpen()) {
 					project.open(monitor);
 				}
-				IDEApplicationManager.initializeContent(project, getInitialContent());
+				IDEApplicationManager.initializeContent(project, defaultContent);
 				ToggleNatureAction.toggleNature(project);
 			}
 		};
@@ -103,36 +106,14 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 		}
 	}
 
-	/**
-	 * Get the initial content.
-	 * 
-	 * @return the initial content as String
-	 */
-	private String getInitialContent() {
-		try {
-			String result = "";
-			InputStream fis = this.getClass().getResourceAsStream("sample.intent");
-			BufferedInputStream bis = null;
-			BufferedReader dis = null;
-			StringBuffer sb = new StringBuffer();
-
-			bis = new BufferedInputStream(fis);
-			dis = new BufferedReader(new InputStreamReader(bis));
-
-			while (dis.ready()) {
-				sb.append(dis.readLine() + "\n");
+	private String getDefaultContent() {
+		if (getContainer().getCurrentPage().equals(templatePage)) {
+			final String templateContent = templatePage.getContent();
+			if (templateContent != null) {
+				return templateContent;
 			}
-
-			fis.close();
-			bis.close();
-			dis.close();
-
-			result = sb.toString();
-			return result;
-		} catch (IOException e) {
-			IntentUiLogger.logError(e);
 		}
-		return "Document {\n}";
+		return DEFAULT_INTENT_DOCUMENT;
 	}
 
 	/**
@@ -153,5 +134,16 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
 			throws CoreException {
 		this.configElement = config;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.wizard.Wizard#canFinish()
+	 */
+	@Override
+	public boolean canFinish() {
+		return (getContainer().getCurrentPage().equals(page) && page.isPageComplete())
+				|| (getContainer().getCurrentPage().equals(templatePage) && templatePage.isPageComplete());
 	}
 }
