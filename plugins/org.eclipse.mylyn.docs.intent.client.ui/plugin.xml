@@ -144,7 +144,7 @@
             annotationImageProvider="org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationImageProvider"
             annotationType="org.eclipse.mylyn.docs.intent.client.ui.annotation.compiler.warning"
             colorPreferenceKey="org.eclipse.mylyn.docs.intent.client.ui.annotation.compiler.warning.annotateElemColor"
-            colorPreferenceValue="250,250,210"
+            colorPreferenceValue="250,200,80"
             contributesToHeader="true"
             highlightPreferenceKey="org.eclipse.mylyn.docs.intent.client.ui.annotation.compiler.warning.annotateElemHighlight"
             highlightPreferenceValue="false"
