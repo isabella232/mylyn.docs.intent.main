@@ -66,4 +66,24 @@ public class IntentCompareConfiguration extends CompareConfiguration {
 	public String getRightLabel(Object element) {
 		return "Working Copy (" + workingCopyResource.getURI() + ")";
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.compare.CompareConfiguration#isLeftEditable()
+	 */
+	@Override
+	public boolean isLeftEditable() {
+		return false; // TODO check consistency
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.compare.CompareConfiguration#isRightEditable()
+	 */
+	@Override
+	public boolean isRightEditable() {
+		return true;
+	}
 }

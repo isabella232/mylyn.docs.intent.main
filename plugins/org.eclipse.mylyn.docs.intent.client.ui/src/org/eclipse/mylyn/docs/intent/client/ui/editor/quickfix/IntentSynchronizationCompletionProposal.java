@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareUI;
+import org.eclipse.compare.internal.Utilities;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -25,6 +26,7 @@ import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.expressions.IEvaluationContext;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSnapshot;
 import org.eclipse.emf.compare.diff.metamodel.ComparisonSnapshot;
@@ -40,6 +42,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.swt.graphics.Image;
@@ -169,6 +172,10 @@ public class IntentSynchronizationCompletionProposal implements ICompletionPropo
 
 		private CompareConfiguration compareConfig;
 
+		private ListenerList listenerList = new ListenerList();
+
+		private boolean isDirty;
+
 		/**
 		 * This constructor takes a {@link ComparisonSnapshot} as input.
 		 * 
@@ -225,6 +232,59 @@ public class IntentSynchronizationCompletionProposal implements ICompletionPropo
 					return null;
 				}
 			};
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.compare.CompareEditorInput#addPropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
+		 */
+		@Override
+		public void addPropertyChangeListener(IPropertyChangeListener listener) {
+			if (listener != null) {
+				listenerList.add(listener);
+			}
+			super.addPropertyChangeListener(listener);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.compare.CompareEditorInput#removePropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
+		 */
+		@Override
+		public void removePropertyChangeListener(IPropertyChangeListener listener) {
+			if (listenerList != null) {
+				listenerList.remove(listener);
+			}
+			super.removePropertyChangeListener(listener);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.compare.CompareEditorInput#setDirty(boolean)
+		 */
+		@Override
+		public void setDirty(boolean dirty) {
+			boolean oldDirty = isDirty;
+			isDirty = dirty;
+			if (oldDirty != isDirty) {
+				Utilities.firePropertyChange(listenerList, this, DIRTY_STATE, Boolean.valueOf(oldDirty),
+						Boolean.valueOf(isSaveNeeded()));
+			}
+
+		}
+
+		//
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.compare.CompareEditorInput#isDirty()
+		 */
+		@Override
+		public boolean isDirty() {
+			return this.isDirty;
 		}
 
 	}
