@@ -136,8 +136,8 @@ public class JavaTest extends AbstractDemoTest {
 		waitForCompiler();
 
 		// Step 6.3 : check 7.1
-		assertFalse(TEST_SYNCHRONIZER_NO_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor71,
-				IntentAnnotationMessageType.COMPILER_INFO, SYNC_WARNING_MSG, true));
+		assertFalse(TEST_SYNCHRONIZER_INVALID_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor71,
+				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MSG, true));
 
 		// Step 7 : fix error in 3.7
 		document37.set(getFileContent(SECTION_37_V3_FILENAME));
