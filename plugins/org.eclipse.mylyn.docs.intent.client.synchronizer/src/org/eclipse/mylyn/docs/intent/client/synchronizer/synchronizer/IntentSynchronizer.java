@@ -25,12 +25,14 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
+import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtensionRegistry;
@@ -440,8 +442,12 @@ public class IntentSynchronizer {
 		try {
 			// TODO : treat differently models and meta-models : this match isn't efficient on
 			// simple meta-models instances
-			MatchModel matchModel = MatchService.doResourceMatch(leftResource, rightResource,
-					new HashMap<String, Object>());
+			final HashMap<String, Object> options = new HashMap<String, Object>();
+			if ((leftResource instanceof XMIResource && !(rightResource instanceof XMIResource))
+					|| (rightResource instanceof XMIResource && !(leftResource instanceof XMIResource))) {
+				options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
+			}
+			MatchModel matchModel = MatchService.doResourceMatch(leftResource, rightResource, options);
 			DiffModel diff = DiffService.doDiff(matchModel, false);
 			return diff.getDifferences();
 			// CHECKSTYLE:OFF
