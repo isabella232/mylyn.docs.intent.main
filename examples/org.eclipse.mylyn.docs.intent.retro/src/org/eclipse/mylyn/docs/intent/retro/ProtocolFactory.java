@@ -64,12 +64,9 @@ public class ProtocolFactory implements Resource.Factory {
 						&& resource.getFullPath().toString().contains("acceptance/comparedialog/patch")) {
 					// TODO really parse Java and retrieve U-tests
 					AcceptanceTest tst = RetroFactory.eINSTANCE.createAcceptanceTest();
-					String string = resource.getFullPath().toString();
-					int lastIndexOf = string.lastIndexOf("/");
-					tst.setPackage(string.substring(1, lastIndexOf).replace("/", "."));
-					tst.setSwtBotClassName(string.substring(lastIndexOf + 1).replace(".java", ""));
-					System.err.println(string.substring(0, lastIndexOf));
-					System.err.println(string.substring(lastIndexOf));
+					tst.setSwtBotClassName(resource.getFullPath().lastSegment().replace(".java", ""));
+					tst.setPackage(resource.getFullPath().removeFirstSegments(2).removeFirstSegments(5)
+							.removeLastSegments(1).toString().replaceAll("/", "."));
 					rPrj.getAcceptanceTests().add(tst);
 
 				}
