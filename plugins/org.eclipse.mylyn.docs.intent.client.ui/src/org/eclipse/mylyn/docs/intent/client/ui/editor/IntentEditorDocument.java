@@ -54,6 +54,21 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	/**
 	 * IntentDocument constructor.
 	 * 
+	 * @param editor
+	 *            the intent editor
+	 */
+	public IntentEditorDocument(IntentEditor editor) {
+		super();
+		serializer = new IntentSerializer(MODELING_PREFIX_DECORATION, MODELING_SUFFIX_DECORATION);
+		this.associatedEditor = editor;
+		setTextStore(new CopyOnWriteTextStore(new GapTextStore()));
+		setLineTracker(new DefaultLineTracker());
+		super.completeInitialization();
+	}
+
+	/**
+	 * IntentDocument constructor.
+	 * 
 	 * @param root
 	 *            the element to associate to this IntentDocument.
 	 * @param editor

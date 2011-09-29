@@ -21,13 +21,23 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IDocumentPartitioner;
+import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentPartitioner;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditorConfiguration;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.Activator;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -46,9 +56,13 @@ public class IntentTemplateWizardPage extends WizardPage {
 
 	private Label descriptionLabel;
 
-	private StyledText previewText;
-
 	private Combo combo;
+
+	private IDocument document;
+
+	private SourceViewer sourceViewer;
+
+	private IntentEditorConfiguration viewerConfiguration;
 
 	/**
 	 * Creates a new wizard page.
@@ -83,9 +97,30 @@ public class IntentTemplateWizardPage extends WizardPage {
 
 		Label infoLabel2 = new Label(control, SWT.NONE);
 		infoLabel2.setText("Preview: ");
-		previewText = new StyledText(control, SWT.BORDER);
-		previewText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		previewText.setEditable(false);
+
+		IntentEditor editor = new IntentEditor();
+		document = new IntentEditorDocument(editor);
+		IDocumentPartitioner partitioner = new IntentPartitioner(IntentDocumentProvider.LEGAL_CONTENT_TYPES);
+		partitioner.connect(document);
+		document.setDocumentPartitioner(partitioner);
+
+		viewerConfiguration = new IntentEditorConfiguration(editor, null);
+		int styles = SWT.V_SCROLL;
+		styles |= SWT.H_SCROLL;
+		styles |= SWT.MULTI;
+		styles |= SWT.BORDER;
+		styles |= SWT.FULL_SELECTION;
+		new Label(control, SWT.NONE);
+		sourceViewer = new SourceViewer(control, null, null, false, styles);
+		StyledText styledText = sourceViewer.getTextWidget();
+		styledText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		sourceViewer.configure(viewerConfiguration);
+		sourceViewer.setEditable(false);
+		Cursor arrowCursor = sourceViewer.getTextWidget().getDisplay().getSystemCursor(SWT.CURSOR_ARROW);
+		sourceViewer.getTextWidget().setCursor(arrowCursor);
+		sourceViewer.getTextWidget().setCaret(null);
+		sourceViewer.getTextWidget().setFont(JFaceResources.getTextFont());
+		sourceViewer.setDocument(document);
 
 		combo.addSelectionListener(new SelectionAdapter() {
 
@@ -93,7 +128,7 @@ public class IntentTemplateWizardPage extends WizardPage {
 				String[] template = templateExtensionsByName.get(combo.getText());
 				descriptionLabel.setText(template[0]);
 				try {
-					previewText.setText(getContent(template[1]));
+					document.set(getContent(template[1]));
 				} catch (IOException error) {
 					IntentUiLogger.logError(error);
 				}
