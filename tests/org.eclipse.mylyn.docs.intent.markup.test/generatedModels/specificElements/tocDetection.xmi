@@ -69,7 +69,7 @@
         <content xmi:type="markup:Text" data="But of course this one should"/>
       </content>
       <content xmi:type="markup:List" listType="TABLE_OF_CONTENT">
-        <attributes CSSStyle="list-style: none;"/>
+        <attributes CSSStyle="list-style: none;" CSSClass="toc"/>
         <items listType="NUMERIC" isList="true">
           <attributes/>
           <content xmi:type="markup:Link" hrefOrHashName="#Testlink" target="//@content.0">
@@ -79,7 +79,7 @@
             </name>
           </content>
           <items listType="TABLE_OF_CONTENT" imbricationLevel="2" isList="true">
-            <attributes CSSStyle="list-style: none;"/>
+            <attributes CSSStyle="list-style: none;" CSSClass="toc"/>
             <items listType="NUMERIC" imbricationLevel="2">
               <attributes/>
               <content xmi:type="markup:Link" hrefOrHashName="#TestInternallinks" target="//@content.0/@content.0">

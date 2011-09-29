@@ -15,7 +15,7 @@
       <content xmi:type="markup:Text" data=" me@mycompany.com"/>
     </content>
     <content xmi:type="markup:List" listType="TABLE_OF_CONTENT">
-      <attributes CSSStyle="list-style: none;"/>
+      <attributes CSSStyle="list-style: none;" CSSClass="toc"/>
       <items listType="NUMERIC" isList="true">
         <attributes/>
         <content xmi:type="markup:Link" hrefOrHashName="#EMFCompareUserGuide" target="//@content.0">
@@ -25,7 +25,7 @@
           </name>
         </content>
         <items listType="TABLE_OF_CONTENT" imbricationLevel="2" isList="true">
-          <attributes CSSStyle="list-style: none;"/>
+          <attributes CSSStyle="list-style: none;" CSSClass="toc"/>
           <items listType="NUMERIC" imbricationLevel="2">
             <attributes/>
             <content xmi:type="markup:Link" hrefOrHashName="#Installation" target="//@content.0/@content.2">
@@ -53,7 +53,7 @@
               </name>
             </content>
             <items listType="TABLE_OF_CONTENT" imbricationLevel="3" isList="true">
-              <attributes CSSStyle="list-style: none;"/>
+              <attributes CSSStyle="list-style: none;" CSSClass="toc"/>
               <items listType="NUMERIC" imbricationLevel="3">
                 <attributes/>
                 <content xmi:type="markup:Link" hrefOrHashName="#ActivatingEMFCompareonagivenfileextension" target="//@content.0/@content.4/@content.0">
