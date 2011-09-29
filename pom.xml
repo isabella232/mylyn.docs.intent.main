@@ -49,10 +49,10 @@
     <module>plugins/org.eclipse.mylyn.docs.intent.client.indexer</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.client.synchronizer</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.client.ui</module>
-<!--    <module>plugins/org.eclipse.mylyn.docs.intent.client.ui.cdo</module>-->
+    <module>plugins/org.eclipse.mylyn.docs.intent.client.ui.cdo</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.client.ui.ide</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.collab</module>
-<!--    <module>plugins/org.eclipse.mylyn.docs.intent.collab.cdo</module>-->
+    <module>plugins/org.eclipse.mylyn.docs.intent.collab.cdo</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.collab.common</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.collab.ide</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.compare</module>
