@@ -14,18 +14,37 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.junit.Test;
 
 /**
- * Test the parsing errors for all partitions but modeling units.
+ * Test the parsing errors on modeling units.
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class TestParserErrors extends AbstractTestParserErrors {
+public class TestModelingUnitErrors extends AbstractTestParserErrors {
+
+	@Test
+	public void testNoErrors() {
+		testNoErrorsOnFile("dataTests/intentDocuments/scalability/uml.intent");
+	}
+
 	// CHECKSTYLE:OFF
 
 	@Test
-	public void testMissingBracket() {
-		testErrorsOnFile("dataTests/intentDocuments/errors/missing_bracket.intent", new ParseException(
-				"There is no element to close.", 40, 1));
+	public void testResource() {
+		testErrorsOnFile("dataTests/intentDocuments/errors/resource.intent", new ParseException(
+				UNRECOGNIZED_CONTENT_ERROR, 77, 68));
+	}
+
+	@Test
+	public void testProperty() {
+		testErrorsOnFile("dataTests/intentDocuments/errors/property.intent", new ParseException(
+				UNRECOGNIZED_CONTENT_ERROR, 95, 44));
+	}
+
+	@Test
+	public void testOperator() {
+		testErrorsOnFile("dataTests/intentDocuments/errors/operator.intent", new ParseException(
+				UNRECOGNIZED_CONTENT_ERROR, 95, 44));
 	}
 
 	// CHECKSTYLE:ON
+
 }
