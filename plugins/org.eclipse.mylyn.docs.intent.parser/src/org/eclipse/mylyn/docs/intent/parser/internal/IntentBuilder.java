@@ -186,7 +186,7 @@ public class IntentBuilder {
 	 */
 	public void endStructuredElement(int offset) throws ParseException {
 		if (currentImbricationLevel == 0) {
-			throw new ParseException("There is no element to close.");
+			throw new ParseException("There is no element to close.", offset - 1, 1);
 		}
 		if (currentState != null) {
 			currentState = currentState.endStructuredElement(offset);
