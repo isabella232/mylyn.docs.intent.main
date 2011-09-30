@@ -32,6 +32,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.query.UnitGetter;
 
@@ -144,6 +145,9 @@ public class CompilationJob extends Job {
 					+ " resources. ");
 			System.out.println("[Compiler] saving... (" + informationHolder.getCompilationStatusList().size()
 					+ " errors detected)");
+			for (CompilationStatus status : informationHolder.getCompilationStatusList()) {
+				System.out.println("[Compiler] error : " + status.getMessage());
+			}
 			saveCompilationInformations(repositoryAdapter, informationHolder, monitor);
 			System.out.println("[Compiler] =====================> saved.");
 		}
