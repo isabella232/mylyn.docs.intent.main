@@ -71,6 +71,7 @@ public class JavaTest extends AbstractDemoTest {
 		IntentEditorDocument document37 = (IntentEditorDocument)editor37.getDocumentProvider().getDocument(
 				editor37.getEditorInput());
 
+		System.out.println(document37.get());
 		// Step 2 : create a modeling unit section, check for the annotation
 		document37.set(getFileContent(SECTION_37_V1_FILENAME));
 
