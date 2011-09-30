@@ -86,12 +86,9 @@ public final class AnnotationUtils {
 				.getAnnotationModel(null).getAnnotationIterator();
 		while (annotationIterator.hasNext()) {
 			Object annotation = annotationIterator.next();
-			System.out.println("found annotation : " + ((Annotation)annotation).getText());
-			System.out.println("- of type " + ((Annotation)annotation).getType());
 			if (annotation instanceof IntentAnnotation) {
 				if (messageType.equals(((IntentAnnotation)annotation).getMessageType())) {
 					String annotationMessage = ((Annotation)annotation).getText();
-					System.out.println("found annotation : " + annotationMessage);
 					if (exactMessage && expectedMessage.equals(annotationMessage)
 							|| annotationMessage.contains(expectedMessage)) {
 						return (IntentAnnotation)annotation;
