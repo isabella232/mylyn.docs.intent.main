@@ -78,6 +78,7 @@ public class JavaTest extends AbstractDemoTest {
 		editor37.doSave(new NullProgressMonitor());
 		waitForCompiler();
 
+		System.out.println("[Trying to get the expected error message");
 		assertTrue(TEST_COMPILER_NO_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor37,
 				IntentAnnotationMessageType.COMPILER_INFO,
 				"-The required feature 'isTestedBy' of 'patchingDifferences' must be set", true));
