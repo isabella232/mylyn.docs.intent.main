@@ -77,6 +77,7 @@ public class JavaTest extends AbstractDemoTest {
 
 		repositoryListener.startRecording();
 		editor37.doSave(new NullProgressMonitor());
+		System.out.println(document37.get());
 		waitForCompiler();
 
 		System.out.println("[Trying to get the expected error message");
