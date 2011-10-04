@@ -58,11 +58,6 @@ public class ISynchronizerExtensionRegistryListener implements IRegistryChangeLi
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.core.runtime.IRegistryEventListener#added(org.eclipse.core.runtime.IExtensionPoint[])
-	 */
 	public void added(IExtensionPoint[] extensionPoints) {
 		for (IExtensionPoint extensionPoint : extensionPoints) {
 			for (IExtension extension : extensionPoint.getExtensions()) {
@@ -108,11 +103,6 @@ public class ISynchronizerExtensionRegistryListener implements IRegistryChangeLi
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.core.runtime.IRegistryEventListener#removed(org.eclipse.core.runtime.IExtension[])
-	 */
 	public void removed(IExtension[] extensions) {
 		for (IExtension extension : extensions) {
 			final IConfigurationElement[] configElements = extension.getConfigurationElements();
