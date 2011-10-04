@@ -48,11 +48,6 @@ public class IntentPairMatcher implements ICharacterPairMatcher {
 	 * char[] chars = new char[] {'(', ')', '{', '}', '[', ']'};
 	 * new DefaultCharacterPairMatcher(chars, ...);
 	 * </pre>
-	 * 
-	 * @param chars
-	 *            a list of characters
-	 * @param partitioning
-	 *            the partitioning to match within
 	 */
 	public IntentPairMatcher() {
 		Assert.isLegal(BLOCKS.length % 2 == 0);
