@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -34,7 +37,16 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentQuickOutline
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.QuickOutlineInformationProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.ModelingUnitDecorationPainter;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection.EditorElementListAdapter;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
+import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadOnlyRepositoryObjectHandlerImpl;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListNotificator;
+import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
@@ -126,6 +138,10 @@ public class IntentEditor extends TextEditor {
 		setSourceViewerConfiguration(new IntentEditorConfiguration(this, getPreferenceStore()));
 		setDocumentProvider(createDocumentProvider());
 		super.doSetInput(input);
+
+		subscribeRepository((IntentEditorInput)getEditorInput(),
+				(IntentDocumentProvider)getDocumentProvider(),
+				((IntentEditorInput)getEditorInput()).getRepositoryAdapter());
 	}
 
 	/**
@@ -146,7 +162,63 @@ public class IntentEditor extends TextEditor {
 	 * @return the document provider
 	 */
 	protected IntentDocumentProvider createDocumentProvider() {
-		return new IntentDocumentProvider(this);
+		IntentDocumentProvider provider = new IntentDocumentProvider(this);
+		return provider;
+	}
+
+	/**
+	 * Registers listeners in the repository used by the given editor input.
+	 * 
+	 * @param editorInput
+	 *            the {@link IntentEditorInput}
+	 * @param provider
+	 *            the document provider
+	 * @param repositoryAdapter
+	 *            the repository adapter previously created by the editorInput
+	 */
+	private void subscribeRepository(IntentEditorInput editorInput, IntentDocumentProvider provider,
+			RepositoryAdapter repositoryAdapter) {
+		Repository newRepository = null;
+		newRepository = editorInput.getRepository();
+		provider.setRepository(newRepository);
+		// Step 1 : creation of the Handler in the correct mode
+		final RepositoryObjectHandler elementHandler = createElementHandler(repositoryAdapter, false);
+		provider.addRepositoryObjectHandler(elementHandler);
+
+		// Step 2 : creation of a Notificator listening changes on this element and compilation
+		// errors.
+		final Set<EObject> listenedObjects = new LinkedHashSet<EObject>();
+		listenedObjects.add(editorInput.getIntentElement());
+		final ElementListAdapter adapter = new EditorElementListAdapter();
+
+		repositoryAdapter.execute(new IntentCommand() {
+
+			public void execute() {
+				Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects, adapter);
+				elementHandler.setNotificator(listenedElementsNotificator);
+			}
+		});
+	}
+
+	/**
+	 * Creates the element handler matching the given mode.
+	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter
+	 * @param readOnlyMode
+	 *            the access mode
+	 * @return the handler
+	 */
+	private static RepositoryObjectHandler createElementHandler(RepositoryAdapter repositoryAdapter,
+			boolean readOnlyMode) {
+		final RepositoryObjectHandler elementHandler;
+		if (readOnlyMode) {
+			elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
+			elementHandler.setRepositoryAdapter(repositoryAdapter);
+		} else {
+			elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
+		}
+		return elementHandler;
 	}
 
 	/**

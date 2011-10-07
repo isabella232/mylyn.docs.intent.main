@@ -12,6 +12,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.builder;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -32,6 +35,8 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentProjectListener implements IResourceChangeListener {
+
+	private Map<String, IntentProjectManager> projectManagers = new HashMap<String, IntentProjectManager>();
 
 	/**
 	 * Default constructor.
@@ -136,10 +141,11 @@ public class IntentProjectListener implements IResourceChangeListener {
 	 *            the created or opened project to handle
 	 */
 	public void handleOpenedProject(IProject project) {
-		IntentProjectManager projectManager = IntentProjectManager.getInstance(project, true);
+		IntentProjectManager projectManager = getIntentProjectManager(project);
 		try {
 			System.out.println("[IntentProjectListener] now handling project " + project.getName());
 			projectManager.connect();
+			projectManagers.put(project.getName(), projectManager);
 		} catch (RepositoryConnectionException e) {
 			IntentUiLogger.logError(e);
 		}
@@ -152,14 +158,23 @@ public class IntentProjectListener implements IResourceChangeListener {
 	 *            the deleted or closed project to handle
 	 */
 	public void handleClosedProject(IProject project) {
-		IntentProjectManager projectManager = IntentProjectManager.getInstance(project, false);
+		IntentProjectManager projectManager = getIntentProjectManager(project);
 		if (projectManager != null) { // should not happen
 			try {
 				projectManager.disconnect();
+				projectManagers.remove(project.getName());
 			} catch (RepositoryConnectionException e) {
 				IntentUiLogger.logError(e);
 			}
 		}
+	}
+
+	private IntentProjectManager getIntentProjectManager(IProject project) {
+		IntentProjectManager projectManager = projectManagers.get(project.getName());
+		if (projectManager == null) {
+			projectManager = new IntentProjectManager(project);
+		}
+		return projectManager;
 	}
 
 }

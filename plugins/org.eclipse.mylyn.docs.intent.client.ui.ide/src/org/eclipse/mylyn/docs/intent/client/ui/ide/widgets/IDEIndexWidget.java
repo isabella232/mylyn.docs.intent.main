@@ -25,7 +25,6 @@ import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -74,105 +73,98 @@ public final class IDEIndexWidget {
 	 *             if a connection to the repository cannot be made.
 	 */
 	public static void createIndexWidget(final Repository repository) throws RepositoryConnectionException {
+		// Step 1 : we initialize the connection and the list of the modeling units
+		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
+		repositoryAdapter.openReadOnlyContext();
+		List<EObject> elementsList = getIntentElementsList(repositoryAdapter);
 
-		try {
-			// Step 1 : we initialize the connection and the list of the modeling units
-			final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
-					.createRepositoryAdapterForRepository(repository);
-			repositoryAdapter.openReadOnlyContext();
-			List<EObject> elementsList = getIntentElementsList(repositoryAdapter);
+		// Step 2 : creation of the selection widget
+		final Shell shell = new Shell(getShell());
 
-			// Step 2 : creation of the selection widget
-			final Shell shell = new Shell(getShell());
+		shell.setLayout(new FillLayout());
+		shell.setSize(new Point(SHELL_WIDTH, SHELL_HEIGHT));
+		shell.setToolTipText("Please select the Intent Element you which to open");
 
-			shell.setLayout(new FillLayout());
-			shell.setSize(new Point(SHELL_WIDTH, SHELL_HEIGHT));
-			shell.setToolTipText("Please select the Intent Element you which to open");
+		Composite composite = new Composite(shell, SWT.BORDER);
+		composite.setLayout(new FormLayout());
 
-			Composite composite = new Composite(shell, SWT.BORDER);
-			composite.setLayout(new FormLayout());
+		final int padding = -5;
 
-			final int padding = -5;
+		Button ok = new Button(composite, SWT.PUSH);
+		ok.setText("Ok");
+		FormData formData = new FormData();
+		formData.right = new FormAttachment(100, padding);
+		formData.bottom = new FormAttachment(100, padding);
+		ok.setLayoutData(formData);
 
-			Button ok = new Button(composite, SWT.PUSH);
-			ok.setText("Ok");
-			FormData formData = new FormData();
-			formData.right = new FormAttachment(100, padding);
-			formData.bottom = new FormAttachment(100, padding);
-			ok.setLayoutData(formData);
+		Button cancel = new Button(composite, SWT.PUSH);
+		cancel.setText("Cancel");
+		formData = new FormData();
+		formData.right = new FormAttachment(ok, padding);
+		formData.bottom = new FormAttachment(100, padding);
+		cancel.setLayoutData(formData);
 
-			Button cancel = new Button(composite, SWT.PUSH);
-			cancel.setText("Cancel");
-			formData = new FormData();
-			formData.right = new FormAttachment(ok, padding);
-			formData.bottom = new FormAttachment(100, padding);
-			cancel.setLayoutData(formData);
+		Composite cvComposite = new Composite(composite, SWT.NONE);
+		cvComposite.setLayout(new FillLayout());
 
-			Composite cvComposite = new Composite(composite, SWT.NONE);
-			cvComposite.setLayout(new FillLayout());
+		final ComboViewer comboViewer = new ComboViewer(cvComposite, SWT.BORDER);
 
-			final ComboViewer comboViewer = new ComboViewer(cvComposite, SWT.BORDER);
+		// TODO make a better input, content provider and label provider (using for instance the outline)
+		comboViewer.setContentProvider(new ArrayContentProvider());
+		comboViewer.setInput(elementsList);
 
-			// TODO make a better input, content provider and label provider (using for instance the outline)
-			comboViewer.setContentProvider(new ArrayContentProvider());
-			comboViewer.setInput(elementsList);
+		// creation of a label provider that print the name of each
+		comboViewer.setLabelProvider(new LabelProvider() {
+			@Override
+			public String getText(Object element) {
+				if (element instanceof ModelingUnit) {
+					return ((ModelingUnit)element).getUnitName();
+				} else {
+					return element.toString();
+				}
+			}
+		});
 
-			// creation of a label provider that print the name of each
-			comboViewer.setLabelProvider(new LabelProvider() {
-				@Override
-				public String getText(Object element) {
-					if (element instanceof ModelingUnit) {
-						return ((ModelingUnit)element).getUnitName();
-					} else {
-						return element.toString();
+		formData = new FormData();
+		formData.top = new FormAttachment(0, 5);
+		formData.bottom = new FormAttachment(cancel, padding);
+		formData.left = new FormAttachment(0, 5);
+		formData.right = new FormAttachment(100, padding);
+		cvComposite.setLayoutData(formData);
+
+		// Selection listener : when the user presses "ok",
+		// get the selected modeling unit and open an editor using the cdo id.
+		ok.addSelectionListener(new SelectionAdapter() {
+
+			public void widgetSelected(SelectionEvent e) {
+				ISelection selection = comboViewer.getSelection();
+				if (selection instanceof IStructuredSelection) {
+					IStructuredSelection structSelection = (IStructuredSelection)selection;
+					final Object element = structSelection.getFirstElement();
+					if ((element instanceof GenericUnit) || (element instanceof IntentStructuredElement)) {
+						shell.close();
+						IntentEditorOpener.openIntentEditor(repository, (EObject)element, false,
+								(EObject)element, false);
 					}
 				}
-			});
+			}
+		});
 
-			formData = new FormData();
-			formData.top = new FormAttachment(0, 5);
-			formData.bottom = new FormAttachment(cancel, padding);
-			formData.left = new FormAttachment(0, 5);
-			formData.right = new FormAttachment(100, padding);
-			cvComposite.setLayoutData(formData);
+		cancel.addSelectionListener(new SelectionAdapter() {
+			/**
+			 * {@inheritDoc}
+			 * 
+			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 */
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				shell.close();
+			}
+		});
 
-			// Selection listener : when the user presses "ok",
-			// get the selected modeling unit and open an editor using the cdo id.
-			ok.addSelectionListener(new SelectionAdapter() {
+		shell.open();
 
-				public void widgetSelected(SelectionEvent e) {
-					ISelection selection = comboViewer.getSelection();
-					if (selection instanceof IStructuredSelection) {
-						IStructuredSelection structSelection = (IStructuredSelection)selection;
-						final Object element = structSelection.getFirstElement();
-						if ((element instanceof GenericUnit) || (element instanceof IntentStructuredElement)) {
-							shell.close();
-							IntentEditorOpener.openIntentEditor(repository, (EObject)element, false,
-									(EObject)element, false);
-						}
-					}
-				}
-			});
-
-			cancel.addSelectionListener(new SelectionAdapter() {
-				/**
-				 * {@inheritDoc}
-				 * 
-				 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
-				 */
-				@Override
-				public void widgetSelected(SelectionEvent e) {
-					shell.close();
-				}
-			});
-
-			shell.open();
-
-			repositoryAdapter.closeContext();
-
-		} catch (RepositoryConnectionException e1) {
-			throw e1;
-		}
+		repositoryAdapter.closeContext();
 	}
 
 	/**

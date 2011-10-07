@@ -10,30 +10,16 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.utils;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection.EditorElementListAdapter;
-import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadOnlyRepositoryObjectHandlerImpl;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListNotificator;
-import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
-import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.ui.IEditorPart;
@@ -76,12 +62,8 @@ public final class IntentEditorOpener {
 	public static void openIntentEditor(final Repository repository, final EObject elementToOpen,
 			boolean readOnlyMode, EObject elementToSelectRangeWith, boolean forceNewEditor) {
 		try {
-			final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
-					.createRepositoryAdapterForRepository(repository);
-			openIntentEditor(repositoryAdapter, repository, elementToOpen, false, elementToOpen,
-					forceNewEditor);
-		} catch (RepositoryConnectionException rce) {
-			IntentUiLogger.logError(rce);
+			final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
+			openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, forceNewEditor);
 		} catch (PartInitException e) {
 			IntentUiLogger.logError(e);
 		}
@@ -92,8 +74,6 @@ public final class IntentEditorOpener {
 	 * 
 	 * @param repositoryAdapter
 	 *            the repository adapter
-	 * @param repository
-	 *            The repository to use for this editor
 	 * @param elementToOpen
 	 *            the element to open.
 	 * @param readOnlyMode
@@ -107,9 +87,9 @@ public final class IntentEditorOpener {
 	 * @throws PartInitException
 	 *             if the editor cannot be opened.
 	 */
-	private static IntentEditor openIntentEditor(RepositoryAdapter repositoryAdapter, Repository repository,
-			EObject elementToOpen, boolean readOnlyMode, EObject elementToSelectRangeWith,
-			boolean forceNewEditor) throws PartInitException {
+	private static IntentEditor openIntentEditor(RepositoryAdapter repositoryAdapter, EObject elementToOpen,
+			boolean readOnlyMode, EObject elementToSelectRangeWith, boolean forceNewEditor)
+			throws PartInitException {
 		IntentEditor openedEditor = null;
 		IStatus status = null;
 		repositoryAdapter.setSendSessionWarningBeforeSaving(false);
@@ -132,30 +112,11 @@ public final class IntentEditorOpener {
 
 		if (openedEditor == null) {
 
-			// Step 3 : creation of the Handler in the correct mode
-			final RepositoryObjectHandler elementHandler = createElementHandler(repositoryAdapter,
-					readOnlyMode);
-
-			// Step 4 : creation of a Notificator listening changes on this element and compilation
-			// errors.
-			final Set<EObject> listenedObjects = new LinkedHashSet<EObject>();
-			listenedObjects.add(elementToOpen);
-			final ElementListAdapter adapter = new EditorElementListAdapter();
-
-			repositoryAdapter.execute(new IntentCommand() {
-
-				public void execute() {
-					Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects,
-							adapter);
-					elementHandler.setNotificator(listenedElementsNotificator);
-				}
-			});
-
-			// Step 5 : we open a new editor.
+			// Step 3 : we open a new editor.
 			IWorkbenchPage page = null;
 			try {
 				page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				openedEditor = IntentEditorOpener.openEditor(page, elementToOpen, repository, elementHandler);
+				openedEditor = IntentEditorOpener.openEditor(repositoryAdapter, page, elementToOpen);
 
 			} catch (NullPointerException e) {
 				status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
@@ -165,27 +126,6 @@ public final class IntentEditorOpener {
 		}
 
 		return openedEditor;
-	}
-
-	/**
-	 * Creates the element handler matching the given mode.
-	 * 
-	 * @param repositoryAdapter
-	 *            the repository adapter
-	 * @param readOnlyMode
-	 *            the access mode
-	 * @return the handler
-	 */
-	private static RepositoryObjectHandler createElementHandler(RepositoryAdapter repositoryAdapter,
-			boolean readOnlyMode) {
-		final RepositoryObjectHandler elementHandler;
-		if (readOnlyMode) {
-			elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
-			elementHandler.setRepositoryAdapter(repositoryAdapter);
-		} else {
-			elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
-		}
-		return elementHandler;
 	}
 
 	/**
@@ -228,20 +168,18 @@ public final class IntentEditorOpener {
 	/**
 	 * Open an editor on the given IntentModel element.
 	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter to use for this document
 	 * @param page
 	 *            the page in which the editor should be opened
 	 * @param intentElementToOpen
 	 *            the Intent element to open
-	 * @param handler
-	 *            Handler that will notify the editor of any change occurred on the listened elements
-	 * @param repository
-	 *            The interface that represents the connection to the repository
 	 * @return the opened editor
 	 * @throws PartInitException
 	 *             if the editor cannot be opened.
 	 */
-	private static IntentEditor openEditor(IWorkbenchPage page, Object intentElementToOpen,
-			Repository repository, RepositoryObjectHandler handler) throws PartInitException {
+	private static IntentEditor openEditor(RepositoryAdapter repositoryAdapter, IWorkbenchPage page,
+			Object intentElementToOpen) throws PartInitException {
 
 		// If we can't open a IntentEditor on the given element, we try to get its container until null or an
 		// editable intent element is found
@@ -256,14 +194,15 @@ public final class IntentEditorOpener {
 		}
 
 		if (canBeOpenedByIntentEditor) {
-
-			IntentEditorInput input = new IntentEditorInput(elementToOpen);
-
-			IntentEditor editor = (IntentEditor)page.openEditor(input, IntentEditorActivator.EDITOR_ID);
-			((IntentDocumentProvider)editor.getDocumentProvider()).addRepositoryObjectHandler(handler);
-			((IntentDocumentProvider)editor.getDocumentProvider()).setRepository(repository);
-			((IntentDocumentProvider)editor.getDocumentProvider()).setEditor(editor);
-			return editor;
+			IntentEditorInput input = new IntentEditorInput(elementToOpen, repositoryAdapter);
+			IEditorPart part = page.openEditor(input, IntentEditorActivator.EDITOR_ID);
+			if (part instanceof IntentEditor) {
+				return (IntentEditor)part;
+			} else {
+				IStatus status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
+						"cannot open the editor");
+				throw new PartInitException(status);
+			}
 		} else {
 			IntentUiLogger.logError("this element is not a correct Intent element", new PartInitException(
 					"Invalid element : must be a Intent Element"));
