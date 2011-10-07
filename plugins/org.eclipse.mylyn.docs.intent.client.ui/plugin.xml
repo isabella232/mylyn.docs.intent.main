@@ -270,4 +270,11 @@
              class="org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceInitializer">
        </initializer>
     </extension>
+       <extension
+             point="org.eclipse.ui.elementFactories">
+          <factory
+                class="org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInputFactory"
+                id="org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInputFactory">
+          </factory>
+       </extension>
 </plugin>

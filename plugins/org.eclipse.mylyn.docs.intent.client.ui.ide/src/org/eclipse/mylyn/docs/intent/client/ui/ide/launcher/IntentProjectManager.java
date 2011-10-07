@@ -11,15 +11,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.launcher;
 
-import com.google.common.collect.Sets;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.cdo.eresource.EresourcePackage;
 import org.eclipse.mylyn.docs.intent.client.compiler.launcher.CompilerCreator;
 import org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection.CompilerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
@@ -31,20 +24,9 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.generatedelementlistener.IDEGeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.ProjectExplorerRefresher;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.structurer.IntentWorkspaceRepositoryStructurer;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
-import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotificationFactoryHolder;
-import org.eclipse.mylyn.docs.intent.collab.ide.notification.WorkspaceRepositoryChangeNotificationFactory;
-import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceConfig;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -63,11 +45,6 @@ import org.eclipse.ui.PlatformUI;
  */
 public final class IntentProjectManager {
 
-	/**
-	 * The list of created {@link IntentProjectManager}s, associated to the corresponding project.
-	 */
-	private static Map<IProject, IntentProjectManager> projectManagers = new HashMap<IProject, IntentProjectManager>();
-
 	private CompilerRepositoryClient compilerClient;
 
 	private SynchronizerRepositoryClient synchronizerClient;
@@ -83,6 +60,8 @@ public final class IntentProjectManager {
 
 	private Repository repository;
 
+	private boolean isConnected;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -90,7 +69,7 @@ public final class IntentProjectManager {
 	 *            the project to associate to this IntentProjectManager (must be associated to the Intent
 	 *            nature)
 	 */
-	private IntentProjectManager(IProject project) {
+	public IntentProjectManager(IProject project) {
 		this.project = project;
 	}
 
@@ -108,27 +87,28 @@ public final class IntentProjectManager {
 	 */
 	public synchronized void connect() throws RepositoryConnectionException {
 		try {
+			repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
 			System.out.println("[IntentProjectManager] Connecting to project " + project);
 			if (project.isAccessible() && project.getNature(IntentNature.NATURE_ID) != null) {
-				getRepository().getOrCreateSession();
+				repository.getOrCreateSession();
 
 				// Clients creation (if needed)
 
 				// Compiler
 				System.out.println("[IntentProjectManager] Launching clients " + compilerClient);
 				if (compilerClient == null) {
-					compilerClient = CompilerCreator.createCompilerClient(getRepository());
+					compilerClient = CompilerCreator.createCompilerClient(repository);
 				}
 
 				// Synchronizer
 				if (synchronizerClient == null) {
-					synchronizerClient = SynchronizerCreator.createSynchronizer(getRepository(),
+					synchronizerClient = SynchronizerCreator.createSynchronizer(repository,
 							new IDEGeneratedElementListener());
 				}
 
 				// Indexer
 				if (indexerClient == null) {
-					indexerClient = IndexerCreator.launchIndexer(getRepository());
+					indexerClient = IndexerCreator.launchIndexer(repository);
 				}
 
 				// Project explorer refresher
@@ -151,6 +131,7 @@ public final class IntentProjectManager {
 		} catch (CoreException e) {
 			throw new RepositoryConnectionException(e.getMessage());
 		}
+		isConnected = true;
 	}
 
 	/**
@@ -160,6 +141,35 @@ public final class IntentProjectManager {
 	 *             if the {@link Repository} cannot be deleted or accessed
 	 */
 	public synchronized void disconnect() throws RepositoryConnectionException {
+		if (isConnected) {
+			closeRelatedEditors();
+
+			if (compilerClient != null) {
+				compilerClient.dispose();
+				compilerClient = null;
+			}
+			if (synchronizerClient != null) {
+				synchronizerClient.dispose();
+				synchronizerClient = null;
+			}
+			if (indexerClient != null) {
+				indexerClient.dispose();
+				indexerClient = null;
+			}
+			if (refresher != null) {
+				refresher.dispose();
+				refresher = null;
+			}
+
+			repository.closeSession();
+		}
+		IntentRepositoryManager.INSTANCE.deleteRepository(project.getName());
+	}
+
+	/**
+	 * Closes editors.
+	 */
+	private void closeRelatedEditors() {
 		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 			public void run() {
 				final IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench()
@@ -182,118 +192,5 @@ public final class IntentProjectManager {
 
 			}
 		});
-
-		projectManagers.remove(project);
-
-		if (compilerClient != null) {
-			compilerClient.dispose();
-			compilerClient = null;
-		}
-		if (synchronizerClient != null) {
-			synchronizerClient.dispose();
-			synchronizerClient = null;
-		}
-		if (indexerClient != null) {
-			indexerClient.dispose();
-			indexerClient = null;
-		}
-		if (refresher != null) {
-			refresher.dispose();
-			refresher = null;
-		}
-
-		repository.closeSession();
 	}
-
-	/**
-	 * Gets or creates the {@link Repository} associated to the considered project.
-	 * 
-	 * @return the {@link Repository} associated to the considered project
-	 * @throws RepositoryConnectionException
-	 *             if the {@link Repository} cannot be created or accessed
-	 */
-	private Repository getRepository() throws RepositoryConnectionException {
-		if (this.repository == null) {
-
-			// Step 1 : create the Repository configuration
-			WorkspaceConfig wpConfig = new WorkspaceConfig(project, IntentLocations.INDEXES_LIST);
-
-			// Step 2 : define a structurer used to split the repository resources
-			IntentWorkspaceRepositoryStructurer structurer = new IntentWorkspaceRepositoryStructurer();
-
-			// Step 3 : initialize the creator that will be used for creating RepositoryAdapter
-			if (RepositoryCreatorHolder.getCreator() == null) {
-				RepositoryCreatorHolder.setCreator(new IntentWorkspaceRepositoryCreator(structurer));
-			}
-			// Step 4 : initialize the Notification Factory
-			if (RepositoryChangeNotificationFactoryHolder.getChangeNotificationFactory() == null) {
-				RepositoryChangeNotificationFactoryHolder
-						.setChangeNotificationFactory(new WorkspaceRepositoryChangeNotificationFactory());
-			}
-
-			// Step 5 : initialize the Repository's Package registry
-			repository = RepositoryCreatorHolder.getCreator().createRepository(wpConfig);
-			repository.getPackageRegistry().put(IntentIndexerPackage.eNS_URI, IntentIndexerPackage.eINSTANCE);
-			repository.getPackageRegistry().put(CompilerPackage.eNS_URI, CompilerPackage.eINSTANCE);
-			repository.getPackageRegistry().put(IntentDocumentPackage.eNS_URI,
-					IntentDocumentPackage.eINSTANCE);
-			repository.getPackageRegistry().put(ModelingUnitPackage.eNS_URI, ModelingUnitPackage.eINSTANCE);
-			repository.getPackageRegistry().put(DescriptionUnitPackage.eNS_URI,
-					DescriptionUnitPackage.eINSTANCE);
-			repository.getPackageRegistry().put(GenericUnitPackage.eNS_URI, GenericUnitPackage.eINSTANCE);
-			repository.getPackageRegistry().put(EresourcePackage.eNS_URI, EresourcePackage.eINSTANCE);
-		}
-		return repository;
-	}
-
-	/**
-	 * Returns the {@link Repository} associated to the given Intent project.
-	 * 
-	 * @param project
-	 *            the Intent project to get the Repository from
-	 * @return the {@link Repository} associated to the given Intent project
-	 * @throws RepositoryConnectionException
-	 *             if the repository cannot be created
-	 */
-	public static Repository getRepository(IProject project) throws RepositoryConnectionException {
-		return getInstance(project, true).getRepository();
-	}
-
-	/**
-	 * Returns the {@link IntentProjectManager} handling the given Intent project. If no IntentProjectManager
-	 * is associated to this project, creates a new one.
-	 * 
-	 * @param project
-	 *            the Intent project to get the {@link IntentProjectManager} from
-	 * @param create
-	 *            if true, creates a new project manager instance
-	 * @return the {@link IntentProjectManager} handling the given Intent project
-	 */
-	public static IntentProjectManager getInstance(IProject project, boolean create) {
-		if (projectManagers.get(project) == null && create) {
-			projectManagers.put(project, new IntentProjectManager(project));
-		}
-		return projectManagers.get(project);
-	}
-
-	/**
-	 * Returns all active project managers.
-	 * 
-	 * @return all active project managers
-	 */
-	public static Set<IntentProjectManager> getAllProjectManagers() {
-		return Sets.newLinkedHashSet(projectManagers.values());
-	}
-
-	/**
-	 * Indicates if the given project is handled by a {@link IntentProjectManager}.
-	 * 
-	 * @param project
-	 *            the project to test
-	 * @return true if the given project is handled by a {@link IntentProjectManager}, false otherwise
-	 */
-	public static boolean isManagedProject(IProject project) {
-		return projectManagers.get(project) != null;
-	}
-
 }

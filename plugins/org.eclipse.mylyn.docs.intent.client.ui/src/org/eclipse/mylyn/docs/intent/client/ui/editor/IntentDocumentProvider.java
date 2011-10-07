@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -146,7 +147,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	@Override
 	protected IAnnotationModel createAnnotationModel(Object element) throws CoreException {
-
 		// We use an AnnotationModelManager to handle the create annotationModel
 		this.annotationModelManager = new IntentAnnotationModelManager();
 		return annotationModelManager.getAnnotationModel();
@@ -156,6 +156,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 * Initialize the annotation model using the repository informations.
 	 */
 	private void initializeAnnotationModel() {
+		Assert.isNotNull(annotationModelManager);
 		for (CompilationStatus status : IntentHelper.getAllStatus((IntentGenericElement)documentRoot)) {
 
 			List<IntentEditorDocument> list = elementsToDocuments.get(listenedElementsHandler
@@ -206,8 +207,8 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		partitioner = new IntentPartitioner(LEGAL_CONTENT_TYPES);
 		partitioner.connect(createdDocument);
 		createdDocument.setDocumentPartitioner(partitioner);
-		return createdDocument;
 
+		return createdDocument;
 	}
 
 	/**
@@ -340,11 +341,9 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			try {
 				listenedElementsHandler.getRepositoryAdapter().save();
 			} catch (ReadOnlyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				IntentUiLogger.logError(e);
 			} catch (SaveException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				IntentUiLogger.logError(e);
 			}
 
 			// We update the mapping between elements and documents
@@ -569,17 +568,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			this.listenedElementsHandler.removeClient(this);
 			this.listenedElementsHandler.stop();
 		}
-
-	}
-
-	/**
-	 * Sets the editor associated to this documentProvider.
-	 * 
-	 * @param editor
-	 *            the editor to set
-	 */
-	public void setEditor(IntentEditor editor) {
-		this.associatedEditor = editor;
 
 	}
 
