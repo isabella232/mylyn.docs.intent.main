@@ -119,8 +119,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser#parseString(int,
-	 *      java.lang.String)
+	 * @see org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser#parseString(java.lang.String)
 	 */
 	public EObject parseString(int rootOffset, String stringToParse) throws ParseException {
 		// Root creation

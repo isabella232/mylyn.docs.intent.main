@@ -10,12 +10,14 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.cdo.utils;
 
+import org.eclipse.emf.cdo.session.CDOSession;
+import org.eclipse.mylyn.docs.intent.collab.cdo.adapters.CDOAdapter;
 import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDOConfig;
 import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDORepository;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryCreator;
+import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreator;
 
 /**
  * Construct Repository according to configuration files.
@@ -34,16 +36,13 @@ public class CDORepositoryCreator implements RepositoryCreator {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.repository.RepositoryCreator#createRepository(java.lang.Object,
-	 *      org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer)
+	 * @see org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreator#createRepository(java.lang.Object)
 	 */
-	public Repository createRepository(Object configurationInformations, RepositoryStructurer structurer)
-			throws RepositoryConnectionException {
+	public Repository createRepository(Object configurationInformations) throws RepositoryConnectionException {
 		if (!(configurationInformations instanceof CDOConfig)) {
 			throw new RepositoryConnectionException("The given configuration informations are invalid.");
 		}
 		Repository repository = new CDORepository((CDOConfig)configurationInformations);
-		repository.setRepositoryStructurer(structurer);
 		initialisePackageRegistry(repository);
 		return repository;
 	}
@@ -58,6 +57,16 @@ public class CDORepositoryCreator implements RepositoryCreator {
 	 */
 	private void initialisePackageRegistry(Repository repository) throws RepositoryConnectionException {
 
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreator#createRepositoryAdapterForRepository(org.eclipse.mylyn.docs.intent.collab.repository.Repository)
+	 */
+	public RepositoryAdapter createRepositoryAdapterForRepository(Repository repository)
+			throws RepositoryConnectionException {
+		return new CDOAdapter((CDOSession)repository.getOrCreateSession());
 	}
 
 	/**

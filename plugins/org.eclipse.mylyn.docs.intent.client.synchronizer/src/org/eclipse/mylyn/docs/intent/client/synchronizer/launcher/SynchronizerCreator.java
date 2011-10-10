@@ -29,6 +29,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementLi
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
+import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
@@ -62,7 +63,8 @@ public final class SynchronizerCreator {
 			GeneratedElementListener generatedElementListener) throws RepositoryConnectionException {
 
 		// Step 1 : we initialize the listened elements
-		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
+		final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
+				.createRepositoryAdapterForRepository(repository);
 		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 
 		repositoryAdapter.openReadOnlyContext();

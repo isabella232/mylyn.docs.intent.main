@@ -4,8 +4,5 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.collab.common
 Bundle-Version: 0.7.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.mylyn.docs.intent.collab.common,
- org.eclipse.mylyn.docs.intent.collab.common.location
+Export-Package: org.eclipse.mylyn.docs.intent.collab.common.location
 Bundle-Vendor: %providerName
-Require-Bundle: org.eclipse.core.resources,
- org.eclipse.mylyn.docs.intent.collab

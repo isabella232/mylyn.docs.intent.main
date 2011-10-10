@@ -39,8 +39,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -51,6 +51,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementLi
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
+import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -136,7 +137,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		for (IntentEditor editor : openedEditors) {
 			editor.close(false);
 		}
-		IntentRepositoryManager.INSTANCE.deleteRepository(intentProject.getName());
 
 		// Step 2 : clean workspace
 		waitForAllOperationsInUIThread();
@@ -217,9 +217,9 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			IWorkspaceRunnable create = new IWorkspaceRunnable() {
 				public void run(IProgressMonitor monitor) throws CoreException {
 					IProject project = WorkspaceUtils.createProject(projectName, monitor);
-					ToggleNatureAction.toggleNature(project);
 
 					IDEApplicationManager.initializeContent(project, intentDocumentContent);
+					ToggleNatureAction.toggleNature(project);
 
 					// Step 3 : initializing all useful informations
 					intentProject = project;
@@ -262,16 +262,12 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	protected void setUpRepository(IProject project) {
 		try {
-			repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
-			repositoryAdapter = repository.createRepositoryAdapter();
+			repository = IntentProjectManager.getRepository(project);
+			repositoryAdapter = RepositoryCreatorHolder.getCreator().createRepositoryAdapterForRepository(
+					repository);
 		} catch (RepositoryConnectionException e) {
 			AssertionFailedError error = new AssertionFailedError(
 					"Cannot connect to the created IntentRepository");
-			error.setStackTrace(e.getStackTrace());
-			throw error;
-		} catch (CoreException e) {
-			AssertionFailedError error = new AssertionFailedError(
-					"Cannot retrieve the correct IntentRepository type");
 			error.setStackTrace(e.getStackTrace());
 			throw error;
 		}
@@ -348,7 +344,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		IntentEditorOpener.openIntentEditor(repository, element, true, null, true);
 		waitForAllOperationsInUIThread();
 		IntentEditor editor = IntentEditorOpener.getAlreadyOpenedEditor(element);
-		assertNotNull(editor);
 		openedEditors.add(editor);
 		return editor;
 	}

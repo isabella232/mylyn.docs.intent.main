@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -256,7 +255,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 * </p>
 	 * 
 	 * @param resource
-	 *            the resource being saved
+	 *            the resource beeing saved
 	 * @throws RepositoryConnectionException
 	 *             if a connection to the repository cannot be made
 	 */
@@ -479,7 +478,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	public Object getIDFromElement(EObject element) {
 		// We use the standard EMF way to identify this element :
 		// <ResourceURI> + <URIFragment>
-		Assert.isNotNull(element);
 		URI uri = EcoreUtil.getURI(element);
 
 		return uri;
@@ -505,6 +503,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	public void setSendSessionWarningBeforeSaving(boolean notifySessionBeforeSaving) {
 		this.sendSessionWarningBeforeSaving = notifySessionBeforeSaving;
+
 	}
 
 	/**
@@ -516,6 +515,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		this.sendSessionWarningBeforeSaving = false;
 		this.resourcesToIgnorePaths.clear();
 		this.resourcesToIgnorePaths.addAll(resourcesToIgnorePathList);
+
 	}
 
 	/**

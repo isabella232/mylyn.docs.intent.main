@@ -13,16 +13,15 @@ package org.eclipse.mylyn.docs.intent.client.ui.ide.navigator;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceConfig;
-import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
+import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
 
@@ -56,10 +55,10 @@ public class RepositoryContentProvider implements ITreeContentProvider {
 			IFile file = (IFile)parentElement;
 			// We connect to the repository
 			try {
-				final Repository repository = IntentRepositoryManager.INSTANCE.getRepository(file
-						.getProject().getName());
-				repository.getOrCreateSession();
-				RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
+				IntentProjectManager.getRepository(file.getProject()).getOrCreateSession();
+				RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
+						.createRepositoryAdapterForRepository(
+								IntentProjectManager.getRepository(file.getProject()));
 				repositoryAdapter.openReadOnlyContext();
 				Resource resource = repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH);
 				if (resource.getContents().size() > 0) {
@@ -69,14 +68,15 @@ public class RepositoryContentProvider implements ITreeContentProvider {
 
 			} catch (RepositoryConnectionException e) {
 				// We simply don't contribute to the project explorer
-			} catch (CoreException e) {
-				// We simply don't contribute to the project explorer
 			}
 		}
 		if (parentElement instanceof IntentIndex) {
 			children = ((IntentIndex)parentElement).getEntries().toArray();
 		}
 		if (parentElement instanceof IntentIndexEntry) {
+			// IntentIndexEntry reloaded =
+			// (IntentIndexEntry)repositoryAdapter.reload((IntentIndexEntry)parentElement);
+			// children = reloaded.getSubEntries().toArray();
 			children = ((IntentIndexEntry)parentElement).getSubEntries().toArray();
 		}
 		return children;

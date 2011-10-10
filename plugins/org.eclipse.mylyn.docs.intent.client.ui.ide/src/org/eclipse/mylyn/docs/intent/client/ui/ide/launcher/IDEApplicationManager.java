@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -27,6 +26,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
+import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerFactory;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
@@ -58,15 +58,13 @@ public final class IDEApplicationManager {
 	public static void initializeContent(IProject project, String initialContent) {
 		try {
 			if (project.isAccessible()) {
-				final Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project
-						.getName());
-				repository.getOrCreateSession();
+				IntentProjectManager.getRepository(project).getOrCreateSession();
 				if (project.exists()) {
 					if (!project.isOpen()) {
 						project.open(null);
 					}
 				}
-				initializeWithSampleContent(repository, initialContent);
+				initializeWithSampleContent(IntentProjectManager.getRepository(project), initialContent);
 			}
 		} catch (CoreException e) {
 			IntentUiLogger.logError(e);
@@ -87,7 +85,8 @@ public final class IDEApplicationManager {
 	 */
 	private static void initializeWithSampleContent(Repository repositoryToInitialize,
 			final String initialContent) throws RepositoryConnectionException {
-		final RepositoryAdapter repositoryAdapter = repositoryToInitialize.createRepositoryAdapter();
+		final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
+				.createRepositoryAdapterForRepository(repositoryToInitialize);
 
 		repositoryAdapter.execute(new IntentCommand() {
 

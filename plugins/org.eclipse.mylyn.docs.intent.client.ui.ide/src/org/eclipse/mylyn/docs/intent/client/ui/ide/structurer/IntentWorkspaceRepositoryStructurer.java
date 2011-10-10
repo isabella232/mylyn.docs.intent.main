@@ -8,13 +8,15 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.collab.ide.adapters;
+package org.eclipse.mylyn.docs.intent.client.ui.ide.structurer;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.collab.ide.adapters.DefaultWorkspaceRepositoryStructurer;
+import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
@@ -35,7 +37,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class WorkspaceRepositoryStructurer extends DefaultWorkspaceRepositoryStructurer {
+public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceRepositoryStructurer {
 
 	/**
 	 * {@inheritDoc}
@@ -118,8 +120,7 @@ public class WorkspaceRepositoryStructurer extends DefaultWorkspaceRepositoryStr
 	 * </ul>
 	 * </p>
 	 * 
-	 * @param element
-	 *            the element to test
+	 * @param element the element to test
 	 * @return true if the element is correctly split
 	 */
 	private boolean isCorrectlySplit(EObject element) {

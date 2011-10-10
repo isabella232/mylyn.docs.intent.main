@@ -12,15 +12,14 @@ package org.eclipse.mylyn.docs.intent.client.ui.ide.navigator;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
@@ -58,13 +57,10 @@ public class OpenEditorAction extends Action {
 
 		if (element != null && element.eResource() != null) {
 			try {
-				IntentEditorOpener.openIntentEditor(
-						IntentRepositoryManager.INSTANCE.getRepository(findProjectForModelURI(
-								element.eResource().getURI()).getName()), element, false, element,
-						forceNewEditor);
+				IntentEditorOpener.openIntentEditor(IntentProjectManager
+						.getRepository(findProjectForModelURI(element.eResource().getURI())), element, false,
+						element, forceNewEditor);
 			} catch (RepositoryConnectionException e) {
-				IntentUiLogger.logError(e);
-			} catch (CoreException e) {
 				IntentUiLogger.logError(e);
 			}
 		}

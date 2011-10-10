@@ -17,10 +17,7 @@ import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSession;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.ecore.EPackage.Registry;
-import org.eclipse.mylyn.docs.intent.collab.cdo.adapters.CDOAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.net4j.Net4jUtil;
@@ -197,30 +194,6 @@ public class CDORepository implements Repository {
 	 */
 	public Registry getPackageRegistry() throws RepositoryConnectionException {
 		return ((CDOSession)getOrCreateSession()).getPackageRegistry();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#createRepositoryAdapter()
-	 */
-	public RepositoryAdapter createRepositoryAdapter() {
-		try {
-			return new CDOAdapter((CDOSession)getOrCreateSession());
-		} catch (RepositoryConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#setRepositoryStructurer(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer)
-	 */
-	public void setRepositoryStructurer(RepositoryStructurer structurer) {
-		// TODO Auto-generated method stub
 	}
 
 }

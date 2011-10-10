@@ -139,7 +139,6 @@ public class WorkspaceSession implements IResourceChangeListener {
 			}
 
 			for (Resource changedResource : visitor.getChangedResources()) {
-
 				// If the resource is contained in the savedResources list, it means
 				// that we should ignore this notification ; however we remove this resource
 				// from this list so that we'll treat the next notifications
@@ -278,6 +277,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 		for (WorkspaceTypeListener listener : this.workspaceSessionListeners) {
 			listener.notifyResourceChanged(resource);
 		}
+
 	}
 
 	/**

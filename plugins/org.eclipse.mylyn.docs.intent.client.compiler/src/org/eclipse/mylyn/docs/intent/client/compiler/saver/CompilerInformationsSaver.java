@@ -228,7 +228,7 @@ public class CompilerInformationsSaver {
 		List<TraceabilityIndexEntry> newTraceabilityEntries = new ArrayList<TraceabilityIndexEntry>();
 		// For each compiled resource
 		for (ResourceDeclaration resourceDeclaration : resourceToGeneratedPath.keySet()) {
-			// We create a traceability entry
+			// We create a tracability entry
 			TraceabilityIndexEntry entry = CompilerFactory.eINSTANCE.createTraceabilityIndexEntry();
 			entry.setCompilationTime(BigInteger.valueOf(System.currentTimeMillis()));
 			entry.setGeneratedResourcePath(resourceToGeneratedPath.get(resourceDeclaration));

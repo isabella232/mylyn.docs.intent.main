@@ -20,11 +20,13 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
+import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.collab.test.assertioncontainer.NotificationAssertionContainer;
 import org.eclipse.mylyn.docs.intent.collab.test.model.TestPackage.TestIndex;
 import org.eclipse.mylyn.docs.intent.collab.test.model.TestPackage.TestIndexEntry;
 import org.eclipse.mylyn.docs.intent.collab.test.model.TestPackage.TestPackageFactory;
 import org.eclipse.mylyn.docs.intent.collab.test.settings.TestCollabSettings;
+import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 
 /**
  * Abstract class for any test relative to a {@link Repository}.
@@ -75,7 +77,8 @@ public abstract class AbstractRepositoryTest extends TestCase {
 		// We first get an adapter for using the repository
 		RepositoryAdapter repositoryAdapter;
 		try {
-			repositoryAdapter = repositoryToClear.createRepositoryAdapter();
+			repositoryAdapter = RepositoryCreatorHolder.getCreator().createRepositoryAdapterForRepository(
+					repositoryToClear);
 			// We open a save Context
 			repositoryAdapter.openSaveContext();
 			final RepositoryAdapter finalRepoAdapter = repositoryAdapter;
@@ -107,6 +110,9 @@ public abstract class AbstractRepositoryTest extends TestCase {
 					}
 				}
 			});
+		} catch (RepositoryConnectionException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
 		} catch (ReadOnlyException e1) {
 			// As we have opened a save context, this exception can never occur
 			e1.printStackTrace();
@@ -132,7 +138,7 @@ public abstract class AbstractRepositoryTest extends TestCase {
 	 */
 	@Override
 	protected void tearDown() throws Exception {
-		repository = null;
+		// TODO close the repository
 		super.tearDown();
 	}
 

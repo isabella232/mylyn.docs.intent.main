@@ -12,8 +12,6 @@ package org.eclipse.mylyn.docs.intent.collab.repository;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
 
 /**
  * Abstract representation of the repository.
@@ -64,20 +62,5 @@ public interface Repository {
 	 *             if a connection to the repository cannot be made.
 	 */
 	EPackage.Registry getPackageRegistry() throws RepositoryConnectionException;
-
-	/**
-	 * Creates a repository adapter.
-	 * 
-	 * @return the repository adapter
-	 */
-	RepositoryAdapter createRepositoryAdapter();
-
-	/**
-	 * Sets the structurer.
-	 * 
-	 * @param structurer
-	 *            the Repository structurer
-	 */
-	void setRepositoryStructurer(RepositoryStructurer structurer);
 
 }

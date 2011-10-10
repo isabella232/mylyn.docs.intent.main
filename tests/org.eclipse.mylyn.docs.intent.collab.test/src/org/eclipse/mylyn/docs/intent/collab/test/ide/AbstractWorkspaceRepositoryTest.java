@@ -14,7 +14,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -30,7 +29,8 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListe
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotificationFactoryHolder;
 import org.eclipse.mylyn.docs.intent.collab.ide.notification.WorkspaceRepositoryChangeNotificationFactory;
-import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceRepositoryCreator;
+import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceConfig;
+import org.eclipse.mylyn.docs.intent.collab.ide.utils.WorkspaceRepositoryCreator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.collab.test.AbstractRepositoryTest;
@@ -46,6 +46,7 @@ import org.eclipse.mylyn.docs.intent.collab.test.model.TestPackage.TestPackageFa
 import org.eclipse.mylyn.docs.intent.collab.test.model.TestPackage.TestPackagePackage;
 import org.eclipse.mylyn.docs.intent.collab.test.settings.TestCollabSettings;
 import org.eclipse.mylyn.docs.intent.collab.test.structurer.TestRepositoryStructurer;
+import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 
 /**
  * Abstract class for any test relative to a WorkspaceRepository.
@@ -96,27 +97,27 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.test.AbstractRepositoryTest#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		repositoryProject.delete(true, new NullProgressMonitor());
-		super.tearDown();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.test.AbstractRepositoryTest#createRepository()
 	 */
 	@Override
 	public Repository createRepository() {
-		// Step 1.1 : defining a structurer that will structure the repository content
+
+		// For creating Workspace Repository (step by step) :
+		// Step 1 : General configuration
+		// Step 1.1 : create a WorkspaceConfig (defining the location of the repository : relative path from
+		// platform:/).
+		WorkspaceConfig wpConfig = new WorkspaceConfig(repositoryProject, TestCollabSettings.INDEXES_PATH);
+
+		// Step 1.2 : defining a structurer that will structure the repository content
 		// here we use a structurer to handle the splitting strategy
 		// this structurer will be called before any save action to restructure the repository content
 		RepositoryStructurer structurer = new TestRepositoryStructurer();
 
-		// Step 1.2 : Defining the changeNotificationFactory
+		// Step 1.3 : Defining the repositoryCreator, that will be used for creating repository and repository
+		// adapters.
+		RepositoryCreatorHolder.setCreator(new WorkspaceRepositoryCreator(structurer));
+
+		// Step 1.4 : Defining the changeNotificationFactory
 		RepositoryChangeNotificationFactoryHolder
 				.setChangeNotificationFactory(new WorkspaceRepositoryChangeNotificationFactory());
 
@@ -124,8 +125,7 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 		Repository createdrepository = null;
 		try {
 			// Step 2.1 : creating the repository
-			createdrepository = new WorkspaceRepositoryCreator().createRepository(repositoryProject,
-					structurer);
+			createdrepository = RepositoryCreatorHolder.getCreator().createRepository(wpConfig);
 
 			// Step 2.2 (optional) : setting the repository's package registry content
 			createdrepository.getPackageRegistry().put(TestPackagePackage.eNS_URI,
@@ -142,34 +142,40 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 	 */
 	protected void createTypeListeningClients() {
 		if (listeningClient == null) {
-			// Step 1 : creating the listening client
-			// Step 1.1 : defining the listened features (here the attribute To Listen of sampleClass1)
-			Set<EStructuralFeature> listenedTypes = new LinkedHashSet<EStructuralFeature>();
-			listenedTypes.add(TestPackagePackage.eINSTANCE.getTestClass1_TheAttributeToListen());
+			try {
+				// Step 1 : creating the listening client
+				// Step 1.1 : defining the listened features (here the attribute To Listen of sampleClass1)
+				Set<EStructuralFeature> listenedTypes = new LinkedHashSet<EStructuralFeature>();
+				listenedTypes.add(TestPackagePackage.eINSTANCE.getTestClass1_TheAttributeToListen());
 
-			// Step 1.2 : create the handler for these types
-			final RepositoryAdapter repositoryAdapterForListeningClient = repository
-					.createRepositoryAdapter();
-			RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(
-					repositoryAdapterForListeningClient);
-			Notificator notificator = new TypeNotificator(listenedTypes);
-			handler.setNotificator(notificator);
+				// Step 1.2 : create the handler for these types
+				final RepositoryAdapter repositoryAdapterForListeningClient = RepositoryCreatorHolder
+						.getCreator().createRepositoryAdapterForRepository(repository);
+				RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(
+						repositoryAdapterForListeningClient);
+				Notificator notificator = new TypeNotificator(listenedTypes);
+				handler.setNotificator(notificator);
 
-			// Step 1.3 : create the client
-			listeningClient = new ListenerOnlyTestRepositoryClient(this);
-			listeningClient.addRepositoryObjectHandler(handler);
+				// Step 1.3 : create the client
+				listeningClient = new ListenerOnlyTestRepositoryClient(this);
+				listeningClient.addRepositoryObjectHandler(handler);
 
-			// Step 2 : creating the writing client
-			// Step 2.1 : no types listened
-			listenedTypes.clear();
-			// Step 2.2 : handler creation
-			final RepositoryAdapter repositoryAdapterForWritingClient = repository.createRepositoryAdapter();
-			repositoryAdapterForWritingClient.setSendSessionWarningBeforeSaving(false);
-			handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapterForWritingClient);
+				// Step 2 : creating the writing client
+				// Step 2.1 : no types listened
+				listenedTypes.clear();
+				// Step 2.2 : handler creation
+				final RepositoryAdapter repositoryAdapterForWritingClient = RepositoryCreatorHolder
+						.getCreator().createRepositoryAdapterForRepository(repository);
+				repositoryAdapterForWritingClient.setSendSessionWarningBeforeSaving(false);
+				handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapterForWritingClient);
 
-			// Step 2.3 : create the client
-			writingClient = new RepositoryWriterTestRepositoryClient(this);
-			writingClient.addRepositoryObjectHandler(handler);
+				// Step 2.3 : create the client
+				writingClient = new RepositoryWriterTestRepositoryClient(this);
+				writingClient.addRepositoryObjectHandler(handler);
+
+			} catch (RepositoryConnectionException e) {
+				// As this a test, we expect that the repository can be accessed
+			}
 		}
 	}
 
@@ -178,32 +184,38 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 	 */
 	protected void createElementListeningClients() {
 		if (listeningClient == null) {
-			// Step 1 : creating the listening client
-			// Step 1.1 : defining the listened elements
-			Set<EObject> listenedElements = new LinkedHashSet<EObject>();
-			listenedElements.addAll(this.listenedTestElements);
+			try {
+				// Step 1 : creating the listening client
+				// Step 1.1 : defining the listened elements
+				Set<EObject> listenedElements = new LinkedHashSet<EObject>();
+				listenedElements.addAll(this.listenedTestElements);
 
-			// Step 1.2 : create the handler for these types
-			final RepositoryAdapter repositoryAdapterForListeningClient = repository
-					.createRepositoryAdapter();
-			RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(
-					repositoryAdapterForListeningClient);
-			Notificator notificator = new ElementListNotificator(listenedElements);
-			handler.setNotificator(notificator);
+				// Step 1.2 : create the handler for these types
+				final RepositoryAdapter repositoryAdapterForListeningClient = RepositoryCreatorHolder
+						.getCreator().createRepositoryAdapterForRepository(repository);
+				RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(
+						repositoryAdapterForListeningClient);
+				Notificator notificator = new ElementListNotificator(listenedElements);
+				handler.setNotificator(notificator);
 
-			// Step 1.3 : create the client
-			listeningClient = new ListenerOnlyTestRepositoryClient(this);
-			listeningClient.addRepositoryObjectHandler(handler);
+				// Step 1.3 : create the client
+				listeningClient = new ListenerOnlyTestRepositoryClient(this);
+				listeningClient.addRepositoryObjectHandler(handler);
 
-			// Step 2 : creating the writing client
-			// Step 2.1 : no types listened
-			listenedElements.clear();
-			// Step 2.2 : handler creation
-			final RepositoryAdapter repositoryAdapterForWritingClient = repository.createRepositoryAdapter();
-			handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapterForWritingClient);
-			// Step 2.3 : create the client
-			writingClient = new RepositoryWriterTestRepositoryClient(this);
-			writingClient.addRepositoryObjectHandler(handler);
+				// Step 2 : creating the writing client
+				// Step 2.1 : no types listened
+				listenedElements.clear();
+				// Step 2.2 : handler creation
+				final RepositoryAdapter repositoryAdapterForWritingClient = RepositoryCreatorHolder
+						.getCreator().createRepositoryAdapterForRepository(repository);
+				handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapterForWritingClient);
+				// Step 2.3 : create the client
+				writingClient = new RepositoryWriterTestRepositoryClient(this);
+				writingClient.addRepositoryObjectHandler(handler);
+
+			} catch (RepositoryConnectionException e) {
+				// As this a test, we expect that the repository can be accessed
+			}
 		}
 	}
 
@@ -212,57 +224,65 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 	 * elements).
 	 */
 	protected void initializeContent() {
-		final RepositoryAdapter adapter = repository.createRepositoryAdapter();
 
-		adapter.openSaveContext();
-		Resource indexResource = adapter.getResource(TestCollabSettings.TEST_INDEX);
-		final TestIndex testIndex = (TestIndex)indexResource.getContents().get(0);
-		// Sample content creation
-		TestClass1 testClass1 = TestPackageFactory.eINSTANCE.createTestClass1();
-		testClass1.setName("sampleTestClass1");
-		testClass1.setTheAttributeToListen("theSampleAttributeToListen");
-		listenedTestElements.add(testClass1);
-		final TestIndexEntry indexEntry1 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
-		indexEntry1.setReferencedElement(testClass1);
+		try {
+			final RepositoryAdapter adapter = RepositoryCreatorHolder.getCreator()
+					.createRepositoryAdapterForRepository(repository);
 
-		TestClass1 testClass1NotListened = TestPackageFactory.eINSTANCE.createTestClass1();
-		testClass1NotListened.setName("sampleTestClass1-notListened");
-		testClass1NotListened.setTheAttributeToListen("theSampleAttributeNotToListen");
-		nonListenedTestElements.add(testClass1NotListened);
-		final TestIndexEntry indexEntry2 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
-		indexEntry2.setReferencedElement(testClass1NotListened);
+			adapter.openSaveContext();
+			Resource indexResource = adapter.getResource(TestCollabSettings.TEST_INDEX);
+			final TestIndex testIndex = (TestIndex)indexResource.getContents().get(0);
+			// Sample content creation
+			TestClass1 testClass1 = TestPackageFactory.eINSTANCE.createTestClass1();
+			testClass1.setName("sampleTestClass1");
+			testClass1.setTheAttributeToListen("theSampleAttributeToListen");
+			listenedTestElements.add(testClass1);
+			final TestIndexEntry indexEntry1 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
+			indexEntry1.setReferencedElement(testClass1);
 
-		TestClass2 testClass2 = TestPackageFactory.eINSTANCE.createTestClass2();
-		testClass2.setName("sampleTestClass2");
-		final TestIndexEntry indexEntry3 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
-		indexEntry3.setReferencedElement(testClass2);
-		listenedTestElements.add(testClass2);
+			TestClass1 testClass1NotListened = TestPackageFactory.eINSTANCE.createTestClass1();
+			testClass1NotListened.setName("sampleTestClass1-notListened");
+			testClass1NotListened.setTheAttributeToListen("theSampleAttributeNotToListen");
+			nonListenedTestElements.add(testClass1NotListened);
+			final TestIndexEntry indexEntry2 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
+			indexEntry2.setReferencedElement(testClass1NotListened);
 
-		// Save the added informations in the index
-		adapter.execute(new IntentCommand() {
+			TestClass2 testClass2 = TestPackageFactory.eINSTANCE.createTestClass2();
+			testClass2.setName("sampleTestClass2");
+			final TestIndexEntry indexEntry3 = TestPackageFactory.eINSTANCE.createTestIndexEntry();
+			indexEntry3.setReferencedElement(testClass2);
+			listenedTestElements.add(testClass2);
 
-			public void execute() {
-				try {
-					testIndex.getEntries().add(indexEntry1);
-					testIndex.getEntries().add(indexEntry2);
-					testIndex.getEntries().add(indexEntry3);
-					adapter.save();
-				} catch (ReadOnlyException e) {
-					fail(e.getMessage());
-					// Cannot occur as we have opened a save context
-				} catch (SaveException e) {
-					fail(e.getMessage());
+			// Save the added informations in the index
+			adapter.execute(new IntentCommand() {
+
+				public void execute() {
 					try {
-						adapter.undo();
-					} catch (ReadOnlyException e1) {
+						testIndex.getEntries().add(indexEntry1);
+						testIndex.getEntries().add(indexEntry2);
+						testIndex.getEntries().add(indexEntry3);
+						adapter.save();
+					} catch (ReadOnlyException e) {
+						fail(e.getMessage());
 						// Cannot occur as we have opened a save context
+					} catch (SaveException e) {
+						fail(e.getMessage());
+						try {
+							adapter.undo();
+						} catch (ReadOnlyException e1) {
+							// Cannot occur as we have opened a save context
+						}
 					}
 				}
-			}
 
-		});
+			});
 
-		adapter.closeContext();
+			adapter.closeContext();
+
+		} catch (RepositoryConnectionException e2) {
+			fail(e2.getMessage());
+		}
+
 	}
 
 }

@@ -93,8 +93,8 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 				if (!project.isOpen()) {
 					project.open(monitor);
 				}
-				ToggleNatureAction.toggleNature(project);
 				IDEApplicationManager.initializeContent(project, defaultContent);
+				ToggleNatureAction.toggleNature(project);
 			}
 		};
 		try {

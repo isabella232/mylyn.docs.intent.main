@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.builder;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
@@ -25,8 +22,6 @@ import org.eclipse.core.runtime.CoreException;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class IntentNature implements IProjectNature {
-
-	public static final String TYPE_TAG = "type";
 
 	/**
 	 * ID of this project nature.
@@ -54,9 +49,6 @@ public class IntentNature implements IProjectNature {
 		System.arraycopy(commands, 0, newCommands, 0, commands.length);
 		ICommand command = desc.newCommand();
 		command.setBuilderName(IntentBuilder.BUILDER_ID);
-		Map<String, String> args = new HashMap<String, String>();
-		args.put(TYPE_TAG, "org.eclipse.mylyn.docs.intent.collab.ide.repository");
-		command.setArguments(args);
 		newCommands[newCommands.length - 1] = command;
 		desc.setBuildSpec(newCommands);
 		project.setDescription(desc, null);
