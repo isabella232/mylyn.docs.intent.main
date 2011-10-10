@@ -125,14 +125,7 @@ public class IntentTemplateWizardPage extends WizardPage {
 		combo.addSelectionListener(new SelectionAdapter() {
 
 			public void widgetSelected(SelectionEvent e) {
-				String[] template = templateExtensionsByName.get(combo.getText());
-				descriptionLabel.setText(template[0]);
-				try {
-					document.set(getContent(template[1]));
-				} catch (IOException error) {
-					IntentUiLogger.logError(error);
-				}
-				setPageComplete(validate());
+				handleSelectionChanged();
 			}
 
 		});
@@ -141,6 +134,18 @@ public class IntentTemplateWizardPage extends WizardPage {
 			combo.add(templateName);
 		}
 
+		combo.select(0);
+		handleSelectionChanged();
+	}
+
+	private void handleSelectionChanged() {
+		String[] template = templateExtensionsByName.get(combo.getText());
+		descriptionLabel.setText(template[0]);
+		try {
+			document.set(getContent(template[1]));
+		} catch (IOException error) {
+			IntentUiLogger.logError(error);
+		}
 		setPageComplete(validate());
 	}
 
