@@ -26,6 +26,8 @@ import org.eclipse.core.runtime.CoreException;
  */
 public class IntentNature implements IProjectNature {
 
+	public static final String INTENT_WORKSPACE_TYPE = "org.eclipse.mylyn.docs.intent.collab.ide.repository";
+
 	public static final String TYPE_TAG = "type";
 
 	/**
@@ -55,7 +57,7 @@ public class IntentNature implements IProjectNature {
 		ICommand command = desc.newCommand();
 		command.setBuilderName(IntentBuilder.BUILDER_ID);
 		Map<String, String> args = new HashMap<String, String>();
-		args.put(TYPE_TAG, "org.eclipse.mylyn.docs.intent.collab.ide.repository");
+		args.put(TYPE_TAG, INTENT_WORKSPACE_TYPE);
 		command.setArguments(args);
 		newCommands[newCommands.length - 1] = command;
 		desc.setBuildSpec(newCommands);
