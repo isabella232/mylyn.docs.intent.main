@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.mylyn.docs.intent"
-      label="%featureName"
+      label="Mylyn Intent"
       version="0.7.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.mylyn.docs.intent">
@@ -101,4 +101,8 @@
          version="0.0.0"
          unpack="false"/>
 
+ 	<url>
+      <update label="Google Collections" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>
+	  <discovery label="Google Collections" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>
+	</url>
 </feature>
