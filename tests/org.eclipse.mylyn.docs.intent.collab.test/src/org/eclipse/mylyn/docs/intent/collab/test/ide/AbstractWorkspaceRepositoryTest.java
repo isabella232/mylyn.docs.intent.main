@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.repository.IntentWorkspaceRepositoryCreator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -30,7 +31,6 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListe
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotificationFactoryHolder;
 import org.eclipse.mylyn.docs.intent.collab.ide.notification.WorkspaceRepositoryChangeNotificationFactory;
-import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceRepositoryCreator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.collab.test.AbstractRepositoryTest;
@@ -124,7 +124,7 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 		Repository createdrepository = null;
 		try {
 			// Step 2.1 : creating the repository
-			createdrepository = new WorkspaceRepositoryCreator().createRepository(repositoryProject,
+			createdrepository = new IntentWorkspaceRepositoryCreator().createRepository(repositoryProject,
 					structurer);
 
 			// Step 2.2 (optional) : setting the repository's package registry content

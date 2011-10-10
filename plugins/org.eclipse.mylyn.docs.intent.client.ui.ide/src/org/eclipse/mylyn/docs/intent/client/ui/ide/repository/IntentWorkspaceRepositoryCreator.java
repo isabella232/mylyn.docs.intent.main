@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.collab.ide.repository;
+package org.eclipse.mylyn.docs.intent.client.ui.ide.repository;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
@@ -17,6 +17,8 @@ import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotificationFactoryHolder;
 import org.eclipse.mylyn.docs.intent.collab.ide.notification.WorkspaceRepositoryChangeNotificationFactory;
+import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceConfig;
+import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceRepository;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryCreator;
@@ -32,7 +34,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class WorkspaceRepositoryCreator implements RepositoryCreator {
+public class IntentWorkspaceRepositoryCreator implements RepositoryCreator {
 
 	/**
 	 * {@inheritDoc}
@@ -45,7 +47,8 @@ public class WorkspaceRepositoryCreator implements RepositoryCreator {
 		if (artifact instanceof IProject) {
 			WorkspaceConfig configurationInformations = new WorkspaceConfig((IProject)artifact,
 					IntentLocations.INDEXES_LIST);
-			Repository repository = new WorkspaceRepository((WorkspaceConfig)configurationInformations);
+			Repository repository = new WorkspaceRepository((WorkspaceConfig)configurationInformations,
+					IntentIndexerPackage.eINSTANCE.getIntentIndex());
 
 			// Initialize the Notification Factory
 			if (RepositoryChangeNotificationFactoryHolder.getChangeNotificationFactory() == null) {

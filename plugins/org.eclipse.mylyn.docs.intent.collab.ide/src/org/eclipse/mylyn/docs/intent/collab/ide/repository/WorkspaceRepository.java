@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -30,7 +31,6 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructur
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 
 /**
  * Representation of a Workspace as a repository.
@@ -70,13 +70,18 @@ public class WorkspaceRepository implements Repository {
 	 */
 	private RepositoryStructurer repositoryStructurer;
 
+	private EClass[] unloadableTypes;
+
 	/**
 	 * WorkspaceRepository constructor.
 	 * 
 	 * @param workspaceConfig
 	 *            this repository configuration
+	 * @param unloadableTypes
+	 *            the list of types which cannont be unloaded
 	 */
-	public WorkspaceRepository(WorkspaceConfig workspaceConfig) {
+	public WorkspaceRepository(WorkspaceConfig workspaceConfig, EClass... unloadableTypes) {
+		this.unloadableTypes = unloadableTypes;
 		this.workspaceConfig = workspaceConfig;
 		this.editingDomain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 		isResourceSetLoaded = false;
@@ -299,8 +304,14 @@ public class WorkspaceRepository implements Repository {
 			public boolean apply(Resource resource) {
 				// The Intent index should never be unloaded
 				if (!resource.getContents().isEmpty()) {
+					boolean res = false;
 					EObject root = resource.getContents().iterator().next();
-					return root instanceof IntentIndex;
+					for (EClass unloadableType : unloadableTypes) {
+						if (root.eClass().equals(unloadableType)) {
+							res = true;
+						}
+					}
+					return res;
 				}
 				return false;
 			}
