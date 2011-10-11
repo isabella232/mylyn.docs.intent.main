@@ -80,7 +80,7 @@ public final class CompilerCreator {
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 
 		Notificator notificator = new TypeNotificator(listenedTypes);
-		handler.setNotificator(notificator);
+		handler.addNotificator(notificator);
 
 		// Step 4 : create the compiler
 		CompilerRepositoryClient compilerClient = new CompilerRepositoryClient();

@@ -45,7 +45,7 @@ public class CompilationJob extends Job {
 	/**
 	 * Name to associate to this job.
 	 */
-	public static final String COMPILATION_JOB_NAME = "Compiling";
+	public static final String COMPILATION_JOB_NAME = "Compiling Intent Document";
 
 	/**
 	 * The repository.

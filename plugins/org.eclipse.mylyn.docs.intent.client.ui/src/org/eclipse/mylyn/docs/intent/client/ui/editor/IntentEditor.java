@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
+import com.google.common.collect.Sets;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -46,8 +48,10 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadOnlyRepositoryObje
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListNotificator;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
@@ -190,12 +194,15 @@ public class IntentEditor extends TextEditor {
 		final Set<EObject> listenedObjects = new LinkedHashSet<EObject>();
 		listenedObjects.add(editorInput.getIntentElement());
 		final ElementListAdapter adapter = new EditorElementListAdapter();
-
 		repositoryAdapter.execute(new IntentCommand() {
 
 			public void execute() {
 				Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects, adapter);
-				elementHandler.setNotificator(listenedElementsNotificator);
+				Notificator compilationStatusNotificator = new TypeNotificator(Sets
+						.newLinkedHashSet(CompilerPackage.eINSTANCE.getCompilationStatusManager()
+								.getEAllStructuralFeatures()));
+				elementHandler.addNotificator(listenedElementsNotificator);
+				elementHandler.addNotificator(compilationStatusNotificator);
 			}
 		});
 	}

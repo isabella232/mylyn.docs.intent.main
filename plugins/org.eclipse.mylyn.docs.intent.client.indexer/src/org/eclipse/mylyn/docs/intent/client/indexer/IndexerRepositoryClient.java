@@ -117,7 +117,7 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 	 */
 	@Override
 	protected Job createNotificationJob(final RepositoryChangeNotification notification) {
-		return new Job("Indexing") {
+		Job job = new Job("Indexing") {
 
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
@@ -126,6 +126,8 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 				return res;
 			}
 		};
+		job.setSystem(true);
+		return job;
 	}
 
 }

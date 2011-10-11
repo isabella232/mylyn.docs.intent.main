@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
@@ -116,10 +117,8 @@ public final class CDOApplicationLauncher {
 		}
 
 		// Step 2 : launching all the need clients.
-		// Step 2.1 : compiler
-		Runnable runnable = new Runnable() {
-
-			public void run() {
+		Job job = new Job("Launching Intent clients") {
+			protected org.eclipse.core.runtime.IStatus run(org.eclipse.core.runtime.IProgressMonitor monitor) {
 				try {
 
 					CompilerCreator.createCompilerClient(repository);
@@ -127,13 +126,11 @@ public final class CDOApplicationLauncher {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-		};
-		Thread t = new Thread(runnable);
-		t.start();
+				return org.eclipse.core.runtime.Status.OK_STATUS;
 
-		// Step 2.2 : indexer
-		// IndexerCreator.launchIndexer(repository);
+			};
+		};
+		job.schedule();
 
 	}
 

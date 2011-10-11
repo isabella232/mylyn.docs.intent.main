@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.handlers;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -24,19 +25,27 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChan
 public interface RepositoryObjectHandler {
 
 	/**
-	 * Returns the notificator used by this handler (ElementList Notificator, Type Notificator, none...). *
+	 * Returns the notificators used by this handler (ElementList Notificator, Type Notificator...). *
 	 * 
-	 * @return the notificator to use (ElementList Notificator, Type Notificator, none...)
+	 * @return the notificators used by this handler
 	 */
-	Notificator getNotificator();
+	Collection<Notificator> getNotificators();
 
 	/**
-	 * Sets the notificator to use (ElementList Notificator, Type Notificator, none...). *
+	 * Adds the given notificator (ElementList Notificator, Type Notificator...) to the list of notificators.
 	 * 
 	 * @param notificator
-	 *            notificator to use (ElementList Notificator, Type Notificator, none...)
+	 *            notificator to use (ElementList Notificator, Type Notificator...)
 	 */
-	void setNotificator(Notificator notificator);
+	void addNotificator(Notificator notificator);
+
+	/**
+	 * Removes the given notificator from the notificators list.
+	 * 
+	 * @param notificator
+	 *            notificator to remove (ElementList Notificator, Type Notificator...)
+	 */
+	void removeNotificator(Notificator notificator);
 
 	/**
 	 * Actions associated to the reception of a change notification : notifies the clients.

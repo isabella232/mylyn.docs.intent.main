@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.ide.repository;
 
+import com.google.common.collect.Iterables;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +24,8 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
@@ -99,16 +103,17 @@ public class WorkspaceSession implements IResourceChangeListener {
 			if (repositoryDelta != null) {
 
 				// We launch the analysis of the delta in a new thread
-				Runnable runnable = new Runnable() {
-
-					public void run() {
+				Job job = new Job("Notifying Intent clients") {
+					protected org.eclipse.core.runtime.IStatus run(
+							org.eclipse.core.runtime.IProgressMonitor monitor) {
 						isBusy = true;
 						analyseWorkspaceDelta(repositoryDelta);
 						isBusy = false;
-					}
+						return Status.OK_STATUS;
+					};
 				};
-				Thread t = new Thread(runnable);
-				t.start();
+				job.setSystem(true);
+				job.schedule();
 
 			}
 		}
@@ -121,7 +126,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 * @param repositoryDelta
 	 *            the IResourceDelta to analyse
 	 */
-	private void analyseWorkspaceDelta(IResourceDelta repositoryDelta) {
+	private synchronized void analyseWorkspaceDelta(IResourceDelta repositoryDelta) {
 
 		// We first create a DeltaVisitor on the repository Path
 		final WorkspaceSessionDeltaVisitor visitor = new WorkspaceSessionDeltaVisitor(repositoryAdapter,
@@ -275,8 +280,18 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 *            the resource that has changed
 	 */
 	private void notifyListeners(Resource resource) {
+
+		// Step 1 : notifying type listeners
 		for (WorkspaceTypeListener listener : this.workspaceSessionListeners) {
 			listener.notifyResourceChanged(resource);
+		}
+
+		// Step 2 : notifying element listeners
+		for (EObject root : resource.getContents()) {
+			for (ElementListAdapter elementListAdapter : Iterables.filter(root.eAdapters(),
+					ElementListAdapter.class)) {
+				elementListAdapter.notifyChangesOnElement(root);
+			}
 		}
 	}
 

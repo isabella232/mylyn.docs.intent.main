@@ -57,14 +57,7 @@ public class IDEGeneratedElementListener extends AbstractGeneratedElementListene
 			if (rootDelta != null) {
 
 				// We launch the analysis of the delta in a new thread
-				Runnable runnable = new Runnable() {
-
-					public void run() {
-						analyseWorkspaceDelta(rootDelta);
-					}
-				};
-				Thread t = new Thread(runnable);
-				t.start();
+				analyseWorkspaceDelta(rootDelta);
 
 			}
 		}

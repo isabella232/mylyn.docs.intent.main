@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.repository.IntentWorkspaceRepositoryCreator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -153,7 +152,7 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 			RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(
 					repositoryAdapterForListeningClient);
 			Notificator notificator = new TypeNotificator(listenedTypes);
-			handler.setNotificator(notificator);
+			handler.addNotificator(notificator);
 
 			// Step 1.3 : create the client
 			listeningClient = new ListenerOnlyTestRepositoryClient(this);
@@ -189,7 +188,7 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 			RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(
 					repositoryAdapterForListeningClient);
 			Notificator notificator = new ElementListNotificator(listenedElements);
-			handler.setNotificator(notificator);
+			handler.addNotificator(notificator);
 
 			// Step 1.3 : create the client
 			listeningClient = new ListenerOnlyTestRepositoryClient(this);

@@ -64,14 +64,19 @@ public abstract class AbstractRepositoryClient implements RepositoryClient {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
 	public void handleChangeNotification(RepositoryChangeNotification notification) {
-		// Step 1 : cancel previous refresh job
-		if (notificationJob != null) {
-			notificationJob.cancel();
-		}
+		try {
+			// Step 1 : cancel previous refresh job
+			if (notificationJob != null) {
+				notificationJob.cancel();
+				notificationJob = null;
+			}
 
-		// Step 2 : launching a new Job
-		notificationJob = createNotificationJob(notification);
-		notificationJob.schedule(SCHEDULE_DELAY);
+			// Step 2 : launching a new Job
+			notificationJob = createNotificationJob(notification);
+			notificationJob.schedule(SCHEDULE_DELAY);
+		} catch (IllegalStateException e) {
+			// Nothing to do : job manager has been shut down (eclipse is closed)
+		}
 	}
 
 	/**
@@ -95,6 +100,7 @@ public abstract class AbstractRepositoryClient implements RepositoryClient {
 	public void dispose() {
 		if (notificationJob != null) {
 			notificationJob.cancel();
+			notificationJob = null;
 		}
 		removeRepositoryObjectHandler(repositoryObjectHandler);
 	}

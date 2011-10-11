@@ -60,7 +60,7 @@ public final class IndexerCreator {
 		listenedFeatures.add(IntentDocumentPackage.eINSTANCE.getIntentSubSectionContainer_SubSections());
 
 		Notificator listenedElementsNotificator = new TypeNotificator(listenedFeatures);
-		handler.setNotificator(listenedElementsNotificator);
+		handler.addNotificator(listenedElementsNotificator);
 
 		// Step 4 : launching the indexer
 

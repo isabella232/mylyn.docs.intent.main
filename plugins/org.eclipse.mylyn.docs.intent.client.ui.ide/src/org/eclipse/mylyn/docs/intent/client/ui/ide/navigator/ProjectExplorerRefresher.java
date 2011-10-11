@@ -81,7 +81,7 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		Resource repositoryIntentResource = repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH);
 		listenedElements.addAll(repositoryIntentResource.getContents());
 		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements);
-		handler.setNotificator(listenedElementsNotificator);
+		handler.addNotificator(listenedElementsNotificator);
 
 		// Step 4 : create the ProjectExplorer refresher
 		ProjectExplorerRefresher refresher = new ProjectExplorerRefresher(project);

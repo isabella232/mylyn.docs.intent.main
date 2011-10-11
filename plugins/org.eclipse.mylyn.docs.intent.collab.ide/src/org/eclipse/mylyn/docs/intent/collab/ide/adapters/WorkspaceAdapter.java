@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.collab.ide.adapters;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -207,13 +208,14 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		if (documentStructurer != null) {
 			documentStructurer.structure(WorkspaceAdapter.this);
 		}
-		final Collection<Resource> resources = this.repository.getResourceSet().getResources();
+		final Collection<Resource> resources = Lists.newArrayList(this.repository.getResourceSet()
+				.getResources());
 
 		try {
 			for (Resource resource : resources) {
 
 				// We only save the resource if it has been modified
-				if (resource.isModified() || !resource.isTrackingModification()) {
+				if (resource.isModified()) {
 					try {
 
 						// We make sure the session isn't still reacting to previous saves
@@ -266,7 +268,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 			// We warn the session
 			((WorkspaceSession)this.repository.getOrCreateSession()).addSavedResource(resource);
 		} else {
-			// If the given resource must be ignored (i.e isn't include in any of the
+			// If the given resource must be ignored (i.e is include in any of the
 			// resourcesToIgnorePaths)
 			if (isInResourcesToIgnorePath(resource)) {
 				// We warn the session

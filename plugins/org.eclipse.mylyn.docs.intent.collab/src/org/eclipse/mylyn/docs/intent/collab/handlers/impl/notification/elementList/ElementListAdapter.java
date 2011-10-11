@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.RepositoryChangeNotificationImpl;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
-import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotificationFactoryHolder;
 
 /**
  * Adapter used by the ElementListNotificator ; listens a single Object and notify the Notificator for any
@@ -65,13 +64,6 @@ public class ElementListAdapter extends EContentAdapter {
 	 */
 	public void notifyChanged(Notification notification) {
 		super.notifyChanged(notification);
-		// We don't notify handlers for removing adapter operations neither for Touch notifications
-		if ((Notification.REMOVING_ADAPTER != (notification.getEventType())) && (!notification.isTouch())) {
-			RepositoryChangeNotification newNotification = RepositoryChangeNotificationFactoryHolder
-					.getChangeNotificationFactory().createRepositoryChangeNotification(notification);
-			this.notificator.notifyHandlers(newNotification);
-
-		}
 	}
 
 	/**
