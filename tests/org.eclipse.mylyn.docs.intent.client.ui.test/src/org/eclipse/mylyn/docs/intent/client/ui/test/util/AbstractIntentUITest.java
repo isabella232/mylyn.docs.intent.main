@@ -37,6 +37,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
@@ -48,9 +49,11 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListNotificator;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -86,6 +89,8 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	@Override
 	protected void setUp() throws Exception {
+		initClassLoader();
+
 		// Step 1 : printing testclass name (make hudson debugs easier)
 		for (int i = 0; i < getClass().getName().length() - 1; i++) {
 			System.out.print("=");
@@ -112,6 +117,14 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		traceHeapSize();
 
 		openedEditors = new ArrayList<IntentEditor>();
+	}
+
+	/**
+	 * Forces OSGI to load ui.ide plugin first. Otherwise, IntentRepositoryManager.INSTANCE.getRepository is
+	 * called twice at the same time (?). Happens only in the test suite.
+	 */
+	private void initClassLoader() {
+		assertNotNull(IntentNature.class);
 	}
 
 	private void traceHeapSize() {
@@ -174,7 +187,11 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 				.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH).getContents().iterator().next());
 		Notificator elementNotificator = new ElementListNotificator(listenedElements,
 				new ElementListAdapter());
-		handler.setNotificator(elementNotificator);
+		Notificator compilationStatusNotificator = new TypeNotificator(
+				Sets.newLinkedHashSet(CompilerPackage.eINSTANCE.getCompilationStatusManager()
+						.getEAllStructuralFeatures()));
+		handler.addNotificator(elementNotificator);
+		handler.addNotificator(compilationStatusNotificator);
 		// Step 2 : creating the client
 		this.repositoryListener = new RepositoryListenerForTests();
 		repositoryListener.addRepositoryObjectHandler(handler);
@@ -381,11 +398,12 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * Wait for synchronizer to complete work.
 	 */
 	protected void waitForSynchronizer() {
+		waitForAllOperationsInUIThread();
 		assertNotNull(
 				"Cannot wait for synchronizer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
 				repositoryListener);
 		assertTrue("Time out : synchronizer should have handle changes but did not",
-				repositoryListener.waitForModificationOn(RepositoryListenerForTests.SYNCHRONIZER_ISSUE_PATH));
+				repositoryListener.waitForModificationOn(IntentLocations.COMPILATION_STATUS_INDEX_PATH));
 		waitForAllOperationsInUIThread();
 	}
 
@@ -393,6 +411,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * Wait for repository to complete work.
 	 */
 	protected void waitForIndexer() {
+		waitForAllOperationsInUIThread();
 		assertNotNull(
 				"Cannot wait for Indexer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
 				repositoryListener);
@@ -405,6 +424,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * Wait for compiler to complete work.
 	 */
 	protected void waitForCompiler() {
+		waitForAllOperationsInUIThread();
 		assertNotNull(
 				"Cannot wait for compiler : you need to initialize a repository listener by calling the registerRepositoryListener() method",
 				repositoryListener);

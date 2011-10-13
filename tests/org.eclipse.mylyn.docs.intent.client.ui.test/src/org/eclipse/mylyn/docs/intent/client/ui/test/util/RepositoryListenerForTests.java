@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
-import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 
 /**
  * A {@link org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient} used to detect if an event
@@ -30,10 +29,6 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class RepositoryListenerForTests extends AbstractRepositoryClient {
-
-	public static final String SYNCHRONIZER_ISSUE_PATH = "syncissue";
-
-	private static final URI SYNCHRONIZER_ISSUE_URI = URI.createURI(SYNCHRONIZER_ISSUE_PATH);
 
 	/**
 	 * Delay to wait before checking again that an event occurred.
@@ -113,11 +108,8 @@ public class RepositoryListenerForTests extends AbstractRepositoryClient {
 		}
 
 		if (!modifiedResourcesURI.isEmpty()) {
-			URI expectedModifiedResourceURI = SYNCHRONIZER_ISSUE_URI;
-			if (!SYNCHRONIZER_ISSUE_PATH.equals(resourcePath)) {
-				expectedModifiedResourceURI = this.getRepositoryObjectHandler().getRepositoryAdapter()
-						.getResource(resourcePath).getURI();
-			}
+			URI expectedModifiedResourceURI = this.getRepositoryObjectHandler().getRepositoryAdapter()
+					.getResource(resourcePath).getURI();
 			return modifiedResourcesURI.contains(expectedModifiedResourceURI);
 		}
 		return false;
@@ -135,13 +127,6 @@ public class RepositoryListenerForTests extends AbstractRepositoryClient {
 			modifiedElements.addAll(notification.getRightRoots());
 			for (EObject modifiedElement : notification.getRightRoots()) {
 				modifiedResourcesURI.add(modifiedElement.eResource().getURI());
-
-				// Dealing with new synchronization issues
-				if (modifiedElement instanceof IntentGenericElement
-						&& (!((IntentGenericElement)modifiedElement).getCompilationStatus().isEmpty())) {
-					modifiedResourcesURI.add(SYNCHRONIZER_ISSUE_URI);
-				}
-
 			}
 		}
 	}

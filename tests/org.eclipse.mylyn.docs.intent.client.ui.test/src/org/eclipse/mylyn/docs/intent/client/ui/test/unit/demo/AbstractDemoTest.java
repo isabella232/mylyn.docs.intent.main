@@ -109,6 +109,7 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 				System.out.println("[DemoTest] ... and toggling nature again.");
 				ToggleNatureAction.toggleNature(intentProject);
 			}
+			setUpRepository(intentProject);
 			repositoryInitialized = false;
 			startTime = System.currentTimeMillis();
 			timeOutDetected = false;
