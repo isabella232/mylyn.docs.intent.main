@@ -35,13 +35,6 @@ public class RepositoryRegistryImpl implements RepositoryRegistry {
 	private Map<String, IConfigurationElement> repositoryExtensionsByName;
 
 	/**
-	 * Creates the registry.
-	 */
-	public RepositoryRegistryImpl() {
-		initializeRegistry();
-	}
-
-	/**
 	 * Initializes the registry.
 	 */
 	private void initializeRegistry() {
@@ -61,7 +54,10 @@ public class RepositoryRegistryImpl implements RepositoryRegistry {
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.repository.RepositoryRegistry#getRepositoryCreator(java.lang.String)
 	 */
-	public RepositoryCreator getRepositoryCreator(String repositoryType) throws CoreException {
+	public synchronized RepositoryCreator getRepositoryCreator(String repositoryType) throws CoreException {
+		if (repositoryExtensionsByName == null) {
+			initializeRegistry();
+		}
 		IConfigurationElement element = repositoryExtensionsByName.get(repositoryType);
 		if (element != null) {
 			return (RepositoryCreator)element.createExecutableExtension(REPOSITORY_CREATOR_CLASS_TAG);
@@ -74,7 +70,11 @@ public class RepositoryRegistryImpl implements RepositoryRegistry {
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.repository.RepositoryRegistry#getRepositoryStructurer(java.lang.String)
 	 */
-	public RepositoryStructurer getRepositoryStructurer(String repositoryType) throws CoreException {
+	public synchronized RepositoryStructurer getRepositoryStructurer(String repositoryType)
+			throws CoreException {
+		if (repositoryExtensionsByName == null) {
+			initializeRegistry();
+		}
 		IConfigurationElement element = repositoryExtensionsByName.get(repositoryType);
 		if (element != null) {
 			if (element.getAttribute(REPOSITORY_STRUCTURER_CLASS_TAG) != null) {
