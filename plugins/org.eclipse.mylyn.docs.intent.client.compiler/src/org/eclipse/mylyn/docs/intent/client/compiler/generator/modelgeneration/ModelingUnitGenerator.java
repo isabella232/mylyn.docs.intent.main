@@ -358,4 +358,8 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	public IntentCompilerInformationHolder getInformationHolder() {
 		return informationHolder;
 	}
+
+	public void clearResourceDeclarations() {
+		resourceDeclarations.clear();
+	}
 }
