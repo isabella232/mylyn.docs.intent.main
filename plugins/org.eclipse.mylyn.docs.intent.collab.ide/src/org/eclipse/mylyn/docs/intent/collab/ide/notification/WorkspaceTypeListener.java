@@ -95,20 +95,20 @@ public class WorkspaceTypeListener {
 	 * @return true if the given feature matches any listened types of this typeListener, false otherwise.
 	 */
 	private boolean isListenedTypeModification(EStructuralFeature feature) {
-		boolean isListennedType = false;
+		boolean isListenedType = false;
 		for (Iterator<EStructuralFeature> iterator = listenedTypes.iterator(); iterator.hasNext()
-				&& !isListennedType;) {
-			ENamedElement listennedtype = iterator.next();
-			if (listennedtype instanceof EStructuralFeature) {
-				isListennedType = listennedtype.equals(feature);
+				&& !isListenedType;) {
+			ENamedElement listenedtype = iterator.next();
+			if (listenedtype instanceof EStructuralFeature) {
+				isListenedType = listenedtype.equals(feature);
 			}
-			if (listennedtype instanceof EClass) {
+			if (listenedtype instanceof EClass) {
 
-				isListennedType = ((EClass)listennedtype).getEAllStructuralFeatures().contains(feature);
+				isListenedType = ((EClass)listenedtype).getEAllStructuralFeatures().contains(feature);
 			}
 
 		}
-		return isListennedType;
+		return isListenedType;
 	}
 
 }
