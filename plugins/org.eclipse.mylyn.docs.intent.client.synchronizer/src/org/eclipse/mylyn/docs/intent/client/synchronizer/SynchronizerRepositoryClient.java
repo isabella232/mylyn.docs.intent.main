@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.synchronizer.IntentSynchronizer;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
@@ -67,33 +66,25 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	 *            the list of status to add
 	 */
 	public void addAllStatusToTargetElement(final Collection<? extends CompilationStatus> statusList) {
+		// Step 1: removing all old synchronization status
+		CompilationStatusManager statusManager = getStatusManager();
+		Iterator<SynchronizerCompilationStatus> iterator2 = Iterables.filter(
+				statusManager.getCompilationStatusList(), SynchronizerCompilationStatus.class).iterator();
+		Collection<SynchronizerCompilationStatus> toRemove = Sets.newLinkedHashSet();
+		while (iterator2.hasNext()) {
+			SynchronizerCompilationStatus oldStatus = iterator2.next();
+			oldStatus.getTarget().getCompilationStatus().remove(oldStatus);
+			statusManager.getModelingUnitToStatusList().remove(oldStatus);
+			toRemove.add(oldStatus);
+		}
+		statusManager.getCompilationStatusList().removeAll(toRemove);
 
-		repositoryObjectHandler.getRepositoryAdapter().execute(new IntentCommand() {
-
-			public void execute() {
-				// Step 1: removing all old synchronization status
-				CompilationStatusManager statusManager = getStatusManager();
-				Iterator<SynchronizerCompilationStatus> iterator2 = Iterables.filter(
-						statusManager.getCompilationStatusList(), SynchronizerCompilationStatus.class)
-						.iterator();
-				Collection<SynchronizerCompilationStatus> toRemove = Sets.newLinkedHashSet();
-				while (iterator2.hasNext()) {
-					SynchronizerCompilationStatus oldStatus = iterator2.next();
-					oldStatus.getTarget().getCompilationStatus().remove(oldStatus);
-					statusManager.getModelingUnitToStatusList().remove(oldStatus);
-					toRemove.add(oldStatus);
-				}
-				statusManager.getCompilationStatusList().removeAll(toRemove);
-
-				// Step 2 : for each status to add
-				for (CompilationStatus status : statusList) {
-					// We add it to its target and to the status manager
-					status.getTarget().getCompilationStatus().add(status);
-					statusManager.getCompilationStatusList().add(status);
-				}
-			}
-		});
-
+		// Step 2 : for each status to add
+		for (CompilationStatus status : statusList) {
+			// We add it to its target and to the status manager
+			status.getTarget().getCompilationStatus().add(status);
+			statusManager.getCompilationStatusList().add(status);
+		}
 	}
 
 	private CompilationStatusManager getStatusManager() {
