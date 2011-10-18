@@ -10,10 +10,14 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
+import com.google.common.collect.Sets;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
@@ -30,6 +34,7 @@ import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationModelManager;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection.EditorElementListAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.ReadWriteRepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
@@ -37,12 +42,19 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadOnlyRepositoryObjectHandlerImpl;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListNotificator;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator;
+import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.compare.IntentASTMerger;
 import org.eclipse.mylyn.docs.intent.compare.MergingException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
@@ -140,6 +152,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	public IntentDocumentProvider(IntentEditor editor) {
 		this.elementsToDocuments = new HashMap<Object, List<IntentEditorDocument>>();
 		this.associatedEditor = editor;
+		this.annotationModelManager = new IntentAnnotationModelManager();
 	}
 
 	/**
@@ -150,14 +163,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	@Override
 	protected IAnnotationModel createAnnotationModel(Object element) throws CoreException {
 		// We use an AnnotationModelManager to handle the create annotationModel
-		this.annotationModelManager = new IntentAnnotationModelManager();
-		return annotationModelManager.getAnnotationModel();
-	}
-
-	/**
-	 * Initialize the annotation model using the repository informations.
-	 */
-	private void initializeAnnotationModel() {
 		Assert.isNotNull(annotationModelManager);
 		for (CompilationStatus status : IntentHelper.getAllStatus((IntentGenericElement)documentRoot)) {
 
@@ -176,6 +181,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 						new Position(posit.getOffset(), posit.getLength()));
 			}
 		}
+		return annotationModelManager.getAnnotationModel();
 	}
 
 	/**
@@ -202,15 +208,79 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			throw new CoreException(status);
 		}
 
+		setRepository(((IntentEditorInput)element).getRepository());
+
 		// We obtain the root of the document
 		documentRoot = ((IntentEditorInput)element).getIntentElement();
-		createdDocument = new IntentEditorDocument(documentRoot, this.associatedEditor);
 
-		partitioner = new IntentPartitioner(LEGAL_CONTENT_TYPES);
-		partitioner.connect(createdDocument);
-		createdDocument.setDocumentPartitioner(partitioner);
+		// TODO check for notifications issues:
+		// the following command was added to avoid infinite loop caused by the fact that the serialization
+		// occurs during the repository first compilation.
+		((IntentEditorInput)element).getRepositoryAdapter().execute(new IntentCommand() {
 
+			public void execute() {
+				createdDocument = new IntentEditorDocument(documentRoot, associatedEditor);
+			}
+		});
+
+		if (createdDocument != null) {
+			partitioner = new IntentPartitioner(LEGAL_CONTENT_TYPES);
+			partitioner.connect(createdDocument);
+			createdDocument.setDocumentPartitioner(partitioner);
+			subscribeRepository(((IntentEditorInput)element).getRepositoryAdapter());
+			addAllContentAsIntentElement(documentRoot, createdDocument);
+		}
 		return createdDocument;
+	}
+
+	/**
+	 * Registers listeners in the repository used by the given editor input.
+	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter previously created by the editorInput
+	 */
+	private void subscribeRepository(RepositoryAdapter repositoryAdapter) {
+		// Step 1 : creation of the Handler in the correct mode
+		final RepositoryObjectHandler elementHandler = createElementHandler(repositoryAdapter, false);
+		addRepositoryObjectHandler(elementHandler);
+
+		// Step 2 : creation of a Notificator listening changes on this element and compilation
+		// errors.
+		final Set<EObject> listenedObjects = new LinkedHashSet<EObject>();
+		listenedObjects.add(documentRoot);
+		final ElementListAdapter adapter = new EditorElementListAdapter();
+		repositoryAdapter.execute(new IntentCommand() {
+
+			public void execute() {
+				Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects, adapter);
+				Notificator compilationStatusNotificator = new TypeNotificator(Sets
+						.newLinkedHashSet(CompilerPackage.eINSTANCE.getCompilationStatusManager()
+								.getEAllStructuralFeatures()));
+				elementHandler.addNotificator(listenedElementsNotificator);
+				elementHandler.addNotificator(compilationStatusNotificator);
+			}
+		});
+	}
+
+	/**
+	 * Creates the element handler matching the given mode.
+	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter
+	 * @param readOnlyMode
+	 *            the access mode
+	 * @return the handler
+	 */
+	private static RepositoryObjectHandler createElementHandler(RepositoryAdapter repositoryAdapter,
+			boolean readOnlyMode) {
+		final RepositoryObjectHandler elementHandler;
+		if (readOnlyMode) {
+			elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
+			elementHandler.setRepositoryAdapter(repositoryAdapter);
+		} else {
+			elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
+		}
+		return elementHandler;
 	}
 
 	/**
@@ -492,8 +562,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	public void addRepositoryObjectHandler(RepositoryObjectHandler handler) {
 		handler.addClient(this);
 		listenedElementsHandler = handler;
-		addAllContentAsIntentElement(documentRoot, createdDocument);
-		initializeAnnotationModel();
 	}
 
 	/**
@@ -550,10 +618,10 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			// // The readOnly property has already been tested by calling isEditable.
 			// }
 			// }
-			this.listenedElementsHandler.getRepositoryAdapter().closeContext();
 			this.repository.unregister(this);
 		}
 		if (this.listenedElementsHandler != null) {
+			this.listenedElementsHandler.getRepositoryAdapter().closeContext();
 			this.listenedElementsHandler.removeClient(this);
 			this.listenedElementsHandler.stop();
 		}
