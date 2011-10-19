@@ -17,6 +17,7 @@ import java.util.Map;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
@@ -41,6 +42,8 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	 * The list of created repositories, associated to the corresponding project.
 	 */
 	private Map<String, Repository> repositoriesByProject = new HashMap<String, Repository>();
+
+	private boolean lock;
 
 	/**
 	 * Gets or creates the {@link Repository} associated to the considered project.
@@ -95,11 +98,14 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	 */
 	public synchronized Repository getRepository(String projectName) throws RepositoryConnectionException,
 			CoreException {
+		Assert.isTrue(!lock);
+		lock = true;
 		Repository repository = null;
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		if (project != null && project.isAccessible()) {
 			repository = getRepository(project);
 		}
+		lock = false;
 		return repository;
 	}
 
