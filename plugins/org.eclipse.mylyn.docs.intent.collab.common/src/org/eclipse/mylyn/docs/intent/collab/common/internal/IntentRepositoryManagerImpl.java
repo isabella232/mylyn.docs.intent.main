@@ -53,8 +53,10 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	 */
 	private Repository createRepository(IProject project) throws RepositoryConnectionException, CoreException {
 		Repository repository = null;
-		if (project.isAccessible()
-				&& project.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature")) {
+		System.err.println(project);
+		System.err.println(project.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature"));
+		if (project.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature")) {
+			System.err.println("creating repo");
 			String repositoryType = getRepositoryType(project);
 			RepositoryCreator repositoryCreator = RepositoryRegistry.INSTANCE
 					.getRepositoryCreator(repositoryType);
