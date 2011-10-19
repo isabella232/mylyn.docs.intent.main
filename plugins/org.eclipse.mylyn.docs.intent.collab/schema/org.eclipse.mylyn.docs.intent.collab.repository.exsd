@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.mylyn.docs.intent.client.ui.ide" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.mylyn.docs.intent.collab" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.mylyn.docs.intent.client.ui.ide" id="org.eclipse.mylyn.docs.intent.client.ui.ide.template.extension" name="org.eclipse.mylyn.docs.intent.client.ui.ide.template.extension"/>
+         <meta.schema plugin="org.eclipse.mylyn.docs.intent.collab" id="org.eclipse.mylyn.docs.intent.collab.repository.extension" name="org.eclipse.mylyn.docs.intent.collab.repository.extension"/>
       </appinfo>
       <documentation>
          Provides an extension point for document templates available in the new project wizard.
