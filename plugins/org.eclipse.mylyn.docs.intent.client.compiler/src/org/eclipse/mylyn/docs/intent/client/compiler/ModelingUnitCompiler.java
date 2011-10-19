@@ -161,7 +161,7 @@ public class ModelingUnitCompiler {
 	protected void compileAllWithMode(List<ModelingUnit> modelingUnits, boolean generateOnlyEPackages) {
 		// Step 1 : initialization.
 
-		// modelingUnitGenerator.clearResourceDeclarations();
+		modelingUnitGenerator.clearResourceDeclarations();
 
 		// Step 2.1 : Compilation of each org.eclipse.mylyn.docs.intent.core.modelingunit contained in the
 		// list

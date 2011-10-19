@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.ide.repository;
 
+import com.google.common.base.Predicate;
+
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -17,11 +19,16 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
+import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 
@@ -59,12 +66,22 @@ public class WorkspaceRepository implements Repository {
 	private TransactionalEditingDomain editingDomain;
 
 	/**
+	 * The repository structurer.
+	 */
+	private RepositoryStructurer repositoryStructurer;
+
+	private EClass[] unloadableTypes;
+
+	/**
 	 * WorkspaceRepository constructor.
 	 * 
 	 * @param workspaceConfig
 	 *            this repository configuration
+	 * @param unloadableTypes
+	 *            the list of types which cannont be unloaded
 	 */
-	public WorkspaceRepository(WorkspaceConfig workspaceConfig) {
+	public WorkspaceRepository(WorkspaceConfig workspaceConfig, EClass... unloadableTypes) {
+		this.unloadableTypes = unloadableTypes;
 		this.workspaceConfig = workspaceConfig;
 		this.editingDomain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 		isResourceSetLoaded = false;
@@ -259,6 +276,47 @@ public class WorkspaceRepository implements Repository {
 
 	public TransactionalEditingDomain getEditingDomain() {
 		return editingDomain;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#setRepositoryStructurer(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer)
+	 */
+	public void setRepositoryStructurer(RepositoryStructurer structurer) {
+		this.repositoryStructurer = structurer;
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#createRepositoryAdapter()
+	 */
+	public RepositoryAdapter createRepositoryAdapter() {
+		WorkspaceAdapter workspaceAdapter = new WorkspaceAdapter(this);
+		if (this.repositoryStructurer != null) {
+			workspaceAdapter.attachRepositoryStructurer(this.repositoryStructurer);
+		}
+		// We set a new unloadable Resource Predicate
+		workspaceAdapter.setUnloadableResourcePredicate(new Predicate<Resource>() {
+
+			public boolean apply(Resource resource) {
+				// The Intent index should never be unloaded
+				if (!resource.getContents().isEmpty()) {
+					boolean res = false;
+					EObject root = resource.getContents().iterator().next();
+					for (EClass unloadableType : unloadableTypes) {
+						if (root.eClass().equals(unloadableType)) {
+							res = true;
+						}
+					}
+					return res;
+				}
+				return false;
+			}
+		});
+		return workspaceAdapter;
 	}
 
 }

@@ -10,9 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.test.clients;
 
+import com.google.common.collect.Iterables;
+
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListNotificator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.collab.test.ide.AbstractWorkspaceRepositoryTest;
 
@@ -35,6 +38,7 @@ public class ListenerOnlyTestRepositoryClient extends AbstractTestRepositoryClie
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.test.clients.AbstractTestRepositoryClient#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
 	@Override
@@ -49,7 +53,8 @@ public class ListenerOnlyTestRepositoryClient extends AbstractTestRepositoryClie
 	 *            the list of newElements to listen
 	 */
 	public void addNewElementsToListen(List<EObject> newElements) {
-		this.repositoryObjectHandler.getNotificator().addObjectsToListen(newElements);
+		Iterables.filter(this.repositoryObjectHandler.getNotificators(), ElementListNotificator.class)
+				.iterator().next().addObjectsToListen(newElements);
 	}
 
 }

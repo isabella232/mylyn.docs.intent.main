@@ -104,17 +104,8 @@ public class RetroGeneratedElementListener extends AbstractGeneratedElementListe
 
 			// If any resource of the repository has changed
 			if (rootDelta != null) {
-
 				// We launch the analysis of the delta in a new thread
-				Runnable runnable = new Runnable() {
-
-					public void run() {
-						analyseWorkspaceDelta(rootDelta);
-					}
-				};
-				Thread t = new Thread(runnable);
-				t.start();
-
+				analyseWorkspaceDelta(rootDelta);
 			}
 		}
 	}
@@ -162,6 +153,7 @@ public class RetroGeneratedElementListener extends AbstractGeneratedElementListe
 			// - relaunch the session
 			// - try to visit the delta again
 			// - do nothing
+			e.printStackTrace();
 		}
 	}
 

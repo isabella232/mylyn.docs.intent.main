@@ -23,6 +23,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
+import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 
 /**
  * Tests the Intent demo, part 1: navigation behavior.
@@ -105,9 +106,10 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 				hasIntentNature = IntentNature.NATURE_ID.equals(natures[i]);
 			}
 			if (!hasIntentNature) {
-				System.out.println("[DemotTest] ... and toggling nature agin.");
+				System.out.println("[DemoTest] ... and toggling nature again.");
 				ToggleNatureAction.toggleNature(intentProject);
 			}
+			setUpRepository(intentProject);
 			repositoryInitialized = false;
 			startTime = System.currentTimeMillis();
 			timeOutDetected = false;
@@ -115,6 +117,7 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 				try {
 					Resource resource = repositoryAdapter
 							.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
+
 					// We ensure that the compiler did its work less that one minute ago
 					repositoryInitialized = resource != null
 							&& !resource.getContents().isEmpty()
@@ -141,10 +144,11 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 	 */
 	private boolean isRecentTraceabilityIndex(TraceabilityIndex traceabilityIndex) {
 		if (traceabilityIndex.getEntries().size() > 0) {
-			BigInteger compilationTime = traceabilityIndex.getEntries().iterator().next()
-					.getCompilationTime();
+			final TraceabilityIndexEntry entry = traceabilityIndex.getEntries().iterator().next();
+			BigInteger compilationTime = entry.getCompilationTime();
 			return compilationTime.doubleValue() > (System.currentTimeMillis() - RECENT_COMPILATION_DELAY);
 		}
 		return false;
 	}
+
 }

@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.collab.ide.adapters;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -206,13 +208,14 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		if (documentStructurer != null) {
 			documentStructurer.structure(WorkspaceAdapter.this);
 		}
-		final Collection<Resource> resources = this.repository.getResourceSet().getResources();
+		final Collection<Resource> resources = Lists.newArrayList(this.repository.getResourceSet()
+				.getResources());
 
 		try {
 			for (Resource resource : resources) {
 
 				// We only save the resource if it has been modified
-				if (resource.isModified() || !resource.isTrackingModification()) {
+				if (resource.isModified()) {
 					try {
 
 						// We make sure the session isn't still reacting to previous saves
@@ -255,7 +258,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 * </p>
 	 * 
 	 * @param resource
-	 *            the resource beeing saved
+	 *            the resource being saved
 	 * @throws RepositoryConnectionException
 	 *             if a connection to the repository cannot be made
 	 */
@@ -265,7 +268,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 			// We warn the session
 			((WorkspaceSession)this.repository.getOrCreateSession()).addSavedResource(resource);
 		} else {
-			// If the given resource must be ignored (i.e isn't include in any of the
+			// If the given resource must be ignored (i.e is include in any of the
 			// resourcesToIgnorePaths)
 			if (isInResourcesToIgnorePath(resource)) {
 				// We warn the session
@@ -478,6 +481,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	public Object getIDFromElement(EObject element) {
 		// We use the standard EMF way to identify this element :
 		// <ResourceURI> + <URIFragment>
+		Assert.isNotNull(element);
 		URI uri = EcoreUtil.getURI(element);
 
 		return uri;
@@ -503,7 +507,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	public void setSendSessionWarningBeforeSaving(boolean notifySessionBeforeSaving) {
 		this.sendSessionWarningBeforeSaving = notifySessionBeforeSaving;
-
 	}
 
 	/**
@@ -515,7 +518,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		this.sendSessionWarningBeforeSaving = false;
 		this.resourcesToIgnorePaths.clear();
 		this.resourcesToIgnorePaths.addAll(resourcesToIgnorePathList);
-
 	}
 
 	/**

@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.handlers.impl;
 
-import java.util.LinkedHashSet;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.mylyn.docs.intent.collab.handlers.LockMode;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
@@ -36,12 +35,12 @@ public abstract class AbstractRepositoryObjectHandler implements RepositoryObjec
 	/**
 	 * the notification strategy to use (ElementListening, TypeListening, none...).
 	 */
-	private Notificator notificator;
+	private Collection<Notificator> notificators = Sets.newLinkedHashSet();
 
 	/**
 	 * set containing all the clients subscribed to this RepositoryObjectHandler.
 	 */
-	private Set<RepositoryClient> subscribedClients;
+	private Set<RepositoryClient> subscribedClients = Sets.newLinkedHashSet();
 
 	/**
 	 * Adapter used by this RepositoryObjectHandler to communicate with the concrete repository.
@@ -52,7 +51,6 @@ public abstract class AbstractRepositoryObjectHandler implements RepositoryObjec
 	 * Default constructor for an AbstractRepositoryObjectHandler.
 	 */
 	public AbstractRepositoryObjectHandler() {
-		subscribedClients = new LinkedHashSet<RepositoryClient>();
 	}
 
 	/**
@@ -61,29 +59,28 @@ public abstract class AbstractRepositoryObjectHandler implements RepositoryObjec
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler#stop()
 	 */
 	public void stop() {
-		if (this.notificator != null) {
+		for (Notificator notificator : notificators) {
 			notificator.stop();
 		}
-		// TODO Make sure there is no other things to stop ?
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler#getNotificator()
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler#getNotificators()
 	 */
-	public Notificator getNotificator() {
-		return this.notificator;
+	public Collection<Notificator> getNotificators() {
+		return this.notificators;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler#setNotificator(org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator)
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler#addNotificator(org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator)
 	 */
-	public void setNotificator(Notificator notificator) {
-		this.notificator = notificator;
-		this.notificator.addRepositoryObjectHandler(this);
+	public void addNotificator(Notificator newNotificator) {
+		this.notificators.add(newNotificator);
+		newNotificator.addRepositoryObjectHandler(this);
 
 		if (mustAllowChangeSubscriptionPolicyForNotificator()) {
 			allowChangeSubscriptionPolicy();
@@ -91,13 +88,23 @@ public abstract class AbstractRepositoryObjectHandler implements RepositoryObjec
 	}
 
 	/**
-	 * Returns true if the notificator associated to this handler needs changeSubscriptionPolicy to work
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler#removeNotificator(org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator)
+	 */
+	public void removeNotificator(Notificator notificator) {
+		this.notificators.remove(notificator);
+		notificator.removeRepositoryObjectHandler(this);
+	}
+
+	/**
+	 * Returns true if the notificators associated to this handler needs changeSubscriptionPolicy to work
 	 * correctly.
 	 * 
-	 * @return true if the given notificator needs changeSubscriptionPolicy to work correctly, false otherwise
+	 * @return true if the notificators needs changeSubscriptionPolicy to work correctly, false otherwise
 	 */
 	private boolean mustAllowChangeSubscriptionPolicyForNotificator() {
-		return notificator instanceof ElementListNotificator;
+		return !Iterables.filter(notificators, ElementListNotificator.class).iterator().hasNext();
 	}
 
 	/**
@@ -172,18 +179,9 @@ public abstract class AbstractRepositoryObjectHandler implements RepositoryObjec
 	 */
 	public void handleChangeNotification(final RepositoryChangeNotification notification) {
 		if (!subscribedClients.isEmpty()) {
-			Job notifyClientsJob = new Job("Notifying Intent clients") {
-
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					for (RepositoryClient client : subscribedClients) {
-						client.handleChangeNotification(notification);
-					}
-					return Status.OK_STATUS;
-				}
-
-			};
-			notifyClientsJob.schedule();
+			for (RepositoryClient client : subscribedClients) {
+				client.handleChangeNotification(notification);
+			}
 		}
 	}
 }

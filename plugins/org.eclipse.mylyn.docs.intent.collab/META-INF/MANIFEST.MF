@@ -1,12 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.collab
+Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.collab;singleton:=true
 Bundle-Version: 0.7.0.qualifier
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.eclipse.emf.compare.diff;bundle-version="1.2.0";visibility:=reexport,
- org.eclipse.core.runtime;visibility:=reexport
+ org.eclipse.core.runtime;visibility:=reexport,
+ com.google.collect;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.mylyn.docs.intent.collab.handlers,
@@ -16,6 +17,5 @@ Export-Package: org.eclipse.mylyn.docs.intent.collab.handlers,
  org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList,
  org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener,
  org.eclipse.mylyn.docs.intent.collab.handlers.notification,
- org.eclipse.mylyn.docs.intent.collab.repository,
- org.eclipse.mylyn.docs.intent.collab.utils
+ org.eclipse.mylyn.docs.intent.collab.repository
 Bundle-Vendor: %providerName

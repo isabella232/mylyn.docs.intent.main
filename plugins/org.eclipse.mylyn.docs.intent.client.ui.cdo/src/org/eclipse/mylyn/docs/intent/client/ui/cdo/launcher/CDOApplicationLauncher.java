@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
@@ -23,17 +24,16 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.client.compiler.launcher.CompilerCreator;
+import org.eclipse.mylyn.docs.intent.client.ui.cdo.repositoryutils.CDORepositoryCreatorForIntent;
 import org.eclipse.mylyn.docs.intent.client.ui.cdo.widgets.IndexWidget;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.cdo.notification.CDORepositoryChangeNotificationFactory;
 import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDOConfig;
-import org.eclipse.mylyn.docs.intent.collab.cdo.utils.CDORepositoryCreator;
 import org.eclipse.mylyn.docs.intent.collab.cdo.utils.IntentRepositoryConnectionSettingsForCDO;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotificationFactoryHolder;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
@@ -61,19 +61,25 @@ public final class CDOApplicationLauncher {
 
 	}
 
+	/**
+	 * Connects to a repository.
+	 * 
+	 * @throws RepositoryConnectionException
+	 *             if the repository cannot be reached
+	 */
 	private static void connect() throws RepositoryConnectionException {
 		if (repository == null) {
 			CDOConfig cdoConfig = new CDOConfig(
 					IntentRepositoryConnectionSettingsForCDO.REPOSITORY_COMPLETE_ADRESS,
 					IntentRepositoryConnectionSettingsForCDO.REPOSITORY_NAME);
-			RepositoryCreatorHolder.setCreator(new CDORepositoryCreator());
 			RepositoryChangeNotificationFactoryHolder
 					.setChangeNotificationFactory(new CDORepositoryChangeNotificationFactory());
-			repository = RepositoryCreatorHolder.getCreator().createRepository(cdoConfig);
+			repository = new CDORepositoryCreatorForIntent().createRepository(cdoConfig, null);
 			// repository.getPackageRegistry().put(MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
 			repository.getPackageRegistry().put(IntentIndexerPackage.eNS_URI, IntentIndexerPackage.eINSTANCE);
 			repository.getPackageRegistry().put(CompilerPackage.eNS_URI, CompilerPackage.eINSTANCE);
-			repository.getPackageRegistry().put(IntentDocumentPackage.eNS_URI, IntentDocumentPackage.eINSTANCE);
+			repository.getPackageRegistry().put(IntentDocumentPackage.eNS_URI,
+					IntentDocumentPackage.eINSTANCE);
 			repository.getPackageRegistry().put(ModelingUnitPackage.eNS_URI, ModelingUnitPackage.eINSTANCE);
 			repository.getPackageRegistry().put(DescriptionUnitPackage.eNS_URI,
 					DescriptionUnitPackage.eINSTANCE);
@@ -111,10 +117,8 @@ public final class CDOApplicationLauncher {
 		}
 
 		// Step 2 : launching all the need clients.
-		// Step 2.1 : compiler
-		Runnable runnable = new Runnable() {
-
-			public void run() {
+		Job job = new Job("Launching Intent clients") {
+			protected org.eclipse.core.runtime.IStatus run(org.eclipse.core.runtime.IProgressMonitor monitor) {
 				try {
 
 					CompilerCreator.createCompilerClient(repository);
@@ -122,13 +126,11 @@ public final class CDOApplicationLauncher {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-		};
-		Thread t = new Thread(runnable);
-		t.start();
+				return org.eclipse.core.runtime.Status.OK_STATUS;
 
-		// Step 2.2 : indexer
-		// IndexerCreator.launchIndexer(repository);
+			};
+		};
+		job.schedule();
 
 	}
 

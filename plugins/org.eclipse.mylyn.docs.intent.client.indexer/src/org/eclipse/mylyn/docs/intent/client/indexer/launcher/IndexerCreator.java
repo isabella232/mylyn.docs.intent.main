@@ -22,7 +22,6 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListe
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 
 /**
@@ -52,8 +51,7 @@ public final class IndexerCreator {
 			throws RepositoryConnectionException {
 
 		// Step 1 : adapter creation
-		final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
-				.createRepositoryAdapterForRepository(repository);
+		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 
 		// Step 2 : creating the handler
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
@@ -62,7 +60,7 @@ public final class IndexerCreator {
 		listenedFeatures.add(IntentDocumentPackage.eINSTANCE.getIntentSubSectionContainer_SubSections());
 
 		Notificator listenedElementsNotificator = new TypeNotificator(listenedFeatures);
-		handler.setNotificator(listenedElementsNotificator);
+		handler.addNotificator(listenedElementsNotificator);
 
 		// Step 4 : launching the indexer
 

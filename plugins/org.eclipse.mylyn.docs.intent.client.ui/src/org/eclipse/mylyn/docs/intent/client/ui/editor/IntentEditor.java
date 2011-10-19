@@ -124,7 +124,7 @@ public class IntentEditor extends TextEditor {
 	@Override
 	protected void doSetInput(IEditorInput input) throws CoreException {
 		setSourceViewerConfiguration(new IntentEditorConfiguration(this, getPreferenceStore()));
-		setDocumentProvider(createDocumentProvider());
+		setDocumentProvider(new IntentDocumentProvider(this));
 		super.doSetInput(input);
 	}
 
@@ -138,15 +138,6 @@ public class IntentEditor extends TextEditor {
 		super.createPartControl(parent);
 		((ITextViewerExtension2)getSourceViewer()).addPainter(new ModelingUnitDecorationPainter(
 				getSourceViewer(), this.colorManager));
-	}
-
-	/**
-	 * Creates the document provider that will be used to handle the content of this editor.
-	 * 
-	 * @return the document provider
-	 */
-	protected IntentDocumentProvider createDocumentProvider() {
-		return new IntentDocumentProvider(this);
 	}
 
 	/**

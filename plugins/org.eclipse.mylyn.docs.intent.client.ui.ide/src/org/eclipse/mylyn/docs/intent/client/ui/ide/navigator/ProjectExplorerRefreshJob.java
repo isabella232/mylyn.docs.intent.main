@@ -61,6 +61,7 @@ public class ProjectExplorerRefreshJob extends Job {
 	 */
 	public ProjectExplorerRefreshJob(IProject project, EObject elementToRefresh) {
 		super(PROJECT_EXPLORER_REFRESH_JOB_NAME);
+		this.setSystem(true);
 		this.project = project;
 		this.elementToRefresh = elementToRefresh;
 	}

@@ -151,6 +151,14 @@
              template="templates/software.intent">
        </IntentDocumentTemplate>
     </extension>
+    <extension
+          point="org.eclipse.mylyn.docs.intent.collab.repository.extension">
+       <Repository
+             id="org.eclipse.mylyn.docs.intent.collab.ide.repository"
+             repositoryCreatorClass="org.eclipse.mylyn.docs.intent.client.ui.ide.repository.IntentWorkspaceRepositoryCreator"
+             repositoryStructurerClass="org.eclipse.mylyn.docs.intent.client.ui.ide.repository.IntentWorkspaceRepositoryStructurer">
+       </Repository>
+    </extension>
    
    
    

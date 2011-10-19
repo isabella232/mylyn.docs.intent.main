@@ -16,10 +16,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -30,7 +31,6 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 
 /**
  * A Repository Client used by the IDE bridge to refresh the project explorer when the Indexer computes a new
@@ -65,13 +65,14 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 	 * @return a new {@link ProjectExplorerRefresher}
 	 * @throws RepositoryConnectionException
 	 *             if cannot correctly connect to the given repository
+	 * @throws CoreException
+	 *             if needed the repository type cannot be found
 	 */
 	public static ProjectExplorerRefresher createProjectExplorerRefresher(IProject project)
-			throws RepositoryConnectionException {
+			throws RepositoryConnectionException, CoreException {
 		// Step 1 : Create a Repository Adapter
-		Repository repository = IntentProjectManager.getRepository(project);
-		final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
-				.createRepositoryAdapterForRepository(repository);
+		Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
+		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 
 		// Step 2 : Creating the RepositoryObjectHandler for this client
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
@@ -80,7 +81,7 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		Resource repositoryIntentResource = repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH);
 		listenedElements.addAll(repositoryIntentResource.getContents());
 		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements);
-		handler.setNotificator(listenedElementsNotificator);
+		handler.addNotificator(listenedElementsNotificator);
 
 		// Step 4 : create the ProjectExplorer refresher
 		ProjectExplorerRefresher refresher = new ProjectExplorerRefresher(project);

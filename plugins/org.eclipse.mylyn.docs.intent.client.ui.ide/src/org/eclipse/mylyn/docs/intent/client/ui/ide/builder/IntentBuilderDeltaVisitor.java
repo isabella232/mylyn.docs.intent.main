@@ -21,7 +21,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 
 /**
  * Visitor used by the Intent builder.
@@ -72,7 +72,7 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 							openedProjects.add((IProject)resource);
 						} else {
 							// If the project had the Intent Nature but not anymore
-							if (IntentProjectManager.isManagedProject((IProject)resource)) {
+							if (IntentRepositoryManager.INSTANCE.isManagedProject(resource.getName())) {
 								closedProjects.add((IProject)resource);
 							}
 						}

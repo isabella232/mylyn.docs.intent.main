@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.client.ui.ide.structurer;
+package org.eclipse.mylyn.docs.intent.client.ui.ide.repository;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -120,7 +120,8 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	 * </ul>
 	 * </p>
 	 * 
-	 * @param element the element to test
+	 * @param element
+	 *            the element to test
 	 * @return true if the element is correctly split
 	 */
 	private boolean isCorrectlySplit(EObject element) {

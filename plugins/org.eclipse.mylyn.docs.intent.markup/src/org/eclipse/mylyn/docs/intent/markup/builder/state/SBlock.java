@@ -346,10 +346,16 @@ public class SBlock extends BuilderState {
 		block.getContent().add(img);
 		return this;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.markup.builder.BuilderState#imageLink(org.eclipse.mylyn.wikitext.core.parser.Attributes,
+	 *      org.eclipse.mylyn.wikitext.core.parser.Attributes, java.lang.String, java.lang.String)
+	 */
 	@Override
-	public BuilderState imageLink(Attributes attributes,
-			Attributes imageAttributes, String href, String imageUrl) {
+	public BuilderState imageLink(Attributes attributes, Attributes imageAttributes, String href,
+			String imageUrl) {
 		Image img = MarkupFactory.eINSTANCE.createImage();
 		img.setUrl(imageUrl);
 		new HasAttributeCopyAttributes(img).setValues(attributes);

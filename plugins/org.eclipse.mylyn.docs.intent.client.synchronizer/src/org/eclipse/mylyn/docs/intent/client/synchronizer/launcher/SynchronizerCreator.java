@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.launcher;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -29,7 +31,6 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementLi
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
@@ -63,10 +64,12 @@ public final class SynchronizerCreator {
 			GeneratedElementListener generatedElementListener) throws RepositoryConnectionException {
 
 		// Step 1 : we initialize the listened elements
-		final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
-				.createRepositoryAdapterForRepository(repository);
+		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 
+		Collection<String> resourcesToIgnorePaths = new ArrayList<String>();
+		resourcesToIgnorePaths.add(IntentLocations.INTENT_FOLDER);
+		repositoryAdapter.setSendSessionWarningBeforeSaving(resourcesToIgnorePaths);
 		repositoryAdapter.openReadOnlyContext();
 		final Resource traceabilityResource = repositoryAdapter
 				.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
@@ -90,7 +93,7 @@ public final class SynchronizerCreator {
 		ElementListAdapter adapter = new ElementListAdapter();
 
 		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements, adapter);
-		handler.setNotificator(listenedElementsNotificator);
+		handler.addNotificator(listenedElementsNotificator);
 
 		// Step 3 : create the synchronizer
 		SynchronizerRepositoryClient synchronizerClient = new SynchronizerRepositoryClient(

@@ -27,7 +27,6 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListe
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.utils.RepositoryCreatorHolder;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
@@ -58,7 +57,7 @@ public final class CompilerCreator {
 	public static CompilerRepositoryClient createCompilerClient(Repository repository)
 			throws RepositoryConnectionException {
 
-		// Step 1 : intialize the listened types
+		// Step 1 : initialize the listened types
 		Set<EStructuralFeature> listenedTypes = new LinkedHashSet<EStructuralFeature>();
 
 		for (EObject obj : ModelingUnitPackage.eINSTANCE.eContents()) {
@@ -75,14 +74,13 @@ public final class CompilerCreator {
 		resourcesToIgnorePaths.add(IntentLocations.INTENT_FOLDER);
 
 		// Step 3 : create the adapter and the handler for these types
-		final RepositoryAdapter repositoryAdapter = RepositoryCreatorHolder.getCreator()
-				.createRepositoryAdapterForRepository(repository);
+		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 
 		repositoryAdapter.setSendSessionWarningBeforeSaving(resourcesToIgnorePaths);
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 
 		Notificator notificator = new TypeNotificator(listenedTypes);
-		handler.setNotificator(notificator);
+		handler.addNotificator(notificator);
 
 		// Step 4 : create the compiler
 		CompilerRepositoryClient compilerClient = new CompilerRepositoryClient();

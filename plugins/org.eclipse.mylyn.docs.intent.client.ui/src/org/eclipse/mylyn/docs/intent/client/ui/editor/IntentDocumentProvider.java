@@ -10,15 +10,21 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
+import com.google.common.collect.Sets;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.text.IDocument;
@@ -28,6 +34,7 @@ import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationModelManager;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection.EditorElementListAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.ReadWriteRepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
@@ -35,11 +42,19 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadOnlyRepositoryObjectHandlerImpl;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListNotificator;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator;
+import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.compare.IntentASTMerger;
 import org.eclipse.mylyn.docs.intent.compare.MergingException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
@@ -137,6 +152,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	public IntentDocumentProvider(IntentEditor editor) {
 		this.elementsToDocuments = new HashMap<Object, List<IntentEditorDocument>>();
 		this.associatedEditor = editor;
+		this.annotationModelManager = new IntentAnnotationModelManager();
 	}
 
 	/**
@@ -146,16 +162,8 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	@Override
 	protected IAnnotationModel createAnnotationModel(Object element) throws CoreException {
-
 		// We use an AnnotationModelManager to handle the create annotationModel
-		this.annotationModelManager = new IntentAnnotationModelManager();
-		return annotationModelManager.getAnnotationModel();
-	}
-
-	/**
-	 * Initialize the annotation model using the repository informations.
-	 */
-	private void initializeAnnotationModel() {
+		Assert.isNotNull(annotationModelManager);
 		for (CompilationStatus status : IntentHelper.getAllStatus((IntentGenericElement)documentRoot)) {
 
 			List<IntentEditorDocument> list = elementsToDocuments.get(listenedElementsHandler
@@ -173,6 +181,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 						new Position(posit.getOffset(), posit.getLength()));
 			}
 		}
+		return annotationModelManager.getAnnotationModel();
 	}
 
 	/**
@@ -199,15 +208,79 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			throw new CoreException(status);
 		}
 
+		setRepository(((IntentEditorInput)element).getRepository());
+
 		// We obtain the root of the document
 		documentRoot = ((IntentEditorInput)element).getIntentElement();
-		createdDocument = new IntentEditorDocument(documentRoot, this.associatedEditor);
 
-		partitioner = new IntentPartitioner(LEGAL_CONTENT_TYPES);
-		partitioner.connect(createdDocument);
-		createdDocument.setDocumentPartitioner(partitioner);
+		// TODO check for notifications issues:
+		// the following command was added to avoid infinite loop caused by the fact that the serialization
+		// occurs during the repository first compilation.
+		((IntentEditorInput)element).getRepositoryAdapter().execute(new IntentCommand() {
+
+			public void execute() {
+				createdDocument = new IntentEditorDocument(documentRoot, associatedEditor);
+			}
+		});
+
+		if (createdDocument != null) {
+			partitioner = new IntentPartitioner(LEGAL_CONTENT_TYPES);
+			partitioner.connect(createdDocument);
+			createdDocument.setDocumentPartitioner(partitioner);
+			subscribeRepository(((IntentEditorInput)element).getRepositoryAdapter());
+			addAllContentAsIntentElement(documentRoot, createdDocument);
+		}
 		return createdDocument;
+	}
 
+	/**
+	 * Registers listeners in the repository used by the given editor input.
+	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter previously created by the editorInput
+	 */
+	private void subscribeRepository(RepositoryAdapter repositoryAdapter) {
+		// Step 1 : creation of the Handler in the correct mode
+		final RepositoryObjectHandler elementHandler = createElementHandler(repositoryAdapter, false);
+		addRepositoryObjectHandler(elementHandler);
+
+		// Step 2 : creation of a Notificator listening changes on this element and compilation
+		// errors.
+		final Set<EObject> listenedObjects = new LinkedHashSet<EObject>();
+		listenedObjects.add(documentRoot);
+		final ElementListAdapter adapter = new EditorElementListAdapter();
+		repositoryAdapter.execute(new IntentCommand() {
+
+			public void execute() {
+				Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects, adapter);
+				Notificator compilationStatusNotificator = new TypeNotificator(Sets
+						.newLinkedHashSet(CompilerPackage.eINSTANCE.getCompilationStatusManager()
+								.getEAllStructuralFeatures()));
+				elementHandler.addNotificator(listenedElementsNotificator);
+				elementHandler.addNotificator(compilationStatusNotificator);
+			}
+		});
+	}
+
+	/**
+	 * Creates the element handler matching the given mode.
+	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter
+	 * @param readOnlyMode
+	 *            the access mode
+	 * @return the handler
+	 */
+	private static RepositoryObjectHandler createElementHandler(RepositoryAdapter repositoryAdapter,
+			boolean readOnlyMode) {
+		final RepositoryObjectHandler elementHandler;
+		if (readOnlyMode) {
+			elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
+			elementHandler.setRepositoryAdapter(repositoryAdapter);
+		} else {
+			elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
+		}
+		return elementHandler;
 	}
 
 	/**
@@ -340,11 +413,9 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			try {
 				listenedElementsHandler.getRepositoryAdapter().save();
 			} catch (ReadOnlyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				IntentUiLogger.logError(e);
 			} catch (SaveException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				IntentUiLogger.logError(e);
 			}
 
 			// We update the mapping between elements and documents
@@ -404,58 +475,46 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
 	public void handleChangeNotification(RepositoryChangeNotification notification) {
-		// If the received notification indicates the deletion of the root of the associated document
-		if (notification.getRightRoots().size() < 1) {
-
-			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
-					.getIDFromElement(documentRoot);
-			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
-				for (IntentEditorDocument relatedDocument : elementsToDocuments.get(modifiedObjectIdentifier)) {
-					relatedDocument.unsynchronize();
-				}
-			}
+		// Step 1 : If the received notification indicates the deletion of the root of the associated document
+		if (handleRootHasBeenDeleted(notification)) {
 			return;
 		}
 
-		// For each object modified indicated by this notification
+		// Step 2 : For each object modified indicated by this notification
 		for (EObject modifiedObject : notification.getRightRoots()) {
 			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
 					.getIDFromElement(modifiedObject);
 
 			// For all documents that have been opened on this object
 			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
-				if (listenedElementsHandler.getRepositoryAdapter().getIDFromElement(documentRoot)
-						.equals(modifiedObjectIdentifier)) {
-					documentRoot = modifiedObject;
-				}
-				for (final IntentEditorDocument relatedDocument : elementsToDocuments
-						.get(modifiedObjectIdentifier)) {
-
-					relatedDocument.reloadFromAST(documentRoot);
-
-					// We update the mapping between elements and documents
-					addAllContentAsIntentElement(documentRoot, relatedDocument);
-					if (modifiedObject instanceof IntentGenericElement) {
-						IntentGenericElement modifiedElement = (IntentGenericElement)modifiedObject;
-						updateAnnotationModelFromCompilationStatus(modifiedElement, relatedDocument);
-
-					}
-
-					// TODO : set the editor cursor to the old position
-					// associatedEditor.setCursor(cursor);
-
-					// We reconnect the partitioner to the document
-					// partitioner.disconnect();
-					// partitioner.connect(createdDocument);
-				}
-				// In any case, we launch the syntax coloring
-				partitioner.computePartitioning(0, 1);
-
-				// Finally, we refresh the outline
-				refreshOutline(documentRoot);
+				handleContentHasChanged(modifiedObject, modifiedObjectIdentifier);
 			} else {
-				// TODO [DISABLED] (removed syserr, too verbose)
-				// System.err.println("unknown element");
+				// Step 2 : update annotations (if the compilation status manager has changed)
+				handleCompilationStatusHasChanged(modifiedObject);
+			}
+		}
+	}
+
+	/**
+	 * Update the annotation model by translating each compilationStatus associated to the given element as an
+	 * Annotation.
+	 * 
+	 * @param modifiedElement
+	 *            the element to use for updating the AnnotationModel (children will also be updated)
+	 * @param relatedDocument
+	 *            the document to use for obtaining informations about element positions
+	 */
+	private void updateAnnotationModelFromCompilationStatusAndChildren(IntentGenericElement modifiedElement,
+			IntentEditorDocument relatedDocument) {
+		// Update the root
+		updateAnnotationModelFromCompilationStatus(modifiedElement, relatedDocument);
+
+		// And all children
+		TreeIterator<EObject> eAllContents = modifiedElement.eAllContents();
+		while (eAllContents.hasNext()) {
+			EObject next = eAllContents.next();
+			if (next instanceof IntentGenericElement) {
+				updateAnnotationModelFromCompilationStatus((IntentGenericElement)next, relatedDocument);
 			}
 		}
 	}
@@ -471,7 +530,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	private void updateAnnotationModelFromCompilationStatus(IntentGenericElement modifiedElement,
 			IntentEditorDocument relatedDocument) {
-
 		// Step 1 : removing all the invalid compilation status relative to the modifiedElement
 		annotationModelManager.removeInvalidCompilerAnnotations(
 				this.listenedElementsHandler.getRepositoryAdapter(), modifiedElement);
@@ -504,8 +562,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	public void addRepositoryObjectHandler(RepositoryObjectHandler handler) {
 		handler.addClient(this);
 		listenedElementsHandler = handler;
-		addAllContentAsIntentElement(documentRoot, createdDocument);
-		initializeAnnotationModel();
 	}
 
 	/**
@@ -562,24 +618,13 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			// // The readOnly property has already been tested by calling isEditable.
 			// }
 			// }
-			this.listenedElementsHandler.getRepositoryAdapter().closeContext();
 			this.repository.unregister(this);
 		}
 		if (this.listenedElementsHandler != null) {
+			this.listenedElementsHandler.getRepositoryAdapter().closeContext();
 			this.listenedElementsHandler.removeClient(this);
 			this.listenedElementsHandler.stop();
 		}
-
-	}
-
-	/**
-	 * Sets the editor associated to this documentProvider.
-	 * 
-	 * @param editor
-	 *            the editor to set
-	 */
-	public void setEditor(IntentEditor editor) {
-		this.associatedEditor = editor;
 
 	}
 
@@ -614,5 +659,47 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	public void dispose() {
 		listenedElementsHandler.removeClient(this);
 		listenedElementsHandler = null;
+	}
+
+	private boolean handleRootHasBeenDeleted(RepositoryChangeNotification notification) {
+		if (notification.getRightRoots().size() < 1) {
+
+			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
+					.getIDFromElement(documentRoot);
+			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
+				for (IntentEditorDocument relatedDocument : elementsToDocuments.get(modifiedObjectIdentifier)) {
+					relatedDocument.unsynchronize();
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private void handleCompilationStatusHasChanged(EObject modifiedObject) {
+		if (modifiedObject instanceof CompilationStatusManager) {
+
+			updateAnnotationModelFromCompilationStatusAndChildren((IntentGenericElement)this.documentRoot,
+					elementsToDocuments.values().iterator().next().iterator().next());
+		}
+	}
+
+	private void handleContentHasChanged(EObject modifiedObject, Object modifiedObjectIdentifier) {
+		if (listenedElementsHandler.getRepositoryAdapter().getIDFromElement(documentRoot)
+				.equals(modifiedObjectIdentifier)) {
+			documentRoot = modifiedObject;
+		}
+		for (final IntentEditorDocument relatedDocument : elementsToDocuments.get(modifiedObjectIdentifier)) {
+
+			relatedDocument.reloadFromAST(documentRoot);
+
+			// We update the mapping between elements and documents
+			addAllContentAsIntentElement(documentRoot, relatedDocument);
+		}
+		// In any case, we launch the syntax coloring
+		partitioner.computePartitioning(0, 1);
+
+		// Finally, we refresh the outline
+		refreshOutline(documentRoot);
 	}
 }
