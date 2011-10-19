@@ -70,12 +70,19 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
 
+		boolean timeOutDetected = false;
+		long startTime = System.currentTimeMillis();
+		while (!intentProject.isAccessible() && !timeOutDetected) {
+			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
+			Thread.sleep(TIME_TO_WAIT);
+		}
+
 		// Step 2 : setting the intent repository
 		// and wait its complete initialization
 		setUpRepository(intentProject);
 		boolean repositoryInitialized = false;
-		long startTime = System.currentTimeMillis();
-		boolean timeOutDetected = false;
+		startTime = System.currentTimeMillis();
+		timeOutDetected = false;
 		while (!repositoryInitialized && !timeOutDetected) {
 			try {
 				Resource resource = repositoryAdapter
