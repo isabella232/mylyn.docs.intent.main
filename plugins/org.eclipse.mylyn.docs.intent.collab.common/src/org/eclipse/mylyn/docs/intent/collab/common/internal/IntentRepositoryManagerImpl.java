@@ -83,6 +83,7 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 		Repository repository = repositoriesByProject.get(project.getName());
 		if (repository == null) {
 			repository = createRepository(project);
+			System.err.println("created " + repository);
 			repositoriesByProject.put(project.getName(), repository);
 		}
 		return repository;
