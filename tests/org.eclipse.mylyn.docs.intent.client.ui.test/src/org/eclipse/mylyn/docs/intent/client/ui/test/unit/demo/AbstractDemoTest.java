@@ -111,6 +111,7 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 			InterruptedException {
 		boolean timeOutDetected = false;
 		long startTime = System.currentTimeMillis();
+		// while the project does not have the correct nature or is unaccessible, the repository is null
 		while (IntentRepositoryManager.INSTANCE.getRepository(INTENT_PROJECT_NAME) == null
 				&& !timeOutDetected) {
 			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
