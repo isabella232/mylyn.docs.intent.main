@@ -17,10 +17,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
@@ -71,13 +71,25 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
 
+		System.err.println(intentProject.isAccessible());
+		System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
+
 		// workaround hudson issue
-		if (waitForRepositoryAvailability()) {
+		if (waitForNature()) {
+			System.out.println("toggling nature");
+			System.err.println(intentProject.isAccessible());
+			System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
 			ToggleNatureAction.toggleNature(intentProject);
 			waitForAllOperationsInUIThread();
+			System.err.println("toggled once");
+			System.err.println(intentProject.isAccessible());
+			System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
 			ToggleNatureAction.toggleNature(intentProject);
 			waitForAllOperationsInUIThread();
-			assertFalse(waitForRepositoryAvailability());
+			System.err.println("toggled twice");
+			System.err.println(intentProject.isAccessible());
+			System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
+			assertFalse(waitForNature());
 		}
 
 		// Step 2 : setting the intent repository
@@ -107,17 +119,15 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 		registerRepositoryListener();
 	}
 
-	private boolean waitForRepositoryAvailability() throws RepositoryConnectionException, CoreException,
-			InterruptedException {
+	private boolean waitForNature() throws RepositoryConnectionException, CoreException, InterruptedException {
 		boolean timeOutDetected = false;
 		long startTime = System.currentTimeMillis();
 		// while the project does not have the correct nature or is unaccessible, the repository is null
-		while (IntentRepositoryManager.INSTANCE.getRepository(INTENT_PROJECT_NAME) == null
-				&& !timeOutDetected) {
+		while (!intentProject.hasNature(IntentNature.NATURE_ID) && !timeOutDetected) {
 			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
 			Thread.sleep(TIME_TO_WAIT);
 		}
-		return IntentRepositoryManager.INSTANCE.getRepository(INTENT_PROJECT_NAME) == null;
+		return timeOutDetected;
 	}
 
 	/**
