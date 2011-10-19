@@ -76,6 +76,7 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
 			Thread.sleep(TIME_TO_WAIT);
 		}
+		assertFalse(timeOutDetected);
 
 		// Step 2 : setting the intent repository
 		// and wait its complete initialization
