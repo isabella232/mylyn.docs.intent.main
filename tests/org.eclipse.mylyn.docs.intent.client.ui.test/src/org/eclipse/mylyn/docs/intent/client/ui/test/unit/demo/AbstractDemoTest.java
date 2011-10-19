@@ -71,24 +71,10 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
 
-		System.err.println(intentProject.isAccessible());
-		System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
-
 		// workaround hudson issue
 		if (waitForNature()) {
-			System.out.println("toggling nature");
-			System.err.println(intentProject.isAccessible());
-			System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
 			ToggleNatureAction.toggleNature(intentProject);
 			waitForAllOperationsInUIThread();
-			System.err.println("toggled once");
-			System.err.println(intentProject.isAccessible());
-			System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
-			// ToggleNatureAction.toggleNature(intentProject);
-			// waitForAllOperationsInUIThread();
-			// System.err.println("toggled twice");
-			// System.err.println(intentProject.isAccessible());
-			// System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
 			assertFalse(waitForNature());
 		}
 
