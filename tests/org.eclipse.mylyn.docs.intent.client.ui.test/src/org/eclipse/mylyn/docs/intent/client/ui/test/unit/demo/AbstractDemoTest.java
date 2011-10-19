@@ -12,13 +12,10 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo;
 
 import java.math.BigInteger;
 
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
@@ -72,7 +69,9 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 		boolean timeOutDetected = false;
 		long startTime = System.currentTimeMillis();
-		while (!intentProject.isAccessible() && !timeOutDetected) {
+		while (!intentProject.isAccessible()
+				&& intentProject.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature")
+				&& !timeOutDetected) {
 			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
 			Thread.sleep(TIME_TO_WAIT);
 		}
@@ -99,45 +98,44 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 				// Try again
 			}
 		}
-
-		// Work-around to fix hudson tests :
-		// we toggle the nature twice to make sure that the imported project is detected
-		if (timeOutDetected) {
-			System.out.println("[DemoTest] timeout after import. Toggling nature...");
-			ToggleNatureAction.toggleNature(intentProject);
-
-			IProjectDescription description = intentProject.getDescription();
-			String[] natures = description.getNatureIds();
-
-			boolean hasIntentNature = false;
-			for (int i = 0; i < natures.length && !hasIntentNature; ++i) {
-				hasIntentNature = IntentNature.NATURE_ID.equals(natures[i]);
-			}
-			if (!hasIntentNature) {
-				System.out.println("[DemoTest] ... and toggling nature again.");
-				ToggleNatureAction.toggleNature(intentProject);
-			}
-			setUpRepository(intentProject);
-			repositoryInitialized = false;
-			startTime = System.currentTimeMillis();
-			timeOutDetected = false;
-			while (!repositoryInitialized && !timeOutDetected) {
-				try {
-					Resource resource = repositoryAdapter
-							.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
-
-					// We ensure that the compiler did its work less that one minute ago
-					repositoryInitialized = resource != null
-							&& !resource.getContents().isEmpty()
-							&& isRecentTraceabilityIndex((TraceabilityIndex)resource.getContents().iterator()
-									.next());
-					timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
-					Thread.sleep(TIME_TO_WAIT);
-				} catch (WrappedException e) {
-					// Try again
-				}
-			}
-		}
+		// // Work-around to fix hudson tests :
+		// // we toggle the nature twice to make sure that the imported project is detected
+		// if (timeOutDetected) {
+		// System.out.println("[DemoTest] timeout after import. Toggling nature...");
+		// ToggleNatureAction.toggleNature(intentProject);
+		//
+		// IProjectDescription description = intentProject.getDescription();
+		// String[] natures = description.getNatureIds();
+		//
+		// boolean hasIntentNature = false;
+		// for (int i = 0; i < natures.length && !hasIntentNature; ++i) {
+		// hasIntentNature = IntentNature.NATURE_ID.equals(natures[i]);
+		// }
+		// if (!hasIntentNature) {
+		// System.out.println("[DemoTest] ... and toggling nature again.");
+		// ToggleNatureAction.toggleNature(intentProject);
+		// }
+		// setUpRepository(intentProject);
+		// repositoryInitialized = false;
+		// startTime = System.currentTimeMillis();
+		// timeOutDetected = false;
+		// while (!repositoryInitialized && !timeOutDetected) {
+		// try {
+		// Resource resource = repositoryAdapter
+		// .getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
+		//
+		// // We ensure that the compiler did its work less that one minute ago
+		// repositoryInitialized = resource != null
+		// && !resource.getContents().isEmpty()
+		// && isRecentTraceabilityIndex((TraceabilityIndex)resource.getContents().iterator()
+		// .next());
+		// timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
+		// Thread.sleep(TIME_TO_WAIT);
+		// } catch (WrappedException e) {
+		// // Try again
+		// }
+		// }
+		// }
 		assertFalse("The Intent clients have not been launched although the project has been imported",
 				timeOutDetected);
 		registerRepositoryListener();
