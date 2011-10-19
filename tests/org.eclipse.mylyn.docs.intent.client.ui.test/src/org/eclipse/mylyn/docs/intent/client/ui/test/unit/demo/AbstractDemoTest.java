@@ -84,11 +84,11 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 			System.err.println("toggled once");
 			System.err.println(intentProject.isAccessible());
 			System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
-			ToggleNatureAction.toggleNature(intentProject);
-			waitForAllOperationsInUIThread();
-			System.err.println("toggled twice");
-			System.err.println(intentProject.isAccessible());
-			System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
+			// ToggleNatureAction.toggleNature(intentProject);
+			// waitForAllOperationsInUIThread();
+			// System.err.println("toggled twice");
+			// System.err.println(intentProject.isAccessible());
+			// System.err.println(intentProject.hasNature(IntentNature.NATURE_ID));
 			assertFalse(waitForNature());
 		}
 
