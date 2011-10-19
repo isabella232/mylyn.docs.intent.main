@@ -98,7 +98,9 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 			CoreException {
 		Repository repository = null;
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+		System.err.println(project);
 		if (project != null && project.isAccessible()) {
+			System.err.println("getting or creating repo");
 			repository = getRepository(project);
 		}
 		return repository;

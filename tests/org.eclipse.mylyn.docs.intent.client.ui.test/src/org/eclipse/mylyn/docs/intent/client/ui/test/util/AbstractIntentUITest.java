@@ -278,8 +278,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 *            the project
 	 */
 	protected void setUpRepository(IProject project) {
+		assertNotNull(project);
 		try {
 			repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
+			assertNotNull(repository);
 			repositoryAdapter = repository.createRepositoryAdapter();
 		} catch (RepositoryConnectionException e) {
 			AssertionFailedError error = new AssertionFailedError(
