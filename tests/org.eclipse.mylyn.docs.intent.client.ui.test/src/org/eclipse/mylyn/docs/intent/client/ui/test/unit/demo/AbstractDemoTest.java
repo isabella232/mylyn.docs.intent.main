@@ -13,13 +13,16 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo;
 import java.math.BigInteger;
 
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 
@@ -68,21 +71,21 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 		intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(INTENT_PROJECT_NAME);
 
-		boolean timeOutDetected = false;
-		long startTime = System.currentTimeMillis();
-		while (IntentRepositoryManager.INSTANCE.getRepository(INTENT_PROJECT_NAME) == null
-				&& !timeOutDetected) {
-			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
-			Thread.sleep(TIME_TO_WAIT);
+		// workaround hudson issue
+		if (waitForRepositoryAvailability()) {
+			ToggleNatureAction.toggleNature(intentProject);
+			waitForAllOperationsInUIThread();
+			ToggleNatureAction.toggleNature(intentProject);
+			waitForAllOperationsInUIThread();
+			assertFalse(waitForRepositoryAvailability());
 		}
-		assertFalse(timeOutDetected);
 
 		// Step 2 : setting the intent repository
 		// and wait its complete initialization
 		setUpRepository(intentProject);
 		boolean repositoryInitialized = false;
-		startTime = System.currentTimeMillis();
-		timeOutDetected = false;
+		long startTime = System.currentTimeMillis();
+		boolean timeOutDetected = false;
 		while (!repositoryInitialized && !timeOutDetected) {
 			try {
 				Resource resource = repositoryAdapter
@@ -102,6 +105,18 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 		assertFalse("The Intent clients have not been launched although the project has been imported",
 				timeOutDetected);
 		registerRepositoryListener();
+	}
+
+	private boolean waitForRepositoryAvailability() throws RepositoryConnectionException, CoreException,
+			InterruptedException {
+		boolean timeOutDetected = false;
+		long startTime = System.currentTimeMillis();
+		while (IntentRepositoryManager.INSTANCE.getRepository(INTENT_PROJECT_NAME) == null
+				&& !timeOutDetected) {
+			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
+			Thread.sleep(TIME_TO_WAIT);
+		}
+		return timeOutDetected;
 	}
 
 	/**
