@@ -72,25 +72,6 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	}
 
 	/**
-	 * Returns the {@link Repository} associated to the given Intent project.
-	 * 
-	 * @param project
-	 *            the Intent project to get the Repository from
-	 * @return the {@link Repository} associated to the given Intent project
-	 * @throws RepositoryConnectionException
-	 *             if the repository cannot be created
-	 * @throws CoreException
-	 */
-	private Repository getRepository(IProject project) throws RepositoryConnectionException, CoreException {
-		Repository repository = repositoriesByProject.get(project.getName());
-		if (repository == null) {
-			repository = createRepository(project);
-			repositoriesByProject.put(project.getName(), repository);
-		}
-		return repository;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @throws CoreException
@@ -103,7 +84,11 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 		Repository repository = null;
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		if (project != null && project.isAccessible()) {
-			repository = getRepository(project);
+			repository = repositoriesByProject.get(project.getName());
+			if (repository == null) {
+				repository = createRepository(project);
+				repositoriesByProject.put(project.getName(), repository);
+			}
 		}
 		lock = false;
 		return repository;
