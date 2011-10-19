@@ -78,10 +78,9 @@ public class WorkspaceRepository implements Repository {
 	 * @param workspaceConfig
 	 *            this repository configuration
 	 * @param unloadableTypes
-	 *            the list of types which cannont be unloaded
+	 *            the list of types which cannot be unloaded
 	 */
 	public WorkspaceRepository(WorkspaceConfig workspaceConfig, EClass... unloadableTypes) {
-		System.err.println("new " + this);
 		this.unloadableTypes = unloadableTypes;
 		this.workspaceConfig = workspaceConfig;
 		this.editingDomain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();

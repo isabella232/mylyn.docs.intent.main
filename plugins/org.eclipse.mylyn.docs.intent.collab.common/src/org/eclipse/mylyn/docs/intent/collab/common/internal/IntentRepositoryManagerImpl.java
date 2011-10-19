@@ -83,7 +83,6 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 		Repository repository = repositoriesByProject.get(project.getName());
 		if (repository == null) {
 			repository = createRepository(project);
-			System.err.println("created " + repository);
 			repositoriesByProject.put(project.getName(), repository);
 		}
 		return repository;
@@ -99,9 +98,7 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 			CoreException {
 		Repository repository = null;
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		System.err.println(project);
 		if (project != null && project.isAccessible()) {
-			System.err.println("getting or creating repo");
 			repository = getRepository(project);
 		}
 		return repository;
