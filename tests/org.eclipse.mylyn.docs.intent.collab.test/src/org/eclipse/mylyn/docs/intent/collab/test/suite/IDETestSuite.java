@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.test.suite;
 
-import org.eclipse.mylyn.docs.intent.collab.test.ide.ElementListListenerTest;
 import org.eclipse.mylyn.docs.intent.collab.test.ide.WorkspaceSessionAndTypeListenersTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -21,7 +20,8 @@ import org.junit.runners.Suite;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({WorkspaceSessionAndTypeListenersTest.class, ElementListListenerTest.class,
+@Suite.SuiteClasses({WorkspaceSessionAndTypeListenersTest.class,
+// ElementListListenerTest.class,
 })
 public final class IDETestSuite {
 
