@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
@@ -69,29 +70,12 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 		boolean timeOutDetected = false;
 		long startTime = System.currentTimeMillis();
-		while (!intentProject.isAccessible() && !timeOutDetected) {
+		while (IntentRepositoryManager.INSTANCE.getRepository(INTENT_PROJECT_NAME) == null
+				&& !timeOutDetected) {
 			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
 			Thread.sleep(TIME_TO_WAIT);
 		}
 		assertFalse(timeOutDetected);
-
-		waitForAllOperationsInUIThread();
-
-		// // Work-around to fix hudson tests :
-		// // we toggle the nature twice to make sure that the imported project is detected
-		// if (!intentProject.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature")) {
-		// ToggleNatureAction.toggleNature(intentProject);
-		// ToggleNatureAction.toggleNature(intentProject);
-		//
-		// timeOutDetected = false;
-		// startTime = System.currentTimeMillis();
-		// while (!intentProject.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature")
-		// && !timeOutDetected) {
-		// timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
-		// Thread.sleep(TIME_TO_WAIT);
-		// }
-		// assertFalse(timeOutDetected);
-		// }
 
 		// Step 2 : setting the intent repository
 		// and wait its complete initialization
