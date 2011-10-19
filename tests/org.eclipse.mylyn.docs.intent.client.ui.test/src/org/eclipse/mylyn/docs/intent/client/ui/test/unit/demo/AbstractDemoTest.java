@@ -117,7 +117,7 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
 			Thread.sleep(TIME_TO_WAIT);
 		}
-		return timeOutDetected;
+		return IntentRepositoryManager.INSTANCE.getRepository(INTENT_PROJECT_NAME) == null;
 	}
 
 	/**
