@@ -69,9 +69,8 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 
 		boolean timeOutDetected = false;
 		long startTime = System.currentTimeMillis();
-		while (!intentProject.isAccessible()
-				&& intentProject.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature")
-				&& !timeOutDetected) {
+		while (!(intentProject.isAccessible() && intentProject
+				.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature")) && !timeOutDetected) {
 			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
 			Thread.sleep(TIME_TO_WAIT);
 		}
