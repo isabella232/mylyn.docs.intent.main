@@ -255,4 +255,22 @@ public final class SynchronizerMessageProvider {
 		returnedMessage += ".";
 		return returnedMessage;
 	}
+
+	/**
+	 * Creates an error message indicating that the given resourceDeclaration has been found externally but is
+	 * empty.
+	 * 
+	 * @param resourceDeclaration
+	 *            the resourceDeclaration that has been found externally but is empty
+	 * @return an error message
+	 */
+	public static String createMessageForEmptyExternalResource(ResourceDeclaration resourceDeclaration) {
+		String returnedMessage = "";
+		if (resourceDeclaration.getUri() != null) {
+			returnedMessage += "The Resource at URI : " + resourceDeclaration.getUri().toString()
+					+ " is empty";
+		}
+		returnedMessage += ".";
+		return returnedMessage;
+	}
 }

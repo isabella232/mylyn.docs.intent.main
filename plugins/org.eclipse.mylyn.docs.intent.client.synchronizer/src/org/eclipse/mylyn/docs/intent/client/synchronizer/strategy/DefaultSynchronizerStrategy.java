@@ -27,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
  * Default Synchronizer Strategy, see {@link SynchronizerStrategy} fore more details.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class DefaultSynchronizerStrategy implements SynchronizerStrategy {
 
@@ -40,6 +41,18 @@ public class DefaultSynchronizerStrategy implements SynchronizerStrategy {
 	 *      org.eclipse.emf.ecore.resource.Resource, java.lang.String)
 	 */
 	public Resource handleNullExternalResource(ResourceDeclaration resourceDeclaration,
+			Resource internalResource, String externalResourceURI) {
+		// We do not return anything
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#handleEmptyExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration,
+	 *      org.eclipse.emf.ecore.resource.Resource, java.lang.String)
+	 */
+	public Resource handleEmptyExternalResource(ResourceDeclaration resourceDeclaration,
 			Resource internalResource, String externalResourceURI) {
 		// We do not return anything
 		return null;
@@ -84,17 +97,40 @@ public class DefaultSynchronizerStrategy implements SynchronizerStrategy {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#getStatusForNullExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration)
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#getStatusForNullExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration,
+	 *      java.lang.String)
 	 */
 	public Collection<? extends CompilationStatus> getStatusForNullExternalResource(
-			ResourceDeclaration resourceDeclaration) {
+			ResourceDeclaration resourceDeclaration, String resourcePath) {
 		SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
 				.createSynchronizerCompilationStatus();
+		status.setCompiledResourceURI(resourcePath);
+		status.setWorkingCopyResourceURI(resourceDeclaration.getUri().toString());
 		status.setSeverity(CompilationStatusSeverity.WARNING);
 		status.setTarget(resourceDeclaration);
 		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
 		status.setMessage(SynchronizerMessageProvider
 				.createMessageForNullExternalResource(resourceDeclaration));
+		return Lists.newArrayList(status);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#getStatusForEmptyExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration,
+	 *      java.lang.String)
+	 */
+	public Collection<? extends CompilationStatus> getStatusForEmptyExternalResource(
+			ResourceDeclaration resourceDeclaration, String resourcePath) {
+		SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
+				.createSynchronizerCompilationStatus();
+		status.setCompiledResourceURI(resourcePath);
+		status.setWorkingCopyResourceURI(resourceDeclaration.getUri().toString());
+		status.setSeverity(CompilationStatusSeverity.WARNING);
+		status.setTarget(resourceDeclaration);
+		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
+		status.setMessage(SynchronizerMessageProvider
+				.createMessageForEmptyExternalResource(resourceDeclaration));
 		return Lists.newArrayList(status);
 	}
 

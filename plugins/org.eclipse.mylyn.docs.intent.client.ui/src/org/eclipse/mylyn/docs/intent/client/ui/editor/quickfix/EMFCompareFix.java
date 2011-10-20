@@ -60,7 +60,7 @@ import org.eclipse.ui.services.IServiceLocator;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class IntentSynchronizationCompletionProposal implements ICompletionProposal {
+public class EMFCompareFix implements ICompletionProposal {
 
 	private static final String COMPARE_EDITOR_TITLE = "Comparing Intent Document and Working Copy";
 
@@ -72,7 +72,7 @@ public class IntentSynchronizationCompletionProposal implements ICompletionPropo
 	 * @param annotation
 	 *            the {@link IntentAnnotation} describing the synchronization issue.
 	 */
-	public IntentSynchronizationCompletionProposal(Annotation annotation) {
+	public EMFCompareFix(Annotation annotation) {
 		this.syncAnnotation = (IntentAnnotation)annotation;
 	}
 

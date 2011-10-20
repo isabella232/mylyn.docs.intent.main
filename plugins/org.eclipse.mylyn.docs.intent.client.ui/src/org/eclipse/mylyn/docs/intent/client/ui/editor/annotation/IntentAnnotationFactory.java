@@ -88,6 +88,14 @@ public final class IntentAnnotationFactory {
 					if (targetURI != null) {
 						additionalInformations.add(targetURI.toString());
 					}
+
+					// FIXME improve strategy...
+					if (syncStatus.getMessage().endsWith("is empty.")) {
+						additionalInformations.add("EMPTY_RESOURCE");
+					} else if (syncStatus.getMessage().startsWith("Cannot locate Resource")) {
+						additionalInformations.add("NULL_RESOURCE");
+					}
+
 					annotation.setAdditionalInformations(additionalInformations);
 					annotationMessageType = IntentAnnotationMessageType.SYNC_WARNING;
 				} else {

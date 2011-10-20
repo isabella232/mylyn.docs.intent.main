@@ -109,10 +109,11 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#getStatusForNullExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration)
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#getStatusForNullExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration,
+	 *      java.lang.String)
 	 */
 	public Collection<? extends CompilationStatus> getStatusForNullExternalResource(
-			ResourceDeclaration resourceDeclaration) {
+			ResourceDeclaration resourceDeclaration, String resourcePath) {
 
 		SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
 				.createSynchronizerCompilationStatus();
@@ -121,6 +122,38 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
 		status.setMessage(SynchronizerMessageProvider
 				.createMessageForNullExternalResource(resourceDeclaration));
+		return Lists.newArrayList(status);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#handleEmptyExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration,
+	 *      org.eclipse.emf.ecore.resource.Resource, java.lang.String)
+	 */
+	public Resource handleEmptyExternalResource(ResourceDeclaration resourceDeclaration,
+			Resource internalResource, String externalResourceURI) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#getStatusForEmptyExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration,
+	 *      java.lang.String)
+	 */
+	public Collection<? extends CompilationStatus> getStatusForEmptyExternalResource(
+			ResourceDeclaration resourceDeclaration, String resourcePath) {
+		SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
+				.createSynchronizerCompilationStatus();
+		status.setCompiledResourceURI(resourcePath);
+		status.setWorkingCopyResourceURI(resourceDeclaration.getUri().toString());
+		status.setSeverity(CompilationStatusSeverity.WARNING);
+		status.setTarget(resourceDeclaration);
+		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
+		status.setMessage(SynchronizerMessageProvider
+				.createMessageForEmptyExternalResource(resourceDeclaration));
 		return Lists.newArrayList(status);
 	}
 }

@@ -22,12 +22,14 @@ import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.TextInvocationContext;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationFactory;
 
 /**
  * {@link IntentQuickAssistProcessor} used by Intent to fix any issues.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 
@@ -82,7 +84,24 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 				Position pos = model.getPosition(annotation);
 				if (isAtPosition(offset, pos)) {
 					ICompletionProposal[] proposals = new ICompletionProposal[1];
-					proposals[0] = new IntentSynchronizationCompletionProposal(annotation);
+
+					switch (((IntentAnnotation)annotation).getAdditionalInformations().toArray().length) {
+						case 2:
+							proposals[0] = new EMFCompareFix(annotation);
+							break;
+						case 3:
+							String type = ((IntentAnnotation)annotation).getAdditionalInformations()
+									.toArray()[2].toString();
+							if ("EMPTY_RESOURCE".equals(type)) {
+								proposals[0] = new MergeEmptyResourceFix(annotation);
+							} else if ("NULL_RESOURCE".equals(type)) {
+								proposals[0] = new CreateResourceFix(annotation);
+							}
+							break;
+						default:
+							break;
+					}
+
 					return proposals;
 				}
 			}

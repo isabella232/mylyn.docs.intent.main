@@ -48,6 +48,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 
 /**
  * In charge of comparing the compiled models of the repository with the compiled models generated at the
@@ -251,8 +252,11 @@ public class IntentSynchronizer {
 				externalResource = result.get(0);
 			} else {
 				Collection<? extends CompilationStatus> statusForNullExternalresource = synchronizerStrategy
-						.getStatusForNullExternalResource(indexEntry.getResourceDeclaration());
+						.getStatusForNullExternalResource(indexEntry.getResourceDeclaration(),
+								indexEntry.getGeneratedResourcePath());
 				statusList.addAll(statusForNullExternalresource);
+				updateSynchronizedElementsListeners(getResourceDeclarationURI(indexEntry
+						.getResourceDeclaration()));
 			}
 
 			// TODO : we can create here a status if the external Resource has not been created
@@ -263,24 +267,36 @@ public class IntentSynchronizer {
 		// If no resource was null or if the strategy authorizes the operation to continue
 		if (continueSynchronization) {
 
-			// Step 4 : comparing those two resources
-			Resource leftResource = synchronizerStrategy.getLeftResource(internalResource, externalResource);
-			Resource rightResource = synchronizerStrategy
-					.getRightResource(internalResource, externalResource);
+			if (externalResource.getContents().isEmpty()) {
+				Collection<? extends CompilationStatus> statusForEmptyExternalresource = synchronizerStrategy
+						.getStatusForEmptyExternalResource(indexEntry.getResourceDeclaration(),
+								indexEntry.getGeneratedResourcePath());
+				statusList.addAll(statusForEmptyExternalresource);
+				updateSynchronizedElementsListeners(getResourceDeclarationURI(indexEntry
+						.getResourceDeclaration()));
+			} else {
 
-			List<DiffElement> differences = null;
-			stopIfCanceled(progressMonitor);
-			differences = compareResource(leftResource, rightResource);
+				// Step 4 : comparing those two resources
+				Resource leftResource = synchronizerStrategy.getLeftResource(internalResource,
+						externalResource);
+				Resource rightResource = synchronizerStrategy.getRightResource(internalResource,
+						externalResource);
 
-			stopIfCanceled(progressMonitor);
-			// Step 5 : creating status from the DiffElement
-			statusList = createSynchronizerSatusListFromDiffModel(indexEntry, differences, progressMonitor);
+				List<DiffElement> differences = null;
+				stopIfCanceled(progressMonitor);
+				differences = compareResource(leftResource, rightResource);
 
-			// Step 6 : unloading the external resource
-			externalResource.unload();
+				stopIfCanceled(progressMonitor);
+				// Step 5 : creating status from the DiffElement
+				statusList = createSynchronizerSatusListFromDiffModel(indexEntry, differences,
+						progressMonitor);
 
-			// Step 7 : we ask the generated element listener to listen to the external Resource
-			updateSynchronizedElementsListeners(externalResource.getURI());
+				// Step 6 : unloading the external resource
+				externalResource.unload();
+
+				// Step 7 : we ask the generated element listener to listen to the external Resource
+				updateSynchronizedElementsListeners(externalResource.getURI());
+			}
 		} else {
 			stopIfCanceled(progressMonitor);
 			// TODO we can imagine creating a status, unless it's the responsability of the Strategy
@@ -410,9 +426,7 @@ public class IntentSynchronizer {
 		ResourceSet resourceSet = new ResourceSetImpl();
 		Resource resource = null;
 		if (indexEntry.getResourceDeclaration() != null) {
-			String uri = (String)indexEntry.getResourceDeclaration().getUri();
-			uri = uri.replace("\"", "");
-			URI externalURI = URI.createURI(uri);
+			URI externalURI = getResourceDeclarationURI(indexEntry.getResourceDeclaration());
 
 			try {
 				resource = resourceSet.getResource(externalURI, true);
@@ -465,4 +479,7 @@ public class IntentSynchronizer {
 		defaultSynchronizedElementListener.dispose();
 	}
 
+	private static URI getResourceDeclarationURI(ResourceDeclaration resourceDeclaration) {
+		return URI.createURI(resourceDeclaration.getUri().toString().replace("\"", ""));
+	}
 }

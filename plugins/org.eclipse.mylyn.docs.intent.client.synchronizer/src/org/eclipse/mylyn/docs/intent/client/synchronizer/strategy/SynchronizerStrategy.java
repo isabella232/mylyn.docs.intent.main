@@ -20,6 +20,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
  * Define a set of behaviors that will be used during a Synchronization operation.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public interface SynchronizerStrategy {
 
@@ -36,6 +37,21 @@ public interface SynchronizerStrategy {
 	 * @return the modified external resource (the synchronizer will stop if it's null)
 	 */
 	Resource handleNullExternalResource(ResourceDeclaration resourceDeclaration, Resource internalResource,
+			String externalResourceURI);
+
+	/**
+	 * Handles the case of a null external resource (can decide to copy the internal Resource or put a new
+	 * Status on the resource for example).
+	 * 
+	 * @param resourceDeclaration
+	 *            the resourceDeclaration associated to the given internal Resource
+	 * @param internalResource
+	 *            the internal (repository) compiled resource
+	 * @param externalResourceURI
+	 *            the URI of the external (local or repository or http...) compiled resource
+	 * @return the modified external resource (the synchronizer will stop if it's null)
+	 */
+	Resource handleEmptyExternalResource(ResourceDeclaration resourceDeclaration, Resource internalResource,
 			String externalResourceURI);
 
 	/**
@@ -81,10 +97,26 @@ public interface SynchronizerStrategy {
 	 * 
 	 * @param resourceDeclaration
 	 *            the resource declaration than references an external Resource that cannot be found
+	 * @param resourcePath
+	 *            the compiled resource path
 	 * @return a Synchronization status that indicates that the external Resource cannot be found (can return
 	 *         null)
 	 */
 	Collection<? extends CompilationStatus> getStatusForNullExternalResource(
-			ResourceDeclaration resourceDeclaration);
+			ResourceDeclaration resourceDeclaration, String resourcePath);
 
+	/**
+	 * Returns a Synchronization status that indicates that the external Resource is empty. Will be called if
+	 * {@link SynchronizerStrategy#handleNullExternalResource(ResourceDeclaration, Resource, String)} returns
+	 * null.
+	 * 
+	 * @param resourceDeclaration
+	 *            the resource declaration than references an external Resource that cannot be found
+	 * @param resourcePath
+	 *            the compiled resource path
+	 * @return a Synchronization status that indicates that the external Resource cannot be found (can return
+	 *         null)
+	 */
+	Collection<? extends CompilationStatus> getStatusForEmptyExternalResource(
+			ResourceDeclaration resourceDeclaration, String resourcePath);
 }
