@@ -18,6 +18,11 @@
       [Enter License Description here.]
    </license>
 
+   <url>
+      <discovery label="Google Collections" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>
+      <discovery label="Emf Compare Latest Version" url="http://download.eclipse.org/modeling/emf/compare/updates/nightly/1.2"/>
+   </url>
+
    <plugin
          id="org.eclipse.mylyn.docs.intent"
          download-size="0"
@@ -101,8 +106,4 @@
          version="0.0.0"
          unpack="false"/>
 
- 	<url>
-      <update label="Google Collections" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>
-	  <discovery label="Google Collections" url="http://download.eclipse.org/tools/orbit/downloads/drops/R20110523182458/repository/"/>
-	</url>
 </feature>
