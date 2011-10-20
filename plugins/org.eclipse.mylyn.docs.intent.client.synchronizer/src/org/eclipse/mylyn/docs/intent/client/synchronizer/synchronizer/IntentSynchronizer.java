@@ -198,7 +198,7 @@ public class IntentSynchronizer {
 	 * @throws InterruptedException
 	 *             if this operation was interrupted
 	 */
-	private Collection<? extends CompilationStatus> synchronize(RepositoryAdapter adapter,
+	private Collection<? extends CompilationStatus> synchronize(final RepositoryAdapter adapter,
 			final TraceabilityIndexEntry indexEntry, Monitor progressMonitor) throws InterruptedException {
 		List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
 		boolean continueSynchronization = true;
@@ -238,14 +238,21 @@ public class IntentSynchronizer {
 			adapter.execute(new IntentCommand() {
 
 				public void execute() {
-					result.add(synchronizerStrategy.handleNullExternalResource(indexEntry
-							.getResourceDeclaration(), finalInternalResource, (String)indexEntry
-							.getResourceDeclaration().getUri()));
+					Resource handleNullExternalResource = synchronizerStrategy.handleNullExternalResource(
+							indexEntry.getResourceDeclaration(), finalInternalResource, (String)indexEntry
+									.getResourceDeclaration().getUri());
+					if (handleNullExternalResource != null) {
+						result.add(handleNullExternalResource);
+					}
 
 				}
 			});
 			if (!result.isEmpty()) {
 				externalResource = result.get(0);
+			} else {
+				Collection<? extends CompilationStatus> statusForNullExternalresource = synchronizerStrategy
+						.getStatusForNullExternalResource(indexEntry.getResourceDeclaration());
+				statusList.addAll(statusForNullExternalresource);
 			}
 
 			// TODO : we can create here a status if the external Resource has not been created

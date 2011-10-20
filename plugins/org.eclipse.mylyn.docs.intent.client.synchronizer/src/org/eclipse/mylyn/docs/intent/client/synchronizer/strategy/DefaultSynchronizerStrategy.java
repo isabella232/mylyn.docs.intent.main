@@ -10,9 +10,14 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.strategy;
 
+import com.google.common.collect.Lists;
+
+import java.util.Collection;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerMessageProvider;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
@@ -28,8 +33,7 @@ public class DefaultSynchronizerStrategy implements SynchronizerStrategy {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * The strategy applied here is to create and save a new external Resource and copy the internal Resource
-	 * content.
+	 * The strategy applied here is not to do anything (will cause user warning).
 	 * </p>
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#handleNullExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration,
@@ -37,15 +41,7 @@ public class DefaultSynchronizerStrategy implements SynchronizerStrategy {
 	 */
 	public Resource handleNullExternalResource(ResourceDeclaration resourceDeclaration,
 			Resource internalResource, String externalResourceURI) {
-
-		SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
-				.createSynchronizerCompilationStatus();
-		status.setSeverity(CompilationStatusSeverity.WARNING);
-		status.setTarget(resourceDeclaration);
-		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
-		status.setMessage(SynchronizerMessageProvider
-				.createMessageForNullExternalResource(resourceDeclaration));
-		resourceDeclaration.getCompilationStatus().add(status);
+		// We do not return anything
 		return null;
 	}
 
@@ -83,6 +79,23 @@ public class DefaultSynchronizerStrategy implements SynchronizerStrategy {
 	public Resource getRightResource(Resource internalResource, Resource externalResource) {
 		// Here we consider that the latest version is from the repository in any case
 		return externalResource;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#getStatusForNullExternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration)
+	 */
+	public Collection<? extends CompilationStatus> getStatusForNullExternalResource(
+			ResourceDeclaration resourceDeclaration) {
+		SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
+				.createSynchronizerCompilationStatus();
+		status.setSeverity(CompilationStatusSeverity.WARNING);
+		status.setTarget(resourceDeclaration);
+		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
+		status.setMessage(SynchronizerMessageProvider
+				.createMessageForNullExternalResource(resourceDeclaration));
+		return Lists.newArrayList(status);
 	}
 
 }

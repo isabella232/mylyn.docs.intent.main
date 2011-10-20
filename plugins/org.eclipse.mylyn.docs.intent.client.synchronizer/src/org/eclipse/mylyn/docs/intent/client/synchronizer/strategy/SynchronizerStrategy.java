@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.strategy;
 
+import java.util.Collection;
+
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 
 /**
@@ -69,5 +72,19 @@ public interface SynchronizerStrategy {
 	 * @return the resource that should be considered has the right Resource during comparison
 	 */
 	Resource getRightResource(Resource internalResource, Resource externalResource);
+
+	/**
+	 * Returns a Synchronization status that indicates that the external Resource cannot be found (can return
+	 * null). Will be called if
+	 * {@link SynchronizerStrategy#handleNullExternalResource(ResourceDeclaration, Resource, String)} returns
+	 * null.
+	 * 
+	 * @param resourceDeclaration
+	 *            the resource declaration than references an external Resource that cannot be found
+	 * @return a Synchronization status that indicates that the external Resource cannot be found (can return
+	 *         null)
+	 */
+	Collection<? extends CompilationStatus> getStatusForNullExternalResource(
+			ResourceDeclaration resourceDeclaration);
 
 }
