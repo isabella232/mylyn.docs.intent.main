@@ -410,14 +410,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				IntentUiLogger.logError(e);
 			}
 
-			try {
-				listenedElementsHandler.getRepositoryAdapter().save();
-			} catch (ReadOnlyException e) {
-				IntentUiLogger.logError(e);
-			} catch (SaveException e) {
-				IntentUiLogger.logError(e);
-			}
-
 			// We update the mapping between elements and documents
 			addAllContentAsIntentElement(documentRoot, (IntentEditorDocument)document);
 

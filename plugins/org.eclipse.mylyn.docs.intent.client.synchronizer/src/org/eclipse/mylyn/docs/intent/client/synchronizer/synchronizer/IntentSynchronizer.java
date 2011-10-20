@@ -39,7 +39,7 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynch
 import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerMessageProvider;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerStatusFactory;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
-import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.CopyInternalResourceStrategy;
+import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.DefaultSynchronizerStrategy;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -81,7 +81,7 @@ public class IntentSynchronizer {
 	 */
 	public IntentSynchronizer(SynchronizerRepositoryClient synchronizerRepositoryClient) {
 		this.repositoryClient = synchronizerRepositoryClient;
-		this.synchronizerStrategy = new CopyInternalResourceStrategy();
+		this.synchronizerStrategy = new DefaultSynchronizerStrategy();
 	}
 
 	/**
