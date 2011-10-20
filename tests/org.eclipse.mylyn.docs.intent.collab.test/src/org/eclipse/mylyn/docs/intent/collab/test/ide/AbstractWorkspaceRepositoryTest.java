@@ -188,7 +188,8 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 					.createRepositoryAdapter();
 			RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(
 					repositoryAdapterForListeningClient);
-			Notificator notificator = new ElementListNotificator(listenedElements);
+			Notificator notificator = new ElementListNotificator(listenedElements,
+					repositoryAdapterForListeningClient);
 			handler.addNotificator(notificator);
 
 			// Step 1.3 : create the client

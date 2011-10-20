@@ -112,7 +112,8 @@ public final class CDORepositoryCreatorForIntent extends CDORepositoryCreator {
 		// We create the handler
 		RepositoryObjectHandler elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 		ElementListAdapter adapter = new ElementListAdapter();
-		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements, adapter);
+		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements, adapter,
+				repositoryAdapter);
 		elementHandler.addNotificator(listenedElementsNotificator);
 
 		return elementHandler;

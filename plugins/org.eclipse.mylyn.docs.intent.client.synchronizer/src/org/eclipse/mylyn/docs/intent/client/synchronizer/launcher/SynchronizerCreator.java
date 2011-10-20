@@ -92,7 +92,8 @@ public final class SynchronizerCreator {
 
 		ElementListAdapter adapter = new ElementListAdapter();
 
-		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements, adapter);
+		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements, adapter,
+				repositoryAdapter);
 		handler.addNotificator(listenedElementsNotificator);
 
 		// Step 3 : create the synchronizer

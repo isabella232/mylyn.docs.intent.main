@@ -80,7 +80,8 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 		Resource repositoryIntentResource = repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH);
 		listenedElements.addAll(repositoryIntentResource.getContents());
-		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements);
+		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements,
+				repositoryAdapter);
 		handler.addNotificator(listenedElementsNotificator);
 
 		// Step 4 : create the ProjectExplorer refresher

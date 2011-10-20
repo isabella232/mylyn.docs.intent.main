@@ -186,7 +186,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		listenedElements.add(handler.getRepositoryAdapter()
 				.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH).getContents().iterator().next());
 		Notificator elementNotificator = new ElementListNotificator(listenedElements,
-				new ElementListAdapter());
+				new ElementListAdapter(), repositoryAdapter);
 		Notificator compilationStatusNotificator = new TypeNotificator(
 				Sets.newLinkedHashSet(CompilerPackage.eINSTANCE.getCompilationStatusManager()
 						.getEAllStructuralFeatures()));

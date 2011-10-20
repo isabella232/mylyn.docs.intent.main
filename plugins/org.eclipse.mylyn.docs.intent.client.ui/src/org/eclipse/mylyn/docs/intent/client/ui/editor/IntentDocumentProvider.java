@@ -249,17 +249,14 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		final Set<EObject> listenedObjects = new LinkedHashSet<EObject>();
 		listenedObjects.add(documentRoot);
 		final ElementListAdapter adapter = new EditorElementListAdapter();
-		repositoryAdapter.execute(new IntentCommand() {
 
-			public void execute() {
-				Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects, adapter);
-				Notificator compilationStatusNotificator = new TypeNotificator(Sets
-						.newLinkedHashSet(CompilerPackage.eINSTANCE.getCompilationStatusManager()
-								.getEAllStructuralFeatures()));
-				elementHandler.addNotificator(listenedElementsNotificator);
-				elementHandler.addNotificator(compilationStatusNotificator);
-			}
-		});
+		Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects, adapter,
+				repositoryAdapter);
+		Notificator compilationStatusNotificator = new TypeNotificator(
+				Sets.newLinkedHashSet(CompilerPackage.eINSTANCE.getCompilationStatusManager()
+						.getEAllStructuralFeatures()));
+		elementHandler.addNotificator(listenedElementsNotificator);
+		elementHandler.addNotificator(compilationStatusNotificator);
 	}
 
 	/**

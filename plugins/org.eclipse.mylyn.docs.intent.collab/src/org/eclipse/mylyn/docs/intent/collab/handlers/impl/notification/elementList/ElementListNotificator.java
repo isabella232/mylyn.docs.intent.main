@@ -16,24 +16,26 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 
 /**
- * Notificator listening for the changes that occure on the given list of elements.
+ * Notificator listening for the changes that occurs on the given list of elements.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class ElementListNotificator implements Notificator {
 
 	/**
-	 * Set of the listened EObjects : if any change occures on an element of this set, this Notificator will
+	 * Set of the listened EObjects : if any change occurs on an element of this set, this Notificator will
 	 * prevent its associated RepositoryObjectHandlers.
 	 */
 	private final Set<EObject> listenedObjects;
 
 	/**
-	 * List of RepositoryObectHandlers to notify if any change occures on any listened object.
+	 * List of RepositoryObectHandlers to notify if any change occurs on any listened object.
 	 */
 	private Set<RepositoryObjectHandler> listeningHandlers;
 
@@ -47,13 +49,15 @@ public class ElementListNotificator implements Notificator {
 	 * 
 	 * @param listenedObjects
 	 *            the objects to listen
+	 * @param repositoryAdapter
+	 *            the repository adapter
 	 */
-	public ElementListNotificator(Set<EObject> listenedObjects) {
+	public ElementListNotificator(Set<EObject> listenedObjects, RepositoryAdapter repositoryAdapter) {
 		this.listenedObjects = listenedObjects;
 		this.listeningHandlers = new LinkedHashSet<RepositoryObjectHandler>();
 		this.elementAdapter = new ElementListAdapter(this);
 
-		initialise(listeningHandlers);
+		initialize(listeningHandlers, repositoryAdapter);
 	}
 
 	/**
@@ -63,14 +67,16 @@ public class ElementListNotificator implements Notificator {
 	 *            the objects to listen
 	 * @param listeningHandlersToCreate
 	 *            handlers that listens this Notificator.
+	 * @param repositoryAdapter
+	 *            the repository adapter
 	 */
 	public ElementListNotificator(Set<EObject> listenedObjects,
-			Set<RepositoryObjectHandler> listeningHandlersToCreate) {
+			Set<RepositoryObjectHandler> listeningHandlersToCreate, RepositoryAdapter repositoryAdapter) {
 		this.listenedObjects = listenedObjects;
 		this.listeningHandlers = new LinkedHashSet<RepositoryObjectHandler>();
 		this.elementAdapter = new ElementListAdapter(this);
 
-		initialise(listeningHandlersToCreate);
+		initialize(listeningHandlersToCreate, repositoryAdapter);
 	}
 
 	/**
@@ -80,14 +86,17 @@ public class ElementListNotificator implements Notificator {
 	 *            the objects to listen
 	 * @param listAdapter
 	 *            the adapter to use (must inherit from ElementListAdapter)
+	 * @param repositoryAdapter
+	 *            the repository adapter
 	 */
-	public ElementListNotificator(Set<EObject> listenedObjects, ElementListAdapter listAdapter) {
+	public ElementListNotificator(Set<EObject> listenedObjects, ElementListAdapter listAdapter,
+			RepositoryAdapter repositoryAdapter) {
 		this.listenedObjects = listenedObjects;
 		this.listeningHandlers = new LinkedHashSet<RepositoryObjectHandler>();
 		this.elementAdapter = listAdapter;
 		listAdapter.setNotificator(this);
 
-		initialise(listeningHandlers);
+		initialize(listeningHandlers, repositoryAdapter);
 	}
 
 	/**
@@ -96,13 +105,20 @@ public class ElementListNotificator implements Notificator {
 	 * 
 	 * @param handlersToRegister
 	 *            handlers that listens this Notificator.
+	 * @param repositoryAdapter
+	 *            the repository adapter
 	 */
-	public void initialise(Set<RepositoryObjectHandler> handlersToRegister) {
-
+	public void initialize(Set<RepositoryObjectHandler> handlersToRegister,
+			RepositoryAdapter repositoryAdapter) {
 		// Step 1 : we register the created eAdapter as an adapter of all listened objects
-		for (EObject objectToListen : listenedObjects) {
-			objectToListen.eAdapters().add(elementAdapter);
-		}
+		repositoryAdapter.execute(new IntentCommand() {
+
+			public void execute() {
+				for (EObject objectToListen : listenedObjects) {
+					objectToListen.eAdapters().add(elementAdapter);
+				}
+			}
+		});
 
 		// Step 2 : we add the listening Handlers to the listeningHandlers list.
 		for (RepositoryObjectHandler listeningHandler : handlersToRegister) {
