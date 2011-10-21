@@ -17,6 +17,8 @@ public class RetroPlugin implements BundleActivator {
 
 	public static RetroPlugin INSTANCE;
 
+	public static String ID = "org.eclipse.mylyn.docs.intent.retro";
+
 	public RetroPlugin() {
 		INSTANCE = this;
 	}

@@ -62,8 +62,6 @@ public class GeneratedElementValidator {
 	 */
 	public Diagnostic validate() throws CompilationException {
 
-		EValidator validator = EValidator.Registry.INSTANCE.getEValidator(elementToValidate.eClass()
-				.getEPackage());
 		Map<Object, Object> contextEntries = new HashMap<Object, Object>();
 		contextEntries.put(EValidator.SubstitutionLabelProvider.class, new LabelProviderForValidator());
 		Diagnostic diagnostic = null;

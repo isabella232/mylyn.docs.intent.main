@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.eclipse.mylyn.docs.intent.retro.RetroPackage#getAcceptanceTest()
- * @model
+ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='IsValidAcceptanceTest'"
  * @extends CDOObject
  * @generated
  */

@@ -11,10 +11,12 @@
  */
 package org.eclipse.mylyn.docs.intent.retro.impl;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -32,6 +34,7 @@ import org.eclipse.mylyn.docs.intent.retro.Project;
 import org.eclipse.mylyn.docs.intent.retro.RetroFactory;
 import org.eclipse.mylyn.docs.intent.retro.RetroPackage;
 import org.eclipse.mylyn.docs.intent.retro.UnitTest;
+import org.eclipse.mylyn.docs.intent.retro.util.RetroValidator;
 
 /**
  * <!-- begin-user-doc -->
@@ -185,6 +188,15 @@ public class RetroPackageImpl extends EPackageImpl implements RetroPackage {
 
 		// Initialize created meta-data
 		theRetroPackage.initializePackageContents();
+
+		// Register package validator
+		EValidator.Registry.INSTANCE.put
+			(theRetroPackage, 
+			 new EValidator.Descriptor() {
+				 public EValidator getEValidator() {
+					 return RetroValidator.INSTANCE;
+				 }
+			 });
 
 		// Mark meta-data to indicate it can't be changed
 		theRetroPackage.freeze();
@@ -684,6 +696,29 @@ public class RetroPackageImpl extends EPackageImpl implements RetroPackage {
 
 		// Create resource
 		createResource(eNS_URI);
+
+		// Create annotations
+		// http://www.eclipse.org/emf/2002/Ecore
+		createEcoreAnnotations();
+	}
+
+	/**
+	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void createEcoreAnnotations() {
+		String source = "http://www.eclipse.org/emf/2002/Ecore";		
+		addAnnotation
+		  (acceptanceTestEClass, 
+		   source, 
+		   new String[] {
+			 "constraints", "IsValidAcceptanceTest"
+		   },
+		   new URI[] {
+			 URI.createURI(eNS_URI).appendFragment("//AcceptanceTest")
+		   });
 	}
 
 } //RetroPackageImpl

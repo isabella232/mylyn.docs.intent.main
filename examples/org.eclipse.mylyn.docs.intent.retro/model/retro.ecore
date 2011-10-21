@@ -46,6 +46,9 @@
         eType="#//AcceptanceTest" containment="true" eKeys="#//AcceptanceTest/swtBotClassName"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AcceptanceTest">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore" references="#//AcceptanceTest">
+      <details key="constraints" value="IsValidAcceptanceTest"/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="swtBotClassName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"
         iD="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="isTesting" upperBound="-1"
