@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
+Bundle-Localization: plugin
 Bundle-Name: org.eclipse.mylyn.docs.intent.modelingunit.parser.test
 Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.parser.test
 Bundle-Version: 0.7.0.qualifier
