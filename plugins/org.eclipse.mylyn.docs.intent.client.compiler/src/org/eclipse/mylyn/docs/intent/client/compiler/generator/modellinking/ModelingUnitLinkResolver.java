@@ -170,8 +170,7 @@ public class ModelingUnitLinkResolver {
 			}
 		}
 		if (resolvedClass == null) {
-			throw new ResolveException(instruction, "The Entity " + href
-					+ " cannot be resolved in the packages " + packageURIs);
+			throw new ResolveException(instruction, "The Entity " + href + " cannot be resolved");
 
 		}
 		return resolvedClass;
