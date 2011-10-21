@@ -151,7 +151,7 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 				"Chapter {\n\t${Title}\n\t${Text}\n}\n", "icon/outline/chapter.gif");
 		TemplateProposal sectionProposal = createTemplateProposal("Section", "Section",
 				"Section {\n\t${Title}\n\t${Text}\n}\n", "icon/outline/section.gif");
-		TemplateProposal modelingUnitProposal = createTemplateProposal("Modeling Unit", "Moduling Unit",
+		TemplateProposal modelingUnitProposal = createTemplateProposal("Modeling Unit", "Modeling Unit",
 				"@M\n${Code}\nM@\n", "icon/outline/modelingunit.png");
 
 		List<TemplateProposal> proposals = new ArrayList<TemplateProposal>();
