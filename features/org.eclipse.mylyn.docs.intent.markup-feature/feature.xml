@@ -3,7 +3,7 @@
       id="org.eclipse.mylyn.docs.intent.markup"
       label="Doc generators For Wikitext (Incubation)"
       version="0.7.0.qualifier"
-      provider-name="Eclipse.org">
+      provider-name="%providerName">
 
    <description>
       A set of generators for Wikitext documents (Latex, html...).
