@@ -252,7 +252,7 @@ public final class SynchronizerMessageProvider {
 		if (resourceDeclaration.getUri() != null) {
 			returnedMessage += "Cannot locate Resource at URI : " + resourceDeclaration.getUri().toString();
 		}
-		returnedMessage += ".";
+		returnedMessage += '.';
 		return returnedMessage;
 	}
 
@@ -270,7 +270,24 @@ public final class SynchronizerMessageProvider {
 			returnedMessage += "The Resource at URI : " + resourceDeclaration.getUri().toString()
 					+ " is empty";
 		}
-		returnedMessage += ".";
+		returnedMessage += '.';
+		return returnedMessage;
+	}
+
+	/**
+	 * Creates an error message indicating that the given resourceDeclaration is declared in the document,
+	 * found externally, but is empty.
+	 * 
+	 * @param resourceDeclaration
+	 *            the resourceDeclaration that has been found externally but is empty
+	 * @return an error message
+	 */
+	public static String createMessageForEmptyInternalResource(ResourceDeclaration resourceDeclaration) {
+		String returnedMessage = "";
+		if (resourceDeclaration.getUri() != null) {
+			returnedMessage += "The Resource " + resourceDeclaration.getName() + " is empty";
+		}
+		returnedMessage += '.';
 		return returnedMessage;
 	}
 }

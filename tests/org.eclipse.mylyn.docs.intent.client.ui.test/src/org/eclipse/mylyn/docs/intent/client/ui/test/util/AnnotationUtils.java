@@ -112,9 +112,9 @@ public final class AnnotationUtils {
 	public static void applyAnnotationFix(IntentAnnotation syncAnnotation) throws IOException,
 			InterruptedException {
 		// Step 1 : getting the resources to compare URI
-		String workingCopyResourceURI = syncAnnotation.getAdditionalInformations().iterator().next()
+		String workingCopyResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[1])
 				.replace("\"", "");
-		String generatedResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[1])
+		String generatedResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[2])
 				.replace("\"", "");
 
 		// Step 2 : loading the resources

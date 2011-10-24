@@ -267,11 +267,18 @@ public class IntentSynchronizer {
 		// If no resource was null or if the strategy authorizes the operation to continue
 		if (continueSynchronization) {
 
-			if (externalResource.getContents().isEmpty()) {
+			if (externalResource.getContents().isEmpty() && !internalResource.getContents().isEmpty()) {
 				Collection<? extends CompilationStatus> statusForEmptyExternalresource = synchronizerStrategy
 						.getStatusForEmptyExternalResource(indexEntry.getResourceDeclaration(),
 								indexEntry.getGeneratedResourcePath());
 				statusList.addAll(statusForEmptyExternalresource);
+				updateSynchronizedElementsListeners(getResourceDeclarationURI(indexEntry
+						.getResourceDeclaration()));
+			} else if (internalResource.getContents().isEmpty() && !externalResource.getContents().isEmpty()) {
+				Collection<? extends CompilationStatus> statusForEmptyInternalResource = synchronizerStrategy
+						.getStatusForEmptyInternalResource(indexEntry.getResourceDeclaration(),
+								indexEntry.getGeneratedResourcePath());
+				statusList.addAll(statusForEmptyInternalResource);
 				updateSynchronizedElementsListeners(getResourceDeclarationURI(indexEntry
 						.getResourceDeclaration()));
 			} else {

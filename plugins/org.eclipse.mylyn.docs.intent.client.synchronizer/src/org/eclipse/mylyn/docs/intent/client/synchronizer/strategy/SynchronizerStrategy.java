@@ -106,9 +106,7 @@ public interface SynchronizerStrategy {
 			ResourceDeclaration resourceDeclaration, String resourcePath);
 
 	/**
-	 * Returns a Synchronization status that indicates that the external Resource is empty. Will be called if
-	 * {@link SynchronizerStrategy#handleNullExternalResource(ResourceDeclaration, Resource, String)} returns
-	 * null.
+	 * Returns a Synchronization status that indicates that the external Resource is empty.
 	 * 
 	 * @param resourceDeclaration
 	 *            the resource declaration than references an external Resource that cannot be found
@@ -118,5 +116,18 @@ public interface SynchronizerStrategy {
 	 *         null)
 	 */
 	Collection<? extends CompilationStatus> getStatusForEmptyExternalResource(
+			ResourceDeclaration resourceDeclaration, String resourcePath);
+
+	/**
+	 * Returns a Synchronization status that indicates that the internal Resource is empty.
+	 * 
+	 * @param resourceDeclaration
+	 *            the resource declaration than references an external Resource that cannot be found
+	 * @param resourcePath
+	 *            the compiled resource path
+	 * @return a Synchronization status that indicates that the external Resource cannot be found (can return
+	 *         null)
+	 */
+	Collection<? extends CompilationStatus> getStatusForEmptyInternalResource(
 			ResourceDeclaration resourceDeclaration, String resourcePath);
 }

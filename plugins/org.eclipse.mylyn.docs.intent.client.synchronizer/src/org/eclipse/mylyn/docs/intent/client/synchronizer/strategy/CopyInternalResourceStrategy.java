@@ -156,4 +156,24 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 				.createMessageForEmptyExternalResource(resourceDeclaration));
 		return Lists.newArrayList(status);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#getStatusForEmptyInternalResource(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration,
+	 *      java.lang.String)
+	 */
+	public Collection<? extends CompilationStatus> getStatusForEmptyInternalResource(
+			ResourceDeclaration resourceDeclaration, String resourcePath) {
+		SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
+				.createSynchronizerCompilationStatus();
+		status.setCompiledResourceURI(resourcePath);
+		status.setWorkingCopyResourceURI(resourceDeclaration.getUri().toString());
+		status.setSeverity(CompilationStatusSeverity.WARNING);
+		status.setTarget(resourceDeclaration);
+		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
+		status.setMessage(SynchronizerMessageProvider
+				.createMessageForEmptyInternalResource(resourceDeclaration));
+		return Lists.newArrayList(status);
+	}
 }
