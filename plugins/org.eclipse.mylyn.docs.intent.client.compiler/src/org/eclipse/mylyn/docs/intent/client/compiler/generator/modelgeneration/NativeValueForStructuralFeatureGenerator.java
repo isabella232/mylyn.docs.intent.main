@@ -12,6 +12,7 @@
 package org.eclipse.mylyn.docs.intent.client.compiler.generator.modelgeneration;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.InvalidValueException;
 import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.ModelingUnitLinkResolver;
@@ -103,8 +104,8 @@ public final class NativeValueForStructuralFeatureGenerator {
 			valueInstruction.getCompilationStatus().add(status);
 		}
 
-		// Specific case of an EEnum value
 		if (generatedValue == null) {
+			// Specific case of an EEnum value
 			// We first resolve the EEnum
 			EClassifier type = linkResolver
 					.resolveEClassifierUsingPackageRegistry(valueInstruction, typeName);
@@ -113,6 +114,17 @@ public final class NativeValueForStructuralFeatureGenerator {
 				// Then we call the specific methods of this EEnum to get the correct literal.
 				generatedValue = typeAsEnum
 						.getEEnumLiteralByLiteral(removeQuotes(valueInstruction.getValue()));
+			} else if (type instanceof EDataType) {
+				EDataType typeAsDataType = (EDataType)type;
+				if (typeAsDataType.getInstanceClass().equals(Integer.class)) {
+					generatedValue = generateEInt(valueInstruction.getValue());
+				}
+				if (typeAsDataType.getInstanceClass().equals(String.class)) {
+					generatedValue = generateEString(valueInstruction.getValue());
+				}
+				if (typeAsDataType.getInstanceClass().equals(Boolean.class)) {
+					generatedValue = generateEBoolean(valueInstruction.getValue());
+				}
 			}
 		}
 		return generatedValue;
