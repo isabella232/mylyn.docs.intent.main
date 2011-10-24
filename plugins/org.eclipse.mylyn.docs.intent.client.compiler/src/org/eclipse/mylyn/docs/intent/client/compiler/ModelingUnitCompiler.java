@@ -198,6 +198,9 @@ public class ModelingUnitCompiler {
 		// For each declared resource
 		List<ResourceDeclaration> resourcesDeclarations = modelingUnitGenerator.getResourceDeclarations();
 		for (ResourceDeclaration resource : resourcesDeclarations) {
+			if (resource.getContent().isEmpty()) {
+				informationHolder.addResource(resource);
+			}
 			// For each reference to a generated Object
 			for (ModelingUnitInstructionReference newContainedElementRefrence : resource.getContent()) {
 				// We resolve this reference

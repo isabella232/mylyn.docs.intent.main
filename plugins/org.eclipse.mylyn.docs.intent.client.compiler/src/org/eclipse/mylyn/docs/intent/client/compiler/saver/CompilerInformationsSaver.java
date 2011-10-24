@@ -235,8 +235,10 @@ public class CompilerInformationsSaver {
 			entry.setResourceDeclaration(resourceDeclaration);
 
 			// For each entry, we define a mapping between contained elements and instructions
-			entry.getContainedElementToInstructions().putAll(
-					resourceToTraceabilityElementIndexEntry.get(resourceDeclaration));
+			if (resourceToTraceabilityElementIndexEntry.get(resourceDeclaration) != null) {
+				entry.getContainedElementToInstructions().putAll(
+						resourceToTraceabilityElementIndexEntry.get(resourceDeclaration));
+			}
 			newTraceabilityEntries.add(entry);
 		}
 		traceIndex.getEntries().clear();

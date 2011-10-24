@@ -215,7 +215,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 			for (Resource resource : resources) {
 
 				// We only save the resource if it has been modified
-				if (resource.isModified()) {
+				if (resource.isModified() || resource.getContents().isEmpty()) {
 					try {
 
 						// We make sure the session isn't still reacting to previous saves

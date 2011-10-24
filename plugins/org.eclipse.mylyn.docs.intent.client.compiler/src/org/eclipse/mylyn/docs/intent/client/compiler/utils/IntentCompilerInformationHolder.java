@@ -149,6 +149,18 @@ public final class IntentCompilerInformationHolder {
 	}
 
 	/**
+	 * Add the given resource (which is empty) to the map.
+	 * 
+	 * @param resource
+	 *            the resource to map with the given element
+	 */
+	public void addResource(ResourceDeclaration resource) {
+		if (this.informationHolder.getResourceToContainedElements().get(resource) == null) {
+			this.informationHolder.getResourceToContainedElements().put(resource, new BasicEList<EObject>());
+		}
+	}
+
+	/**
 	 * Add the given generated element to the given resource's content list.
 	 * 
 	 * @param resource
