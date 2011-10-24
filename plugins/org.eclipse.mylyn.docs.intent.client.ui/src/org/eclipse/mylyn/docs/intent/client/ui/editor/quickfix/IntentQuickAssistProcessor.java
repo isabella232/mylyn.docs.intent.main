@@ -85,21 +85,15 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 				if (isAtPosition(offset, pos)) {
 					ICompletionProposal[] proposals = new ICompletionProposal[1];
 
-					switch (((IntentAnnotation)annotation).getAdditionalInformations().toArray().length) {
-						case 2:
-							proposals[0] = new EMFCompareFix(annotation);
-							break;
-						case 3:
-							String type = ((IntentAnnotation)annotation).getAdditionalInformations()
-									.toArray()[2].toString();
-							if ("EMPTY_RESOURCE".equals(type)) {
-								proposals[0] = new MergeEmptyResourceFix(annotation);
-							} else if ("NULL_RESOURCE".equals(type)) {
-								proposals[0] = new CreateResourceFix(annotation);
-							}
-							break;
-						default:
-							break;
+					String annotationTag = (String)((IntentAnnotation)annotation).getAdditionalInformations()
+							.toArray()[0];
+
+					if (IntentAnnotationFactory.EMPTY_DOCUMENT_RESOURCE_TAG.equals(annotationTag)) {
+						proposals[0] = new ClearResourceFix(annotation);
+					} else if (IntentAnnotationFactory.EMPTY_WORKING_COPY_RESOURCE_TAG.equals(annotationTag)) {
+						proposals[0] = new MergeEmptyResourceFix(annotation);
+					} else if (IntentAnnotationFactory.NULL_RESOURCE_TAG.equals(annotationTag)) {
+						proposals[0] = new CreateResourceFix(annotation);
 					}
 
 					return proposals;

@@ -16,7 +16,6 @@ import java.io.IOException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContextInformation;
@@ -28,12 +27,11 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 /**
- * {@link ICompletionProposal} used to fix a Synchronization issue by opening the compare Editor.
+ * {@link ICompletionProposal} used to fix a Synchronization issue by clearing the compiled resource.
  * 
- * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class CreateResourceFix implements ICompletionProposal {
+public class ClearResourceFix implements ICompletionProposal {
 
 	private IntentAnnotation syncAnnotation;
 
@@ -43,7 +41,7 @@ public class CreateResourceFix implements ICompletionProposal {
 	 * @param annotation
 	 *            the {@link IntentAnnotation} describing the synchronization issue.
 	 */
-	public CreateResourceFix(Annotation annotation) {
+	public ClearResourceFix(Annotation annotation) {
 		this.syncAnnotation = (IntentAnnotation)annotation;
 	}
 
@@ -54,27 +52,20 @@ public class CreateResourceFix implements ICompletionProposal {
 	 */
 	public void apply(IDocument document) {
 		// Step 1 : getting the resources to compare URI
-		String workingCopyResourceURI = getWorkingCopyResourceURI();
-		String generatedResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[2])
+		String workingCopyResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[1])
 				.replace("\"", "");
 
 		// Step 2 : loading the resources
 		ResourceSetImpl rs = new ResourceSetImpl();
-		Resource generatedResource = rs.getResource(URI.createURI(generatedResourceURI), true);
-		Resource workingCopyResource = rs.createResource(URI.createURI(workingCopyResourceURI));
+		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
 
-		// Step 3 : Copy the content
-		workingCopyResource.getContents().addAll(EcoreUtil.copyAll(generatedResource.getContents()));
+		workingCopyResource.getContents().clear();
 
 		try {
 			workingCopyResource.save(null);
 		} catch (IOException e) {
 			IntentUiLogger.logError(e);
 		}
-	}
-
-	private String getWorkingCopyResourceURI() {
-		return ((String)syncAnnotation.getAdditionalInformations().toArray()[1]).replace("\"", "");
 	}
 
 	/**
@@ -101,8 +92,7 @@ public class CreateResourceFix implements ICompletionProposal {
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
 	 */
 	public String getDisplayString() {
-		return "Create the " + getWorkingCopyResourceURI()
-				+ " resource, initialized with working copy content";
+		return "Clear the working copy content, according to the document";
 	}
 
 	/**

@@ -27,6 +27,26 @@ import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus
 public final class IntentAnnotationFactory {
 
 	/**
+	 * Annotation tag that symbolizes that the working copy resource is empty.
+	 */
+	public static final String EMPTY_WORKING_COPY_RESOURCE_TAG = "EMPTY_WORKING_COPY_RESOURCE";
+
+	/**
+	 * Annotation tag that symbolizes that the doument resource is empty.
+	 */
+	public static final String EMPTY_DOCUMENT_RESOURCE_TAG = "EMPTY_DOCUMENT_RESOURCE";
+
+	/**
+	 * Annotation tag that symbolizes that the working copy resource is null.
+	 */
+	public static final String NULL_RESOURCE_TAG = "NULL_RESOURCE";
+
+	/**
+	 * Annotation tag that symbolizes that the working copy resource and the document resource are different.
+	 */
+	public static final String DIFF_RESOURCE_TAG = "DIFF_RESOURCE";
+
+	/**
 	 * String that symbolizes the type of a compiler error.
 	 */
 	public static final String INTENT_ANNOT_COMPILER_ERROR = "org.eclipse.mylyn.docs.intent.client.ui.annotation.compiler.error";
@@ -84,16 +104,24 @@ public final class IntentAnnotationFactory {
 					annotation.setType(INTENT_ANNOT_SYNC_WARNING);
 					SynchronizerCompilationStatus syncStatus = (SynchronizerCompilationStatus)compilationStatus;
 					Set<String> additionalInformations = new LinkedHashSet<String>();
+
+					// Annotation type computation: quick fix helper
+					// FIXME improve strategy...
+					if (syncStatus.getMessage().endsWith("is empty.")) {
+						if (syncStatus.getCompiledResourceURI() == null) {
+							additionalInformations.add(EMPTY_DOCUMENT_RESOURCE_TAG);
+						} else {
+							additionalInformations.add(EMPTY_WORKING_COPY_RESOURCE_TAG);
+						}
+					} else if (syncStatus.getMessage().startsWith("Cannot locate Resource")) {
+						additionalInformations.add(NULL_RESOURCE_TAG);
+					} else {
+						additionalInformations.add(DIFF_RESOURCE_TAG);
+					}
+
 					additionalInformations.add(syncStatus.getWorkingCopyResourceURI());
 					if (targetURI != null) {
 						additionalInformations.add(targetURI.toString());
-					}
-
-					// FIXME improve strategy...
-					if (syncStatus.getMessage().endsWith("is empty.")) {
-						additionalInformations.add("EMPTY_RESOURCE");
-					} else if (syncStatus.getMessage().startsWith("Cannot locate Resource")) {
-						additionalInformations.add("NULL_RESOURCE");
 					}
 
 					annotation.setAdditionalInformations(additionalInformations);
