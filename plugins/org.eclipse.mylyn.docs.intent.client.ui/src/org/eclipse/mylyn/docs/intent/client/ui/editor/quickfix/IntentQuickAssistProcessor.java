@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -83,20 +84,23 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 			if (canFix(annotation)) {
 				Position pos = model.getPosition(annotation);
 				if (isAtPosition(offset, pos)) {
-					ICompletionProposal[] proposals = new ICompletionProposal[1];
+
+					List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
 
 					String annotationTag = (String)((IntentAnnotation)annotation).getAdditionalInformations()
 							.toArray()[0];
 
 					if (IntentAnnotationFactory.EMPTY_DOCUMENT_RESOURCE_TAG.equals(annotationTag)) {
-						proposals[0] = new ClearResourceFix(annotation);
+						proposals.add(new ClearResourceFix(annotation));
 					} else if (IntentAnnotationFactory.EMPTY_WORKING_COPY_RESOURCE_TAG.equals(annotationTag)) {
-						proposals[0] = new MergeEmptyResourceFix(annotation);
+						proposals.add(new MergeEmptyResourceFix(annotation));
 					} else if (IntentAnnotationFactory.NULL_RESOURCE_TAG.equals(annotationTag)) {
-						proposals[0] = new CreateResourceFix(annotation);
+						proposals.add(new CreateResourceFix(annotation));
+					} else {
+						proposals.add(new EMFCompareFix(annotation));
 					}
 
-					return proposals;
+					return proposals.toArray(new ICompletionProposal[proposals.size()]);
 				}
 			}
 		}
