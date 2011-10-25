@@ -39,7 +39,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	/**
 	 * The ast of this document (recreated for each save on this document).
 	 */
-	private EObject lastSavedAst;
+	private EObject ast;
 
 	/**
 	 * The serializer used to serialized the given Intent elements.
@@ -78,7 +78,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 		super();
 		serializer = new IntentSerializer(MODELING_PREFIX_DECORATION, MODELING_SUFFIX_DECORATION);
 		this.associatedEditor = editor;
-		this.lastSavedAst = root;
+		this.ast = root;
 		setTextStore(new CopyOnWriteTextStore(new GapTextStore()));
 		setLineTracker(new DefaultLineTracker());
 		super.completeInitialization();
@@ -101,7 +101,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * @return the ast of this document (recreated for each save on this document)
 	 */
 	public Object getAST() {
-		return this.lastSavedAst;
+		return this.ast;
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 *            the ast to use
 	 */
 	public void setAST(EObject newAST) {
-		this.lastSavedAst = newAST;
+		this.ast = newAST;
 	}
 
 	/**
@@ -141,22 +141,18 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 
 	/**
 	 * Sets the new value of the ast and refresh the document.
-	 * 
-	 * @param newAST
-	 *            the new value of the ast
 	 */
-	public void reloadFromAST(final EObject newAST) {
+	public void reloadFromAST() {
 		Display.getDefault().syncExec(new Runnable() {
 
 			public void run() {
 				if (associatedEditor.getSelectionProvider() != null) {
 					ISelection selection = associatedEditor.getSelectionProvider().getSelection();
 					try {
-						String serializedForm = serializer.serialize(newAST);
+						String serializedForm = serializer.serialize(ast);
 						if (!get().equals(serializedForm)) {
 							replace(0, getLength(), serializedForm);
 						}
-						setAST(newAST);
 					} catch (BadLocationException e) {
 						IntentUiLogger.logError("Error encountered while refreshing the document ", e);
 					}

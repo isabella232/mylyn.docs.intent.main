@@ -56,6 +56,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
@@ -306,29 +307,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	}
 
 	/**
-	 * Parse the given document and return the parsed AST ; if the value of setAST is true, sets this AST to
-	 * the document.
-	 * 
-	 * @param document
-	 *            the document to parse
-	 * @param setAST
-	 *            true if the parsed AST should be associated to the document
-	 * @return the parsed AST
-	 * @throws ParseException
-	 *             if the document contains syntax errors.
-	 */
-	private EObject reparseDocument(IntentEditorDocument document, boolean setAST) throws ParseException {
-		EObject localAST = null;
-		// We first parse the current text to obtain the ast.
-		localAST = new IntentParser().parse(document.get());
-
-		if (setAST) {
-			document.reloadFromAST(localAST);
-		}
-		return localAST;
-	}
-
-	/**
 	 * Refreshes the outline View.
 	 * 
 	 * @param newAST
@@ -351,7 +329,9 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			final EObject localAST;
 			try {
 				this.removeSyntaxErrors();
-				localAST = reparseDocument((IntentEditorDocument)document, false);
+
+				localAST = new IntentParser().parse(document.get());
+
 				this.associatedEditor.refreshTitle(localAST);
 				final RepositoryAdapter repositoryAdapter = this.listenedElementsHandler
 						.getRepositoryAdapter();
@@ -360,7 +340,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 					public void execute() {
 						repositoryAdapter.openSaveContext();
 						try {
-							merge(document, localAST);
+							merge((IntentEditorDocument)document, localAST);
 							repositoryAdapter.save();
 						} catch (ReadOnlyException e) {
 							IntentUiLogger.logError(e);
@@ -372,10 +352,11 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 
 				});
 				repositoryAdapter.closeContext();
+
+				((IntentEditorDocument)document).reloadFromAST();
 			} catch (ParseException e) {
 				this.createSyntaxErrorAnnotation(e.getMessage(), e.getErrorOffset(), e.getErrorLength());
 			}
-
 		}
 	}
 
@@ -387,13 +368,12 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 * @param localAST
 	 *            the AST
 	 */
-	private void merge(final IDocument document, final EObject localAST) {
+	private void merge(final IntentEditorDocument document, final EObject localAST) {
 		// Then we try to merge the parsed AST with the old one
 		final IntentASTMerger merger = new IntentASTMerger();
 		boolean mustUndo = false;
 		try {
-			final EObject remoteAST = (EObject)((IntentEditorDocument)document).getAST();
-
+			final EObject remoteAST = (EObject)document.getAST();
 			try {
 				if (localAST != null && remoteAST != null && localAST.eClass().equals(remoteAST.eClass())) {
 					merger.mergeFromLocalToRepository(localAST, remoteAST);
@@ -408,7 +388,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			}
 
 			// We update the mapping between elements and documents
-			addAllContentAsIntentElement(documentRoot, (IntentEditorDocument)document);
+			addAllContentAsIntentElement(documentRoot, document);
 
 		} catch (NullPointerException npe) { // FIXME catch NPE ??
 			mustUndo = true;
@@ -674,21 +654,25 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	}
 
 	private void handleContentHasChanged(EObject modifiedObject, Object modifiedObjectIdentifier) {
-		if (listenedElementsHandler.getRepositoryAdapter().getIDFromElement(documentRoot)
-				.equals(modifiedObjectIdentifier)) {
-			documentRoot = modifiedObject;
+		if (modifiedObject instanceof IntentStructuredElement) {
+			if (listenedElementsHandler.getRepositoryAdapter().getIDFromElement(documentRoot)
+					.equals(modifiedObjectIdentifier)) {
+				documentRoot = modifiedObject;
+			}
+			for (final IntentEditorDocument relatedDocument : elementsToDocuments
+					.get(modifiedObjectIdentifier)) {
+
+				relatedDocument.setAST(documentRoot);
+				relatedDocument.reloadFromAST();
+
+				// We update the mapping between elements and documents
+				addAllContentAsIntentElement(documentRoot, relatedDocument);
+			}
+			// In any case, we launch the syntax coloring
+			partitioner.computePartitioning(0, 1);
+
+			// Finally, we refresh the outline
+			refreshOutline(documentRoot);
 		}
-		for (final IntentEditorDocument relatedDocument : elementsToDocuments.get(modifiedObjectIdentifier)) {
-
-			relatedDocument.reloadFromAST(documentRoot);
-
-			// We update the mapping between elements and documents
-			addAllContentAsIntentElement(documentRoot, relatedDocument);
-		}
-		// In any case, we launch the syntax coloring
-		partitioner.computePartitioning(0, 1);
-
-		// Finally, we refresh the outline
-		refreshOutline(documentRoot);
 	}
 }
