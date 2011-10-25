@@ -72,10 +72,13 @@ public class RetroGeneratedElementListener extends AbstractGeneratedElementListe
 	 */
 	public void addListenedElements(SynchronizerRepositoryClient synchronizer, Set<URI> listenedElementsURIs) {
 		for (URI uri : listenedElementsURIs) {
-			if (!(uriToSynchronizers.containsKey(uri))) {
-				uriToSynchronizers.put(uri, Sets.<SynchronizerRepositoryClient> newLinkedHashSet());
+			// We only get the project uri
+			String projectName = ProtocolFactory.extractProjectName(uri);
+			URI simplifiedURI = URI.createURI("retro:/" + projectName);
+			if (!(uriToSynchronizers.containsKey(simplifiedURI))) {
+				uriToSynchronizers.put(simplifiedURI, Sets.<SynchronizerRepositoryClient> newLinkedHashSet());
 			}
-			uriToSynchronizers.get(uri).add(synchronizer);
+			uriToSynchronizers.get(simplifiedURI).add(synchronizer);
 		}
 	}
 
@@ -88,7 +91,10 @@ public class RetroGeneratedElementListener extends AbstractGeneratedElementListe
 	public void removeListenedElements(SynchronizerRepositoryClient synchronizer,
 			Set<URI> listenedElementsURIs) {
 		for (URI uri : listenedElementsURIs) {
-			uriToSynchronizers.remove(uri);
+			// We only get the project uri
+			String projectName = ProtocolFactory.extractProjectName(uri);
+			URI simplifiedURI = URI.createURI("retro:/" + projectName);
+			uriToSynchronizers.remove(simplifiedURI);
 		}
 	}
 
@@ -163,6 +169,8 @@ public class RetroGeneratedElementListener extends AbstractGeneratedElementListe
 			Set<SynchronizerRepositoryClient> listeningSynchronizers = uriToSynchronizers.get(uri);
 			if (listeningSynchronizers != null) {
 				synchronizersToNotify.addAll(listeningSynchronizers);
+			} else {
+				System.err.println("arg");
 			}
 		}
 		for (SynchronizerRepositoryClient listeningSynchronizer : synchronizersToNotify) {

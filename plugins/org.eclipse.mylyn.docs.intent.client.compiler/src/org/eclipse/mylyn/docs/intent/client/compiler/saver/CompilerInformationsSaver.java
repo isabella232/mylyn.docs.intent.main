@@ -280,6 +280,8 @@ public class CompilerInformationsSaver {
 				resourcePath = resourcePath.substring(resourcePath.lastIndexOf('/') + 1);
 			}
 		}
+		// Removing invalid characters
+		resourcePath = resourcePath.replace("*", "").replace("?", "");
 		resourcePath = IntentLocations.GENERATED_RESOURCES_FOLDER_PATH + resourcePath;
 		return resourcePath;
 	}

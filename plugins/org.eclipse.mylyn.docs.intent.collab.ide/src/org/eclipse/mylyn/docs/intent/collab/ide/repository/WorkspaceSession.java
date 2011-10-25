@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.collab.ide.repository;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -287,9 +288,9 @@ public class WorkspaceSession implements IResourceChangeListener {
 		}
 
 		// Step 2 : notifying element listeners
-		for (EObject root : resource.getContents()) {
-			for (ElementListAdapter elementListAdapter : Iterables.filter(root.eAdapters(),
-					ElementListAdapter.class)) {
+		for (EObject root : Sets.newLinkedHashSet(resource.getContents())) {
+			for (ElementListAdapter elementListAdapter : Sets.newLinkedHashSet(Iterables.filter(
+					root.eAdapters(), ElementListAdapter.class))) {
 				elementListAdapter.notifyChangesOnElement(root);
 			}
 		}

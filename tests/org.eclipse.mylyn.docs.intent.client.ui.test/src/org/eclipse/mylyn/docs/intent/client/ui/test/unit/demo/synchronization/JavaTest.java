@@ -133,7 +133,8 @@ public class JavaTest extends AbstractDemoTest {
 
 		repositoryListener.startRecording();
 		editor72.doSave(new NullProgressMonitor());
-		waitForCompiler();
+		editor72.close(false);
+		waitForSynchronizer();
 
 		// Step 6.3 : check 7.1
 		assertFalse(TEST_SYNCHRONIZER_INVALID_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor71,
@@ -142,6 +143,7 @@ public class JavaTest extends AbstractDemoTest {
 		// Step 7 : fix error in 3.7
 		document37.set(getFileContent(SECTION_37_V3_FILENAME));
 		editor37.doSave(new NullProgressMonitor());
+		editor37.close(false);
 		assertFalse(TEST_COMPILER_INVALID_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor37,
 				IntentAnnotationMessageType.COMPILER_INFO,
 				"-The required feature 'isTestedBy' of 'patchingDifferences' must be set", true));
