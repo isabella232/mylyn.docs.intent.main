@@ -777,13 +777,31 @@ public interface CompilerPackage extends EPackage {
 	int SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI = COMPILATION_STATUS_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Working Copy Resource State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE = COMPILATION_STATUS_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Resource State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_STATE = COMPILATION_STATUS_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Synchronizer Compilation Status</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT = COMPILATION_STATUS_FEATURE_COUNT + 2;
+	int SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT = COMPILATION_STATUS_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}' enum.
@@ -802,6 +820,16 @@ public interface CompilerPackage extends EPackage {
 	 * @generated
 	 */
 	int COMPILATION_MESSAGE_TYPE = 18;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState <em>Synchronizer Resource State</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getSynchronizerResourceState()
+	 * @generated
+	 */
+	int SYNCHRONIZER_RESOURCE_STATE = 19;
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To EObject</em>}'. <!--
@@ -1432,6 +1460,28 @@ public interface CompilerPackage extends EPackage {
 	EAttribute getSynchronizerCompilationStatus_CompiledResourceURI();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceState <em>Working Copy Resource State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Working Copy Resource State</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceState()
+	 * @see #getSynchronizerCompilationStatus()
+	 * @generated
+	 */
+	EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceState();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledResourceState <em>Compiled Resource State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Compiled Resource State</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledResourceState()
+	 * @see #getSynchronizerCompilationStatus()
+	 * @generated
+	 */
+	EAttribute getSynchronizerCompilationStatus_CompiledResourceState();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for enum '<em>Compilation Status Severity</em>'.
@@ -1448,6 +1498,16 @@ public interface CompilerPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getCompilationMessageType();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState <em>Synchronizer Resource State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Synchronizer Resource State</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState
+	 * @generated
+	 */
+	EEnum getSynchronizerResourceState();
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!-- end-user-doc
@@ -2003,6 +2063,24 @@ public interface CompilerPackage extends EPackage {
 				.getSynchronizerCompilationStatus_CompiledResourceURI();
 
 		/**
+		 * The meta object literal for the '<em><b>Working Copy Resource State</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE = eINSTANCE
+				.getSynchronizerCompilationStatus_WorkingCopyResourceState();
+
+		/**
+		 * The meta object literal for the '<em><b>Compiled Resource State</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_STATE = eINSTANCE
+				.getSynchronizerCompilationStatus_CompiledResourceState();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}' enum.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity
@@ -2019,6 +2097,16 @@ public interface CompilerPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum COMPILATION_MESSAGE_TYPE = eINSTANCE.getCompilationMessageType();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState <em>Synchronizer Resource State</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getSynchronizerResourceState()
+		 * @generated
+		 */
+		EEnum SYNCHRONIZER_RESOURCE_STATE = eINSTANCE.getSynchronizerResourceState();
 
 	}
 

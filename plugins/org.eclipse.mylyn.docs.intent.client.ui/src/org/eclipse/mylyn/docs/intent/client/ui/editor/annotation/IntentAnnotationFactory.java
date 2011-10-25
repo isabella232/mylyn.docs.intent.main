@@ -18,6 +18,7 @@ import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
 
 /**
  * Factory for creating Annotations used in the text editor.
@@ -106,14 +107,13 @@ public final class IntentAnnotationFactory {
 					Set<String> additionalInformations = new LinkedHashSet<String>();
 
 					// Annotation type computation: quick fix helper
-					// FIXME improve strategy...
-					if (syncStatus.getMessage().endsWith("is empty.")) {
-						if (syncStatus.getCompiledResourceURI() == null) {
-							additionalInformations.add(EMPTY_DOCUMENT_RESOURCE_TAG);
-						} else {
-							additionalInformations.add(EMPTY_WORKING_COPY_RESOURCE_TAG);
-						}
-					} else if (syncStatus.getMessage().startsWith("Cannot locate Resource")) {
+					if (SynchronizerResourceState.EMPTY.equals(syncStatus.getCompiledResourceState())) {
+						additionalInformations.add(EMPTY_DOCUMENT_RESOURCE_TAG);
+					} else if (SynchronizerResourceState.EMPTY.equals(syncStatus
+							.getWorkingCopyResourceState())) {
+						additionalInformations.add(EMPTY_WORKING_COPY_RESOURCE_TAG);
+					} else if (SynchronizerResourceState.NULL
+							.equals(syncStatus.getWorkingCopyResourceState())) {
 						additionalInformations.add(NULL_RESOURCE_TAG);
 					} else {
 						additionalInformations.add(DIFF_RESOURCE_TAG);

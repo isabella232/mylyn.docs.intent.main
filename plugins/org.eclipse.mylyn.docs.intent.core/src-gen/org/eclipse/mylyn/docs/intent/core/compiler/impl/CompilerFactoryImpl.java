@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.mylyn.docs.intent.core.compiler.*;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
@@ -29,6 +28,8 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
@@ -128,6 +129,8 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 				return createCompilationStatusSeverityFromString(eDataType, initialValue);
 			case CompilerPackage.COMPILATION_MESSAGE_TYPE:
 				return createCompilationMessageTypeFromString(eDataType, initialValue);
+			case CompilerPackage.SYNCHRONIZER_RESOURCE_STATE:
+				return createSynchronizerResourceStateFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName()
 						+ "' is not a valid classifier");
@@ -145,6 +148,8 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 				return convertCompilationStatusSeverityToString(eDataType, instanceValue);
 			case CompilerPackage.COMPILATION_MESSAGE_TYPE:
 				return convertCompilationMessageTypeToString(eDataType, instanceValue);
+			case CompilerPackage.SYNCHRONIZER_RESOURCE_STATE:
+				return convertSynchronizerResourceStateToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName()
 						+ "' is not a valid classifier");
@@ -347,6 +352,29 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 	 * @generated
 	 */
 	public String convertCompilationMessageTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SynchronizerResourceState createSynchronizerResourceStateFromString(EDataType eDataType,
+			String initialValue) {
+		SynchronizerResourceState result = SynchronizerResourceState.get(initialValue);
+		if (result == null)
+			throw new IllegalArgumentException("The value '" + initialValue
+					+ "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertSynchronizerResourceStateToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 

@@ -126,5 +126,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyResourceURI"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="compiledResourceURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyResourceState"
+        eType="#//SynchronizerResourceState"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compiledResourceState"
+        eType="#//SynchronizerResourceState" defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SynchronizerResourceState">
+    <eLiterals name="DEFAULT" literal="DEFAULT"/>
+    <eLiterals name="NULL" value="1" literal="NULL"/>
+    <eLiterals name="EMPTY" value="2" literal="EMPTY"/>
   </eClassifiers>
 </ecore:EPackage>

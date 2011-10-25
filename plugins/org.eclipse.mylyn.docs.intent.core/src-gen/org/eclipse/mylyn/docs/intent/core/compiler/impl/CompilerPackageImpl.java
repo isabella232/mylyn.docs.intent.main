@@ -27,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
@@ -160,6 +161,13 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	 * @generated
 	 */
 	private EEnum compilationMessageTypeEEnum = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum synchronizerResourceStateEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -730,6 +738,24 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceState() {
+		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSynchronizerCompilationStatus_CompiledResourceState() {
+		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -743,6 +769,15 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	 */
 	public EEnum getCompilationMessageType() {
 		return compilationMessageTypeEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getSynchronizerResourceState() {
+		return synchronizerResourceStateEEnum;
 	}
 
 	/**
@@ -865,10 +900,15 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 				SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI);
 		createEAttribute(synchronizerCompilationStatusEClass,
 				SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI);
+		createEAttribute(synchronizerCompilationStatusEClass,
+				SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE);
+		createEAttribute(synchronizerCompilationStatusEClass,
+				SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_STATE);
 
 		// Create enums
 		compilationStatusSeverityEEnum = createEEnum(COMPILATION_STATUS_SEVERITY);
 		compilationMessageTypeEEnum = createEEnum(COMPILATION_MESSAGE_TYPE);
+		synchronizerResourceStateEEnum = createEEnum(SYNCHRONIZER_RESOURCE_STATE);
 	}
 
 	/**
@@ -1111,6 +1151,14 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		initEAttribute(getSynchronizerCompilationStatus_CompiledResourceURI(), ecorePackage.getEString(),
 				"compiledResourceURI", null, 0, 1, SynchronizerCompilationStatus.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSynchronizerCompilationStatus_WorkingCopyResourceState(),
+				this.getSynchronizerResourceState(), "workingCopyResourceState", null, 0, 1,
+				SynchronizerCompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSynchronizerCompilationStatus_CompiledResourceState(),
+				this.getSynchronizerResourceState(), "compiledResourceState", "", 0, 1,
+				SynchronizerCompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compilationStatusSeverityEEnum, CompilationStatusSeverity.class,
@@ -1129,6 +1177,12 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.INVALID_VALUE_ERROR);
 		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.GENERAL_WARNING);
 		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.SYNCHRONIZER_WARNING);
+
+		initEEnum(synchronizerResourceStateEEnum, SynchronizerResourceState.class,
+				"SynchronizerResourceState");
+		addEEnumLiteral(synchronizerResourceStateEEnum, SynchronizerResourceState.DEFAULT);
+		addEEnumLiteral(synchronizerResourceStateEEnum, SynchronizerResourceState.NULL);
+		addEEnumLiteral(synchronizerResourceStateEEnum, SynchronizerResourceState.EMPTY);
 
 		// Create resource
 		createResource(eNS_URI);

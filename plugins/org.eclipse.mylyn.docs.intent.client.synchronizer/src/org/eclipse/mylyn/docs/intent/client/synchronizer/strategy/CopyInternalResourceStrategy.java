@@ -30,6 +30,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 
 /**
@@ -122,6 +123,7 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
 		status.setMessage(SynchronizerMessageProvider
 				.createMessageForNullExternalResource(resourceDeclaration));
+		status.setWorkingCopyResourceState(SynchronizerResourceState.NULL);
 		return Lists.newArrayList(status);
 	}
 
@@ -154,6 +156,7 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
 		status.setMessage(SynchronizerMessageProvider
 				.createMessageForEmptyExternalResource(resourceDeclaration));
+		status.setWorkingCopyResourceState(SynchronizerResourceState.EMPTY);
 		return Lists.newArrayList(status);
 	}
 
@@ -174,6 +177,7 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
 		status.setMessage(SynchronizerMessageProvider
 				.createMessageForEmptyInternalResource(resourceDeclaration));
+		status.setCompiledResourceState(SynchronizerResourceState.EMPTY);
 		return Lists.newArrayList(status);
 	}
 }
