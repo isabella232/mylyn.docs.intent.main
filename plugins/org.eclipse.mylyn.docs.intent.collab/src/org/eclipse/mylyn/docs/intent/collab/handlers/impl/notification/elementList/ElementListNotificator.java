@@ -65,25 +65,6 @@ public class ElementListNotificator implements Notificator {
 	 * 
 	 * @param listenedObjects
 	 *            the objects to listen
-	 * @param listeningHandlersToCreate
-	 *            handlers that listens this Notificator.
-	 * @param repositoryAdapter
-	 *            the repository adapter
-	 */
-	public ElementListNotificator(Set<EObject> listenedObjects,
-			Set<RepositoryObjectHandler> listeningHandlersToCreate, RepositoryAdapter repositoryAdapter) {
-		this.listenedObjects = listenedObjects;
-		this.listeningHandlers = new LinkedHashSet<RepositoryObjectHandler>();
-		this.elementAdapter = new ElementListAdapter(this);
-
-		initialize(listeningHandlersToCreate, repositoryAdapter);
-	}
-
-	/**
-	 * ElementListNotification constructor.
-	 * 
-	 * @param listenedObjects
-	 *            the objects to listen
 	 * @param listAdapter
 	 *            the adapter to use (must inherit from ElementListAdapter)
 	 * @param repositoryAdapter
