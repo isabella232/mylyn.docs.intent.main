@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.indexer.tocmaker;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -37,6 +43,21 @@ public class TocMaker {
 	 *            the Intent document
 	 */
 	public void computeIndex(IntentIndex index, IntentDocument document) {
+		// Purge Index
+		List<EObject> toRemove = new ArrayList<EObject>();
+		for (Iterator iterator = index.eAllContents(); iterator.hasNext();) {
+			EObject eo = (EObject)iterator.next();
+			if (eo instanceof IntentIndexEntry) {
+				IntentIndexEntry iie = (IntentIndexEntry)eo;
+				if (iie.getReferencedElement() == null || iie.getReferencedElement().eResource() == null) {
+					toRemove.add(iie);
+				}
+			}
+		}
+		for (EObject o : toRemove) {
+			EcoreUtil.remove(o);
+		}
+
 		// Step 1 : use an existing index entry if any
 		IntentIndexEntry documentIndexEntry = null;
 		if (index.getEntries().isEmpty()) {
@@ -67,11 +88,6 @@ public class TocMaker {
 			}
 			// Step 4.2 : and compute the entry for this chapter
 			computeEntryForChapter(documentIndexEntry, candidateChapterEntry, chapter);
-			chapterIt++;
-		}
-		// Step 5 : Removing old entries that are not used any more
-		while (documentIndexEntry.getSubEntries().size() > chapterIt) {
-			documentIndexEntry.getSubEntries().remove(chapterIt);
 			chapterIt++;
 		}
 	}
@@ -120,13 +136,7 @@ public class TocMaker {
 			computeEntryForSection(chapterEntry, candidateSectionEntry, chapterIndex, section);
 			subSectionIt++;
 		}
-		// Step 5 : Removing old entries that are not used any more
-		while (chapterEntry.getSubEntries().size() > subSectionIt) {
-			chapterEntry.getSubEntries().remove(subSectionIt);
-			subSectionIt++;
-		}
 		return chapterEntry;
-
 	}
 
 	/**
@@ -173,11 +183,6 @@ public class TocMaker {
 			}
 			// Step 4.2 : and compute the entry for this sub-section
 			computeEntryForSection(sectionEntry, candidateSubSectionEntry, sectionIndex, subSection);
-			subSectionIt++;
-		}
-		// Step 5 : Removing old entries that are not used any more
-		while (sectionEntry.getSubEntries().size() > subSectionIt) {
-			sectionEntry.getSubEntries().remove(subSectionIt);
 			subSectionIt++;
 		}
 		return sectionEntry;

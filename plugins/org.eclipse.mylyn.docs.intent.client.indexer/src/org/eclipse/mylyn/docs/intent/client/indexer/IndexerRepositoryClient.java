@@ -66,13 +66,9 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 					try {
 						repositoryAdapter.save();
 					} catch (SaveException e) {
-						try {
-							repositoryAdapter.undo();
-						} catch (ReadOnlyException e1) {
-							e1.printStackTrace(); // initially was "CANCEL_STATUS" return
-						}
+						e.printStackTrace();
 					} catch (ReadOnlyException e) {
-						e.printStackTrace(); // initially was "CANCEL_STATUS" return
+						e.printStackTrace();
 					}
 					repositoryAdapter.closeContext();
 					System.out.println("[Indexer] Toc made.");
