@@ -92,7 +92,6 @@ public final class IntentEditorOpener {
 			throws PartInitException {
 		IntentEditor openedEditor = null;
 		IStatus status = null;
-		repositoryAdapter.setSendSessionWarningBeforeSaving(false);
 		// We get the element on which open this editor
 		if (readOnlyMode) {
 			repositoryAdapter.openReadOnlyContext();

@@ -176,7 +176,6 @@ public class IntentEditorInput extends URIEditorInput {
 	private Resource getResource() {
 		if (repositoryAdapter == null) {
 			repositoryAdapter = getRepository().createRepositoryAdapter();
-			repositoryAdapter.setSendSessionWarningBeforeSaving(false);
 			repositoryAdapter.openSaveContext();
 		}
 		return repositoryAdapter.getResource(getPath(getURI()));

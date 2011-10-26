@@ -128,7 +128,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		this.repository = repository;
 		this.isReadOnlyContext = false;
 		this.notificatorToListener = new HashMap<Notificator, Set<WorkspaceTypeListener>>();
-		this.sendSessionWarningBeforeSaving = true;
 		this.resourcesToIgnorePaths = new ArrayList<String>();
 	}
 
