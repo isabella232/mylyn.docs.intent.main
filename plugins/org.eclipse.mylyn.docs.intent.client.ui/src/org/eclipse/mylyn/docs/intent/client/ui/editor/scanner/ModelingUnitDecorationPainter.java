@@ -14,13 +14,10 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.scanner;
 
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IPaintPositionManager;
 import org.eclipse.jface.text.IPainter;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.jface.text.ITextViewerExtension5;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentColorConstants;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
@@ -28,7 +25,6 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.StyledTextContent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 
@@ -102,51 +98,6 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	}
 
 	/**
-	 * Convert a document offset to the corresponding widget offset.
-	 * 
-	 * @param documentOffset
-	 *            the document offset
-	 * @return widget offset
-	 */
-	private int getWidgetOffset(int documentOffset) {
-		int result = 0;
-		if (fTextViewer instanceof ITextViewerExtension5) {
-			ITextViewerExtension5 extension = (ITextViewerExtension5)fTextViewer;
-			result = extension.modelOffset2WidgetOffset(documentOffset);
-		}
-		IRegion visible = fTextViewer.getVisibleRegion();
-		int widgetOffset = documentOffset - visible.getOffset();
-		result = widgetOffset;
-		if (widgetOffset > visible.getLength()) {
-			return -1;
-		}
-		return result;
-	}
-
-	/**
-	 * Convert a widget offset to the corresponding document offset.
-	 * 
-	 * @param widgetOffset
-	 *            the widget offset
-	 * @return document offset
-	 */
-	private int getDocumentOffset(int widgetOffset) {
-		int documentOffset = 0;
-		if (fTextViewer instanceof ITextViewerExtension5) {
-			ITextViewerExtension5 extension = (ITextViewerExtension5)fTextViewer;
-			documentOffset = extension.widgetOffset2ModelOffset(widgetOffset);
-		} else {
-			IRegion visible = fTextViewer.getVisibleRegion();
-			if (widgetOffset > visible.getLength()) {
-				documentOffset = -1;
-			} else {
-				documentOffset = widgetOffset + visible.getOffset();
-			}
-		}
-		return documentOffset;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.jface.text.IPainter#paint(int)
@@ -160,23 +111,6 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 		if (!fIsActive) {
 			fIsActive = true;
 			fTextWidget.addPaintListener(this);
-			redrawAll();
-		} else if (reason == CONFIGURATION || reason == INTERNAL) {
-			redrawAll();
-		} else if (reason == TEXT_CHANGE) {
-			// redraw current line only
-			try {
-				IRegion lineRegion = document.getLineInformationOfOffset(getDocumentOffset(fTextWidget
-						.getCaretOffset()));
-				int widgetOffset = getWidgetOffset(lineRegion.getOffset());
-				int charCount = fTextWidget.getCharCount();
-				int redrawLength = Math.min(lineRegion.getLength(), charCount - widgetOffset);
-				if (widgetOffset >= 0 && redrawLength > 0) {
-					fTextWidget.redrawRange(widgetOffset, redrawLength, true);
-				}
-			} catch (BadLocationException e) {
-				// ignore
-			}
 		}
 	}
 
@@ -366,36 +300,6 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	}
 
 	/**
-	 * Decorate the element located at the given offsets by drawling lines before and after this element.
-	 * 
-	 * @param gc
-	 *            the GC
-	 * @param beginOffset
-	 *            the modeling unit begin offset
-	 * @param endOffset
-	 *            the modeling unit end offset
-	 * @param maxLineSize
-	 *            the maximum size of a line
-	 */
-	private void drawDecorationLine(GC gc, int beginOffset, int endOffset, int maxLineSize) {
-		// Compute baseline delta (see https://bugs.eclipse.org/bugs/show_bug.cgi?id=165640)
-		int baseline = fTextWidget.getBaseline(beginOffset);
-		FontMetrics fontMetrics = gc.getFontMetrics();
-		int fontBaseline = fontMetrics.getAverageCharWidth();
-		int decorationLineLength = fTextWidget.getSize().x;
-		int indent = fTextWidget.getIndent();
-		Point beginPos = fTextWidget.getLocationAtOffset(beginOffset);
-		Point endPos = fTextWidget.getLocationAtOffset(endOffset);
-
-		gc.setLineWidth(IntentColorConstants.MU_DECORATION_LINE_WIDTH);
-		gc.setForeground(colorManager.getColor(IntentColorConstants.MU_DECORATION_LINE_FOREGROUND));
-		gc.drawLine(beginPos.x + indent, beginPos.y + baseline, beginPos.x
-				+ (decorationLineLength - beginPos.x - RIGHT_DECORATION_PADDING), beginPos.y + baseline);
-		gc.drawLine(endPos.x + indent, endPos.y + baseline, endPos.x
-				+ (decorationLineLength - endPos.x - RIGHT_DECORATION_PADDING), endPos.y + baseline);
-	}
-
-	/**
 	 * Decorate the element located at the given offsets by drawling a rectangle delimiting this element.
 	 * 
 	 * @param gc
@@ -409,20 +313,12 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 *            used to determine the width of the rectangle
 	 */
 	private void drawDecorationRectangle(GC gc, int beginOffset, int endOffset, int maxMuLineSizeOffset) {
-
-		int baseline = fTextWidget.getBaseline(beginOffset);
-		FontMetrics fontMetrics = gc.getFontMetrics();
-		int fontBaseline = fontMetrics.getAverageCharWidth();
-		// int maxLineLength = fTextWidget.getLocationAtOffset(maxMuLineSizeOffset);
-		// int decorationLineLength = Math.max(fTextWidget.getSize().x, maxLineSize * fontBaseline);
 		int decorationLineLength = fTextWidget.getSize().x;
 		gc.setForeground(colorManager.getColor(IntentColorConstants.MU_DECORATION_LINE_FOREGROUND));
 		gc.setBackground(colorManager.getColor(IntentColorConstants.MU_DECORATION_BACKGROUND));
 		Point beginPos = fTextWidget.getLocationAtOffset(beginOffset);
 		Point endPos = fTextWidget.getLocationAtOffset(endOffset);
-
 		gc.drawRectangle(beginPos.x - LEFT_DECORATION_PADDING, beginPos.y, decorationLineLength - beginPos.x
 				- RIGHT_DECORATION_PADDING, endPos.y - beginPos.y);
-
 	}
 }
