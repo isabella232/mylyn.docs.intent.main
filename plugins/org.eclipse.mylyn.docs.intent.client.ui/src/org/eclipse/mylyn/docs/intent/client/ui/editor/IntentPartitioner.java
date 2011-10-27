@@ -12,7 +12,6 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -166,7 +165,7 @@ public class IntentPartitioner implements IDocumentPartitioner {
 		return new TypedRegion(offset, 1, IntentDocumentProvider.INTENT_DESCRIPTIONUNIT);
 	}
 
-	public Collection<IntentRegion> getRegions() {
+	public List<IntentRegion> getRegions() {
 		return regions;
 	}
 
