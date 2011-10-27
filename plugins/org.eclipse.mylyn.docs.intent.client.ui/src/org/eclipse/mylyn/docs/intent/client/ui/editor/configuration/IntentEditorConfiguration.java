@@ -19,10 +19,13 @@ import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.presentation.IPresentationReconciler;
 import org.eclipse.jface.text.presentation.PresentationReconciler;
 import org.eclipse.jface.text.quickassist.IQuickAssistAssistant;
+import org.eclipse.jface.text.reconciler.IReconciler;
+import org.eclipse.jface.text.reconciler.MonoReconciler;
 import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentReconcilingStrategy;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.completion.DescriptionUnitCompletionProcessor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix.IntentQuickAssistant;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.AbstractIntentScanner;
@@ -123,6 +126,16 @@ public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
 	public IQuickAssistAssistant getQuickAssistAssistant(ISourceViewer sourceViewer) {
 		// We create an IntentQuickAssistant
 		return new IntentQuickAssistant();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getReconciler(org.eclipse.jface.text.source.ISourceViewer)
+	 */
+	@Override
+	public IReconciler getReconciler(ISourceViewer sourceViewer) {
+		return new MonoReconciler(new IntentReconcilingStrategy(editor), false);
 	}
 
 	/**

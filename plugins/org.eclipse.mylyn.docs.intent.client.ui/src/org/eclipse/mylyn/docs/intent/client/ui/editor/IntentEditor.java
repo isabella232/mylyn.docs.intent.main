@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -17,11 +21,16 @@ import org.eclipse.jface.text.AbstractInformationControlManager;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IInformationControl;
 import org.eclipse.jface.text.IInformationControlCreator;
-import org.eclipse.jface.text.ITextViewerExtension2;
+import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.information.IInformationPresenter;
 import org.eclipse.jface.text.information.IInformationProvider;
 import org.eclipse.jface.text.information.InformationPresenter;
+import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.IVerticalRuler;
+import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
+import org.eclipse.jface.text.source.projection.ProjectionSupport;
+import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -82,6 +91,10 @@ public class IntentEditor extends TextEditor {
 
 	private IntentQuickOutlineControl currentQuickOutline;
 
+	private ProjectionSupport projectionSupport;
+
+	private ProjectionAnnotationModel annotationModel;
+
 	/**
 	 * The editor's blocks matcher.
 	 */
@@ -136,8 +149,64 @@ public class IntentEditor extends TextEditor {
 	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
-		((ITextViewerExtension2)getSourceViewer()).addPainter(new ModelingUnitDecorationPainter(
-				getSourceViewer(), this.colorManager));
+		ProjectionViewer viewer = (ProjectionViewer)getSourceViewer();
+
+		projectionSupport = new ProjectionSupport(viewer, getAnnotationAccess(), getSharedColors());
+		projectionSupport.install();
+
+		// turn projection mode on
+		viewer.doOperation(ProjectionViewer.TOGGLE);
+		annotationModel = viewer.getProjectionAnnotationModel();
+
+		viewer.addPainter(new ModelingUnitDecorationPainter(viewer, colorManager));
+	}
+
+	public ProjectionViewer getProjectionViewer() {
+		return (ProjectionViewer)getSourceViewer();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractDecoratedTextEditor#createSourceViewer(org.eclipse.swt.widgets.Composite,
+	 *      org.eclipse.jface.text.source.IVerticalRuler, int)
+	 */
+	@Override
+	protected ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
+		ISourceViewer viewer = new ProjectionViewer(parent, ruler, getOverviewRuler(),
+				isOverviewRulerVisible(), styles);
+
+		// ensure decoration support has been created and configured.
+		getSourceViewerDecorationSupport(viewer);
+
+		return viewer;
+	}
+
+	/**
+	 * Updates the folding structure of the template. This will be called from the Atl template reconciler in
+	 * order to allow the folding of blocks to the user.
+	 * 
+	 * @param addedAnnotations
+	 *            These annotations have been added since the last reconciling operation.
+	 * @param deletedAnnotations
+	 *            This list represents the annotations that were deleted since we last reconciled.
+	 * @param modifiedAnnotations
+	 *            These annotations have seen their positions updated.
+	 */
+	public void updateFoldingStructure(Map<Annotation, Position> addedAnnotations,
+			List<Annotation> deletedAnnotations, Map<Annotation, Position> modifiedAnnotations) {
+		Annotation[] deleted = new Annotation[deletedAnnotations.size() + modifiedAnnotations.size()];
+		for (int i = 0; i < deletedAnnotations.size(); i++) {
+			deleted[i] = deletedAnnotations.get(i);
+		}
+		final Iterator<Annotation> modifiedIterator = modifiedAnnotations.keySet().iterator();
+		for (int i = deletedAnnotations.size(); i < deleted.length; i++) {
+			deleted[i] = modifiedIterator.next();
+		}
+		addedAnnotations.putAll(modifiedAnnotations);
+		if (annotationModel != null) {
+			annotationModel.modifyAnnotations(deleted, addedAnnotations, null);
+		}
 	}
 
 	/**
