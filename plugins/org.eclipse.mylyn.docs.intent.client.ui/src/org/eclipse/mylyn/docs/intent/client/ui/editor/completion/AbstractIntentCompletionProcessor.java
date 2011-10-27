@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.completion;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.ITextViewer;
@@ -25,6 +29,7 @@ import org.eclipse.jface.text.templates.TemplateContext;
 import org.eclipse.jface.text.templates.TemplateContextType;
 import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
+import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -53,6 +58,11 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	protected String start;
 
 	/**
+	 * The current indentation.
+	 */
+	private String indentation;
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#computeCompletionProposals(org.eclipse.jface.text.ITextViewer,
@@ -66,6 +76,33 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 		} else {
 			offset = currentOffset;
 		}
+		computeStart();
+		try {
+			computeIndentation();
+		} catch (BadLocationException e) {
+			IntentUiLogger.logError(e);
+		}
+		try {
+			return computeCompletionProposals();
+		} finally {
+			document = null;
+			offset = 0;
+		}
+	}
+
+	private void computeIndentation() throws BadLocationException {
+		int lineOffset = document.getLineOffset(document.getLineOfOffset(offset));
+		String text = document.get(lineOffset, offset - lineOffset);
+		Pattern pattern = Pattern.compile("\\s+");
+		Matcher matcher = pattern.matcher(text);
+		if (matcher.find()) {
+			indentation = matcher.group();
+		} else {
+			indentation = "";
+		}
+	}
+
+	private void computeStart() {
 		// get the currently typed word
 		int index = offset;
 		String text = document.get();
@@ -73,12 +110,6 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 			index--;
 		}
 		start = text.substring(index, offset);
-		try {
-			return computeCompletionProposals();
-		} finally {
-			document = null;
-			offset = 0;
-		}
 	}
 
 	private boolean isIntentIdentifierPart(char c) {
@@ -173,7 +204,7 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 			String templatePattern, String templateImagePath) {
 		int startLength = start.length();
 		Template template = new Template(templateName, templateDescription, getContextType(),
-				templatePattern, true);
+				templatePattern.replaceAll("\n", "\n" + indentation), true);
 		TemplateContextType type = new TemplateContextType(getContextType(), getContextType());
 		TemplateContext context = new DocumentTemplateContext(type, document, offset - startLength,
 				startLength);
