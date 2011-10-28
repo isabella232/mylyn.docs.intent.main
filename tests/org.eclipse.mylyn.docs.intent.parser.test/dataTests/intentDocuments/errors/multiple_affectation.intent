@@ -1,0 +1,18 @@
+Document {
+	Chapter {
+		Section {
+			Merge
+
+			Merging models.
+			
+			@M umlStorageDefinition 
+				Resource umlResource {
+					URI = "platform:/resource/rmTest/generated/uml.ecore";
+					contentType = "ECore";
+					content += uml
+				}
+			M@
+
+		}
+	}
+}

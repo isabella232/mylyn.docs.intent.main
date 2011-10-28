@@ -209,7 +209,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			} catch (IndexOutOfBoundsException e) {
 				throw new ParseException(
 						Messages.getString(
-								"ModelingUnitParserImpl.INCORRECT_CONTRIBUTION_END", matcher.group()), matcher.start(), matcher.group().length()); //$NON-NLS-1$
+								"ModelingUnitParserImpl.INCORRECT_CONTRIBUTION_END", matcher.group().trim()), rootOffset + matcher.start(), matcher.group().length()); //$NON-NLS-1$
 			}
 
 			res.put(new Location(matcher.start(), index), instance);
@@ -265,7 +265,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			} catch (IndexOutOfBoundsException e) {
 				throw new ParseException(
 						Messages.getString(
-								"ModelingUnitParserImpl.INCORRECT_INSTANCIATION_END", matcher.group()), matcher.start(), matcher.group().length()); //$NON-NLS-1$
+								"ModelingUnitParserImpl.INCORRECT_INSTANCIATION_END", matcher.group().trim()), rootOffset + matcher.start(), matcher.group().length()); //$NON-NLS-1$
 			}
 
 			res.put(new Location(matcher.start(), index), instance);
@@ -304,7 +304,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 				String stringContent = string.substring(index, endIndex);
 
 				ModelingUnitContentManager<Object> manager = new ModelingUnitContentManager<Object>();
-				for (Affectation affectation : getAllAffectations(stringContent)) {
+				for (Affectation affectation : getAllAffectations(rootOffset + index, stringContent)) {
 					if ("URI".equals(affectation.key)) { //$NON-NLS-1$
 						instance.setUri(affectation.values.get(0));
 						manager.addContent(affectation.location, "URI");
@@ -326,7 +326,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			} catch (IndexOutOfBoundsException e) {
 				throw new ParseException(
 						Messages.getString(
-								"ModelingUnitParserImpl.INCORRECT_RESOURCE_DECLARATION_END", matcher.group()), matcher.start(), matcher.group().length()); //$NON-NLS-1$
+								"ModelingUnitParserImpl.INCORRECT_RESOURCE_DECLARATION_END", matcher.group().trim()), rootOffset + matcher.start(), matcher.group().length()); //$NON-NLS-1$
 			}
 			res.put(new Location(matcher.start(), index), instance);
 		}
@@ -441,7 +441,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	private Map<Location, UnitInstruction> getStructuralFeatureAffectations(int rootOffset, String string)
 			throws ParseException {
 		ModelingUnitContentManager<UnitInstruction> manager = new ModelingUnitContentManager<UnitInstruction>();
-		for (Affectation affectation : getAllAffectations(string)) {
+		for (Affectation affectation : getAllAffectations(rootOffset, string)) {
 			StructuralFeatureAffectation instance = ModelingUnitFactory.eINSTANCE
 					.createStructuralFeatureAffectation();
 			instance.setLineBreak(true); // fixed by default
@@ -524,29 +524,33 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	/**
 	 * Computes the list of affectation in the given String.
 	 * 
+	 * @param offset
+	 *            the root offset
 	 * @param string
 	 *            the string to analyze
 	 * @return the list of affectations
 	 * @throws ParseException
 	 *             if there is an unclosed block
 	 */
-	private List<Affectation> getAllAffectations(String string) throws ParseException {
+	private List<Affectation> getAllAffectations(int offset, String string) throws ParseException {
 		List<Affectation> allAffectations = new ArrayList<Affectation>();
-		allAffectations.addAll(getSingleAffectations(string));
-		allAffectations.addAll(getMultipleAffectations(string));
+		allAffectations.addAll(getSingleAffectations(offset, string));
+		allAffectations.addAll(getMultipleAffectations(offset, string));
 		return allAffectations;
 	}
 
 	/**
 	 * Computes the list of single affectation in the given String.
 	 * 
+	 * @param offset
+	 *            the root offset
 	 * @param string
 	 *            the string to analyze
 	 * @return the list of single affectations
 	 * @throws ParseException
 	 *             if there is an unclosed block
 	 */
-	private List<Affectation> getSingleAffectations(String string) throws ParseException {
+	private List<Affectation> getSingleAffectations(int offset, String string) throws ParseException {
 		List<Affectation> res = new ArrayList<Affectation>();
 		Pattern startPattern = Pattern.compile(STRING_REGEX + "\\s*(\\+?)=\\s*"); //$NON-NLS-1$
 		Matcher matcher = startPattern.matcher(string);
@@ -572,7 +576,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			} catch (IndexOutOfBoundsException e) {
 				throw new ParseException(
 						Messages.getString(
-								"ModelingUnitParserImpl.INCORRECT_SINGLE_AFFECTATION_END", matcher.group()), matcher.start(), matcher.group().length()); //$NON-NLS-1$
+								"ModelingUnitParserImpl.INCORRECT_SINGLE_AFFECTATION_END", matcher.group().trim()), offset + matcher.start(), matcher.group().length()); //$NON-NLS-1$
 			}
 		}
 		return res;
@@ -581,13 +585,15 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	/**
 	 * Computes the list of multiple affectation in the given String.
 	 * 
+	 * @param offset
+	 *            the root offset
 	 * @param string
 	 *            the string to analyze
 	 * @return the list of multiple affectations
 	 * @throws ParseException
 	 *             if there is an unclosed block
 	 */
-	private List<Affectation> getMultipleAffectations(String string) throws ParseException {
+	private List<Affectation> getMultipleAffectations(int offset, String string) throws ParseException {
 		List<Affectation> res = new ArrayList<Affectation>();
 		Pattern startPattern = Pattern.compile(STRING_REGEX + "\\s*\\+=\\s*\\["); //$NON-NLS-1$
 		Matcher matcher = startPattern.matcher(string);
@@ -607,7 +613,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			} catch (IndexOutOfBoundsException e) {
 				throw new ParseException(
 						Messages.getString(
-								"ModelingUnitParserImpl.INCORRECT_MULTIPLE_AFFECTATION_END", matcher.group()), matcher.start(), matcher.group().length()); //$NON-NLS-1$
+								"ModelingUnitParserImpl.INCORRECT_MULTIPLE_AFFECTATION_END", matcher.group().trim()), offset + matcher.start(), matcher.group().length()); //$NON-NLS-1$
 			}
 			affectation.keyLength = middleOffset;
 			affectation.location = new Location(matcher.start(), getEndIndex(string, index, ';'));

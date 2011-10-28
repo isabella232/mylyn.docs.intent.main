@@ -45,6 +45,35 @@ public class TestModelingUnitErrors extends AbstractTestParserErrors {
 				UNRECOGNIZED_CONTENT_ERROR, 95, 44));
 	}
 
+	// @Test
+	// public void testContribution() {
+	// testErrorsOnFile("dataTests/intentDocuments/errors/contribution.intent", new ParseException(
+	// "Contribution instruction uml { does not end correctly.", 0, 0));
+	// }
+
+	// @Test
+	// public void testInstanciation() {
+	// testErrorsOnFile("dataTests/intentDocuments/errors/instanciation.intent", new ParseException(
+	// "Instanciation instruction new EPackage uml { does not end correctly.", 0, 0));
+	// }
+
+	@Test
+	public void testResourceDeclaration() {
+		testErrorsOnFile("dataTests/intentDocuments/errors/resource_declaration.intent", new ParseException(
+				"Resource declaration Resource r { does not end correctly.", 77, 12));
+	}
+
+	@Test
+	public void testSingleAffectation() {
+		testErrorsOnFile("dataTests/intentDocuments/errors/single_affectation.intent", new ParseException(
+				"Affectation URI = does not end correctly.", 95, 6));
+	}
+
+	@Test
+	public void testMultipleAffectation() {
+		testErrorsOnFile("dataTests/intentDocuments/errors/multiple_affectation.intent", new ParseException(
+				"Affectation content += does not end correctly.", 215, 11));
+	}
 	// CHECKSTYLE:ON
 
 }

@@ -1,0 +1,15 @@
+Document {
+	Chapter {
+		Section {
+			Merge
+
+			Merging models.
+			
+			@M
+				Resource r {
+					URI = "platform:/resource/intent/My.ecore";
+			M@
+			
+		}
+	}
+}

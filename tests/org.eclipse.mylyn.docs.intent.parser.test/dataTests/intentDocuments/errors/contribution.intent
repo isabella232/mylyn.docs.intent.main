@@ -1,0 +1,44 @@
+Document {
+	Chapter {
+		Section {
+			Merge
+
+			Merging models.
+			
+			@M umlStorageDefinition 
+				Resource umlResource {
+					URI = "platform:/resource/rmTest/generated/uml.ecore";
+					contentType = "ECore";
+					content += uml;
+				}
+			M@
+
+			We then define the stored EPackage, which will be the root of our metamodel :
+			@M umlPackage_definition 
+				new EPackage uml {
+					nsURI = "http://www.eclipse.org/uml2/3.0.0/UML";
+					nsPrefix = "uml";
+				}
+			M@
+			
+			@M CommentDefinition 
+				uml {
+					eClassifiers += new EClass Comment {
+						eStructuralFeatures += new EAttribute {
+							name = "body";
+							eType = String;
+							changeable = "true";
+							unsettable = "true";
+						};
+						eStructuralFeatures += new EReference {
+							name = "annotatedElement";
+							eType = Element;
+							upperBound = "-1";
+							changeable = "true";
+						};
+						eSuperTypes += Element;
+					};
+			M@
+		}
+	}
+}
