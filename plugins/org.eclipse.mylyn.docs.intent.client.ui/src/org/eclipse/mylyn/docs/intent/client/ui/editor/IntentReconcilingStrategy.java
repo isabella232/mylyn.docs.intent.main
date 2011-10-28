@@ -147,7 +147,7 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 		try {
 			for (ITypedRegion region : partitioner.getRegions()) {
 				if (IntentDocumentProvider.INTENT_MODELINGUNIT.equals(region.getType())) {
-					createOrUpdateAnnotation(region.getOffset(), region.getLength(), false);
+					createOrUpdateAnnotation(region.getOffset(), region.getLength() + 1, false);
 				} else if (IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT.equals(region.getType())
 						&& document.getChar(region.getOffset()) != '}') {
 					final String beginning = document.get(region.getOffset(), region.getLength()).trim();
@@ -155,7 +155,8 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 						final int regionEnd = region.getOffset() + beginning.length();
 						IRegion wholeRegion = editor.getBlockMatcher().match(document, regionEnd);
 						if (wholeRegion != null) {
-							createOrUpdateAnnotation(wholeRegion.getOffset(), wholeRegion.getLength(), false);
+							createOrUpdateAnnotation(region.getOffset(),
+									beginning.length() + wholeRegion.getLength(), false);
 						}
 					}
 				}
