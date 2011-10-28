@@ -192,6 +192,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 
 			// Content detection
 			index = matcher.group().length() + matcher.start();
+
 			try {
 				int endIndex = getEndIndex(string, index, '}');
 				String stringContent = string.substring(index, endIndex);
@@ -207,9 +208,14 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 						(Collection<? extends ModelingUnitInstruction>)manager.getContent().values());
 				index = endIndex;
 			} catch (IndexOutOfBoundsException e) {
+				int spaceLength = 0;
+				Matcher spaceMatcher = Pattern.compile("^\\s+").matcher(matcher.group());
+				if (spaceMatcher.find()) {
+					spaceLength += spaceMatcher.group().length();
+				}
 				throw new ParseException(
 						Messages.getString(
-								"ModelingUnitParserImpl.INCORRECT_CONTRIBUTION_END", matcher.group().trim()), rootOffset + matcher.start(), matcher.group().length()); //$NON-NLS-1$
+								"ModelingUnitParserImpl.INCORRECT_CONTRIBUTION_END", matcher.group().trim()), spaceLength + rootOffset + matcher.start(), matcher.group().trim().length()); //$NON-NLS-1$
 			}
 
 			res.put(new Location(matcher.start(), index), instance);
@@ -265,7 +271,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			} catch (IndexOutOfBoundsException e) {
 				throw new ParseException(
 						Messages.getString(
-								"ModelingUnitParserImpl.INCORRECT_INSTANCIATION_END", matcher.group().trim()), rootOffset + matcher.start(), matcher.group().length()); //$NON-NLS-1$
+								"ModelingUnitParserImpl.INCORRECT_INSTANCIATION_END", matcher.group().trim()), rootOffset + matcher.start(), matcher.group().trim().length()); //$NON-NLS-1$
 			}
 
 			res.put(new Location(matcher.start(), index), instance);
