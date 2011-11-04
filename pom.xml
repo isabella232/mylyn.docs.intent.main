@@ -45,6 +45,7 @@
     <module>plugins/org.eclipse.mylyn.docs.intent</module>    
     <module>plugins/org.eclipse.mylyn.docs.intent.markup</module>    
     <module>plugins/org.eclipse.mylyn.docs.intent.markup.gen</module>
+    <module>plugins/org.eclipse.mylyn.docs.intent.markup.ui</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.client.compiler</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.client.indexer</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.client.synchronizer</module>
