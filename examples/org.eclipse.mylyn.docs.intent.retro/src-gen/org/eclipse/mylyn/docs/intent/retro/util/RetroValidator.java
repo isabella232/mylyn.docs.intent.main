@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.ResourceLocator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.EObjectValidator;
+import org.eclipse.mylyn.docs.intent.retro.*;
 import org.eclipse.mylyn.docs.intent.retro.API;
 import org.eclipse.mylyn.docs.intent.retro.AcceptanceTest;
 import org.eclipse.mylyn.docs.intent.retro.Bundle;
@@ -37,30 +38,27 @@ import org.eclipse.mylyn.docs.intent.retro.UnitTest;
 
 /**
  * <!-- begin-user-doc --> The <b>Validator</b> for the model. <!-- end-user-doc -->
- * 
  * @see org.eclipse.mylyn.docs.intent.retro.RetroPackage
  * @generated
  */
 public class RetroValidator extends EObjectValidator {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public static final String copyright = "Copyright (c) 2010, 2011 Obeo.\r\nAll rights reserved. This program and the accompanying materials\r\nare made available under the terms of the Eclipse Public License v1.0\r\nwhich accompanies this distribution, and is available at\r\nhttp://www.eclipse.org/legal/epl-v10.html\r\n\r\nContributors:\r\n\tObeo - initial API and implementation\r\n";
 
 	/**
-	 * The cached model package <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached model package
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final RetroValidator INSTANCE = new RetroValidator();
 
 	/**
-	 * A constant for the {@link org.eclipse.emf.common.util.Diagnostic#getSource() source} of diagnostic
-	 * {@link org.eclipse.emf.common.util.Diagnostic#getCode() codes} from this package. <!-- begin-user-doc
+	 * A constant for the {@link org.eclipse.emf.common.util.Diagnostic#getSource() source} of diagnostic {@link org.eclipse.emf.common.util.Diagnostic#getCode() codes} from this package.
+	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
-	 * 
 	 * @see org.eclipse.emf.common.util.Diagnostic#getSource()
 	 * @see org.eclipse.emf.common.util.Diagnostic#getCode()
 	 * @generated
@@ -70,22 +68,20 @@ public class RetroValidator extends EObjectValidator {
 	/**
 	 * A constant with a fixed name that can be used as the base value for additional hand written constants.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static final int GENERATED_DIAGNOSTIC_CODE_COUNT = 0;
 
 	/**
-	 * A constant with a fixed name that can be used as the base value for additional hand written constants
-	 * in a derived class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A constant with a fixed name that can be used as the base value for additional hand written constants in a derived class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected static final int DIAGNOSTIC_CODE_COUNT = GENERATED_DIAGNOSTIC_CODE_COUNT;
 
 	/**
-	 * Creates an instance of the switch. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Creates an instance of the switch.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public RetroValidator() {
@@ -93,19 +89,19 @@ public class RetroValidator extends EObjectValidator {
 	}
 
 	/**
-	 * Returns the package of this validator switch. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the package of this validator switch.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	protected EPackage getEPackage() {
-		return RetroPackage.eINSTANCE;
+	  return RetroPackage.eINSTANCE;
 	}
 
 	/**
-	 * Calls <code>validateXXX</code> for the corresponding classifier of the model. <!-- begin-user-doc -->
+	 * Calls <code>validateXXX</code> for the corresponding classifier of the model.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -143,7 +139,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateBundle(Bundle bundle, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -152,7 +147,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateNameSpace(NameSpace nameSpace, DiagnosticChain diagnostics,
@@ -162,7 +156,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateDevelopperFeature(DevelopperFeature developperFeature,
@@ -172,7 +165,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateEndUserFeature(EndUserFeature endUserFeature, DiagnosticChain diagnostics,
@@ -182,7 +174,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateFeature(Feature feature, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -191,7 +182,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateAPI(API api, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -200,7 +190,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateUnitTest(UnitTest unitTest, DiagnosticChain diagnostics,
@@ -210,7 +199,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateProject(Project project, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -219,31 +207,20 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateAcceptanceTest(AcceptanceTest acceptanceTest, DiagnosticChain diagnostics,
 			Map<Object, Object> context) {
-		if (!validate_NoCircularContainment((EObject)acceptanceTest, diagnostics, context))
-			return false;
+		if (!validate_NoCircularContainment((EObject)acceptanceTest, diagnostics, context)) return false;
 		boolean result = validate_EveryMultiplicityConforms((EObject)acceptanceTest, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryDataValueConforms((EObject)acceptanceTest, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryReferenceIsContained((EObject)acceptanceTest, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryBidirectionalReferenceIsPaired((EObject)acceptanceTest, diagnostics,
-					context);
-		if (result || diagnostics != null)
-			result &= validate_EveryProxyResolves((EObject)acceptanceTest, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_UniqueID((EObject)acceptanceTest, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryKeyUnique((EObject)acceptanceTest, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validate_EveryMapEntryUnique((EObject)acceptanceTest, diagnostics, context);
-		if (result || diagnostics != null)
-			result &= validateAcceptanceTest_IsValidAcceptanceTest(acceptanceTest, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryDataValueConforms((EObject)acceptanceTest, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryReferenceIsContained((EObject)acceptanceTest, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryBidirectionalReferenceIsPaired((EObject)acceptanceTest, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryProxyResolves((EObject)acceptanceTest, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_UniqueID((EObject)acceptanceTest, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryKeyUnique((EObject)acceptanceTest, diagnostics, context);
+		if (result || diagnostics != null) result &= validate_EveryMapEntryUnique((EObject)acceptanceTest, diagnostics, context);
+		if (result || diagnostics != null) result &= validateAcceptanceTest_IsValidAcceptanceTest(acceptanceTest, diagnostics, context);
 		return result;
 	}
 
@@ -277,7 +254,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateProduct(Product product, DiagnosticChain diagnostics, Map<Object, Object> context) {
@@ -286,7 +262,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateInteraction(Interaction interaction, DiagnosticChain diagnostics,
@@ -296,7 +271,6 @@ public class RetroValidator extends EObjectValidator {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public boolean validateCategory(Category category, DiagnosticChain diagnostics,

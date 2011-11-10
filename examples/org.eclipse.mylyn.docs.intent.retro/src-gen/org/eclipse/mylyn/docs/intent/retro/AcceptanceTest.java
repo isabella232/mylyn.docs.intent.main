@@ -53,7 +53,7 @@ public interface AcceptanceTest extends CDOObject {
 	 * @return the value of the '<em>Swt Bot Class Name</em>' attribute.
 	 * @see #setSwtBotClassName(String)
 	 * @see org.eclipse.mylyn.docs.intent.retro.RetroPackage#getAcceptanceTest_SwtBotClassName()
-	 * @model id="true"
+	 * @model
 	 * @generated
 	 */
 	String getSwtBotClassName();

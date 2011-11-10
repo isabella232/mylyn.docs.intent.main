@@ -678,7 +678,7 @@ public class RetroPackageImpl extends EPackageImpl implements RetroPackage {
 		getProject_AcceptanceTests().getEKeys().add(this.getAcceptanceTest_SwtBotClassName());
 
 		initEClass(acceptanceTestEClass, AcceptanceTest.class, "AcceptanceTest", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getAcceptanceTest_SwtBotClassName(), theEcorePackage.getEString(), "swtBotClassName", null, 0, 1, AcceptanceTest.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAcceptanceTest_SwtBotClassName(), theEcorePackage.getEString(), "swtBotClassName", null, 0, 1, AcceptanceTest.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAcceptanceTest_IsTesting(), this.getEndUserFeature(), this.getEndUserFeature_IsTestedBy(), "isTesting", null, 0, -1, AcceptanceTest.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAcceptanceTest_Package(), theEcorePackage.getEString(), "package", null, 0, 1, AcceptanceTest.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
