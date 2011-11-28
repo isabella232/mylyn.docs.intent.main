@@ -9,17 +9,9 @@
    <feature url="features/org.eclipse.mylyn.docs.intent_0.0.0.qualifier.jar" id="org.eclipse.mylyn.docs.intent" version="0.7.0.qualifier">
       <category name="Mylyn Intent (Incubation)"/>
    </feature>
-   <feature url="features/org.eclipse.emf.compare.sdk_1.2.1.v20110926-1308.jar" id="org.eclipse.emf.compare.sdk" version="1.2.1.v20110926-1308">
-      <category name="Dependencies"/>
-   </feature>
    <category-def name="Mylyn Intent (Incubation)" label="Mylyn Intent (Incubation)">
       <description>
          Mylyn Intent (Incubation)
-      </description>
-   </category-def>
-   <category-def name="Dependencies" label="Dependencies">
-      <description>
-         The dependencies of Intent not yet included to any Release Train.
       </description>
    </category-def>
 </site>
