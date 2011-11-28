@@ -110,7 +110,7 @@
                 <groupId>org.eclipse.mylyn.docs.intent</groupId>
                 <artifactId>org.eclipse.mylyn.docs.intent</artifactId>
                 <version>0.7.0-SNAPSHOT</version>
-                <classifier>dev/target platform/indigo-sdk</classifier>
+                <classifier>dev/target platform/juno-sdk</classifier>
             </artifact>
         </target>
 <environments>
