@@ -17,7 +17,7 @@
     <relativePath>../..</relativePath>
   </parent>
 
-  <artifactId>org.eclipse.mylyn.docs.intent.retro-feature</artifactId>
+  <artifactId>org.eclipse.mylyn.docs.intent.retro</artifactId>
   <packaging>eclipse-feature</packaging>
 
 </project>
