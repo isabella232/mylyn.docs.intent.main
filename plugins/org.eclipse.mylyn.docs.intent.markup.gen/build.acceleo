@@ -16,11 +16,9 @@
     <!-- ================================================================= -->
     <target name="post.compile.@dot">
         <acceleoCompiler 
-            sourceFolder="${target.folder}"
-            outputFolder="${target.folder}"
+             sourceFolder="${target.folder}" 
             dependencies="${target.folder}/../../org.eclipse.mylyn.docs.intent.markup;"
-            binaryResource="false"
-            packagesToRegister="">
+            binaryResource="true">
         </acceleoCompiler>
     </target>    
 </project>
