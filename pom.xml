@@ -108,7 +108,7 @@
         <target>
             <artifact>
                 <groupId>org.eclipse.mylyn.docs.intent-group</groupId>
-                <artifactId>org.eclipse.mylyn.docs.intent.team</artifactId>
+                <artifactId>org.eclipse.mylyn.docs.intent</artifactId>
                 <version>0.7.0-SNAPSHOT</version>
                 <classifier>dev/target platform/juno-sdk</classifier>
             </artifact>
