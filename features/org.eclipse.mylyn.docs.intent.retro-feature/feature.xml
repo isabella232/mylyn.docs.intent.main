@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.mylyn.docs.intent.retro"
+      id="org.eclipse.mylyn.docs.intent.retro.feature"
       label="Intent Synchronization bridge to any java plugin (Incubation)"
       version="0.7.0.qualifier"
       provider-name="%providerName"
