@@ -20,12 +20,16 @@ import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkingSet;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 
 /**
@@ -34,6 +38,8 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
+
+	private static final String NEW_INTENT_PROJECT_TITLE = "New Intent project"; //$NON-NLS-1$
 
 	private static final String DEFAULT_INTENT_DOCUMENT = "Document {\n}";
 
@@ -49,7 +55,7 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 	public NewIntentProjectWizard() {
 		super();
 		setNeedsProgressMonitor(true);
-		setWindowTitle("New Intent Project"); //$NON-NLS-1$
+		setWindowTitle("New Intent Project");
 	}
 
 	/**
@@ -57,8 +63,18 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 	 */
 	@Override
 	public void addPages() {
-		page = new WizardNewProjectCreationPage("New Intent project"); //$NON-NLS-1$
-		page.setTitle("New Intent project"); //$NON-NLS-1$
+		page = new WizardNewProjectCreationPage(NEW_INTENT_PROJECT_TITLE) {
+			@Override
+			public void createControl(Composite parent) {
+				super.createControl(parent);
+
+				// Bug 365052 : Working Set selection should be available in the new Intent Project wizard
+				createWorkingSetGroup((Composite)getControl(), new StructuredSelection(), new String[] {
+						"org.eclipse.ui.resourceWorkingSetPage", "org.eclipse.jdt.ui.JavaWorkingSetPage",
+				});
+			}
+		};
+		page.setTitle(NEW_INTENT_PROJECT_TITLE);
 		page.setDescription("Select project name"); //$NON-NLS-1$
 		addPage(page);
 
@@ -77,6 +93,8 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 		final String defaultContent = getDefaultContent();
 		IWorkspaceRunnable create = new IWorkspaceRunnable() {
 			public void run(IProgressMonitor monitor) throws CoreException {
+
+				// Step 1 : create project
 				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(page.getProjectName());
 				IPath location = page.getLocationPath();
 				if (!project.exists()) {
@@ -93,6 +111,16 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 				if (!project.isOpen()) {
 					project.open(monitor);
 				}
+
+				// Step 2 : updating working sets
+				// Bug 365052 : Working Set selection should be available in the new Intent Project wizard
+				IWorkingSet[] workingSets = page.getSelectedWorkingSets();
+				if (PlatformUI.getWorkbench() != null
+						&& PlatformUI.getWorkbench().getWorkingSetManager() != null) {
+					PlatformUI.getWorkbench().getWorkingSetManager().addToWorkingSets(project, workingSets);
+				}
+
+				// Step 3 : adding Intent nature
 				ToggleNatureAction.toggleNature(project);
 				IDEApplicationManager.initializeContent(project, defaultContent);
 			}
@@ -131,8 +159,7 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement,
 	 *      java.lang.String, java.lang.Object)
 	 */
-	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
-			throws CoreException {
+	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) {
 		this.configElement = config;
 	}
 
