@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description url="http://www.obeo.fr">
-      Viewpoint
-   </description>
-   <feature url="features/org.eclipse.mylyn.docs.intent.feature_0.7.0.qualifier.jar" id="org.eclipse.mylyn.docs.intent.feature" version="0.7.0.qualifier">
-      <category name="Mylyn Intent (Incubation)"/>
+   <feature id="org.eclipse.mylyn.docs.intent.markup.feature" version="0.0.0">
+      <category name="mylyn.intent"/>
+	</feature>
+   <feature id="org.eclipse.mylyn.docs.intent.feature" version="0.0.0">
+      <category name="mylyn.intent"/>
    </feature>
-   <feature url="features/org.eclipse.mylyn.docs.intent.markup.feature_0.7.0.qualifier.jar" id="org.eclipse.mylyn.docs.intent.markup.feature" version="0.7.0.qualifier">
-      <category name="Mylyn Intent (Incubation)"/>
-   </feature>
-   <category-def name="Mylyn Intent (Incubation)" label="Mylyn Intent (Incubation)">
+   <category-def name="mylyn.intent" label="Mylyn Intent (Incubation)">
       <description>
          Mylyn Intent (Incubation)
       </description>
