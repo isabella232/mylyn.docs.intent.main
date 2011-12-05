@@ -19,6 +19,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ocl.ecore,
  org.eclipse.emf.ecore;visibility:=reexport,
  com.google.collect,
- org.eclipse.acceleo.parser
+ org.eclipse.acceleo.parser,
+ org.eclipse.swt
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.swt.graphics
