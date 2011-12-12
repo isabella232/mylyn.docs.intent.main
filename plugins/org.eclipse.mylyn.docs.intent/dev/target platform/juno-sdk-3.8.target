@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.6"?>
 
-<target name="juno-sdk" sequenceNumber="2">
+<target name="juno-sdk" sequenceNumber="5">
 <locations>
+<location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="com.google.collect" version="1.0.0.v201003051000"/>
+<unit id="org.junit" version="4.8.1.v4_8_1_v20100427-1100"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/updateSite"/>
+</location>
 <location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.6.0.I20111109-0831"/>
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.8.0.v20111107-0904"/>
@@ -13,14 +18,9 @@
 <unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.5.0.v20110502-1600-67O-96SGR55YJeZPedcQnghI6uFA"/>
 <repository location="http://download.eclipse.org/releases/juno"/>
 </location>
-<location includeAllPlatforms="false" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="org.eclipse.platform.sdk" version="4.2.0.I20111203-0800"/>
-<repository location="http://download.eclipse.org/eclipse/updates/4.2-I-builds"/>
-</location>
-<location includeAllPlatforms="false" includeMode="planner" includeSource="false" type="InstallableUnit">
-<unit id="com.google.collect" version="1.0.0.v201003051000"/>
-<unit id="org.junit" version="4.8.1.v4_8_1_v20100427-1100"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/updateSite"/>
+<location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.platform.sdk" version="4.2.0.I20111209-2100"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.2milestones"/>
 </location>
 </locations>
 </target>
