@@ -16,7 +16,6 @@ import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.text.ISynchronizable;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationModel;
@@ -50,23 +49,6 @@ public class IntentAnnotationModelManager {
 	public IntentAnnotationModelManager() {
 		this.annotationModel = new AnnotationModel();
 		this.handledCompilationStatus = new HashMap<CompilationStatus, Annotation>();
-	}
-
-	/**
-	 * Returns the lock object for the given annotation model.
-	 * 
-	 * @param annotationModelToLock
-	 *            the annotation model
-	 * @return the annotation model's lock object
-	 */
-	private Object getLockObject(final IAnnotationModel annotationModelToLock) {
-		if (annotationModelToLock instanceof ISynchronizable) {
-			final Object lock = ((ISynchronizable)annotationModelToLock).getLockObject();
-			if (lock != null) {
-				return lock;
-			}
-		}
-		return annotationModelToLock;
 	}
 
 	/**
@@ -160,10 +142,11 @@ public class IntentAnnotationModelManager {
 			boolean removeCurrentStatus = false;
 			CompilationStatus currentStatus = compilationStatusIterator.next();
 			Object currentStatusTargetID = adapter.getIDFromElement(currentStatus.getTarget());
+			Object elementID = adapter.getIDFromElement(element);
 			removeCurrentStatus = currentStatusTargetID == null;
 			// If the status is concerning the given element
 			// FIXME find a way to determine those targets
-			if (currentStatusTargetID.equals(adapter.getIDFromElement(element))) {
+			if (currentStatusTargetID != null && currentStatusTargetID.equals(elementID)) {
 				if (isCompilerAnnotation(this.handledCompilationStatus.get(currentStatus).getType())) {
 					// If the currentElement doesn't contain this status any more
 					if (!element.getCompilationStatus().contains(currentStatus)) {
