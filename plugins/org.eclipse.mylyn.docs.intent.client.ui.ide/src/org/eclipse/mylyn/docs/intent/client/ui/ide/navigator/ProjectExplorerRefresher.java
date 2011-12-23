@@ -40,10 +40,14 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
  */
 public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 
+	private static final long UPDATE_PROBLEM_VIEW_JOB_DELAY = 1500;
+
 	/**
 	 * The project to refresh.
 	 */
 	private IProject project;
+
+	private Job updateProblemViewJob;
 
 	/**
 	 * Creates a new {@link ProjectExplorerRefresher}.
@@ -53,6 +57,7 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 	 */
 	public ProjectExplorerRefresher(IProject project) {
 		this.project = project;
+		updateProblemView();
 	}
 
 	/**
@@ -103,6 +108,23 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		} else {
 			res = new ProjectExplorerRefreshJob(project, null);
 		}
+		updateProblemView();
 		return res;
+	}
+
+	/**
+	 * Updates the problem view (my creating markers for each compilation or synchronization status associated
+	 * to the current document.
+	 */
+	private void updateProblemView() {
+		if (updateProblemViewJob != null) {
+			updateProblemViewJob.cancel();
+		}
+		if (this.getRepositoryObjectHandler() != null
+				&& this.getRepositoryObjectHandler().getRepositoryAdapter() != null) {
+			updateProblemViewJob = new UpdateProblemsViewJob(project, this.getRepositoryObjectHandler()
+					.getRepositoryAdapter());
+			updateProblemViewJob.schedule(UPDATE_PROBLEM_VIEW_JOB_DELAY);
+		}
 	}
 }

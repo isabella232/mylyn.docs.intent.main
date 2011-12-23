@@ -234,7 +234,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 						resource.setTrackingModification(true);
 
 						if (resource.getContents().isEmpty()) {
-							System.err.println("deleting " + resource.getURI() + " because it's empty");
 							resource.delete(null);
 						}
 
@@ -242,7 +241,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 						// Removing dangling references
 						if (resource.getContents().iterator().next().eContainer() != null
 								&& resource.getContents().iterator().next().eContainer().eResource() == null) {
-							System.err.println("deleting " + resource.getURI() + " because it's dangling");
 							resource.delete(null);
 						}
 					}
