@@ -17,10 +17,10 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.DefaultWorkspaceRepositoryStructurer;
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
+import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 
 /**
@@ -69,7 +69,7 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	protected void splitElementAndSons(WorkspaceAdapter workspaceAdapter, EObject element)
 			throws ReadOnlyException {
 		if (isElementToSplit(element)) {
-			if (!(isCorrectlySplit(element))) {
+			if (!(isCorrectlySplit(element, workspaceAdapter))) {
 				// We have to place this element in a new resource
 				// The resource path follows the following structure :
 				// <INTENT_FOLDER> <CLASS_NAME> / <IDENTIFIER>
@@ -78,7 +78,7 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 				// We set the container's resource as modified
 				element.eContainer().eResource().setModified(true);
 				Resource newResource = workspaceAdapter.getOrCreateResource(newResourcePath);
-
+				newResource.getContents().clear();
 				newResource.getContents().add(element);
 				newResource.setTrackingModification(true);
 			}
@@ -98,15 +98,29 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	 * @return the resource identifier to associate with the given element
 	 */
 	private String getIdentifierForElement(WorkspaceAdapter workspaceAdapter, EObject element) {
-		// FIXME find a better identifier : can cause problems if two resources are created exactly at the
-		// same time.
-		String initialProposal = String.valueOf(System.currentTimeMillis() + "_"
-				+ Math.ceil(Math.random() * 100));
-		String proposal = initialProposal;
-		// int i = 0;
-		// while (workspaceAdapter.getResource(proposal) != null) {
-		// proposal = initialProposal + "_" + String.valueOf(i);
-		// }
+		String proposal = "";
+		// If element is the Intent document
+		if (element instanceof IntentDocument) {
+			return "IntentDocument";
+		}
+
+		// Otherwise, we get an identifier based on the document structure
+		// e.g "1.2.1"
+		EObject container = element;
+		while (!(container instanceof IntentDocument)) {
+			if (container instanceof ModelingUnit) {
+				proposal = (((IntentSection)container.eContainer()).getModelingUnits().indexOf(container) + 1)
+						+ "." + proposal;
+			} else if (container.eContainer() instanceof IntentSubSectionContainer) {
+				proposal = (((IntentSubSectionContainer)container.eContainer()).getSubSections().indexOf(
+						container) + 1)
+						+ "." + proposal;
+			} else {
+				proposal = (container.eContainer().eContents().indexOf(container) + 1) + "." + proposal;
+			}
+			container = container.eContainer();
+		}
+		proposal = proposal.substring(0, proposal.length() - 1);
 		return proposal;
 	}
 
@@ -124,12 +138,20 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	 *            the element to test
 	 * @return true if the element is correctly split
 	 */
-	private boolean isCorrectlySplit(EObject element) {
+	private boolean isCorrectlySplit(EObject element, WorkspaceAdapter workspaceAdapter) {
 		boolean isCorrectlySplit = true;
 		isCorrectlySplit = element.eResource() != null;
 		isCorrectlySplit = isCorrectlySplit && (element.eContainer() != null);
 		if (isCorrectlySplit) {
 			isCorrectlySplit = isCorrectlySplit && (element.eContainer().eResource() != element.eResource());
+		}
+		String expectedResourceLocation = IntentLocations.INTENT_FOLDER + element.eClass().getName() + "/"
+				+ getIdentifierForElement(workspaceAdapter, element);
+		try {
+			isCorrectlySplit = isCorrectlySplit
+					&& element.eResource() == workspaceAdapter.getResource(expectedResourceLocation, false);
+		} catch (Exception e) {
+			isCorrectlySplit = false;
 		}
 		return isCorrectlySplit || (element instanceof IntentDocument);
 	}
@@ -144,6 +166,6 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	protected boolean isElementToSplit(EObject element) {
 		boolean isElementToSplit = (element instanceof IntentDocument) || (element instanceof IntentChapter)
 				|| (element instanceof IntentSection);
-		return isElementToSplit || (element instanceof ModelingUnit) || (element instanceof DescriptionUnit);
+		return isElementToSplit || element instanceof ModelingUnit;
 	}
 }
