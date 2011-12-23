@@ -424,15 +424,17 @@ public final class IntentCompilerInformationHolder {
 	 */
 	private void addStatusListToInformationHolder(ModelingUnit unit,
 			EList<CompilationStatus> compilationStatusList) {
+		if (unit != null) {
+			// First in the general Status List
+			this.statusManager.getCompilationStatusList().addAll(compilationStatusList);
 
-		// First in the general Status List
-		this.statusManager.getCompilationStatusList().addAll(compilationStatusList);
-
-		// Then in the ModelingUnit to StatusList map.
-		if (this.statusManager.getModelingUnitToStatusList().get(unit) == null) {
-			this.statusManager.getModelingUnitToStatusList().put(unit, new BasicEList<CompilationStatus>());
+			// Then in the ModelingUnit to StatusList map.
+			if (this.statusManager.getModelingUnitToStatusList().get(unit) == null) {
+				this.statusManager.getModelingUnitToStatusList().put(unit,
+						new BasicEList<CompilationStatus>());
+			}
+			this.statusManager.getModelingUnitToStatusList().get(unit).addAll(compilationStatusList);
 		}
-		this.statusManager.getModelingUnitToStatusList().get(unit).addAll(compilationStatusList);
 	}
 
 	/**
@@ -443,15 +445,19 @@ public final class IntentCompilerInformationHolder {
 	 * @return the modeling unit associated to the given instruction
 	 */
 	private ModelingUnit getModelingUnitForInstruction(UnitInstruction instruction) {
-		ModelingUnit foundModelingUnit = (ModelingUnit)instruction.getUnit();
-		UnitInstruction parentInstruction = instruction;
+		ModelingUnit foundModelingUnit = null;
+		if (instruction != null) {
 
-		while (foundModelingUnit == null) {
-			parentInstruction = (UnitInstruction)parentInstruction.eContainer();
-			if (parentInstruction != null) {
-				foundModelingUnit = (ModelingUnit)parentInstruction.getUnit();
-			} else {
-				foundModelingUnit = null;
+			foundModelingUnit = (ModelingUnit)instruction.getUnit();
+			UnitInstruction parentInstruction = instruction;
+
+			while (foundModelingUnit == null) {
+				parentInstruction = (UnitInstruction)parentInstruction.eContainer();
+				if (parentInstruction != null) {
+					foundModelingUnit = (ModelingUnit)parentInstruction.getUnit();
+				} else {
+					foundModelingUnit = null;
+				}
 			}
 		}
 		return foundModelingUnit;

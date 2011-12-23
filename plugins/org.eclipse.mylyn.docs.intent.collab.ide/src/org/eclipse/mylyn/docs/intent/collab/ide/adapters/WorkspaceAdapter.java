@@ -214,8 +214,8 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 			for (Resource resource : resources) {
 
 				// We only save the resource if it has been modified
-				if (resource.isModified() || resource.getContents().isEmpty()) {
-					try {
+				try {
+					if (resource.isModified() || resource.getContents().isEmpty()) {
 
 						// We make sure the session isn't still reacting to previous saves
 						while (((WorkspaceSession)this.repository.getOrCreateSession()).isProcessingDelta()) {
@@ -232,11 +232,24 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 						// We finally save this resource
 						resource.save(getSaveOptions());
 						resource.setTrackingModification(true);
-					} catch (IOException e) {
-						throw new SaveException(e.getMessage());
-					} catch (RepositoryConnectionException e) {
-						throw new SaveException(e.getMessage());
+
+						if (resource.getContents().isEmpty()) {
+							System.err.println("deleting " + resource.getURI() + " because it's empty");
+							resource.delete(null);
+						}
+
+					} else {
+						// Removing dangling references
+						if (resource.getContents().iterator().next().eContainer() != null
+								&& resource.getContents().iterator().next().eContainer().eResource() == null) {
+							System.err.println("deleting " + resource.getURI() + " because it's dangling");
+							resource.delete(null);
+						}
 					}
+				} catch (IOException e) {
+					throw new SaveException(e.getMessage());
+				} catch (RepositoryConnectionException e) {
+					throw new SaveException(e.getMessage());
 				}
 			}
 
@@ -483,6 +496,11 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		Assert.isNotNull(element);
 		URI uri = EcoreUtil.getURI(element);
 
+		// if the URI starts with "#", it means that the resource is no longer part of the resource set.
+		// we return null to indicate the the given element is now invalid
+		if (uri.toString().startsWith("#")) {
+			return null;
+		}
 		return uri;
 	}
 

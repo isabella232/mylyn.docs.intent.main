@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler;
 
+import com.google.common.collect.Sets;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -338,7 +340,7 @@ public class ModelingUnitCompiler {
 	 */
 	protected void validateGeneratedElement() {
 
-		for (EObject generatedElement : informationHolder.getCurrentCreatedElements()) {
+		for (EObject generatedElement : Sets.newLinkedHashSet(informationHolder.getCurrentCreatedElements())) {
 			GeneratedElementValidator validator = new GeneratedElementValidator(
 					informationHolder.getInstructionByCreatedElement(generatedElement), generatedElement);
 			Diagnostic diagnostic;

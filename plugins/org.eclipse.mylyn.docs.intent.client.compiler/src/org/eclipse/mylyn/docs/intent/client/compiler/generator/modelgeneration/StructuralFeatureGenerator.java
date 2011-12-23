@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationErrorType;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.ResolveException;
@@ -66,12 +67,19 @@ public final class StructuralFeatureGenerator {
 
 		try {
 			EStructuralFeature feature = linkResolver.resolveEStructuralFeature(affectation, eClass.eClass());
+			if (feature == null || feature.getEType() == null) {
+				modelingUnitGenerator.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
+						new CompilationException(affectation, CompilationErrorType.INVALID_REFRENCE_ERROR,
+								"The feature " + feature.getName() + " is derived and cannot be set."));
+				feature.setEType(EcorePackage.eINSTANCE.getEString());
+			}
 			TypeReference resolvedMetaType = ModelingUnitFactory.eINSTANCE.createTypeReference();
 			resolvedMetaType.setIntentHref(feature.getEType().getName());
 			affectation.setMetaType(resolvedMetaType);
 			if (!feature.isDerived()) {
 
-				// Step 2 : we get the values to generate and assign to this structural feature thanks to the
+				// Step 2 : we get the values to generate and assign to this structural feature thanks to
+				// the
 				// modelingUnit generator.
 				List<Object> generatedValues = new ArrayList<Object>();
 				for (ValueForStructuralFeature value : affectation.getValues()) {
@@ -107,9 +115,10 @@ public final class StructuralFeatureGenerator {
 
 			} else {
 				CompilationStatus status = CompilerFactory.eINSTANCE.createCompilationStatus();
-				status.setMessage("The feature " + feature.getName() + " is derived and cannot be set.");
+				status.setMessage("The feature " + affectation.getName() + " undefined for type "
+						+ eClass.eClass());
 				status.setTarget(affectation);
-				status.setSeverity(CompilationStatusSeverity.WARNING);
+				status.setSeverity(CompilationStatusSeverity.ERROR);
 				status.setType(CompilationMessageType.VALIDATION_ERROR);
 				affectation.getCompilationStatus().add(status);
 			}
