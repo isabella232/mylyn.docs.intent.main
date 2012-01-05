@@ -26,7 +26,8 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentReconcilingStrategy;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.completion.DescriptionUnitCompletionProcessor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.completion.IntentCompletionProcessor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.completion.ModelingUnitCompletionProcessor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix.IntentQuickAssistant;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.AbstractIntentScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentDescriptionUnitScanner;
@@ -146,14 +147,23 @@ public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
 	@Override
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 		ContentAssistant ca = new ContentAssistant();
-		final DescriptionUnitCompletionProcessor descriptionUnitProcessor = new DescriptionUnitCompletionProcessor(
+		final IntentCompletionProcessor intentDefaultCompletionProcessor = new IntentCompletionProcessor(
 				editor.getBlockMatcher());
-		ca.setContentAssistProcessor(descriptionUnitProcessor, IntentDocumentProvider.INTENT_DESCRIPTIONUNIT);
-		ca.setContentAssistProcessor(descriptionUnitProcessor,
+		ca.setContentAssistProcessor(intentDefaultCompletionProcessor,
+				IntentDocumentProvider.INTENT_DESCRIPTIONUNIT);
+		ca.setContentAssistProcessor(intentDefaultCompletionProcessor,
 				IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT);
-		ca.setContentAssistProcessor(descriptionUnitProcessor, IntentDocumentProvider.INTENT_TITLE);
+		ca.setContentAssistProcessor(intentDefaultCompletionProcessor, IntentDocumentProvider.INTENT_TITLE);
 
-		// TODO modeling unit processor
+		if (editor.getDocumentProvider() instanceof IntentDocumentProvider
+				&& ((IntentDocumentProvider)editor.getDocumentProvider()).getListenedElementsHandler() != null) {
+			final ModelingUnitCompletionProcessor modelingUnitCompletionProcessor = new ModelingUnitCompletionProcessor(
+					((IntentDocumentProvider)editor.getDocumentProvider()).getListenedElementsHandler()
+							.getRepositoryAdapter());
+
+			ca.setContentAssistProcessor(modelingUnitCompletionProcessor,
+					IntentDocumentProvider.INTENT_MODELINGUNIT);
+		}
 
 		ca.setInformationControlCreator(getInformationControlCreator(sourceViewer));
 		return ca;

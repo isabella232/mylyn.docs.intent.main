@@ -19,6 +19,10 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Type Reference</b></em>'. <!--
  * end-user-doc -->
  * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.TypeReferenceImpl#getResolvedType <em>Resolved Type</em>}</li>
+ * </ul>
  * </p>
  *
  * @generated
@@ -39,6 +43,24 @@ public class TypeReferenceImpl extends IntentReferenceImpl implements TypeRefere
 	@Override
 	protected EClass eStaticClass() {
 		return ModelingUnitPackage.Literals.TYPE_REFERENCE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getResolvedType() {
+		return (EClass)eGet(ModelingUnitPackage.Literals.TYPE_REFERENCE__RESOLVED_TYPE, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setResolvedType(EClass newResolvedType) {
+		eSet(ModelingUnitPackage.Literals.TYPE_REFERENCE__RESOLVED_TYPE, newResolvedType);
 	}
 
 } // TypeReferenceImpl

@@ -10,12 +10,16 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.saver;
 
+import com.google.common.collect.Sets;
+import com.google.common.collect.Sets.SetView;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.cdo.util.ObjectNotFoundException;
@@ -90,7 +94,7 @@ public class CompilerInformationsSaver {
 
 				// We finally save the traceability informations
 				if (!progressMonitor.isCanceled()) {
-					saveTraceabilityInformations(resourceToGeneratedPath, handler);
+					saveTraceabilityInformations(resourceToGeneratedPath, handler, informationHolder);
 				}
 			}
 			// CHECKSTYLE:OFF : for now on we would like to print any exception
@@ -210,11 +214,13 @@ public class CompilerInformationsSaver {
 	 *            generated
 	 * @param handler
 	 *            the handler to use for saving on the repository
+	 * @param informationHolder
 	 * @throws ReadOnlyException
 	 *             if the current context is read-only
 	 */
 	private void saveTraceabilityInformations(Map<ResourceDeclaration, String> resourceToGeneratedPath,
-			RepositoryObjectHandler handler) throws ReadOnlyException {
+			RepositoryObjectHandler handler, IntentCompilerInformationHolder informationHolder)
+			throws ReadOnlyException {
 
 		// We first get the Traceability index
 		final Resource traceabilityResource = handler.getRepositoryAdapter().getResource(
@@ -226,6 +232,7 @@ public class CompilerInformationsSaver {
 		TraceabilityIndex traceIndex = (TraceabilityIndex)traceabilityResource.getContents().get(0);
 
 		List<TraceabilityIndexEntry> newTraceabilityEntries = new ArrayList<TraceabilityIndexEntry>();
+		Set<IntentGenericElement> handledInstructions = Sets.newLinkedHashSet();
 		// For each compiled resource
 		for (ResourceDeclaration resourceDeclaration : resourceToGeneratedPath.keySet()) {
 			// We create a traceability entry
@@ -238,6 +245,22 @@ public class CompilerInformationsSaver {
 			if (resourceToTraceabilityElementIndexEntry.get(resourceDeclaration) != null) {
 				entry.getContainedElementToInstructions().putAll(
 						resourceToTraceabilityElementIndexEntry.get(resourceDeclaration));
+				handledInstructions.addAll(resourceToTraceabilityElementIndexEntry.get(resourceDeclaration)
+						.values());
+			}
+			newTraceabilityEntries.add(entry);
+		}
+
+		// We also define an entry for instanciation instructions that are not referenced inside
+		// a Resource Declaration (useful for completion for example)
+		SetView<UnitInstruction> instanciationsInstructionNotContainedInResource = Sets.difference(
+				informationHolder.getAllInstanciationsInstructions(), handledInstructions);
+		if (!instanciationsInstructionNotContainedInResource.isEmpty()) {
+			TraceabilityIndexEntry entry = CompilerFactory.eINSTANCE.createTraceabilityIndexEntry();
+			entry.setCompilationTime(BigInteger.valueOf(System.currentTimeMillis()));
+
+			for (UnitInstruction instruction : instanciationsInstructionNotContainedInResource) {
+				entry.getContainedElementToInstructions().put(instruction, instruction);
 			}
 			newTraceabilityEntries.add(entry);
 		}

@@ -132,16 +132,17 @@ public class IntentSynchronizer {
 			this.stopIfCanceled(progressMonitor);
 			final TraceabilityIndexEntry indexEntry = indexEntryIterator.next();
 			// First of all, we clear the old synchronization statuses
+			if (indexEntry.getResourceDeclaration() != null) {
+				clearSyncStatusesFromIndexEntry(indexEntry);
 
-			clearSyncStatusesFromIndexEntry(indexEntry);
+				// We do not synchronize abstract resources (i.e. resources with no associated URI)
+				if (indexEntry.getResourceDeclaration().getUri() != null) {
+					// We then generate the synchronization status for this entry
+					final Collection<? extends CompilationStatus> synchronizedStatus = synchronize(adapter,
+							indexEntry, progressMonitor);
 
-			// We do not synchronize abstract resources (i.e. resources with no associated URI)
-			if (indexEntry.getResourceDeclaration().getUri() != null) {
-				// We then generate the synchronization status for this entry
-				final Collection<? extends CompilationStatus> synchronizedStatus = synchronize(adapter,
-						indexEntry, progressMonitor);
-
-				statusList.addAll(synchronizedStatus);
+					statusList.addAll(synchronizedStatus);
+				}
 			}
 		}
 		return statusList;
@@ -169,7 +170,8 @@ public class IntentSynchronizer {
 		// Then, for each mapped element
 		for (EObject containedElement : indexEntry.getContainedElementToInstructions().keySet()) {
 
-			// We must remove the synchronization statuses from the instruction that generated this element
+			// We must remove the synchronization statuses from the instruction that generated this
+			// element
 			IntentGenericElement instruction = indexEntry.getContainedElementToInstructions().get(
 					containedElement);
 			if (instruction != null) {
@@ -182,7 +184,6 @@ public class IntentSynchronizer {
 				}
 			}
 		}
-
 	}
 
 	/**

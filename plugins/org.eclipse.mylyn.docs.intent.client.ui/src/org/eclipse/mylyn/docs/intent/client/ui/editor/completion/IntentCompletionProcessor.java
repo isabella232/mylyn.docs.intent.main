@@ -13,7 +13,6 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.completion;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.jface.text.BadLocationException;
@@ -29,7 +28,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletionProcessor {
+public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor {
 
 	// Accurate contexts.
 
@@ -69,12 +68,12 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 	private IntentPairMatcher blockMatcher;
 
 	/**
-	 * Creates a new {@link DescriptionUnitCompletionProcessor} with the given {@link IntentPairMatcher}.
+	 * Creates a new {@link IntentCompletionProcessor} with the given {@link IntentPairMatcher}.
 	 * 
 	 * @param matcher
 	 *            the block matcher
 	 */
-	public DescriptionUnitCompletionProcessor(IntentPairMatcher matcher) {
+	public IntentCompletionProcessor(IntentPairMatcher matcher) {
 		this.blockMatcher = matcher;
 	}
 
@@ -96,15 +95,6 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 			}
 		}
 		accurateContext = res;
-	}
-
-	private int getLastIndexOf(String text, Pattern pattern) {
-		Matcher matcher = pattern.matcher(text);
-		int end = -1;
-		while (matcher.find()) {
-			end = matcher.end();
-		}
-		return end;
 	}
 
 	/**

@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.utils;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+
 import java.util.List;
 import java.util.Set;
 
@@ -120,6 +124,22 @@ public final class IntentCompilerInformationHolder {
 	 */
 	public UnitInstruction getInstructionByCreatedElement(EObject createdElement) {
 		return this.informationHolder.getCreatedElementsToInstructions().get(createdElement);
+	}
+
+	/**
+	 * Returns all the Instanciation instructions that have a non-null name (e.g new EClass e1 {}).
+	 * 
+	 * @return all the instanciation instructions that have a non-null name (e.g new EClass e1 {})
+	 */
+	public Set<UnitInstruction> getAllInstanciationsInstructions() {
+		return Sets.newLinkedHashSet(Iterables.filter(this.informationHolder
+				.getCreatedElementsToInstructions().values(), new Predicate<UnitInstruction>() {
+
+			public boolean apply(UnitInstruction instruction) {
+				return instruction instanceof InstanciationInstruction
+						&& ((InstanciationInstruction)instruction).getName() != null;
+			}
+		}));
 	}
 
 	/**

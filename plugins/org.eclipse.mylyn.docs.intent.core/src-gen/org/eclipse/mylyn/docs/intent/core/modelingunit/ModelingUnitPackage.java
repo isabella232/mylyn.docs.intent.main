@@ -700,13 +700,22 @@ public interface ModelingUnitPackage extends EPackage {
 	int TYPE_REFERENCE__INTENT_HREF = IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF;
 
 	/**
+	 * The feature id for the '<em><b>Resolved Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE_REFERENCE__RESOLVED_TYPE = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Type Reference</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_REFERENCE_FEATURE_COUNT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 0;
+	int TYPE_REFERENCE_FEATURE_COUNT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.InstanceLevelInstructionImpl <em>Instance Level Instruction</em>}' class.
@@ -1481,6 +1490,17 @@ public interface ModelingUnitPackage extends EPackage {
 	EClass getTypeReference();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference#getResolvedType <em>Resolved Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Resolved Type</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference#getResolvedType()
+	 * @see #getTypeReference()
+	 * @generated
+	 */
+	EReference getTypeReference_ResolvedType();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanceLevelInstruction <em>Instance Level Instruction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1945,6 +1965,14 @@ public interface ModelingUnitPackage extends EPackage {
 		 * @generated
 		 */
 		EClass TYPE_REFERENCE = eINSTANCE.getTypeReference();
+
+		/**
+		 * The meta object literal for the '<em><b>Resolved Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TYPE_REFERENCE__RESOLVED_TYPE = eINSTANCE.getTypeReference_ResolvedType();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.InstanceLevelInstructionImpl <em>Instance Level Instruction</em>}' class.

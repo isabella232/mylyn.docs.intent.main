@@ -239,7 +239,7 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String createURIFromString(EDataType eDataType, String initialValue) {
+	public Object createURIFromString(EDataType eDataType, String initialValue) {
 		return (String)super.createFromString(eDataType, initialValue);
 	}
 

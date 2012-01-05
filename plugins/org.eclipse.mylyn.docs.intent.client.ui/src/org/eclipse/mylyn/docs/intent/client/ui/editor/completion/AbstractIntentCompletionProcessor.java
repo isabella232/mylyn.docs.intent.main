@@ -213,4 +213,22 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 		return new TemplateProposal(template, context, region, image);
 	}
 
+	/**
+	 * Returns the last index of the given pattern inside the given text.
+	 * 
+	 * @param text
+	 *            the text in which the pattern should be searched
+	 * @param pattern
+	 *            the searched pattern
+	 * @return the last index of the given pattern inside the given text, -1 if none found
+	 */
+	protected int getLastIndexOf(String text, Pattern pattern) {
+		Matcher matcher = pattern.matcher(text);
+		int end = -1;
+		while (matcher.find()) {
+			end = matcher.end();
+		}
+		return end;
+	}
+
 }

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<genmodel:GenModel xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.mylyn.docs.intent.core/src-gen"
-    editDirectory="/org.eclipse.mylyn.docs.intent.core.edit/src-gen" editorDirectory="/org.eclipse.mylyn.docs.intent.core.editor/src-gen"
-    modelPluginID="org.eclipse.mylyn.docs.intent.core" modelName="Intent" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject"
-    rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl" reflectiveDelegation="true"
-    codeFormatting="true" importerID="org.eclipse.emf.importer.cdo" featureDelegation="Reflective"
-    containmentProxies="true" complianceLevel="5.0" copyrightFields="false" usedGenPackages="../../org.eclipse.mylyn.docs.intent.markup/model/markupCDO.genmodel#//markup"
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.mylyn.docs.intent.core/src-gen" editDirectory="/org.eclipse.mylyn.docs.intent.core.edit/src-gen"
+    editorDirectory="/org.eclipse.mylyn.docs.intent.core.editor/src-gen" modelPluginID="org.eclipse.mylyn.docs.intent.core"
+    modelName="Intent" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
+    reflectiveDelegation="true" codeFormatting="true" importerID="org.eclipse.emf.importer.cdo"
+    featureDelegation="Reflective" containmentProxies="true" complianceLevel="5.0"
+    copyrightFields="false" usedGenPackages="../../org.eclipse.mylyn.docs.intent.markup/model/markupCDO.genmodel#//markup"
     classNamePattern="">
   <foreignModel>modelingUnit.ecore</foreignModel>
   <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
-  <genPackages prefix="ModelingUnit" basePackage="org.eclipse.mylyn.docs.intent.core" disposableProviderFactory="true"
-      ecorePackage="modelingUnit.ecore#/">
+  <genPackages prefix="ModelingUnit" basePackage="org.eclipse.mylyn.docs.intent.core"
+      disposableProviderFactory="true" ecorePackage="modelingUnit.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="modelingUnit.ecore#//AffectationOperator">
       <genEnumLiterals ecoreEnumLiteral="modelingUnit.ecore#//AffectationOperator/SINGLE_VALUED_AFFECTATION"/>
       <genEnumLiterals ecoreEnumLiteral="modelingUnit.ecore#//AffectationOperator/MULTI_VALUED_AFFECTATION"/>
@@ -48,7 +47,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//AnnotationDeclaration/annotationID"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//AnnotationDeclaration/map"/>
     </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//TypeReference"/>
+    <genClasses ecoreClass="modelingUnit.ecore#//TypeReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//TypeReference/resolvedType"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="modelingUnit.ecore#//InstanceLevelInstruction">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//InstanceLevelInstruction/metaType"/>
     </genClasses>
@@ -76,8 +77,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ContributionInstruction/contributions"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="GenericUnit" basePackage="org.eclipse.mylyn.docs.intent.core" disposableProviderFactory="true"
-      ecorePackage="genericUnit.ecore#/">
+  <genPackages prefix="GenericUnit" basePackage="org.eclipse.mylyn.docs.intent.core"
+      disposableProviderFactory="true" ecorePackage="genericUnit.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="genericUnit.ecore#//TypeLabel">
       <genEnumLiterals ecoreEnumLiteral="genericUnit.ecore#//TypeLabel/LAZY"/>
       <genEnumLiterals ecoreEnumLiteral="genericUnit.ecore#//TypeLabel/EXPLICIT"/>
@@ -168,8 +169,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference document.ecore#//IntentHeaderDeclaration/resource"/>
     </genClasses>
   </genPackages>
-  <genPackages prefix="Compiler" basePackage="org.eclipse.mylyn.docs.intent.core" disposableProviderFactory="true"
-      ecorePackage="compilerInformations.ecore#/">
+  <genPackages prefix="Compiler" basePackage="org.eclipse.mylyn.docs.intent.core"
+      disposableProviderFactory="true" ecorePackage="compilerInformations.ecore#/">
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="compilerInformations.ecore#//CompilationStatusSeverity">
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//CompilationStatusSeverity/WARNING"/>
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//CompilationStatusSeverity/ERROR"/>
@@ -185,6 +186,11 @@
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//CompilationMessageType/INVALID_VALUE_ERROR"/>
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//CompilationMessageType/GENERAL_WARNING"/>
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//CompilationMessageType/SYNCHRONIZER_WARNING"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="compilerInformations.ecore#//SynchronizerResourceState">
+      <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerResourceState/DEFAULT"/>
+      <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerResourceState/NULL"/>
+      <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerResourceState/EMPTY"/>
     </genEnums>
     <genClasses ecoreClass="compilerInformations.ecore#//EStringToEObject">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//EStringToEObject/key"/>
@@ -258,6 +264,12 @@
     <genClasses ecoreClass="compilerInformations.ecore#//CompiledElementToInstructionEntry">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompiledElementToInstructionEntry/key"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompiledElementToInstructionEntry/value"/>
+    </genClasses>
+    <genClasses ecoreClass="compilerInformations.ecore#//SynchronizerCompilationStatus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/workingCopyResourceURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/compiledResourceURI"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/workingCopyResourceState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/compiledResourceState"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="DescriptionUnit" basePackage="org.eclipse.mylyn.docs.intent.core"

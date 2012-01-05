@@ -523,6 +523,15 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getTypeReference_ResolvedType() {
+		return (EReference)typeReferenceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getInstanceLevelInstruction() {
 		return instanceLevelInstructionEClass;
 	}
@@ -765,6 +774,7 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 		createEReference(annotationDeclarationEClass, ANNOTATION_DECLARATION__MAP);
 
 		typeReferenceEClass = createEClass(TYPE_REFERENCE);
+		createEReference(typeReferenceEClass, TYPE_REFERENCE__RESOLVED_TYPE);
 
 		instanceLevelInstructionEClass = createEClass(INSTANCE_LEVEL_INSTRUCTION);
 		createEReference(instanceLevelInstructionEClass, INSTANCE_LEVEL_INSTRUCTION__META_TYPE);
@@ -945,6 +955,9 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 		initEClass(typeReferenceEClass, TypeReference.class, "TypeReference", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getTypeReference_ResolvedType(), ecorePackage.getEClass(), null, "resolvedType", null,
+				0, 1, TypeReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(instanceLevelInstructionEClass, InstanceLevelInstruction.class,
 				"InstanceLevelInstruction", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

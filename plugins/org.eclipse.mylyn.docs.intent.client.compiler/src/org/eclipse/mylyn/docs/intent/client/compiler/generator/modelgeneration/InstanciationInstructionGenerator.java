@@ -65,6 +65,7 @@ public final class InstanciationInstructionGenerator {
 		try {
 			EClass metaType = (EClass)linkResolver.resolveEClassifierUsingPackage(instanciationInstruction,
 					importedPackageURIS, metaTypeHref);
+			instanciationInstruction.getMetaType().setResolvedType(metaType);
 
 			// Step 2 : instantiate correctly this entity
 			// Step 2.1 : Creation using the factory

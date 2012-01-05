@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="descriptionunit"
-    nsURI="http://www.eclipse.org/intent/descriptionunit/0.7" nsPrefix="intentDU">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="descriptionunit" nsURI="http://www.eclipse.org/intent/descriptionunit/0.7"
+    nsPrefix="intentDU">
   <eClassifiers xsi:type="ecore:EClass" name="DescriptionUnit" eSuperTypes="genericUnit.ecore#//GenericUnit"/>
   <eClassifiers xsi:type="ecore:EClass" name="DescriptionUnitInstruction" abstract="true"
       eSuperTypes="genericUnit.ecore#//UnitInstruction"/>
