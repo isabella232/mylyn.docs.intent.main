@@ -17,10 +17,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
@@ -146,28 +148,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private Collection<? extends ICompletionProposal> getProposalsForNewInstruction(String text)
 			throws ReadOnlyException {
-		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
-
 		String classNameBeginning = text.substring(text.lastIndexOf("new")).replace("new", "").trim();
-
-		Iterator<EPackage> availablePackages = Iterables.filter(
-				getTraceabilityIndex().eResource().getResourceSet().getPackageRegistry().values(),
-				EPackage.class).iterator();
-		int i = 0;
-		while (availablePackages.hasNext() && i < 100) {
-			EPackage availablePackage = availablePackages.next();
-			for (EClassifier availableClass : availablePackage.getEClassifiers()) {
-				if (availableClass.getName() != null
-						&& (classNameBeginning.length() == 0 || availableClass.getName().startsWith(
-								classNameBeginning))) {
-					proposals.add(createTemplateProposal(availableClass.getName(), "from "
-							+ availableClass.getEPackage().getNsURI(), availableClass.getName(),
-							"icon/outline/modelingunit_new_element.png"));
-					i++;
-				}
-			}
-		}
-		return proposals;
+		return getProposalsForEClassifier(classNameBeginning);
 	}
 
 	private Collection<ICompletionProposal> getProposalsForStructuralFeatureAffectation(String text)
@@ -191,18 +173,12 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			}
 		}
 
-		// Step 2: the structural feature is a contribution
+		// If the structural feature affectation is inside a contribution
 		if (isContribution) {
 			getProposalsForContribution(proposals, contributionName, featureNameBeginning);
 		} else {
-			EClassifier classifierToConsider = null;
-			Iterator<EPackage> availablePackages = Iterables.filter(
-					getTraceabilityIndex().eResource().getResourceSet().getPackageRegistry().values(),
-					EPackage.class).iterator();
-			while (availablePackages.hasNext() && classifierToConsider == null) {
-				EPackage availablePackage = availablePackages.next();
-				classifierToConsider = availablePackage.getEClassifier(contributionName);
-			}
+			// If the structural feature affectation is inside an Instranciation instruction
+			EClassifier classifierToConsider = getEClassifier(contributionName);
 			if (classifierToConsider != null && classifierToConsider instanceof EClass) {
 				for (EStructuralFeature feature : ((EClass)classifierToConsider).getEAllStructuralFeatures()) {
 					if (featureNameBeginning.length() == 0
@@ -239,9 +215,134 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		}
 	}
 
-	private Collection<? extends ICompletionProposal> getProposalsForStructuralFeatureValue(String text) {
+	private Collection<? extends ICompletionProposal> getProposalsForStructuralFeatureValue(String text)
+			throws ReadOnlyException {
 		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
-		proposals.add(createKeyWordProposal(" new truc or reference - inside " + text));
+
+		// Step 1: extract the classifier holding this feature
+		// and the feature name
+		boolean isContribution = true;
+		String classifierName = null;
+		String featureName = null;
+		String beginning = "";
+		if (text.lastIndexOf("{") != -1) {
+			classifierName = text.substring(0, text.lastIndexOf("{")).trim();
+			featureName = text.substring(text.lastIndexOf("{")).replace("{", "").trim();
+			if (featureName.contains("+=")) {
+				beginning = featureName.substring(featureName.indexOf("+=") + 2).trim();
+				featureName = featureName.substring(0, featureName.indexOf("+=")).trim();
+			} else if (featureName.contains("=")) {
+				beginning = featureName.substring(featureName.indexOf("=") + 1).trim();
+				featureName = featureName.substring(0, featureName.indexOf("=")).trim();
+			}
+
+			if (classifierName.contains("new")) {
+				isContribution = false;
+				classifierName = classifierName.substring(classifierName.lastIndexOf("new")).trim();
+				classifierName = classifierName.substring(classifierName.indexOf(" ")).trim();
+				if (classifierName.contains(" ")) {
+					classifierName = classifierName.substring(0, classifierName.indexOf(" ")).trim();
+				}
+			}
+		}
+		EClassifier classifierToConsider = null;
+		if (isContribution) {
+			TraceabilityIndex traceabilityIndex = getTraceabilityIndex();
+			for (TraceabilityIndexEntry entry : traceabilityIndex.getEntries()) {
+				for (InstanciationInstruction instruction : Iterables.filter(entry
+						.getContainedElementToInstructions().values(), InstanciationInstruction.class)) {
+					if (classifierName.equals(instruction.getName())) {
+						if (instruction.getMetaType() != null
+								&& instruction.getMetaType().getResolvedType() != null) {
+							classifierToConsider = instruction.getMetaType().getResolvedType();
+							break;
+						}
+					}
+				}
+			}
+		} else {
+			classifierToConsider = getEClassifier(classifierName);
+		}
+
+		// Step 2: get the feature type
+		if (classifierToConsider != null && classifierToConsider instanceof EClass) {
+
+			EStructuralFeature featureToConsider = ((EClass)classifierToConsider)
+					.getEStructuralFeature(featureName);
+			if (featureToConsider != null && featureToConsider.getEType() != null
+					&& featureToConsider.getEType().getName() != null) {
+
+				// Step 3: if the feature is an EAttribute, we add a proposal with the default value of this
+				// attribute type
+				if (featureToConsider instanceof EAttribute) {
+					String defaultAttributeValue = "";
+					if (featureToConsider.getEType().getDefaultValue() != null) {
+						defaultAttributeValue = featureToConsider.getEType().getDefaultValue().toString();
+					}
+					proposals.add(createTemplateProposal("value (of type "
+							+ featureToConsider.getEType().getName() + ")", "Set a simple value of type "
+							+ featureToConsider.getEType().getName(), '"' + defaultAttributeValue + "\";",
+							"icon/outline/modelingunit_value.gif"));
+				} else {
+					// Propose to create a new Element of the feature type
+					proposals.add(createTemplateProposal("new Element (of type "
+							+ featureToConsider.getEType().getName() + ")",
+							"Set this new Element as value for " + featureToConsider.getName(), "new "
+									+ featureToConsider.getEType().getName() + "{\n\t${}\n};",
+							"icon/outline/modelingunit_new_element.png"));
+
+					// Propose to reference an already defined element
+					TraceabilityIndex traceabilityIndex = getTraceabilityIndex();
+					for (TraceabilityIndexEntry entry : traceabilityIndex.getEntries()) {
+						for (InstanciationInstruction instruction : Iterables
+								.filter(entry.getContainedElementToInstructions().values(),
+										InstanciationInstruction.class)) {
+							if (instruction.getName() != null
+									&& (beginning.length() == 0 || instruction.getName()
+											.startsWith(beginning))) {
+								if (instruction.getMetaType() != null
+										&& featureToConsider.getEType().equals(
+												instruction.getMetaType().getResolvedType())) {
+									proposals.add(createTemplateProposal(
+											"Reference to " + instruction.getName(),
+											"Set the " + instruction.getName() + " element as value for "
+													+ featureToConsider.getName(), instruction.getName(),
+											"icon/outline/modelingunit_ref.png"));
+								}
+							}
+						}
+					}
+
+					// If the expected eType is an EClassifier, also propose all available classifiers
+					if (featureToConsider.getEType().equals(EcorePackage.eINSTANCE.getEClassifier())) {
+						proposals.addAll(getProposalsForEClassifier(beginning));
+					}
+				}
+			}
+		}
+		return proposals;
+	}
+
+	private Collection<? extends ICompletionProposal> getProposalsForEClassifier(String classNameBeginning)
+			throws ReadOnlyException {
+		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
+		Iterator<EPackage> availablePackages = Iterables.filter(
+				getTraceabilityIndex().eResource().getResourceSet().getPackageRegistry().values(),
+				EPackage.class).iterator();
+		int i = 0;
+		while (availablePackages.hasNext() && i < 100) {
+			EPackage availablePackage = availablePackages.next();
+			for (EClassifier availableClass : availablePackage.getEClassifiers()) {
+				if (availableClass.getName() != null
+						&& (classNameBeginning.length() == 0 || availableClass.getName().startsWith(
+								classNameBeginning))) {
+					proposals.add(createTemplateProposal(availableClass.getName(), availableClass
+							.getEPackage().getNsURI(), availableClass.getName(),
+							"icon/outline/modelingunit_new_element.png"));
+					i++;
+				}
+			}
+		}
 		return proposals;
 	}
 
@@ -393,6 +494,18 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			throw new IllegalArgumentException();
 		}
 		return (TraceabilityIndex)traceabilityIndexResource.getContents().iterator().next();
+	}
+
+	private EClassifier getEClassifier(String contributionName) throws ReadOnlyException {
+		EClassifier classifierToConsider = null;
+		Iterator<EPackage> availablePackages = Iterables.filter(
+				getTraceabilityIndex().eResource().getResourceSet().getPackageRegistry().values(),
+				EPackage.class).iterator();
+		while (availablePackages.hasNext() && classifierToConsider == null) {
+			EPackage availablePackage = availablePackages.next();
+			classifierToConsider = availablePackage.getEClassifier(contributionName);
+		}
+		return classifierToConsider;
 	}
 
 	/**

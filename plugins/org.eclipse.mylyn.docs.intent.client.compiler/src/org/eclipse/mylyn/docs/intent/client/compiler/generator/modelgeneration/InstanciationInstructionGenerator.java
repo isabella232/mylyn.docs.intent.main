@@ -95,6 +95,12 @@ public final class InstanciationInstructionGenerator {
 							CompilationErrorType.INVALID_REFRENCE_ERROR, e.getMessage()));
 			// And we create a sample object, in order to let the compilation running
 			createdElement = EcoreFactory.eINSTANCE.createEObject();
+		} catch (IllegalArgumentException e) {
+			modelingUnitGenerator.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
+					new CompilationException(instanciationInstruction,
+							CompilationErrorType.INVALID_VALUE_ERROR, e.getMessage()));
+			// And we create a sample object, in order to let the compilation running
+			createdElement = EcoreFactory.eINSTANCE.createEObject();
 		}
 
 		// Step 3 : Registration of the generated element
