@@ -2,18 +2,32 @@
 <?eclipse version="3.4"?>
 <plugin>
 <extension
-         point="org.eclipse.ui.popupMenus">
-      <objectContribution
-            adaptable="true"
-            id="org.eclipse.mylyn.docs.intentexport.ui"
-            objectClass="org.eclipse.core.resources.IProject"> <!-- Currently textile only -->
-         <action
-               label="Export Intent Documentation as HTML"
-               class="org.eclipse.mylyn.docs.intent.exporter.ui.popup.actions.ExportIntentDocumentationAction"
-               menubarPath="additions"
-               enablesFor="1"
-               id="org.eclipse.mylyn.docs.intent.exporter.ui.action.html">
-         </action>
-               </objectContribution>
-   </extension>
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         locationURI="popup:org.eclipse.mylyn.docs.intent.client.ui.ide.menu">
+      <command
+            commandId="org.eclipse.mylyn.docs.intent.export.exportHTML"
+            icon="icon/html_tag_obj.gif"
+            label="Export Intent Documentation as HTML"
+            style="push">
+         <visibleWhen
+               checkEnabled="false">
+            <iterate
+                  operator="and">            <test
+                  forcePluginActivation="true"
+                  property="org.eclipse.mylyn.docs.intent.client.ui.ide.isIntentDocument">
+            </test></iterate>
+
+         </visibleWhen>
+      </command>
+   </menuContribution>
+</extension>
+<extension
+      point="org.eclipse.ui.commands">
+   <command
+         defaultHandler="org.eclipse.mylyn.docs.intent.exporter.ui.popup.actions.ExportIntentDocumentationAction"
+         id="org.eclipse.mylyn.docs.intent.export.exportHTML"
+         name="Export Intent Documentation as HTML">
+   </command>
+</extension>
 </plugin>

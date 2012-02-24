@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -29,7 +32,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -42,20 +44,23 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.exporter.main.HTMLBootstrapGenDocument;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.osgi.framework.Bundle;
 
-public class ExportIntentDocumentationAction implements IObjectActionDelegate {
-
-	private ISelection selection;
+/**
+ * An handler allowing to export an intent document / Intent Project as an HTML Document.
+ * 
+ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ */
+public class ExportIntentDocumentationAction extends AbstractHandler {
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
-	public void run(IAction action) {
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		ISelection selection = HandlerUtil.getCurrentSelection(event);
 		Object intentProject;
 		if (selection instanceof StructuredSelection
 				&& (intentProject = ((StructuredSelection)selection).getFirstElement()) instanceof IProject) {
@@ -63,7 +68,7 @@ public class ExportIntentDocumentationAction implements IObjectActionDelegate {
 			// Step 1 : open the export dialog
 			ExportOptionsDialog exportOptionsDialog = new ExportOptionsDialog(Display.getCurrent()
 					.getActiveShell(), new File(((IProject)intentProject).getLocationURI()).getAbsolutePath()
-					+ "/export");
+					+ "/html");
 
 			if (Window.OK == exportOptionsDialog.open()) {
 				// Step 2: realize export
@@ -72,6 +77,7 @@ public class ExportIntentDocumentationAction implements IObjectActionDelegate {
 						exportOptionsDialog.getExportedIntentDocumentName(), new BasicMonitor());
 			}
 		}
+		return null;
 	}
 
 	/**
@@ -196,27 +202,6 @@ public class ExportIntentDocumentationAction implements IObjectActionDelegate {
 		} finally {
 			zipFileStream.close();
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
-	 *      org.eclipse.jface.viewers.ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection selection) {
-		this.selection = selection;
-
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction,
-	 *      org.eclipse.ui.IWorkbenchPart)
-	 */
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-
 	}
 
 }

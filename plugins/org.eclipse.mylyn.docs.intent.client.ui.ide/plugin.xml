@@ -73,23 +73,6 @@ Contributors:
        </navigatorContent>
     </extension>
     <extension
-          point="org.eclipse.ui.popupMenus">
-       <objectContribution
-             adaptable="true"
-             id="org.eclipse.mylyn.docs.intent.client.ui.ide.contribution1"
-             nameFilter="*"
-             objectClass="org.eclipse.core.resources.IProject">
-          <action
-                class="org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction"
-                enablesFor="+"
-                icon="icon/ide/toggle_nature.gif"
-                id="org.eclipse.mylyn.docs.intent.client.ui.ide.addRemoveNatureAction"
-                label="Add/Remove Intent Nature"
-                menubarPath="additions">
-          </action>
-       </objectContribution>
-    </extension>
-    <extension
           id="intentBuilder"
           name="Intent Project Builder"
           point="org.eclipse.core.resources.builders">
@@ -170,6 +153,102 @@ Contributors:
              repositoryCreatorClass="org.eclipse.mylyn.docs.intent.client.ui.ide.repository.IntentWorkspaceRepositoryCreator"
              repositoryStructurerClass="org.eclipse.mylyn.docs.intent.client.ui.ide.repository.IntentWorkspaceRepositoryStructurer">
        </Repository>
+    </extension>
+    <extension
+          point="org.eclipse.ui.menus">
+       <menuContribution
+             allPopups="false"
+             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+          <menu
+                icon="icon/ide/toggle_nature.gif"
+                id="org.eclipse.mylyn.docs.intent.client.ui.ide.menu"
+                label="Intent">
+             <visibleWhen
+                   checkEnabled="true">
+             </visibleWhen>
+          </menu>
+       </menuContribution>
+       <menuContribution
+             allPopups="false"
+             locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+          <command
+                commandId="org.eclipse.mylyn.docs.intent.client.ui.ide.addNatureCommand"
+                icon="icon/ide/toggle_nature.gif"
+                label="Add Intent Nature"
+                style="push"
+                tooltip="Toggle the Intent Nature on the selected project">
+             <visibleWhen
+                   checkEnabled="false">
+                <iterate>
+                   <adapt
+                         type="org.eclipse.core.resources.IProject">
+                      <and>
+                         <not>
+                            <test
+                                  property="org.eclipse.core.resources.projectNature"
+                                  value="org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature">
+                            </test>
+                         </not>
+                         <test
+                               property="org.eclipse.core.resources.open"
+                               value="true">
+                         </test>
+                      </and>
+                   </adapt>
+                </iterate>
+             </visibleWhen>
+          </command>
+          <command
+                commandId="org.eclipse.mylyn.docs.intent.client.ui.ide.removeNatureCommand"
+                icon="icon/ide/toggle_nature.gif"
+                label="Remove Intent Nature"
+                style="push"
+                tooltip="Toggle the Intent Nature on the selected project">
+             <visibleWhen
+                   checkEnabled="false">
+                <iterate>
+                   <adapt
+                         type="org.eclipse.core.resources.IProject">
+                      <and>
+                         <test
+                               property="org.eclipse.core.resources.open"
+                               value="true">
+                         </test>
+                         <test
+                               property="org.eclipse.core.resources.projectNature"
+                               value="org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature">
+                         </test>
+                      </and>
+                   </adapt>
+                </iterate>
+             </visibleWhen>
+          </command>
+       </menuContribution>
+    </extension>
+    <extension
+          point="org.eclipse.ui.commands">
+       <command
+             categoryId="org.eclipse.ui.category.file"
+             defaultHandler="org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction"
+             id="org.eclipse.mylyn.docs.intent.client.ui.ide.addNatureCommand"
+             name="Add Intent Nature">
+       </command>
+       <command
+             categoryId="org.eclipse.ui.category.file"
+             defaultHandler="org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction"
+             id="org.eclipse.mylyn.docs.intent.client.ui.ide.removeNatureCommand"
+             name="Remove Intent Nature">
+       </command>
+    </extension>
+    <extension
+          point="org.eclipse.core.expressions.propertyTesters">
+       <propertyTester
+             class="org.eclipse.mylyn.docs.intent.client.ui.ide.propertytester.IsAssociatedToIntentDocumentTester"
+             id="org.eclipse.mylyn.docs.intent.IntentPropertyTester"
+             namespace="org.eclipse.mylyn.docs.intent.client.ui.ide"
+             properties="isIntentDocument"
+             type="java.lang.Object">
+       </propertyTester>
     </extension>
    
    

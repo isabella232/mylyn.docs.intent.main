@@ -12,65 +12,23 @@ package org.eclipse.mylyn.docs.intent.client.ui.ide.builder;
 
 import java.util.Iterator;
 
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IObjectActionDelegate;
-import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
  * Allows to toggle intent nature on projects.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class ToggleNatureAction implements IObjectActionDelegate {
-
-	private ISelection selection;
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
-	 */
-	public void run(IAction action) {
-		if (selection instanceof IStructuredSelection) {
-			for (Iterator it = ((IStructuredSelection)selection).iterator(); it.hasNext();) {
-				Object element = it.next();
-				IProject project = null;
-				if (element instanceof IProject) {
-					project = (IProject)element;
-				} else if (element instanceof IAdaptable) {
-					project = (IProject)((IAdaptable)element).getAdapter(IProject.class);
-				}
-				if (project != null) {
-					toggleNature(project);
-				}
-			}
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
-	 *      org.eclipse.jface.viewers.ISelection)
-	 */
-	public void selectionChanged(IAction action, ISelection currentSelection) {
-		this.selection = currentSelection;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction,
-	 *      org.eclipse.ui.IWorkbenchPart)
-	 */
-	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
-	}
+public class ToggleNatureAction extends AbstractHandler {
 
 	/**
 	 * Toggles intent nature on a project.
@@ -104,6 +62,31 @@ public class ToggleNatureAction implements IObjectActionDelegate {
 		} catch (CoreException e) {
 			// do nothing
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 */
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		ISelection currentSelection = HandlerUtil.getCurrentSelection(event);
+
+		if (currentSelection instanceof IStructuredSelection) {
+			for (Iterator it = ((IStructuredSelection)currentSelection).iterator(); it.hasNext();) {
+				Object element = it.next();
+				IProject project = null;
+				if (element instanceof IProject) {
+					project = (IProject)element;
+				} else if (element instanceof IAdaptable) {
+					project = (IProject)((IAdaptable)element).getAdapter(IProject.class);
+				}
+				if (project != null) {
+					toggleNature(project);
+				}
+			}
+		}
+		return null;
 	}
 
 }
