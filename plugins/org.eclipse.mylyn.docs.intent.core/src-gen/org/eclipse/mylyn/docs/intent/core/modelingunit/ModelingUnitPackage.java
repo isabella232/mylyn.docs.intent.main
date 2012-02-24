@@ -1130,13 +1130,22 @@ public interface ModelingUnitPackage extends EPackage {
 	int REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_ELEMENT = VALUE_FOR_STRUCTURAL_FEATURE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Referenced Meta Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_META_TYPE = VALUE_FOR_STRUCTURAL_FEATURE_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Reference Value For Structural Feature</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE_FEATURE_COUNT = VALUE_FOR_STRUCTURAL_FEATURE_FEATURE_COUNT + 1;
+	int REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE_FEATURE_COUNT = VALUE_FOR_STRUCTURAL_FEATURE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ContributionInstructionImpl <em>Contribution Instruction</em>}' class.
@@ -1670,6 +1679,17 @@ public interface ModelingUnitPackage extends EPackage {
 	EReference getReferenceValueForStructuralFeature_ReferencedElement();
 
 	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedMetaType <em>Referenced Meta Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Referenced Meta Type</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedMetaType()
+	 * @see #getReferenceValueForStructuralFeature()
+	 * @generated
+	 */
+	EReference getReferenceValueForStructuralFeature_ReferencedMetaType();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction <em>Contribution Instruction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2121,6 +2141,15 @@ public interface ModelingUnitPackage extends EPackage {
 		 */
 		EReference REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_ELEMENT = eINSTANCE
 				.getReferenceValueForStructuralFeature_ReferencedElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Referenced Meta Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_META_TYPE = eINSTANCE
+				.getReferenceValueForStructuralFeature_ReferencedMetaType();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ContributionInstructionImpl <em>Contribution Instruction</em>}' class.

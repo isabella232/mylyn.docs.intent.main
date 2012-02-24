@@ -81,6 +81,7 @@
       eSuperTypes="#//ValueForStructuralFeature">
     <eStructuralFeatures xsi:type="ecore:EReference" name="referencedElement" lowerBound="1"
         eType="#//InstanciationInstructionReference" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedMetaType" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ContributionInstruction" eSuperTypes="#//ModelingUnitInstruction">
     <eStructuralFeatures xsi:type="ecore:EReference" name="referencedElement" lowerBound="1"

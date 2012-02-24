@@ -676,6 +676,15 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getReferenceValueForStructuralFeature_ReferencedMetaType() {
+		return (EReference)referenceValueForStructuralFeatureEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getContributionInstruction() {
 		return contributionInstructionEClass;
 	}
@@ -800,6 +809,8 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 		referenceValueForStructuralFeatureEClass = createEClass(REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE);
 		createEReference(referenceValueForStructuralFeatureEClass,
 				REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_ELEMENT);
+		createEReference(referenceValueForStructuralFeatureEClass,
+				REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_META_TYPE);
 
 		contributionInstructionEClass = createEClass(CONTRIBUTION_INSTRUCTION);
 		createEReference(contributionInstructionEClass, CONTRIBUTION_INSTRUCTION__REFERENCED_ELEMENT);
@@ -1013,6 +1024,10 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 				this.getInstanciationInstructionReference(), null, "referencedElement", null, 1, 1,
 				ReferenceValueForStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
 				IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReferenceValueForStructuralFeature_ReferencedMetaType(), ecorePackage.getEObject(),
+				null, "referencedMetaType", null, 0, 1, ReferenceValueForStructuralFeature.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(contributionInstructionEClass, ContributionInstruction.class, "ContributionInstruction",
 				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

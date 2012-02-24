@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.core.modelingunit;
 
+import org.eclipse.emf.ecore.EObject;
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Reference Value For Structural Feature</b></em>'.
@@ -19,6 +21,7 @@ package org.eclipse.mylyn.docs.intent.core.modelingunit;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedElement <em>Referenced Element</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedMetaType <em>Referenced Meta Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,5 +55,31 @@ public interface ReferenceValueForStructuralFeature extends ValueForStructuralFe
 	 * @generated
 	 */
 	void setReferencedElement(InstanciationInstructionReference value);
+
+	/**
+	 * Returns the value of the '<em><b>Referenced Meta Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Referenced Meta Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Referenced Meta Type</em>' reference.
+	 * @see #setReferencedMetaType(EObject)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#getReferenceValueForStructuralFeature_ReferencedMetaType()
+	 * @model
+	 * @generated
+	 */
+	EObject getReferencedMetaType();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedMetaType <em>Referenced Meta Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Referenced Meta Type</em>' reference.
+	 * @see #getReferencedMetaType()
+	 * @generated
+	 */
+	void setReferencedMetaType(EObject value);
 
 } // ReferenceValueForStructuralFeature

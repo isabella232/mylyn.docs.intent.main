@@ -61,10 +61,13 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		ISelection selection = HandlerUtil.getCurrentSelection(event);
-		Object intentProject;
-		if (selection instanceof StructuredSelection
-				&& (intentProject = ((StructuredSelection)selection).getFirstElement()) instanceof IProject) {
-
+		if (selection instanceof StructuredSelection) {
+			IProject intentProject = null;
+			if (((StructuredSelection)selection).getFirstElement() instanceof IProject) {
+				intentProject = (IProject)((StructuredSelection)selection).getFirstElement();
+			} else if (((StructuredSelection)selection).getFirstElement() instanceof IntentDocument) {
+				// TODO
+			}
 			// Step 1 : open the export dialog
 			ExportOptionsDialog exportOptionsDialog = new ExportOptionsDialog(Display.getCurrent()
 					.getActiveShell(), new File(((IProject)intentProject).getLocationURI()).getAbsolutePath()

@@ -25,6 +25,7 @@ import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices;
 
 /**
  * Entry point of the 'HTMLBootstrapGenDocument' generation module.
@@ -166,31 +167,12 @@ public class HTMLBootstrapGenDocument extends AbstractAcceleoGenerator {
 	 *            This will be used to display progress information to the user.
 	 * @throws IOException
 	 *             This will be thrown if any of the output files cannot be saved to disk.
-	 * @generated
+	 * @generated-not
 	 */
 	@Override
 	public void doGenerate(Monitor monitor) throws IOException {
-        /*
-         * TODO if you wish to change the generation as a whole, override this. The default behavior should
-         * be sufficient in most cases. If you want to change the content of this method, do NOT forget to
-         * change the "@generated" tag in the Javadoc of this method to "@generated NOT". Without this new tag,
-         * any compilation of the Acceleo module with the main template that has caused the creation of this
-         * class will revert your modifications. If you encounter a problem with an unresolved proxy during the
-         * generation, you can remove the comments in the following instructions to check for problems. Please
-         * note that those instructions may have a significant impact on the performances.
-         */
-
-        //org.eclipse.emf.ecore.util.EcoreUtil.resolveAll(model);
-
-        //if (model != null && model.eResource() != null) {
-        //    List<org.eclipse.emf.ecore.resource.Resource.Diagnostic> errors = model.eResource().getErrors();
-        //    for (org.eclipse.emf.ecore.resource.Resource.Diagnostic diagnostic : errors) {
-        //        System.err.println(diagnostic.toString());
-        //    }
-        //}
-
-        super.doGenerate(monitor);
-    }
+		doGenerate(monitor, "Intent Documentation");
+	}
 
 	/**
 	 * Launches the generation described by this instance.
@@ -204,7 +186,9 @@ public class HTMLBootstrapGenDocument extends AbstractAcceleoGenerator {
 	 */
 	public void doGenerate(Monitor monitor, String projectName) throws IOException {
 		this.projectName = projectName;
+		IntentAcceleoServices.initialize(getTargetFolder());
 		super.doGenerate(monitor);
+		IntentAcceleoServices.dispose();
 	}
 
 	/**

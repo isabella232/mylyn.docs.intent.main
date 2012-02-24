@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
@@ -23,6 +24,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructur
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ReferenceValueForStructuralFeatureImpl#getReferencedElement <em>Referenced Element</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ReferenceValueForStructuralFeatureImpl#getReferencedMetaType <em>Referenced Meta Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,6 +68,27 @@ public class ReferenceValueForStructuralFeatureImpl extends ValueForStructuralFe
 	public void setReferencedElement(InstanciationInstructionReference newReferencedElement) {
 		eSet(ModelingUnitPackage.Literals.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_ELEMENT,
 				newReferencedElement);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EObject getReferencedMetaType() {
+		return (EObject)eGet(
+				ModelingUnitPackage.Literals.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_META_TYPE,
+				true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setReferencedMetaType(EObject newReferencedMetaType) {
+		eSet(ModelingUnitPackage.Literals.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_META_TYPE,
+				newReferencedMetaType);
 	}
 
 } //ReferenceValueForStructuralFeatureImpl

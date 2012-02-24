@@ -8,6 +8,10 @@
 invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getHeaderSizeForSection(java.lang.String)', Sequence{sectionID})
 /]
 
+[query public getQualifiedImageId(classifer : EObject) : String = 
+invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getQualifiedImageID(org.eclipse.emf.ecore.EObject)', Sequence{classifer})
+/]
+
 [template public generateHTMLContent(intentDocument : IntentDocument)]
 	<div id="content" >
 		[for (chapter : IntentChapter | intentDocument.chapters)]
@@ -83,7 +87,7 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 
 [template public generateHTMLContent(instancation : InstanciationInstruction)]
 	<li class="jstree-open">
-		<img src="./icons/modelingunit_new_element.png"/>
+		[instancation.getImageForValue()/]
 
 		<a href="#"												
 			rel="popover" title=""
@@ -92,7 +96,7 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 		[if instancation.name->isEmpty()._not()]
 			[instancation.name/] - 
 		[/if]
-		 new [instancation.metaType.IntentHref/] (Definition)
+		 new [instancation.metaType.IntentHref/] [definitionInformation()/]
 
 		</a>
 		[if instancation.structuralFeatures->size() > 0]
@@ -107,13 +111,13 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 
 [template public generateHTMLContent(contribution : ContributionInstruction)]
 	<li class="jstree-open">
-		<img src="./icons/modelingunit_contribution.png"/>
+		[contribution.getImageForValue()/]
 
 		<a href="#"												
 			rel="popover" title="Contribution to [contribution.referencedElement.IntentHref/] [if contribution.referencedElement.IntentHref.oclIsInvalid()._not()](of type [contribution.referencedElement.IntentHref/])[/if]"
 			data-content="Some infos"
 		>
-		[contribution.referencedElement.IntentHref/] (Contribution)
+		[contribution.referencedElement.IntentHref/] [contributionInformation()/]
 		</a>
 		[if contribution.contributions->size() > 0]
 			<ul>
@@ -136,7 +140,7 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 		Resource [resourceDeclaration.name/]
 		</a>
 			[if resourceDeclaration.uri->isEmpty()._not()]
-				(URI :[resourceDeclaration.uri.toString()/])
+				(URI :<code style="color:blue; border:0px solid black;">[resourceDeclaration.uri.toString()/])</code>
 			[/if]
 			[if resourceDeclaration.content->size() > 0]
 				<ul>
@@ -194,7 +198,7 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 		[if newValueInstruction.value.name->isEmpty()._not()]
 			[newValueInstruction.value.name/] - 
 		[/if]
-		 new [newValueInstruction.value.metaType.IntentHref/] (Definition)
+		 new [newValueInstruction.value.metaType.IntentHref/] [definitionInformation()/]
 
 		</a>
 		[if newValueInstruction.value.structuralFeatures->size() > 0]
@@ -224,14 +228,6 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 >[reference.referencedElement.IntentHref/]</a>
 [/template]
 
-[template public getImageForValue(valueInstruction : ReferenceValueForStructuralFeature)]
-<img src="./icons/modelingunit_ref.png"/>
-[/template]
-
-[template public getImageForValue(valueInstruction : NewObjectValueForStructuralFeature)]
-<img src="./icons/modelingunit_new_element.png"/>
-[/template]
-
 [template public getImageForValue(valueInstruction : NativeValueForStructuralFeature)]
 <img src="./icons/modelingunit_value.gif"/>
 [/template]
@@ -240,9 +236,61 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 <img src="./icons/modelingunit_affect.png"/>
 [/template]
 
+[template public getImageForValue(valueInstruction : ReferenceValueForStructuralFeature)]
+[if valueInstruction.referencedMetaType.oclIsUndefined()]
+	 <img src="./icons/modelingunit_ref.png"/>
+[else]
+[let imagePath : String = valueInstruction.referencedMetaType.getQualifiedImageId()]
+	[if imagePath.size() > 2]
+		<img src="[imagePath/]"/>
+	[else]
+		<img src="./icons/modelingunit_ref.png"/>
+	[/if]
+[/let]
+[/if]
+[/template]
+
+[template public getImageForValue(valueInstruction : NewObjectValueForStructuralFeature)]
+[let imagePath : String = valueInstruction.value.metaType.resolvedType.getQualifiedImageId()]
+	[if imagePath.size() > 0]
+		<img src="[imagePath/]"/>
+	[else]
+		<img src="./icons/modelingunit_ref.png"/>
+	[/if]
+[/let]
+[/template]
+
+[template public getImageForValue(insanciationInstruction : InstanciationInstruction)]
+[let imagePath : String = insanciationInstruction.metaType.resolvedType.getQualifiedImageId()]
+	[if imagePath.size() > 0]
+		<img src="[imagePath/]"/>
+	[else]
+		<img src="./icons/modelingunit_new_element.png"/>
+	[/if]
+[/let]
+[/template]
+
+[template public getImageForValue(contributionInstruction : ContributionInstruction)]
+[let imagePath : String = contributionInstruction.referencedElement.referencedElement.oclAsType(InstanciationInstruction).metaType.resolvedType.getQualifiedImageId()]
+	[if imagePath.size() > 0]
+		<img src="[imagePath/]"/>
+	[else]
+		<img src="./icons/modelingunit_contribution.png"/>
+	[/if]
+[/let]
+[/template]
+
 [template public generateHTMLContent(defaultInstruction : UnitInstruction)]
 <b>UNKNOWN : [defaultInstruction.eClass().name/]</b>
 [/template]
 
 [template public generateHTMLContent(instancation : EObject)]
+[/template]
+
+[template public contributionInformation()]
+(Contribution)
+[/template]
+
+[template public definitionInformation()]
+(Definition)
 [/template]

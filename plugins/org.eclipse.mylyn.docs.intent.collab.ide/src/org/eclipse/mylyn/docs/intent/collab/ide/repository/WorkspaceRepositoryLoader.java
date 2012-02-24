@@ -66,7 +66,9 @@ public class WorkspaceRepositoryLoader {
 	private void addIndexFileToResourceSet(String indexRelativePath) {
 		URI fileURI = workspaceRepository.getURIMatchingPath(indexRelativePath);
 		try {
-			workspaceRepository.getResourceSet().getResource(fileURI, true);
+			if (workspaceRepository.getResourceSet().getURIConverter() != null) {
+				workspaceRepository.getResourceSet().getResource(fileURI, true);
+			}
 		} catch (WrappedException e) {
 			try {
 				workspaceRepository.getResourceSet().createResource(fileURI).save(null);

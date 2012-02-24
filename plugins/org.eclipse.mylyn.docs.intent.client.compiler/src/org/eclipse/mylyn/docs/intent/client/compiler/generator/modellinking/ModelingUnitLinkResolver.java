@@ -27,7 +27,9 @@ import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 
 /**
@@ -210,7 +212,11 @@ public class ModelingUnitLinkResolver {
 		EClassifier foundClassifier = ePackage.getEClassifier(href);
 		if (foundClassifier != null) {
 			resolvedClass = foundClassifier;
+			if (instruction instanceof ReferenceValueForStructuralFeature) {
+				((ReferenceValueForStructuralFeature)instruction).setReferencedMetaType(resolvedClass);
+			}
 		}
+
 		return resolvedClass;
 	}
 
@@ -243,6 +249,15 @@ public class ModelingUnitLinkResolver {
 				&& instruction instanceof ContributionInstruction) {
 			((ContributionInstruction)instruction).getReferencedElement().setReferencedElement(
 					(ModelingUnitInstruction)instanciationInstruction);
+		} else {
+			if (instanciationInstruction instanceof InstanciationInstruction
+					&& instruction instanceof ReferenceValueForStructuralFeature) {
+				((ReferenceValueForStructuralFeature)instruction).getReferencedElement()
+						.setReferencedElement((InstanciationInstruction)instanciationInstruction);
+				((ReferenceValueForStructuralFeature)instruction)
+						.setReferencedMetaType(((InstanciationInstruction)instanciationInstruction)
+								.getMetaType().getResolvedType());
+			}
 		}
 
 		return foundReference;
