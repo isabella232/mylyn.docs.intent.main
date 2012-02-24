@@ -8,7 +8,7 @@
 [/comment]
 [comment encoding = UTF-8 /]
 [module LatexGenDocument('http://www.eclipse.org/intent/markup/0.7','http://www.eclipse.org/intent/markup/generator/0.7')/]
-[import latex /]
+[import org::eclipse::mylyn::docs::intent::markup::gen::files::latex /]
 
 [query public fileName(d : GenLatexDocument) : String = 
   filename

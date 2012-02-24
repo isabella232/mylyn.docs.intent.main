@@ -26,6 +26,8 @@ import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInforma
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 
 /**
@@ -95,12 +97,17 @@ public class ModelingUnitLinkResolver {
 			EClass eClass) throws ResolveException {
 
 		String featureHRef = affectation.getName();
-		EStructuralFeature foundFeature = eClass.getEStructuralFeature(featureHRef);
-		if (foundFeature == null) {
-			throw new ResolveException(affectation, "The feature " + featureHRef + " doesn't exists in "
-					+ eClass.getName());
+
+		try {
+			EStructuralFeature foundFeature = eClass.getEStructuralFeature(featureHRef);
+			if (foundFeature != null) {
+				return foundFeature;
+			}
+		} catch (NullPointerException e) {
+			// A resolve exception will be thrown
 		}
-		return foundFeature;
+		throw new ResolveException(affectation, "The feature " + featureHRef + " doesn't exists in "
+				+ eClass.getName());
 	}
 
 	/**
@@ -228,6 +235,14 @@ public class ModelingUnitLinkResolver {
 		if (foundReference == null) {
 			throw new InvalidReferenceException(instruction, "The reference " + referencedValue
 					+ " cannot be resolved. ");
+		}
+
+		UnitInstruction instanciationInstruction = informationHolder
+				.getInstructionByCreatedElement(foundReference);
+		if (instanciationInstruction instanceof ModelingUnitInstruction
+				&& instruction instanceof ContributionInstruction) {
+			((ContributionInstruction)instruction).getReferencedElement().setReferencedElement(
+					(ModelingUnitInstruction)instanciationInstruction);
 		}
 
 		return foundReference;

@@ -301,8 +301,12 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 									&& (beginning.length() == 0 || instruction.getName()
 											.startsWith(beginning))) {
 								if (instruction.getMetaType() != null
-										&& featureToConsider.getEType().equals(
-												instruction.getMetaType().getResolvedType())) {
+										&& (featureToConsider.getEType().equals(
+												instruction.getMetaType().getResolvedType()) || featureToConsider
+												.getEType() instanceof EClass
+												&& ((EClass)featureToConsider.getEType())
+														.isSuperTypeOf(instruction.getMetaType()
+																.getResolvedType()))) {
 									proposals.add(createTemplateProposal(
 											"Reference to " + instruction.getName(),
 											"Set the " + instruction.getName() + " element as value for "

@@ -63,7 +63,8 @@ public final class IntentEditorOpener {
 			boolean readOnlyMode, EObject elementToSelectRangeWith, boolean forceNewEditor) {
 		try {
 			final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
-			openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, forceNewEditor);
+			openIntentEditor(repositoryAdapter, elementToOpen, false, elementToSelectRangeWith,
+					forceNewEditor);
 		} catch (PartInitException e) {
 			IntentUiLogger.logError(e);
 		}
@@ -116,6 +117,17 @@ public final class IntentEditorOpener {
 			try {
 				page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				openedEditor = IntentEditorOpener.openEditor(repositoryAdapter, page, elementToOpen);
+				EObject container = elementToSelectRangeWith;
+				while (container != null && !(container instanceof IntentGenericElement)) {
+					container = container.eContainer();
+				}
+				if (container instanceof IntentGenericElement) {
+					openedEditor.selectRange((IntentGenericElement)container);
+				} else {
+					if (elementToOpen instanceof IntentGenericElement) {
+						openedEditor.selectRange((IntentGenericElement)elementToOpen);
+					}
+				}
 
 			} catch (NullPointerException e) {
 				status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,

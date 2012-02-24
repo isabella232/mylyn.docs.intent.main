@@ -62,28 +62,29 @@ public class ProtocolFactory implements Resource.Factory {
 	private void fillProjectWithTests(final Project rPrj, IProject prj, final String regExp)
 			throws CoreException {
 		final Pattern pattern = Pattern.compile(regExp, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
-		prj.accept(new IResourceVisitor() {
+		if (prj.exists()) {
+			prj.accept(new IResourceVisitor() {
 
-			public boolean visit(IResource resource) throws CoreException {
-				// We consider :
-				// java files
-				if ("java".equals(resource.getFileExtension())) {
-					String resourcePath = resource.getFullPath().removeFirstSegments(2)
-							.removeFirstSegments(5).removeLastSegments(1).toString().replaceAll("/", ".");
-					// that matches the given regExp
-					if (pattern.matcher(resourcePath).matches()) {
-						AcceptanceTest tst = RetroFactory.eINSTANCE.createAcceptanceTest();
-						tst.setSwtBotClassName(resource.getFullPath().lastSegment().replace(".java", ""));
-						tst.setPackage(resourcePath);
-						rPrj.getAcceptanceTests().add(tst);
+				public boolean visit(IResource resource) throws CoreException {
+					// We consider :
+					// java files
+					if ("java".equals(resource.getFileExtension())) {
+						String resourcePath = resource.getFullPath().removeFirstSegments(2)
+								.removeFirstSegments(3).removeLastSegments(1).toString().replaceAll("/", ".");
+						// that matches the given regExp
+						if (pattern.matcher(resourcePath).matches()) {
+							AcceptanceTest tst = RetroFactory.eINSTANCE.createAcceptanceTest();
+							tst.setSwtBotClassName(resource.getFullPath().lastSegment().replace(".java", ""));
+							tst.setPackage(resourcePath);
+							rPrj.getAcceptanceTests().add(tst);
+						}
+
 					}
-
+					return true;
 				}
-				return true;
-			}
 
-		});
-
+			});
+		}
 	}
 
 	/**

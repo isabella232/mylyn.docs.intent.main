@@ -167,6 +167,7 @@ th.specalt {
 [e.content.toHTML()/]
 [/template]
 
+
 [template public toHTML(e : Section)  ]
 <section id="[e.id()/]" class="section_level_[e.level/]">
 <h[e.level/]>[e.title.content.toHTML()/]</h[e.level/]>
@@ -246,7 +247,7 @@ th.specalt {
 	[elseif (format = markup::Formatting::italic)]
 		</i>
     [elseif (format = markup::Formatting::emphasis)]
-		<em>
+		</em>
 	[elseif (format = markup::Formatting::strong)]
 		</strong>
 	[elseif (format = markup::Formatting::bold)]
