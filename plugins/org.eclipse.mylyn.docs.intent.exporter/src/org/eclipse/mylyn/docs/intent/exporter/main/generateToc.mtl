@@ -1,0 +1,51 @@
+[comment encoding = UTF-8 /]
+[module generateToc('http://www.eclipse.org/intent/intentdocument/0.7','http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/modelingunit/0.7','http://www.eclipse.org/intent/markup/generator/0.7')]
+[import org::eclipse::mylyn::docs::intent::markup::gen::files::html/]
+[import org::eclipse::mylyn::docs::intent::markup::gen::files::htmlGenDocument/]
+
+[template public generateTOC(intentDocument : IntentDocument)]
+	<div id="table_of_content" class="sidebar-nav toc">
+			<div class="summary">				
+						<h3 class="summaryTitle">Table Of Contents</h3>
+						<div id="toc" class="demo" style="height:100px;">					
+							<ul id="menu" >
+							[for (chapter : IntentChapter | intentDocument.chapters)]
+								[chapter.generateToc(chapter.indexInContainer())/]
+							[/for]							
+							</ul>
+						</div>
+			</div>
+	</div>
+[/template]
+
+[template public generateToc (subSectionContainer : IntentSubSectionContainer, index : String) ]
+	<li id="toc_[index/]">
+		<a href="#" onClick="javascript:window.location = '#[index/]';">
+			[generateSubSectionTitle(subSectionContainer, true)/]
+		</a>
+		<ul>
+			[for (subSection : IntentSection | subSectionContainer.intentContent->filter(IntentSection))]
+				[subSection.generateToc(index + '_' + subSection.oclAsType(IntentSection).indexInContainer())/]
+			[/for]
+		</ul>
+	</li>
+[/template]
+
+[template public generateSubSectionTitle(subSectionContainer : IntentSubSectionContainer, showUntitled : Boolean)]
+[if subSectionContainer.title.oclIsUndefined()._not() and subSectionContainer.title.content->size() > 0]
+	[subSectionContainer.title.content.toHTML()/]
+[else]
+	[if showUntitled]
+		Untitled
+	[else]
+	[/if]
+[/if]
+[/template]
+
+[query public indexInContainer(subSectionContainer : IntentSubSectionContainer) : String = 
+subSectionContainer.eContainer().eContents()->filter(IntentSubSectionContainer)->asSequence()->indexOf(subSectionContainer).toString()
+/]
+
+[query public indexInContainer(modelingUnit : ModelingUnit) : String = 
+modelingUnit.eContainer().eContents()->filter(ModelingUnit)->asSequence()->indexOf(modelingUnit).toString()
+/]

@@ -1,0 +1,28 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Intent Documentation Exporter
+Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.exporter
+Bundle-Version: 0.7.0.qualifier
+Bundle-Activator: org.eclipse.mylyn.docs.intent.exporter.Activator
+Bundle-Vendor: Eclipse Mylyn
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.ocl,
+ org.eclipse.ocl.ecore,
+ org.eclipse.acceleo.common;visibility:=reexport,
+ org.eclipse.acceleo.parser;visibility:=reexport,
+ org.eclipse.acceleo.model;visibility:=reexport,
+ org.eclipse.acceleo.profiler;visibility:=reexport,
+ org.eclipse.acceleo.engine;visibility:=reexport,
+ com.google.collect,
+ org.eclipse.mylyn.docs.intent.core;visibility:=reexport,
+ org.eclipse.mylyn.docs.intent.markup.gen
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.mylyn.docs.intent.exporter,
+ org.eclipse.mylyn.docs.intent.exporter.main,
+ org.eclipse.mylyn.docs.intent.exporter.services
+

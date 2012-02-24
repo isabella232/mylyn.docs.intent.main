@@ -1,0 +1,248 @@
+[comment encoding = UTF-8 /]
+[module generateHTMLContent('http://www.eclipse.org/intent/intentdocument/0.7','http://www.eclipse.org/intent/genericunit/0.7','http://www.eclipse.org/intent/descriptionunit/0.7', 'http://www.eclipse.org/intent/modelingunit/0.7', 'http://www.eclipse.org/emf/2002/Ecore','http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/markup/generator/0.7')]
+[import org::eclipse::mylyn::docs::intent::markup::gen::files::html/]
+[import org::eclipse::mylyn::docs::intent::markup::gen::files::htmlGenDocument/]
+[import org::eclipse::mylyn::docs::intent::exporter::main::generateToc/]
+
+[query public getHeaderSize(sectionID : String) : String = 
+invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getHeaderSizeForSection(java.lang.String)', Sequence{sectionID})
+/]
+
+[template public generateHTMLContent(intentDocument : IntentDocument)]
+	<div id="content" >
+		[for (chapter : IntentChapter | intentDocument.chapters)]
+			[generateHTMLContent(chapter, chapter.indexInContainer().toString())/]
+		[/for]
+	</div>
+[/template]
+
+
+[template public generateHTMLContent(subSectionContainer : IntentSubSectionContainer, index : String) ]
+		<section id="[index/]">
+		[if subSectionContainer.oclIsTypeOf(IntentChapter)]
+			<div class="page-header">
+				<h1>
+					[subSectionContainer.generateSubSectionTitle(false)/]
+				</h1>		
+			</div>
+		[else]			
+			<h[getHeaderSize(index)/]>[subSectionContainer.generateSubSectionTitle(false)/]</h[getHeaderSize(index)/]>
+		[/if]
+		</section>
+
+		[for (child : EObject | subSectionContainer.intentContent)]
+		
+			[if child.oclIsTypeOf(IntentSection)]
+				[child.oclAsType(IntentSection).generateHTMLContent(index + '_' + child.oclAsType(IntentSection).indexInContainer())/]
+			[else]
+				[if child.oclIsTypeOf(ModelingUnit)]
+					[child.oclAsType(ModelingUnit).generateHTMLContent(index + '_' + child.oclAsType(ModelingUnit).indexInContainer())/]
+				[else ]
+					[child.generateHTMLContent()/]
+				[/if]
+			[/if]
+		[/for]
+[/template]
+
+[template public generateHTMLContent(descriptionUnit :DescriptionUnit )]
+	<p>
+	[for (bloc : EObject | descriptionUnit.instructions)]
+		[bloc.generateHTMLContent()/]	
+	[/for]
+	</p>
+[/template]
+
+[template public generateHTMLContent(descriptionBloc : DescriptionBloc)]
+	[descriptionBloc.descriptionBloc.oclAsType(Container).content.toHTML()/]
+[/template]
+
+[template public generateHTMLContent(labelReference : LabelReferenceInstruction)]
+	<a href="#">
+	[if (labelReference.referencedLabel.oclIsUndefined()._not())]
+		[if (labelReference.referencedLabel.referencedElement.oclIsUndefined()._not())]
+			[labelReference.referencedLabel.referencedElement.textToPrint/]
+		[/if]	
+	[/if]
+	</a>
+[/template]
+
+[template public generateHTMLContent(label : LabelDeclaration)]
+	<b>[label.labelValue/]</b>
+[/template]
+
+
+[template public generateHTMLContent(modelingUnit :ModelingUnit, index : String )]
+	<div  class="mu" id="index">
+		<ul>
+			[for (instruction : UnitInstruction | modelingUnit.instructions)]
+				[generateHTMLContent(instruction)/]
+			[/for]
+		</ul>
+	</div>
+[/template]
+
+[template public generateHTMLContent(instancation : InstanciationInstruction)]
+	<li class="jstree-open">
+		<img src="./icons/modelingunit_new_element.png"/>
+
+		<a href="#"												
+			rel="popover" title=""
+			data-content=""
+		>
+		[if instancation.name->isEmpty()._not()]
+			[instancation.name/] - 
+		[/if]
+		 new [instancation.metaType.IntentHref/] (Definition)
+
+		</a>
+		[if instancation.structuralFeatures->size() > 0]
+			<ul>
+			[for (structuralFeature : StructuralFeatureAffectation | instancation.structuralFeatures)]
+				[generateHTMLContent(structuralFeature)/]
+			[/for]
+			</ul>
+		[/if]
+	</li>
+[/template]
+
+[template public generateHTMLContent(contribution : ContributionInstruction)]
+	<li class="jstree-open">
+		<img src="./icons/modelingunit_contribution.png"/>
+
+		<a href="#"												
+			rel="popover" title="Contribution to [contribution.referencedElement.IntentHref/] [if contribution.referencedElement.IntentHref.oclIsInvalid()._not()](of type [contribution.referencedElement.IntentHref/])[/if]"
+			data-content="Some infos"
+		>
+		[contribution.referencedElement.IntentHref/] (Contribution)
+		</a>
+		[if contribution.contributions->size() > 0]
+			<ul>
+			[for (structuralFeature : UnitInstruction | contribution.contributions)]
+				[generateHTMLContent(structuralFeature)/]
+			[/for]
+			</ul>
+		[/if]
+	</li>
+[/template]
+
+[template public generateHTMLContent(resourceDeclaration : ResourceDeclaration)]
+	<li class="jstree-open">
+		<img src="./icons/modelingunit_resource.gif"/>
+
+		<a href="#"												
+			rel="popover" title="Resource [resourceDeclaration.name/]"
+			data-content="Some infos"
+		>
+		Resource [resourceDeclaration.name/]
+		</a>
+			[if resourceDeclaration.uri->isEmpty()._not()]
+				(URI :[resourceDeclaration.uri.toString()/])
+			[/if]
+			[if resourceDeclaration.content->size() > 0]
+				<ul>
+				[for (reference : ModelingUnitInstructionReference | resourceDeclaration.content)]
+					<a href="#"												
+				rel="popover" title="Reference to [reference.IntentHref/] [if reference.referencedElement.oclAsType(InstanciationInstruction).metaType.oclIsInvalid()._not()](of type [reference.referencedElement.oclAsType(InstanciationInstruction).metaType.IntentHref/])[/if]"
+				data-content="Informations on [reference.IntentHref/]"
+				>[reference.IntentHref/]</a>
+				[/for]
+				</ul>
+			[/if]
+	</li>
+[/template]
+
+[template public generateHTMLContent(structuralFeature : StructuralFeatureAffectation)]
+	
+	<li class="jstree-open">
+		[comment icon/]
+		[if structuralFeature.values->size() >0]
+			[structuralFeature.values->first().getImageForValue()/]
+		[/if]
+
+		[comment left-hand link/]
+		<a href="#" style="color:black"									
+			rel="popover" title="Feature [structuralFeature.name/] [if structuralFeature.metaType.IntentHref.oclIsInvalid()._not()](of type [structuralFeature.metaType.IntentHref/])[/if]"
+			data-content="Informations on [structuralFeature.name/]"
+		>
+		[structuralFeature.name/]
+		</a>
+		
+		[comment single-valued/]		
+		[if structuralFeature.values->size() = 1]
+			[if (structuralFeature.values->first().oclIsKindOf(NativeValueForStructuralFeature))]:
+			[else]
+				&larr;
+			[/if]
+			[structuralFeature.values->first().generateHTMLContent()/]
+		[else]
+			[comment multi-valued/]
+			&larr; <ul>
+			[for (value : ValueForStructuralFeature | structuralFeature.values)]				
+				<li>[value.getImageForValue()/] [value.generateHTMLContent()/]</li>
+				[/for] 
+			</ul>
+		[/if]
+[/template]
+
+
+
+[template public generateHTMLContent(newValueInstruction : NewObjectValueForStructuralFeature)]
+<a href="#"												
+			rel="popover" title=""
+			data-content=""
+		>
+		[if newValueInstruction.value.name->isEmpty()._not()]
+			[newValueInstruction.value.name/] - 
+		[/if]
+		 new [newValueInstruction.value.metaType.IntentHref/] (Definition)
+
+		</a>
+		[if newValueInstruction.value.structuralFeatures->size() > 0]
+			<ul>
+				[for (structuralFeature : StructuralFeatureAffectation | newValueInstruction.value.structuralFeatures->select(feature | feature.values->select(value | value.oclIsKindOf(NativeValueForStructuralFeature))->size() = feature.values->size()))]
+					[generateHTMLContent(structuralFeature)/]
+				[/for]
+				[for (structuralFeature : StructuralFeatureAffectation | newValueInstruction.value.structuralFeatures->select(feature | feature.values->select(value | value.oclIsKindOf(NativeValueForStructuralFeature))->size() <> feature.values->size()))]
+					[generateHTMLContent(structuralFeature)/]
+				[/for]
+			</ul>
+		[/if]
+[/template]
+
+[template public generateHTMLContent(valueInstruction : NativeValueForStructuralFeature)]
+[if valueInstruction.value.replace('true','').replace('false','').size() < 3]
+	<b><code style="color:#660000; border:0px solid black;">[valueInstruction.value.toString().replace('"','').replace('"','')/]</code></b>
+[else]
+	<code style="color:blue; border:0px solid black;">[valueInstruction.value/]</code>
+[/if]
+[/template]
+
+[template public generateHTMLContent(reference : ReferenceValueForStructuralFeature)]
+<a href="#"												
+			rel="popover" title="Reference to [reference.referencedElement.IntentHref/] [if reference.referencedElement.referencedElement.metaType.oclIsInvalid()._not()](of type [reference.referencedElement.referencedElement.metaType.IntentHref/])[/if]"
+			data-content="Informations on [reference.referencedElement.IntentHref/]"
+>[reference.referencedElement.IntentHref/]</a>
+[/template]
+
+[template public getImageForValue(valueInstruction : ReferenceValueForStructuralFeature)]
+<img src="./icons/modelingunit_ref.png"/>
+[/template]
+
+[template public getImageForValue(valueInstruction : NewObjectValueForStructuralFeature)]
+<img src="./icons/modelingunit_new_element.png"/>
+[/template]
+
+[template public getImageForValue(valueInstruction : NativeValueForStructuralFeature)]
+<img src="./icons/modelingunit_value.gif"/>
+[/template]
+
+[template public getImageForValue(valueInstruction : ValueForStructuralFeature)]
+<img src="./icons/modelingunit_affect.png"/>
+[/template]
+
+[template public generateHTMLContent(defaultInstruction : UnitInstruction)]
+<b>UNKNOWN : [defaultInstruction.eClass().name/]</b>
+[/template]
+
+[template public generateHTMLContent(instancation : EObject)]
+[/template]
