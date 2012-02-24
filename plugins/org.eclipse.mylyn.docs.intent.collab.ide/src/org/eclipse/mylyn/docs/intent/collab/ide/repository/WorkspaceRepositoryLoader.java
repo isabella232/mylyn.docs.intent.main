@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.ide.repository;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.WrappedException;
 
 /**
  * Class used to load a repository. In case of a {@link WorkspaceRepository}, loads only the declared Index.
@@ -56,14 +58,22 @@ public class WorkspaceRepositoryLoader {
 	}
 
 	/**
-	 * Adds the index located at the given indexRelativePaht to the repository's resource set.
+	 * Adds the index located at the given indexRelativePath to the repository's resource set.
 	 * 
 	 * @param indexRelativePath
 	 *            the relative path of the index to load
 	 */
 	private void addIndexFileToResourceSet(String indexRelativePath) {
 		URI fileURI = workspaceRepository.getURIMatchingPath(indexRelativePath);
-		workspaceRepository.getResourceSet().getResource(fileURI, true);
+		try {
+			workspaceRepository.getResourceSet().getResource(fileURI, true);
+		} catch (WrappedException e) {
+			try {
+				workspaceRepository.getResourceSet().createResource(fileURI).save(null);
+			} catch (IOException e1) {
+				// Silently fail
+			}
+		}
 	}
 
 }

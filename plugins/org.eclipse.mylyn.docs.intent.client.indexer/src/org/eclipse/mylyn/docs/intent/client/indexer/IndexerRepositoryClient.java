@@ -83,12 +83,18 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 	 * @return the IntentIndex stored on the repository
 	 */
 	private IntentIndex getIntentIndex() {
-		Resource indexResource = repositoryObjectHandler.getRepositoryAdapter().getResource(
-				IntentLocations.GENERAL_INDEX_PATH);
-		if (indexResource.getContents().isEmpty()) {
-			indexResource.getContents().add(IntentIndexerFactory.eINSTANCE.createIntentIndex());
+		Resource indexResource;
+		try {
+			indexResource = repositoryObjectHandler.getRepositoryAdapter().getOrCreateResource(
+					IntentLocations.GENERAL_INDEX_PATH);
+			if (indexResource.getContents().isEmpty()) {
+				indexResource.getContents().add(IntentIndexerFactory.eINSTANCE.createIntentIndex());
+			}
+			return (IntentIndex)indexResource.getContents().get(0);
+		} catch (ReadOnlyException e) {
+			return null;
 		}
-		return (IntentIndex)indexResource.getContents().get(0);
+
 	}
 
 	/**
