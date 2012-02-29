@@ -57,11 +57,14 @@
     <module>plugins/org.eclipse.mylyn.docs.intent.compare</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.core</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.parser</module>
+	<module>plugins/org.eclipse.mylyn.docs.intent.exporter</module>
+	<module>plugins/org.eclipse.mylyn.docs.intent.exporter.ui</module>
 
     <module>features/org.eclipse.mylyn.docs.intent.update</module>
     <module>features/org.eclipse.mylyn.docs.intent-feature</module>
     <module>features/org.eclipse.mylyn.docs.intent.markup-feature</module>
     <module>features/org.eclipse.mylyn.docs.intent.retro-feature</module>
+	<module>features/org.eclipse.mylyn.docs.intent.exporter-feature</module>
 
     <module>tests/org.eclipse.mylyn.docs.intent.parser.test</module>
     <module>tests/org.eclipse.mylyn.docs.intent.collab.test</module>
