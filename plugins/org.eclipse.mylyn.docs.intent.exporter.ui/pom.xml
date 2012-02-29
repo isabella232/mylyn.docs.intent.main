@@ -17,7 +17,7 @@
     <relativePath>../..</relativePath>
   </parent>
 
-  <artifactId>org.eclipse.mylyn.docs.intent.client.exporter.ui</artifactId>
+  <artifactId>org.eclipse.mylyn.docs.intent.exporter.ui</artifactId>
   <packaging>eclipse-plugin</packaging>
 
  <build>   
