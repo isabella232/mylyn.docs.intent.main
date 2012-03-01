@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
+import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -139,13 +140,13 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 			}
 			repositoryAdapter.closeContext();
 		} catch (IOException e) {
-			e.printStackTrace();
+			IntentUiLogger.logError(e);
 		} catch (CoreException e) {
-			e.printStackTrace();
+			IntentUiLogger.logError(e);
 		} catch (RepositoryConnectionException e) {
-			e.printStackTrace();
+			IntentUiLogger.logError(e);
 		} catch (ReadOnlyException e) {
-			e.printStackTrace();
+			IntentUiLogger.logError(e);
 		}
 
 	}
