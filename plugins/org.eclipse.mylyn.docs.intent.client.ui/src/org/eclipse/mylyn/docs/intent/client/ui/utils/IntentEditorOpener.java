@@ -18,8 +18,11 @@ import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.ui.IEditorPart;
@@ -45,7 +48,36 @@ public final class IntentEditorOpener {
 	}
 
 	/**
-	 * Open an editor on the element with the given identifier.
+	 * Opens an editor on the Intent document contained in the given repository.
+	 * 
+	 * @param repository
+	 *            The repository to use for this editor
+	 * @param readOnlyMode
+	 *            indicates if the editor should be opened in readOnly mode.
+	 * @param elementToSelectRangeWith
+	 *            the element on which the created editor should select its range (can be null).
+	 * @param forceNewEditor
+	 *            if true, will open in a new editor anyway. If false, will open in a new editor or select
+	 *            inside of an already opened editor
+	 */
+	public static void openIntentEditor(final Repository repository, boolean readOnlyMode) {
+		try {
+			final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
+			Resource resource = repositoryAdapter.getOrCreateResource(IntentLocations.INTENT_INDEX);
+			if (!resource.getContents().isEmpty()
+					&& resource.getContents().iterator().next() instanceof IntentDocument) {
+				EObject elementToOpen = resource.getContents().iterator().next();
+				openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, false);
+			}
+		} catch (PartInitException e) {
+			IntentUiLogger.logError(e);
+		} catch (ReadOnlyException e) {
+			IntentUiLogger.logError(e);
+		}
+	}
+
+	/**
+	 * Opens an editor on the element with the given identifier.
 	 * 
 	 * @param repository
 	 *            The repository to use for this editor
@@ -71,7 +103,7 @@ public final class IntentEditorOpener {
 	}
 
 	/**
-	 * Open an editor on the element with the given identifier.
+	 * Opens an editor on the element with the given identifier.
 	 * 
 	 * @param repositoryAdapter
 	 *            the repository adapter
@@ -140,7 +172,7 @@ public final class IntentEditorOpener {
 	}
 
 	/**
-	 * If an editor is already opened on the given element, returns it ; return null otherwise.
+	 * If an editor is already opened on the given element, returns it ; returns null otherwise.
 	 * 
 	 * @param elementToOpen
 	 *            the element to search in editors
@@ -177,7 +209,7 @@ public final class IntentEditorOpener {
 	}
 
 	/**
-	 * Open an editor on the given IntentModel element.
+	 * Opens an editor on the given IntentModel element.
 	 * 
 	 * @param repositoryAdapter
 	 *            the repository adapter to use for this document

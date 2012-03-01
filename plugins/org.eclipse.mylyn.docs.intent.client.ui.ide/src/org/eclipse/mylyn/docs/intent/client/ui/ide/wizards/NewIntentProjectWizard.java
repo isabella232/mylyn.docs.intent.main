@@ -25,6 +25,10 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
+import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
+import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -123,6 +127,17 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 				// Step 3 : adding Intent nature
 				ToggleNatureAction.toggleNature(project);
 				IDEApplicationManager.initializeContent(project, defaultContent);
+
+				// Step 4 : open an editor on the created document
+				try {
+					Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
+					if (repository != null) {
+						IntentEditorOpener.openIntentEditor(repository, false);
+					}
+				} catch (RepositoryConnectionException e) {
+					IntentUiLogger.logError(e);
+				}
+
 			}
 		};
 		try {
