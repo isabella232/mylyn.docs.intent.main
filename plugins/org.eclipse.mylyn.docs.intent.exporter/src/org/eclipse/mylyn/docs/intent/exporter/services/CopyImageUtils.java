@@ -35,6 +35,7 @@ import org.eclipse.emf.edit.provider.AdapterFactoryItemDelegator;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -90,7 +91,7 @@ public class CopyImageUtils {
 				qualifiedImageID = copyImageIfNeeded((EClassifier)any, outputFolder, resolvedURL,
 						resolvedURL.openStream());
 			} catch (IOException e) {
-				// Silent catch, default image will be used
+				IntentUiLogger.logError(e);
 			}
 		}
 		return qualifiedImageID;
@@ -109,32 +110,43 @@ public class CopyImageUtils {
 			for (TraceabilityIndexEntry entry : getTraceabilityIndex().getEntries()) {
 				if (any.eResource().getURI().toString().contains(entry.getGeneratedResourcePath())) {
 					Object metamodelURI = entry.getResourceDeclaration().getUri();
-					if (metamodelURI != null && metamodelURI.toString().endsWith("ecore\"")) {
-						URI createURI = URI.createURI(metamodelURI.toString().replace("\"", "")
+					if (metamodelURI != null && metamodelURI.toString().replace("\"", "").endsWith("ecore")) {
+						URI genModelURI = URI.createURI(metamodelURI.toString().replace("\"", "")
 								.replace("ecore", "genmodel"));
-						Resource resource = getResourceSet().getResource(createURI, true);
-						if (!resource.getContents().isEmpty()
-								&& resource.getContents().iterator().next() instanceof GenModel) {
-							String editIconsDirectory = ((GenModel)resource.getContents().iterator().next())
-									.getEditIconsDirectory();
-							IFolder folder = ResourcesPlugin.getWorkspace().getRoot()
-									.getFolder(new Path(editIconsDirectory + "/full/obj16"));
-							if (folder.exists()) {
-								for (String imageExtension : new String[] {"gif", "png"
-								}) {
-									if (folder.getFile(any.getName() + "." + imageExtension).exists()) {
-										return new URL("file:/"
-												+ folder.getFile(any.getName() + "." + imageExtension)
-														.getLocation().toString());
+						try {
+							Resource resource = getResourceSet().getResource(genModelURI, true);
+							if (!resource.getContents().isEmpty()
+									&& resource.getContents().iterator().next() instanceof GenModel) {
+								String editIconsDirectory = ((GenModel)resource.getContents().iterator()
+										.next()).getEditIconsDirectory();
+								IFolder folder = ResourcesPlugin.getWorkspace().getRoot()
+										.getFolder(new Path(editIconsDirectory + "/full/obj16"));
+								if (folder.exists()) {
+									for (String imageExtension : new String[] {"gif", "png"
+									}) {
+										if (folder.getFile(any.getName() + "." + imageExtension).exists()) {
+											return new URL("file:/"
+													+ folder.getFile(any.getName() + "." + imageExtension)
+															.getLocation().toString());
+										}
 									}
 								}
 							}
+						} catch (RuntimeException e) {
+							IntentUiLogger.logInfo("Cannot find genmodel at " + genModelURI
+									+ ". Default image will be use to display " + any.getName());
+						} catch (MalformedURLException e) {
+							IntentUiLogger.logError(e);
 						}
 					}
 				}
 			}
-		} catch (Exception e) {
-			// Silently fail
+		} catch (RepositoryConnectionException e) {
+			IntentUiLogger.logError(e);
+		} catch (CoreException e) {
+			IntentUiLogger.logError(e);
+		} catch (ReadOnlyException e) {
+			IntentUiLogger.logError(e);
 		}
 		return null;
 	}

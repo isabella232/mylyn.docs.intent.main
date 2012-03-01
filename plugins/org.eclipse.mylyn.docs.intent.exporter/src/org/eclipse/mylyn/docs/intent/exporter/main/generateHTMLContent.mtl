@@ -15,7 +15,7 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 [template public generateHTMLContent(intentDocument : IntentDocument)]
 	<div id="content" >
 		[for (chapter : IntentChapter | intentDocument.chapters)]
-			[generateHTMLContent(chapter, chapter.indexInContainer().toString())/]
+			[generateHTMLContent(chapter, indexInContainer(chapter).toString())/]
 		[/for]
 	</div>
 [/template]
@@ -37,10 +37,10 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 		[for (child : EObject | subSectionContainer.intentContent)]
 		
 			[if child.oclIsTypeOf(IntentSection)]
-				[child.oclAsType(IntentSection).generateHTMLContent(index + '_' + child.oclAsType(IntentSection).indexInContainer())/]
+				[child.oclAsType(IntentSection).generateHTMLContent(index + '_' + indexInContainer(child.oclAsType(IntentSection)))/]
 			[else]
 				[if child.oclIsTypeOf(ModelingUnit)]
-					[child.oclAsType(ModelingUnit).generateHTMLContent(index + '_' + child.oclAsType(ModelingUnit).indexInContainer())/]
+					[child.oclAsType(ModelingUnit).generateHTMLContent(index + '_' + indexInContainer(child.oclAsType(ModelingUnit)))/]
 				[else ]
 					[child.generateHTMLContent()/]
 				[/if]
