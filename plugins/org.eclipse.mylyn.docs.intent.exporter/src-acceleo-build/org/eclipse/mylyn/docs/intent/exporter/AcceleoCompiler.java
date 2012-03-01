@@ -13,6 +13,11 @@ package org.eclipse.mylyn.docs.intent.exporter;
 import org.eclipse.acceleo.parser.compiler.AbstractAcceleoCompiler;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
+import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 import org.eclipse.mylyn.docs.intent.markup.wikigen.WikigenPackage;
 
@@ -23,67 +28,78 @@ import org.eclipse.mylyn.docs.intent.markup.wikigen.WikigenPackage;
  * @since 3.1
  */
 public class AcceleoCompiler extends AbstractAcceleoCompiler {
-    
-    /**
-     * The entry point of the compilation.
-     * 
-     * @param args
-     *             The arguments used in the compilation: the source folder,
-     *             the output folder, a boolean indicating if we should use binary resource
-     *             serialization and finally the dependencies of the project.
-     */
-    public static void main(String[] args) {
-        if (args.length < 3) {
-            throw new IllegalArgumentException("Missing parameters"); //$NON-NLS-1$
-        }
-        AcceleoCompiler acceleoCompiler = new AcceleoCompiler();
-        acceleoCompiler.setSourceFolder(args[0]);
-        acceleoCompiler.setOutputFolder(args[1]);
-        acceleoCompiler.setBinaryResource(Boolean.valueOf(args[2]).booleanValue());
-        if (args.length == 4 && args[3] != null && !"".equals(args[3])) { //$NON-NLS-1$
-            acceleoCompiler.setDependencies(args[3]);
-        }
-        acceleoCompiler.doCompile(new BasicMonitor());
-    }
-    
-    /**
-     * Launches the compilation of the mtl files in the generator.
-     * 
-     * @see org.eclipse.acceleo.parser.compiler.AbstractAcceleoCompiler#doCompile(org.eclipse.emf.common.util.Monitor)
-     */
-    @Override
-    public void doCompile(Monitor monitor) {
-        super.doCompile(monitor);
-    }
-    
-    /**
-     * Registers the packages of the metamodels used in the generator.
-     * 
-     * @see org.eclipse.acceleo.parser.compiler.AbstractAcceleoCompiler#registerPackages()
-     */
-    @Override
-    protected void registerPackages() {
-        super.registerPackages();
-        /*
-         * If you want to add the other packages used by your generator, for example UML:
-         * org.eclipse.emf.ecore.EPackage.Registry.put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
-         **/
-        org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
-        org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(WikigenPackage.eNS_URI, WikigenPackage.eINSTANCE);
-    }
 
-    /**
-     * Registers the resource factories.
-     * 
-     * @see org.eclipse.acceleo.parser.compiler.AbstractAcceleoCompiler#registerResourceFactories()
-     */
-    @Override
-    protected void registerResourceFactories() {
-        super.registerResourceFactories();
-        /*
-         * If you want to add other resource factories, for example if your metamodel uses a specific serialization:
-         * org.eclipse.emf.ecore.resource.Resource.Factory.Registry.getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
-         **/
-    }
+	/**
+	 * The entry point of the compilation.
+	 * 
+	 * @param args
+	 *            The arguments used in the compilation: the source folder, the output folder, a boolean
+	 *            indicating if we should use binary resource serialization and finally the dependencies of
+	 *            the project.
+	 */
+	public static void main(String[] args) {
+		if (args.length < 3) {
+			throw new IllegalArgumentException("Missing parameters"); //$NON-NLS-1$
+		}
+		AcceleoCompiler acceleoCompiler = new AcceleoCompiler();
+		acceleoCompiler.setSourceFolder(args[0]);
+		acceleoCompiler.setOutputFolder(args[1]);
+		acceleoCompiler.setBinaryResource(Boolean.valueOf(args[2]).booleanValue());
+		if (args.length == 4 && args[3] != null && !"".equals(args[3])) { //$NON-NLS-1$
+			acceleoCompiler.setDependencies(args[3]);
+		}
+		acceleoCompiler.doCompile(new BasicMonitor());
+	}
+
+	/**
+	 * Launches the compilation of the mtl files in the generator.
+	 * 
+	 * @see org.eclipse.acceleo.parser.compiler.AbstractAcceleoCompiler#doCompile(org.eclipse.emf.common.util.Monitor)
+	 */
+	@Override
+	public void doCompile(Monitor monitor) {
+		super.doCompile(monitor);
+	}
+
+	/**
+	 * Registers the packages of the metamodels used in the generator.
+	 * 
+	 * @see org.eclipse.acceleo.parser.compiler.AbstractAcceleoCompiler#registerPackages()
+	 */
+	@Override
+	protected void registerPackages() {
+		super.registerPackages();
+		/*
+		 * If you want to add the other packages used by your generator, for example UML:
+		 * org.eclipse.emf.ecore.EPackage.Registry.put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+		 */
+		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
+		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE
+				.put(WikigenPackage.eNS_URI, WikigenPackage.eINSTANCE);
+		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(IntentDocumentPackage.eNS_URI,
+				IntentDocumentPackage.eINSTANCE);
+		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(ModelingUnitPackage.eNS_URI,
+				ModelingUnitPackage.eINSTANCE);
+		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(GenericUnitPackage.eNS_URI,
+				GenericUnitPackage.eINSTANCE);
+		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(DescriptionUnitPackage.eNS_URI,
+				DescriptionUnitPackage.eINSTANCE);
+		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
+	}
+
+	/**
+	 * Registers the resource factories.
+	 * 
+	 * @see org.eclipse.acceleo.parser.compiler.AbstractAcceleoCompiler#registerResourceFactories()
+	 */
+	@Override
+	protected void registerResourceFactories() {
+		super.registerResourceFactories();
+		/*
+		 * If you want to add other resource factories, for example if your metamodel uses a specific
+		 * serialization:
+		 * org.eclipse.emf.ecore.resource.Resource.Factory.Registry.getExtensionToFactoryMap().put
+		 * (UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+		 */
+	}
 }
-
