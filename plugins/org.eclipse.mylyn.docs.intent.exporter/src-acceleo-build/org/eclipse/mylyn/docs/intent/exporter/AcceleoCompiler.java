@@ -10,9 +10,19 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.exporter;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.acceleo.common.IAcceleoConstants;
 import org.eclipse.acceleo.parser.compiler.AbstractAcceleoCompiler;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
@@ -101,5 +111,54 @@ public class AcceleoCompiler extends AbstractAcceleoCompiler {
 		 * org.eclipse.emf.ecore.resource.Resource.Factory.Registry.getExtensionToFactoryMap().put
 		 * (UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 		 */
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.acceleo.parser.compiler.AbstractAcceleoCompiler#computeDependencies(java.util.List,
+	 *      java.util.Map)
+	 */
+	protected void computeDependencies(List<URI> dependenciesURIs, Map<URI, URI> mapURIs) {
+		// USED TO FIX COMPILER WITH TYCHO
+		Iterator<String> identifiersIt = dependenciesIDs.iterator();
+		for (Iterator<File> dependenciesIt = dependencies.iterator(); dependenciesIt.hasNext()
+				&& identifiersIt.hasNext();) {
+			File requiredFolder = dependenciesIt.next();
+			String identifier = identifiersIt.next();
+			if (requiredFolder != null && requiredFolder.exists() && requiredFolder.isDirectory()) {
+				List<File> emtlFiles = new ArrayList<File>();
+				members(emtlFiles, requiredFolder, IAcceleoConstants.EMTL_FILE_EXTENSION);
+				for (File emtlFile : emtlFiles) {
+					String requiredFolderAbsolutePath = requiredFolder.getAbsolutePath();
+					if (requiredFolderAbsolutePath.endsWith("target/classes")) {
+						// using tycho
+						String[] splited = requiredFolderAbsolutePath.split("\\/");
+						StringBuffer buf = new StringBuffer(requiredFolderAbsolutePath.length());
+						for (int i = 0; i < splited.length - 3; i++) {
+							buf.append(splited[i]);
+							buf.append("/");
+						}
+						requiredFolderAbsolutePath = buf.toString();
+						String emtlAbsolutePath = emtlFile.getAbsolutePath();
+						URI emtlFileURI = URI.createFileURI(emtlAbsolutePath);
+						dependenciesURIs.add(emtlFileURI);
+						String emtlModifiedPath = emtlAbsolutePath.replaceAll("target\\/|classes\\/", "");
+						IPath relativePath = new Path(emtlModifiedPath.substring(requiredFolderAbsolutePath
+								.length()));
+						URI relativeURI = URI.createPlatformPluginURI(relativePath.toString(), false);
+						mapURIs.put(emtlFileURI, relativeURI);
+					} else {
+						// normal behavior
+						String emtlAbsolutePath = emtlFile.getAbsolutePath();
+						URI emtlFileURI = URI.createFileURI(emtlAbsolutePath);
+						dependenciesURIs.add(emtlFileURI);
+						IPath relativePath = new Path(identifier).append(emtlAbsolutePath
+								.substring(requiredFolderAbsolutePath.length()));
+						mapURIs.put(emtlFileURI, URI.createPlatformPluginURI(relativePath.toString(), false));
+					}
+				}
+			}
+		}
 	}
 }
