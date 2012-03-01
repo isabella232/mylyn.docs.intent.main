@@ -26,6 +26,31 @@
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-source-plugin</artifactId>
       </plugin>   
+      <plugin>  
+          <groupId>org.codehaus.mojo</groupId>  
+          <artifactId>exec-maven-plugin</artifactId>  
+          <version>1.1.1</version>  
+          <executions>  
+            <execution>  
+              <phase>compile</phase>  
+              <goals>  
+                <goal>java</goal>  
+              </goals>
+              <configuration>
+                <!--
+                   Calls the AcceleoCompiler to launch the compilation.
+                -->
+                <mainClass>org.eclipse.mylyn.docs.intent.exporter.AcceleoCompiler</mainClass>  
+                <arguments>  
+                  <argument>${basedir}/src/</argument>  <!-- The source folder -->  
+                  <argument>${basedir}/target/classes</argument>  <!-- The output folder -->
+                  <argument>true</argument>  <!-- Indicates if we should use binary resources serializations -->
+                  <argument></argument>  <!-- The project dependencies in the workspace -->
+                </arguments>  
+              </configuration>  
+            </execution>  
+          </executions>  
+        </plugin>
     </plugins>
   </build>
 
