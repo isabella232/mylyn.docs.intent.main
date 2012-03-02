@@ -32,6 +32,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
+import org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
@@ -39,6 +40,7 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
@@ -402,6 +404,14 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 				}
 				break;
 
+			case ModelingUnitPackage.INTENT_SECTION_REFERENCEIN_MODELING_UNIT:
+				IntentSectionOrParagraphReference referencedObject = ((IntentSectionReferenceinModelingUnit)eObject)
+						.getReferencedObject();
+				text.append("Reference to Section " + referencedObject.getIntentHref());
+				if (referencedObject != null && referencedObject.getReferencedObject() != null) {
+					text.append(getText(referencedObject.getReferencedObject()));
+				}
+				break;
 			default:
 				text.append(eClass.getName());
 				break;

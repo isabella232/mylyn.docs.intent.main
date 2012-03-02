@@ -17,7 +17,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * The label provider for the objects shown in the outline view.
  * 
- * @author <a href="mailto:jonathan.musset@obeo.fr">Jonathan Musset</a>
+ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class IntentOutlinePageLabelProvider extends AdapterFactoryLabelProvider {
 
