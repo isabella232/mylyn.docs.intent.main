@@ -224,6 +224,30 @@ Contributors:
              </visibleWhen>
           </command>
        </menuContribution>
+       <menuContribution
+             allPopups="false"
+             locationURI="popup:org.eclipse.ui.views.ProblemView">
+          <menu
+                icon="icon/ide/toggle_nature.gif"
+                id="org.eclipse.mylyn.docs.intent.client.ui.ide.problemview"
+                label="Intent">
+             <command
+                   commandId="org.eclipse.mylyn.docs.intent.client.ui.ide.problemview.show_editor"
+                   label="Show in Intent Editor"
+                   style="push">
+                <visibleWhen
+                      checkEnabled="false">
+                   <iterate
+                         operator="and">
+                      <test
+                            forcePluginActivation="true"
+                            property="org.eclipse.mylyn.docs.intent.client.ui.ide.isIntentProblemMarker">
+                      </test>
+                   </iterate>
+                </visibleWhen>
+             </command>
+          </menu>
+       </menuContribution>
     </extension>
     <extension
           point="org.eclipse.ui.commands">
@@ -239,6 +263,12 @@ Contributors:
              id="org.eclipse.mylyn.docs.intent.client.ui.ide.removeNatureCommand"
              name="Remove Intent Nature">
        </command>
+       <command
+             category="org.eclipse.ui.views.problems"
+             defaultHandler="org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.ShowProblemInEditorHandler"
+             id="org.eclipse.mylyn.docs.intent.client.ui.ide.problemview.show_editor"
+             name="Show in Intent Editor">
+       </command>
     </extension>
     <extension
           point="org.eclipse.core.expressions.propertyTesters">
@@ -247,6 +277,13 @@ Contributors:
              id="org.eclipse.mylyn.docs.intent.IntentPropertyTester"
              namespace="org.eclipse.mylyn.docs.intent.client.ui.ide"
              properties="isIntentDocument"
+             type="java.lang.Object">
+       </propertyTester>
+       <propertyTester
+             class="org.eclipse.mylyn.docs.intent.client.ui.ide.propertytester.IsIntentProblemMarker"
+             id="org.eclipse.mylyn.docs.intent.IntentProblemViewPropertyTester"
+             namespace="org.eclipse.mylyn.docs.intent.client.ui.ide"
+             properties="isIntentProblemMarker"
              type="java.lang.Object">
        </propertyTester>
     </extension>

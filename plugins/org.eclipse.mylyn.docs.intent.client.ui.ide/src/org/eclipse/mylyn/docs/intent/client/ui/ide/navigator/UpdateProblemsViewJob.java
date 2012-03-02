@@ -113,9 +113,11 @@ public class UpdateProblemsViewJob extends Job {
 				markerMessage = "[Sync] " + markerMessage;
 			}
 			marker.setAttribute(IMarker.MESSAGE, markerMessage);
+			marker.setAttribute(IMarker.LOCATION, status.eResource().getURI() + "#"
+					+ status.getTarget().eResource().getURIFragment(status));
+			marker.setAttribute(IMarker.SOURCE_ID, "Intent");
 		} catch (CoreException e) {
 			// Nothing to do, problem view will not be updated
 		}
 	}
-
 }
