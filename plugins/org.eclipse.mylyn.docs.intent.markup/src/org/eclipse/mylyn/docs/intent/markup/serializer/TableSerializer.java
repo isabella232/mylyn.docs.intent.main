@@ -22,17 +22,22 @@ import org.eclipse.mylyn.docs.intent.markup.markup.TableRow;
  */
 public final class TableSerializer {
 
-	private static final String TD_ALIGN_TOP = "text-align: top;";
+	/**
+	 * All css keywords that can describe a TD alignement.
+	 */
+	private static final String[] TD_ALIGNS = new String[] {"top;", "center;", "bottom;"
+	};
 
-	private static final String TD_ALIGN_TOP_TRADUCTION = "^";
+	/**
+	 * The textile translation of each css keywords from {@link TableSerializer#TD_ALIGNS}.
+	 */
+	private static final String[] TD_ALIGNS_TRANSLATION = new String[] {"^", "-",
+			Character.toString(TextSerializer.TILDE_SYMBOL)
+	};
 
-	private static final String TD_ALIGN_CENTER = "text-align: center;";
+	private static final String TD_TEXT_ALIGN = "text-align: ";
 
-	private static final String TD_ALIGN_CENTER_TRADUCTION = "-";
-
-	private static final String TD_ALIGN_BOTTOM = "text-align: bottom;";
-
-	private static final String TD_ALIGN_BOTTOM_TRADUCTION = Character.toString(TextSerializer.TILDE_SYMBOL);
+	private static final String TD_VERTICAL_ALIGN = "vertical-align: ";
 
 	private static final String TD_HEADER_TRADUCTION = "_.";
 
@@ -110,19 +115,25 @@ public final class TableSerializer {
 	private static String[] renderStyleFortableCell(String styleToRender) {
 		String cssStyle = styleToRender;
 		String renderedCellStyle = "";
-		if (cssStyle.contains(TD_ALIGN_TOP)) {
-			renderedCellStyle += TD_ALIGN_TOP_TRADUCTION;
-			cssStyle = cssStyle.replace(TD_ALIGN_TOP, "");
-		}
-		if (cssStyle.contains(TD_ALIGN_CENTER)) {
-			renderedCellStyle += TD_ALIGN_CENTER_TRADUCTION;
-			cssStyle = cssStyle.replace(TD_ALIGN_CENTER, "");
-		}
-		if (cssStyle.contains(TD_ALIGN_BOTTOM)) {
-			renderedCellStyle += TD_ALIGN_BOTTOM_TRADUCTION;
-			cssStyle = cssStyle.replace(TD_ALIGN_BOTTOM, "");
+		int alignID = 0;
+
+		// Step 1: we translate any css attribute that can be expressed with a textile keyword (in this case,
+		// TD alignement)
+		for (String align : TD_ALIGNS) {
+
+			if (cssStyle.contains(TD_TEXT_ALIGN + align)) {
+				renderedCellStyle += TD_ALIGNS_TRANSLATION[alignID];
+				cssStyle = cssStyle.replace(TD_TEXT_ALIGN + align, "");
+			} else {
+				if (cssStyle.contains(TD_VERTICAL_ALIGN + align)) {
+					renderedCellStyle += TD_ALIGNS_TRANSLATION[alignID];
+					cssStyle = cssStyle.replace(TD_VERTICAL_ALIGN + align, "");
+				}
+			}
+			alignID++;
 		}
 
+		// Step 2: updating the css style
 		if ((cssStyle.length() > 0) && (!"{}".equals(cssStyle))) {
 			renderedCellStyle += "{" + cssStyle + "}";
 		}
