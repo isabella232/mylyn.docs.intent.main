@@ -113,7 +113,7 @@
                 <groupId>org.eclipse.mylyn.docs.intent-group</groupId>
                 <artifactId>org.eclipse.mylyn.docs.intent</artifactId>
                 <version>0.7.0-SNAPSHOT</version>
-                <classifier>dev/target platform/juno-sdk-3.8</classifier>
+                <classifier>dev/target platform/juno-sdk-4.2</classifier>
             </artifact>
         </target>
 <environments>
