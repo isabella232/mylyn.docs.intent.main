@@ -121,7 +121,7 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 				// Step 4: launch generation
 				HTMLBootstrapGenDocument generator = new HTMLBootstrapGenDocument(intentDocument,
 						targetFolder, new ArrayList<Object>());
-				generator.doGenerate(progressMonitor, projectName);
+				generator.doGenerate(progressMonitor, projectName, repositoryAdapter);
 
 				// Step 5: if target folder is in workspace, refresh the folder
 				String workspaceRelativePath = targetFolder

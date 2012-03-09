@@ -36,11 +36,9 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
@@ -55,21 +53,22 @@ public class CopyImageUtils {
 
 	private static AdapterFactoryItemDelegator itemDelegator;
 
-	private static RepositoryAdapter repositoryAdapter;
+	private static ResourceSetImpl resourceSet;
 
 	private static TraceabilityIndex traceabilityIndex;
-
-	private static ResourceSetImpl resourceSet;
 
 	/**
 	 * Determines the image associated to the given EObject, copies it inside the exported documentation and
 	 * 
 	 * @param any
 	 *            the eobject to get the image from
+	 * @param repositoryAdapter
+	 *            the repository adapter to use to access to informations (traceability index...)
 	 * @param outputFolder
 	 * @return the image associated to the given EObject
 	 */
-	public static String copyImageAndGetImageID(EObject any, File outputFolder) {
+	public static String copyImageAndGetImageID(EObject any, RepositoryAdapter repositoryAdapter,
+			File outputFolder) {
 		String qualifiedImageID = "";
 		// Step 1: getting the image URL thanks to the item delegator
 		Object imageURL = getImageURL(any);
@@ -82,7 +81,7 @@ public class CopyImageUtils {
 				if (resolvedURL.toString().contains("org.eclipse.emf.edit")
 						&& resolvedURL.toString().endsWith("/icons/full/obj16/Item.gif")) {
 					// we search for an "edit" plugin in the workspace
-					if ((imageURL = getImageFromWorkspace((EClassifier)any)) != null) {
+					if ((imageURL = getImageFromWorkspace((EClassifier)any, repositoryAdapter)) != null) {
 						resolvedURL = (URL)imageURL;
 					}
 				}
@@ -101,42 +100,50 @@ public class CopyImageUtils {
 	 * Searches for an edit plugin corresponding to the given EObject and tries to retrieve its associated
 	 * image.
 	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter to use to access to informations (traceability index...)
 	 * @param the
 	 *            eobject to get the image from
 	 * @return the URL of the image corresponding to the given EObject, null if none found
 	 */
-	private static URL getImageFromWorkspace(EClassifier any) {
+	private static URL getImageFromWorkspace(EClassifier any, RepositoryAdapter repositoryAdapter) {
 		try {
-			for (TraceabilityIndexEntry entry : getTraceabilityIndex().getEntries()) {
-				if (any.eResource().getURI().toString().contains(entry.getGeneratedResourcePath())) {
-					Object metamodelURI = entry.getResourceDeclaration().getUri();
-					if (metamodelURI != null && metamodelURI.toString().replace("\"", "").endsWith("ecore")) {
-						URI genModelURI = URI.createURI(metamodelURI.toString().replace("\"", "")
-								.replace("ecore", "genmodel"));
-						try {
-							Resource resource = getResourceSet().getResource(genModelURI, true);
-							if (!resource.getContents().isEmpty()
-									&& resource.getContents().iterator().next() instanceof GenModel) {
-								String editIconsDirectory = ((GenModel)resource.getContents().iterator()
-										.next()).getEditIconsDirectory();
-								IFolder folder = ResourcesPlugin.getWorkspace().getRoot()
-										.getFolder(new Path(editIconsDirectory + "/full/obj16"));
-								if (folder.exists()) {
-									for (String imageExtension : new String[] {"gif", "png"
-									}) {
-										if (folder.getFile(any.getName() + "." + imageExtension).exists()) {
-											return new URL("file:/"
-													+ folder.getFile(any.getName() + "." + imageExtension)
-															.getLocation().toString());
+			TraceabilityIndex projectTraceabilityIndex = getTraceabilityIndex(repositoryAdapter);
+			if (projectTraceabilityIndex != null) {
+				for (TraceabilityIndexEntry entry : projectTraceabilityIndex.getEntries()) {
+					if (any.eResource().getURI().toString().contains(entry.getGeneratedResourcePath())) {
+						Object metamodelURI = entry.getResourceDeclaration().getUri();
+						if (metamodelURI != null
+								&& metamodelURI.toString().replace("\"", "").endsWith("ecore")) {
+							URI genModelURI = URI.createURI(metamodelURI.toString().replace("\"", "")
+									.replace("ecore", "genmodel"));
+							try {
+								Resource resource = getResourceSet().getResource(genModelURI, true);
+								if (!resource.getContents().isEmpty()
+										&& resource.getContents().iterator().next() instanceof GenModel) {
+									String editIconsDirectory = ((GenModel)resource.getContents().iterator()
+											.next()).getEditIconsDirectory();
+									IFolder folder = ResourcesPlugin.getWorkspace().getRoot()
+											.getFolder(new Path(editIconsDirectory + "/full/obj16"));
+									if (folder.exists()) {
+										for (String imageExtension : new String[] {"gif", "png"
+										}) {
+											if (folder.getFile(any.getName() + "." + imageExtension).exists()) {
+												return new URL(
+														"file:/"
+																+ folder.getFile(
+																		any.getName() + "." + imageExtension)
+																		.getLocation().toString());
+											}
 										}
 									}
 								}
+							} catch (RuntimeException e) {
+								IntentUiLogger.logInfo("Cannot find genmodel at " + genModelURI
+										+ ". Default image will be use to display " + any.getName());
+							} catch (MalformedURLException e) {
+								IntentUiLogger.logError(e);
 							}
-						} catch (RuntimeException e) {
-							IntentUiLogger.logInfo("Cannot find genmodel at " + genModelURI
-									+ ". Default image will be use to display " + any.getName());
-						} catch (MalformedURLException e) {
-							IntentUiLogger.logError(e);
 						}
 					}
 				}
@@ -244,24 +251,19 @@ public class CopyImageUtils {
 			adapterFactory.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 			itemDelegator = new AdapterFactoryItemDelegator(adapterFactory);
 		}
-		if (repositoryAdapter != null) {
-			repositoryAdapter.closeContext();
-		}
 		return itemDelegator;
 	}
 
-	private static TraceabilityIndex getTraceabilityIndex() throws RepositoryConnectionException,
-			CoreException, ReadOnlyException {
+	private static TraceabilityIndex getTraceabilityIndex(RepositoryAdapter repositoryAdapter)
+			throws RepositoryConnectionException, CoreException, ReadOnlyException {
 		if (traceabilityIndex == null) {
-			Repository repository = IntentRepositoryManager.INSTANCE
-					.getRepository("org.eclipse.emf.compare.intentdoc");
-			repositoryAdapter = repository.createRepositoryAdapter();
 			Resource traceabilityIndexResource = repositoryAdapter
 					.getOrCreateResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
 			if (!traceabilityIndexResource.getContents().isEmpty()
-					&& traceabilityIndexResource.getContents().iterator().next() instanceof TraceabilityIndex)
+					&& traceabilityIndexResource.getContents().iterator().next() instanceof TraceabilityIndex) {
 				traceabilityIndex = (TraceabilityIndex)traceabilityIndexResource.getContents().iterator()
 						.next();
+			}
 
 		}
 		return traceabilityIndex;

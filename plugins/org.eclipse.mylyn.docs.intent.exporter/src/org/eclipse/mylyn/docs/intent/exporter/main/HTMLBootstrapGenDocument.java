@@ -25,6 +25,7 @@ import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices;
 
 /**
@@ -171,12 +172,13 @@ public class HTMLBootstrapGenDocument extends AbstractAcceleoGenerator {
 	 */
 	@Override
 	public void doGenerate(Monitor monitor) throws IOException {
-		doGenerate(monitor, "Intent Documentation");
+		doGenerate(monitor, "Intent Documentation", null);
 	}
 
 	/**
 	 * Launches the generation described by this instance.
 	 * 
+	 * @param repositoryAdapter
 	 * @param basicMonitor
 	 *            This will be used to display progress information to the user.
 	 * @param intentProjectName
@@ -184,9 +186,10 @@ public class HTMLBootstrapGenDocument extends AbstractAcceleoGenerator {
 	 * @throws IOException
 	 *             This will be thrown if any of the output files cannot be saved to disk.
 	 */
-	public void doGenerate(Monitor monitor, String projectName) throws IOException {
+	public void doGenerate(Monitor monitor, String projectName, RepositoryAdapter repositoryAdapter)
+			throws IOException {
 		this.projectName = projectName;
-		IntentAcceleoServices.initialize(getTargetFolder());
+		IntentAcceleoServices.initialize(projectName, getTargetFolder(), repositoryAdapter);
 		super.doGenerate(monitor);
 		IntentAcceleoServices.dispose();
 	}

@@ -12,10 +12,19 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getQualifiedImageID(org.eclipse.emf.ecore.EObject)', Sequence{classifer})
 /]
 
+[query public getContainingSection(classifer : EObject) : IntentSection = 
+invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getContainingSection(org.eclipse.emf.ecore.EObject)', Sequence{classifer})
+/]
+
+[query public getContainingSectionID(classifer : EObject) : String = 
+invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getContainingSectionID(org.eclipse.emf.ecore.EObject)', Sequence{classifer})
+/]
+
+
 [template public generateHTMLContent(intentDocument : IntentDocument)]
 	<div id="content" >
 		[for (chapter : IntentChapter | intentDocument.chapters)]
-			[generateHTMLContent(chapter, indexInContainer(chapter).toString())/]
+			[generateHTMLContent(chapter, chapter.indexInContainer().toString())/]
 		[/for]
 	</div>
 [/template]
@@ -37,10 +46,10 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 		[for (child : EObject | subSectionContainer.intentContent)]
 		
 			[if child.oclIsTypeOf(IntentSection)]
-				[child.oclAsType(IntentSection).generateHTMLContent(index + '_' + indexInContainer(child.oclAsType(IntentSection)))/]
+				[child.oclAsType(IntentSection).generateHTMLContent(index + '_' + child.oclAsType(IntentSection).indexInContainer())/]
 			[else]
 				[if child.oclIsTypeOf(ModelingUnit)]
-					[child.oclAsType(ModelingUnit).generateHTMLContent(index + '_' + indexInContainer(child.oclAsType(ModelingUnit)))/]
+					[child.oclAsType(ModelingUnit).generateHTMLContent(index + '_' + child.oclAsType(ModelingUnit).indexInContainer())/]
 				[else ]
 					[child.generateHTMLContent()/]
 				[/if]
@@ -91,7 +100,7 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 
 		<a href="#"												
 			rel="popover" title=""
-			data-content=""
+			[instancation.generatePopoverLinks()/]
 		>
 		[if instancation.name->isEmpty()._not()]
 			[instancation.name/] - 
@@ -114,8 +123,9 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 		[contribution.getImageForValue()/]
 
 		<a href="#"												
-			rel="popover" title="Contribution to [contribution.referencedElement.IntentHref/] [if contribution.referencedElement.IntentHref.oclIsInvalid()._not()](of type [contribution.referencedElement.IntentHref/])[/if]"
-			data-content="Some infos"
+			rel="popover" title="Contribution to [contribution.referencedElement.IntentHref/] [if contribution.referencedElement.referencedElement.oclIsInvalid()._not()](of type [contribution.referencedElement.referencedElement.oclAsType(InstanciationInstruction).metaType.IntentHref/])[/if]"
+			[contribution.referencedElement.referencedElement.oclAsType(InstanciationInstruction).generatePopoverLinks()/]
+			"
 		>
 		[contribution.referencedElement.IntentHref/] [contributionInformation()/]
 		</a>
@@ -147,7 +157,7 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 				[for (reference : ModelingUnitInstructionReference | resourceDeclaration.content)]
 					<a href="#"												
 				rel="popover" title="Reference to [reference.IntentHref/] [if reference.referencedElement.oclAsType(InstanciationInstruction).metaType.oclIsInvalid()._not()](of type [reference.referencedElement.oclAsType(InstanciationInstruction).metaType.IntentHref/])[/if]"
-				data-content="Informations on [reference.IntentHref/]"
+				[reference.referencedElement.oclAsType(InstanciationInstructionReference).referencedElement.generatePopoverLinks()/]
 				>[reference.IntentHref/]</a>
 				[/for]
 				</ul>
@@ -193,7 +203,7 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 [template public generateHTMLContent(newValueInstruction : NewObjectValueForStructuralFeature)]
 <a href="#"												
 			rel="popover" title=""
-			data-content=""
+			[newValueInstruction.value.generatePopoverLinks()/]
 		>
 		[if newValueInstruction.value.name->isEmpty()._not()]
 			[newValueInstruction.value.name/] - 
@@ -224,7 +234,7 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 [template public generateHTMLContent(reference : ReferenceValueForStructuralFeature)]
 <a href="#"												
 			rel="popover" title="Reference to [reference.referencedElement.IntentHref/] [if reference.referencedElement.referencedElement.metaType.oclIsInvalid()._not()](of type [reference.referencedElement.referencedElement.metaType.IntentHref/])[/if]"
-			data-content="Informations on [reference.referencedElement.IntentHref/]"
+			[reference.referencedElement.referencedElement.generatePopoverLinks()/]
 >[reference.referencedElement.IntentHref/]</a>
 [/template]
 
@@ -285,6 +295,16 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 [/template]
 
 [template public generateHTMLContent(instancation : EObject)]
+[/template]
+
+[template public generatePopoverLinks(instruction : InstanciationInstruction)]
+data-content="<h4> Definition </h4>
+			[let containingSection : IntentSection = instruction.getContainingSection()]
+				<ul><li><a href='#[containingSection.getContainingSectionID()/]' >[containingSection.generateSubSectionTitle(true)/]</a></li></ul>
+			[/let]
+				<h4> Other contributions </h4>
+				
+			"
 [/template]
 
 [template public contributionInformation()]
