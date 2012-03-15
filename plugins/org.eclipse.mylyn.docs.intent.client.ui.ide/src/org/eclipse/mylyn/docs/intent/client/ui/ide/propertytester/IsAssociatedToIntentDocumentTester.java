@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -66,30 +65,30 @@ public class IsAssociatedToIntentDocumentTester extends PropertyTester {
 	public static IntentDocument getIntentDocument(Object any) {
 		IntentDocument document = null;
 		if (any instanceof IProject) {
+
 			// if the selected element is an IProject
 			// we get the associated intent document if any
 			IProject project = (IProject)any;
+			RepositoryAdapter repositoryAdapter = null;
 			try {
-				if (project.hasNature(IntentNature.NATURE_ID)) {
-					Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
+				Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
+				if (repository != null) {
+					repositoryAdapter = repository.createRepositoryAdapter();
 
-					if (repository != null) {
-						RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
-						try {
-							EList<EObject> contents = repositoryAdapter.getResource(
-									IntentLocations.INTENT_INDEX).getContents();
-							if (!contents.isEmpty() && contents.iterator().next() instanceof IntentDocument) {
-								document = (IntentDocument)contents.iterator().next();
-							}
-						} finally {
-							repositoryAdapter.closeContext();
-						}
+					EList<EObject> contents = repositoryAdapter.getResource(IntentLocations.INTENT_INDEX)
+							.getContents();
+					if (!contents.isEmpty() && contents.iterator().next() instanceof IntentDocument) {
+						document = (IntentDocument)contents.iterator().next();
 					}
 				}
 			} catch (RepositoryConnectionException e) {
 				// silently fail, test will return false
 			} catch (CoreException e) {
 				// silently fail, test will return false
+			} finally {
+				if (repositoryAdapter != null) {
+					repositoryAdapter.closeContext();
+				}
 			}
 		} else {
 			// If the selected element can be adapted as an EObject

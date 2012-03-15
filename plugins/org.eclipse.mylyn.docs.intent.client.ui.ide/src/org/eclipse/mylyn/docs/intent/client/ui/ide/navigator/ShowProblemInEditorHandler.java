@@ -52,32 +52,8 @@ public class ShowProblemInEditorHandler extends AbstractHandler {
 				if (firstElement instanceof MarkerItem
 						&& "Intent".equals(((MarkerItem)firstElement)
 								.getAttributeValue(IMarker.SOURCE_ID, ""))) {
-					String location = ((MarkerItem)firstElement).getLocation();
-					if (location.startsWith("platform:/resource/")) {
-						location = location.replaceFirst("platform:/resource/", "");
-						location = location.substring(0, location.indexOf("/"));
-						Repository repository;
 
-						repository = IntentRepositoryManager.INSTANCE.getRepository(location);
-						RepositoryAdapter adapter = repository.createRepositoryAdapter();
-						EObject elementToOpen = adapter.getResource(IntentLocations.INTENT_INDEX)
-								.getResourceSet()
-								.getEObject(URI.createURI(((MarkerItem)firstElement).getLocation()), true);
-						if (elementToOpen instanceof CompilationStatus) {
-							elementToOpen = ((CompilationStatus)elementToOpen).getTarget();
-						}
-						EObject elementToSelect = elementToOpen;
-						while (elementToOpen != null && !(elementToOpen instanceof IntentSubSectionContainer)
-								&& !(elementToOpen instanceof IntentDocument)) {
-							elementToOpen = elementToOpen.eContainer();
-						}
-						if (elementToOpen != null) {
-							IntentEditorOpener.openIntentEditor(repository, elementToOpen, false,
-									elementToSelect, false);
-						}
-						adapter.closeContext();
-
-					}
+					doOpenIntentEditorOnProblem((MarkerItem)firstElement);
 				}
 			} catch (RepositoryConnectionException e) {
 				IntentUiLogger.logError(e);
@@ -86,5 +62,40 @@ public class ShowProblemInEditorHandler extends AbstractHandler {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Opens an Intent Editor on the problem described by the given {@link MarkerItem}.
+	 * 
+	 * @param markerItem
+	 *            the marker Item containing the problem to open
+	 * @throws RepositoryConnectionException
+	 *             if cannot access to the repository corresponding to this problem
+	 * @throws CoreException
+	 *             if marker is invalid
+	 */
+	private void doOpenIntentEditorOnProblem(MarkerItem markerItem) throws RepositoryConnectionException,
+			CoreException {
+		String location = markerItem.getLocation();
+		if (location.startsWith("platform:/resource/")) {
+			location = location.replaceFirst("platform:/resource/", "");
+			location = location.substring(0, location.indexOf("/"));
+			Repository repository = IntentRepositoryManager.INSTANCE.getRepository(location);
+			RepositoryAdapter adapter = repository.createRepositoryAdapter();
+			EObject elementToOpen = adapter.getResource(IntentLocations.INTENT_INDEX).getResourceSet()
+					.getEObject(URI.createURI(markerItem.getLocation()), true);
+			if (elementToOpen instanceof CompilationStatus) {
+				elementToOpen = ((CompilationStatus)elementToOpen).getTarget();
+			}
+			EObject elementToSelect = elementToOpen;
+			while (elementToOpen != null && !(elementToOpen instanceof IntentSubSectionContainer)
+					&& !(elementToOpen instanceof IntentDocument)) {
+				elementToOpen = elementToOpen.eContainer();
+			}
+			if (elementToOpen != null) {
+				IntentEditorOpener.openIntentEditor(repository, elementToOpen, false, elementToSelect, false);
+			}
+			adapter.closeContext();
+		}
 	}
 }

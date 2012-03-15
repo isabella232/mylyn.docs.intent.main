@@ -114,9 +114,9 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 			} else if (container.eContainer() instanceof IntentSubSectionContainer) {
 				proposal = (((IntentSubSectionContainer)container.eContainer()).getSubSections().indexOf(
 						container) + 1)
-						+ "." + proposal;
+						+ '.' + proposal;
 			} else {
-				proposal = (container.eContainer().eContents().indexOf(container) + 1) + "." + proposal;
+				proposal = (container.eContainer().eContents().indexOf(container) + 1) + '.' + proposal;
 			}
 			container = container.eContainer();
 		}
@@ -150,7 +150,9 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 		try {
 			isCorrectlySplit = isCorrectlySplit
 					&& element.eResource() == workspaceAdapter.getResource(expectedResourceLocation, false);
+			// CHECKSTYLE:OFF
 		} catch (Exception e) {
+			// CHECKSTYLE:ON
 			isCorrectlySplit = false;
 		}
 		return isCorrectlySplit || (element instanceof IntentDocument);

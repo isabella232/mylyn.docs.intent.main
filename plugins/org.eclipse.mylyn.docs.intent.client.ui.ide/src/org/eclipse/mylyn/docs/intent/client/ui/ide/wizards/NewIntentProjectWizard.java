@@ -95,51 +95,7 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 	@Override
 	public boolean performFinish() {
 		final String defaultContent = getDefaultContent();
-		IWorkspaceRunnable create = new IWorkspaceRunnable() {
-			public void run(IProgressMonitor monitor) throws CoreException {
-
-				// Step 1 : create project
-				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(page.getProjectName());
-				IPath location = page.getLocationPath();
-				if (!project.exists()) {
-					IProjectDescription desc = project.getWorkspace().newProjectDescription(
-							page.getProjectName());
-					if (location != null
-							&& ResourcesPlugin.getWorkspace().getRoot().getLocation().equals(location)) {
-						location = null;
-					}
-					desc.setLocation(location);
-					project.create(desc, monitor);
-					project.open(monitor);
-				}
-				if (!project.isOpen()) {
-					project.open(monitor);
-				}
-
-				// Step 2 : updating working sets
-				// Bug 365052 : Working Set selection should be available in the new Intent Project wizard
-				IWorkingSet[] workingSets = page.getSelectedWorkingSets();
-				if (PlatformUI.getWorkbench() != null
-						&& PlatformUI.getWorkbench().getWorkingSetManager() != null) {
-					PlatformUI.getWorkbench().getWorkingSetManager().addToWorkingSets(project, workingSets);
-				}
-
-				// Step 3 : adding Intent nature
-				ToggleNatureAction.toggleNature(project);
-				IDEApplicationManager.initializeContent(project, defaultContent);
-
-				// Step 4 : open an editor on the created document
-				try {
-					Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
-					if (repository != null) {
-						IntentEditorOpener.openIntentEditor(repository, false);
-					}
-				} catch (RepositoryConnectionException e) {
-					IntentUiLogger.logError(e);
-				}
-
-			}
-		};
+		IWorkspaceRunnable create = new NewIntentProjectWizardRunnable(page, defaultContent);
 		try {
 			ResourcesPlugin.getWorkspace().run(create, null);
 			return true;
@@ -149,6 +105,11 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 		}
 	}
 
+	/**
+	 * Returns the default content to associate to the Intent Document to create.
+	 * 
+	 * @return the default content to associate to the Intent Document to create
+	 */
 	private String getDefaultContent() {
 		if (getContainer().getCurrentPage().equals(templatePage)) {
 			final String templateContent = templatePage.getContent();
@@ -187,5 +148,79 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 	public boolean canFinish() {
 		return (getContainer().getCurrentPage().equals(page) && page.isPageComplete())
 				|| (getContainer().getCurrentPage().equals(templatePage) && templatePage.isPageComplete());
+	}
+
+	/**
+	 * An {@link IWorkspaceRunnable} containg all operations realized when performing finish on the
+	 * {@link NewIntentProjectWizard}.
+	 * 
+	 * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+	 */
+	static class NewIntentProjectWizardRunnable implements IWorkspaceRunnable {
+
+		protected WizardNewProjectCreationPage page;
+
+		private String defaultContent;
+
+		/**
+		 * Default constructor.
+		 * 
+		 * @param page
+		 *            the {@link WizardNewProjectCreationPage} used by the wizard
+		 * @param defaultContent
+		 *            the default content to associate to the Intent Document to create
+		 */
+		public NewIntentProjectWizardRunnable(WizardNewProjectCreationPage page, String defaultContent) {
+			this.page = page;
+			this.defaultContent = defaultContent;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse.core.runtime.IProgressMonitor)
+		 */
+		public void run(IProgressMonitor monitor) throws CoreException {
+
+			// Step 1 : create project
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(page.getProjectName());
+			IPath location = page.getLocationPath();
+			if (!project.exists()) {
+				IProjectDescription desc = project.getWorkspace()
+						.newProjectDescription(page.getProjectName());
+				if (location != null
+						&& ResourcesPlugin.getWorkspace().getRoot().getLocation().equals(location)) {
+					location = null;
+				}
+				desc.setLocation(location);
+				project.create(desc, monitor);
+				project.open(monitor);
+			}
+			if (!project.isOpen()) {
+				project.open(monitor);
+			}
+
+			// Step 2 : updating working sets
+			// Bug 365052 : Working Set selection should be available in the new Intent Project wizard
+			IWorkingSet[] workingSets = page.getSelectedWorkingSets();
+			if (PlatformUI.getWorkbench() != null && PlatformUI.getWorkbench().getWorkingSetManager() != null) {
+				PlatformUI.getWorkbench().getWorkingSetManager().addToWorkingSets(project, workingSets);
+			}
+
+			// Step 3 : adding Intent nature
+			ToggleNatureAction.toggleNature(project);
+			IDEApplicationManager.initializeContent(project, defaultContent);
+
+			// Step 4 : open an editor on the created document
+			try {
+				Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
+				if (repository != null) {
+					IntentEditorOpener.openIntentEditor(repository, false);
+				}
+			} catch (RepositoryConnectionException e) {
+				IntentUiLogger.logError(e);
+			}
+
+		}
 	}
 }

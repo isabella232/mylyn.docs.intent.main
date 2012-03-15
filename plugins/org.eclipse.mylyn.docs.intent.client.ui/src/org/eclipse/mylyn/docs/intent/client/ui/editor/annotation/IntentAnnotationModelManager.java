@@ -73,18 +73,25 @@ public class IntentAnnotationModelManager {
 				// We use the repository Adapter to get the Resource containing
 				// the target of the synchronization error
 				String compiledResourceURI = ((SynchronizerCompilationStatus)status).getCompiledResourceURI();
-				Resource resource = repositoryAdapter.getResource(compiledResourceURI);
+				Resource resource = null;
+				try {
+					resource = repositoryAdapter.getResource(compiledResourceURI);
+					if (resource != null) {
+						uri = resource.getURI();
 
-				if (resource != null) {
-					uri = resource.getURI();
+						// We create an annotation from the status and add it to the annotation model
+						Annotation annotation = IntentAnnotationFactory
+								.createAnnotationFromCompilationStatus(uri, status);
+						addAnnotation(annotation, position);
+						handledCompilationStatus.put(status, annotation);
+					}
+					// CHECKSTYLE:OFF
+				} catch (Exception e) {
+					// CHECKSTYLE:ON
+					// Silent catch
 				}
 			}
 
-			// We create an annotation from the status and add it to the annotation model
-			Annotation annotation = IntentAnnotationFactory
-					.createAnnotationFromCompilationStatus(uri, status);
-			addAnnotation(annotation, position);
-			handledCompilationStatus.put(status, annotation);
 		}
 	}
 
