@@ -156,10 +156,10 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 			if (fIsAdvancedGraphicsPresent) {
 				int alpha = gc.getAlpha();
 				gc.setAlpha(100);
-				drawLineRange(gc, startLine, endLine, x, w);
+				drawLineRange(gc, startLine, endLine, x, w, true);
 				gc.setAlpha(alpha);
 			} else {
-				drawLineRange(gc, startLine, endLine, x, w);
+				drawLineRange(gc, startLine, endLine, x, w, false);
 			}
 		}
 	}
@@ -177,8 +177,10 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 *            the X-coordinate of the drawing range
 	 * @param w
 	 *            the width of the drawing range
+	 * @param usingAlpha
+	 *            indicates if alpha should be used
 	 */
-	private void drawLineRange(GC gc, int startLine, int endLine, int x, int w) {
+	private void drawLineRange(GC gc, int startLine, int endLine, int x, int w, boolean usingAlpha) {
 		final int viewPortWidth = fTextWidget.getClientArea().width;
 		for (int line = startLine; line <= endLine; line++) {
 			int lineOffset = fTextWidget.getOffsetAtLine(line);
@@ -233,7 +235,7 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 			}
 			// draw character range
 			if (endOffset > startOffset) {
-				drawDecoration(gc, startOffset, endOffset);
+				drawDecoration(gc, startOffset, endOffset, usingAlpha);
 			}
 		}
 	}
@@ -247,8 +249,10 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 *            inclusive start index
 	 * @param endOffset
 	 *            exclusive end index
+	 * @param usingAlpha
+	 *            indicates if alpha should be used
 	 */
-	private void drawDecoration(GC gc, int startOffset, int endOffset) {
+	private void drawDecoration(GC gc, int startOffset, int endOffset, boolean usingAlpha) {
 		StyledTextContent content = fTextWidget.getContent();
 
 		int muOpeningLineOffset = 0;
@@ -284,7 +288,7 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 					// We decorate the modeling unit starting at the muOpeningLineOffset and ending at he end
 					// offset
 					this.drawDecorationRectangle(gc, muOpeningLineOffset,
-							beginingOffset + content.getLine(i + 1).length(), maxMuLineSizeOffset);
+							beginingOffset + content.getLine(i + 1).length(), maxMuLineSizeOffset, usingAlpha);
 				}
 
 			}
@@ -311,14 +315,19 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 * @param maxMuLineSizeOffset
 	 *            the end offset of the biggest line of the element to decorate (in number of characters) ;
 	 *            used to determine the width of the rectangle
+	 * @param usingAlpha
+	 *            indicates if alpha should be used
 	 */
-	private void drawDecorationRectangle(GC gc, int beginOffset, int endOffset, int maxMuLineSizeOffset) {
+	private void drawDecorationRectangle(GC gc, int beginOffset, int endOffset, int maxMuLineSizeOffset,
+			boolean usingAlpha) {
 		int decorationLineLength = fTextWidget.getSize().x;
+		gc.setAlpha(100);
 		gc.setForeground(colorManager.getColor(IntentColorConstants.MU_DECORATION_LINE_FOREGROUND));
 		gc.setBackground(colorManager.getColor(IntentColorConstants.MU_DECORATION_BACKGROUND));
 		Point beginPos = fTextWidget.getLocationAtOffset(beginOffset);
 		Point endPos = fTextWidget.getLocationAtOffset(endOffset);
-		gc.drawRectangle(beginPos.x - LEFT_DECORATION_PADDING, beginPos.y, decorationLineLength - beginPos.x
-				- RIGHT_DECORATION_PADDING, endPos.y - beginPos.y);
+		gc.drawRoundRectangle(beginPos.x - LEFT_DECORATION_PADDING, beginPos.y, decorationLineLength
+				- beginPos.x - RIGHT_DECORATION_PADDING, endPos.y - beginPos.y, 10, 10);
+
 	}
 }

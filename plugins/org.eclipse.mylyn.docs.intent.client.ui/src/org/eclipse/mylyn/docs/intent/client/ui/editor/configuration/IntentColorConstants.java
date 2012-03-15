@@ -32,7 +32,7 @@ public final class IntentColorConstants {
 
 	public static final RGB MU_DECORATION_LINE_FOREGROUND = new RGB(84, 84, 84);
 
-	public static final RGB MU_DECORATION_BACKGROUND = new RGB(192, 192, 192);
+	public static final RGB MU_DECORATION_BACKGROUND = new RGB(195, 195, 195);
 
 	public static final int MU_DECORATION_LINE_WIDTH = 2;
 
