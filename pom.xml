@@ -116,18 +116,33 @@
                 <classifier>dev/target platform/juno-sdk-4.2</classifier>
             </artifact>
         </target>
-<environments>
-<environment>
-<os>linux</os>
-<ws>gtk</ws>
-<arch>x86_64</arch>
-</environment>
-<environment>
-<os>win32</os>
-<ws>win32</ws>
-<arch>x86</arch>
-</environment>
-</environments>
+        <environments>
+			<environment>
+					<os>linux</os>
+					<ws>gtk</ws>
+					<arch>x86</arch>
+			</environment>
+			<environment>
+					<os>win32</os>
+					<ws>win32</ws>
+					<arch>x86</arch>
+			</environment>
+			<environment>
+					<os>win32</os>
+					<ws>win32</ws>
+					<arch>x86_64</arch>
+			</environment>
+			<environment>
+					<os>linux</os>
+					<ws>gtk</ws>
+					<arch>x86_64</arch>
+			</environment>
+			<environment>
+					<os>macosx</os>
+					<ws>cocoa</ws>
+					<arch>x86_64</arch>
+			</environment>
+		</environments>
         </configuration>
       </plugin>
     </plugins>
