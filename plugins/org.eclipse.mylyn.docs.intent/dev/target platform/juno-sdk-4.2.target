@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.6"?>
 
-<target name="juno-sdk" sequenceNumber="17">
+<target name="juno-sdk" sequenceNumber="18">
 <locations>
-<location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.6.0.I20120201-1427"/>
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.8.0.v20120130-0821"/>
 <unit id="org.eclipse.acceleo.sdk.feature.group" version="3.3.0.v20120131-0422"/>
@@ -13,11 +13,11 @@
 <unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.5.0.v20110502-1600-67O-96SGR55YJeZPedcQnghI6uFA"/>
 <repository location="http://download.eclipse.org/releases/juno"/>
 </location>
-<location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.sdk" version="4.2.0.I20120127-1145"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.2milestones"/>
 </location>
-<location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<location includeAllPlatforms="true" includeMode="slicer" includeSource="true" type="InstallableUnit">
 <unit id="com.google.collect" version="1.0.0.v201003051000"/>
 <unit id="org.junit" version="4.8.1.v4_8_1_v20100427-1100"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/updateSite"/>
