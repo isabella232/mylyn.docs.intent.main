@@ -107,7 +107,9 @@
         <version>${tycho-version}</version>
         <configuration>
         <resolver>p2</resolver>
-        <ignoreTychoRepositories>true</ignoreTychoRepositories>
+        <ignoreTychoRepositories>false</ignoreTychoRepositories>
+		
+		<!--
         <target>
             <artifact>
                 <groupId>org.eclipse.mylyn.docs.intent-group</groupId>
@@ -116,6 +118,7 @@
                 <classifier>dev/target platform/juno-sdk-4.2</classifier>
             </artifact>
         </target>
+		-->
         <environments>
 			<environment>
 					<os>linux</os>
@@ -276,6 +279,22 @@
         </plugins>
       </build>
     </profile>
-  </profiles>
-  
+	<profile>
+      <id>juno</id>
+		<activation>
+          <activeByDefault>true</activeByDefault>
+      </activation>
+  		<repositories>
+			<repository><id>juno</id><layout>p2</layout>
+			   <url>http://download.eclipse.org/releases/juno</url>          
+			</repository>
+			<repository><id>platform</id><layout>p2</layout>
+			   <url>http://download.eclipse.org/eclipse/updates/4.2milestones</url>          
+			</repository>
+			<repository><id>orbit</id><layout>p2</layout>
+			   <url>http://download.eclipse.org/tools/orbit/downloads/drops/updateSite</url>          
+			</repository>
+		</repositories>
+	</profile>
+	  </profiles>
 </project>
