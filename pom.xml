@@ -68,7 +68,7 @@
 
     <module>tests/org.eclipse.mylyn.docs.intent.parser.test</module>
     <module>tests/org.eclipse.mylyn.docs.intent.collab.test</module>
-    <module>tests/org.eclipse.mylyn.docs.intent.client.ui.test</module>
+   <!-- <module>tests/org.eclipse.mylyn.docs.intent.client.ui.test</module>-->
 
     <module>examples/org.eclipse.mylyn.docs.intent.retro</module>
    </modules>
