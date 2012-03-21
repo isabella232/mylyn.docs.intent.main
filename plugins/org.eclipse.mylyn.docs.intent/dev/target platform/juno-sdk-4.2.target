@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.6"?>
+<?pde version="3.8"?>
 
-<target name="juno-sdk" sequenceNumber="18">
+<target name="juno-sdk" sequenceNumber="24">
 <locations>
+<location includeAllPlatforms="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="com.google.guava" version="10.0.1.v201203051515"/>
+<unit id="com.google.guava.source" version="10.0.1.v201203051515"/>
+<unit id="org.junit" version="4.8.2.v4_8_2_v20110321-1705"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20120308061416/repository/"/>
+</location>
+<location includeAllPlatforms="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.platform.sdk" version="4.2.0.I20120127-1145"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.2milestones"/>
+</location>
 <location includeAllPlatforms="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.6.0.I20120201-1427"/>
 <unit id="org.eclipse.emf.sdk.feature.group" version="2.8.0.v20120130-0821"/>
@@ -12,15 +22,6 @@
 <unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.5.0.v20110502-1600-777T-9AZP-F1cMhjSqjhYl0eU20D"/>
 <unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.5.0.v20110502-1600-67O-96SGR55YJeZPedcQnghI6uFA"/>
 <repository location="http://download.eclipse.org/releases/juno"/>
-</location>
-<location includeAllPlatforms="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.platform.sdk" version="4.2.0.I20120127-1145"/>
-<repository location="http://download.eclipse.org/eclipse/updates/4.2milestones"/>
-</location>
-<location includeAllPlatforms="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="com.google.collect" version="1.0.0.v201003051000"/>
-<unit id="org.junit" version="4.8.1.v4_8_1_v20100427-1100"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/updateSite"/>
 </location>
 </locations>
 </target>
