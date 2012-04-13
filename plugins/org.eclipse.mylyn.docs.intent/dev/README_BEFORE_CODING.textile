@@ -20,3 +20,11 @@ Please refer to the @/dev/code/README.textile@ to learn how to configure your wo
 h2. Step 4 : use launch configurations
 
 Please refer to the @/dev/launchconfigs/README.textile@ to learn how to use launch configurations to launch tests, clients and runtimes.
+
+h2. Step 5 (optional) : use JaCoCo and Sonar
+
+You can control the code coverage and many other useful informations relative to code quality using Sonar and Jacoco.
+
+* Install and launch Sonar
+* launch a build (@mvn clean verify@)
+* launch Sonar (@mvn sonar:sonar@)
