@@ -5,8 +5,8 @@
 
 [import org::eclipse::mylyn::docs::intent::exporter::main::generateToc/]
 [import org::eclipse::mylyn::docs::intent::exporter::main::generateHTMLContent/]
-[import org::eclipse::mylyn::docs::intent::markup::gen::files::html/]
-[import org::eclipse::mylyn::docs::intent::markup::gen::files::htmlGenDocument/]
+[import eclipse::mylyn::docs::intent::markup::gen::files::html/]
+[import eclipse::mylyn::docs::intent::markup::gen::files::htmlGenDocument/]
 
 [query public fileName(documentName : String) : String = 
  	documentName.replace(' ', '') + '.html'
