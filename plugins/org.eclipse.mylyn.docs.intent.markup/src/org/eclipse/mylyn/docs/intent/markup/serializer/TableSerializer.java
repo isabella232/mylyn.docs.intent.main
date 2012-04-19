@@ -25,14 +25,14 @@ public final class TableSerializer {
 	/**
 	 * All css keywords that can describe a TD alignement.
 	 */
-	private static final String[] TD_ALIGNS = new String[] {"top;", "center;", "bottom;"
+	private static final String[] TD_ALIGNS = new String[] {"top;", "center;", "bottom;",
 	};
 
 	/**
 	 * The textile translation of each css keywords from {@link TableSerializer#TD_ALIGNS}.
 	 */
 	private static final String[] TD_ALIGNS_TRANSLATION = new String[] {"^", "-",
-			Character.toString(TextSerializer.TILDE_SYMBOL)
+			Character.toString(TextSerializer.TILDE_SYMBOL),
 	};
 
 	private static final String TD_TEXT_ALIGN = "text-align: ";

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="HTMLBootstrapGenDocument" name="org.eclipse.mylyn.docs.intent.exporter">
-    <property name="ECLIPSE_HOME" value="../../../../../../02. Devs/eclipse/juno/M5"/>
+    <property name="ECLIPSE_HOME" value="../../../../../../02. Devs/eclipse/juno/M6/eclipse"/>
     <property name="ECLIPSE_WORKSPACE" value="../../../../../../03. Workspaces/Intent/Intent_trunk"/>
 
     <!-- The classpath with only the dependencies used by the project -->

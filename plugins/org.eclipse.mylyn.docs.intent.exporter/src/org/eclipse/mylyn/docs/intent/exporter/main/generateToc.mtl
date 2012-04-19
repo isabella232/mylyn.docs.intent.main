@@ -1,7 +1,7 @@
 [comment encoding = UTF-8 /]
 [module generateToc('http://www.eclipse.org/intent/intentdocument/0.7','http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/modelingunit/0.7','http://www.eclipse.org/intent/markup/generator/0.7')]
-[import eclipse::mylyn::docs::intent::markup::gen::files::html/]
-[import eclipse::mylyn::docs::intent::markup::gen::files::htmlGenDocument/]
+[import org::eclipse::mylyn::docs::intent::markup::gen::files::html/]
+[import org::eclipse::mylyn::docs::intent::markup::gen::files::htmlGenDocument/]
 
 [template public generateTOC(intentDocument : IntentDocument)]
 	<div id="table_of_content" class="sidebar-nav toc">
