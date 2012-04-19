@@ -7,7 +7,7 @@
       plugin="org.eclipse.mylyn.docs.intent.retro">
 
    <description>
-      Synchronizer extensions to detect changes in Java projects
+      Synchronization Bridge example
    </description>
 
    <copyright>
