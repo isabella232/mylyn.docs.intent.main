@@ -400,38 +400,83 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * Wait for synchronizer to complete work.
 	 */
 	protected void waitForSynchronizer() {
-		waitForAllOperationsInUIThread();
-		assertNotNull(
-				"Cannot wait for synchronizer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
-				repositoryListener);
-		assertTrue("Time out : synchronizer should have handle changes but did not",
-				repositoryListener.waitForModificationOn(IntentLocations.COMPILATION_STATUS_INDEX_PATH));
-		waitForAllOperationsInUIThread();
+		waitForSynchronizer(true);
 	}
 
 	/**
 	 * Wait for repository to complete work.
 	 */
 	protected void waitForIndexer() {
-		waitForAllOperationsInUIThread();
-		assertNotNull(
-				"Cannot wait for Indexer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
-				repositoryListener);
-		assertTrue("Time out : indexer should have handle changes but did not",
-				repositoryListener.waitForModificationOn(IntentLocations.INTENT_INDEX));
-		waitForAllOperationsInUIThread();
+		waitForIndexer(true);
 	}
 
 	/**
 	 * Wait for compiler to complete work.
 	 */
 	protected void waitForCompiler() {
+		waitForCompiler(true);
+	}
+
+	/**
+	 * Ensures that the synchronizer has been launched or not, according to the given boolean.
+	 * 
+	 * @param compilerShouldBeNotified
+	 *            indicates whether the synchronizer should be notified or not
+	 */
+	protected void waitForSynchronizer(boolean synchronizerShouldBeNotified) {
+		waitForAllOperationsInUIThread();
+		assertNotNull(
+				"Cannot wait for synchronizer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
+				repositoryListener);
+		if (synchronizerShouldBeNotified) {
+			assertTrue("Time out : synchronizer should have handle changes but did not",
+					repositoryListener.waitForModificationOn(IntentLocations.COMPILATION_STATUS_INDEX_PATH));
+		} else {
+			assertFalse("Synchonizer should not have been notifed",
+					repositoryListener.waitForModificationOn(IntentLocations.COMPILATION_STATUS_INDEX_PATH));
+		}
+		waitForAllOperationsInUIThread();
+	}
+
+	/**
+	 * Ensures that the indexer has been launched or not, according to the given boolean.
+	 * 
+	 * @param compilerShouldBeNotified
+	 *            indicates whether the indexer should be notified or not
+	 */
+	protected void waitForIndexer(boolean indexerShouldBeNotified) {
+		waitForAllOperationsInUIThread();
+		assertNotNull(
+				"Cannot wait for Indexer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
+				repositoryListener);
+		if (indexerShouldBeNotified) {
+			assertTrue("Time out : indexer should have handle changes but did not",
+					repositoryListener.waitForModificationOn(IntentLocations.GENERAL_INDEX_PATH));
+		} else {
+			assertFalse("Indexer should not have been notifed",
+					repositoryListener.waitForModificationOn(IntentLocations.GENERAL_INDEX_PATH));
+		}
+		waitForAllOperationsInUIThread();
+	}
+
+	/**
+	 * Ensures that the compiler has been launched or not, according to the given boolean.
+	 * 
+	 * @param compilerShouldBeNotified
+	 *            indicates whether the compiler should be notified or not
+	 */
+	protected void waitForCompiler(boolean compilerShouldBeNotified) {
 		waitForAllOperationsInUIThread();
 		assertNotNull(
 				"Cannot wait for compiler : you need to initialize a repository listener by calling the registerRepositoryListener() method",
 				repositoryListener);
-		assertTrue("Time out : compiler should have handle changes but did not",
-				repositoryListener.waitForModificationOn(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH));
+		if (compilerShouldBeNotified) {
+			assertTrue("Time out : compiler should have handle changes but did not",
+					repositoryListener.waitForModificationOn(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH));
+		} else {
+			assertFalse("Compiler should not have been notifed",
+					repositoryListener.waitForModificationOn(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH));
+		}
 		waitForAllOperationsInUIThread();
 	}
 

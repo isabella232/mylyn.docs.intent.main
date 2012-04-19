@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.repository;
 
+import java.io.IOException;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
@@ -38,6 +40,11 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceRepositoryStructurer {
+
+	/**
+	 * A separator used to compute identifer (e.g. 5.3.2).
+	 */
+	private static final String IDENTIFIER_SEPARATOR = ".";
 
 	/**
 	 * {@inheritDoc}
@@ -69,19 +76,38 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	protected void splitElementAndSons(WorkspaceAdapter workspaceAdapter, EObject element)
 			throws ReadOnlyException {
 		if (isElementToSplit(element)) {
-			if (!(isCorrectlySplit(element, workspaceAdapter))) {
-				// We have to place this element in a new resource
-				// The resource path follows the following structure :
-				// <INTENT_FOLDER> <CLASS_NAME> / <IDENTIFIER>
-				String newResourcePath = IntentLocations.INTENT_FOLDER + element.eClass().getName() + "/"
-						+ getIdentifierForElement(workspaceAdapter, element);
-				// We set the container's resource as modified
-				element.eContainer().eResource().setModified(true);
+
+			// The resource path should check the following structure :
+			// <INTENT_FOLDER> <CLASS_NAME> / <IDENTIFIER>
+			String newResourcePath = IntentLocations.INTENT_FOLDER + element.eClass().getName() + "/"
+					+ getIdentifierForElement(workspaceAdapter, element);
+
+			// Fist we check if the given element is in the same resource than its container (if it is the
+			// case, we will have to move it)
+			boolean isInSameResourceThanContainer = isInSameResourceThanContainer(element);
+
+			// Then we ensure that the element is stored at the expected location
+			if (isInSameResourceThanContainer
+					|| !(isStoredAtExpectedLocation(element, workspaceAdapter, newResourcePath))) {
+
+				// Delete the previous resource if needed
+				if (!isInSameResourceThanContainer && !(element instanceof IntentDocument)) {
+					try {
+						element.eResource().delete(null);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				// Place the element in a new resource
 				Resource newResource = workspaceAdapter.getOrCreateResource(newResourcePath);
 				newResource.getContents().clear();
 				newResource.getContents().add(element);
 				newResource.setTrackingModification(true);
 			}
+
+			// Do the same for all children of the given element
 			for (EObject containedElement : element.eContents()) {
 				splitElementAndSons(workspaceAdapter, containedElement);
 			}
@@ -110,13 +136,21 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 		while (!(container instanceof IntentDocument)) {
 			if (container instanceof ModelingUnit) {
 				proposal = (((IntentSection)container.eContainer()).getModelingUnits().indexOf(container) + 1)
-						+ "." + proposal;
-			} else if (container.eContainer() instanceof IntentSubSectionContainer) {
-				proposal = (((IntentSubSectionContainer)container.eContainer()).getSubSections().indexOf(
-						container) + 1)
-						+ '.' + proposal;
+						+ IDENTIFIER_SEPARATOR + proposal;
 			} else {
-				proposal = (container.eContainer().eContents().indexOf(container) + 1) + '.' + proposal;
+				if (container instanceof IntentSection) {
+					proposal = (((IntentSubSectionContainer)container.eContainer()).getSubSections().indexOf(
+							container) + 1)
+							+ IDENTIFIER_SEPARATOR + proposal;
+				} else {
+					if (container instanceof IntentChapter) {
+						proposal = (((IntentDocument)container.eContainer()).getChapters().indexOf(container) + 1)
+								+ IDENTIFIER_SEPARATOR + proposal;
+					} else {
+						proposal = (container.eContainer().eContents().indexOf(container) + 1)
+								+ IDENTIFIER_SEPARATOR + proposal;
+					}
+				}
 			}
 			container = container.eContainer();
 		}
@@ -125,28 +159,17 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	}
 
 	/**
-	 * Indicates if the given element is correctly split.
-	 * <p>
-	 * We consider that a Intent element is correctly split if it's a IntentDocument <b>OR</b> : <br/>
-	 * <ul>
-	 * <li>its associated resource isn't null <b> AND </b></li>
-	 * <li>it doesn't share the same resource as its container</li>
-	 * </ul>
-	 * </p>
+	 * Indicates whether the given element is stored at the expected resource path.
 	 * 
 	 * @param element
 	 *            the element to test
-	 * @return true if the element is correctly split
+	 * @param newResourcePath
+	 *            the expected resource location
+	 * @return true if the element is stored at the expected resource path
 	 */
-	private boolean isCorrectlySplit(EObject element, WorkspaceAdapter workspaceAdapter) {
+	private boolean isStoredAtExpectedLocation(EObject element, WorkspaceAdapter workspaceAdapter,
+			String expectedResourceLocation) {
 		boolean isCorrectlySplit = true;
-		isCorrectlySplit = element.eResource() != null;
-		isCorrectlySplit = isCorrectlySplit && (element.eContainer() != null);
-		if (isCorrectlySplit) {
-			isCorrectlySplit = isCorrectlySplit && (element.eContainer().eResource() != element.eResource());
-		}
-		String expectedResourceLocation = IntentLocations.INTENT_FOLDER + element.eClass().getName() + "/"
-				+ getIdentifierForElement(workspaceAdapter, element);
 		try {
 			isCorrectlySplit = isCorrectlySplit
 					&& element.eResource() == workspaceAdapter.getResource(expectedResourceLocation, false);
@@ -156,6 +179,22 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 			isCorrectlySplit = false;
 		}
 		return isCorrectlySplit || (element instanceof IntentDocument);
+	}
+
+	/**
+	 * Indicates if the given element is associated to the same resource than its container.
+	 * 
+	 * @param element
+	 *            the element to check
+	 * @return true if the given element is associated to the same resource than its container, false
+	 *         otherwise
+	 */
+	private boolean isInSameResourceThanContainer(EObject element) {
+		boolean isInSameResourceThanContainer = element.eResource() == null;
+		isInSameResourceThanContainer = isInSameResourceThanContainer || (element.eContainer() == null);
+		isInSameResourceThanContainer = isInSameResourceThanContainer
+				|| (element.eContainer().eResource() == element.eResource());
+		return isInSameResourceThanContainer && !(element instanceof IntentDocument);
 	}
 
 	/**

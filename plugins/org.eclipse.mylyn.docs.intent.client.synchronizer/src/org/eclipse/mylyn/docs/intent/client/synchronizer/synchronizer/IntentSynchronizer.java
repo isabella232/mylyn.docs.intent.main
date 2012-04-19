@@ -330,8 +330,10 @@ public class IntentSynchronizer {
 		if (uri.scheme() != null) {
 			for (ISynchronizerExtension synchronizerExtension : ISynchronizerExtensionRegistry
 					.getSynchronizerExtensions(uri.scheme())) {
-				synchronizerExtension.addListenedElements(repositoryClient, Sets.newHashSet(uri));
-				foundSpecificSynchronizer = true;
+				if (synchronizerExtension != null) {
+					synchronizerExtension.addListenedElements(repositoryClient, Sets.newHashSet(uri));
+					foundSpecificSynchronizer = true;
+				}
 			}
 		}
 
@@ -418,7 +420,13 @@ public class IntentSynchronizer {
 	 *         repository)
 	 */
 	private Resource getInternalResource(RepositoryAdapter adapter, TraceabilityIndexEntry indexEntry) {
-		return adapter.getResource(indexEntry.getGeneratedResourcePath());
+		try {
+			return adapter.getResource(indexEntry.getGeneratedResourcePath());
+			// CHECKSTYLE:OFF
+		} catch (Exception e) {
+			// CHECKSTYLE:ON
+			return null;
+		}
 	}
 
 	/**

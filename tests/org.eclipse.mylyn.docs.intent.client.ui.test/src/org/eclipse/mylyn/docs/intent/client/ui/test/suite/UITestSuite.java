@@ -21,6 +21,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening.OpenEditor
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.EcoreTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.JavaTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentRepositoryStructurerTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 
 /**
@@ -52,9 +53,9 @@ public class UITestSuite extends TestCase {
 		// Core tests
 		// All tests that test a technical concern (emf compare behavior, project lifecycle...)
 		final TestSuite basicTestSuite = new TestSuite("Technical tests");
+		basicTestSuite.addTestSuite(IntentRepositoryStructurerTest.class);
 		basicTestSuite.addTestSuite(ProjectTest.class);
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
-
 		suite.addTest(basicTestSuite);
 
 		// Scenario tests
