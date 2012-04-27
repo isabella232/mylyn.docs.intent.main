@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intentDocument:IntentDocument xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intentDU="http://www.eclipse.org/intent/descriptionunit/0.7" xmlns:intentDocument="http://www.eclipse.org/intent/intentdocument/0.7" xmlns:intentGU="http://www.eclipse.org/intent/genericunit/0.7" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.7" xmlns:markup="http://www.eclipse.org/intent/markup/0.7">
+  <chapters>
+    <title xsi:type="markup:Paragraph">
+      <attributes/>
+      <content xsi:type="markup:Text" data="Project Overview"/>
+    </title>
+    <intentContent xsi:type="intentDU:DescriptionUnit">
+      <instructions xsi:type="intentDU:DescriptionBloc" lineBreak="true">
+        <descriptionBloc xsi:type="markup:SimpleContainer">
+          <content xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="This chapter provides an overview of the "/>
+            <content xsi:type="markup:Text" data="Offers.com">
+              <attributes/>
+              <format>strong</format>
+            </content>
+            <content xsi:type="markup:Text" data=" web platform."/>
+          </content>
+        </descriptionBloc>
+      </instructions>
+      <instructions xsi:type="intentDU:DescriptionBloc">
+        <descriptionBloc xsi:type="markup:SimpleContainer">
+          <content xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="For further informations relative to "/>
+            <content xsi:type="markup:Text" data="Requirements">
+              <attributes/>
+              <format>strong</format>
+            </content>
+            <content xsi:type="markup:Text" data=", please refer to the"/>
+          </content>
+        </descriptionBloc>
+      </instructions>
+      <instructions xsi:type="intentGU:LabelReferenceInstruction" type="EXPLICIT">
+        <referencedLabel IntentHref="2"/>
+      </instructions>
+      <instructions xsi:type="intentDU:DescriptionBloc">
+        <descriptionBloc xsi:type="markup:SimpleContainer">
+          <content xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="chapter." lineBreak="true"/>
+            <content xsi:type="markup:Text" data="If you"/>
+            <content xsi:type="markup:Entity" data="#8217"/>
+            <content xsi:type="markup:Text" data="re interested in details about Offers.com "/>
+            <content xsi:type="markup:Text" data="Architecture">
+              <attributes/>
+              <format>strong</format>
+            </content>
+            <content xsi:type="markup:Text" data=", please consult the"/>
+          </content>
+        </descriptionBloc>
+      </instructions>
+      <instructions xsi:type="intentGU:IntentSectionReferenceInstruction" textToPrint="4">
+        <referencedObject IntentHref="3"/>
+      </instructions>
+      <instructions xsi:type="intentDU:DescriptionBloc">
+        <descriptionBloc xsi:type="markup:SimpleContainer">
+          <content xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="User Guide">
+              <attributes/>
+              <format>strong</format>
+            </content>
+            <content xsi:type="markup:Text" data=" contains a lot of useful informations about Offers.com web interface."/>
+          </content>
+        </descriptionBloc>
+      </instructions>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="Project startup"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="The "/>
+              <content xsi:type="markup:Text" data="Offers.com">
+                <attributes/>
+                <format>strong</format>
+              </content>
+              <content xsi:type="markup:Text" data=" project was initiated in August 2011 by "/>
+              <content xsi:type="markup:Text" data="MyCustomer">
+                <attributes/>
+                <format>emphasis</format>
+              </content>
+              <content xsi:type="markup:Text" data=", in order to respond to a need for easing the way customers can manage their offers."/>
+            </content>
+          </descriptionBloc>
+        </instructions>
+      </intentContent>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="Delivered versions"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="No delivered version yet, Offers.com v1.0 is expected around March 2012."/>
+            </content>
+          </descriptionBloc>
+        </instructions>
+      </intentContent>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="Useful Links"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="useful lnks"/>
+            </content>
+          </descriptionBloc>
+        </instructions>
+      </intentContent>
+    </intentContent>
+  </chapters>
+  <chapters>
+    <title xsi:type="markup:Paragraph">
+      <attributes/>
+      <content xsi:type="markup:Text" data="Requirements"/>
+    </title>
+    <intentContent xsi:type="intentDU:DescriptionUnit">
+      <instructions xsi:type="intentDU:DescriptionBloc">
+        <descriptionBloc xsi:type="markup:SimpleContainer">
+          <content xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="requirements"/>
+          </content>
+        </descriptionBloc>
+      </instructions>
+    </intentContent>
+  </chapters>
+  <chapters>
+    <title xsi:type="markup:Paragraph">
+      <attributes/>
+      <content xsi:type="markup:Text" data="Design"/>
+    </title>
+    <intentContent xsi:type="intentDU:DescriptionUnit">
+      <instructions xsi:type="intentDU:DescriptionBloc">
+        <descriptionBloc xsi:type="markup:SimpleContainer">
+          <content xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="This chapter details the architecture of the "/>
+            <content xsi:type="markup:Text" data="Offers.com">
+              <attributes/>
+              <format>strong</format>
+            </content>
+            <content xsi:type="markup:Text" data=" web platform."/>
+          </content>
+        </descriptionBloc>
+      </instructions>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="Architecture of the Web platform"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="the web"/>
+            </content>
+          </descriptionBloc>
+        </instructions>
+      </intentContent>
+      <intentContent xsi:type="intentDocument:IntentSection"/>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="The OfferTypesCatalog : holding all the informations related to offer types"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="The "/>
+              <content xsi:type="markup:Text" data="OfferTypesCatalog">
+                <attributes/>
+                <format>strong</format>
+              </content>
+              <content xsi:type="markup:Text" data=" class is meant to hold all the kind of "/>
+              <content xsi:type="markup:Text" data="Offer Types">
+                <attributes/>
+                <format>strong</format>
+              </content>
+              <content xsi:type="markup:Text" data=" that will be available for each customer."/>
+            </content>
+          </descriptionBloc>
+        </instructions>
+      </intentContent>
+      <intentContent xsi:type="intentMU:ModelingUnit">
+        <instructions xsi:type="intentMU:InstanciationInstruction" lineBreak="true" name="offerTypesCatalog">
+          <metaType IntentHref="OfferTypesCatalog"/>
+          <structuralFeatures lineBreak="true" name="id">
+            <values xsi:type="intentMU:NativeValueForStructuralFeature" value="&quot;catalog&quot;"/>
+          </structuralFeatures>
+        </instructions>
+      </intentContent>
+      <intentContent xsi:type="intentDocument:IntentSection">
+        <title xsi:type="markup:Paragraph">
+          <attributes/>
+          <content xsi:type="markup:Text" data="Offer Types"/>
+        </title>
+        <intentContent xsi:type="intentDU:DescriptionUnit">
+          <instructions xsi:type="intentDU:DescriptionBloc">
+            <descriptionBloc xsi:type="markup:SimpleContainer">
+              <content xsi:type="markup:Paragraph">
+                <attributes/>
+                <content xsi:type="markup:Text" data="This paragraph lists the offer types that will be available in the"/>
+              </content>
+            </descriptionBloc>
+          </instructions>
+          <instructions xsi:type="intentGU:IntentSectionReferenceInstruction" textToPrint="Offer Management Page">
+            <referencedObject IntentHref="2.1.1"/>
+          </instructions>
+          <instructions xsi:type="intentDU:DescriptionBloc" lineBreak="true">
+            <descriptionBloc xsi:type="markup:SimpleContainer">
+              <content xsi:type="markup:Paragraph">
+                <attributes/>
+                <content xsi:type="markup:Text" data="of the web platform."/>
+              </content>
+            </descriptionBloc>
+          </instructions>
+          <instructions xsi:type="intentDU:DescriptionBloc">
+            <descriptionBloc xsi:type="markup:SimpleContainer">
+              <content xsi:type="markup:Paragraph">
+                <attributes/>
+                <content xsi:type="markup:Text" data="&#x9;We decided to define the  "/>
+                <content xsi:type="markup:Text" data="OfferType">
+                  <attributes/>
+                  <format>strong</format>
+                </content>
+                <content xsi:type="markup:Text" data=" concept because we saw that many kinds of offers had common properties that could be pulled of." lineBreak="true"/>
+                <content xsi:type="markup:Text" data="&#x9;Each offer types defines its own target customer types and availablity conditions."/>
+              </content>
+            </descriptionBloc>
+          </instructions>
+        </intentContent>
+        <intentContent xsi:type="intentDocument:IntentSection">
+          <title xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="New Customer OfferType"/>
+          </title>
+          <intentContent xsi:type="intentDU:DescriptionUnit">
+            <instructions xsi:type="intentDU:DescriptionBloc">
+              <descriptionBloc xsi:type="markup:SimpleContainer">
+                <content xsi:type="markup:Paragraph">
+                  <attributes/>
+                  <content xsi:type="markup:Text" data="All offers associated to this OffertType are only available for customers that are registering on the web-platform."/>
+                </content>
+              </descriptionBloc>
+            </instructions>
+          </intentContent>
+          <intentContent xsi:type="intentMU:ModelingUnit">
+            <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
+              <referencedElement IntentHref="offerTypesCatalog"/>
+              <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="offerTypes" usedOperator="MULTI_VALUED_AFFECTATION">
+                <values xsi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <value name="NewCustomerOfferType">
+                    <metaType IntentHref="OfferType"/>
+                  </value>
+                </values>
+              </contributions>
+            </instructions>
+          </intentContent>
+        </intentContent>
+        <intentContent xsi:type="intentDocument:IntentSection">
+          <title xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="Premium Customer OfferType"/>
+          </title>
+          <intentContent xsi:type="intentDU:DescriptionUnit">
+            <instructions xsi:type="intentDU:DescriptionBloc">
+              <descriptionBloc xsi:type="markup:SimpleContainer">
+                <content xsi:type="markup:Paragraph">
+                  <attributes/>
+                  <content xsi:type="markup:Text" data="All offers associated to this  OfferType are reserved to premium customers."/>
+                </content>
+              </descriptionBloc>
+            </instructions>
+          </intentContent>
+          <intentContent xsi:type="intentMU:ModelingUnit">
+            <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
+              <referencedElement IntentHref="offerTypesCatalog"/>
+              <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="offerTypes" usedOperator="MULTI_VALUED_AFFECTATION">
+                <values xsi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <value name="PremiumCustomerOfferType">
+                    <metaType IntentHref="OfferType"/>
+                  </value>
+                </values>
+              </contributions>
+            </instructions>
+          </intentContent>
+        </intentContent>
+        <intentContent xsi:type="intentDocument:IntentSection">
+          <title xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="Registered Customer OfferType"/>
+          </title>
+          <intentContent xsi:type="intentDU:DescriptionUnit">
+            <instructions xsi:type="intentDU:DescriptionBloc">
+              <descriptionBloc xsi:type="markup:SimpleContainer">
+                <content xsi:type="markup:Paragraph">
+                  <attributes/>
+                  <content xsi:type="markup:Text" data="All offers associated to this OffertType are reserved to users that registered to the web-platform."/>
+                </content>
+              </descriptionBloc>
+            </instructions>
+          </intentContent>
+          <intentContent xsi:type="intentMU:ModelingUnit">
+            <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
+              <referencedElement IntentHref="offerTypesCatalog"/>
+              <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="offerTypes" usedOperator="MULTI_VALUED_AFFECTATION">
+                <values xsi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <value name="RegisteredCustomerOfferType">
+                    <metaType IntentHref="OfferType"/>
+                  </value>
+                </values>
+              </contributions>
+            </instructions>
+          </intentContent>
+        </intentContent>
+        <intentContent xsi:type="intentDocument:IntentSection">
+          <title xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="Special Promotion OfferType"/>
+          </title>
+          <intentContent xsi:type="intentDU:DescriptionUnit">
+            <instructions xsi:type="intentDU:DescriptionBloc">
+              <descriptionBloc xsi:type="markup:SimpleContainer">
+                <content xsi:type="markup:Paragraph">
+                  <attributes/>
+                  <content xsi:type="markup:Text" data="Following customer requirements, we define a new "/>
+                  <content xsi:type="markup:Text" data="OfferType">
+                    <attributes/>
+                    <format>strong</format>
+                  </content>
+                  <content xsi:type="markup:Text" data=", the "/>
+                  <content xsi:type="markup:Text" data="Special Promotion Offer">
+                    <attributes/>
+                    <format>strong</format>
+                  </content>
+                  <content xsi:type="markup:Text" data=", that will be associated to any temporary offer added by the "/>
+                  <content xsi:type="markup:Text" data="Offers.com">
+                    <attributes/>
+                    <format>strong</format>
+                  </content>
+                  <content xsi:type="markup:Text" data=" webmaster."/>
+                </content>
+              </descriptionBloc>
+            </instructions>
+          </intentContent>
+          <intentContent xsi:type="intentMU:ModelingUnit">
+            <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
+              <referencedElement IntentHref="offerTypesCatalog"/>
+              <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="offerTypes" usedOperator="MULTI_VALUED_AFFECTATION">
+                <values xsi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <value name="SpecialPromotionOfferType">
+                    <metaType IntentHref="OfferType"/>
+                  </value>
+                </values>
+              </contributions>
+            </instructions>
+          </intentContent>
+        </intentContent>
+      </intentContent>
+      <intentContent xsi:type="intentDocument:IntentSection">
+        <title xsi:type="markup:Paragraph">
+          <attributes/>
+          <content xsi:type="markup:Text" data="Customer Types"/>
+        </title>
+        <intentContent xsi:type="intentDU:DescriptionUnit">
+          <instructions xsi:type="intentDU:DescriptionBloc">
+            <descriptionBloc xsi:type="markup:SimpleContainer">
+              <content xsi:type="markup:Paragraph">
+                <attributes/>
+                <content xsi:type="markup:Text" data="customer types"/>
+              </content>
+            </descriptionBloc>
+          </instructions>
+        </intentContent>
+        <intentContent xsi:type="intentDocument:IntentSection"/>
+        <intentContent xsi:type="intentMU:ModelingUnit">
+          <instructions xsi:type="intentMU:ResourceDeclaration" lineBreak="true" uri="&quot;offers:/com.example.offer.catalog/*catalog*&quot;" name="myCatalogResource">
+            <content IntentHref="offerTypesCatalog"/>
+          </instructions>
+        </intentContent>
+        <intentContent xsi:type="intentMU:ModelingUnit">
+          <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
+            <referencedElement IntentHref="offerTypesCatalog"/>
+            <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="customerTypes" usedOperator="MULTI_VALUED_AFFECTATION">
+              <values xsi:type="intentMU:NewObjectValueForStructuralFeature">
+                <value name="NewCustomerType">
+                  <metaType IntentHref="CustomerType"/>
+                </value>
+              </values>
+            </contributions>
+            <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="customerTypes" usedOperator="MULTI_VALUED_AFFECTATION">
+              <values xsi:type="intentMU:NewObjectValueForStructuralFeature">
+                <value name="PremiumCustomerType">
+                  <metaType IntentHref="CustomerType"/>
+                </value>
+              </values>
+            </contributions>
+            <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="customerTypes" usedOperator="MULTI_VALUED_AFFECTATION">
+              <values xsi:type="intentMU:NewObjectValueForStructuralFeature">
+                <value name="RegisteredCustomerType">
+                  <metaType IntentHref="CustomerType"/>
+                </value>
+              </values>
+            </contributions>
+          </instructions>
+        </intentContent>
+      </intentContent>
+      <intentContent xsi:type="intentDocument:IntentSection">
+        <title xsi:type="markup:Paragraph">
+          <attributes/>
+          <content xsi:type="markup:Text" data="Offers Availability conditions"/>
+        </title>
+        <intentContent xsi:type="intentDU:DescriptionUnit">
+          <instructions xsi:type="intentDU:DescriptionBloc">
+            <descriptionBloc xsi:type="markup:SimpleContainer">
+              <content xsi:type="markup:Paragraph">
+                <attributes/>
+                <content xsi:type="markup:Text" data="conditions"/>
+              </content>
+            </descriptionBloc>
+          </instructions>
+        </intentContent>
+      </intentContent>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="Security considerations"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="secturity cosiderations"/>
+            </content>
+          </descriptionBloc>
+        </instructions>
+      </intentContent>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="The customer registration mechanism"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="mechanism"/>
+            </content>
+          </descriptionBloc>
+        </instructions>
+      </intentContent>
+    </intentContent>
+  </chapters>
+  <chapters>
+    <title xsi:type="markup:Paragraph">
+      <attributes/>
+      <content xsi:type="markup:Text" data="Technical implementation"/>
+    </title>
+    <intentContent xsi:type="intentDU:DescriptionUnit">
+      <instructions xsi:type="intentDU:DescriptionBloc">
+        <descriptionBloc xsi:type="markup:SimpleContainer">
+          <content xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="This chapter lists all the major technical choices and trades-off that the team had to make."/>
+          </content>
+        </descriptionBloc>
+      </instructions>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="Web platform UI"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="In this section, we will present the main screens of the "/>
+              <content xsi:type="markup:Text" data="Offers.Com">
+                <attributes/>
+                <format>strong</format>
+              </content>
+              <content xsi:type="markup:Text" data=" Web Platform, and present typicall interactions example."/>
+            </content>
+          </descriptionBloc>
+        </instructions>
+      </intentContent>
+      <intentContent xsi:type="intentDocument:IntentSection">
+        <title xsi:type="markup:Paragraph">
+          <attributes/>
+          <content xsi:type="markup:Text" data="General UI : the bootstrap framework"/>
+        </title>
+        <intentContent xsi:type="intentDU:DescriptionUnit">
+          <instructions xsi:type="intentDU:DescriptionBloc">
+            <descriptionBloc xsi:type="markup:SimpleContainer">
+              <content xsi:type="markup:Paragraph">
+                <attributes/>
+                <content xsi:type="markup:Text" data="the boot"/>
+              </content>
+            </descriptionBloc>
+          </instructions>
+        </intentContent>
+      </intentContent>
+      <intentContent xsi:type="intentDocument:IntentSection">
+        <title xsi:type="markup:Paragraph">
+          <attributes/>
+          <content xsi:type="markup:Text" data="Admin UI"/>
+        </title>
+        <intentContent xsi:type="intentDU:DescriptionUnit">
+          <instructions xsi:type="intentDU:DescriptionBloc">
+            <descriptionBloc xsi:type="markup:SimpleContainer">
+              <content xsi:type="markup:Paragraph">
+                <attributes/>
+                <content xsi:type="markup:Text" data="admin UI"/>
+              </content>
+            </descriptionBloc>
+          </instructions>
+        </intentContent>
+        <intentContent xsi:type="intentDocument:IntentSection">
+          <title xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="Admin"/>
+          </title>
+          <intentContent xsi:type="intentDU:DescriptionUnit">
+            <instructions xsi:type="intentDU:DescriptionBloc">
+              <descriptionBloc xsi:type="markup:SimpleContainer">
+                <content xsi:type="markup:Paragraph">
+                  <attributes/>
+                  <content xsi:type="markup:Text" data="Admin UI"/>
+                </content>
+              </descriptionBloc>
+            </instructions>
+          </intentContent>
+        </intentContent>
+      </intentContent>
+      <intentContent xsi:type="intentDocument:IntentSection">
+        <title xsi:type="markup:Paragraph">
+          <attributes/>
+          <content xsi:type="markup:Text" data="Customer UI"/>
+        </title>
+        <intentContent xsi:type="intentDU:DescriptionUnit">
+          <instructions xsi:type="intentDU:DescriptionBloc">
+            <descriptionBloc xsi:type="markup:SimpleContainer">
+              <content xsi:type="markup:Paragraph">
+                <attributes/>
+                <content xsi:type="markup:Text" data="Customer UI."/>
+              </content>
+            </descriptionBloc>
+          </instructions>
+        </intentContent>
+        <intentContent xsi:type="intentDocument:IntentSection">
+          <title xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="Register/Unregister to the Web platform"/>
+          </title>
+          <intentContent xsi:type="intentDU:DescriptionUnit">
+            <instructions xsi:type="intentDU:DescriptionBloc">
+              <descriptionBloc xsi:type="markup:SimpleContainer">
+                <content xsi:type="markup:Paragraph">
+                  <attributes/>
+                  <content xsi:type="markup:Text" data="Register"/>
+                </content>
+              </descriptionBloc>
+            </instructions>
+          </intentContent>
+          <intentContent xsi:type="intentDocument:IntentSection">
+            <title xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="Register"/>
+            </title>
+            <intentContent xsi:type="intentDU:DescriptionUnit">
+              <instructions xsi:type="intentDU:DescriptionBloc">
+                <descriptionBloc xsi:type="markup:SimpleContainer">
+                  <content xsi:type="markup:Paragraph">
+                    <attributes/>
+                    <content xsi:type="markup:Text" data="Register"/>
+                  </content>
+                </descriptionBloc>
+              </instructions>
+            </intentContent>
+          </intentContent>
+        </intentContent>
+        <intentContent xsi:type="intentDocument:IntentSection">
+          <title xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="Profile page"/>
+          </title>
+          <intentContent xsi:type="intentDU:DescriptionUnit">
+            <instructions xsi:type="intentDU:DescriptionBloc">
+              <descriptionBloc xsi:type="markup:SimpleContainer">
+                <content xsi:type="markup:Paragraph">
+                  <attributes/>
+                  <content xsi:type="markup:Text" data="the profile page"/>
+                </content>
+              </descriptionBloc>
+            </instructions>
+          </intentContent>
+          <intentContent xsi:type="intentDocument:IntentSection">
+            <title xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="Profile"/>
+            </title>
+            <intentContent xsi:type="intentDU:DescriptionUnit">
+              <instructions xsi:type="intentDU:DescriptionBloc">
+                <descriptionBloc xsi:type="markup:SimpleContainer">
+                  <content xsi:type="markup:Paragraph">
+                    <attributes/>
+                    <content xsi:type="markup:Text" data="Profile"/>
+                  </content>
+                </descriptionBloc>
+              </instructions>
+            </intentContent>
+          </intentContent>
+        </intentContent>
+        <intentContent xsi:type="intentDocument:IntentSection">
+          <title xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="Offers Management page"/>
+          </title>
+          <intentContent xsi:type="intentDU:DescriptionUnit">
+            <instructions xsi:type="intentGU:IntentSectionReferenceInstruction" textToPrint="The Offer Management Page">
+              <referencedObject IntentHref="2.1.1"/>
+            </instructions>
+            <instructions xsi:type="intentDU:DescriptionBloc" lineBreak="true">
+              <descriptionBloc xsi:type="markup:SimpleContainer">
+                <content xsi:type="markup:Paragraph">
+                  <attributes/>
+                  <content xsi:type="markup:Text" data="allows the end-user to see the offers he has access to." lineBreak="true"/>
+                  <content xsi:type="markup:Text" data="We display each legitimate offer by precising its name, and use the "/>
+                  <content xsi:type="markup:Text" data="offerTypeDescription">
+                    <attributes/>
+                    <format>emphasis</format>
+                  </content>
+                  <content xsi:type="markup:Text" data=" associated to each offer"/>
+                  <content xsi:type="markup:Entity" data="#8217"/>
+                  <content xsi:type="markup:Text" data="s OfferType to precise the offer type."/>
+                </content>
+              </descriptionBloc>
+            </instructions>
+            <instructions xsi:type="intentDU:DescriptionBloc">
+              <descriptionBloc xsi:type="markup:SimpleContainer">
+                <content xsi:type="markup:Paragraph">
+                  <attributes/>
+                  <content xsi:type="markup:Text" data="Here is an example of the "/>
+                  <content xsi:type="markup:Text" data="Offer Management Page">
+                    <attributes/>
+                    <format>emphasis</format>
+                  </content>
+                  <content xsi:type="markup:Text" data=" : " lineBreak="true"/>
+                  <content xsi:type="markup:Image" url="html/img/user/offer-selection-page.png">
+                    <attributes/>
+                  </content>
+                </content>
+              </descriptionBloc>
+            </instructions>
+          </intentContent>
+          <intentContent xsi:type="intentMU:ModelingUnit">
+            <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
+              <referencedElement IntentHref="NewCustomerOfferType"/>
+              <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="offerDescription">
+                <values xsi:type="intentMU:NativeValueForStructuralFeature" value="&quot;Offer limited to new members&quot;"/>
+              </contributions>
+            </instructions>
+            <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
+              <referencedElement IntentHref="RegisteredCustomerOfferType"/>
+              <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="offerDescription">
+                <values xsi:type="intentMU:NativeValueForStructuralFeature" value="&quot;Offer limited to registered members&quot;"/>
+              </contributions>
+            </instructions>
+            <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
+              <referencedElement IntentHref="PremiumCustomerOfferType"/>
+              <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="offerDescription">
+                <values xsi:type="intentMU:NativeValueForStructuralFeature" value="&quot;Offer limited to premium members&quot;"/>
+              </contributions>
+            </instructions>
+            <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
+              <referencedElement IntentHref="SpecialPromotionOfferType"/>
+              <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="offerDescription">
+                <values xsi:type="intentMU:NativeValueForStructuralFeature" value="&quot;Offer subject to applicable law&quot;"/>
+              </contributions>
+            </instructions>
+          </intentContent>
+        </intentContent>
+      </intentContent>
+      <intentContent xsi:type="intentDocument:IntentSection">
+        <title xsi:type="markup:Paragraph">
+          <attributes/>
+          <content xsi:type="markup:Text" data="Purchase products"/>
+        </title>
+        <intentContent xsi:type="intentDU:DescriptionUnit">
+          <instructions xsi:type="intentDU:DescriptionBloc">
+            <descriptionBloc xsi:type="markup:SimpleContainer">
+              <content xsi:type="markup:Paragraph">
+                <attributes/>
+                <content xsi:type="markup:Text" data="Offer Management."/>
+              </content>
+            </descriptionBloc>
+          </instructions>
+        </intentContent>
+        <intentContent xsi:type="intentDocument:IntentSection">
+          <title xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="Purchase"/>
+          </title>
+          <intentContent xsi:type="intentDU:DescriptionUnit">
+            <instructions xsi:type="intentDU:DescriptionBloc">
+              <descriptionBloc xsi:type="markup:SimpleContainer">
+                <content xsi:type="markup:Paragraph">
+                  <attributes/>
+                  <content xsi:type="markup:Text" data="pruchase"/>
+                </content>
+              </descriptionBloc>
+            </instructions>
+          </intentContent>
+        </intentContent>
+      </intentContent>
+    </intentContent>
+  </chapters>
+  <chapters>
+    <title xsi:type="markup:Paragraph">
+      <attributes/>
+      <content xsi:type="markup:Text" data="Test plan"/>
+    </title>
+    <intentContent xsi:type="intentDU:DescriptionUnit">
+      <instructions xsi:type="intentDU:DescriptionBloc">
+        <descriptionBloc xsi:type="markup:SimpleContainer">
+          <content xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="the test plan"/>
+          </content>
+        </descriptionBloc>
+      </instructions>
+    </intentContent>
+  </chapters>
+  <chapters>
+    <title xsi:type="markup:Paragraph">
+      <attributes/>
+      <content xsi:type="markup:Text" data="User Guide"/>
+    </title>
+    <intentContent xsi:type="intentDU:DescriptionUnit">
+      <instructions xsi:type="intentDU:DescriptionBloc">
+        <descriptionBloc xsi:type="markup:SimpleContainer">
+          <content xsi:type="markup:Paragraph">
+            <attributes/>
+            <content xsi:type="markup:Text" data="user Guide"/>
+          </content>
+        </descriptionBloc>
+      </instructions>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="Register to Offers.com"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="As a registered customer, you will..."/>
+            </content>
+          </descriptionBloc>
+        </instructions>
+      </intentContent>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="Manager your offers"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc" lineBreak="true">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="The following screen allows you to select your offer : "/>
+            </content>
+          </descriptionBloc>
+        </instructions>
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Image" url="html/img/user/offer-selection-page.png">
+                <attributes/>
+              </content>
+            </content>
+          </descriptionBloc>
+        </instructions>
+      </intentContent>
+    </intentContent>
+  </chapters>
+</intentDocument:IntentDocument>

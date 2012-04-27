@@ -21,4 +21,5 @@ Require-Bundle: org.junit;bundle-version="4.8.1",
  org.eclipse.mylyn.docs.intent.collab.ide;bundle-version="0.7.0",
  com.google.guava,
  org.eclipse.emf.compare.match;bundle-version="[1.2.0,2.0.0)",
- org.eclipse.mylyn.docs.intent.retro;bundle-version="0.7.0"
+ org.eclipse.mylyn.docs.intent.retro;bundle-version="0.7.0",
+ org.eclipse.mylyn.docs.intent.compare;bundle-version="0.7.0"

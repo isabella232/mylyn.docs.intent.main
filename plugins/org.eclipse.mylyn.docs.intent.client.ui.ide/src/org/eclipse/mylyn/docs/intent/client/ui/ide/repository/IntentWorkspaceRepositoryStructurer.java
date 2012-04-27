@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.repository;
 
+import com.google.common.collect.Sets;
+
 import java.io.IOException;
 
 import org.eclipse.emf.ecore.EObject;
@@ -89,6 +91,8 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 			// Then we ensure that the element is stored at the expected location
 			if (isInSameResourceThanContainer
 					|| !(isStoredAtExpectedLocation(element, workspaceAdapter, newResourcePath))) {
+				System.err.println("new resource for " + element + " at " + newResourcePath + " (was "
+						+ element.eResource().getURI() + ")");
 
 				// Delete the previous resource if needed
 				if (!isInSameResourceThanContainer && !(element instanceof IntentDocument)) {
@@ -102,13 +106,12 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 
 				// Place the element in a new resource
 				Resource newResource = workspaceAdapter.getOrCreateResource(newResourcePath);
-				newResource.getContents().clear();
 				newResource.getContents().add(element);
 				newResource.setTrackingModification(true);
 			}
 
 			// Do the same for all children of the given element
-			for (EObject containedElement : element.eContents()) {
+			for (EObject containedElement : Sets.newLinkedHashSet(element.eContents())) {
 				splitElementAndSons(workspaceAdapter, containedElement);
 			}
 		}

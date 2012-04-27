@@ -33,8 +33,11 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
@@ -149,11 +152,12 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		for (IntentEditor editor : openedEditors) {
 			editor.close(false);
 		}
-		IntentRepositoryManager.INSTANCE.deleteRepository(intentProject.getName());
 
 		// Step 2 : clean workspace
-		waitForAllOperationsInUIThread();
 		if (intentProject != null) {
+			IntentRepositoryManager.INSTANCE.deleteRepository(intentProject.getName());
+			waitForAllOperationsInUIThread();
+
 			intentProject.delete(true, true, new NullProgressMonitor());
 		}
 		IntentEditorActivator.getDefault().getLog().removeLogListener(this);
@@ -296,6 +300,30 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		}
 		// wait for initialization completed
 		waitForAllOperationsInUIThread();
+	}
+
+	/**
+	 * Loads the {@link IntentStructuredElement} located at the given path. If it contains an IntentDocument,
+	 * also updates the intentDocument field.
+	 * 
+	 * @param intentDocumentModelPath
+	 *            the path of the Intent document model (from
+	 *            org.eclipse.mylyn.docs.intent.client.ui.test/data)
+	 * @return the loaded {@link IntentStructuredElement}
+	 */
+	protected IntentStructuredElement loadIntentDocumentFromTests(String intentDocumentModelPath) {
+		ResourceSet rs = new ResourceSetImpl();
+		URI documentURI = URI.createURI("platform:/plugin/org.eclipse.mylyn.docs.intent.client.ui.test/data/"
+				+ intentDocumentModelPath);
+		Resource documentResource = rs.getResource(documentURI, true);
+		if (documentResource != null && documentResource.getContents().iterator().hasNext()
+				&& documentResource.getContents().iterator().next() instanceof IntentStructuredElement) {
+			if (documentResource.getContents().iterator().next() instanceof IntentDocument) {
+				intentDocument = (IntentDocument)documentResource.getContents().iterator().next();
+			}
+			return (IntentStructuredElement)documentResource.getContents().iterator().next();
+		}
+		throw new AssertionFailedError("Could not load Intent model at " + intentDocumentModelPath);
 	}
 
 	/**

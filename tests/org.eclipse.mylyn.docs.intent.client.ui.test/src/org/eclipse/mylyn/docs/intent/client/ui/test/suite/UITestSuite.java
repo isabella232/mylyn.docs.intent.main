@@ -16,6 +16,7 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.IntentMatchEngineTests;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.compilation.CompileTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening.OpenEditorTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.EcoreTest;
@@ -48,22 +49,38 @@ public class UITestSuite extends TestCase {
 	 * @return The test suite containing all intent ui tests
 	 */
 	public static Test suite() {
-		final TestSuite suite = new TestSuite("Intent UI TestSuite");
+		final TestSuite suite = new TestSuite("Intent Global TestSuite");
 
+		/*
+		 * Intent Technical Tests
+		 */
+		final TestSuite clientSuite = new TestSuite("Intent Client tests");
+		suite.addTest(clientSuite);
+
+		// Match & merge tests
+		final TestSuite compareSuite = new TestSuite("Intent match and merge tests");
+		compareSuite.addTestSuite(IntentMatchEngineTests.class);
+		clientSuite.addTest(compareSuite);
+
+		/*
+		 * Intent UI Tests
+		 */
+		final TestSuite uiTestSuite = new TestSuite("Intent UI tests");
+		suite.addTest(uiTestSuite);
 		// Core tests
 		// All tests that test a technical concern (emf compare behavior, project lifecycle...)
 		final TestSuite basicTestSuite = new TestSuite("Technical tests");
 		basicTestSuite.addTestSuite(IntentRepositoryStructurerTest.class);
 		basicTestSuite.addTestSuite(ProjectTest.class);
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
-		suite.addTest(basicTestSuite);
+		uiTestSuite.addTest(basicTestSuite);
 
 		// Scenario tests
 		// all tests that test an identified scenario for the end-user (very simple use case)
 		final TestSuite scenarioSuite = new TestSuite("Simple End-User Scenarios");
 		scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
 
-		suite.addTest(scenarioSuite);
+		uiTestSuite.addTest(scenarioSuite);
 
 		// Complete use case testSuite
 		// all tests that ensures the behavior of complete use cases
@@ -73,7 +90,7 @@ public class UITestSuite extends TestCase {
 		demoSuite.addTestSuite(EcoreTest.class);
 		demoSuite.addTestSuite(JavaTest.class);
 
-		// suite.addTest(demoSuite);
+		// uiTestSuite.addTest(demoSuite);
 
 		return suite;
 	}

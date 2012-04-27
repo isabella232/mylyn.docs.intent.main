@@ -39,14 +39,28 @@ import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
  */
 public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 
+	private static final String NEW_CHAPTER = "\tChapter {\n\t\tSection {\n\t\t}\n\t}\n}";
+
 	/**
 	 * Ensures that the internal structure of the Intent Repository is correctly maintained expected (on file
 	 * per Chapter/Section/Modeling Unit, see
 	 * {@link org.eclipse.mylyn.docs.intent.client.ui.ide.repository.IntentWorkspaceRepositoryStructurer}).
 	 */
-	public void testIntentRepositoryHasExpectedStructureWhenAddingNewChapter() {
+	public void testIntentRepositoryHasExpectedStructureWhenAddingAndRemovingChapters() {
 		// Step 1: we initialize an intent project
-		setUpIntentProject("intentProject", "data/unit/documents/editorupdates/changeEditorUpdateTest.intent");
+		setUpIntentProject("intentProject", "data/unit/documents/editorupdates/compareTest-01.intent");
+		// ResourceSet rs = new ResourceSetImpl();
+		// Resource createResource = rs
+		// .createResource(URI
+		// .createURI("file://D:/05. Git/intent/org.eclipse.mylyn.docs.intent.main/tests/org.eclipse.mylyn.docs.intent.client.ui.test/data/unit/models/documents/compareTest-03.xmi"));
+		// createResource.getContents().add(EcoreUtil.copy(getIntentDocument()));
+		// try {
+		// createResource.save(null);
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+
 		IntentEditor editor = openIntentEditor();
 
 		// Step 2: we check the initial structure of the project
@@ -58,13 +72,50 @@ public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 		// => all previous content should be stored in new resources
 		IntentEditorDocument document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(
 				editor.getEditorInput());
-		document.set("Document {\n\tChapter {\n\tSection {\n\t}\n\t}\n"
+		document.set("Document {\n\tChapter {\n\tNew Chapter\n\tNew Chapter\n\tSection {\n\t}\n\t}\n"
 				+ document.get().replace("Document {", ""));
+
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
 		checkRepositoryStructure(Lists.newArrayList("1", "2", "3", "4"),
 				Lists.newArrayList("1.1", "2.1", "3.1", "3.2", "4.1", "4.1.1", "4.1.2"),
 				Lists.newArrayList("2.1.1", "4.1.1"));
+
+		// Step 4: adding a new chapter at the end
+		String documentWithChapterAtTheEnd = document.get().substring(0, document.get().lastIndexOf("}"))
+				+ NEW_CHAPTER;
+
+		document.set(documentWithChapterAtTheEnd);
+		editor.doSave(new NullProgressMonitor());
+		waitForAllOperationsInUIThread();
+		checkRepositoryStructure(Lists.newArrayList("1", "2", "3", "4", "5"),
+				Lists.newArrayList("1.1", "2.1", "3.1", "3.2", "4.1", "4.1.1", "4.1.2", "5.1"),
+				Lists.newArrayList("2.1.1", "4.1.1"));
+
+		// Step 5 : adding a new chapter in the middle
+		String chapterToAdd = "";
+		int index = document.get().indexOf("The 2.2 Section");
+		chapterToAdd = document.get().substring(index);
+		chapterToAdd = chapterToAdd.substring(chapterToAdd.indexOf("Chapter"),
+				chapterToAdd.lastIndexOf("Chapter"));
+		document.set(document.get().replace(chapterToAdd, chapterToAdd + NEW_CHAPTER));
+		editor.doSave(new NullProgressMonitor());
+		waitForAllOperationsInUIThread();
+		checkRepositoryStructure(Lists.newArrayList("1", "2", "3", "4", "5"),
+				Lists.newArrayList("1.1", "2.1", "3.1", "3.2", "4.1", "4.1.1", "4.1.2", "5.1"),
+				Lists.newArrayList("2.1.1", "4.1.1"));
+
+		// Step 6 : deleting a chapter in the middle
+		String chapterToDelete = "";
+		index = document.get().indexOf("The 2.2 Section");
+		chapterToDelete = document.get().substring(index);
+		chapterToDelete = chapterToDelete.substring(chapterToDelete.indexOf("Chapter"),
+				chapterToDelete.lastIndexOf("Chapter"));
+		document.set(document.get().replace(chapterToDelete, ""));
+		editor.doSave(new NullProgressMonitor());
+		waitForAllOperationsInUIThread();
+		checkRepositoryStructure(Lists.newArrayList("1", "2", "3", "4"),
+				Lists.newArrayList("1.1", "2.1", "3.1", "3.2", "4.1"), Lists.newArrayList("2.1.1"));
 	}
 
 	/**
@@ -107,14 +158,14 @@ public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 
 			// Checking that the folder does not contain more resource that the expected ones
 			SetView<String> folderDifferences = Sets.difference(folderContent, expectedResourcesName);
-			assertTrue("The " + folder.getName() + " folder contains too many resources ("
+			assertTrue("The " + folder.getName() + " folder contains too many " + folder.getName() + "(s) ("
 					+ folderDifferences.size() + "): " + folderDifferences.toString(),
 					folderDifferences.isEmpty());
 
 			// Checking that the folder does contain all expected ones
 			folderDifferences = Sets.difference(expectedResourcesName, folderContent);
-			assertTrue("The " + folder.getName() + " folder should contain the following resources: "
-					+ folderDifferences.toString(), folderDifferences.isEmpty());
+			assertTrue("The " + folder.getName() + " folder should contain the following " + folder.getName()
+					+ "(s): " + folderDifferences.toString(), folderDifferences.isEmpty());
 		} catch (CoreException e) {
 			fail(e.getMessage());
 		}

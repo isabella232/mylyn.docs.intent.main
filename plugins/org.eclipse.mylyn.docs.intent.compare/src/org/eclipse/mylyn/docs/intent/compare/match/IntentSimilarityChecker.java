@@ -10,12 +10,22 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.match;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+
 import org.eclipse.emf.compare.FactoryException;
 import org.eclipse.emf.compare.match.statistic.MetamodelFilter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.markup.markup.Block;
+import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
+import org.eclipse.mylyn.docs.intent.markup.markup.StructureElement;
+import org.eclipse.mylyn.docs.intent.markup.markup.Text;
+import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 /**
  * Similarity checker using the Intent semantics to compare two Intent elements.
@@ -99,6 +109,11 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 					isSimilar = areSimilarStructuredElements((IntentStructuredElement)obj1,
 							(IntentStructuredElement)obj2);
 					haveSpecificMatcher = true;
+				} else {
+					if (obj1 instanceof Paragraph && obj2 instanceof Paragraph) {
+						isSimilar = areSimilarParagraphs((Paragraph)obj1, (Paragraph)obj2);
+						haveSpecificMatcher = true;
+					}
 				}
 			}
 		}
@@ -132,6 +147,14 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 		// If the two objects are the roots, we consider that they are similar in any circumstance
 		if (areRoots(obj1, obj2)) {
 			return MAX_SIMILARITY;
+		} else {
+			if (obj1 instanceof IntentStructuredElement && obj2 instanceof IntentStructuredElement) {
+				if (areSimilarStructuredElements((IntentStructuredElement)obj1, (IntentStructuredElement)obj2)) {
+					return 1.0;
+				} else {
+					return 0;
+				}
+			}
 		}
 		return super.absoluteMetric(obj1, obj2);
 	}
@@ -168,9 +191,71 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 		Block title2 = element2.getTitle();
 
 		if (title1 != null && title2 != null) {
-		return isSimilar(title1, title2);
+			return isSimilar(title1, title2);
+		}
+		// if both title are null, we make a content match
+		if (title1 == null && title2 == null) {
+			// System.err.println("*************************************");
+			String element1Ser = new IntentSerializer().serialize(element1);
+			// System.err.println(element1Ser);
+			// System.err.println("======");
+			String element2Ser = new IntentSerializer().serialize(element2);
+			// System.err.println(element2Ser);
+			boolean isSimilar = isSimilar(element1, element2, true);
+			boolean sameSer = element1Ser.equals(element2Ser);
+
+			return isSimilar;
 		}
 		return false;
+	}
+
+	@Override
+	protected double contentSimilarity(EObject obj1, EObject obj2) throws FactoryException {
+		if (obj1 instanceof IntentStructuredElement && obj2 instanceof IntentStructuredElement) {
+			return 0.97;
+		}
+		return super.contentSimilarity(obj1, obj2);
+	}
+
+	// @Override
+	// protected double relationsSimilarity(EObject obj1, EObject obj2) throws FactoryException {
+	// if (obj1 instanceof IntentStructuredElement && obj2 instanceof IntentStructuredElement) {
+	// final Double value = getSimilarityFromCache(obj1, obj2, 'r');
+	// double similarity = 0d;
+	// if (value != null) {
+	// similarity = value;
+	// } else {
+	// similarity = getIntentStructuredElementsSimilarity((IntentStructuredElement)obj1,
+	// (IntentStructuredElement)obj2);
+	// setSimilarityInCache(obj1, obj2, 'r', similarity);
+	// }
+	// return similarity;
+	// }
+	// return super.relationsSimilarity(obj1, obj2);
+	// }
+
+	private double getIntentStructuredElementsSimilarity(IntentStructuredElement obj1,
+			IntentStructuredElement obj2) {
+		int numberOfCommonElements = 0;
+		int numberOfElements = obj1.getContent().size();
+
+		Iterator<StructureElement> obj2Children = obj2.getContent().iterator();
+		for (StructureElement obj1Child : obj1.getContent()) {
+			if (obj2Children.hasNext()) {
+
+				EObject obj2Child = obj2Children.next();
+				if (new IntentSerializer().serialize(obj1Child).equals(
+						new IntentSerializer().serialize(obj2Child))) {
+					numberOfCommonElements++;
+				}
+			} else {
+				break;
+			}
+		}
+		if (numberOfElements != 0) {
+			return numberOfCommonElements / numberOfElements;
+		}
+		return 0;
 	}
 
 	/**
@@ -191,5 +276,32 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 
 		boolean haveSamePositionInContainer = positionInContainer1 == positionInContainer2;
 		return haveSamePositionInContainer;
+	}
+
+	/**
+	 * Indicates if 2 paragraphs are equals.
+	 * 
+	 * @param obj1
+	 *            the paragraph to match
+	 * @param obj2
+	 *            the candidate paragraph
+	 * @return true if the first pargraph matches the second one, false otherwise
+	 */
+	private boolean areSimilarParagraphs(Paragraph obj1, Paragraph obj2) {
+		LinkedHashSet<Text> obj1Texts = Sets
+				.newLinkedHashSet(Iterables.filter(obj1.getContent(), Text.class));
+		LinkedHashSet<Text> obj2Texts = Sets
+				.newLinkedHashSet(Iterables.filter(obj2.getContent(), Text.class));
+
+		String obj1AsString = "";
+		for (Text t : obj1Texts) {
+			obj1AsString += t.getData();
+		}
+
+		String obj2AsString = "";
+		for (Text t : obj2Texts) {
+			obj2AsString += t.getData();
+		}
+		return obj1AsString.equals(obj2AsString);
 	}
 }

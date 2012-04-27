@@ -1,0 +1,257 @@
+Document {
+	Chapter {
+		Project Overview
+
+		This chapter provides an overview of the *Offers.com* web platform.
+
+		For further informations relative to *Requirements*, please refer to the
+		@see "2" chapter.
+		If you're interested in details about Offers.com *Architecture*, please consult the
+		@see "3" "4" *User Guide* contains a lot of useful informations about Offers.com web interface.
+		Section {
+			Project startup
+
+			The *Offers.com* project was initiated in August 2011 by _MyCustomer_, in order to respond to a need for easing the way customers can manage their offers.
+		}
+		Section {
+			Delivered versions
+
+			No delivered version yet, Offers.com v1.0 is expected around March 2012.
+		}
+		Section {
+			Useful Links
+
+			useful lnks
+		}
+	}
+	Chapter {
+		Requirements
+
+		requirements
+	}
+	Chapter {
+		Design
+
+		This chapter details the architecture of the *Offers.com* web platform.
+		Section {
+			Architecture of the Web platform
+
+			the web
+			Section {
+			}
+		}
+		Section {
+			The OfferTypesCatalog : holding all the informations related to offer types
+
+			The *OfferTypesCatalog* class is meant to hold all the kind of *Offer Types* that will be available for each customer.
+			
+			@M
+				new OfferTypesCatalog offerTypesCatalog {
+					id = "catalog";
+				}
+			M@
+			
+			Section {
+				Offer Types
+
+				This paragraph lists the offer types that will be available in the
+				@see "2.1.1" "Offer Management Page" of the web platform.
+
+					We decided to define the  *OfferType* concept because we saw that many kinds of offers had common properties that could be pulled of.
+					Each offer types defines its own target customer types and availablity conditions.
+				Section {
+					New Customer OfferType
+
+					All offers associated to this OffertType are only available for customers that are registering on the web-platform.
+					
+					@M
+						offerTypesCatalog {
+							offerTypes += new OfferType NewCustomerOfferType {};
+						}
+					M@
+					
+				}
+				Section {
+					Premium Customer OfferType
+
+					All offers associated to this  OfferType are reserved to premium customers.
+					
+					@M
+						offerTypesCatalog {
+							offerTypes += new OfferType PremiumCustomerOfferType {};
+						}
+					M@
+					
+				}
+				Section {
+					Registered Customer OfferType
+
+					All offers associated to this OffertType are reserved to users that registered to the web-platform.
+					
+					@M
+						offerTypesCatalog {
+							offerTypes += new OfferType RegisteredCustomerOfferType {};
+						}
+					M@
+					
+				}
+				Section {
+					Special Promotion OfferType
+
+					Following customer requirements, we define a new *OfferType*, the *Special Promotion Offer*, that will be associated to any temporary offer added by the *Offers.com* webmaster.
+					
+					@M
+						offerTypesCatalog {
+							offerTypes += new OfferType SpecialPromotionOfferType {};
+						}
+					M@
+					
+				}
+			}
+			Section {
+				Customer Types
+
+				customer types
+				Section {
+				}
+				
+				@M
+					Resource myCatalogResource {
+						URI = "offers:/com.example.offer.catalog/*catalog*";
+						content += offerTypesCatalog;
+					}
+				M@
+				
+				
+				@M
+					offerTypesCatalog {
+						customerTypes += new CustomerType NewCustomerType {};
+						customerTypes += new CustomerType PremiumCustomerType {};
+						customerTypes += new CustomerType RegisteredCustomerType {};
+					}
+				M@
+				
+			}
+			Section {
+				Offers Availability conditions
+
+				conditions
+			}
+		}
+		Section {
+			Security considerations
+
+			secturity cosiderations
+		}
+		Section {
+			The customer registration mechanism
+
+			mechanism
+		}
+	}
+	Chapter {
+		Technical implementation
+
+		This chapter lists all the major technical choices and trades-off that the team had to make.
+		Section {
+			Web platform UI
+
+			In this section, we will present the main screens of the *Offers.Com* Web Platform, and present typicall interactions example.
+			Section {
+				General UI : the bootstrap framework
+
+				the boot
+			}
+			Section {
+				Admin UI
+
+				admin UI
+				Section {
+					Admin
+					Admin UI
+				}
+			}
+			Section {
+				Customer UI
+
+				Customer UI.
+				Section {
+					Register/Unregister to the Web platform
+
+					Register
+					Section {
+						Register
+						Register
+					}
+				}
+				Section {
+					Profile page
+
+					the profile page
+					Section {
+						Profile
+						Profile
+					}
+				}
+				Section {
+					Offers Management page
+
+					@see "2.1.1" "The Offer Management Page" allows the end-user to see the offers he has access to.
+					We display each legitimate offer by precising its name, and use the _offerTypeDescription_ associated to each offer's OfferType to precise the offer type.
+
+					Here is an example of the _Offer Management Page_ : 
+					!html/img/user/offer-selection-page.png!
+					
+					
+					@M
+						NewCustomerOfferType {
+							offerDescription = "Offer limited to new members";
+						}
+						RegisteredCustomerOfferType {
+							offerDescription = "Offer limited to registered members";
+						}
+						PremiumCustomerOfferType {
+							offerDescription = "Offer limited to premium members";
+						}
+						SpecialPromotionOfferType {
+							offerDescription = "Offer subject to applicable law";
+						}
+					M@
+					
+				}
+			}
+			Section {
+				Purchase products
+
+				Offer Management.
+				Section {
+					Purchase
+					pruchase
+				}
+			}
+		}
+	}
+	Chapter {
+		Test plan
+
+		the test plan
+	}
+	Chapter {
+		User Guide
+
+		user Guide
+		Section {
+			Register to Offers.com
+
+			As a registered customer, you will...
+		}
+		Section {
+			Manager your offers
+
+			The following screen allows you to select your offer : 
+
+			!html/img/user/offer-selection-page.png!
+			
+		}
+	}
+}

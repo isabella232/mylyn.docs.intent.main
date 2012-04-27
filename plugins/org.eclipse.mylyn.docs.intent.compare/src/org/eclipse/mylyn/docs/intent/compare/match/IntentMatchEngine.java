@@ -20,6 +20,7 @@ import org.eclipse.emf.compare.match.internal.statistic.NameSimilarity;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 
 /**
@@ -59,7 +60,8 @@ public class IntentMatchEngine extends GenericMatchEngine {
 		List<EStructuralFeature> featuresToIgnoreList = new ArrayList<EStructuralFeature>();
 		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE
 				.getIntentSectionOrParagraphReference_ReferencedObject());
-		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentSectionReference_ReferencedElement());
+		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE
+				.getIntentSectionReference_ReferencedElement());
 		featuresToIgnoreList
 				.add(ModelingUnitPackage.eINSTANCE.getContributionInstruction_ReferencedElement());
 
@@ -68,7 +70,8 @@ public class IntentMatchEngine extends GenericMatchEngine {
 		featuresToIgnoreList.add(ModelingUnitPackage.eINSTANCE.getResourceReference_ReferencedElement());
 		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentGenericElement_CompilationStatus());
 		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentStructuredElement_FormattedTitle());
-		
+		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentSection_CompleteLevel());
+
 		((IntentElementFilter)filter).defineFeaturesToIgnore(featuresToIgnoreList);
 
 	}
@@ -85,7 +88,11 @@ public class IntentMatchEngine extends GenericMatchEngine {
 
 			@Override
 			public double nameSimilarity(EObject obj1, EObject obj2) {
-				return engine.nameSimilarity(obj1, obj2);
+				if (obj1 instanceof IntentStructuredElement && obj2 instanceof IntentStructuredElement) {
+					return 0.2d;
+				} else {
+					return engine.nameSimilarity(obj1, obj2);
+				}
 			}
 
 			@Override
@@ -122,8 +129,8 @@ public class IntentMatchEngine extends GenericMatchEngine {
 	@Deprecated
 	protected double contentSimilarity(EObject obj1, EObject obj2) throws FactoryException {
 		double similarity = 0d;
-		similarity = NameSimilarity.nameSimilarityMetric(NameSimilarity.contentValue(obj1),
-				NameSimilarity.contentValue(obj2));
+		similarity = NameSimilarity.nameSimilarityMetric(NameSimilarity.contentValue(obj1, filter),
+				NameSimilarity.contentValue(obj2, filter));
 		return similarity;
 	}
 

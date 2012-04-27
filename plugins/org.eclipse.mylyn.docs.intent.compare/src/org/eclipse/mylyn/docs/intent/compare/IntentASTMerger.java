@@ -40,7 +40,7 @@ public class IntentASTMerger {
 	private static final boolean OVERRIDE = false;
 
 	/**
-	 * Modify the repository elements according to the local elements ; this operation should occure during a
+	 * Modify the repository elements according to the local elements ; this operation should occur during a
 	 * transaction and be committed to be effective.
 	 * 
 	 * @param localRoot
@@ -56,28 +56,7 @@ public class IntentASTMerger {
 				repositoryRoot.eSet(feature, localRoot.eGet(feature));
 			}
 		} else {
-
-			// Step 0 : match preparation
-			// Step 0.1 : we create a sample resource and add the localRoot to
-			// its content.
-			Resource sampleResource = new ResourceImpl(URI.createURI("http://mysampleuri.com"));
-			sampleResource.getContents().add(localRoot);
-
-			// Step 0.2 Defining a scope provider
-			MatchModel match = null;
-			IMatchScopeProvider scopeProvider = new IntentScopeProvider(localRoot, repositoryRoot);
-			Map<String, Object> optionsMap = new HashMap<String, Object>();
-			optionsMap.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, scopeProvider);
-
-			// Step 1 : matching the local and the repository root using a custom
-			// MatcheEngine.
-			match = new IntentMatchEngine(localRoot, repositoryRoot).contentMatch(localRoot, repositoryRoot,
-					optionsMap);
-
-			DiffModel diff = DiffService.doDiff(match, false);
-			// Step 3 : Merges all differences from local to repository
-			List<DiffElement> differences = new ArrayList<DiffElement>(diff.getOwnedElements());
-
+			List<DiffElement> differences = getDifferences(localRoot, repositoryRoot);
 			MergeService.merge(differences, true);
 		}
 	}
@@ -87,5 +66,39 @@ public class IntentASTMerger {
 	 */
 	public void mergeFromRepositoryToLocal() {
 
+	}
+
+	/**
+	 * Returns the differences between a given local object and the corresponding repository element.
+	 * 
+	 * @param localRoot
+	 *            the local element to commit
+	 * @param repositoryRoot
+	 *            the repository element to update
+	 * @return the differences between a given local object and the corresponding repository element
+	 */
+	public static List<DiffElement> getDifferences(EObject localRoot, EObject repositoryRoot) {
+		// Step 0 : match preparation
+		// Step 0.1 : we create a sample resource and add the localRoot to
+		// its content.
+		Resource sampleResource = new ResourceImpl(URI.createURI("http://mysampleuri.com"));
+		sampleResource.getContents().add(localRoot);
+
+		// Step 0.2 Defining a scope provider
+		MatchModel match = null;
+		IMatchScopeProvider scopeProvider = new IntentScopeProvider(localRoot, repositoryRoot);
+		Map<String, Object> optionsMap = new HashMap<String, Object>();
+		optionsMap.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, scopeProvider);
+
+		// Step 1 : matching the local and the repository root using a custom
+		// MatcheEngine.
+		match = new IntentMatchEngine(localRoot, repositoryRoot).contentMatch(localRoot, repositoryRoot,
+				optionsMap);
+
+		DiffModel diff = DiffService.doDiff(match, false);
+		// Step 3 : Merges all differences from local to repository
+		List<DiffElement> differences = new ArrayList<DiffElement>(diff.getOwnedElements());
+
+		return differences;
 	}
 }
