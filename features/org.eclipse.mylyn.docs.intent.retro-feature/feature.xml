@@ -14,10 +14,6 @@
       %license
    </license>
 
-   <license url="http://www.example.com/license">
-      [Enter License Description here.]
-   </license>
-
    <plugin
          id="org.eclipse.mylyn.docs.intent.retro"
          download-size="0"
