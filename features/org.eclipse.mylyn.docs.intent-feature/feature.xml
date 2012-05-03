@@ -28,6 +28,12 @@ Contributors:
       %license
    </license>
 
+   <url>
+      <discovery label="Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/S20120308061416/repository/"/>
+      <discovery label="Acceleo 3.3" url="http://download.eclipse.org/modeling/m2t/acceleo/updates/interim/3.3"/>
+      <discovery label="EMF Compare 1.3" url="http://download.eclipse.org/modeling/emf/compare/updates/milestones/1.3/"/>
+   </url>
+
    <plugin
          id="org.eclipse.mylyn.docs.intent"
          download-size="0"
