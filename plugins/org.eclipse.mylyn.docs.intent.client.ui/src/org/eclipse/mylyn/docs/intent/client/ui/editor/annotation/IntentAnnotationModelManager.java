@@ -78,12 +78,6 @@ public class IntentAnnotationModelManager {
 					resource = repositoryAdapter.getResource(compiledResourceURI);
 					if (resource != null) {
 						uri = resource.getURI();
-
-						// We create an annotation from the status and add it to the annotation model
-						Annotation annotation = IntentAnnotationFactory
-								.createAnnotationFromCompilationStatus(uri, status);
-						addAnnotation(annotation, position);
-						handledCompilationStatus.put(status, annotation);
 					}
 					// CHECKSTYLE:OFF
 				} catch (Exception e) {
@@ -91,6 +85,12 @@ public class IntentAnnotationModelManager {
 					// Silent catch
 				}
 			}
+
+			// We create an annotation from the status and add it to the annotation model
+			Annotation annotation = IntentAnnotationFactory
+					.createAnnotationFromCompilationStatus(uri, status);
+			addAnnotation(annotation, position);
+			handledCompilationStatus.put(status, annotation);
 
 		}
 	}
