@@ -11,8 +11,10 @@
 package org.eclipse.mylyn.docs.intent.compare.match;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
@@ -21,11 +23,10 @@ import org.eclipse.emf.compare.match.statistic.MetamodelFilter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.markup.markup.Block;
 import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
-import org.eclipse.mylyn.docs.intent.markup.markup.StructureElement;
 import org.eclipse.mylyn.docs.intent.markup.markup.Text;
-import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 /**
  * Similarity checker using the Intent semantics to compare two Intent elements.
@@ -185,6 +186,8 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 	 */
 	protected boolean areSimilarStructuredElements(IntentStructuredElement element1,
 			IntentStructuredElement element2) throws FactoryException {
+		boolean areSimilarStructuredElements = false;
+
 		// 2 structured element are equal if :
 		// they have the same title
 		Block title1 = element1.getTitle();
@@ -192,71 +195,136 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 
 		if (title1 != null && title2 != null) {
 			return isSimilar(title1, title2);
+		} else {
+			// if both title are null, we make a content match
+			if (title1 == null && title2 == null) {
+				areSimilarStructuredElements = isSimilar(element1, element2, true);
+			}
 		}
-		// if both title are null, we make a content match
-		if (title1 == null && title2 == null) {
-			// System.err.println("*************************************");
-			String element1Ser = new IntentSerializer().serialize(element1);
-			// System.err.println(element1Ser);
-			// System.err.println("======");
-			String element2Ser = new IntentSerializer().serialize(element2);
-			// System.err.println(element2Ser);
-			boolean isSimilar = isSimilar(element1, element2, true);
-			boolean sameSer = element1Ser.equals(element2Ser);
-
-			return isSimilar;
-		}
-		return false;
+		return areSimilarStructuredElements;
 	}
 
 	@Override
 	protected double contentSimilarity(EObject obj1, EObject obj2) throws FactoryException {
-		if (obj1 instanceof IntentStructuredElement && obj2 instanceof IntentStructuredElement) {
+		if (obj1 instanceof IntentSubSectionContainer && obj2 instanceof IntentSubSectionContainer) {
 			return 0.97;
 		}
 		return super.contentSimilarity(obj1, obj2);
 	}
 
-	// @Override
-	// protected double relationsSimilarity(EObject obj1, EObject obj2) throws FactoryException {
-	// if (obj1 instanceof IntentStructuredElement && obj2 instanceof IntentStructuredElement) {
-	// final Double value = getSimilarityFromCache(obj1, obj2, 'r');
-	// double similarity = 0d;
-	// if (value != null) {
-	// similarity = value;
+	@Override
+	protected double relationsSimilarity(EObject obj1, EObject obj2) throws FactoryException {
+		if (obj1 instanceof IntentSubSectionContainer && obj2 instanceof IntentSubSectionContainer) {
+			final Double value = getSimilarityFromCache(obj1, obj2, 'r');
+			double similarity = 0d;
+			if (value != null) {
+				similarity = value;
+			} else {
+				similarity = getIntentStructuredElementsSimilarity((IntentSubSectionContainer)obj1,
+						(IntentSubSectionContainer)obj2);
+				setSimilarityInCache(obj1, obj2, 'r', similarity);
+			}
+			return similarity;
+		}
+		return super.relationsSimilarity(obj1, obj2);
+	}
+
+	private double getIntentStructuredElementsSimilarity(IntentSubSectionContainer obj1,
+			IntentSubSectionContainer obj2) throws FactoryException {
+		double numberOfTotalElements = obj1.getIntentContent().size();
+		double numberOfCommonElements = 0;
+		Collection<EObject> obj1Elements = Lists.newArrayList(obj1.getIntentContent());
+
+		Collection<EObject> obj2Elements = Lists.newArrayList(obj2.getIntentContent());
+
+		for (EObject obj2Element : obj2Elements) {
+
+			Iterator<EObject> obj1ElementsIterator = obj1Elements.iterator();
+			while (obj1ElementsIterator.hasNext()) {
+				EObject obj1Element = obj1ElementsIterator.next();
+
+				if (isSimilar(obj1Element, obj2Element)) {
+					numberOfCommonElements++;
+					obj1ElementsIterator.remove();
+					break;
+				}
+			}
+		}
+		if (obj2.getIntentContent().size() > obj1.getIntentContent().size()) {
+			numberOfTotalElements += obj2.getIntentContent().size() - obj1.getIntentContent().size();
+		}
+
+		if (numberOfTotalElements > 0) {
+			double similarity = numberOfCommonElements / numberOfTotalElements;
+			if (similarity >= 0.5 && numberOfTotalElements <= 4) {
+				similarity = Math.max(similarity, 0.99);
+			} else {
+				if (similarity >= 0.5) {
+					similarity = 0.5 + (numberOfCommonElements / (numberOfTotalElements * 2));
+				}
+			}
+			return similarity;
+		}
+		return 1.0;
+	}
+
+	// private double getIntentStructuredElementsSimilarity(IntentSubSectionContainer obj1,
+	// IntentSubSectionContainer obj2) {
+	// double numberOfTotalElements = obj1.getIntentContent().size();
+	// double numberOfCommonElements = 0;
+	// double numberOfAlmostCommonElements = 0;
+	// Collection<String> obj1Elements = Sets.newLinkedHashSet();
+	//
+	// // Serialize obj1 children
+	// for (EObject obj1Child : obj1.getIntentContent()) {
+	// obj1Elements.add(new IntentSerializer().serialize(obj1Child));
+	// }
+	//
+	// // Compare with obj2 children
+	// Iterator<EObject> obj2Children = Lists.newArrayList(obj2.getIntentContent()).iterator();
+	// while (obj2Children.hasNext()) {
+	// String serializeChild = new IntentSerializer().serialize(obj2Children.next());
+	// if (obj1Elements.remove(serializeChild)) {
+	// numberOfCommonElements++;
+	// obj2Children.remove();
+	// }
+	// }
+	//
+	// // If some elements have not been perfectly matched,
+	// // we try partial match
+	// obj2Children = Lists.newArrayList(obj2.getIntentContent()).iterator();
+	// while (obj2Children.hasNext()) {
+	// EObject next = obj2Children.next();
+	// Iterator<String> obj1ElementsIterator = obj1Elements.iterator();
+	// while (obj1ElementsIterator.hasNext()) {
+	// String obj1Element = obj1ElementsIterator.next();
+	//
+	// double nameSimilarityMetric = NameSimilarity.nameSimilarityMetric(obj1Element,
+	// new IntentSerializer().serialize(next));
+	// if (nameSimilarityMetric > 0.95) {
+	// numberOfAlmostCommonElements++;
+	// obj1ElementsIterator.remove();
+	// }
+	// }
+	// }
+	// if (obj2.getIntentContent().size() > obj1.getIntentContent().size()) {
+	// numberOfTotalElements += obj2.getIntentContent().size() - obj1.getIntentContent().size();
+	// }
+	//
+	// if (numberOfTotalElements > 0) {
+	// double similarity = numberOfCommonElements / numberOfTotalElements + numberOfAlmostCommonElements
+	// * 0.75 / numberOfTotalElements;
+	// if (similarity >= 0.5 && numberOfTotalElements <= 4) {
+	// similarity = Math.max(similarity, 0.99);
 	// } else {
-	// similarity = getIntentStructuredElementsSimilarity((IntentStructuredElement)obj1,
-	// (IntentStructuredElement)obj2);
-	// setSimilarityInCache(obj1, obj2, 'r', similarity);
+	// if (similarity >= 0.5) {
+	// similarity = 0.5 + (numberOfCommonElements / (numberOfTotalElements * 2));
+	// }
 	// }
 	// return similarity;
 	// }
-	// return super.relationsSimilarity(obj1, obj2);
+	// return 1.0;
 	// }
-
-	private double getIntentStructuredElementsSimilarity(IntentStructuredElement obj1,
-			IntentStructuredElement obj2) {
-		int numberOfCommonElements = 0;
-		int numberOfElements = obj1.getContent().size();
-
-		Iterator<StructureElement> obj2Children = obj2.getContent().iterator();
-		for (StructureElement obj1Child : obj1.getContent()) {
-			if (obj2Children.hasNext()) {
-
-				EObject obj2Child = obj2Children.next();
-				if (new IntentSerializer().serialize(obj1Child).equals(
-						new IntentSerializer().serialize(obj2Child))) {
-					numberOfCommonElements++;
-				}
-			} else {
-				break;
-			}
-		}
-		if (numberOfElements != 0) {
-			return numberOfCommonElements / numberOfElements;
-		}
-		return 0;
-	}
 
 	/**
 	 * Indicates if the first description bloc matches the second one.

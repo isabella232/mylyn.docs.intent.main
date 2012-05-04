@@ -373,7 +373,7 @@ public class StatisticBasedSimilarityChecker extends AbstractSimilarityChecker {
 	 * @return The similarity as described by <code>similarityKind</code> as it is stored in cache for the two
 	 *         given {@link EObject}s.
 	 */
-	private Double getSimilarityFromCache(EObject obj1, EObject obj2, char similarityKind) {
+	protected Double getSimilarityFromCache(EObject obj1, EObject obj2, char similarityKind) {
 		return metricsCache.get(pairHashCode(obj1, obj2, similarityKind));
 	}
 
@@ -416,7 +416,7 @@ public class StatisticBasedSimilarityChecker extends AbstractSimilarityChecker {
 	 *             Thrown if we cannot compute the relations' similarity metrics.
 	 * @see StructureSimilarity#relationsSimilarityMetric(EObject, EObject, MetamodelFilter)
 	 */
-	private double relationsSimilarity(EObject obj1, EObject obj2) throws FactoryException {
+	protected double relationsSimilarity(EObject obj1, EObject obj2) throws FactoryException {
 		double similarity = 0d;
 		final Double value = getSimilarityFromCache(obj1, obj2, RELATION_SIMILARITY);
 		if (value != null) {
@@ -449,7 +449,7 @@ public class StatisticBasedSimilarityChecker extends AbstractSimilarityChecker {
 	 * @param similarity
 	 *            Value of the similarity between the two {@link EObject}s.
 	 */
-	private void setSimilarityInCache(EObject obj1, EObject obj2, char similarityKind, double similarity) {
+	protected void setSimilarityInCache(EObject obj1, EObject obj2, char similarityKind, double similarity) {
 		metricsCache.put(pairHashCode(obj1, obj2, similarityKind), new Double(similarity));
 	}
 

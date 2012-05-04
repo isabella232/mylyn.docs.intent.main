@@ -177,7 +177,18 @@
           </descriptionBloc>
         </instructions>
       </intentContent>
-      <intentContent xsi:type="intentDocument:IntentSection"/>
+      <intentContent xsi:type="intentDocument:IntentSection">
+        <intentContent xsi:type="intentDU:DescriptionUnit">
+          <instructions xsi:type="intentDU:DescriptionBloc">
+            <descriptionBloc xsi:type="markup:SimpleContainer">
+              <content xsi:type="markup:Paragraph">
+                <attributes/>
+                <content xsi:type="markup:Text" data="the web section"/>
+              </content>
+            </descriptionBloc>
+          </instructions>
+        </intentContent>
+      </intentContent>
     </intentContent>
     <intentContent xsi:type="intentDocument:IntentSection">
       <title xsi:type="markup:Paragraph">

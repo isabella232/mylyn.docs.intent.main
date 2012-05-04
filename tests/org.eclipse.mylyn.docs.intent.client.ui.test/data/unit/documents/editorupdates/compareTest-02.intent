@@ -75,5 +75,10 @@ Document {
 			}		
 		
 		}
+		Section {
+			Section 3.2
+			
+			The 3.2 Section
+		}
 	}
 }

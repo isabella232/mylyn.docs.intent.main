@@ -56,7 +56,6 @@
       </intentContent>
       <intentContent xsi:type="intentMU:ModelingUnit" unitName="SidedataTypeDefinition">
         <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
-          <compilationStatus target="//@chapters.0/@intentContent.1/@intentContent.1/@instructions.0" message="The element match cannot be resolved. This contribution instruction will be ignored. " severity="ERROR" type="INVALID_REFERENCE_ERROR"/>
           <referencedElement IntentHref="match"/>
           <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
             <values xsi:type="intentMU:NewObjectValueForStructuralFeature">
@@ -206,7 +205,6 @@
       </intentContent>
       <intentContent xsi:type="intentMU:ModelingUnit" unitName="myModelingUnit">
         <instructions xsi:type="intentMU:ContributionInstruction" lineBreak="true">
-          <compilationStatus target="//@chapters.2/@intentContent.0/@intentContent.1/@instructions.0" message="The element Side cannot be resolved. This contribution instruction will be ignored. " severity="ERROR" type="INVALID_REFERENCE_ERROR"/>
           <referencedElement IntentHref="Side"/>
           <contributions xsi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="serializable">
             <values xsi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
@@ -228,6 +226,22 @@
             </descriptionBloc>
           </instructions>
         </intentContent>
+      </intentContent>
+    </intentContent>
+    <intentContent xsi:type="intentDocument:IntentSection">
+      <title xsi:type="markup:Paragraph">
+        <attributes/>
+        <content xsi:type="markup:Text" data="Section 3.2"/>
+      </title>
+      <intentContent xsi:type="intentDU:DescriptionUnit">
+        <instructions xsi:type="intentDU:DescriptionBloc">
+          <descriptionBloc xsi:type="markup:SimpleContainer">
+            <content xsi:type="markup:Paragraph">
+              <attributes/>
+              <content xsi:type="markup:Text" data="The 3.2 Section"/>
+            </content>
+          </descriptionBloc>
+        </instructions>
       </intentContent>
     </intentContent>
   </chapters>
