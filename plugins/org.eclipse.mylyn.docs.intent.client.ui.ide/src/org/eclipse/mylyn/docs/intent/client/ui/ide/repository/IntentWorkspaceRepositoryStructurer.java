@@ -91,8 +91,6 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 			// Then we ensure that the element is stored at the expected location
 			if (isInSameResourceThanContainer
 					|| !(isStoredAtExpectedLocation(element, workspaceAdapter, newResourcePath))) {
-				System.err.println("new resource for " + element + " at " + newResourcePath + " (was "
-						+ element.eResource().getURI() + ")");
 
 				// Delete the previous resource if needed
 				if (!isInSameResourceThanContainer && !(element instanceof IntentDocument)) {

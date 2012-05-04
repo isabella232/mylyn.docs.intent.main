@@ -15,7 +15,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.IntentMatchEngineTests;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.compilation.CompileTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening.OpenEditorTest;
@@ -72,7 +71,7 @@ public class UITestSuite extends TestCase {
 		final TestSuite basicTestSuite = new TestSuite("Technical tests");
 		basicTestSuite.addTestSuite(IntentRepositoryStructurerTest.class);
 		basicTestSuite.addTestSuite(ProjectTest.class);
-		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
+		// basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
 		uiTestSuite.addTest(basicTestSuite);
 
 		// Scenario tests
