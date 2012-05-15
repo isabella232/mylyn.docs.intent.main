@@ -19,6 +19,8 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 
 /**
  * Intent project builder.
@@ -69,6 +71,8 @@ public class IntentBuilder extends IncrementalProjectBuilder {
 			getProject().accept(new IntentResourceVisitor());
 		} catch (CoreException e) {
 			// do nothing
+			IntentLogger.getInstance().log(LogType.ERROR,
+					"Intent - failed to build project " + getProject().getName(), e);
 		}
 	}
 

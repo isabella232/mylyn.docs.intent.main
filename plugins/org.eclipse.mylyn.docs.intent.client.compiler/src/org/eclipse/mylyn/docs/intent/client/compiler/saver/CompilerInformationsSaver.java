@@ -29,6 +29,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
@@ -99,11 +101,11 @@ public class CompilerInformationsSaver {
 			}
 			// CHECKSTYLE:OFF : for now on we would like to print any exception
 		} catch (Exception e) {
-			e.printStackTrace();
+			IntentLogger.getInstance().log(LogType.ERROR, "Compiler failed to save changes", e);
 			try {
 				handler.getRepositoryAdapter().undo();
 			} catch (ReadOnlyException e1) {
-				// FIXME handle this exception
+				IntentLogger.getInstance().log(LogType.ERROR, "Compiler failed to save changes", e);
 			}
 		}
 	}

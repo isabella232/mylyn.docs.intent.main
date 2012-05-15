@@ -69,9 +69,9 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 					try {
 						repositoryAdapter.save();
 					} catch (SaveException e) {
-						e.printStackTrace();
+						IntentLogger.getInstance().log(LogType.ERROR, "Indexer failed to save changes", e);
 					} catch (ReadOnlyException e) {
-						e.printStackTrace();
+						IntentLogger.getInstance().log(LogType.ERROR, "Indexer failed to save changes", e);
 					}
 					repositoryAdapter.closeContext();
 					IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Indexer] Index saved");

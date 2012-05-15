@@ -24,6 +24,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
@@ -75,6 +77,8 @@ public class UpdateProblemsViewJob extends Job {
 						IResource.DEPTH_INFINITE);
 			} catch (CoreException e) {
 				// Nothing to do, problem view will still reference old markers
+				IntentLogger.getInstance().log(LogType.WARNING,
+						"Intent - failed to delete markers of project " + project.getName(), e);
 			}
 
 			// Step 2: create marker for each status
@@ -120,6 +124,9 @@ public class UpdateProblemsViewJob extends Job {
 			}
 		} catch (CoreException e) {
 			// Nothing to do, problem view will not be updated
+			IntentLogger.getInstance().log(LogType.WARNING,
+					"Intent - error occured while creating problem markers on project " + project.getName(),
+					e);
 		}
 	}
 }

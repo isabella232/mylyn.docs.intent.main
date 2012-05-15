@@ -21,6 +21,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
@@ -61,6 +63,8 @@ public class ToggleNatureAction extends AbstractHandler {
 			project.setDescription(description, null);
 		} catch (CoreException e) {
 			// do nothing
+			IntentLogger.getInstance().log(LogType.ERROR,
+					"Intent - failed to toggle nature on project " + project.getName(), e);
 		}
 	}
 
