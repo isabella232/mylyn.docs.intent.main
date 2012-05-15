@@ -19,8 +19,8 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.templates.TemplateProposal;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentPairMatcher;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 
 /**
@@ -171,6 +171,6 @@ public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor
 	 */
 	@Override
 	public String getContextType() {
-		return IntentDocumentProvider.INTENT_DESCRIPTIONUNIT;
+		return IntentPartitionScanner.INTENT_DESCRIPTIONUNIT;
 	}
 }

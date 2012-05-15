@@ -23,7 +23,6 @@ import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentColorConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentFontConstants;
@@ -67,6 +66,7 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	 *            the color manager to use for rendering this zone.
 	 */
 	public IntentModelingUnitScanner(ColorManager colorManager) {
+		super(colorManager);
 
 		defaultforeGroundColor = colorManager.getColor(IntentColorConstants.MU_DEFAULT_FOREGROUND);
 		keyWordforeGroundColor = colorManager.getColor(IntentColorConstants.MU_KEYWORD_FOREGROUND);
@@ -145,7 +145,7 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	 */
 	@Override
 	public String getConfiguredContentType() {
-		return IntentDocumentProvider.INTENT_MODELINGUNIT;
+		return IntentPartitionScanner.INTENT_MODELINGUNIT;
 	}
 
 }

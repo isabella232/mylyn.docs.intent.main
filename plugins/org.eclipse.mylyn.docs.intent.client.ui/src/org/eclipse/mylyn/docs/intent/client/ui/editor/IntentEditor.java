@@ -41,6 +41,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditor
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentOutlinePage;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentQuickOutlineControl;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.QuickOutlineInformationProvider;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.ModelingUnitDecorationPainter;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
@@ -318,11 +319,10 @@ public class IntentEditor extends TextEditor {
 		informationPresenter.install(getSourceViewer());
 		IInformationProvider provider = new QuickOutlineInformationProvider(this);
 		informationPresenter.setInformationProvider(provider, IDocument.DEFAULT_CONTENT_TYPE);
-		informationPresenter.setInformationProvider(provider, IntentDocumentProvider.INTENT_DESCRIPTIONUNIT);
-		informationPresenter.setInformationProvider(provider, IntentDocumentProvider.INTENT_MODELINGUNIT);
+		informationPresenter.setInformationProvider(provider, IntentPartitionScanner.INTENT_DESCRIPTIONUNIT);
+		informationPresenter.setInformationProvider(provider, IntentPartitionScanner.INTENT_MODELINGUNIT);
 		informationPresenter.setInformationProvider(provider,
-				IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT);
-		informationPresenter.setInformationProvider(provider, IntentDocumentProvider.INTENT_TITLE);
+				IntentPartitionScanner.INTENT_STRUCTURAL_CONTENT);
 
 		final int minimalWidth = 50;
 		final int minimalHeight = 30;

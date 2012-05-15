@@ -30,9 +30,11 @@ import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationModelManager;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection.EditorElementListAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.ReadWriteRepositoryObjectHandler;
@@ -73,32 +75,6 @@ import org.eclipse.ui.texteditor.AbstractDocumentProvider;
 // Suppress Warnings added for using WorkspaceOperationRunner
 @SuppressWarnings("restriction")
 public class IntentDocumentProvider extends AbstractDocumentProvider implements RepositoryClient {
-	/**
-	 * Represents an Intent structural content (like section or chapter).
-	 */
-	public static final String INTENT_STRUCTURAL_CONTENT = "__Intent__structuralcontent";
-
-	/**
-	 * Represents an Intent Modeling Unit (from '@M' to 'M@').
-	 */
-	public static final String INTENT_MODELINGUNIT = "__Intent__modelingunit";
-
-	/**
-	 * Represents an Intent Description Unit.
-	 */
-	public static final String INTENT_DESCRIPTIONUNIT = "__Intent__descriptionunit";
-
-	/**
-	 * Represents an Intent title ( only for Structured element).
-	 */
-	public static final String INTENT_TITLE = "__Intent__title";
-
-	/**
-	 * Represents all the content types handled by this partionner.
-	 */
-	public static final String[] LEGAL_CONTENT_TYPES = new String[] {INTENT_STRUCTURAL_CONTENT,
-			INTENT_MODELINGUNIT, INTENT_DESCRIPTIONUNIT, INTENT_TITLE,
-	};
 
 	/**
 	 * The repository to use for creating and closing GET and POST connections.
@@ -230,7 +206,8 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		});
 
 		if (createdDocument != null) {
-			partitioner = new IntentPartitioner(LEGAL_CONTENT_TYPES);
+			partitioner = new FastPartitioner(new IntentPartitionScanner(),
+					IntentPartitionScanner.LEGAL_CONTENT_TYPES);
 			partitioner.connect(createdDocument);
 			createdDocument.setDocumentPartitioner(partitioner);
 			subscribeRepository(((IntentEditorInput)element).getRepositoryAdapter());

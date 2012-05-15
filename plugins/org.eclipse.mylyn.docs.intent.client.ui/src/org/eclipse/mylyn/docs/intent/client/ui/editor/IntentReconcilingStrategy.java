@@ -12,23 +12,20 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.ITypedRegion;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.reconciler.DirtyRegion;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
-import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -64,6 +61,8 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 
 	/** Current offset. */
 	private int offset;
+
+	private IntentPairMatcher pairMatcher = new IntentPairMatcher();
 
 	/**
 	 * Instantiates the reconciling strategy for a given editor.
@@ -134,39 +133,56 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 		modifiedAnnotations.clear();
 		addedAnnotations.clear();
 		deletedAnnotations.addAll(currentAnnotations.keySet());
-		for (Iterator<Entry<Annotation, Position>> iterator = currentAnnotations.entrySet().iterator(); iterator
-				.hasNext();) {
-			Entry<Annotation, Position> entry = iterator.next();
+
+		for (Map.Entry<Annotation, Position> entry : currentAnnotations.entrySet()) {
 			final Position position = entry.getValue();
 			if (position.getOffset() + position.getLength() < offset) {
 				deletedAnnotations.remove(entry.getKey());
 			}
 		}
-
-		IntentPartitioner partitioner = (IntentPartitioner)document.getDocumentPartitioner();
 		try {
-			for (ITypedRegion region : partitioner.getRegions()) {
-				if (IntentDocumentProvider.INTENT_MODELINGUNIT.equals(region.getType())) {
-					createOrUpdateAnnotation(region.getOffset(), region.getLength() + 1, false);
-				} else if (IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT.equals(region.getType())
-						&& document.getChar(region.getOffset()) != '}') {
-					final String beginning = document.get(region.getOffset(), region.getLength()).trim();
-					if (beginning.endsWith("{")) {
-						final int regionEnd = region.getOffset() + beginning.length();
-						IRegion wholeRegion = editor.getBlockMatcher().match(document, regionEnd);
-						if (wholeRegion != null) {
-							createOrUpdateAnnotation(region.getOffset(),
-									beginning.length() + wholeRegion.getLength(), false);
+			boolean eof = seekBlockStart();
+			int startOffset = offset;
+			while (!eof) {
+				offset++;
+				if (document.getLineOfOffset(startOffset) > 0
+						&& document.getContentType(startOffset).equals(
+								IntentPartitionScanner.INTENT_STRUCTURAL_CONTENT)) {
+					IRegion match = pairMatcher.match(document, offset);
+					if (match != null) {
+						int endOffset = match.getOffset() + match.getLength() + 1;
+						if (document.getNumberOfLines(startOffset, endOffset - startOffset) > 2) {
+							createOrUpdateAnnotation(startOffset, endOffset - startOffset, false);
 						}
 					}
 				}
+				eof = seekBlockStart();
+				startOffset = offset;
 			}
 		} catch (BadLocationException e) {
-			IntentUiLogger.logError(e);
+			// Nothing to do
 		}
-		for (Iterator<Annotation> iterator = deletedAnnotations.iterator(); iterator.hasNext();) {
-			currentAnnotations.remove(iterator.next());
+		for (Annotation deleted : deletedAnnotations) {
+			currentAnnotations.remove(deleted);
 		}
+	}
+
+	/**
+	 * Eats chars away till we find a start char.
+	 * 
+	 * @return <code>true</code> if the end of file has been reached. <code>false</code> otherwise.
+	 * @throws BadLocationException
+	 *             Thrown if we try and get an out of range character. Should not happen.
+	 */
+	private boolean seekBlockStart() throws BadLocationException {
+		char next = document.getChar(offset);
+		boolean eof = offset + 1 >= document.getLength();
+		while (!eof && next != '{') {
+			offset++;
+			next = document.getChar(offset);
+			eof = offset + 1 == document.getLength();
+		}
+		return eof;
 	}
 
 	/**
@@ -184,31 +200,34 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 	 */
 	private void createOrUpdateAnnotation(final int newOffset, final int newLength, boolean initiallyCollapsed)
 			throws BadLocationException {
-		boolean createAnnotation = true;
-		final Map<Annotation, Position> copy = new HashMap<Annotation, Position>(currentAnnotations);
+		// desactivated position merge : with Intent text can be the same in several sections
+
+		// boolean createAnnotation = true;
+		// final Map<Annotation, Position> copy = new HashMap<Annotation, Position>(currentAnnotations);
 		final String text = document.get(newOffset, newLength);
-		for (Iterator<Entry<Annotation, Position>> iterator = copy.entrySet().iterator(); iterator.hasNext();) {
-			Entry<Annotation, Position> entry = iterator.next();
-			if (entry.getKey().getText().equals(text)) {
-				createAnnotation = false;
-				final Position oldPosition = entry.getValue();
-				if (oldPosition.getOffset() != newOffset || oldPosition.getLength() != newLength) {
-					final Position newPosition = new Position(newOffset, newLength);
-					modifiedAnnotations.put(entry.getKey(), newPosition);
-					currentAnnotations.put(entry.getKey(), newPosition);
-				}
-				deletedAnnotations.remove(entry.getKey());
-				break;
-			}
-		}
-		if (createAnnotation) {
-			Annotation annotation = null;
-			annotation = new ProjectionAnnotation(initiallyCollapsed);
-			annotation.setText(text);
-			final Position position = new Position(newOffset, newLength);
-			currentAnnotations.put(annotation, position);
-			addedAnnotations.put(annotation, position);
-		}
+		// for (Iterator<Entry<Annotation, Position>> iterator = copy.entrySet().iterator();
+		// iterator.hasNext();) {
+		// Entry<Annotation, Position> entry = iterator.next();
+		// if (entry.getKey().getText().equals(text)) {
+		// createAnnotation = false;
+		// final Position oldPosition = entry.getValue();
+		// if (oldPosition.getOffset() != newOffset || oldPosition.getLength() != newLength) {
+		// final Position newPosition = new Position(newOffset, newLength);
+		// modifiedAnnotations.put(entry.getKey(), newPosition);
+		// currentAnnotations.put(entry.getKey(), newPosition);
+		// }
+		// deletedAnnotations.remove(entry.getKey());
+		// break;
+		// }
+		// }
+		// if (createAnnotation) {
+		Annotation annotation = null;
+		annotation = new ProjectionAnnotation(initiallyCollapsed);
+		annotation.setText(text);
+		final Position position = new Position(newOffset, newLength);
+		currentAnnotations.put(annotation, position);
+		addedAnnotations.put(annotation, position);
+		// }
 	}
 
 	/**

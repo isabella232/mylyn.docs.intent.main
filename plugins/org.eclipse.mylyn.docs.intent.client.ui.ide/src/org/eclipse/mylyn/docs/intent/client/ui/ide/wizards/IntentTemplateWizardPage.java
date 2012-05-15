@@ -24,13 +24,13 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
+import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentPartitioner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditorConfiguration;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.Activator;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.swt.SWT;
@@ -100,7 +100,8 @@ public class IntentTemplateWizardPage extends WizardPage {
 
 		IntentEditor editor = new IntentEditor();
 		document = new IntentEditorDocument(editor);
-		IDocumentPartitioner partitioner = new IntentPartitioner(IntentDocumentProvider.LEGAL_CONTENT_TYPES);
+		IDocumentPartitioner partitioner = new FastPartitioner(new IntentPartitionScanner(),
+				IntentPartitionScanner.LEGAL_CONTENT_TYPES);
 		partitioner.connect(document);
 		document.setDocumentPartitioner(partitioner);
 

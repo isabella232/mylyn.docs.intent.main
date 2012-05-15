@@ -21,10 +21,10 @@ import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WordRule;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentColorConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentFontConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.rules.KeywordRule;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -38,15 +38,12 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 
 	public static final String CLOSING = "";
 
-	private static String[] STRUCTURED_KEYWORDS = new String[] {IntentKeyWords.INTENT_KEYWORD_CHAPTER + CLOSING,
-			IntentKeyWords.INTENT_KEYWORD_DOCUMENT + CLOSING, IntentKeyWords.INTENT_KEYWORD_SECTION + CLOSING,
-			IntentKeyWords.INTENT_KEYWORD_VISIBILITY_HIDDEN, IntentKeyWords.INTENT_KEYWORD_VISIBILITY_INTERNAL,
+	private static String[] STRUCTURED_KEYWORDS = new String[] {
+			IntentKeyWords.INTENT_KEYWORD_CHAPTER + CLOSING,
+			IntentKeyWords.INTENT_KEYWORD_DOCUMENT + CLOSING,
+			IntentKeyWords.INTENT_KEYWORD_SECTION + CLOSING, IntentKeyWords.INTENT_KEYWORD_VISIBILITY_HIDDEN,
+			IntentKeyWords.INTENT_KEYWORD_VISIBILITY_INTERNAL,
 	};
-
-	/**
-	 * The color manager to use for rendering keyWords.
-	 */
-	protected ColorManager colorManager;
 
 	/**
 	 * IntentStructuredElementScanner constructor.
@@ -55,12 +52,17 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 	 *            the color manager to use for rendering keyWords.
 	 */
 	public IntentStructuredElementScanner(ColorManager colorManager) {
-		this.colorManager = colorManager;
+		super(colorManager);
+
 		Color backgroundColor = null;
 
-		Color defaultforeGroundColor = colorManager.getColor(IntentColorConstants.DU_DEFAULT_FOREGROUND);
-		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, backgroundColor, SWT.NONE,
+		Color duForeGroundColor = colorManager.getColor(IntentColorConstants.DU_DEFAULT_FOREGROUND);
+		IToken duToken = new Token(new TextAttribute(duForeGroundColor, backgroundColor, SWT.NONE,
 				IntentFontConstants.getDescriptionFont()));
+
+		Color defaultforeGroundColor = colorManager.getColor(IntentColorConstants.DU_TITLE_FOREGROUND);
+		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, backgroundColor, SWT.NONE,
+				IntentFontConstants.getTitleFont()));
 
 		Color keyWordForeGroundColor = colorManager.getColor(IntentColorConstants.DU_KEYWORD_FOREGROUND);
 		IToken keyWordToken = new Token(new TextAttribute(keyWordForeGroundColor, backgroundColor, SWT.BOLD));
@@ -69,6 +71,10 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 		List<IRule> rules = new ArrayList<IRule>();
 		rules.add(computeKeyWordRule(defaultToken, keyWordToken));
 		rules.addAll(computeStringRules(stringforeGroundColor));
+
+		// "{" has standard description unit appearance
+		rules.add(new KeywordRule(IntentKeyWords.INTENT_KEYWORD_OPEN, true, true, duToken));
+
 		setRules(rules.toArray(new IRule[rules.size()]));
 	}
 
@@ -105,6 +111,6 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 	 */
 	@Override
 	public String getConfiguredContentType() {
-		return IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT;
+		return IntentPartitionScanner.INTENT_STRUCTURAL_CONTENT;
 	}
 }

@@ -59,7 +59,7 @@ public class IntentWordDetector implements IWordDetector {
 	 */
 	public final boolean isWordStart(final char c) {
 		return Character.isLetter(c) || isStandardCharacter(c) || isStyleCharacter(c)
-				|| isModelingUnitCharater(c);
+				|| isModelingUnitCharacter(c);
 
 	}
 
@@ -70,7 +70,7 @@ public class IntentWordDetector implements IWordDetector {
 	 */
 	public final boolean isWordPart(final char c) {
 		return Character.isLetterOrDigit(c) || isStandardCharacter(c) || isStyleCharacter(c)
-				|| isModelingUnitCharater(c);
+				|| isModelingUnitCharacter(c);
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class IntentWordDetector implements IWordDetector {
 	 *            the character to study
 	 * @return true if the given character matches a modeling unit allowed character.
 	 */
-	private boolean isModelingUnitCharater(char c) {
+	private boolean isModelingUnitCharacter(char c) {
 		boolean isModelingUnitCharater = false;
 		if (isModelingUnit) {
 			int count = 0;

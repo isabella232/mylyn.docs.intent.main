@@ -22,7 +22,6 @@ import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
 import org.eclipse.jface.text.rules.WordRule;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentColorConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentFontConstants;
@@ -35,7 +34,7 @@ import org.eclipse.swt.graphics.Color;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class IntentDescriptionUnitScanner extends IntentStructuredElementScanner {
+public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 
 	public static final String[] KEYWORDS = new String[] {
 			IntentKeyWords.INTENT_FCT_EXPLICIT_LABEL_DECLARATION,
@@ -117,7 +116,7 @@ public class IntentDescriptionUnitScanner extends IntentStructuredElementScanner
 	 */
 	@Override
 	public String getConfiguredContentType() {
-		return IntentDocumentProvider.INTENT_DESCRIPTIONUNIT;
+		return IntentPartitionScanner.INTENT_DESCRIPTIONUNIT;
 	}
 
 }

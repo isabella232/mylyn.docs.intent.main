@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor.scanner;
 
 import org.eclipse.jface.text.rules.RuleBasedScanner;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
 
 /**
  * A simple rule based scanner that all scanner of a IntentEditor should extend.
@@ -18,6 +19,21 @@ import org.eclipse.jface.text.rules.RuleBasedScanner;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public abstract class AbstractIntentScanner extends RuleBasedScanner {
+
+	/**
+	 * The color manager to use.
+	 */
+	protected ColorManager colorManager;
+
+	/**
+	 * AbstractIntentScanner constructor.
+	 * 
+	 * @param colorManager
+	 *            the color manager to use
+	 */
+	public AbstractIntentScanner(ColorManager colorManager) {
+		this.colorManager = colorManager;
+	}
 
 	/**
 	 * Returns the type of the tokens read by this scanner.

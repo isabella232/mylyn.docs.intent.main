@@ -32,8 +32,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix.IntentQuickAssist
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.AbstractIntentScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentDescriptionUnitScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentModelingUnitScanner;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentStructuredElementScanner;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentTitleScanner;
 import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
 
 /**
@@ -78,7 +78,6 @@ public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
 			list.add(new IntentModelingUnitScanner(editor.getColorManager()));
 			list.add(new IntentDescriptionUnitScanner(editor.getColorManager()));
 			list.add(new IntentStructuredElementScanner(editor.getColorManager()));
-			list.add(new IntentTitleScanner(editor.getColorManager()));
 			scanners = list.toArray(new AbstractIntentScanner[list.size()]);
 		}
 		return scanners;
@@ -150,10 +149,9 @@ public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
 		final IntentCompletionProcessor intentDefaultCompletionProcessor = new IntentCompletionProcessor(
 				editor.getBlockMatcher());
 		ca.setContentAssistProcessor(intentDefaultCompletionProcessor,
-				IntentDocumentProvider.INTENT_DESCRIPTIONUNIT);
+				IntentPartitionScanner.INTENT_DESCRIPTIONUNIT);
 		ca.setContentAssistProcessor(intentDefaultCompletionProcessor,
-				IntentDocumentProvider.INTENT_STRUCTURAL_CONTENT);
-		ca.setContentAssistProcessor(intentDefaultCompletionProcessor, IntentDocumentProvider.INTENT_TITLE);
+				IntentPartitionScanner.INTENT_STRUCTURAL_CONTENT);
 
 		if (editor.getDocumentProvider() instanceof IntentDocumentProvider
 				&& ((IntentDocumentProvider)editor.getDocumentProvider()).getListenedElementsHandler() != null) {
@@ -162,7 +160,7 @@ public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
 							.getRepositoryAdapter());
 
 			ca.setContentAssistProcessor(modelingUnitCompletionProcessor,
-					IntentDocumentProvider.INTENT_MODELINGUNIT);
+					IntentPartitionScanner.INTENT_MODELINGUNIT);
 		}
 
 		ca.setInformationControlCreator(getInformationControlCreator(sourceViewer));
