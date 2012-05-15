@@ -98,24 +98,26 @@ public class UpdateProblemsViewJob extends Job {
 	private void createMarkerFromStatus(CompilationStatus status) {
 		IMarker marker = null;
 		try {
-			marker = project.createMarker("org.eclipse.core.resources.problemmarker");
+			if (status.eResource() != null && status.getTarget().eResource() != null) {
+				marker = project.createMarker("org.eclipse.core.resources.problemmarker");
 
-			if (status.getSeverity() == CompilationStatusSeverity.WARNING) {
-				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-			} else if (status.getSeverity() == CompilationStatusSeverity.INFO) {
-				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-			} else {
-				marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-			}
+				if (status.getSeverity() == CompilationStatusSeverity.WARNING) {
+					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+				} else if (status.getSeverity() == CompilationStatusSeverity.INFO) {
+					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+				} else {
+					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+				}
 
-			String markerMessage = status.getMessage();
-			if (status instanceof SynchronizerCompilationStatus) {
-				markerMessage = "[Sync] " + markerMessage;
+				String markerMessage = status.getMessage();
+				if (status instanceof SynchronizerCompilationStatus) {
+					markerMessage = "[Sync] " + markerMessage;
+				}
+				marker.setAttribute(IMarker.MESSAGE, markerMessage);
+				marker.setAttribute(IMarker.LOCATION, status.eResource().getURI() + "#"
+						+ status.getTarget().eResource().getURIFragment(status));
+				marker.setAttribute(IMarker.SOURCE_ID, "Intent");
 			}
-			marker.setAttribute(IMarker.MESSAGE, markerMessage);
-			marker.setAttribute(IMarker.LOCATION, status.eResource().getURI() + "#"
-					+ status.getTarget().eResource().getURIFragment(status));
-			marker.setAttribute(IMarker.SOURCE_ID, "Intent");
 		} catch (CoreException e) {
 			// Nothing to do, problem view will not be updated
 		}

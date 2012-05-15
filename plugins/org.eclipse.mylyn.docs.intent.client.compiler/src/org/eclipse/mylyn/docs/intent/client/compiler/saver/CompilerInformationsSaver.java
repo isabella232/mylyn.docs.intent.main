@@ -342,10 +342,8 @@ public class CompilerInformationsSaver {
 	 */
 	private boolean isSimilarStatus(CompilationStatus containedStatus, CompilationStatus status) {
 		try {
-			// FIXME do not use cdoID but repositoryAdapter.getIDForElement
 			return containedStatus.getMessage().equals(status.getMessage())
 					&& containedStatus.getSeverity().equals(status.getSeverity())
-					&& containedStatus.getTarget().cdoID() == status.getTarget().cdoID()
 					&& containedStatus.getType().equals(status.getType());
 		} catch (NullPointerException e) {
 			return false;

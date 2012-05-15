@@ -265,6 +265,7 @@ Contributors:
        </command>
        <command
              category="org.eclipse.ui.views.problems"
+             categoryId="org.eclipse.ui.category.views"
              defaultHandler="org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.ShowProblemInEditorHandler"
              id="org.eclipse.mylyn.docs.intent.client.ui.ide.problemview.show_editor"
              name="Show in Intent Editor">
