@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.synchronizer.IntentSynchronizer;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
@@ -54,7 +56,7 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	 *            the listened TraceAbilityIndex
 	 */
 	public SynchronizerRepositoryClient(TraceabilityIndex traceabilityIndex) {
-		System.out.println("[Synchronizer] Initialised.");
+		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Synchronizer] Ready");
 		this.synchronizer = new IntentSynchronizer(this);
 		this.traceabilityIndex = traceabilityIndex;
 	}

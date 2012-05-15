@@ -18,6 +18,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -67,8 +69,7 @@ public class SynchronizeRepositoryJob extends Job {
 					client.setTraceabilityIndex((TraceabilityIndex)repositoryAdapter.reload(client
 							.getTraceabilityIndex()));
 
-					System.out.println("[Synchroniser] Detected changes on the TraceabilityResourceIndex.");
-
+					IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Synchronizer] Start synchronization");
 					synchronize(monitor, repositoryAdapter);
 					repositoryAdapter.closeContext();
 
@@ -97,7 +98,7 @@ public class SynchronizeRepositoryJob extends Job {
 					client.getTraceabilityIndex(), BasicMonitor.toMonitor(monitor));
 		} catch (InterruptedException e) {
 			// Nothing to do : it means that the operation has been canceled
-			System.out.println("[Synchronizer] Canceled."); // initially was "return Status.CANCEL_STATUS;"
+			IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Synchronizer] Canceled.");
 		}
 
 		if (!monitor.isCanceled()) {
@@ -114,8 +115,10 @@ public class SynchronizeRepositoryJob extends Job {
 					// As we have just opened a save context, we are sure that this will never happens
 				}
 			}
-			System.out.println("[Synchronizer] Done. Detected " + statusList.size()
-					+ " synchronization issues");
+			IntentLogger.getInstance().log(
+					LogType.LIFECYCLE,
+					"[Synchronizer] Synchronization ended, detected " + statusList.size()
+							+ " synchronization issues");
 		}
 	}
 }

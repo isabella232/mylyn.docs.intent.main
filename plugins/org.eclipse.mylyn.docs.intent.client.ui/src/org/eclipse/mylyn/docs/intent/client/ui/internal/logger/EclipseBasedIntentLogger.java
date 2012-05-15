@@ -79,7 +79,7 @@ public class EclipseBasedIntentLogger implements IIntentLogger {
 				severity = IStatus.INFO;
 				break;
 			case LIFECYCLE:
-				shouldLog = !shouldDisplayLifecycleInformations;
+				shouldLog = shouldDisplayLifecycleInformations;
 				severity = IStatus.INFO;
 				break;
 			default:

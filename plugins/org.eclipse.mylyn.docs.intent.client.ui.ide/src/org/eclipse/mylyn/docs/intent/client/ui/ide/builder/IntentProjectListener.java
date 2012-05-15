@@ -25,6 +25,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IntentProjectManager;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 
 /**
@@ -137,7 +139,8 @@ public class IntentProjectListener implements IResourceChangeListener {
 	public void handleOpenedProject(IProject project) {
 		IntentProjectManager projectManager = getIntentProjectManager(project);
 		try {
-			System.out.println("[IntentProjectListener] now handling project " + project.getName());
+			IntentLogger.getInstance().log(LogType.LIFECYCLE,
+					"[IntentProjectListener] Handling project " + project.getName());
 			projectManager.connect();
 			projectManagers.put(project.getName(), projectManager);
 		} catch (RepositoryConnectionException e) {

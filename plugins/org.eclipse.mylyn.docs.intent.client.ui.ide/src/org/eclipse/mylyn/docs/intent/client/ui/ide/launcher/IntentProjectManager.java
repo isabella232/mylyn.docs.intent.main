@@ -25,6 +25,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.generatedelementlistener.IDEGeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.ProjectExplorerRefresher;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.ui.IEditorPart;
@@ -88,14 +90,14 @@ public final class IntentProjectManager {
 	public synchronized void connect() throws RepositoryConnectionException {
 		try {
 			repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
-			System.out.println("[IntentProjectManager] Connecting to project " + project);
+			IntentLogger.getInstance().log(LogType.LIFECYCLE,
+					"[IntentProjectManager] Connecting to project " + project.getName());
 			if (project.isAccessible() && project.getNature(IntentNature.NATURE_ID) != null) {
 				repository.getOrCreateSession();
 
 				// Clients creation (if needed)
 
 				// Compiler
-				System.out.println("[IntentProjectManager] Launching clients " + compilerClient);
 				if (compilerClient == null) {
 					compilerClient = CompilerCreator.createCompilerClient(repository);
 				}

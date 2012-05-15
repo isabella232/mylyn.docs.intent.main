@@ -17,6 +17,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.indexer.tocmaker.TocMaker;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -45,6 +47,7 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 	 */
 	public IndexerRepositoryClient() {
 		indexComputor = new TocMaker();
+		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Indexer] Ready");
 	}
 
 	/**
@@ -58,8 +61,8 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 				public void execute() {
 					final IntentIndex index = getIntentIndex();
 					final IntentDocument document = getIntentDocument();
-					System.out.println("[Indexer] Making Toc on " + document.getChapters().size()
-							+ "chapters...");
+					IntentLogger.getInstance().log(LogType.LIFECYCLE,
+							"[Indexer] Indexing " + document.getChapters().size() + "chapters");
 
 					repositoryAdapter.openSaveContext();
 					indexComputor.computeIndex(index, document);
@@ -71,7 +74,7 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 						e.printStackTrace();
 					}
 					repositoryAdapter.closeContext();
-					System.out.println("[Indexer] Toc made.");
+					IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Indexer] Index saved");
 				}
 			});
 		}

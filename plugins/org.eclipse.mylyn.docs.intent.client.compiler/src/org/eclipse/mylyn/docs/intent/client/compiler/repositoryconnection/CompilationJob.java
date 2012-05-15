@@ -25,6 +25,8 @@ import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.Mode
 import org.eclipse.mylyn.docs.intent.client.compiler.saver.CompilerInformationsSaver;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -118,8 +120,8 @@ public class CompilationJob extends Job {
 			try {
 				resolver = new ModelingUnitLinkResolver(repository, informationHolder);
 			} catch (RepositoryConnectionException e) {
-				e.printStackTrace();
-				System.out.println("[Compiler] Compilation  Failed");
+				IntentLogger.getInstance().log(LogType.ERROR,
+						"Compilation Failed during link resolver intialization", e);
 			}
 		}
 
@@ -140,12 +142,12 @@ public class CompilationJob extends Job {
 
 		// Saving the new compilations errors
 		if (!monitor.isCanceled()) {
-			System.out.println("[Compiler] compiled : " + informationHolder.getDeclaredResources().size()
-					+ " resources. ");
-			System.out.println("[Compiler] saving... (" + informationHolder.getCompilationStatusList().size()
-					+ " errors detected)");
+			IntentLogger.getInstance().log(
+					LogType.LIFECYCLE,
+					"[Compiler] compiled " + informationHolder.getDeclaredResources().size() + " resources, "
+							+ informationHolder.getCompilationStatusList().size() + " errors detected");
 			saveCompilationInformations(repositoryAdapter, informationHolder, monitor);
-			System.out.println("[Compiler] =====================> saved.");
+			IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Compiler] Saved on repository");
 		}
 	}
 

@@ -11,6 +11,8 @@
 package org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection;
 
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -33,7 +35,7 @@ public class CompilerRepositoryClient extends AbstractRepositoryClient {
 	 * Constructor.
 	 */
 	public CompilerRepositoryClient() {
-		System.out.println("[Compiler] Initialised.");
+		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Compiler] Ready");
 	}
 
 	/**
