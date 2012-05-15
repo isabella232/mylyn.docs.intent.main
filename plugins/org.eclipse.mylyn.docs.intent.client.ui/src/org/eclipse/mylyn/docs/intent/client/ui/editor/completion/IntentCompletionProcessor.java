@@ -42,8 +42,9 @@ public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor
 
 	// Patterns by contexts.
 
-	private static final Pattern[] PATTERNS_BY_CONTEXT = new Pattern[] {Pattern.compile("Document\\s*\\{"),
-			Pattern.compile("Chapter\\s*\\{"), Pattern.compile("Section\\s*\\{"),
+	private static final Pattern[] PATTERNS_BY_CONTEXT = new Pattern[] {
+			Pattern.compile("Document\\s+[^{\r\n]*\\{"), Pattern.compile("Chapter\\s+[^{\r\n]*\\{"),
+			Pattern.compile("Section\\s+[^{\r\n]*\\{"),
 	};
 
 	// Keywords by contexts.
@@ -138,9 +139,9 @@ public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor
 	 */
 	protected List<TemplateProposal> createTemplatesProposals() {
 		TemplateProposal chapterProposal = createTemplateProposal("Chapter", "Chapter",
-				"Chapter {\n\t${Title}\n\t${Text}\n}\n", "icon/outline/chapter.gif");
+				"Chapter ${Title} {\n\t${Text}\n}\n", "icon/outline/chapter.gif");
 		TemplateProposal sectionProposal = createTemplateProposal("Section", "Section",
-				"Section {\n\t${Title}\n\t${Text}\n}\n", "icon/outline/section.gif");
+				"Section ${Title} {\n\t${Text}\n}\n", "icon/outline/section.gif");
 		TemplateProposal modelingUnitProposal = createTemplateProposal("Modeling Unit", "Modeling Unit",
 				"@M\n${Code}\nM@\n", "icon/outline/modelingunit.png");
 
