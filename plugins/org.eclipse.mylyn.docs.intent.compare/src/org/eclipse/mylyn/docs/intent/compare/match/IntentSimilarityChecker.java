@@ -268,64 +268,6 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 		return 1.0;
 	}
 
-	// private double getIntentStructuredElementsSimilarity(IntentSubSectionContainer obj1,
-	// IntentSubSectionContainer obj2) {
-	// double numberOfTotalElements = obj1.getIntentContent().size();
-	// double numberOfCommonElements = 0;
-	// double numberOfAlmostCommonElements = 0;
-	// Collection<String> obj1Elements = Sets.newLinkedHashSet();
-	//
-	// // Serialize obj1 children
-	// for (EObject obj1Child : obj1.getIntentContent()) {
-	// obj1Elements.add(new IntentSerializer().serialize(obj1Child));
-	// }
-	//
-	// // Compare with obj2 children
-	// Iterator<EObject> obj2Children = Lists.newArrayList(obj2.getIntentContent()).iterator();
-	// while (obj2Children.hasNext()) {
-	// String serializeChild = new IntentSerializer().serialize(obj2Children.next());
-	// if (obj1Elements.remove(serializeChild)) {
-	// numberOfCommonElements++;
-	// obj2Children.remove();
-	// }
-	// }
-	//
-	// // If some elements have not been perfectly matched,
-	// // we try partial match
-	// obj2Children = Lists.newArrayList(obj2.getIntentContent()).iterator();
-	// while (obj2Children.hasNext()) {
-	// EObject next = obj2Children.next();
-	// Iterator<String> obj1ElementsIterator = obj1Elements.iterator();
-	// while (obj1ElementsIterator.hasNext()) {
-	// String obj1Element = obj1ElementsIterator.next();
-	//
-	// double nameSimilarityMetric = NameSimilarity.nameSimilarityMetric(obj1Element,
-	// new IntentSerializer().serialize(next));
-	// if (nameSimilarityMetric > 0.95) {
-	// numberOfAlmostCommonElements++;
-	// obj1ElementsIterator.remove();
-	// }
-	// }
-	// }
-	// if (obj2.getIntentContent().size() > obj1.getIntentContent().size()) {
-	// numberOfTotalElements += obj2.getIntentContent().size() - obj1.getIntentContent().size();
-	// }
-	//
-	// if (numberOfTotalElements > 0) {
-	// double similarity = numberOfCommonElements / numberOfTotalElements + numberOfAlmostCommonElements
-	// * 0.75 / numberOfTotalElements;
-	// if (similarity >= 0.5 && numberOfTotalElements <= 4) {
-	// similarity = Math.max(similarity, 0.99);
-	// } else {
-	// if (similarity >= 0.5) {
-	// similarity = 0.5 + (numberOfCommonElements / (numberOfTotalElements * 2));
-	// }
-	// }
-	// return similarity;
-	// }
-	// return 1.0;
-	// }
-
 	/**
 	 * Indicates if the first description bloc matches the second one.
 	 * 

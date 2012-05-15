@@ -49,18 +49,6 @@ public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 	public void testIntentRepositoryHasExpectedStructureWhenAddingAndRemovingChapters() {
 		// Step 1: we initialize an intent project
 		setUpIntentProject("intentProject", "data/unit/documents/editorupdates/compareTest-01.intent");
-		// ResourceSet rs = new ResourceSetImpl();
-		// Resource createResource = rs
-		// .createResource(URI
-		// .createURI("file://D:/05. Git/intent/org.eclipse.mylyn.docs.intent.main/tests/org.eclipse.mylyn.docs.intent.client.ui.test/data/unit/models/documents/compareTest-03.xmi"));
-		// createResource.getContents().add(EcoreUtil.copy(getIntentDocument()));
-		// try {
-		// createResource.save(null);
-		// } catch (IOException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-
 		IntentEditor editor = openIntentEditor();
 
 		// Step 2: we check the initial structure of the project
@@ -131,13 +119,19 @@ public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 	protected void checkRepositoryStructure(Collection<String> expectedChapterNames,
 			Collection<String> expectedSectionNames, Collection<String> expectedMUNames) {
 		IFolder documentFolder = intentProject.getFolder(".repository/" + IntentLocations.INTENT_FOLDER);
+		try {
+			documentFolder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 
-		IFolder chapterFolder = documentFolder.getFolder("IntentChapter");
-		IFolder sectionFolder = documentFolder.getFolder("IntentSection");
-		IFolder MUFolder = documentFolder.getFolder("ModelingUnit");
-		checkFolderStructure(chapterFolder, Sets.newLinkedHashSet(expectedChapterNames));
-		checkFolderStructure(sectionFolder, Sets.newLinkedHashSet(expectedSectionNames));
-		checkFolderStructure(MUFolder, Sets.newLinkedHashSet(expectedMUNames));
+			IFolder chapterFolder = documentFolder.getFolder("IntentChapter");
+			IFolder sectionFolder = documentFolder.getFolder("IntentSection");
+			IFolder MUFolder = documentFolder.getFolder("ModelingUnit");
+
+			checkFolderStructure(chapterFolder, Sets.newLinkedHashSet(expectedChapterNames));
+			checkFolderStructure(sectionFolder, Sets.newLinkedHashSet(expectedSectionNames));
+			checkFolderStructure(MUFolder, Sets.newLinkedHashSet(expectedMUNames));
+		} catch (CoreException e) {
+			fail(e.getMessage());
+		}
 	}
 
 	/**

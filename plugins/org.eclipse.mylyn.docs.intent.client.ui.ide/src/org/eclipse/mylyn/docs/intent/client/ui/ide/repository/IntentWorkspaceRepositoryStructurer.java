@@ -12,8 +12,6 @@ package org.eclipse.mylyn.docs.intent.client.ui.ide.repository;
 
 import com.google.common.collect.Sets;
 
-import java.io.IOException;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
@@ -91,16 +89,6 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 			// Then we ensure that the element is stored at the expected location
 			if (isInSameResourceThanContainer
 					|| !(isStoredAtExpectedLocation(element, workspaceAdapter, newResourcePath))) {
-
-				// Delete the previous resource if needed
-				if (!isInSameResourceThanContainer && !(element instanceof IntentDocument)) {
-					try {
-						element.eResource().delete(null);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
 
 				// Place the element in a new resource
 				Resource newResource = workspaceAdapter.getOrCreateResource(newResourcePath);

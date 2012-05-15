@@ -90,7 +90,7 @@ public class UITestSuite extends TestCase {
 		demoSuite.addTestSuite(EcoreTest.class);
 		demoSuite.addTestSuite(JavaTest.class);
 
-		uiTestSuite.addTest(demoSuite);
+		// uiTestSuite.addTest(demoSuite);
 
 		return suite;
 	}
