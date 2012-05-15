@@ -288,4 +288,10 @@ Contributors:
                 id="org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInputFactory">
           </factory>
        </extension>
+       <extension
+             point="org.eclipse.mylyn.docs.intent.collab.common.intentlogger">
+          <logger
+                class="org.eclipse.mylyn.docs.intent.client.ui.internal.logger.EclipseBasedIntentLogger">
+          </logger>
+       </extension>
 </plugin>
