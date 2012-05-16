@@ -8,14 +8,14 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.wikitext.textile.model.tests.unit.parsing;
+package org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils;
 
 /**
  * Contains all the configuration informations about the Wikitext Parser tests.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public final class TestWikiTextParserConfigurator {
+public final class WikiTextParserTestConfigurator {
 
 	/**
 	 * Indicates the location of the folder containing all the dataTests files.
@@ -30,7 +30,7 @@ public final class TestWikiTextParserConfigurator {
 	/**
 	 * TestConfigurator constructor.
 	 */
-	private TestWikiTextParserConfigurator() {
+	private WikiTextParserTestConfigurator() {
 
 	}
 

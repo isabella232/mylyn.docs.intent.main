@@ -21,6 +21,7 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParserImpl;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
+import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.ModelingUnitParsingTestConfigurator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,7 +51,7 @@ public class TestModelingUnitSerialization {
 		// Step 1 : we parse the model and obtain the AST
 		ModelingUnit parsedAST;
 		try {
-			parsedAST = (ModelingUnit)TestModelingUnitParsingConfigurator.parseFile(modelingUnitParser,
+			parsedAST = (ModelingUnit)ModelingUnitParsingTestConfigurator.parseFile(modelingUnitParser,
 					fileToTest);
 
 			// xtextRes.getContents().add(parsedAST);
@@ -59,8 +60,8 @@ public class TestModelingUnitSerialization {
 			String actual = modelingUnitSerializer.serialize(parsedAST);
 
 			// Step 3 : we get the file as a String
-			File expectedFile = new File(TestModelingUnitParsingConfigurator.getDatatestsFolder()
-					+ fileToTest + TestModelingUnitParsingConfigurator.getFileExtensions());
+			File expectedFile = new File(ModelingUnitParsingTestConfigurator.getDatatestsFolder()
+					+ fileToTest + ModelingUnitParsingTestConfigurator.getFileExtensions());
 			String expected = FileToStringConverter.getFileAsString(expectedFile);
 
 			// FIXME For now on, we remove the tabulations it manually

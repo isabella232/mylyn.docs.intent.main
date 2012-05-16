@@ -26,6 +26,7 @@ import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 import org.eclipse.mylyn.docs.intent.markup.resource.WikitextResourceFactory;
 import org.eclipse.mylyn.docs.intent.markup.serializer.WikiTextResourceSerializer;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
+import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.WikiTextParserTestConfigurator;
 import org.junit.Test;
 
 /**
@@ -43,12 +44,12 @@ public class TestWikiTextParserGeneral {
 		// TestParsingTextile.PARSING_TEST_DATA + fileToTest);
 		InputStream input = null;
 		input = new FileInputStream(
-				new File(TestWikiTextParserConfigurator.getDatatestsFolder() + fileToTest));
+				new File(WikiTextParserTestConfigurator.getDatatestsFolder() + fileToTest));
 
 		// Step 2 : creation of a Wikitext Resource linked from this
 		// inputStream.
 		Resource resourceTextile = new WikitextResourceFactory().createResource(URI
-				.createFileURI(TestWikiTextParserConfigurator.getGeneratedFolder() + fileToGenerate));
+				.createFileURI(WikiTextParserTestConfigurator.getGeneratedFolder() + fileToGenerate));
 
 		// Step 3 : Generation of a textile file.
 		Map<String, String> options = new HashMap<String, String>();
@@ -60,12 +61,12 @@ public class TestWikiTextParserGeneral {
 		// Step 4 : Build the result
 		String expected;
 
-		expected = FileToStringConverter.getFileAsString(new File(TestWikiTextParserConfigurator
+		expected = FileToStringConverter.getFileAsString(new File(WikiTextParserTestConfigurator
 				.getDatatestsFolder() + fileToTest));
 
 		EPackage.Registry.INSTANCE.put(MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
 
-		final File file = new File(TestWikiTextParserConfigurator.getGeneratedFolder() + fileToGenerate);
+		final File file = new File(WikiTextParserTestConfigurator.getGeneratedFolder() + fileToGenerate);
 		String actual = FileToStringConverter.getFileAsString(file);
 		String fromResource = WikiTextResourceSerializer.getSerializer().serialize(resourceTextile);
 

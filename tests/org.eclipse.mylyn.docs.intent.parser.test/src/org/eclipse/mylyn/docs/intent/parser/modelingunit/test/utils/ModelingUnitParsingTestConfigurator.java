@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.parser.modelingunit.test;
+package org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils;
 
 import java.io.IOException;
 
@@ -21,7 +21,7 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public final class TestModelingUnitParsingConfigurator {
+public final class ModelingUnitParsingTestConfigurator {
 
 	/**
 	 * Indicates the location of the folder containing all the dataTests files.
@@ -41,7 +41,7 @@ public final class TestModelingUnitParsingConfigurator {
 	/**
 	 * TestConfigurator constructor.
 	 */
-	private TestModelingUnitParsingConfigurator() {
+	private ModelingUnitParsingTestConfigurator() {
 
 	}
 
@@ -87,7 +87,7 @@ public final class TestModelingUnitParsingConfigurator {
 	 */
 	public static EObject parseFile(ModelingUnitParser modelingUnitParser, String filePath)
 			throws ParseException, IOException {
-		return modelingUnitParser.parseFile(TestModelingUnitParsingConfigurator.getDatatestsFolder()
-				+ filePath + TestModelingUnitParsingConfigurator.getFileExtensions());
+		return modelingUnitParser.parseFile(ModelingUnitParsingTestConfigurator.getDatatestsFolder()
+				+ filePath + ModelingUnitParsingTestConfigurator.getFileExtensions());
 	}
 }

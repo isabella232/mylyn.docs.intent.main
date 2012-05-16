@@ -16,11 +16,14 @@ import java.io.IOException;
 import junit.framework.Assert;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParserImpl;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
+import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.ModelingUnitParsingTestConfigurator;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.XMISaver;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,6 +46,11 @@ public class TestModelingUnitParser {
 	@Before
 	public void setUp() {
 		modelingUnitParser = new ModelingUnitParserImpl();
+		// Registering resource factories so that test can be laucnhed in standalone mode
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
+				.put("xmi", new XMIResourceFactoryImpl());
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore",
+				new XMIResourceFactoryImpl());
 	}
 
 	/**
@@ -60,22 +68,22 @@ public class TestModelingUnitParser {
 		// Step 1 : we parse the model and obtain the AST
 		ModelingUnit parsedAST = null;
 		try {
-			parsedAST = (ModelingUnit)TestModelingUnitParsingConfigurator.parseFile(modelingUnitParser,
+			parsedAST = (ModelingUnit)ModelingUnitParsingTestConfigurator.parseFile(modelingUnitParser,
 					fileToTest);
 			/*
-			 * Resource r = new XtextResource(URI.createFileURI(TestModelingUnitParsingConfigurator
-			 * .getDatatestsFolder() + fileToTest + TestModelingUnitParsingConfigurator.getFileExtensions()));
+			 * Resource r = new XtextResource(URI.createFileURI(ModelingUnitParsingTestConfigurator
+			 * .getDatatestsFolder() + fileToTest + ModelingUnitParsingTestConfigurator.getFileExtensions()));
 			 * r.getContents().add(parsedAST); for (Issue issue : modelingUnitParser.getValidationErrors(r)) {
 			 * System.err.println(issue.getLineNumber() + ":" + issue.getMessage()); }
 			 */
 
 			// Step 2 : we save this model in an xmi file
-			File parsedASTFile = new File(TestModelingUnitParsingConfigurator.getExpectedFolder()
+			File parsedASTFile = new File(ModelingUnitParsingTestConfigurator.getExpectedFolder()
 					+ "tempFile.xmi");
 			XMISaver.saveASXMI(parsedAST, parsedASTFile);
 
 			// Step 3 : we get the file corresponding to the expected result.
-			File expectedASTFile = new File(TestModelingUnitParsingConfigurator.getExpectedFolder()
+			File expectedASTFile = new File(ModelingUnitParsingTestConfigurator.getExpectedFolder()
 					+ fileToTest + ".xmi");
 			// -- if the File doesn't exist, we save this AST as Expected AST.
 			if (!expectedASTFile.canRead()) {
