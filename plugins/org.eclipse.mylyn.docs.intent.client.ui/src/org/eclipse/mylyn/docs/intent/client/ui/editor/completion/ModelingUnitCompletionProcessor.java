@@ -114,14 +114,19 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		if (isAtMUBeggining) {
 			prefix = "@M" + prefix;
 		}
-
-		// First proposal : new entity
+		// First proposal : new Resource Declaration
+		if (text.trim().length() == 0 || "Resource".startsWith(text.trim())) {
+			proposals.add(createTemplateProposal("Resource", "Declaration of a new Resource", prefix
+					+ "Resource myResource {\n\t\tURI = \"${}\";\n\t}",
+					"icon/outline/modelingunit_resource.gif"));
+		}
+		// Second proposal : new entity
 		if (text.trim().length() == 0 || "new".startsWith(text.trim())) {
 			proposals.add(createTemplateProposal("new", "Declaration of a new entity", prefix
 					+ "new ${Type} {}", "icon/outline/modelingunit_new_element.png"));
 		}
 
-		// Second proposal : contribute to an existing entity
+		// Third proposal : contribute to an existing entity
 		TraceabilityIndex traceabilityIndex = getTraceabilityIndex();
 		String contributionBeginning = text.trim();
 		for (TraceabilityIndexEntry entry : traceabilityIndex.getEntries()) {
@@ -159,6 +164,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		String contributionName = "";
 		String featureNameBeginning = "";
 		boolean isContribution = true;
+		boolean isResourceDeclaration = false;
 		if (text.lastIndexOf("{") != -1) {
 			contributionName = text.substring(0, text.lastIndexOf("{")).trim();
 			featureNameBeginning = text.substring(text.lastIndexOf("{")).replace("{", "").trim();
@@ -171,25 +177,41 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 					contributionName = contributionName.substring(0, contributionName.indexOf(" ")).trim();
 				}
 			}
+			if (contributionName.contains("Resource")) {
+				isResourceDeclaration = true;
+				isContribution = false;
+			}
 		}
 
 		// If the structural feature affectation is inside a contribution
 		if (isContribution) {
 			getProposalsForContribution(proposals, contributionName, featureNameBeginning);
 		} else {
-			// If the structural feature affectation is inside an Instranciation instruction
-			EClassifier classifierToConsider = getEClassifier(contributionName);
-			if (classifierToConsider != null && classifierToConsider instanceof EClass) {
-				for (EStructuralFeature feature : ((EClass)classifierToConsider).getEAllStructuralFeatures()) {
-					if (featureNameBeginning.length() == 0
-							| feature.getName().startsWith(featureNameBeginning)) {
-						proposals.add(createStructuralFeatureAffectationTemplateProposal(contributionName,
-								feature));
+			if (isResourceDeclaration) {
+				getProposalsForResourceDeclaration(proposals);
+			} else {
+				// If the structural feature affectation is inside an Instranciation instruction
+				EClassifier classifierToConsider = getEClassifier(contributionName);
+				if (classifierToConsider != null && classifierToConsider instanceof EClass) {
+					for (EStructuralFeature feature : ((EClass)classifierToConsider)
+							.getEAllStructuralFeatures()) {
+						if (featureNameBeginning.length() == 0
+								| feature.getName().startsWith(featureNameBeginning)) {
+							proposals.add(createStructuralFeatureAffectationTemplateProposal(
+									contributionName, feature));
+						}
 					}
 				}
 			}
 		}
 		return proposals;
+	}
+
+	private void getProposalsForResourceDeclaration(Collection<ICompletionProposal> proposals) {
+		proposals.add(createTemplateProposal("Resource URI", "URI indicating the Resource location",
+				"URI = \"${}\";", "icon/outline/modelingunit_resource.gif"));
+		proposals.add(createTemplateProposal("Resource Content", "Add content to the Resource",
+				"content += ${};", "icon/outline/modelingunit_resource.gif"));
 	}
 
 	private void getProposalsForContribution(Collection<ICompletionProposal> proposals,
@@ -222,6 +244,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		// Step 1: extract the classifier holding this feature
 		// and the feature name
 		boolean isContribution = true;
+		boolean isResourceContribution = false;
+		EClassifier classifierToConsider = null;
 		String classifierName = null;
 		String featureName = null;
 		String beginning = "";
@@ -244,8 +268,13 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 					classifierName = classifierName.substring(0, classifierName.indexOf(" ")).trim();
 				}
 			}
+			if (classifierName.contains("Resource")) {
+				isContribution = false;
+				isResourceContribution = true;
+				featureName = "Resource Content";
+			}
 		}
-		EClassifier classifierToConsider = null;
+
 		if (isContribution) {
 			TraceabilityIndex traceabilityIndex = getTraceabilityIndex();
 			for (TraceabilityIndexEntry entry : traceabilityIndex.getEntries()) {
@@ -261,16 +290,21 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				}
 			}
 		} else {
-			classifierToConsider = getEClassifier(classifierName);
+			if (!isResourceContribution) {
+				classifierToConsider = getEClassifier(classifierName);
+			}
 		}
 
 		// Step 2: get the feature type
-		if (classifierToConsider != null && classifierToConsider instanceof EClass) {
-
-			EStructuralFeature featureToConsider = ((EClass)classifierToConsider)
-					.getEStructuralFeature(featureName);
-			if (featureToConsider != null && featureToConsider.getEType() != null
-					&& featureToConsider.getEType().getName() != null) {
+		if (isResourceContribution
+				|| (classifierToConsider != null && classifierToConsider instanceof EClass)) {
+			EStructuralFeature featureToConsider = null;
+			if (!isResourceContribution) {
+				featureToConsider = ((EClass)classifierToConsider).getEStructuralFeature(featureName);
+			}
+			if (isResourceContribution
+					|| (featureToConsider != null && featureToConsider.getEType() != null && featureToConsider
+							.getEType().getName() != null)) {
 
 				// Step 3: if the feature is an EAttribute, we add a proposal with the default value of this
 				// attribute type
@@ -285,11 +319,13 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 							"icon/outline/modelingunit_value.gif"));
 				} else {
 					// Propose to create a new Element of the feature type
-					proposals.add(createTemplateProposal("new Element (of type "
-							+ featureToConsider.getEType().getName() + ")",
-							"Set this new Element as value for " + featureToConsider.getName(), "new "
-									+ featureToConsider.getEType().getName() + "{\n\t${}\n};",
-							"icon/outline/modelingunit_new_element.png"));
+					if (!isResourceContribution) {
+						proposals.add(createTemplateProposal("new Element (of type "
+								+ featureToConsider.getEType().getName() + ")",
+								"Set this new Element as value for " + featureToConsider.getName(), "new "
+										+ featureToConsider.getEType().getName() + "{\n\t${}\n};",
+								"icon/outline/modelingunit_new_element.png"));
+					}
 
 					// Propose to reference an already defined element
 					TraceabilityIndex traceabilityIndex = getTraceabilityIndex();
@@ -300,17 +336,18 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 							if (instruction.getName() != null
 									&& (beginning.length() == 0 || instruction.getName()
 											.startsWith(beginning))) {
-								if (instruction.getMetaType() != null
-										&& (featureToConsider.getEType().equals(
-												instruction.getMetaType().getResolvedType()) || featureToConsider
+								if (isResourceContribution
+										|| (instruction.getMetaType() != null && (featureToConsider
+												.getEType().equals(
+														instruction.getMetaType().getResolvedType()) || featureToConsider
 												.getEType() instanceof EClass
 												&& ((EClass)featureToConsider.getEType())
 														.isSuperTypeOf(instruction.getMetaType()
-																.getResolvedType()))) {
+																.getResolvedType())))) {
 									proposals.add(createTemplateProposal(
 											"Reference to " + instruction.getName(),
 											"Set the " + instruction.getName() + " element as value for "
-													+ featureToConsider.getName(), instruction.getName(),
+													+ featureName, instruction.getName(),
 											"icon/outline/modelingunit_ref.png"));
 								}
 							}
@@ -318,7 +355,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 					}
 
 					// If the expected eType is an EClassifier, also propose all available classifiers
-					if (featureToConsider.getEType().equals(EcorePackage.eINSTANCE.getEClassifier())) {
+					if (!isResourceContribution
+							&& featureToConsider.getEType().equals(EcorePackage.eINSTANCE.getEClassifier())) {
 						proposals.addAll(getProposalsForEClassifier(beginning));
 					}
 				}
@@ -414,10 +452,10 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	private String removeInstructionsInsideClosedBrackets(String text) {
 		Document tempDoc = new Document(text);
 		IntentPairMatcher pairMatcher = new IntentPairMatcher();
-		if (tempDoc.get().lastIndexOf("{") != -1) {
-			IRegion match = pairMatcher.match(tempDoc, tempDoc.get().lastIndexOf("{") + 1);
+		if (tempDoc.get().indexOf("{") != -1) {
+			IRegion match = pairMatcher.match(tempDoc, tempDoc.get().indexOf("{") + 1);
 			try {
-				while (tempDoc.get().lastIndexOf("{") != -1 && match != null) {
+				while (tempDoc.get().indexOf("{") != -1 && match != null) {
 
 					int beginLineToRemove = tempDoc.getLineOfOffset(match.getOffset());
 					int beginOffSettoRemove = tempDoc.getLineOffset(beginLineToRemove);
@@ -427,11 +465,10 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 					String newDocContent = tempDoc.get().substring(0, beginOffSettoRemove)
 							+ tempDoc.get().substring(endOffsetToRemove);
 					tempDoc.set(newDocContent);
-					match = pairMatcher.match(tempDoc, tempDoc.get().lastIndexOf("{") + 1);
+					match = pairMatcher.match(tempDoc, tempDoc.get().indexOf("{") + 1);
 				}
 			} catch (BadLocationException e) {
-				// Nothing to do
-				e.printStackTrace();
+				// Nothing to do : silent catch
 			}
 		}
 		return tempDoc.get();
@@ -458,6 +495,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		} catch (BadLocationException e) {
 			// Nothing to do
 		}
+
 		return tempDoc.get();
 	}
 
