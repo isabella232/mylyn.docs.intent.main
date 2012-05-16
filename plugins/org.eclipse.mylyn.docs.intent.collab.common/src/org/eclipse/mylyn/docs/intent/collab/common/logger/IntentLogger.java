@@ -75,7 +75,7 @@ public final class IntentLogger implements IIntentLogger {
 	 */
 	public void setDisplayLifecycleInformations(boolean shouldDisplayLifecycleInformations) {
 		for (IIntentLogger logger : IntentLoggerRegistry.getDeclaredLoggers()) {
-			logger.setDisplayLifecycleInformations(false);
+			logger.setDisplayLifecycleInformations(shouldDisplayLifecycleInformations);
 		}
 	}
 

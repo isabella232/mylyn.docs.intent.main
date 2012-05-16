@@ -294,4 +294,13 @@ Contributors:
                 class="org.eclipse.mylyn.docs.intent.client.ui.internal.logger.EclipseBasedIntentLogger">
           </logger>
        </extension>
+       <extension
+             point="org.eclipse.ui.preferencePages">
+          <page
+                category="org.eclipse.mylyn.preferencePages.Mylyn"
+                class="org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferencePage"
+                id="org.eclipse.mylyn.docs.intent.client.ui.preferences"
+                name="Intent">
+          </page>
+       </extension>
 </plugin>

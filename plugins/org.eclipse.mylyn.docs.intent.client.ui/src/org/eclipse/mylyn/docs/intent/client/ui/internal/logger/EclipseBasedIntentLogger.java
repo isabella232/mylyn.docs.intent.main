@@ -13,9 +13,15 @@ package org.eclipse.mylyn.docs.intent.client.ui.internal.logger;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -23,7 +29,7 @@ import org.eclipse.swt.widgets.Display;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class EclipseBasedIntentLogger implements IIntentLogger {
+public class EclipseBasedIntentLogger implements IIntentLogger, IPreferenceChangeListener {
 
 	/**
 	 * The {@link ILog} to delegate logging to.
@@ -43,6 +49,21 @@ public class EclipseBasedIntentLogger implements IIntentLogger {
 	 *            the logger to delegate to
 	 */
 	public EclipseBasedIntentLogger() {
+		// Step 1: register a preference change listener so that if user decide to activate/deactive advanced
+		// logging, this logger can be notified
+		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
+				.getBundle().getSymbolicName());
+		if (node != null) {
+			node.addPreferenceChangeListener(this);
+
+			// Step 2 : initializing the shouldDisplayLifecycleInformations according to preferences
+			shouldDisplayLifecycleInformations = node.getBoolean(
+					IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, false);
+		} else {
+			getBundleLogger().log(
+					new Status(IStatus.WARNING, IntentEditorActivator.EDITOR_ID,
+							"Intent Logger: an error occured, logger will not react to preference changes"));
+		}
 	}
 
 	/**
@@ -92,7 +113,7 @@ public class EclipseBasedIntentLogger implements IIntentLogger {
 			} else {
 				status = new Status(severity, IntentEditorActivator.EDITOR_ID, message);
 			}
-			getLogger().log(status);
+			getBundleLogger().log(status);
 		}
 	}
 
@@ -105,7 +126,23 @@ public class EclipseBasedIntentLogger implements IIntentLogger {
 		this.shouldDisplayLifecycleInformations = shouldDisplayLifecycleInformations;
 	}
 
-	private ILog getLogger() {
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener#preferenceChange(org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent)
+	 */
+	public void preferenceChange(PreferenceChangeEvent event) {
+		if (IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING.equals(event.getKey())) {
+			boolean newValue = false;
+			if ("true".equals(event.getNewValue())) {
+				newValue = true;
+			}
+			// If the advance logging preference changes, we notify the Root Intent logger
+			IntentLogger.getInstance().setDisplayLifecycleInformations(newValue);
+		}
+	}
+
+	private ILog getBundleLogger() {
 		if (this.delegateLogger == null) {
 			this.delegateLogger = IntentEditorActivator.getDefault().getLog();
 		}

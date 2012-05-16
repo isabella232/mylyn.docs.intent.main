@@ -17,6 +17,14 @@ package org.eclipse.mylyn.docs.intent.client.ui.preferences;
  */
 public interface IntentPreferenceConstants {
 
+	/*
+	 * Logging-relative preferences
+	 */
+	String ACTIVATE_ADVANCE_LOGGING = "org.eclipse.mylyn.docs.intent.client.ui.preferences.advanced_logging";
+
+	/*
+	 * UI-relative preferences.
+	 */
 	String MATCHING_BRACKETS = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets";
 
 	String MATCHING_BRACKETS_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets_color";
