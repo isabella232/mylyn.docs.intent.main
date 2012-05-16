@@ -164,8 +164,10 @@ public class IntentEditorInput extends URIEditorInput {
 	protected void loadState(IMemento memento) {
 		super.loadState(memento);
 		Resource resource = getResource();
-		element = resource.getEObject(memento.getString(URI_FRAGMENT_TAG));
-		elementTitle = getTitleFromElement(element);
+		if (resource != null) {
+			element = resource.getEObject(memento.getString(URI_FRAGMENT_TAG));
+			elementTitle = getTitleFromElement(element);
+		}
 	}
 
 	/**
@@ -175,10 +177,15 @@ public class IntentEditorInput extends URIEditorInput {
 	 */
 	private Resource getResource() {
 		if (repositoryAdapter == null) {
-			repositoryAdapter = getRepository().createRepositoryAdapter();
-			repositoryAdapter.openSaveContext();
+			if (getRepository() != null) {
+				repositoryAdapter = getRepository().createRepositoryAdapter();
+				repositoryAdapter.openSaveContext();
+			}
 		}
-		return repositoryAdapter.getResource(getPath(getURI()));
+		if (repositoryAdapter != null) {
+			return repositoryAdapter.getResource(getPath(getURI()));
+		}
+		return null;
 	}
 
 	/**

@@ -204,8 +204,13 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	protected IDocument createDocument(Object element) throws CoreException {
 		if (!(element instanceof IntentEditorInput)) {
 			IStatus status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
-					"IntentDocumentProvider : cannot create a document of type "
+					"Cannot open an Intent editor on a document of type "
 							+ element.getClass().getCanonicalName() + " (must be IntentEditorInput) ");
+			throw new CoreException(status);
+		}
+		if (((IntentEditorInput)element).getRepository() == null) {
+			IStatus status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
+					"Cannot open Intent editor : document is not available.");
 			throw new CoreException(status);
 		}
 

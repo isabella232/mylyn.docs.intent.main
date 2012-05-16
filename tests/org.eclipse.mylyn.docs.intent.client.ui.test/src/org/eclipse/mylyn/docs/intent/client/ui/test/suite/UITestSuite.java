@@ -24,6 +24,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.Ja
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentRepositoryStructurerTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.MultipleReplacementInEditorTest;
 
 /**
  * This suite will launch all the tests relative to the UI behavior.
@@ -60,7 +61,7 @@ public class UITestSuite extends TestCase {
 		// Match & merge tests
 		final TestSuite compareSuite = new TestSuite("Intent match and merge tests");
 		compareSuite.addTestSuite(IntentMatchEngineTests.class);
-		clientSuite.addTest(compareSuite);
+		// clientSuite.addTest(compareSuite);
 
 		/*
 		 * Intent UI Tests
@@ -70,6 +71,7 @@ public class UITestSuite extends TestCase {
 		// Core tests
 		// All tests that test a technical concern (emf compare behavior, project lifecycle...)
 		final TestSuite basicTestSuite = new TestSuite("Technical tests");
+		basicTestSuite.addTestSuite(MultipleReplacementInEditorTest.class);
 		basicTestSuite.addTestSuite(IntentRepositoryStructurerTest.class);
 		basicTestSuite.addTestSuite(ProjectTest.class);
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
