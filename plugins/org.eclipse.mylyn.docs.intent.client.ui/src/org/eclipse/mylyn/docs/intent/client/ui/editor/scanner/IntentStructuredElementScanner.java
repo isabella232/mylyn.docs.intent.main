@@ -38,11 +38,10 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 
 	public static final String CLOSING = "";
 
-	private static String[] STRUCTURED_KEYWORDS = new String[] {
-			IntentKeyWords.INTENT_KEYWORD_CHAPTER + CLOSING,
-			IntentKeyWords.INTENT_KEYWORD_DOCUMENT + CLOSING,
-			IntentKeyWords.INTENT_KEYWORD_SECTION + CLOSING, IntentKeyWords.INTENT_KEYWORD_VISIBILITY_HIDDEN,
-			IntentKeyWords.INTENT_KEYWORD_VISIBILITY_INTERNAL,
+	private static String[] STRUCTURED_KEYWORDS = new String[] {IntentKeyWords.INTENT_KEYWORD_CHAPTER,
+			IntentKeyWords.INTENT_KEYWORD_DOCUMENT, IntentKeyWords.INTENT_KEYWORD_SECTION,
+			IntentKeyWords.INTENT_KEYWORD_VISIBILITY_HIDDEN,
+			IntentKeyWords.INTENT_KEYWORD_VISIBILITY_INTERNAL, IntentKeyWords.INTENT_KEYWORD_OPEN,
 	};
 
 	/**
@@ -61,7 +60,7 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 				IntentFontConstants.getDescriptionFont()));
 
 		Color defaultforeGroundColor = colorManager.getColor(IntentColorConstants.DU_TITLE_FOREGROUND);
-		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, backgroundColor, SWT.NONE,
+		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, backgroundColor, SWT.BOLD,
 				IntentFontConstants.getTitleFont()));
 
 		Color keyWordForeGroundColor = colorManager.getColor(IntentColorConstants.DU_KEYWORD_FOREGROUND);

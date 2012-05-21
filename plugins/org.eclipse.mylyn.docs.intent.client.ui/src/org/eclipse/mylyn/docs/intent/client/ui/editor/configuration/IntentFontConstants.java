@@ -23,7 +23,7 @@ public final class IntentFontConstants {
 
 	public static final int DU_FONT_SIZE = 10;
 
-	public static final int DU_TITLE_SIZE = 12;
+	public static final int DU_TITLE_SIZE = 10;
 
 	public static final Font MU_DEFAULT_FONT = new Font(Display.getCurrent(), "Courier New", 9, SWT.NONE);
 
@@ -53,11 +53,12 @@ public final class IntentFontConstants {
 	 * Initialize the font to associate with not keyWords elements.
 	 */
 	private static void initializeWikiFont() {
+		IntentFontConstants.TITLE_FONT = new Font(Display.getCurrent(), DOCUMENTATION_DEFAULT_FONT_NAME,
+				IntentFontConstants.DU_TITLE_SIZE, SWT.BOLD);
+
 		// We try to initialize the description font to Computer Modern (used by Latex)
 		IntentFontConstants.DU_FONT = new Font(Display.getCurrent(), DOCUMENTATION_FONT_NAME,
 				IntentFontConstants.DU_FONT_SIZE, SWT.NONE);
-		IntentFontConstants.TITLE_FONT = new Font(Display.getCurrent(), DOCUMENTATION_FONT_NAME,
-				IntentFontConstants.DU_TITLE_SIZE, SWT.BOLD);
 
 		if (IntentFontConstants.DU_FONT == null) {
 			// If this font isn't available, we use the Verdana font.
