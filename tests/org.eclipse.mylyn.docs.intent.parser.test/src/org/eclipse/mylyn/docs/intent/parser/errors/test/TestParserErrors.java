@@ -24,7 +24,7 @@ public class TestParserErrors extends AbstractTestParserErrors {
 	@Test
 	public void testMissingBracket() {
 		testErrorsOnFile("dataTests/intentDocuments/errors/missing_bracket.intent", new ParseException(
-				"There is no element to close.", 40, 1));
+				"There is no element to close.", 38, 1));
 	}
 
 	// CHECKSTYLE:ON

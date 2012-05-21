@@ -1,11 +1,7 @@
 Document {
-	Chapter {
-		The first chapter is the best
-		
+	Chapter The first chapter is the best {
 		The first chapter is the best.
-		Section {
-			Differencing the left model from right model when comparaison fails
-		
+		Section Differencing the left model from right model when comparaison fails {
 			During the Match process, deleted or added elements are considered as unmatched.
 		
 			Two different situations can occur : 
@@ -40,30 +36,20 @@ Document {
 			added element from deleted element, we define the @EEnum@ *Side* :
 		}
 	}
-	Chapter {
+	Chapter Chapter 2 {
 		Chapter 2
-		
-		Chapter 2
-		Section {
-			Section 2.1
-			
+		Section Section 2.1 {
 			The 2.1 Section.
 		}
 		
-		Section {
-			Section 2.2
-			
+		Section Section 2.2 {
 			The 2.2 Section.
 		}
 	}
-	Chapter {
-		Chapter 3
-		
+	Chapter Chapter 3 {
 		Chapter 3
 		Section {
-			Section {
-				Section 3.1.1
-				
+			Section Section 3.1.1 {
 				Such a good section.
 			}
 			
@@ -73,9 +59,7 @@ Document {
 				}
 			M@
 			
-			Section {
-				Section 3.2.1
-				
+			Section Section 3.2.1 {
 				The last Section.			
 			}		
 		

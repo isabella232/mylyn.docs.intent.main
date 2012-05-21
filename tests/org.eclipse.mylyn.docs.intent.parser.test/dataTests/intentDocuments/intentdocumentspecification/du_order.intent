@@ -1,7 +1,5 @@
 Document {
-	Chapter {
-		My only chapter
-
+	Chapter My only chapter {
 		The One
 		The Two.
 
@@ -9,9 +7,7 @@ Document {
 
 		The four.
 	}
-	Chapter {
-		My Second chapter
-
+	Chapter My Second chapter {
 		Here is a complete Description Unit *That I will not modify*.
 
 		Why ? Just because

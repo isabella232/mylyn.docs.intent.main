@@ -1,18 +1,12 @@
 Document {
-	Chapter {
-		title
-
+	Chapter title {
 		@see "ref"
 	}
-	Chapter {
-		title
-
+	Chapter title {
 		text
 		@label "ref"
 	}
-	Chapter {
-		title
-
+	Chapter title {
 		@see "ref"
 		text
 	}

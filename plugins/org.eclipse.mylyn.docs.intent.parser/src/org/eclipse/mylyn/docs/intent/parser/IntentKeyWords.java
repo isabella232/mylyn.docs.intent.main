@@ -58,21 +58,6 @@ public interface IntentKeyWords {
 	String INTENT_KEYWORD_CLOSE = "}";
 
 	/**
-	 * Keyword describing the opening of a header reference zone (inside a section declaration).
-	 */
-	String INTENT_KEYWORD_HEADER_REFERENCE_OPEN = "[";
-
-	/**
-	 * Keyword allowing to separate each header reference inside a header reference declaration.
-	 */
-	String INTENT_KEYWORD_HEADER_REFERENCE_SEPARATOR = ",";
-
-	/**
-	 * Keyword describing the closing of a header reference zone (in a section declaration).
-	 */
-	String INTENT_KEYWORD_HEADER_CLOSE = "]";
-
-	/**
 	 * Symbolises a WhiteSpace.
 	 */
 	String INTENT_WHITESPACE = " ";

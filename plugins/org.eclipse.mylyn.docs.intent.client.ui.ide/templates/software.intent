@@ -1,36 +1,24 @@
 Document {
-	Chapter {
-		Software requirements
-
+	Chapter Software requirements {
 		Gather the functional requirements, or demands, for the product.
 	}
-	Chapter {
-		High level design
-
+	Chapter High level design {
 		A basic layout of the product. This means the setup of different modules and how they communicate with each other. 
 		This design does not contain very much detail about the modules.
 	}
-	Chapter {
-		Module design
-
+	Chapter Module design {
 		The different modules present in the High level design are designed separately. 
 		The modules are designed in as much detail as possible.
 	}
-	Chapter {
-		Module testing
-
+	Chapter Module testing {
 		The different modules are tested for correct functioning. 
 		Describe the module tests.
 	}
-	Chapter {
-		Integration testing
-
+	Chapter Integration testing {
 		The communication between modules is tested for correct functioning. 
 		Describe the integration tests.
 	}
-	Chapter {
-		System testing
-
+	Chapter System testing {
 		This test checks whether all functional requirements are present in the product. 
 		Describe the system tests.
 	}

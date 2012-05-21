@@ -1,8 +1,6 @@
 Document {
 	Chapter {
-		Section {
-			Merge
-
+		Section Merge {
 			Merging models.
 			
 			@M umlStorageDefinition 

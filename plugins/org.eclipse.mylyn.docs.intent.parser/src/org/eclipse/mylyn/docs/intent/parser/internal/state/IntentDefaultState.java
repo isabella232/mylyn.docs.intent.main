@@ -12,6 +12,7 @@
 package org.eclipse.mylyn.docs.intent.parser.internal.state;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 
 /**
@@ -44,11 +45,13 @@ public class IntentDefaultState extends IntentGenericState {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#beginChapter(int, int)
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#beginChapter(int, int,
+	 *      java.lang.String)
 	 */
 	@Override
-	public IntentGenericState beginChapter(int offset, int declarationLength) {
-		return super.beginChapter(offset, declarationLength);
+	public IntentGenericState beginChapter(int offset, int declarationLength, String title)
+			throws ParseException {
+		return super.beginChapter(offset, declarationLength, title);
 	}
 
 }

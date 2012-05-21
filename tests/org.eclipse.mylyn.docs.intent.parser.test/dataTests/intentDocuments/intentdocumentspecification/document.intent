@@ -1,7 +1,5 @@
 Document {
-	Chapter {
-		Overview : the @ExtendedLibrary@ MetaModel
-
+	Chapter Overview : the @ExtendedLibrary@ MetaModel {
 		In this chapter, we will present the
 		@lazylabel "Extended Libray" "MetaModel defining the entities and behavior related to a Library"
 		Meta Model.
@@ -10,9 +8,8 @@ Document {
 		We will then try to identify the main entities that define Extended Libray. 
 		In another chapter, we will study all the types of Item handled by our Extended Library. 
 		Last, we will define several the actors of any library (i.e the Employees and Borrowers).
-		Section {
-			Motivation for define Extended Library
 
+		Section Motivation for define Extended Library {
 			In our daily work, we have noticed that the standard @Library@ Metamodel was not adapted
 			to our activity. Actually, we had to use other classes for representing all the 
 			informations we needed. 
@@ -21,9 +18,8 @@ Document {
 			standard one, and (according to us) more efficient for dealing with lots of Employees, 
 			Books and Borrowers.
 		}
-		Section {
-			Extended Library storage : Resources definitions
 
+		Section Extended Library storage : Resources definitions {
 			First of all, let's see how we will store the defined Metamodel. We have chosen to 
 			create a single ECore file.
 			@M extlibraryStorage 
@@ -36,9 +32,8 @@ Document {
 
 			This allow us to use directly the generated metamodel to define modelers.
 		}
-		Section {
-			Extended Library Package : package hierarchy
 
+		Section Extended Library Package : package hierarchy {
 			As we will see in
 			@see "ExtendedLibraryPackage:MainEntities" , there are too few entities
 			to justify the definition of subpackages. 
@@ -53,15 +48,12 @@ Document {
 			M@
 		}
 	}
-	Chapter {
-		The main entities of the Extended Library
-
+	Chapter The main entities of the Extended Library {
 		In this part, we will define the principal concepts of any Extended Library. 
 		Intuitively, a library has at least a collection of Books, Employees that work in the library
 		and Borrowers that borrow the books.
-		Section {
-			Specification of a Book
 
+		Section Specification of a Book {
 			A Book has a title, and a author. 
 			As we will see later, we will divide the collections of all books in several categories ;
 			but as this division is not essential, we will focus on it later.
@@ -101,14 +93,11 @@ Document {
 			M@
 		}
 	}
-	Chapter {
-		The Items hierarchy
-
+	Chapter The Items hierarchy {
 		In this chapter, we will study the item hierarchy, that allow us to describe Books, 
 		AudioBooks, AudioVisual content.
-		Section {
-			BookCategory : allow us to classify Books
 
+		Section BookCategory : allow us to classify Books {
 			Let's first define categories for Books.
 			@M BookCategorydataTypeDefinition 
 				extlibrary {
@@ -133,9 +122,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Book class.
 
+		Section Presentation of the Book class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -157,9 +145,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Library class.
 
+		Section Presentation of the Library class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -273,9 +260,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Writer class.
 
+		Section Presentation of the Writer class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -308,9 +294,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Item class.
 
+		Section Presentation of the Item class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -333,9 +318,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Lendable class.
 
+		Section Presentation of the Lendable class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -368,9 +352,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CirculatingItem class.
 
+		Section Presentation of the CirculatingItem class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -388,9 +371,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Periodical class.
 
+		Section Presentation of the Periodical class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -421,9 +403,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the AudioVisualItem class.
 
+		Section Presentation of the AudioVisualItem class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -460,9 +441,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the BookOnTape class.
 
+		Section Presentation of the BookOnTape class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -491,9 +471,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the VideoCassette class.
 
+		Section Presentation of the VideoCassette class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -517,9 +496,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Borrower class.
 
+		Section Presentation of the Borrower class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -545,13 +523,10 @@ Document {
 			M@
 		}
 	}
-	Chapter {
-		Specification of the actor of an Extended Library : Employees and Borrowers
-
+	Chapter Specification of the actor of an Extended Library : Employees and Borrowers {
 		In this part, we will take an interest on all the actors of an Extended Library.
-		Section {
-			Presentation of the Person class.
 
+		Section Presentation of the Person class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -582,9 +557,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Employee class.
 
+		Section Presentation of the Employee class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -607,9 +581,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Addressable class.
 
+		Section Presentation of the Addressable class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris

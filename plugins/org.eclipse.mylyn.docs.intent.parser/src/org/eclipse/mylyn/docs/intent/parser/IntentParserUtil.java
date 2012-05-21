@@ -21,35 +21,48 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public final class IntentParserUtil {
+	/**
+	 * Regular expression that represents all characters but the opening one.
+	 */
+	public static final String EXPREG_ALL_BUT_OPEN = "([^" + IntentKeyWords.INTENT_KEYWORD_OPEN + "\\r\\n]*)";
 
 	/**
 	 * Regular expression that represents a backslash.
 	 */
-	private static final String EXPREG_BACKSLASH = "\\";
+	public static final String EXPREG_BACKSLASH = "\\";
+
+	/**
+	 * Regular expression that represents a space area (that only contains whitespaces, tabulations or
+	 * linebreaks) with at least one space.
+	 */
+	public static final String EXPREG_AT_LEAST_ONE_SPACE = "\\s+";
 
 	/**
 	 * Regular expression that represents a space area (that only contains whitespaces, tabulations or
 	 * linebreaks).
 	 */
-	private static final String EXPREG_MANY_SPACES = "\\s*";
+	public static final String EXPREG_MANY_SPACES = "\\s*";
+
+	public static final String EXPREG_OPEN_SECTION = // Section [title]? {
+	IntentKeyWords.INTENT_KEYWORD_SECTION + EXPREG_AT_LEAST_ONE_SPACE + EXPREG_ALL_BUT_OPEN
+			+ EXPREG_BACKSLASH + IntentKeyWords.INTENT_KEYWORD_OPEN;
+
+	public static final String EXPREG_OPEN_CHAPTER = // Chapter [title]? {
+	IntentKeyWords.INTENT_KEYWORD_CHAPTER + EXPREG_AT_LEAST_ONE_SPACE + EXPREG_ALL_BUT_OPEN
+			+ EXPREG_BACKSLASH + IntentKeyWords.INTENT_KEYWORD_OPEN;
+
+	public static final String EXPREG_OPEN_DOCUMENT = // Document {
+	IntentKeyWords.INTENT_KEYWORD_DOCUMENT + EXPREG_MANY_SPACES + EXPREG_BACKSLASH
+			+ IntentKeyWords.INTENT_KEYWORD_OPEN;
 
 	/**
 	 * All the tokens that implies the end of a descriptionUnit.
 	 */
 	private static final String[] ENDING_DESCRIPTION_UNIT_TOKENS = {
-			EXPREG_BACKSLASH + IntentKeyWords.INTENT_KEYWORD_CLOSE,
-
-			// Document {
-			IntentKeyWords.INTENT_KEYWORD_DOCUMENT + EXPREG_MANY_SPACES + EXPREG_BACKSLASH
-					+ IntentKeyWords.INTENT_KEYWORD_OPEN,
-			// Chapter {
-			IntentKeyWords.INTENT_KEYWORD_CHAPTER + EXPREG_MANY_SPACES + EXPREG_BACKSLASH
-					+ IntentKeyWords.INTENT_KEYWORD_OPEN,
-			// @M
+			EXPREG_BACKSLASH + IntentKeyWords.INTENT_KEYWORD_CLOSE, EXPREG_OPEN_DOCUMENT,
+			EXPREG_OPEN_CHAPTER,
 			EXPREG_MANY_SPACES + ModelingUnitParser.MODELING_UNIT_PREFIX + EXPREG_MANY_SPACES,
-			// section ([(headers)])? {
-			IntentKeyWords.INTENT_KEYWORD_SECTION + EXPREG_MANY_SPACES + EXPREG_BACKSLASH
-					+ IntentKeyWords.INTENT_KEYWORD_OPEN,
+			EXPREG_OPEN_SECTION,
 	};
 
 	/**

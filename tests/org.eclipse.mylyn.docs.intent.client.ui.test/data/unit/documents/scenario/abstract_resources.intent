@@ -1,8 +1,6 @@
 Document {
 	Chapter {
-		Section {
-			Abstract Resources Test
-
+		Section Abstract Resources Test {
 			These resources are used to define models having no relations with any concrete artifact.
 			
 			@M

@@ -142,17 +142,21 @@ public class IntentBuilder {
 	 *            the begin offset of the Chapter
 	 * @param declarationLength
 	 *            the declaration length of the Chapter
+	 * @param title
+	 *            the chapter title
+	 * @throws ParseException
+	 *             if the title cannot be parsed
 	 */
-	public void beginChapter(int offset, int declarationLength) {
+	public void beginChapter(int offset, int declarationLength, String title) throws ParseException {
 		increaseImbricationLevel();
 		if (currentState == null) {
 			currentRoot = IntentDocumentFactory.eINSTANCE.createIntentChapter();
 			roots.add(currentRoot);
 			currentState = new SChapter(offset, declarationLength, null, (IntentChapter)currentRoot,
-					positionManager);
+					positionManager, title);
 
 		} else {
-			currentState = currentState.beginChapter(offset, declarationLength);
+			currentState = currentState.beginChapter(offset, declarationLength, title);
 		}
 	}
 
@@ -163,16 +167,20 @@ public class IntentBuilder {
 	 *            the begin offset of the Section
 	 * @param declarationLength
 	 *            the declaration length of the Section
+	 * @param title
+	 *            the section title
+	 * @throws ParseException
+	 *             if the title cannot be parsed
 	 */
-	public void beginSection(int offset, int declarationLength) {
+	public void beginSection(int offset, int declarationLength, String title) throws ParseException {
 		increaseImbricationLevel();
 		if (currentState == null) {
 			currentRoot = IntentDocumentFactory.eINSTANCE.createIntentSection();
 			roots.add(currentRoot);
 			currentState = new SSection(offset, declarationLength, null, (IntentSection)currentRoot,
-					positionManager);
+					positionManager, title);
 		} else {
-			currentState = currentState.beginSection(offset, declarationLength);
+			currentState = currentState.beginSection(offset, declarationLength, title);
 		}
 	}
 
@@ -223,12 +231,9 @@ public class IntentBuilder {
 	 * 
 	 * @param visibility
 	 *            the visibility of the section ("hidden", "internal" or null)
-	 * @param headerReferences
-	 *            list of textual references to header declarations
 	 */
-	public void sectionOptions(String visibility, List<String> headerReferences) {
-		// System.out.println(getTab() + "IntentBuilder.sectionOptions() / " + currentState);
-		currentState = currentState.sectionOptions(visibility, headerReferences);
+	public void sectionOptions(String visibility) {
+		currentState = currentState.sectionOptions(visibility);
 	}
 
 	/**

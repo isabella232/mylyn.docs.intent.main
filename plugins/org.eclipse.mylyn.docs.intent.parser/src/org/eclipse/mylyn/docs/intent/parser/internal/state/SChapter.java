@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.parser.internal.state;
 
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
+import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 
 /**
@@ -30,13 +31,17 @@ public class SChapter extends IntentSubSectionContainerState {
 	 * @param previous
 	 *            the previous state of the parser
 	 * @param chapter
-	 *            the chapter currently beeing parsed
+	 *            the chapter currently being parsed
 	 * @param positionManager
 	 *            the positionManager where to register positions
+	 * @param title
+	 *            the section title
+	 * @throws ParseException
+	 *             if the title cannot be parsed
 	 */
 	public SChapter(int offset, int declarationLength, IntentGenericState previous, IntentChapter chapter,
-			IntentPositionManager positionManager) {
-		super(offset, declarationLength, previous, chapter, positionManager);
+			IntentPositionManager positionManager, String title) throws ParseException {
+		super(offset, declarationLength, previous, chapter, positionManager, title);
 	}
 
 }

@@ -12,13 +12,12 @@ package org.eclipse.mylyn.docs.intent.serializer.internal;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
-
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.DescriptionUnitSerializer;
 
 /**
- * Serialize an Intent Document, and maintain an mapping between serialized elements and their
- * position in their serialized form.
+ * Serialize an Intent Document, and maintain an mapping between serialized elements and their position in
+ * their serialized form.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
@@ -47,17 +46,17 @@ public final class IntentDocumentSerializer {
 
 		renderedForm += IntentKeyWords.INTENT_KEYWORD_DOCUMENT;
 		int initialLength = renderedForm.length();
-		renderedForm += IntentKeyWords.INTENT_WHITESPACE + IntentKeyWords.INTENT_KEYWORD_OPEN + IntentKeyWords.INTENT_LINEBREAK;
+		renderedForm += IntentKeyWords.INTENT_WHITESPACE;
 
 		if (document.getTitle() != null) {
 			DescriptionUnitSerializer descriptionUnitSerializer = new DescriptionUnitSerializer();
-			renderedForm += serializer.tabulation();
 			renderedForm += descriptionUnitSerializer.serializeSectionTitle(document.getTitle(), initalOffset
-					+ renderedForm.length())
-					+ IntentKeyWords.INTENT_LINEBREAK;
+					+ renderedForm.length());
 			serializer.getPositionManager().addIntentPositionManagerInformations(
 					descriptionUnitSerializer.getPositionManager());
+			renderedForm += IntentKeyWords.INTENT_WHITESPACE;
 		}
+		renderedForm += IntentKeyWords.INTENT_KEYWORD_OPEN + IntentKeyWords.INTENT_LINEBREAK;
 
 		// Contents : chapters
 		for (EObject content : document.getChapters()) {
@@ -65,7 +64,8 @@ public final class IntentDocumentSerializer {
 			renderedForm += serializer.serialize(content);
 		}
 		serializer.setCurrentIndendationLevel(serializer.getCurrentIndendationLevel() - 1);
-		renderedForm += serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE + IntentKeyWords.INTENT_LINEBREAK;
+		renderedForm += serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE
+				+ IntentKeyWords.INTENT_LINEBREAK;
 		serializer.setCurrentOffset(initalOffset + renderedForm.length());
 		serializer.setDeclarationPositionForElement(document, initalOffset, renderedForm.length(),
 				initialLength);

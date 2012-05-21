@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.internal;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -152,19 +150,31 @@ public class IntentDocumentParser {
 		if (parsedSentenceWithoutDescriptionUnit.contains(IntentKeyWords.INTENT_KEYWORD_CLOSE)) {
 			builder.endStructuredElement(offset);
 		}
-		// If the parsed Sentence describes the beginning of a session
 		if (parsedSentenceWithoutDescriptionUnit.contains(IntentKeyWords.INTENT_KEYWORD_DOCUMENT)) {
 			builder.beginDocument(offset - parsedSentence.length(), parsedSentence.trim().length());
 		}
-		// If the parsed Sentence describes the beginning of a session
 		if (parsedSentenceWithoutDescriptionUnit.contains(IntentKeyWords.INTENT_KEYWORD_CHAPTER)) {
-			builder.beginChapter(offset - parsedSentence.length(), parsedSentence.trim().length());
+			String title = null;
+			Matcher m = Pattern.compile(IntentParserUtil.EXPREG_OPEN_CHAPTER).matcher(parsedSentence.trim());
+			if (m.matches()) {
+				title = m.group(1);
+			} else {
+				System.err.println(parsedSentence);
+			}
+			builder.beginChapter(offset - parsedSentence.length(), parsedSentence.trim().length(), title);
 		}
 		if (parsedSentenceWithoutDescriptionUnit.contains(IntentKeyWords.INTENT_KEYWORD_SECTION)) {
-			sendBeginSectionSignal(offset - parsedSentenceWithoutDescriptionUnit.trim().length(),
-					parsedSentenceWithoutDescriptionUnit);
+			String title = null;
+			Matcher m = Pattern.compile(IntentParserUtil.EXPREG_OPEN_SECTION).matcher(
+					parsedSentenceWithoutDescriptionUnit.trim());
+			if (m.matches()) {
+				title = m.group(1);
+			} else {
+				System.err.println(parsedSentenceWithoutDescriptionUnit);
+			}
+			builder.beginSection(offset - parsedSentenceWithoutDescriptionUnit.trim().length(),
+					parsedSentenceWithoutDescriptionUnit.trim().length(), title);
 		}
-
 	}
 
 	/**
@@ -204,40 +214,6 @@ public class IntentDocumentParser {
 		}
 
 		return parsedSentenceWithoutDescriptionUnit;
-	}
-
-	/**
-	 * Sends a beginSection signal, followed by a sectionOption signal according to the given parsed Sentence.
-	 * 
-	 * @param offset
-	 *            the offset of the sentence in the document
-	 * @param parsedSentence
-	 *            the parsed String
-	 */
-	private void sendBeginSectionSignal(int offset, String parsedSentence) {
-		String parsedSentenceCopy = parsedSentence;
-		String visibility = null;
-
-		// Headers considerations
-		List<String> headerReferences = new ArrayList<String>();
-		parsedSentenceCopy = parsedSentenceCopy.replace(IntentKeyWords.INTENT_KEYWORD_SECTION, "").trim();
-		if (parsedSentenceCopy.contains(IntentKeyWords.INTENT_KEYWORD_HEADER_REFERENCE_OPEN)) {
-			parsedSentenceCopy = parsedSentenceCopy
-					.replace(IntentKeyWords.INTENT_KEYWORD_HEADER_REFERENCE_OPEN, "")
-					.replace(IntentKeyWords.INTENT_KEYWORD_HEADER_CLOSE, "")
-					.replace(IntentKeyWords.INTENT_KEYWORD_OPEN, "");
-
-			String[] headersTable = parsedSentenceCopy
-					.split(IntentKeyWords.INTENT_KEYWORD_HEADER_REFERENCE_SEPARATOR);
-			for (int i = 0; i < headersTable.length; i++) {
-				headerReferences.add(headersTable[i].trim());
-			}
-		}
-
-		// Sending the signal : we first indicate the beginning of a section
-		builder.beginSection(offset, parsedSentence.trim().length());
-		// then we send the options associated to this section
-		builder.sectionOptions(visibility, headerReferences);
 	}
 
 	/**

@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.parser.internal.state;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
+import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 
 /**
@@ -45,13 +46,15 @@ public class SDocument extends IntentDefaultState {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentDefaultState#beginChapter(int, int)
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentDefaultState#beginChapter(int, int,
+	 *      java.lang.String)
 	 */
 	@Override
-	public IntentGenericState beginChapter(int offset, int declarationLength) {
+	public IntentGenericState beginChapter(int offset, int declarationLength, String title)
+			throws ParseException {
 		IntentChapter chapter = IntentDocumentFactory.eINSTANCE.createIntentChapter();
 		((IntentDocument)currentElement).getChapters().add(chapter);
-		return new SChapter(offset, declarationLength, this, chapter, positionManager);
+		return new SChapter(offset, declarationLength, this, chapter, positionManager, title);
 	}
 
 	/**

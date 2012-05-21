@@ -1,7 +1,5 @@
 Document {
-	Chapter {
-		Overview : Presentation of the uml MetaModel
-
+	Chapter Overview : Presentation of the uml MetaModel {
 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 		sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 		Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -10,9 +8,8 @@ Document {
 		reprehenderit in voluptate _@velit@_ esse cillum dolore eu fugiat
 		@see "uml" nulla pariatur. Excepteur sint occaecat cupidatat non proident,
 		sunt in culpa qui officia deserunt mollit anim id est laborum.
-		Section {
-			The uml MetaModel Storage
 
+		Section The uml MetaModel Storage {
 			We define in this section the storage options of our MetaModel.
 			@M umlStorageDefinition 
 				Resource umlResource {
@@ -30,9 +27,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Comment class.
 
+		Section Presentation of the Comment class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -61,9 +57,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Element class.
 
+		Section Presentation of the Element class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -104,9 +99,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Package class.
 
+		Section Presentation of the Package class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -172,9 +166,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the PackageableElement class.
 
+		Section Presentation of the PackageableElement class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -189,9 +182,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the NamedElement class.
 
+		Section Presentation of the NamedElement class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -248,9 +240,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Dependency class.
 
+		Section Presentation of the Dependency class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -282,9 +273,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DirectedRelationship class.
 
+		Section Presentation of the DirectedRelationship class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -321,9 +311,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Relationship class.
 
+		Section Presentation of the Relationship class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -350,9 +339,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Namespace class.
 
+		Section Presentation of the Namespace class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -417,9 +405,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ElementImport class.
 
+		Section Presentation of the ElementImport class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -462,9 +449,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the PackageImport class.
 
+		Section Presentation of the PackageImport class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -501,9 +487,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Constraint class.
 
+		Section Presentation of the Constraint class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -540,9 +525,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ValueSpecification class.
 
+		Section Presentation of the ValueSpecification class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -557,9 +541,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TypedElement class.
 
+		Section Presentation of the TypedElement class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -581,9 +564,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Type class.
 
+		Section Presentation of the Type class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -608,9 +590,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Association class.
 
+		Section Presentation of the Association class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -668,9 +649,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Classifier class.
 
+		Section Presentation of the Classifier class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -784,9 +764,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the RedefinableElement class.
 
+		Section Presentation of the RedefinableElement class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -828,9 +807,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TemplateableElement class.
 
+		Section Presentation of the TemplateableElement class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -860,9 +838,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TemplateBinding class.
 
+		Section Presentation of the TemplateBinding class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -899,9 +876,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TemplateSignature class.
 
+		Section Presentation of the TemplateSignature class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -941,9 +917,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TemplateParameter class.
 
+		Section Presentation of the TemplateParameter class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -990,9 +965,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ParameterableElement class.
 
+		Section Presentation of the ParameterableElement class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1020,9 +994,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TemplateParameterSubstitution class.
 
+		Section Presentation of the TemplateParameterSubstitution class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1064,9 +1037,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Generalization class.
 
+		Section Presentation of the Generalization class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1108,9 +1080,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the GeneralizationSet class.
 
+		Section Presentation of the GeneralizationSet class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1152,9 +1123,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Feature class.
 
+		Section Presentation of the Feature class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1187,9 +1157,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Substitution class.
 
+		Section Presentation of the Substitution class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1219,9 +1188,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Realization class.
 
+		Section Presentation of the Realization class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1236,9 +1204,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Abstraction class.
 
+		Section Presentation of the Abstraction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1261,9 +1228,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the OpaqueExpression class.
 
+		Section Presentation of the OpaqueExpression class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1309,9 +1275,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Parameter class.
 
+		Section Presentation of the Parameter class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1384,9 +1349,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the MultiplicityElement class.
 
+		Section Presentation of the MultiplicityElement class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1447,9 +1411,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ConnectableElement class.
 
+		Section Presentation of the ConnectableElement class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1477,9 +1440,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ConnectorEnd class.
 
+		Section Presentation of the ConnectorEnd class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1515,9 +1477,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Property class.
 
+		Section Presentation of the Property class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1640,9 +1601,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DeploymentTarget class.
 
+		Section Presentation of the DeploymentTarget class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1675,9 +1635,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Deployment class.
 
+		Section Presentation of the Deployment class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1714,9 +1673,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DeployedArtifact class.
 
+		Section Presentation of the DeployedArtifact class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1731,9 +1689,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DeploymentSpecification class.
 
+		Section Presentation of the DeploymentSpecification class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1768,9 +1725,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Artifact class.
 
+		Section Presentation of the Artifact class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1824,9 +1780,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Manifestation class.
 
+		Section Presentation of the Manifestation class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1849,9 +1804,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Operation class.
 
+		Section Presentation of the Operation class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -1964,9 +1918,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the BehavioralFeature class.
 
+		Section Presentation of the BehavioralFeature class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2025,9 +1978,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Behavior class.
 
+		Section Presentation of the Behavior class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2097,9 +2049,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Class class.
 
+		Section Presentation of the Class class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2165,9 +2116,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the BehavioredClassifier class.
 
+		Section Presentation of the BehavioredClassifier class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2210,9 +2160,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InterfaceRealization class.
 
+		Section Presentation of the InterfaceRealization class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2242,9 +2191,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Interface class.
 
+		Section Presentation of the Interface class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2304,9 +2252,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Reception class.
 
+		Section Presentation of the Reception class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2328,9 +2275,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Signal class.
 
+		Section Presentation of the Signal class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2355,9 +2301,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ProtocolStateMachine class.
 
+		Section Presentation of the ProtocolStateMachine class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2381,9 +2326,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the StateMachine class.
 
+		Section Presentation of the StateMachine class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2427,9 +2371,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Region class.
 
+		Section Presentation of the Region class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2478,9 +2421,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Vertex class.
 
+		Section Presentation of the Vertex class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2521,9 +2463,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Transition class.
 
+		Section Presentation of the Transition class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2590,9 +2531,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Trigger class.
 
+		Section Presentation of the Trigger class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2621,9 +2561,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Event class.
 
+		Section Presentation of the Event class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2638,9 +2577,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Port class.
 
+		Section Presentation of the Port class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2700,9 +2638,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the State class.
 
+		Section Presentation of the State class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2823,9 +2760,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ConnectionPointReference class.
 
+		Section Presentation of the ConnectionPointReference class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2860,9 +2796,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Pseudostate class.
 
+		Section Presentation of the Pseudostate class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2898,9 +2833,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ProtocolConformance class.
 
+		Section Presentation of the ProtocolConformance class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2930,9 +2864,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the EncapsulatedClassifier class.
 
+		Section Presentation of the EncapsulatedClassifier class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -2958,9 +2891,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the StructuredClassifier class.
 
+		Section Presentation of the StructuredClassifier class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3010,9 +2942,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Connector class.
 
+		Section Presentation of the Connector class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3061,9 +2992,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Extension class.
 
+		Section Presentation of the Extension class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3099,9 +3029,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ExtensionEnd class.
 
+		Section Presentation of the ExtensionEnd class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3116,9 +3045,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Stereotype class.
 
+		Section Presentation of the Stereotype class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3142,9 +3070,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Image class.
 
+		Section Presentation of the Image class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3179,9 +3106,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Profile class.
 
+		Section Presentation of the Profile class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3219,9 +3145,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Model class.
 
+		Section Presentation of the Model class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3244,9 +3169,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ParameterSet class.
 
+		Section Presentation of the ParameterSet class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3277,9 +3201,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DataType class.
 
+		Section Presentation of the DataType class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3312,9 +3235,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the OperationTemplateParameter class.
 
+		Section Presentation of the OperationTemplateParameter class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3329,9 +3251,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the StructuralFeature class.
 
+		Section Presentation of the StructuralFeature class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3357,9 +3278,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ConnectableElementTemplateParameter class.
 
+		Section Presentation of the ConnectableElementTemplateParameter class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3374,9 +3294,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CollaborationUse class.
 
+		Section Presentation of the CollaborationUse class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3406,9 +3325,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Collaboration class.
 
+		Section Presentation of the Collaboration class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3432,9 +3350,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the UseCase class.
 
+		Section Presentation of the UseCase class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3478,9 +3395,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Include class.
 
+		Section Presentation of the Include class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3511,9 +3427,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Extend class.
 
+		Section Presentation of the Extend class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3558,9 +3473,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ExtensionPoint class.
 
+		Section Presentation of the ExtensionPoint class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3584,9 +3498,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the RedefinableTemplateSignature class.
 
+		Section Presentation of the RedefinableTemplateSignature class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3627,9 +3540,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ClassifierTemplateParameter class.
 
+		Section Presentation of the ClassifierTemplateParameter class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3659,9 +3571,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the StringExpression class.
 
+		Section Presentation of the StringExpression class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3692,9 +3603,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Expression class.
 
+		Section Presentation of the Expression class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3725,9 +3635,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Usage class.
 
+		Section Presentation of the Usage class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3742,9 +3651,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the PackageMerge class.
 
+		Section Presentation of the PackageMerge class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3774,9 +3682,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ProfileApplication class.
 
+		Section Presentation of the ProfileApplication class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3813,9 +3720,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Enumeration class.
 
+		Section Presentation of the Enumeration class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3840,9 +3746,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the EnumerationLiteral class.
 
+		Section Presentation of the EnumerationLiteral class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3865,9 +3770,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InstanceSpecification class.
 
+		Section Presentation of the InstanceSpecification class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3905,9 +3809,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Slot class.
 
+		Section Presentation of the Slot class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3945,9 +3848,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the PrimitiveType class.
 
+		Section Presentation of the PrimitiveType class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3962,9 +3864,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LiteralSpecification class.
 
+		Section Presentation of the LiteralSpecification class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -3979,9 +3880,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LiteralInteger class.
 
+		Section Presentation of the LiteralInteger class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4005,9 +3905,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LiteralString class.
 
+		Section Presentation of the LiteralString class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4030,9 +3929,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LiteralBoolean class.
 
+		Section Presentation of the LiteralBoolean class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4056,9 +3954,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LiteralNull class.
 
+		Section Presentation of the LiteralNull class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4073,9 +3970,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InstanceValue class.
 
+		Section Presentation of the InstanceValue class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4098,9 +3994,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LiteralUnlimitedNatural class.
 
+		Section Presentation of the LiteralUnlimitedNatural class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4124,9 +4019,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the OpaqueBehavior class.
 
+		Section Presentation of the OpaqueBehavior class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4159,9 +4053,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the FunctionBehavior class.
 
+		Section Presentation of the FunctionBehavior class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4176,9 +4069,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the OpaqueAction class.
 
+		Section Presentation of the OpaqueAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4225,9 +4117,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Action class.
 
+		Section Presentation of the Action class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4286,9 +4177,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ExecutableNode class.
 
+		Section Presentation of the ExecutableNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4312,9 +4202,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ActivityNode class.
 
+		Section Presentation of the ActivityNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4382,9 +4271,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the StructuredActivityNode class.
 
+		Section Presentation of the StructuredActivityNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4431,9 +4319,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ActivityGroup class.
 
+		Section Presentation of the ActivityGroup class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4491,9 +4378,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Activity class.
 
+		Section Presentation of the Activity class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4567,9 +4453,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Variable class.
 
+		Section Presentation of the Variable class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4599,9 +4484,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ActivityEdge class.
 
+		Section Presentation of the ActivityEdge class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4682,9 +4566,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ActivityPartition class.
 
+		Section Presentation of the ActivityPartition class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4746,9 +4629,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InterruptibleActivityRegion class.
 
+		Section Presentation of the InterruptibleActivityRegion class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4777,9 +4659,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ExceptionHandler class.
 
+		Section Presentation of the ExceptionHandler class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4822,9 +4703,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ObjectNode class.
 
+		Section Presentation of the ObjectNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4874,9 +4754,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the OutputPin class.
 
+		Section Presentation of the OutputPin class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4891,9 +4770,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Pin class.
 
+		Section Presentation of the Pin class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4918,9 +4796,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InputPin class.
 
+		Section Presentation of the InputPin class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4935,9 +4812,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CallAction class.
 
+		Section Presentation of the CallAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -4969,9 +4845,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InvocationAction class.
 
+		Section Presentation of the InvocationAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5001,9 +4876,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the SendSignalAction class.
 
+		Section Presentation of the SendSignalAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5033,9 +4907,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CallOperationAction class.
 
+		Section Presentation of the CallOperationAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5065,9 +4938,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CallBehaviorAction class.
 
+		Section Presentation of the CallBehaviorAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5090,9 +4962,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the SequenceNode class.
 
+		Section Presentation of the SequenceNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5117,9 +4988,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ControlNode class.
 
+		Section Presentation of the ControlNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5134,9 +5004,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ControlFlow class.
 
+		Section Presentation of the ControlFlow class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5151,9 +5020,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InitialNode class.
 
+		Section Presentation of the InitialNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5168,9 +5036,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ActivityParameterNode class.
 
+		Section Presentation of the ActivityParameterNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5193,9 +5060,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ValuePin class.
 
+		Section Presentation of the ValuePin class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5219,9 +5085,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Message class.
 
+		Section Presentation of the Message class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5293,9 +5158,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the MessageEnd class.
 
+		Section Presentation of the MessageEnd class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5317,9 +5181,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Interaction class.
 
+		Section Presentation of the Interaction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5373,9 +5236,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InteractionFragment class.
 
+		Section Presentation of the InteractionFragment class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5417,9 +5279,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Lifeline class.
 
+		Section Presentation of the Lifeline class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5465,9 +5326,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the PartDecomposition class.
 
+		Section Presentation of the PartDecomposition class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5482,9 +5342,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InteractionUse class.
 
+		Section Presentation of the InteractionUse class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5522,9 +5381,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Gate class.
 
+		Section Presentation of the Gate class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5539,9 +5397,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the GeneralOrdering class.
 
+		Section Presentation of the GeneralOrdering class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5570,9 +5427,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the OccurrenceSpecification class.
 
+		Section Presentation of the OccurrenceSpecification class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5607,9 +5463,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InteractionOperand class.
 
+		Section Presentation of the InteractionOperand class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5641,9 +5496,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InteractionConstraint class.
 
+		Section Presentation of the InteractionConstraint class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5672,9 +5526,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ExecutionSpecification class.
 
+		Section Presentation of the ExecutionSpecification class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5703,9 +5556,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the StateInvariant class.
 
+		Section Presentation of the StateInvariant class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5729,9 +5581,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ActionExecutionSpecification class.
 
+		Section Presentation of the ActionExecutionSpecification class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5754,9 +5605,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the BehaviorExecutionSpecification class.
 
+		Section Presentation of the BehaviorExecutionSpecification class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5778,9 +5628,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ExecutionEvent class.
 
+		Section Presentation of the ExecutionEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5795,9 +5644,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CreationEvent class.
 
+		Section Presentation of the CreationEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5812,9 +5660,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DestructionEvent class.
 
+		Section Presentation of the DestructionEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5829,9 +5676,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the SendOperationEvent class.
 
+		Section Presentation of the SendOperationEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5854,9 +5700,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the MessageEvent class.
 
+		Section Presentation of the MessageEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5871,9 +5716,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the SendSignalEvent class.
 
+		Section Presentation of the SendSignalEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5896,9 +5740,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the MessageOccurrenceSpecification class.
 
+		Section Presentation of the MessageOccurrenceSpecification class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5913,9 +5756,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ExecutionOccurrenceSpecification class.
 
+		Section Presentation of the ExecutionOccurrenceSpecification class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5938,9 +5780,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReceiveOperationEvent class.
 
+		Section Presentation of the ReceiveOperationEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5963,9 +5804,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReceiveSignalEvent class.
 
+		Section Presentation of the ReceiveSignalEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -5988,9 +5828,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Actor class.
 
+		Section Presentation of the Actor class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6005,9 +5844,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CallEvent class.
 
+		Section Presentation of the CallEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6030,9 +5868,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ChangeEvent class.
 
+		Section Presentation of the ChangeEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6056,9 +5893,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the SignalEvent class.
 
+		Section Presentation of the SignalEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6081,9 +5917,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the AnyReceiveEvent class.
 
+		Section Presentation of the AnyReceiveEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6098,9 +5933,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ForkNode class.
 
+		Section Presentation of the ForkNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6115,9 +5949,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the FlowFinalNode class.
 
+		Section Presentation of the FlowFinalNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6132,9 +5965,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the FinalNode class.
 
+		Section Presentation of the FinalNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6149,9 +5981,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CentralBufferNode class.
 
+		Section Presentation of the CentralBufferNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6166,9 +5997,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the MergeNode class.
 
+		Section Presentation of the MergeNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6183,9 +6013,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DecisionNode class.
 
+		Section Presentation of the DecisionNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6212,9 +6041,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ObjectFlow class.
 
+		Section Presentation of the ObjectFlow class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6255,9 +6083,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ActivityFinalNode class.
 
+		Section Presentation of the ActivityFinalNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6272,9 +6099,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ComponentRealization class.
 
+		Section Presentation of the ComponentRealization class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6304,9 +6130,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Component class.
 
+		Section Presentation of the Component class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6362,9 +6187,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Node class.
 
+		Section Presentation of the Node class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6389,9 +6213,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CommunicationPath class.
 
+		Section Presentation of the CommunicationPath class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6406,9 +6229,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Device class.
 
+		Section Presentation of the Device class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6423,9 +6245,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ExecutionEnvironment class.
 
+		Section Presentation of the ExecutionEnvironment class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6440,9 +6261,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CombinedFragment class.
 
+		Section Presentation of the CombinedFragment class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6482,9 +6302,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Continuation class.
 
+		Section Presentation of the Continuation class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6508,9 +6327,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ConsiderIgnoreFragment class.
 
+		Section Presentation of the ConsiderIgnoreFragment class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6533,9 +6351,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CreateObjectAction class.
 
+		Section Presentation of the CreateObjectAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6565,9 +6382,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DestroyObjectAction class.
 
+		Section Presentation of the DestroyObjectAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6605,9 +6421,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TestIdentityAction class.
 
+		Section Presentation of the TestIdentityAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6645,9 +6460,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReadSelfAction class.
 
+		Section Presentation of the ReadSelfAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6671,9 +6485,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the StructuralFeatureAction class.
 
+		Section Presentation of the StructuralFeatureAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6703,9 +6516,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReadStructuralFeatureAction class.
 
+		Section Presentation of the ReadStructuralFeatureAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6729,9 +6541,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the WriteStructuralFeatureAction class.
 
+		Section Presentation of the WriteStructuralFeatureAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6761,9 +6572,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ClearStructuralFeatureAction class.
 
+		Section Presentation of the ClearStructuralFeatureAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6786,9 +6596,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the RemoveStructuralFeatureValueAction class.
 
+		Section Presentation of the RemoveStructuralFeatureValueAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6818,9 +6627,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the AddStructuralFeatureValueAction class.
 
+		Section Presentation of the AddStructuralFeatureValueAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6850,9 +6658,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LinkAction class.
 
+		Section Presentation of the LinkAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6885,9 +6692,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LinkEndData class.
 
+		Section Presentation of the LinkEndData class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6922,9 +6728,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the QualifierValue class.
 
+		Section Presentation of the QualifierValue class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6953,9 +6758,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReadLinkAction class.
 
+		Section Presentation of the ReadLinkAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -6979,9 +6783,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LinkEndCreationData class.
 
+		Section Presentation of the LinkEndCreationData class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7010,9 +6813,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CreateLinkAction class.
 
+		Section Presentation of the CreateLinkAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7027,9 +6829,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the WriteLinkAction class.
 
+		Section Presentation of the WriteLinkAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7044,9 +6845,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DestroyLinkAction class.
 
+		Section Presentation of the DestroyLinkAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7061,9 +6861,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LinkEndDestructionData class.
 
+		Section Presentation of the LinkEndDestructionData class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7092,9 +6891,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ClearAssociationAction class.
 
+		Section Presentation of the ClearAssociationAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7124,9 +6922,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the BroadcastSignalAction class.
 
+		Section Presentation of the BroadcastSignalAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7149,9 +6946,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the SendObjectAction class.
 
+		Section Presentation of the SendObjectAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7182,9 +6978,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ValueSpecificationAction class.
 
+		Section Presentation of the ValueSpecificationAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7215,9 +7010,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TimeExpression class.
 
+		Section Presentation of the TimeExpression class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7246,9 +7040,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Observation class.
 
+		Section Presentation of the Observation class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7263,9 +7056,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Duration class.
 
+		Section Presentation of the Duration class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7294,9 +7086,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DurationInterval class.
 
+		Section Presentation of the DurationInterval class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7311,9 +7102,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Interval class.
 
+		Section Presentation of the Interval class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7342,9 +7132,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TimeConstraint class.
 
+		Section Presentation of the TimeConstraint class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7367,9 +7156,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the IntervalConstraint class.
 
+		Section Presentation of the IntervalConstraint class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7384,9 +7172,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TimeInterval class.
 
+		Section Presentation of the TimeInterval class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7401,9 +7188,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DurationConstraint class.
 
+		Section Presentation of the DurationConstraint class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7427,9 +7213,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TimeObservation class.
 
+		Section Presentation of the TimeObservation class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7459,9 +7244,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DurationObservation class.
 
+		Section Presentation of the DurationObservation class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7492,9 +7276,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the FinalState class.
 
+		Section Presentation of the FinalState class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7509,9 +7292,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the TimeEvent class.
 
+		Section Presentation of the TimeEvent class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7542,9 +7324,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the VariableAction class.
 
+		Section Presentation of the VariableAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7567,9 +7348,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReadVariableAction class.
 
+		Section Presentation of the ReadVariableAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7593,9 +7373,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the WriteVariableAction class.
 
+		Section Presentation of the WriteVariableAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7619,9 +7398,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ClearVariableAction class.
 
+		Section Presentation of the ClearVariableAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7636,9 +7414,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the AddVariableValueAction class.
 
+		Section Presentation of the AddVariableValueAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7668,9 +7445,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the RemoveVariableValueAction class.
 
+		Section Presentation of the RemoveVariableValueAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7700,9 +7476,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the RaiseExceptionAction class.
 
+		Section Presentation of the RaiseExceptionAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7726,9 +7501,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ActionInputPin class.
 
+		Section Presentation of the ActionInputPin class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7752,9 +7526,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InformationItem class.
 
+		Section Presentation of the InformationItem class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7777,9 +7550,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the InformationFlow class.
 
+		Section Presentation of the InformationFlow class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7842,9 +7614,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReadExtentAction class.
 
+		Section Presentation of the ReadExtentAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7874,9 +7645,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReclassifyObjectAction class.
 
+		Section Presentation of the ReclassifyObjectAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7919,9 +7689,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReadIsClassifiedObjectAction class.
 
+		Section Presentation of the ReadIsClassifiedObjectAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7965,9 +7734,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the StartClassifierBehaviorAction class.
 
+		Section Presentation of the StartClassifierBehaviorAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -7991,9 +7759,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReadLinkObjectEndAction class.
 
+		Section Presentation of the ReadLinkObjectEndAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8030,9 +7797,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReadLinkObjectEndQualifierAction class.
 
+		Section Presentation of the ReadLinkObjectEndQualifierAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8069,9 +7835,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the CreateLinkObjectAction class.
 
+		Section Presentation of the CreateLinkObjectAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8095,9 +7860,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the AcceptEventAction class.
 
+		Section Presentation of the AcceptEventAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8136,9 +7900,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the AcceptCallAction class.
 
+		Section Presentation of the AcceptCallAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8162,9 +7925,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReplyAction class.
 
+		Section Presentation of the ReplyAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8201,9 +7963,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the UnmarshallAction class.
 
+		Section Presentation of the UnmarshallAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8241,9 +8002,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ReduceAction class.
 
+		Section Presentation of the ReduceAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8287,9 +8047,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the StartObjectBehaviorAction class.
 
+		Section Presentation of the StartObjectBehaviorAction class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8313,9 +8072,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the JoinNode class.
 
+		Section Presentation of the JoinNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8346,9 +8104,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the DataStoreNode class.
 
+		Section Presentation of the DataStoreNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8363,9 +8120,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ConditionalNode class.
 
+		Section Presentation of the ConditionalNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8412,9 +8168,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the Clause class.
 
+		Section Presentation of the Clause class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8468,9 +8223,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the LoopNode class.
 
+		Section Presentation of the LoopNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8548,9 +8302,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ExpansionNode class.
 
+		Section Presentation of the ExpansionNode class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8577,9 +8330,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ExpansionRegion class.
 
+		Section Presentation of the ExpansionRegion class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8616,9 +8368,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the ProtocolTransition class.
 
+		Section Presentation of the ProtocolTransition class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8654,9 +8405,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Presentation of the AssociationClass class.
 
+		Section Presentation of the AssociationClass class. {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
 			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
@@ -8671,9 +8421,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The VisibilityKind dataType
 
+		Section The VisibilityKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M VisibilityKinddataTypeDefinition 
 				uml {
@@ -8703,9 +8452,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The TransitionKind dataType
 
+		Section The TransitionKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M TransitionKinddataTypeDefinition 
 				uml {
@@ -8730,9 +8478,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The PseudostateKind dataType
 
+		Section The PseudostateKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M PseudostateKinddataTypeDefinition 
 				uml {
@@ -8792,9 +8539,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The ConnectorKind dataType
 
+		Section The ConnectorKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M ConnectorKinddataTypeDefinition 
 				uml {
@@ -8814,9 +8560,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The CallConcurrencyKind dataType
 
+		Section The CallConcurrencyKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M CallConcurrencyKinddataTypeDefinition 
 				uml {
@@ -8841,9 +8586,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The AggregationKind dataType
 
+		Section The AggregationKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M AggregationKinddataTypeDefinition 
 				uml {
@@ -8868,9 +8612,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The ParameterDirectionKind dataType
 
+		Section The ParameterDirectionKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M ParameterDirectionKinddataTypeDefinition 
 				uml {
@@ -8900,9 +8643,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The ParameterEffectKind dataType
 
+		Section The ParameterEffectKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M ParameterEffectKinddataTypeDefinition 
 				uml {
@@ -8932,9 +8674,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The ObjectNodeOrderingKind dataType
 
+		Section The ObjectNodeOrderingKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M ObjectNodeOrderingKinddataTypeDefinition 
 				uml {
@@ -8964,9 +8705,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The MessageKind dataType
 
+		Section The MessageKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M MessageKinddataTypeDefinition 
 				uml {
@@ -8996,9 +8736,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The MessageSort dataType
 
+		Section The MessageSort dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M MessageSortdataTypeDefinition 
 				uml {
@@ -9038,9 +8777,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The InteractionOperatorKind dataType
 
+		Section The InteractionOperatorKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M InteractionOperatorKinddataTypeDefinition 
 				uml {
@@ -9110,9 +8848,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The ExpansionKind dataType
 
+		Section The ExpansionKind dataType {
 			Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 			@M ExpansionKinddataTypeDefinition 
 				uml {
@@ -9138,13 +8875,10 @@ Document {
 			M@
 		}
 	}
-	Chapter {
-		Abstractness for all the uml Metamodel
-
+	Chapter Abstractness for all the uml Metamodel {
 		In this chapter, we will study the abstractness of each class of the Metamodel.
-		Section {
-			Abstractness for Comment
 
+		Section Abstractness for Comment {
 			We decide to associate the followin abstractness to Comment.
 			@M CommentAbstractness 
 				Comment {
@@ -9152,9 +8886,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Element
 
+		Section Abstractness for Element {
 			We decide to associate the followin abstractness to Element.
 			@M ElementAbstractness 
 				Element {
@@ -9162,9 +8895,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Package
 
+		Section Abstractness for Package {
 			We decide to associate the followin abstractness to Package.
 			@M PackageAbstractness 
 				Package {
@@ -9172,9 +8904,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for PackageableElement
 
+		Section Abstractness for PackageableElement {
 			We decide to associate the followin abstractness to PackageableElement.
 			@M PackageableElementAbstractness 
 				PackageableElement {
@@ -9182,9 +8913,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for NamedElement
 
+		Section Abstractness for NamedElement {
 			We decide to associate the followin abstractness to NamedElement.
 			@M NamedElementAbstractness 
 				NamedElement {
@@ -9192,9 +8922,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Dependency
 
+		Section Abstractness for Dependency {
 			We decide to associate the followin abstractness to Dependency.
 			@M DependencyAbstractness 
 				Dependency {
@@ -9202,9 +8931,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DirectedRelationship
 
+		Section Abstractness for DirectedRelationship {
 			We decide to associate the followin abstractness to DirectedRelationship.
 			@M DirectedRelationshipAbstractness 
 				DirectedRelationship {
@@ -9212,9 +8940,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Relationship
 
+		Section Abstractness for Relationship {
 			We decide to associate the followin abstractness to Relationship.
 			@M RelationshipAbstractness 
 				Relationship {
@@ -9222,9 +8949,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Namespace
 
+		Section Abstractness for Namespace {
 			We decide to associate the followin abstractness to Namespace.
 			@M NamespaceAbstractness 
 				Namespace {
@@ -9232,9 +8958,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ElementImport
 
+		Section Abstractness for ElementImport {
 			We decide to associate the followin abstractness to ElementImport.
 			@M ElementImportAbstractness 
 				ElementImport {
@@ -9242,9 +8967,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for PackageImport
 
+		Section Abstractness for PackageImport {
 			We decide to associate the followin abstractness to PackageImport.
 			@M PackageImportAbstractness 
 				PackageImport {
@@ -9252,9 +8976,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Constraint
 
+		Section Abstractness for Constraint {
 			We decide to associate the followin abstractness to Constraint.
 			@M ConstraintAbstractness 
 				Constraint {
@@ -9262,9 +8985,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ValueSpecification
 
+		Section Abstractness for ValueSpecification {
 			We decide to associate the followin abstractness to ValueSpecification.
 			@M ValueSpecificationAbstractness 
 				ValueSpecification {
@@ -9272,9 +8994,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TypedElement
 
+		Section Abstractness for TypedElement {
 			We decide to associate the followin abstractness to TypedElement.
 			@M TypedElementAbstractness 
 				TypedElement {
@@ -9282,9 +9003,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Type
 
+		Section Abstractness for Type {
 			We decide to associate the followin abstractness to Type.
 			@M TypeAbstractness 
 				Type {
@@ -9292,9 +9012,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Association
 
+		Section Abstractness for Association {
 			We decide to associate the followin abstractness to Association.
 			@M AssociationAbstractness 
 				Association {
@@ -9302,9 +9021,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Classifier
 
+		Section Abstractness for Classifier {
 			We decide to associate the followin abstractness to Classifier.
 			@M ClassifierAbstractness 
 				Classifier {
@@ -9312,9 +9030,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for RedefinableElement
 
+		Section Abstractness for RedefinableElement {
 			We decide to associate the followin abstractness to RedefinableElement.
 			@M RedefinableElementAbstractness 
 				RedefinableElement {
@@ -9322,9 +9039,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TemplateableElement
 
+		Section Abstractness for TemplateableElement {
 			We decide to associate the followin abstractness to TemplateableElement.
 			@M TemplateableElementAbstractness 
 				TemplateableElement {
@@ -9332,9 +9048,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TemplateBinding
 
+		Section Abstractness for TemplateBinding {
 			We decide to associate the followin abstractness to TemplateBinding.
 			@M TemplateBindingAbstractness 
 				TemplateBinding {
@@ -9342,9 +9057,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TemplateSignature
 
+		Section Abstractness for TemplateSignature {
 			We decide to associate the followin abstractness to TemplateSignature.
 			@M TemplateSignatureAbstractness 
 				TemplateSignature {
@@ -9352,9 +9066,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TemplateParameter
 
+		Section Abstractness for TemplateParameter {
 			We decide to associate the followin abstractness to TemplateParameter.
 			@M TemplateParameterAbstractness 
 				TemplateParameter {
@@ -9362,9 +9075,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ParameterableElement
 
+		Section Abstractness for ParameterableElement {
 			We decide to associate the followin abstractness to ParameterableElement.
 			@M ParameterableElementAbstractness 
 				ParameterableElement {
@@ -9372,9 +9084,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TemplateParameterSubstitution
 
+		Section Abstractness for TemplateParameterSubstitution {
 			We decide to associate the followin abstractness to TemplateParameterSubstitution.
 			@M TemplateParameterSubstitutionAbstractness 
 				TemplateParameterSubstitution {
@@ -9382,9 +9093,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Generalization
 
+		Section Abstractness for Generalization {
 			We decide to associate the followin abstractness to Generalization.
 			@M GeneralizationAbstractness 
 				Generalization {
@@ -9392,9 +9102,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for GeneralizationSet
 
+		Section Abstractness for GeneralizationSet {
 			We decide to associate the followin abstractness to GeneralizationSet.
 			@M GeneralizationSetAbstractness 
 				GeneralizationSet {
@@ -9402,9 +9111,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Feature
 
+		Section Abstractness for Feature {
 			We decide to associate the followin abstractness to Feature.
 			@M FeatureAbstractness 
 				Feature {
@@ -9412,9 +9120,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Substitution
 
+		Section Abstractness for Substitution {
 			We decide to associate the followin abstractness to Substitution.
 			@M SubstitutionAbstractness 
 				Substitution {
@@ -9422,9 +9129,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Realization
 
+		Section Abstractness for Realization {
 			We decide to associate the followin abstractness to Realization.
 			@M RealizationAbstractness 
 				Realization {
@@ -9432,9 +9138,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Abstraction
 
+		Section Abstractness for Abstraction {
 			We decide to associate the followin abstractness to Abstraction.
 			@M AbstractionAbstractness 
 				Abstraction {
@@ -9442,9 +9147,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for OpaqueExpression
 
+		Section Abstractness for OpaqueExpression {
 			We decide to associate the followin abstractness to OpaqueExpression.
 			@M OpaqueExpressionAbstractness 
 				OpaqueExpression {
@@ -9452,9 +9156,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Parameter
 
+		Section Abstractness for Parameter {
 			We decide to associate the followin abstractness to Parameter.
 			@M ParameterAbstractness 
 				Parameter {
@@ -9462,9 +9165,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for MultiplicityElement
 
+		Section Abstractness for MultiplicityElement {
 			We decide to associate the followin abstractness to MultiplicityElement.
 			@M MultiplicityElementAbstractness 
 				MultiplicityElement {
@@ -9472,9 +9174,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ConnectableElement
 
+		Section Abstractness for ConnectableElement {
 			We decide to associate the followin abstractness to ConnectableElement.
 			@M ConnectableElementAbstractness 
 				ConnectableElement {
@@ -9482,9 +9183,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ConnectorEnd
 
+		Section Abstractness for ConnectorEnd {
 			We decide to associate the followin abstractness to ConnectorEnd.
 			@M ConnectorEndAbstractness 
 				ConnectorEnd {
@@ -9492,9 +9192,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Property
 
+		Section Abstractness for Property {
 			We decide to associate the followin abstractness to Property.
 			@M PropertyAbstractness 
 				Property {
@@ -9502,9 +9201,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DeploymentTarget
 
+		Section Abstractness for DeploymentTarget {
 			We decide to associate the followin abstractness to DeploymentTarget.
 			@M DeploymentTargetAbstractness 
 				DeploymentTarget {
@@ -9512,9 +9210,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Deployment
 
+		Section Abstractness for Deployment {
 			We decide to associate the followin abstractness to Deployment.
 			@M DeploymentAbstractness 
 				Deployment {
@@ -9522,9 +9219,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DeployedArtifact
 
+		Section Abstractness for DeployedArtifact {
 			We decide to associate the followin abstractness to DeployedArtifact.
 			@M DeployedArtifactAbstractness 
 				DeployedArtifact {
@@ -9532,9 +9228,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DeploymentSpecification
 
+		Section Abstractness for DeploymentSpecification {
 			We decide to associate the followin abstractness to DeploymentSpecification.
 			@M DeploymentSpecificationAbstractness 
 				DeploymentSpecification {
@@ -9542,9 +9237,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Artifact
 
+		Section Abstractness for Artifact {
 			We decide to associate the followin abstractness to Artifact.
 			@M ArtifactAbstractness 
 				Artifact {
@@ -9552,9 +9246,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Manifestation
 
+		Section Abstractness for Manifestation {
 			We decide to associate the followin abstractness to Manifestation.
 			@M ManifestationAbstractness 
 				Manifestation {
@@ -9562,9 +9255,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Operation
 
+		Section Abstractness for Operation {
 			We decide to associate the followin abstractness to Operation.
 			@M OperationAbstractness 
 				Operation {
@@ -9572,9 +9264,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for BehavioralFeature
 
+		Section Abstractness for BehavioralFeature {
 			We decide to associate the followin abstractness to BehavioralFeature.
 			@M BehavioralFeatureAbstractness 
 				BehavioralFeature {
@@ -9582,9 +9273,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Behavior
 
+		Section Abstractness for Behavior {
 			We decide to associate the followin abstractness to Behavior.
 			@M BehaviorAbstractness 
 				Behavior {
@@ -9592,9 +9282,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Class
 
+		Section Abstractness for Class {
 			We decide to associate the followin abstractness to Class.
 			@M ClassAbstractness 
 				Class {
@@ -9602,9 +9291,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for BehavioredClassifier
 
+		Section Abstractness for BehavioredClassifier {
 			We decide to associate the followin abstractness to BehavioredClassifier.
 			@M BehavioredClassifierAbstractness 
 				BehavioredClassifier {
@@ -9612,9 +9300,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InterfaceRealization
 
+		Section Abstractness for InterfaceRealization {
 			We decide to associate the followin abstractness to InterfaceRealization.
 			@M InterfaceRealizationAbstractness 
 				InterfaceRealization {
@@ -9622,9 +9309,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Interface
 
+		Section Abstractness for Interface {
 			We decide to associate the followin abstractness to Interface.
 			@M InterfaceAbstractness 
 				Interface {
@@ -9632,9 +9318,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Reception
 
+		Section Abstractness for Reception {
 			We decide to associate the followin abstractness to Reception.
 			@M ReceptionAbstractness 
 				Reception {
@@ -9642,9 +9327,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Signal
 
+		Section Abstractness for Signal {
 			We decide to associate the followin abstractness to Signal.
 			@M SignalAbstractness 
 				Signal {
@@ -9652,9 +9336,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ProtocolStateMachine
 
+		Section Abstractness for ProtocolStateMachine {
 			We decide to associate the followin abstractness to ProtocolStateMachine.
 			@M ProtocolStateMachineAbstractness 
 				ProtocolStateMachine {
@@ -9662,9 +9345,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for StateMachine
 
+		Section Abstractness for StateMachine {
 			We decide to associate the followin abstractness to StateMachine.
 			@M StateMachineAbstractness 
 				StateMachine {
@@ -9672,9 +9354,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Region
 
+		Section Abstractness for Region {
 			We decide to associate the followin abstractness to Region.
 			@M RegionAbstractness 
 				Region {
@@ -9682,9 +9363,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Vertex
 
+		Section Abstractness for Vertex {
 			We decide to associate the followin abstractness to Vertex.
 			@M VertexAbstractness 
 				Vertex {
@@ -9692,9 +9372,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Transition
 
+		Section Abstractness for Transition {
 			We decide to associate the followin abstractness to Transition.
 			@M TransitionAbstractness 
 				Transition {
@@ -9702,9 +9381,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Trigger
 
+		Section Abstractness for Trigger {
 			We decide to associate the followin abstractness to Trigger.
 			@M TriggerAbstractness 
 				Trigger {
@@ -9712,9 +9390,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Event
 
+		Section Abstractness for Event {
 			We decide to associate the followin abstractness to Event.
 			@M EventAbstractness 
 				Event {
@@ -9722,9 +9399,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Port
 
+		Section Abstractness for Port {
 			We decide to associate the followin abstractness to Port.
 			@M PortAbstractness 
 				Port {
@@ -9732,9 +9408,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for State
 
+		Section Abstractness for State {
 			We decide to associate the followin abstractness to State.
 			@M StateAbstractness 
 				State {
@@ -9742,9 +9417,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ConnectionPointReference
 
+		Section Abstractness for ConnectionPointReference {
 			We decide to associate the followin abstractness to ConnectionPointReference.
 			@M ConnectionPointReferenceAbstractness 
 				ConnectionPointReference {
@@ -9752,9 +9426,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Pseudostate
 
+		Section Abstractness for Pseudostate {
 			We decide to associate the followin abstractness to Pseudostate.
 			@M PseudostateAbstractness 
 				Pseudostate {
@@ -9762,9 +9435,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ProtocolConformance
 
+		Section Abstractness for ProtocolConformance {
 			We decide to associate the followin abstractness to ProtocolConformance.
 			@M ProtocolConformanceAbstractness 
 				ProtocolConformance {
@@ -9772,9 +9444,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for EncapsulatedClassifier
 
+		Section Abstractness for EncapsulatedClassifier {
 			We decide to associate the followin abstractness to EncapsulatedClassifier.
 			@M EncapsulatedClassifierAbstractness 
 				EncapsulatedClassifier {
@@ -9782,9 +9453,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for StructuredClassifier
 
+		Section Abstractness for StructuredClassifier {
 			We decide to associate the followin abstractness to StructuredClassifier.
 			@M StructuredClassifierAbstractness 
 				StructuredClassifier {
@@ -9792,9 +9462,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Connector
 
+		Section Abstractness for Connector {
 			We decide to associate the followin abstractness to Connector.
 			@M ConnectorAbstractness 
 				Connector {
@@ -9802,9 +9471,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Extension
 
+		Section Abstractness for Extension {
 			We decide to associate the followin abstractness to Extension.
 			@M ExtensionAbstractness 
 				Extension {
@@ -9812,9 +9480,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ExtensionEnd
 
+		Section Abstractness for ExtensionEnd {
 			We decide to associate the followin abstractness to ExtensionEnd.
 			@M ExtensionEndAbstractness 
 				ExtensionEnd {
@@ -9822,9 +9489,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Stereotype
 
+		Section Abstractness for Stereotype {
 			We decide to associate the followin abstractness to Stereotype.
 			@M StereotypeAbstractness 
 				Stereotype {
@@ -9832,9 +9498,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Image
 
+		Section Abstractness for Image {
 			We decide to associate the followin abstractness to Image.
 			@M ImageAbstractness 
 				Image {
@@ -9842,9 +9507,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Profile
 
+		Section Abstractness for Profile {
 			We decide to associate the followin abstractness to Profile.
 			@M ProfileAbstractness 
 				Profile {
@@ -9852,9 +9516,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Model
 
+		Section Abstractness for Model {
 			We decide to associate the followin abstractness to Model.
 			@M ModelAbstractness 
 				Model {
@@ -9862,9 +9525,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ParameterSet
 
+		Section Abstractness for ParameterSet {
 			We decide to associate the followin abstractness to ParameterSet.
 			@M ParameterSetAbstractness 
 				ParameterSet {
@@ -9872,9 +9534,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DataType
 
+		Section Abstractness for DataType {
 			We decide to associate the followin abstractness to DataType.
 			@M DataTypeAbstractness 
 				DataType {
@@ -9882,9 +9543,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for OperationTemplateParameter
 
+		Section Abstractness for OperationTemplateParameter {
 			We decide to associate the followin abstractness to OperationTemplateParameter.
 			@M OperationTemplateParameterAbstractness 
 				OperationTemplateParameter {
@@ -9892,9 +9552,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for StructuralFeature
 
+		Section Abstractness for StructuralFeature {
 			We decide to associate the followin abstractness to StructuralFeature.
 			@M StructuralFeatureAbstractness 
 				StructuralFeature {
@@ -9902,9 +9561,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ConnectableElementTemplateParameter
 
+		Section Abstractness for ConnectableElementTemplateParameter {
 			We decide to associate the followin abstractness to ConnectableElementTemplateParameter.
 			@M ConnectableElementTemplateParameterAbstractness 
 				ConnectableElementTemplateParameter {
@@ -9912,9 +9570,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CollaborationUse
 
+		Section Abstractness for CollaborationUse {
 			We decide to associate the followin abstractness to CollaborationUse.
 			@M CollaborationUseAbstractness 
 				CollaborationUse {
@@ -9922,9 +9579,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Collaboration
 
+		Section Abstractness for Collaboration {
 			We decide to associate the followin abstractness to Collaboration.
 			@M CollaborationAbstractness 
 				Collaboration {
@@ -9932,9 +9588,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for UseCase
 
+		Section Abstractness for UseCase {
 			We decide to associate the followin abstractness to UseCase.
 			@M UseCaseAbstractness 
 				UseCase {
@@ -9942,9 +9597,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Include
 
+		Section Abstractness for Include {
 			We decide to associate the followin abstractness to Include.
 			@M IncludeAbstractness 
 				Include {
@@ -9952,9 +9606,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Extend
 
+		Section Abstractness for Extend {
 			We decide to associate the followin abstractness to Extend.
 			@M ExtendAbstractness 
 				Extend {
@@ -9962,9 +9615,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ExtensionPoint
 
+		Section Abstractness for ExtensionPoint {
 			We decide to associate the followin abstractness to ExtensionPoint.
 			@M ExtensionPointAbstractness 
 				ExtensionPoint {
@@ -9972,9 +9624,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for RedefinableTemplateSignature
 
+		Section Abstractness for RedefinableTemplateSignature {
 			We decide to associate the followin abstractness to RedefinableTemplateSignature.
 			@M RedefinableTemplateSignatureAbstractness 
 				RedefinableTemplateSignature {
@@ -9982,9 +9633,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ClassifierTemplateParameter
 
+		Section Abstractness for ClassifierTemplateParameter {
 			We decide to associate the followin abstractness to ClassifierTemplateParameter.
 			@M ClassifierTemplateParameterAbstractness 
 				ClassifierTemplateParameter {
@@ -9992,9 +9642,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for StringExpression
 
+		Section Abstractness for StringExpression {
 			We decide to associate the followin abstractness to StringExpression.
 			@M StringExpressionAbstractness 
 				StringExpression {
@@ -10002,9 +9651,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Expression
 
+		Section Abstractness for Expression {
 			We decide to associate the followin abstractness to Expression.
 			@M ExpressionAbstractness 
 				Expression {
@@ -10012,9 +9660,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Usage
 
+		Section Abstractness for Usage {
 			We decide to associate the followin abstractness to Usage.
 			@M UsageAbstractness 
 				Usage {
@@ -10022,9 +9669,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for PackageMerge
 
+		Section Abstractness for PackageMerge {
 			We decide to associate the followin abstractness to PackageMerge.
 			@M PackageMergeAbstractness 
 				PackageMerge {
@@ -10032,9 +9678,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ProfileApplication
 
+		Section Abstractness for ProfileApplication {
 			We decide to associate the followin abstractness to ProfileApplication.
 			@M ProfileApplicationAbstractness 
 				ProfileApplication {
@@ -10042,9 +9687,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Enumeration
 
+		Section Abstractness for Enumeration {
 			We decide to associate the followin abstractness to Enumeration.
 			@M EnumerationAbstractness 
 				Enumeration {
@@ -10052,9 +9696,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for EnumerationLiteral
 
+		Section Abstractness for EnumerationLiteral {
 			We decide to associate the followin abstractness to EnumerationLiteral.
 			@M EnumerationLiteralAbstractness 
 				EnumerationLiteral {
@@ -10062,9 +9705,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InstanceSpecification
 
+		Section Abstractness for InstanceSpecification {
 			We decide to associate the followin abstractness to InstanceSpecification.
 			@M InstanceSpecificationAbstractness 
 				InstanceSpecification {
@@ -10072,9 +9714,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Slot
 
+		Section Abstractness for Slot {
 			We decide to associate the followin abstractness to Slot.
 			@M SlotAbstractness 
 				Slot {
@@ -10082,9 +9723,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for PrimitiveType
 
+		Section Abstractness for PrimitiveType {
 			We decide to associate the followin abstractness to PrimitiveType.
 			@M PrimitiveTypeAbstractness 
 				PrimitiveType {
@@ -10092,9 +9732,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LiteralSpecification
 
+		Section Abstractness for LiteralSpecification {
 			We decide to associate the followin abstractness to LiteralSpecification.
 			@M LiteralSpecificationAbstractness 
 				LiteralSpecification {
@@ -10102,9 +9741,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LiteralInteger
 
+		Section Abstractness for LiteralInteger {
 			We decide to associate the followin abstractness to LiteralInteger.
 			@M LiteralIntegerAbstractness 
 				LiteralInteger {
@@ -10112,9 +9750,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LiteralString
 
+		Section Abstractness for LiteralString {
 			We decide to associate the followin abstractness to LiteralString.
 			@M LiteralStringAbstractness 
 				LiteralString {
@@ -10122,9 +9759,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LiteralBoolean
 
+		Section Abstractness for LiteralBoolean {
 			We decide to associate the followin abstractness to LiteralBoolean.
 			@M LiteralBooleanAbstractness 
 				LiteralBoolean {
@@ -10132,9 +9768,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LiteralNull
 
+		Section Abstractness for LiteralNull {
 			We decide to associate the followin abstractness to LiteralNull.
 			@M LiteralNullAbstractness 
 				LiteralNull {
@@ -10142,9 +9777,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InstanceValue
 
+		Section Abstractness for InstanceValue {
 			We decide to associate the followin abstractness to InstanceValue.
 			@M InstanceValueAbstractness 
 				InstanceValue {
@@ -10152,9 +9786,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LiteralUnlimitedNatural
 
+		Section Abstractness for LiteralUnlimitedNatural {
 			We decide to associate the followin abstractness to LiteralUnlimitedNatural.
 			@M LiteralUnlimitedNaturalAbstractness 
 				LiteralUnlimitedNatural {
@@ -10162,9 +9795,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for OpaqueBehavior
 
+		Section Abstractness for OpaqueBehavior {
 			We decide to associate the followin abstractness to OpaqueBehavior.
 			@M OpaqueBehaviorAbstractness 
 				OpaqueBehavior {
@@ -10172,9 +9804,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for FunctionBehavior
 
+		Section Abstractness for FunctionBehavior {
 			We decide to associate the followin abstractness to FunctionBehavior.
 			@M FunctionBehaviorAbstractness 
 				FunctionBehavior {
@@ -10182,9 +9813,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for OpaqueAction
 
+		Section Abstractness for OpaqueAction {
 			We decide to associate the followin abstractness to OpaqueAction.
 			@M OpaqueActionAbstractness 
 				OpaqueAction {
@@ -10192,9 +9822,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Action
 
+		Section Abstractness for Action {
 			We decide to associate the followin abstractness to Action.
 			@M ActionAbstractness 
 				Action {
@@ -10202,9 +9831,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ExecutableNode
 
+		Section Abstractness for ExecutableNode {
 			We decide to associate the followin abstractness to ExecutableNode.
 			@M ExecutableNodeAbstractness 
 				ExecutableNode {
@@ -10212,9 +9840,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ActivityNode
 
+		Section Abstractness for ActivityNode {
 			We decide to associate the followin abstractness to ActivityNode.
 			@M ActivityNodeAbstractness 
 				ActivityNode {
@@ -10222,9 +9849,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for StructuredActivityNode
 
+		Section Abstractness for StructuredActivityNode {
 			We decide to associate the followin abstractness to StructuredActivityNode.
 			@M StructuredActivityNodeAbstractness 
 				StructuredActivityNode {
@@ -10232,9 +9858,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ActivityGroup
 
+		Section Abstractness for ActivityGroup {
 			We decide to associate the followin abstractness to ActivityGroup.
 			@M ActivityGroupAbstractness 
 				ActivityGroup {
@@ -10242,9 +9867,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Activity
 
+		Section Abstractness for Activity {
 			We decide to associate the followin abstractness to Activity.
 			@M ActivityAbstractness 
 				Activity {
@@ -10252,9 +9876,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Variable
 
+		Section Abstractness for Variable {
 			We decide to associate the followin abstractness to Variable.
 			@M VariableAbstractness 
 				Variable {
@@ -10262,9 +9885,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ActivityEdge
 
+		Section Abstractness for ActivityEdge {
 			We decide to associate the followin abstractness to ActivityEdge.
 			@M ActivityEdgeAbstractness 
 				ActivityEdge {
@@ -10272,9 +9894,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ActivityPartition
 
+		Section Abstractness for ActivityPartition {
 			We decide to associate the followin abstractness to ActivityPartition.
 			@M ActivityPartitionAbstractness 
 				ActivityPartition {
@@ -10282,9 +9903,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InterruptibleActivityRegion
 
+		Section Abstractness for InterruptibleActivityRegion {
 			We decide to associate the followin abstractness to InterruptibleActivityRegion.
 			@M InterruptibleActivityRegionAbstractness 
 				InterruptibleActivityRegion {
@@ -10292,9 +9912,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ExceptionHandler
 
+		Section Abstractness for ExceptionHandler {
 			We decide to associate the followin abstractness to ExceptionHandler.
 			@M ExceptionHandlerAbstractness 
 				ExceptionHandler {
@@ -10302,9 +9921,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ObjectNode
 
+		Section Abstractness for ObjectNode {
 			We decide to associate the followin abstractness to ObjectNode.
 			@M ObjectNodeAbstractness 
 				ObjectNode {
@@ -10312,9 +9930,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for OutputPin
 
+		Section Abstractness for OutputPin {
 			We decide to associate the followin abstractness to OutputPin.
 			@M OutputPinAbstractness 
 				OutputPin {
@@ -10322,9 +9939,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Pin
 
+		Section Abstractness for Pin {
 			We decide to associate the followin abstractness to Pin.
 			@M PinAbstractness 
 				Pin {
@@ -10332,9 +9948,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InputPin
 
+		Section Abstractness for InputPin {
 			We decide to associate the followin abstractness to InputPin.
 			@M InputPinAbstractness 
 				InputPin {
@@ -10342,9 +9957,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CallAction
 
+		Section Abstractness for CallAction {
 			We decide to associate the followin abstractness to CallAction.
 			@M CallActionAbstractness 
 				CallAction {
@@ -10352,9 +9966,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InvocationAction
 
+		Section Abstractness for InvocationAction {
 			We decide to associate the followin abstractness to InvocationAction.
 			@M InvocationActionAbstractness 
 				InvocationAction {
@@ -10362,9 +9975,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for SendSignalAction
 
+		Section Abstractness for SendSignalAction {
 			We decide to associate the followin abstractness to SendSignalAction.
 			@M SendSignalActionAbstractness 
 				SendSignalAction {
@@ -10372,9 +9984,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CallOperationAction
 
+		Section Abstractness for CallOperationAction {
 			We decide to associate the followin abstractness to CallOperationAction.
 			@M CallOperationActionAbstractness 
 				CallOperationAction {
@@ -10382,9 +9993,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CallBehaviorAction
 
+		Section Abstractness for CallBehaviorAction {
 			We decide to associate the followin abstractness to CallBehaviorAction.
 			@M CallBehaviorActionAbstractness 
 				CallBehaviorAction {
@@ -10392,9 +10002,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for SequenceNode
 
+		Section Abstractness for SequenceNode {
 			We decide to associate the followin abstractness to SequenceNode.
 			@M SequenceNodeAbstractness 
 				SequenceNode {
@@ -10402,9 +10011,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ControlNode
 
+		Section Abstractness for ControlNode {
 			We decide to associate the followin abstractness to ControlNode.
 			@M ControlNodeAbstractness 
 				ControlNode {
@@ -10412,9 +10020,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ControlFlow
 
+		Section Abstractness for ControlFlow {
 			We decide to associate the followin abstractness to ControlFlow.
 			@M ControlFlowAbstractness 
 				ControlFlow {
@@ -10422,9 +10029,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InitialNode
 
+		Section Abstractness for InitialNode {
 			We decide to associate the followin abstractness to InitialNode.
 			@M InitialNodeAbstractness 
 				InitialNode {
@@ -10432,9 +10038,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ActivityParameterNode
 
+		Section Abstractness for ActivityParameterNode {
 			We decide to associate the followin abstractness to ActivityParameterNode.
 			@M ActivityParameterNodeAbstractness 
 				ActivityParameterNode {
@@ -10442,9 +10047,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ValuePin
 
+		Section Abstractness for ValuePin {
 			We decide to associate the followin abstractness to ValuePin.
 			@M ValuePinAbstractness 
 				ValuePin {
@@ -10452,9 +10056,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Message
 
+		Section Abstractness for Message {
 			We decide to associate the followin abstractness to Message.
 			@M MessageAbstractness 
 				Message {
@@ -10462,9 +10065,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for MessageEnd
 
+		Section Abstractness for MessageEnd {
 			We decide to associate the followin abstractness to MessageEnd.
 			@M MessageEndAbstractness 
 				MessageEnd {
@@ -10472,9 +10074,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Interaction
 
+		Section Abstractness for Interaction {
 			We decide to associate the followin abstractness to Interaction.
 			@M InteractionAbstractness 
 				Interaction {
@@ -10482,9 +10083,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InteractionFragment
 
+		Section Abstractness for InteractionFragment {
 			We decide to associate the followin abstractness to InteractionFragment.
 			@M InteractionFragmentAbstractness 
 				InteractionFragment {
@@ -10492,9 +10092,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Lifeline
 
+		Section Abstractness for Lifeline {
 			We decide to associate the followin abstractness to Lifeline.
 			@M LifelineAbstractness 
 				Lifeline {
@@ -10502,9 +10101,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for PartDecomposition
 
+		Section Abstractness for PartDecomposition {
 			We decide to associate the followin abstractness to PartDecomposition.
 			@M PartDecompositionAbstractness 
 				PartDecomposition {
@@ -10512,9 +10110,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InteractionUse
 
+		Section Abstractness for InteractionUse {
 			We decide to associate the followin abstractness to InteractionUse.
 			@M InteractionUseAbstractness 
 				InteractionUse {
@@ -10522,9 +10119,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Gate
 
+		Section Abstractness for Gate {
 			We decide to associate the followin abstractness to Gate.
 			@M GateAbstractness 
 				Gate {
@@ -10532,9 +10128,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for GeneralOrdering
 
+		Section Abstractness for GeneralOrdering {
 			We decide to associate the followin abstractness to GeneralOrdering.
 			@M GeneralOrderingAbstractness 
 				GeneralOrdering {
@@ -10542,9 +10137,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for OccurrenceSpecification
 
+		Section Abstractness for OccurrenceSpecification {
 			We decide to associate the followin abstractness to OccurrenceSpecification.
 			@M OccurrenceSpecificationAbstractness 
 				OccurrenceSpecification {
@@ -10552,9 +10146,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InteractionOperand
 
+		Section Abstractness for InteractionOperand {
 			We decide to associate the followin abstractness to InteractionOperand.
 			@M InteractionOperandAbstractness 
 				InteractionOperand {
@@ -10562,9 +10155,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InteractionConstraint
 
+		Section Abstractness for InteractionConstraint {
 			We decide to associate the followin abstractness to InteractionConstraint.
 			@M InteractionConstraintAbstractness 
 				InteractionConstraint {
@@ -10572,9 +10164,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ExecutionSpecification
 
+		Section Abstractness for ExecutionSpecification {
 			We decide to associate the followin abstractness to ExecutionSpecification.
 			@M ExecutionSpecificationAbstractness 
 				ExecutionSpecification {
@@ -10582,9 +10173,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for StateInvariant
 
+		Section Abstractness for StateInvariant {
 			We decide to associate the followin abstractness to StateInvariant.
 			@M StateInvariantAbstractness 
 				StateInvariant {
@@ -10592,9 +10182,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ActionExecutionSpecification
 
+		Section Abstractness for ActionExecutionSpecification {
 			We decide to associate the followin abstractness to ActionExecutionSpecification.
 			@M ActionExecutionSpecificationAbstractness 
 				ActionExecutionSpecification {
@@ -10602,9 +10191,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for BehaviorExecutionSpecification
 
+		Section Abstractness for BehaviorExecutionSpecification {
 			We decide to associate the followin abstractness to BehaviorExecutionSpecification.
 			@M BehaviorExecutionSpecificationAbstractness 
 				BehaviorExecutionSpecification {
@@ -10612,9 +10200,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ExecutionEvent
 
+		Section Abstractness for ExecutionEvent {
 			We decide to associate the followin abstractness to ExecutionEvent.
 			@M ExecutionEventAbstractness 
 				ExecutionEvent {
@@ -10622,9 +10209,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CreationEvent
 
+		Section Abstractness for CreationEvent {
 			We decide to associate the followin abstractness to CreationEvent.
 			@M CreationEventAbstractness 
 				CreationEvent {
@@ -10632,9 +10218,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DestructionEvent
 
+		Section Abstractness for DestructionEvent {
 			We decide to associate the followin abstractness to DestructionEvent.
 			@M DestructionEventAbstractness 
 				DestructionEvent {
@@ -10642,9 +10227,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for SendOperationEvent
 
+		Section Abstractness for SendOperationEvent {
 			We decide to associate the followin abstractness to SendOperationEvent.
 			@M SendOperationEventAbstractness 
 				SendOperationEvent {
@@ -10652,9 +10236,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for MessageEvent
 
+		Section Abstractness for MessageEvent {
 			We decide to associate the followin abstractness to MessageEvent.
 			@M MessageEventAbstractness 
 				MessageEvent {
@@ -10662,9 +10245,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for SendSignalEvent
 
+		Section Abstractness for SendSignalEvent {
 			We decide to associate the followin abstractness to SendSignalEvent.
 			@M SendSignalEventAbstractness 
 				SendSignalEvent {
@@ -10672,9 +10254,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for MessageOccurrenceSpecification
 
+		Section Abstractness for MessageOccurrenceSpecification {
 			We decide to associate the followin abstractness to MessageOccurrenceSpecification.
 			@M MessageOccurrenceSpecificationAbstractness 
 				MessageOccurrenceSpecification {
@@ -10682,9 +10263,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ExecutionOccurrenceSpecification
 
+		Section Abstractness for ExecutionOccurrenceSpecification {
 			We decide to associate the followin abstractness to ExecutionOccurrenceSpecification.
 			@M ExecutionOccurrenceSpecificationAbstractness 
 				ExecutionOccurrenceSpecification {
@@ -10692,9 +10272,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReceiveOperationEvent
 
+		Section Abstractness for ReceiveOperationEvent {
 			We decide to associate the followin abstractness to ReceiveOperationEvent.
 			@M ReceiveOperationEventAbstractness 
 				ReceiveOperationEvent {
@@ -10702,9 +10281,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReceiveSignalEvent
 
+		Section Abstractness for ReceiveSignalEvent {
 			We decide to associate the followin abstractness to ReceiveSignalEvent.
 			@M ReceiveSignalEventAbstractness 
 				ReceiveSignalEvent {
@@ -10712,9 +10290,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Actor
 
+		Section Abstractness for Actor {
 			We decide to associate the followin abstractness to Actor.
 			@M ActorAbstractness 
 				Actor {
@@ -10722,9 +10299,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CallEvent
 
+		Section Abstractness for CallEvent {
 			We decide to associate the followin abstractness to CallEvent.
 			@M CallEventAbstractness 
 				CallEvent {
@@ -10732,9 +10308,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ChangeEvent
 
+		Section Abstractness for ChangeEvent {
 			We decide to associate the followin abstractness to ChangeEvent.
 			@M ChangeEventAbstractness 
 				ChangeEvent {
@@ -10742,9 +10317,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for SignalEvent
 
+		Section Abstractness for SignalEvent {
 			We decide to associate the followin abstractness to SignalEvent.
 			@M SignalEventAbstractness 
 				SignalEvent {
@@ -10752,9 +10326,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for AnyReceiveEvent
 
+		Section Abstractness for AnyReceiveEvent {
 			We decide to associate the followin abstractness to AnyReceiveEvent.
 			@M AnyReceiveEventAbstractness 
 				AnyReceiveEvent {
@@ -10762,9 +10335,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ForkNode
 
+		Section Abstractness for ForkNode {
 			We decide to associate the followin abstractness to ForkNode.
 			@M ForkNodeAbstractness 
 				ForkNode {
@@ -10772,9 +10344,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for FlowFinalNode
 
+		Section Abstractness for FlowFinalNode {
 			We decide to associate the followin abstractness to FlowFinalNode.
 			@M FlowFinalNodeAbstractness 
 				FlowFinalNode {
@@ -10782,9 +10353,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for FinalNode
 
+		Section Abstractness for FinalNode {
 			We decide to associate the followin abstractness to FinalNode.
 			@M FinalNodeAbstractness 
 				FinalNode {
@@ -10792,9 +10362,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CentralBufferNode
 
+		Section Abstractness for CentralBufferNode {
 			We decide to associate the followin abstractness to CentralBufferNode.
 			@M CentralBufferNodeAbstractness 
 				CentralBufferNode {
@@ -10802,9 +10371,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for MergeNode
 
+		Section Abstractness for MergeNode {
 			We decide to associate the followin abstractness to MergeNode.
 			@M MergeNodeAbstractness 
 				MergeNode {
@@ -10812,9 +10380,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DecisionNode
 
+		Section Abstractness for DecisionNode {
 			We decide to associate the followin abstractness to DecisionNode.
 			@M DecisionNodeAbstractness 
 				DecisionNode {
@@ -10822,9 +10389,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ObjectFlow
 
+		Section Abstractness for ObjectFlow {
 			We decide to associate the followin abstractness to ObjectFlow.
 			@M ObjectFlowAbstractness 
 				ObjectFlow {
@@ -10832,9 +10398,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ActivityFinalNode
 
+		Section Abstractness for ActivityFinalNode {
 			We decide to associate the followin abstractness to ActivityFinalNode.
 			@M ActivityFinalNodeAbstractness 
 				ActivityFinalNode {
@@ -10842,9 +10407,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ComponentRealization
 
+		Section Abstractness for ComponentRealization {
 			We decide to associate the followin abstractness to ComponentRealization.
 			@M ComponentRealizationAbstractness 
 				ComponentRealization {
@@ -10852,9 +10416,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Component
 
+		Section Abstractness for Component {
 			We decide to associate the followin abstractness to Component.
 			@M ComponentAbstractness 
 				Component {
@@ -10862,9 +10425,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Node
 
+		Section Abstractness for Node {
 			We decide to associate the followin abstractness to Node.
 			@M NodeAbstractness 
 				Node {
@@ -10872,9 +10434,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CommunicationPath
 
+		Section Abstractness for CommunicationPath {
 			We decide to associate the followin abstractness to CommunicationPath.
 			@M CommunicationPathAbstractness 
 				CommunicationPath {
@@ -10882,9 +10443,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Device
 
+		Section Abstractness for Device {
 			We decide to associate the followin abstractness to Device.
 			@M DeviceAbstractness 
 				Device {
@@ -10892,9 +10452,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ExecutionEnvironment
 
+		Section Abstractness for ExecutionEnvironment {
 			We decide to associate the followin abstractness to ExecutionEnvironment.
 			@M ExecutionEnvironmentAbstractness 
 				ExecutionEnvironment {
@@ -10902,9 +10461,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CombinedFragment
 
+		Section Abstractness for CombinedFragment {
 			We decide to associate the followin abstractness to CombinedFragment.
 			@M CombinedFragmentAbstractness 
 				CombinedFragment {
@@ -10912,9 +10470,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Continuation
 
+		Section Abstractness for Continuation {
 			We decide to associate the followin abstractness to Continuation.
 			@M ContinuationAbstractness 
 				Continuation {
@@ -10922,9 +10479,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ConsiderIgnoreFragment
 
+		Section Abstractness for ConsiderIgnoreFragment {
 			We decide to associate the followin abstractness to ConsiderIgnoreFragment.
 			@M ConsiderIgnoreFragmentAbstractness 
 				ConsiderIgnoreFragment {
@@ -10932,9 +10488,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CreateObjectAction
 
+		Section Abstractness for CreateObjectAction {
 			We decide to associate the followin abstractness to CreateObjectAction.
 			@M CreateObjectActionAbstractness 
 				CreateObjectAction {
@@ -10942,9 +10497,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DestroyObjectAction
 
+		Section Abstractness for DestroyObjectAction {
 			We decide to associate the followin abstractness to DestroyObjectAction.
 			@M DestroyObjectActionAbstractness 
 				DestroyObjectAction {
@@ -10952,9 +10506,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TestIdentityAction
 
+		Section Abstractness for TestIdentityAction {
 			We decide to associate the followin abstractness to TestIdentityAction.
 			@M TestIdentityActionAbstractness 
 				TestIdentityAction {
@@ -10962,9 +10515,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReadSelfAction
 
+		Section Abstractness for ReadSelfAction {
 			We decide to associate the followin abstractness to ReadSelfAction.
 			@M ReadSelfActionAbstractness 
 				ReadSelfAction {
@@ -10972,9 +10524,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for StructuralFeatureAction
 
+		Section Abstractness for StructuralFeatureAction {
 			We decide to associate the followin abstractness to StructuralFeatureAction.
 			@M StructuralFeatureActionAbstractness 
 				StructuralFeatureAction {
@@ -10982,9 +10533,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReadStructuralFeatureAction
 
+		Section Abstractness for ReadStructuralFeatureAction {
 			We decide to associate the followin abstractness to ReadStructuralFeatureAction.
 			@M ReadStructuralFeatureActionAbstractness 
 				ReadStructuralFeatureAction {
@@ -10992,9 +10542,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for WriteStructuralFeatureAction
 
+		Section Abstractness for WriteStructuralFeatureAction {
 			We decide to associate the followin abstractness to WriteStructuralFeatureAction.
 			@M WriteStructuralFeatureActionAbstractness 
 				WriteStructuralFeatureAction {
@@ -11002,9 +10551,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ClearStructuralFeatureAction
 
+		Section Abstractness for ClearStructuralFeatureAction {
 			We decide to associate the followin abstractness to ClearStructuralFeatureAction.
 			@M ClearStructuralFeatureActionAbstractness 
 				ClearStructuralFeatureAction {
@@ -11012,9 +10560,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for RemoveStructuralFeatureValueAction
 
+		Section Abstractness for RemoveStructuralFeatureValueAction {
 			We decide to associate the followin abstractness to RemoveStructuralFeatureValueAction.
 			@M RemoveStructuralFeatureValueActionAbstractness 
 				RemoveStructuralFeatureValueAction {
@@ -11022,9 +10569,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for AddStructuralFeatureValueAction
 
+		Section Abstractness for AddStructuralFeatureValueAction {
 			We decide to associate the followin abstractness to AddStructuralFeatureValueAction.
 			@M AddStructuralFeatureValueActionAbstractness 
 				AddStructuralFeatureValueAction {
@@ -11032,9 +10578,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LinkAction
 
+		Section Abstractness for LinkAction {
 			We decide to associate the followin abstractness to LinkAction.
 			@M LinkActionAbstractness 
 				LinkAction {
@@ -11042,9 +10587,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LinkEndData
 
+		Section Abstractness for LinkEndData {
 			We decide to associate the followin abstractness to LinkEndData.
 			@M LinkEndDataAbstractness 
 				LinkEndData {
@@ -11052,9 +10596,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for QualifierValue
 
+		Section Abstractness for QualifierValue {
 			We decide to associate the followin abstractness to QualifierValue.
 			@M QualifierValueAbstractness 
 				QualifierValue {
@@ -11062,9 +10605,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReadLinkAction
 
+		Section Abstractness for ReadLinkAction {
 			We decide to associate the followin abstractness to ReadLinkAction.
 			@M ReadLinkActionAbstractness 
 				ReadLinkAction {
@@ -11072,9 +10614,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LinkEndCreationData
 
+		Section Abstractness for LinkEndCreationData {
 			We decide to associate the followin abstractness to LinkEndCreationData.
 			@M LinkEndCreationDataAbstractness 
 				LinkEndCreationData {
@@ -11082,9 +10623,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CreateLinkAction
 
+		Section Abstractness for CreateLinkAction {
 			We decide to associate the followin abstractness to CreateLinkAction.
 			@M CreateLinkActionAbstractness 
 				CreateLinkAction {
@@ -11092,9 +10632,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for WriteLinkAction
 
+		Section Abstractness for WriteLinkAction {
 			We decide to associate the followin abstractness to WriteLinkAction.
 			@M WriteLinkActionAbstractness 
 				WriteLinkAction {
@@ -11102,9 +10641,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DestroyLinkAction
 
+		Section Abstractness for DestroyLinkAction {
 			We decide to associate the followin abstractness to DestroyLinkAction.
 			@M DestroyLinkActionAbstractness 
 				DestroyLinkAction {
@@ -11112,9 +10650,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LinkEndDestructionData
 
+		Section Abstractness for LinkEndDestructionData {
 			We decide to associate the followin abstractness to LinkEndDestructionData.
 			@M LinkEndDestructionDataAbstractness 
 				LinkEndDestructionData {
@@ -11122,9 +10659,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ClearAssociationAction
 
+		Section Abstractness for ClearAssociationAction {
 			We decide to associate the followin abstractness to ClearAssociationAction.
 			@M ClearAssociationActionAbstractness 
 				ClearAssociationAction {
@@ -11132,9 +10668,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for BroadcastSignalAction
 
+		Section Abstractness for BroadcastSignalAction {
 			We decide to associate the followin abstractness to BroadcastSignalAction.
 			@M BroadcastSignalActionAbstractness 
 				BroadcastSignalAction {
@@ -11142,9 +10677,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for SendObjectAction
 
+		Section Abstractness for SendObjectAction {
 			We decide to associate the followin abstractness to SendObjectAction.
 			@M SendObjectActionAbstractness 
 				SendObjectAction {
@@ -11152,9 +10686,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ValueSpecificationAction
 
+		Section Abstractness for ValueSpecificationAction {
 			We decide to associate the followin abstractness to ValueSpecificationAction.
 			@M ValueSpecificationActionAbstractness 
 				ValueSpecificationAction {
@@ -11162,9 +10695,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TimeExpression
 
+		Section Abstractness for TimeExpression {
 			We decide to associate the followin abstractness to TimeExpression.
 			@M TimeExpressionAbstractness 
 				TimeExpression {
@@ -11172,9 +10704,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Observation
 
+		Section Abstractness for Observation {
 			We decide to associate the followin abstractness to Observation.
 			@M ObservationAbstractness 
 				Observation {
@@ -11182,9 +10713,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Duration
 
+		Section Abstractness for Duration {
 			We decide to associate the followin abstractness to Duration.
 			@M DurationAbstractness 
 				Duration {
@@ -11192,9 +10722,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DurationInterval
 
+		Section Abstractness for DurationInterval {
 			We decide to associate the followin abstractness to DurationInterval.
 			@M DurationIntervalAbstractness 
 				DurationInterval {
@@ -11202,9 +10731,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Interval
 
+		Section Abstractness for Interval {
 			We decide to associate the followin abstractness to Interval.
 			@M IntervalAbstractness 
 				Interval {
@@ -11212,9 +10740,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TimeConstraint
 
+		Section Abstractness for TimeConstraint {
 			We decide to associate the followin abstractness to TimeConstraint.
 			@M TimeConstraintAbstractness 
 				TimeConstraint {
@@ -11222,9 +10749,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for IntervalConstraint
 
+		Section Abstractness for IntervalConstraint {
 			We decide to associate the followin abstractness to IntervalConstraint.
 			@M IntervalConstraintAbstractness 
 				IntervalConstraint {
@@ -11232,9 +10758,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TimeInterval
 
+		Section Abstractness for TimeInterval {
 			We decide to associate the followin abstractness to TimeInterval.
 			@M TimeIntervalAbstractness 
 				TimeInterval {
@@ -11242,9 +10767,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DurationConstraint
 
+		Section Abstractness for DurationConstraint {
 			We decide to associate the followin abstractness to DurationConstraint.
 			@M DurationConstraintAbstractness 
 				DurationConstraint {
@@ -11252,9 +10776,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TimeObservation
 
+		Section Abstractness for TimeObservation {
 			We decide to associate the followin abstractness to TimeObservation.
 			@M TimeObservationAbstractness 
 				TimeObservation {
@@ -11262,9 +10785,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DurationObservation
 
+		Section Abstractness for DurationObservation {
 			We decide to associate the followin abstractness to DurationObservation.
 			@M DurationObservationAbstractness 
 				DurationObservation {
@@ -11272,9 +10794,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for FinalState
 
+		Section Abstractness for FinalState {
 			We decide to associate the followin abstractness to FinalState.
 			@M FinalStateAbstractness 
 				FinalState {
@@ -11282,9 +10803,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for TimeEvent
 
+		Section Abstractness for TimeEvent {
 			We decide to associate the followin abstractness to TimeEvent.
 			@M TimeEventAbstractness 
 				TimeEvent {
@@ -11292,9 +10812,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for VariableAction
 
+		Section Abstractness for VariableAction {
 			We decide to associate the followin abstractness to VariableAction.
 			@M VariableActionAbstractness 
 				VariableAction {
@@ -11302,9 +10821,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReadVariableAction
 
+		Section Abstractness for ReadVariableAction {
 			We decide to associate the followin abstractness to ReadVariableAction.
 			@M ReadVariableActionAbstractness 
 				ReadVariableAction {
@@ -11312,9 +10830,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for WriteVariableAction
 
+		Section Abstractness for WriteVariableAction {
 			We decide to associate the followin abstractness to WriteVariableAction.
 			@M WriteVariableActionAbstractness 
 				WriteVariableAction {
@@ -11322,9 +10839,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ClearVariableAction
 
+		Section Abstractness for ClearVariableAction {
 			We decide to associate the followin abstractness to ClearVariableAction.
 			@M ClearVariableActionAbstractness 
 				ClearVariableAction {
@@ -11332,9 +10848,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for AddVariableValueAction
 
+		Section Abstractness for AddVariableValueAction {
 			We decide to associate the followin abstractness to AddVariableValueAction.
 			@M AddVariableValueActionAbstractness 
 				AddVariableValueAction {
@@ -11342,9 +10857,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for RemoveVariableValueAction
 
+		Section Abstractness for RemoveVariableValueAction {
 			We decide to associate the followin abstractness to RemoveVariableValueAction.
 			@M RemoveVariableValueActionAbstractness 
 				RemoveVariableValueAction {
@@ -11352,9 +10866,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for RaiseExceptionAction
 
+		Section Abstractness for RaiseExceptionAction {
 			We decide to associate the followin abstractness to RaiseExceptionAction.
 			@M RaiseExceptionActionAbstractness 
 				RaiseExceptionAction {
@@ -11362,9 +10875,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ActionInputPin
 
+		Section Abstractness for ActionInputPin {
 			We decide to associate the followin abstractness to ActionInputPin.
 			@M ActionInputPinAbstractness 
 				ActionInputPin {
@@ -11372,9 +10884,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InformationItem
 
+		Section Abstractness for InformationItem {
 			We decide to associate the followin abstractness to InformationItem.
 			@M InformationItemAbstractness 
 				InformationItem {
@@ -11382,9 +10893,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for InformationFlow
 
+		Section Abstractness for InformationFlow {
 			We decide to associate the followin abstractness to InformationFlow.
 			@M InformationFlowAbstractness 
 				InformationFlow {
@@ -11392,9 +10902,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReadExtentAction
 
+		Section Abstractness for ReadExtentAction {
 			We decide to associate the followin abstractness to ReadExtentAction.
 			@M ReadExtentActionAbstractness 
 				ReadExtentAction {
@@ -11402,9 +10911,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReclassifyObjectAction
 
+		Section Abstractness for ReclassifyObjectAction {
 			We decide to associate the followin abstractness to ReclassifyObjectAction.
 			@M ReclassifyObjectActionAbstractness 
 				ReclassifyObjectAction {
@@ -11412,9 +10920,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReadIsClassifiedObjectAction
 
+		Section Abstractness for ReadIsClassifiedObjectAction {
 			We decide to associate the followin abstractness to ReadIsClassifiedObjectAction.
 			@M ReadIsClassifiedObjectActionAbstractness 
 				ReadIsClassifiedObjectAction {
@@ -11422,9 +10929,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for StartClassifierBehaviorAction
 
+		Section Abstractness for StartClassifierBehaviorAction {
 			We decide to associate the followin abstractness to StartClassifierBehaviorAction.
 			@M StartClassifierBehaviorActionAbstractness 
 				StartClassifierBehaviorAction {
@@ -11432,9 +10938,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReadLinkObjectEndAction
 
+		Section Abstractness for ReadLinkObjectEndAction {
 			We decide to associate the followin abstractness to ReadLinkObjectEndAction.
 			@M ReadLinkObjectEndActionAbstractness 
 				ReadLinkObjectEndAction {
@@ -11442,9 +10947,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReadLinkObjectEndQualifierAction
 
+		Section Abstractness for ReadLinkObjectEndQualifierAction {
 			We decide to associate the followin abstractness to ReadLinkObjectEndQualifierAction.
 			@M ReadLinkObjectEndQualifierActionAbstractness 
 				ReadLinkObjectEndQualifierAction {
@@ -11452,9 +10956,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for CreateLinkObjectAction
 
+		Section Abstractness for CreateLinkObjectAction {
 			We decide to associate the followin abstractness to CreateLinkObjectAction.
 			@M CreateLinkObjectActionAbstractness 
 				CreateLinkObjectAction {
@@ -11462,9 +10965,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for AcceptEventAction
 
+		Section Abstractness for AcceptEventAction {
 			We decide to associate the followin abstractness to AcceptEventAction.
 			@M AcceptEventActionAbstractness 
 				AcceptEventAction {
@@ -11472,9 +10974,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for AcceptCallAction
 
+		Section Abstractness for AcceptCallAction {
 			We decide to associate the followin abstractness to AcceptCallAction.
 			@M AcceptCallActionAbstractness 
 				AcceptCallAction {
@@ -11482,9 +10983,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReplyAction
 
+		Section Abstractness for ReplyAction {
 			We decide to associate the followin abstractness to ReplyAction.
 			@M ReplyActionAbstractness 
 				ReplyAction {
@@ -11492,9 +10992,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for UnmarshallAction
 
+		Section Abstractness for UnmarshallAction {
 			We decide to associate the followin abstractness to UnmarshallAction.
 			@M UnmarshallActionAbstractness 
 				UnmarshallAction {
@@ -11502,9 +11001,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ReduceAction
 
+		Section Abstractness for ReduceAction {
 			We decide to associate the followin abstractness to ReduceAction.
 			@M ReduceActionAbstractness 
 				ReduceAction {
@@ -11512,9 +11010,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for StartObjectBehaviorAction
 
+		Section Abstractness for StartObjectBehaviorAction {
 			We decide to associate the followin abstractness to StartObjectBehaviorAction.
 			@M StartObjectBehaviorActionAbstractness 
 				StartObjectBehaviorAction {
@@ -11522,9 +11019,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for JoinNode
 
+		Section Abstractness for JoinNode {
 			We decide to associate the followin abstractness to JoinNode.
 			@M JoinNodeAbstractness 
 				JoinNode {
@@ -11532,9 +11028,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for DataStoreNode
 
+		Section Abstractness for DataStoreNode {
 			We decide to associate the followin abstractness to DataStoreNode.
 			@M DataStoreNodeAbstractness 
 				DataStoreNode {
@@ -11542,9 +11037,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ConditionalNode
 
+		Section Abstractness for ConditionalNode {
 			We decide to associate the followin abstractness to ConditionalNode.
 			@M ConditionalNodeAbstractness 
 				ConditionalNode {
@@ -11552,9 +11046,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for Clause
 
+		Section Abstractness for Clause {
 			We decide to associate the followin abstractness to Clause.
 			@M ClauseAbstractness 
 				Clause {
@@ -11562,9 +11055,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for LoopNode
 
+		Section Abstractness for LoopNode {
 			We decide to associate the followin abstractness to LoopNode.
 			@M LoopNodeAbstractness 
 				LoopNode {
@@ -11572,9 +11064,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ExpansionNode
 
+		Section Abstractness for ExpansionNode {
 			We decide to associate the followin abstractness to ExpansionNode.
 			@M ExpansionNodeAbstractness 
 				ExpansionNode {
@@ -11582,9 +11073,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ExpansionRegion
 
+		Section Abstractness for ExpansionRegion {
 			We decide to associate the followin abstractness to ExpansionRegion.
 			@M ExpansionRegionAbstractness 
 				ExpansionRegion {
@@ -11592,9 +11082,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for ProtocolTransition
 
+		Section Abstractness for ProtocolTransition {
 			We decide to associate the followin abstractness to ProtocolTransition.
 			@M ProtocolTransitionAbstractness 
 				ProtocolTransition {
@@ -11602,9 +11091,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			Abstractness for AssociationClass
 
+		Section Abstractness for AssociationClass {
 			We decide to associate the followin abstractness to AssociationClass.
 			@M AssociationClassAbstractness 
 				AssociationClass {

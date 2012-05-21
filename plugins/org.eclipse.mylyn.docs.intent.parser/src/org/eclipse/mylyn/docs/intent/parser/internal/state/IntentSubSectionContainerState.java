@@ -23,7 +23,6 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.markup.markup.Block;
 import org.eclipse.mylyn.docs.intent.markup.markup.StructureElement;
-import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.parser.descriptionunit.DescriptionUnitParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
@@ -42,12 +41,6 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 	private static Map<String, IntentSubSectionContainer> identifiersToSection;
 
 	/**
-	 * Indicates if a title can be associated to this SubSectionContainer (only if its first content is a
-	 * descriptionUnit).
-	 */
-	protected boolean titleCanBeSet;
-
-	/**
 	 * IntentSubSectionContainerState constructor.
 	 * 
 	 * @param offset
@@ -60,25 +53,88 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 	 *            the intentSubSectionContainer currently being parsed
 	 * @param positionManager
 	 *            the positionManager where to register positions
+	 * @param title
+	 *            the element title
+	 * @throws ParseException
+	 *             it the title cannot be parsed
 	 */
 	public IntentSubSectionContainerState(int offset, int declarationLength, IntentGenericState previous,
-			EObject currentElement, IntentPositionManager positionManager) {
+			EObject currentElement, IntentPositionManager positionManager, String title)
+			throws ParseException {
 		super(offset, declarationLength, previous, currentElement, positionManager);
-		this.titleCanBeSet = true;
+		setTitle(title);
+	}
+
+	/**
+	 * Sets the title on the current element.
+	 * 
+	 * @param stringTitle
+	 *            the title
+	 * @throws ParseException
+	 *             if the title cannot be parsed
+	 */
+	private void setTitle(String stringTitle) throws ParseException {
+		if (stringTitle != null) {
+			DescriptionUnit descriptionUnit = new DescriptionUnitParser().parse(stringTitle.trim());
+			for (UnitInstruction title : descriptionUnit.getInstructions()) {
+				if (title instanceof DescriptionBloc) {
+					EList<StructureElement> contents = ((DescriptionBloc)title).getDescriptionBloc()
+							.getContent();
+					if (contents.size() != 1) {
+						throw new ParseException("The title of this section isn't well formed", fOffset,
+								stringTitle.trim().length());
+					}
+
+					Block titleBlock = (Block)contents.get(0);
+
+					((IntentSubSectionContainer)this.currentElement).setTitle(titleBlock);
+					((IntentSubSectionContainer)this.currentElement)
+							.setFormattedTitle(createFormattedTitle(stringTitle));
+				}
+			}
+		}
+	}
+
+	/**
+	 * Returns the formatted title for the given sectionTitle.
+	 * 
+	 * @param title
+	 *            the title to format
+	 * @return the formatted title for the given sectionTitle
+	 * @throws ParseException
+	 *             if the identifier has already been associated to annoter element
+	 */
+	private String createFormattedTitle(String title) throws ParseException {
+		String formattedTitle = "";
+
+		for (int i = 0; i < title.length(); i++) {
+			if (Character.isJavaIdentifierPart(title.charAt(i))) {
+				formattedTitle += title.charAt(i);
+			}
+		}
+
+		if (identifiersToSection == null) {
+			identifiersToSection = new HashMap<String, IntentSubSectionContainer>();
+		}
+		if (identifiersToSection.get(formattedTitle) != null) {
+			// throw new ParseException("This title is already taken.");
+		}
+		identifiersToSection.put(formattedTitle, (IntentSubSectionContainer)this.currentElement);
+		return formattedTitle;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#beginSection(int, int)
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#beginSection(int, int,
+	 *      java.lang.String)
 	 */
 	@Override
-	public IntentGenericState beginSection(int offset, int declarationLength) {
-		// The title of this Section cannot be set anymore
-		this.titleCanBeSet = false;
+	public IntentGenericState beginSection(int offset, int declarationLength, String title)
+			throws ParseException {
 		IntentSection subSection = IntentDocumentFactory.eINSTANCE.createIntentSection();
 		((IntentSubSectionContainer)currentElement).getIntentContent().add(subSection);
-		return new SSection(offset, declarationLength, this, subSection, positionManager);
+		return new SSection(offset, declarationLength, this, subSection, positionManager, title);
 	}
 
 	/**
@@ -94,19 +150,6 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 			throws ParseException {
 		int titleLength = 0;
 		String descriptionUnitDescription = descriptionUnitContent;
-		// If this descriptionUnit defines the title of this Section
-		if (titleCanBeSet()) {
-			// We determine this title
-			if (descriptionUnitContent.trim().indexOf(IntentKeyWords.INTENT_LINEBREAK) != -1) {
-				// FIXME do not consider label & refs as titles (they are deleted)
-				titleLength = createSectionTitle(offset, descriptionUnitContent)
-						+ IntentKeyWords.INTENT_LINEBREAK.length();
-				descriptionUnitDescription = descriptionUnitDescription.trim().substring(
-						descriptionUnitDescription.trim().indexOf(IntentKeyWords.INTENT_LINEBREAK));
-			}
-		}
-		// The title of this Section cannot be set anymore
-		this.titleCanBeSet = false;
 
 		// If the descriptionUnitContent isn't empty
 		if (descriptionUnitDescription.trim().length() > 0) {
@@ -117,78 +160,6 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 		}
 
 		return this;
-	}
-
-	/**
-	 * Creates the handled Section's title from the given descriptionUnit content.
-	 * 
-	 * @param offset
-	 *            the title offset
-	 * @param descriptionUnitContent
-	 *            the descriptionUnit defining the title of the handled section
-	 * @return the title length
-	 * @throws ParseException
-	 *             if the description unit parser detect any parse error
-	 */
-	private int createSectionTitle(int offset, String descriptionUnitContent) throws ParseException {
-		String sectionTitle = descriptionUnitContent.substring(0,
-				descriptionUnitContent.trim().indexOf(IntentKeyWords.INTENT_LINEBREAK));
-		DescriptionUnit descriptionUnit = new DescriptionUnitParser().parse(sectionTitle.trim());
-
-		for (UnitInstruction title : descriptionUnit.getInstructions()) {
-			if (title instanceof DescriptionBloc) {
-				EList<StructureElement> contents = ((DescriptionBloc)title).getDescriptionBloc().getContent();
-				if (contents.size() != 1) {
-					throw new ParseException("The title of this section isn't well formed", offset,
-							sectionTitle.trim().length());
-				}
-
-				Block titleBlock = (Block)contents.get(0);
-				positionManager.setPositionForInstruction(titleBlock, offset, sectionTitle.trim().length());
-
-				((IntentSubSectionContainer)this.currentElement).setTitle(titleBlock);
-				((IntentSubSectionContainer)this.currentElement)
-						.setFormattedTitle(createFormattedTitle(sectionTitle));
-			}
-		}
-		return sectionTitle.length();
-	}
-
-	/**
-	 * Returns the formatted title for the given sectionTitle.
-	 * 
-	 * @param sectionTitle
-	 *            the title to format
-	 * @return the formatted title for the given sectionTitle
-	 * @throws ParseException
-	 *             if the identifier has already been associated to annoter element
-	 */
-	private String createFormattedTitle(String sectionTitle) throws ParseException {
-		String formattedTitle = "";
-
-		for (int i = 0; i < sectionTitle.length(); i++) {
-			if (Character.isJavaIdentifierPart(sectionTitle.charAt(i))) {
-				formattedTitle += sectionTitle.charAt(i);
-			}
-		}
-
-		if (identifiersToSection == null) {
-			identifiersToSection = new HashMap<String, IntentSubSectionContainer>();
-		}
-		if (identifiersToSection.get(formattedTitle) != null) {
-			// throw new ParseException("This title is already taken.");
-		}
-		identifiersToSection.put(formattedTitle, (IntentSubSectionContainer)this.currentElement);
-		return formattedTitle;
-	}
-
-	/**
-	 * Indicates if the title of this section can be set.
-	 * 
-	 * @return true if the title of this section can be set, false otherwise
-	 */
-	private boolean titleCanBeSet() {
-		return titleCanBeSet;
 	}
 
 	/**

@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.internal.state;
 
-import java.util.List;
-
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
@@ -43,23 +41,26 @@ public class SSection extends IntentSubSectionContainerState {
 	 * @param previous
 	 *            the previous state of the parser
 	 * @param section
-	 *            the section currently beeing parsed
+	 *            the section currently being parsed
 	 * @param positionManager
 	 *            the positionManager where to register positions
+	 * @param title
+	 *            the section title
+	 * @throws ParseException
+	 *             if the title cannot be parsed
 	 */
 	public SSection(int offset, int declarationLength, IntentGenericState previous, IntentSection section,
-			IntentPositionManager positionManager) {
-		super(offset, declarationLength, previous, section, positionManager);
+			IntentPositionManager positionManager, String title) throws ParseException {
+		super(offset, declarationLength, previous, section, positionManager, title);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#sectionOptions(java.lang.String,
-	 *      java.util.List)
+	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#sectionOptions(java.lang.String)
 	 */
 	@Override
-	public IntentGenericState sectionOptions(String visibility, List<String> headerReferences) {
+	public IntentGenericState sectionOptions(String visibility) {
 		// Visibility creation
 		if (visibility != null) {
 			if ("hidden".equals(visibility)) {
@@ -70,10 +71,6 @@ public class SSection extends IntentSubSectionContainerState {
 		} else {
 			((IntentSection)currentElement).setVisibility(IntentSectionVisibility.PUBLIC);
 		}
-
-		// Header References creation
-		((IntentSection)currentElement).getImportedHeaders().addAll(headerReferences);
-
 		return this;
 	}
 
@@ -87,8 +84,6 @@ public class SSection extends IntentSubSectionContainerState {
 	public IntentGenericState modelingUnitContent(int offset, int length, String modelingUnitContent)
 			throws ParseException {
 
-		// The title of this Section cannot be set anymore
-		this.titleCanBeSet = false;
 		ModelingUnit modelingUnit = (ModelingUnit)getModelingUnitParser().parseString(offset,
 				modelingUnitContent);
 

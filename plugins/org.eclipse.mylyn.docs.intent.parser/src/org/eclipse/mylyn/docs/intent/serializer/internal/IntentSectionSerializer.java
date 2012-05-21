@@ -13,13 +13,12 @@ package org.eclipse.mylyn.docs.intent.serializer.internal;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility;
-
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.DescriptionUnitSerializer;
 
 /**
- * Serialize an Intent section, and maintain an mapping between serialized elements and their
- * position in their serialized form.
+ * Serialize an Intent section, and maintain an mapping between serialized elements and their position in
+ * their serialized form.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
@@ -42,44 +41,32 @@ public final class IntentSectionSerializer {
 	 * @return the serialized form of the given element
 	 */
 	public static String serialize(IntentSection section, IntentElementSerializer serializer) {
-		String renderedForm = serializer.tabulation();
+		String renderedForm = IntentKeyWords.INTENT_LINEBREAK + serializer.tabulation();
+
 		int initalOffset = serializer.getCurrentOffset();
 
 		// Visibility declaration
 		if (!section.getVisibility().equals(IntentSectionVisibility.PUBLIC)) {
-			renderedForm += section.getVisibility().getLiteral().toLowerCase() + IntentKeyWords.INTENT_WHITESPACE;
+			renderedForm += section.getVisibility().getLiteral().toLowerCase()
+					+ IntentKeyWords.INTENT_WHITESPACE;
 		}
 
 		renderedForm += IntentKeyWords.INTENT_KEYWORD_SECTION;
 		int initialLength = renderedForm.length();
-
-		// Header declarations
-		int numberOfHeaders = section.getImportedHeaders().size();
-		if (numberOfHeaders > 0) {
-			renderedForm += IntentKeyWords.INTENT_WHITESPACE + IntentKeyWords.INTENT_KEYWORD_HEADER_REFERENCE_OPEN;
-			for (int i = 0; i < section.getImportedHeaders().size(); i++) {
-				if (i != 0) {
-					renderedForm += IntentKeyWords.INTENT_KEYWORD_HEADER_REFERENCE_SEPARATOR;
-				}
-				renderedForm += section.getImportedHeaders().get(i);
-			}
-			renderedForm += IntentKeyWords.INTENT_KEYWORD_HEADER_CLOSE;
-		}
-		renderedForm += IntentKeyWords.INTENT_WHITESPACE + IntentKeyWords.INTENT_KEYWORD_OPEN;
-
-		serializer.setCurrentIndendationLevel(serializer.getCurrentIndendationLevel() + 1);
-		renderedForm += IntentKeyWords.INTENT_LINEBREAK;
+		renderedForm += IntentKeyWords.INTENT_WHITESPACE;
 
 		// Section Title
 		if (section.getTitle() != null) {
 			DescriptionUnitSerializer descriptionUnitSerializer = new DescriptionUnitSerializer();
-			renderedForm += serializer.tabulation();
 			renderedForm += descriptionUnitSerializer.serializeSectionTitle(section.getTitle(), initalOffset
-					+ renderedForm.length())
-					+ IntentKeyWords.INTENT_LINEBREAK;
+					+ renderedForm.length());
 			serializer.getPositionManager().addIntentPositionManagerInformations(
 					descriptionUnitSerializer.getPositionManager());
+			renderedForm += IntentKeyWords.INTENT_WHITESPACE;
 		}
+		renderedForm += IntentKeyWords.INTENT_KEYWORD_OPEN;
+
+		serializer.setCurrentIndendationLevel(serializer.getCurrentIndendationLevel() + 1);
 
 		// Contents : subSection and Units
 		for (EObject content : section.getIntentContent()) {
@@ -89,7 +76,8 @@ public final class IntentSectionSerializer {
 		}
 
 		serializer.setCurrentIndendationLevel(serializer.getCurrentIndendationLevel() - 1);
-		renderedForm += serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE + IntentKeyWords.INTENT_LINEBREAK;
+		renderedForm += serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE
+				+ IntentKeyWords.INTENT_LINEBREAK;
 		serializer.setCurrentOffset(initalOffset + renderedForm.length());
 		serializer.setDeclarationPositionForElement(section, initalOffset, renderedForm.length(),
 				initialLength);

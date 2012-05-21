@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.internal.state;
 
-import java.util.List;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
@@ -39,7 +37,10 @@ public class IntentGenericState {
 	 */
 	protected EObject currentElement;
 
-	private int fOffset;
+	/**
+	 * The current offset.
+	 */
+	protected int fOffset;
 
 	private int fDeclarationLength;
 
@@ -100,9 +101,14 @@ public class IntentGenericState {
 	 *            the begin offset of the chapter
 	 * @param declarationLength
 	 *            the declaration length of the chapter
+	 * @param title
+	 *            the section title
 	 * @return the new state of the state machine
+	 * @throws ParseException
+	 *             if the title cannot be parsed
 	 */
-	public IntentGenericState beginChapter(int offset, int declarationLength) {
+	public IntentGenericState beginChapter(int offset, int declarationLength, String title)
+			throws ParseException {
 		return this;
 	}
 
@@ -124,9 +130,14 @@ public class IntentGenericState {
 	 *            the Section offset
 	 * @param declarationLength
 	 *            the Section declaration length
+	 * @param title
+	 *            the section title
 	 * @return the new state of the state machine
+	 * @throws ParseException
+	 *             if the title cannot be parsed
 	 */
-	public IntentGenericState beginSection(int offset, int declarationLength) {
+	public IntentGenericState beginSection(int offset, int declarationLength, String title)
+			throws ParseException {
 		return this;
 	}
 
@@ -135,11 +146,9 @@ public class IntentGenericState {
 	 * 
 	 * @param visibility
 	 *            the visibility of the section ("hidden", "internal" or null)
-	 * @param headerReferences
-	 *            list of textual references to header declarations
 	 * @return the new state of the state machine
 	 */
-	public IntentGenericState sectionOptions(String visibility, List<String> headerReferences) {
+	public IntentGenericState sectionOptions(String visibility) {
 		return this;
 
 	}

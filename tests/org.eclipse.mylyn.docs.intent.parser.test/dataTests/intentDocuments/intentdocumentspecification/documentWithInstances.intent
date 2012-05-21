@@ -1,15 +1,12 @@
 Document {
-	Chapter {
-		Structural element of a @Intent@ document
-
+	Chapter Structural element of a @Intent@ document {
 		In this chapter, we will present the main structural elements of a
 		@label "Intent" "Methodoly inspired from Literate Programming"
 		document. 
 
 		First, let's take a look on the global structure of such documents.
-		Section {
-			Global structure of an Intent document : overview
-
+		
+		Section Global structure of an Intent document : overview {
 			The general purpose of the Intent methodology is to allow 
 			"M.D.A (Model Driven Architecture)":http://en.wikipedia.org/wiki/Model-driven_architecture 
 			architects to structure their models specifications exactly like they would structure a design 
@@ -64,9 +61,8 @@ Document {
 			defined an EPackage called IntentDocumentPackage with the given URI and Prefix. We also declared a Resource
 			containing this package. As we see later, a Resource allowing the developer to manage the storage
 			of the defined models.
-			Section {
-				Global structure of an Intent document : specification
-
+			
+			Section Global structure of an Intent document : specification {
 				In this section, we will design  precisely the global structured defined above. 
 
 				First of all, we define the generic entity IntentStructuredElement, 
@@ -114,9 +110,8 @@ Document {
 																							 
 			}
 		}
-		Section {
-			Specification of an Intent section
-
+		
+		Section Specification of an Intent section {
 			h2. Some styled subsection
 			
 			Now that we _have_ *seen* the @general@ structure of an Intent documentation in the
@@ -137,13 +132,10 @@ Document {
 																						 
 		}
 	}
-	Chapter {
-		The Sample Package
-
+	Chapter The Sample Package {
 		In this chapter, we will present the _@Sample Package@_ specifications.
-		Section {
-
-			Overview
+		
+		Section Overview {
 																						 
 			@M samplePackageOverview 
 				Resource IntentDocumentX {
@@ -157,10 +149,8 @@ Document {
 				}
 			M@
 																						 
-			Section {
+			Section The sample Class specification {
 
-				The sample Class specification
-																							 
 				@M
 					SamplePackage {
 						eClassifiers += new EClass SampleClass {
@@ -197,12 +187,9 @@ Document {
 			}
 		}
 	}
-	Chapter {
-		The Sample Instances 
+	Chapter The Sample Instances {
 		
-		Section {
-			The main sample instances
-			
+		Section The main sample instances {
 			As we used the sample package for these purposes, we had to defined several instances : 
 			
 			@M instanceSample1
@@ -222,9 +209,8 @@ Document {
 				}
 			M@
 		}
-		Section {
-			The sample Instance Storage
-			
+		
+		Section The sample Instance Storage {
 			We stored all the simple instances in the following resource : 
 			
 			@M	instanceResource
