@@ -73,8 +73,10 @@ public class UpdateProblemsViewJob extends Job {
 
 			// Step 1: delete currently defined markers
 			try {
-				project.deleteMarkers("org.eclipse.core.resources.problemmarker", false,
-						IResource.DEPTH_INFINITE);
+				if (project.isAccessible()) {
+					project.deleteMarkers("org.eclipse.core.resources.problemmarker", false,
+							IResource.DEPTH_INFINITE);
+				}
 			} catch (CoreException e) {
 				// Nothing to do, problem view will still reference old markers
 				IntentLogger.getInstance().log(LogType.WARNING,
@@ -102,7 +104,8 @@ public class UpdateProblemsViewJob extends Job {
 	private void createMarkerFromStatus(CompilationStatus status) {
 		IMarker marker = null;
 		try {
-			if (status.eResource() != null && status.getTarget().eResource() != null) {
+			if (project.isAccessible() && status.eResource() != null
+					&& status.getTarget().eResource() != null) {
 				marker = project.createMarker("org.eclipse.core.resources.problemmarker");
 
 				if (status.getSeverity() == CompilationStatusSeverity.WARNING) {
