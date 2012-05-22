@@ -31,7 +31,7 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 
 	private static final String MIDDLE_OF_DESCRIPTION_UNIT = "@see \"TheUnmatchElementConcept\" ). T";
 
-	private static final String A_NEW_DESCRIPTION_UNIT = "\n\n\tA new description Unit";
+	private static final String A_NEW_DESCRIPTION_UNIT = "A new description Unit";
 
 	private static final String LINEBREAK_AND_INDENT = "\n\t";
 
@@ -41,9 +41,9 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 
 	private static final String PREFIX_SECTION_1_2 = "Otherwise, it is a deleted element.";
 
-	private static final String NEW_SECTION_1 = "\n\tSection {\n\t\tSubSection1\n\n\t\tMySubSection\n\t}";
+	private static final String NEW_SECTION_1 = "\n\n\tSection {\n\t\tSubSection1\n\n\t\tMySubSection\n\t}";
 
-	private static final String NEW_SECTION_2 = "\n\tSection {\n\t\tSubSection2\n\n\t\tMySubSection\n\t}";
+	private static final String NEW_SECTION_2 = "\n\n\tSection {\n\t\tSubSection2\n\n\t\tMySubSection\n\t}";
 
 	private static final String PREFIX_CHAPTER_1 = "Document {\n\tChapter {";
 
@@ -77,8 +77,8 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	public void testAddParagraphToMiddleOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
 		// opening an editor on the second chapter
 		editor = openIntentEditor(getIntentChapter(2));
-	
-		genericUpdateTest("The 2.1 Section.\n\t}", A_NEW_DESCRIPTION_UNIT);
+
+		genericUpdateTest("The 2.1 Section.\n\t}", "\n\n\t" + A_NEW_DESCRIPTION_UNIT);
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 		// opening an editor on the second chapter
 		editor = openIntentEditor(getIntentChapter(2));
 
-		genericUpdateTest("Chapter {", A_NEW_DESCRIPTION_UNIT);
+		genericUpdateTest("Chapter {", "\n\t" + A_NEW_DESCRIPTION_UNIT + "\n");
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 		// opening an editor on the second chapter
 		editor = openIntentEditor(getIntentChapter(2));
 
-		genericUpdateTest("The 2.2 Section.\n\t}", A_NEW_DESCRIPTION_UNIT);
+		genericUpdateTest("The 2.2 Section.\n\t}", "\n\n\t" + A_NEW_DESCRIPTION_UNIT);
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 		// opening an editor on the document
 		editor = openIntentEditor();
 
-		genericUpdateTest(PREFIX_CHAPTER_2_FOCUS_DOCUMENT, "\n\n\t\tA new description Unit");
+		genericUpdateTest(PREFIX_CHAPTER_2_FOCUS_DOCUMENT, "\n\t\t" + A_NEW_DESCRIPTION_UNIT + "\n");
 	}
 
 	/**
