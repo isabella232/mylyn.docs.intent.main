@@ -60,7 +60,7 @@ public class UITestSuite extends TestCase {
 		// Match & merge tests
 		final TestSuite compareSuite = new TestSuite("Intent match and merge tests");
 		compareSuite.addTestSuite(IntentMatchEngineTests.class);
-		// clientSuite.addTest(compareSuite);
+		clientSuite.addTest(compareSuite);
 
 		/*
 		 * Intent UI Tests
