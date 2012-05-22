@@ -24,6 +24,8 @@ import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
@@ -55,21 +57,26 @@ public class CreateResourceFix implements ICompletionProposal {
 	public void apply(IDocument document) {
 		// Step 1 : getting the resources to compare URI
 		String workingCopyResourceURI = getWorkingCopyResourceURI();
-		String generatedResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[2])
-				.replace("\"", "");
+		if (syncAnnotation.getAdditionalInformations().toArray().length > 2) {
+			String generatedResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[2])
+					.replace("\"", "");
 
-		// Step 2 : loading the resources
-		ResourceSetImpl rs = new ResourceSetImpl();
-		Resource generatedResource = rs.getResource(URI.createURI(generatedResourceURI), true);
-		Resource workingCopyResource = rs.createResource(URI.createURI(workingCopyResourceURI));
+			// Step 2 : loading the resources
+			ResourceSetImpl rs = new ResourceSetImpl();
+			Resource generatedResource = rs.getResource(URI.createURI(generatedResourceURI), true);
+			Resource workingCopyResource = rs.createResource(URI.createURI(workingCopyResourceURI));
 
-		// Step 3 : Copy the content
-		workingCopyResource.getContents().addAll(EcoreUtil.copyAll(generatedResource.getContents()));
+			// Step 3 : Copy the content
+			workingCopyResource.getContents().addAll(EcoreUtil.copyAll(generatedResource.getContents()));
 
-		try {
-			workingCopyResource.save(null);
-		} catch (IOException e) {
-			IntentUiLogger.logError(e);
+			try {
+				workingCopyResource.save(null);
+			} catch (IOException e) {
+				IntentUiLogger.logError(e);
+			}
+		} else {
+			IntentLogger.getInstance().log(LogType.ERROR,
+					"Invalid URI : cannot create resource at " + syncAnnotation.getAdditionalInformations());
 		}
 	}
 
