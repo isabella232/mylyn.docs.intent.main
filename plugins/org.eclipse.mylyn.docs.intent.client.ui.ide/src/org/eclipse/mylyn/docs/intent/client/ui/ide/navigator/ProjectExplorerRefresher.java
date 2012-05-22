@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
@@ -40,7 +39,7 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
  */
 public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 
-	private static final long UPDATE_PROBLEM_VIEW_JOB_DELAY = 1500;
+	private static final long UPDATE_PROBLEM_VIEW_JOB_DELAY = 200;
 
 	/**
 	 * The project to refresh.
@@ -83,8 +82,12 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 		// listening to the Intent Index
 		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
-		Resource repositoryIntentResource = repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH);
-		listenedElements.addAll(repositoryIntentResource.getContents());
+
+		listenedElements.addAll(repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH)
+				.getContents());
+		listenedElements.addAll(repositoryAdapter.getResource(IntentLocations.COMPILATION_STATUS_INDEX_PATH)
+				.getContents());
+
 		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements,
 				repositoryAdapter);
 		handler.addNotificator(listenedElementsNotificator);

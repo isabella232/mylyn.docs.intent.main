@@ -60,6 +60,8 @@ public final class CompilerCreator {
 		// Step 1 : initialize the listened types
 		Set<EStructuralFeature> listenedTypes = new LinkedHashSet<EStructuralFeature>();
 
+		listenedTypes.add(IntentDocumentPackage.eINSTANCE.getIntentSection_ModelingUnits());
+
 		for (EObject obj : ModelingUnitPackage.eINSTANCE.eContents()) {
 			if (obj instanceof EClass) {
 				listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass((EClass)obj));
