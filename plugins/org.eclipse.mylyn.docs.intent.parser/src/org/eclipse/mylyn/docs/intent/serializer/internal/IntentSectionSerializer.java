@@ -41,7 +41,7 @@ public final class IntentSectionSerializer {
 	 * @return the serialized form of the given element
 	 */
 	public static String serialize(IntentSection section, IntentElementSerializer serializer) {
-		String renderedForm = IntentKeyWords.INTENT_LINEBREAK + serializer.tabulation();
+		String renderedForm = serializer.tabulation();
 
 		int initalOffset = serializer.getCurrentOffset();
 
@@ -70,7 +70,9 @@ public final class IntentSectionSerializer {
 
 		// Contents : subSection and Units
 		for (EObject content : section.getIntentContent()) {
-
+			if (content instanceof IntentSection) {
+				renderedForm += IntentKeyWords.INTENT_LINEBREAK;
+			}
 			serializer.setCurrentOffset(initalOffset + renderedForm.length());
 			renderedForm += serializer.serialize(content);
 		}

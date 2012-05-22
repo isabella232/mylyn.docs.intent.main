@@ -12,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.serializer.internal;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
+import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.DescriptionUnitSerializer;
 
@@ -62,6 +63,9 @@ public final class IntentChapterSerializer {
 
 		// Content : subsection and Description Units
 		for (EObject content : chapter.getIntentContent()) {
+			if (content instanceof IntentSection) {
+				renderedForm += IntentKeyWords.INTENT_LINEBREAK;
+			}
 			serializer.setCurrentOffset(initalOffset + renderedForm.length());
 			renderedForm += serializer.serialize(content);
 		}
