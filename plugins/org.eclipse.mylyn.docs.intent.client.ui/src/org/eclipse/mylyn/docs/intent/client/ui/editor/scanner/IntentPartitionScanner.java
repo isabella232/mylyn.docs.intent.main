@@ -69,11 +69,15 @@ public class IntentPartitionScanner extends RuleBasedPartitionScanner {
 	}
 
 	private void computeStructuralContentRules(List<IRule> rules) {
-		rules.add(new SingleLineRule(IntentKeyWords.INTENT_KEYWORD_DOCUMENT,
+		// TODO redefine pattern rule to disable recognition of pattern start only
+		rules.add(new SingleLineRule(IntentKeyWords.INTENT_KEYWORD_DOCUMENT
+				+ IntentKeyWords.INTENT_WHITESPACE, IntentKeyWords.INTENT_KEYWORD_OPEN, new Token(
+				INTENT_STRUCTURAL_CONTENT)));
+		rules.add(new SingleLineRule(
+				IntentKeyWords.INTENT_KEYWORD_CHAPTER + IntentKeyWords.INTENT_WHITESPACE,
 				IntentKeyWords.INTENT_KEYWORD_OPEN, new Token(INTENT_STRUCTURAL_CONTENT)));
-		rules.add(new SingleLineRule(IntentKeyWords.INTENT_KEYWORD_CHAPTER,
-				IntentKeyWords.INTENT_KEYWORD_OPEN, new Token(INTENT_STRUCTURAL_CONTENT)));
-		rules.add(new SingleLineRule(IntentKeyWords.INTENT_KEYWORD_SECTION,
+		rules.add(new SingleLineRule(
+				IntentKeyWords.INTENT_KEYWORD_SECTION + IntentKeyWords.INTENT_WHITESPACE,
 				IntentKeyWords.INTENT_KEYWORD_OPEN, new Token(INTENT_STRUCTURAL_CONTENT)));
 	}
 }
