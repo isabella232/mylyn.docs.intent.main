@@ -22,6 +22,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening.OpenEditor
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.EcoreTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.JavaTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.refresher.RefresherTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentRepositoryStructurerTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 
@@ -73,6 +74,7 @@ public class UITestSuite extends TestCase {
 		// basicTestSuite.addTestSuite(MultipleReplacementInEditorTest.class);
 		basicTestSuite.addTestSuite(IntentRepositoryStructurerTest.class);
 		basicTestSuite.addTestSuite(ProjectTest.class);
+		basicTestSuite.addTestSuite(RefresherTest.class);
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
 		uiTestSuite.addTest(basicTestSuite);
 
