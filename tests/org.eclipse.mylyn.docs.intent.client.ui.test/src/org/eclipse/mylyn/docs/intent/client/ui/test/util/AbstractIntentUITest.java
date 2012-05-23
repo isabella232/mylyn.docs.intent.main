@@ -11,19 +11,23 @@
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
 import com.google.common.collect.Sets;
+import com.google.common.collect.Sets.SetView;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -537,4 +541,69 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		}
 	}
 
+	/**
+	 * Checks that the structure of the repository is conform to the given specifications.
+	 * 
+	 * @param expectedChapterNames
+	 *            the list of chapters resources that should be in the repository
+	 * @param expectedSectionNames
+	 *            the list of section resources that should be in the repository
+	 * @param expectedMUNames
+	 *            the list of Modeling unit resources that should be in the repository
+	 */
+	protected void checkRepositoryStructure(Collection<String> expectedChapterNames,
+			Collection<String> expectedSectionNames, Collection<String> expectedMUNames) {
+		IFolder documentFolder = intentProject.getFolder(".repository/" + IntentLocations.INTENT_FOLDER);
+		try {
+			documentFolder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+
+			IFolder chapterFolder = documentFolder.getFolder("IntentChapter");
+			IFolder sectionFolder = documentFolder.getFolder("IntentSection");
+			IFolder MUFolder = documentFolder.getFolder("ModelingUnit");
+
+			checkFolderStructure(chapterFolder, Sets.newLinkedHashSet(expectedChapterNames));
+			checkFolderStructure(sectionFolder, Sets.newLinkedHashSet(expectedSectionNames));
+			checkFolderStructure(MUFolder, Sets.newLinkedHashSet(expectedMUNames));
+		} catch (CoreException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * Ensures that the given folder contains exactly the given expected resources.
+	 * 
+	 * @param folder
+	 *            the folder to check
+	 * @param expectedResourcesName
+	 *            the expected resources
+	 */
+	protected void checkFolderStructure(IFolder folder, Set<String> expectedResourcesName) {
+		Set<String> folderContent = Sets.newLinkedHashSet();
+		try {
+			if (folder.exists()) {
+				// Collecting the resources contained by the given folder
+				for (IResource resource : folder.members()) {
+					folderContent.add(resource.getName().replace("." + resource.getFileExtension(), ""));
+				}
+
+				// Checking that the folder does not contain more resource that the expected ones
+				SetView<String> folderDifferences = Sets.difference(folderContent, expectedResourcesName);
+				assertTrue("The " + folder.getName() + " folder contains too many " + folder.getName()
+						+ "(s) (" + folderDifferences.size() + "): " + folderDifferences.toString(),
+						folderDifferences.isEmpty());
+
+				// Checking that the folder does contain all expected ones
+				folderDifferences = Sets.difference(expectedResourcesName, folderContent);
+				assertTrue(
+						"The " + folder.getName() + " folder should contain the following "
+								+ folder.getName() + "(s): " + folderDifferences.toString(),
+						folderDifferences.isEmpty());
+			} else {
+				assertEquals("The folder " + folder.getName() + " does not contain any content ",
+						Sets.<String> newLinkedHashSet(), expectedResourcesName);
+			}
+		} catch (CoreException e) {
+			fail(e.getMessage());
+		}
+	}
 }

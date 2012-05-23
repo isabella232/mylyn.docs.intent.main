@@ -17,14 +17,20 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+import org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.impl.DescriptionUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
+import org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerFactory;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl;
+import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -93,30 +99,55 @@ public class IntentIndexerPackageImpl extends EPackageImpl implements IntentInde
 	 * @generated
 	 */
 	public static IntentIndexerPackage init() {
-		if (isInited) return (IntentIndexerPackage)EPackage.Registry.INSTANCE.getEPackage(IntentIndexerPackage.eNS_URI);
+		if (isInited)
+			return (IntentIndexerPackage)EPackage.Registry.INSTANCE.getEPackage(IntentIndexerPackage.eNS_URI);
 
 		// Obtain or create and register package
-		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new IntentIndexerPackageImpl());
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.get(eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI)
+				: new IntentIndexerPackageImpl());
 
 		isInited = true;
 
 		// Initialize simple dependencies
-		ModelingUnitPackage.eINSTANCE.eClass();
-		GenericUnitPackage.eINSTANCE.eClass();
-		IntentDocumentPackage.eINSTANCE.eClass();
-		CompilerPackage.eINSTANCE.eClass();
-		DescriptionUnitPackage.eINSTANCE.eClass();
+		MarkupPackage.eINSTANCE.eClass();
+
+		// Obtain or create and register interdependencies
+		ModelingUnitPackageImpl theModelingUnitPackage = (ModelingUnitPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(ModelingUnitPackage.eNS_URI) instanceof ModelingUnitPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(ModelingUnitPackage.eNS_URI) : ModelingUnitPackage.eINSTANCE);
+		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
+		IntentDocumentPackageImpl theIntentDocumentPackage = (IntentDocumentPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentDocumentPackage.eNS_URI) instanceof IntentDocumentPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentDocumentPackage.eNS_URI) : IntentDocumentPackage.eINSTANCE);
+		CompilerPackageImpl theCompilerPackage = (CompilerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(CompilerPackage.eNS_URI) instanceof CompilerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(CompilerPackage.eNS_URI) : CompilerPackage.eINSTANCE);
+		DescriptionUnitPackageImpl theDescriptionUnitPackage = (DescriptionUnitPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(DescriptionUnitPackage.eNS_URI) instanceof DescriptionUnitPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(DescriptionUnitPackage.eNS_URI) : DescriptionUnitPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theIntentIndexerPackage.createPackageContents();
+		theModelingUnitPackage.createPackageContents();
+		theGenericUnitPackage.createPackageContents();
+		theIntentDocumentPackage.createPackageContents();
+		theCompilerPackage.createPackageContents();
+		theDescriptionUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theIntentIndexerPackage.initializePackageContents();
+		theModelingUnitPackage.initializePackageContents();
+		theGenericUnitPackage.initializePackageContents();
+		theIntentDocumentPackage.initializePackageContents();
+		theCompilerPackage.initializePackageContents();
+		theDescriptionUnitPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theIntentIndexerPackage.freeze();
 
-  
 		// Update the registry and return the package
 		EPackage.Registry.INSTANCE.put(IntentIndexerPackage.eNS_URI, theIntentIndexerPackage);
 		return theIntentIndexerPackage;
@@ -218,7 +249,8 @@ public class IntentIndexerPackageImpl extends EPackageImpl implements IntentInde
 	 * @generated
 	 */
 	public void createPackageContents() {
-		if (isCreated) return;
+		if (isCreated)
+			return;
 		isCreated = true;
 
 		// Create classes and their features
@@ -250,7 +282,8 @@ public class IntentIndexerPackageImpl extends EPackageImpl implements IntentInde
 	 * @generated
 	 */
 	public void initializePackageContents() {
-		if (isInitialized) return;
+		if (isInitialized)
+			return;
 		isInitialized = true;
 
 		// Initialize package
@@ -259,7 +292,8 @@ public class IntentIndexerPackageImpl extends EPackageImpl implements IntentInde
 		setNsURI(eNS_URI);
 
 		// Obtain other dependent packages
-		IntentDocumentPackage theIntentDocumentPackage = (IntentDocumentPackage)EPackage.Registry.INSTANCE.getEPackage(IntentDocumentPackage.eNS_URI);
+		IntentDocumentPackage theIntentDocumentPackage = (IntentDocumentPackage)EPackage.Registry.INSTANCE
+				.getEPackage(IntentDocumentPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -268,20 +302,38 @@ public class IntentIndexerPackageImpl extends EPackageImpl implements IntentInde
 		// Add supertypes to classes
 
 		// Initialize classes and features; add operations and parameters
-		initEClass(intentIndexEClass, IntentIndex.class, "IntentIndex", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getIntentIndex_Entries(), this.getIntentIndexEntry(), null, "entries", null, 0, -1, IntentIndex.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(intentIndexEClass, IntentIndex.class, "IntentIndex", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIntentIndex_Entries(), this.getIntentIndexEntry(), null, "entries", null, 0, -1,
+				IntentIndex.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(intentIndexEntryEClass, IntentIndexEntry.class, "IntentIndexEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIntentIndexEntry_Name(), ecorePackage.getEString(), "name", null, 0, 1, IntentIndexEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIntentIndexEntry_Type(), this.getINDEX_ENTRY_TYPE(), "type", null, 1, 1, IntentIndexEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIntentIndexEntry_ReferencedElement(), theIntentDocumentPackage.getIntentGenericElement(), null, "referencedElement", null, 0, 1, IntentIndexEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getIntentIndexEntry_SubEntries(), this.getIntentIndexEntry(), null, "subEntries", null, 0, -1, IntentIndexEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(intentIndexEntryEClass, IntentIndexEntry.class, "IntentIndexEntry", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIntentIndexEntry_Name(), ecorePackage.getEString(), "name", null, 0, 1,
+				IntentIndexEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIntentIndexEntry_Type(), this.getINDEX_ENTRY_TYPE(), "type", null, 1, 1,
+				IntentIndexEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIntentIndexEntry_ReferencedElement(),
+				theIntentDocumentPackage.getIntentGenericElement(),
+				theIntentDocumentPackage.getIntentGenericElement_IndexEntry(), "referencedElement", null, 0,
+				1, IntentIndexEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIntentIndexEntry_SubEntries(), this.getIntentIndexEntry(), null, "subEntries",
+				null, 0, -1, IntentIndexEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
-		initEEnum(indeX_ENTRY_TYPEEEnum, org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE.class, "INDEX_ENTRY_TYPE");
-		addEEnumLiteral(indeX_ENTRY_TYPEEEnum, org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE.INTENT_DOCUMENT);
-		addEEnumLiteral(indeX_ENTRY_TYPEEEnum, org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE.INTENT_CHAPTER);
-		addEEnumLiteral(indeX_ENTRY_TYPEEEnum, org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE.INTENT_SECTION);
+		initEEnum(indeX_ENTRY_TYPEEEnum, org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE.class,
+				"INDEX_ENTRY_TYPE");
+		addEEnumLiteral(indeX_ENTRY_TYPEEEnum,
+				org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE.INTENT_DOCUMENT);
+		addEEnumLiteral(indeX_ENTRY_TYPEEEnum,
+				org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE.INTENT_CHAPTER);
+		addEEnumLiteral(indeX_ENTRY_TYPEEEnum,
+				org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE.INTENT_SECTION);
 
 		// Create resource
 		createResource(eNS_URI);

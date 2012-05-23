@@ -11,20 +11,11 @@
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.google.common.collect.Sets.SetView;
 
-import java.util.Collection;
-import java.util.Set;
-
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 
 /**
  * Ensures that the internal structure of the Intent Repository is correctly maintained.
@@ -104,65 +95,6 @@ public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 		waitForAllOperationsInUIThread();
 		checkRepositoryStructure(Lists.newArrayList("1", "2", "3", "4"),
 				Lists.newArrayList("1.1", "2.1", "3.1", "3.2", "4.1"), Lists.newArrayList("2.1.1"));
-	}
-
-	/**
-	 * Checks that the structure of the repository is conform to the given specifications.
-	 * 
-	 * @param expectedChapterNames
-	 *            the list of chapters resources that should be in the repository
-	 * @param expectedSectionNames
-	 *            the list of section resources that should be in the repository
-	 * @param expectedMUNames
-	 *            the list of Modeling unit resources that should be in the repository
-	 */
-	protected void checkRepositoryStructure(Collection<String> expectedChapterNames,
-			Collection<String> expectedSectionNames, Collection<String> expectedMUNames) {
-		IFolder documentFolder = intentProject.getFolder(".repository/" + IntentLocations.INTENT_FOLDER);
-		try {
-			documentFolder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-
-			IFolder chapterFolder = documentFolder.getFolder("IntentChapter");
-			IFolder sectionFolder = documentFolder.getFolder("IntentSection");
-			IFolder MUFolder = documentFolder.getFolder("ModelingUnit");
-
-			checkFolderStructure(chapterFolder, Sets.newLinkedHashSet(expectedChapterNames));
-			checkFolderStructure(sectionFolder, Sets.newLinkedHashSet(expectedSectionNames));
-			checkFolderStructure(MUFolder, Sets.newLinkedHashSet(expectedMUNames));
-		} catch (CoreException e) {
-			fail(e.getMessage());
-		}
-	}
-
-	/**
-	 * Ensures that the given folder contains exactly the given expected resources.
-	 * 
-	 * @param folder
-	 *            the folder to check
-	 * @param expectedResourcesName
-	 *            the expected resources
-	 */
-	protected void checkFolderStructure(IFolder folder, Set<String> expectedResourcesName) {
-		Set<String> folderContent = Sets.newLinkedHashSet();
-		try {
-			// Collecting the resources contained by the given folder
-			for (IResource resource : folder.members()) {
-				folderContent.add(resource.getName().replace("." + resource.getFileExtension(), ""));
-			}
-
-			// Checking that the folder does not contain more resource that the expected ones
-			SetView<String> folderDifferences = Sets.difference(folderContent, expectedResourcesName);
-			assertTrue("The " + folder.getName() + " folder contains too many " + folder.getName() + "(s) ("
-					+ folderDifferences.size() + "): " + folderDifferences.toString(),
-					folderDifferences.isEmpty());
-
-			// Checking that the folder does contain all expected ones
-			folderDifferences = Sets.difference(expectedResourcesName, folderContent);
-			assertTrue("The " + folder.getName() + " folder should contain the following " + folder.getName()
-					+ "(s): " + folderDifferences.toString(), folderDifferences.isEmpty());
-		} catch (CoreException e) {
-			fail(e.getMessage());
-		}
 	}
 
 }

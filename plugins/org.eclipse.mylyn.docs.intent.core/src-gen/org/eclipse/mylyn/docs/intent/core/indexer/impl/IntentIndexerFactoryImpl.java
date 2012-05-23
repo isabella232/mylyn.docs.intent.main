@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.mylyn.docs.intent.core.indexer.*;
 import org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
@@ -37,12 +38,12 @@ public class IntentIndexerFactoryImpl extends EFactoryImpl implements IntentInde
 	 */
 	public static IntentIndexerFactory init() {
 		try {
-			IntentIndexerFactory theIntentIndexerFactory = (IntentIndexerFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/intent/indexer/0.7"); 
+			IntentIndexerFactory theIntentIndexerFactory = (IntentIndexerFactory)EPackage.Registry.INSTANCE
+					.getEFactory("http://www.eclipse.org/intent/indexer/0.7");
 			if (theIntentIndexerFactory != null) {
 				return theIntentIndexerFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new IntentIndexerFactoryImpl();
@@ -66,10 +67,13 @@ public class IntentIndexerFactoryImpl extends EFactoryImpl implements IntentInde
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case IntentIndexerPackage.INTENT_INDEX: return (EObject)createIntentIndex();
-			case IntentIndexerPackage.INTENT_INDEX_ENTRY: return (EObject)createIntentIndexEntry();
+			case IntentIndexerPackage.INTENT_INDEX:
+				return (EObject)createIntentIndex();
+			case IntentIndexerPackage.INTENT_INDEX_ENTRY:
+				return (EObject)createIntentIndexEntry();
 			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '" + eClass.getName()
+						+ "' is not a valid classifier");
 		}
 	}
 
@@ -84,7 +88,8 @@ public class IntentIndexerFactoryImpl extends EFactoryImpl implements IntentInde
 			case IntentIndexerPackage.INDEX_ENTRY_TYPE:
 				return createINDEX_ENTRY_TYPEFromString(eDataType, initialValue);
 			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName()
+						+ "' is not a valid classifier");
 		}
 	}
 
@@ -99,7 +104,8 @@ public class IntentIndexerFactoryImpl extends EFactoryImpl implements IntentInde
 			case IntentIndexerPackage.INDEX_ENTRY_TYPE:
 				return convertINDEX_ENTRY_TYPEToString(eDataType, instanceValue);
 			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName()
+						+ "' is not a valid classifier");
 		}
 	}
 
@@ -130,7 +136,9 @@ public class IntentIndexerFactoryImpl extends EFactoryImpl implements IntentInde
 	 */
 	public INDEX_ENTRY_TYPE createINDEX_ENTRY_TYPEFromString(EDataType eDataType, String initialValue) {
 		INDEX_ENTRY_TYPE result = INDEX_ENTRY_TYPE.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		if (result == null)
+			throw new IllegalArgumentException("The value '" + initialValue
+					+ "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 

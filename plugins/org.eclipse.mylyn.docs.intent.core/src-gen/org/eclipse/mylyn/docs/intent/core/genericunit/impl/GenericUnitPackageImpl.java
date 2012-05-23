@@ -33,6 +33,8 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
+import org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
@@ -169,6 +171,9 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		CompilerPackageImpl theCompilerPackage = (CompilerPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) instanceof CompilerPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) : CompilerPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		DescriptionUnitPackageImpl theDescriptionUnitPackage = (DescriptionUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) instanceof DescriptionUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) : DescriptionUnitPackage.eINSTANCE);
@@ -178,6 +183,7 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		theModelingUnitPackage.createPackageContents();
 		theIntentDocumentPackage.createPackageContents();
 		theCompilerPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
@@ -185,6 +191,7 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		theModelingUnitPackage.initializePackageContents();
 		theIntentDocumentPackage.initializePackageContents();
 		theCompilerPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed

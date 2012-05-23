@@ -92,6 +92,7 @@ public interface IntentIndexEntry extends CDOObject {
 
 	/**
 	 * Returns the value of the '<em><b>Referenced Element</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement#getIndexEntry <em>Index Entry</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Referenced Element</em>' reference list isn't clear,
@@ -101,7 +102,8 @@ public interface IntentIndexEntry extends CDOObject {
 	 * @return the value of the '<em>Referenced Element</em>' reference.
 	 * @see #setReferencedElement(IntentGenericElement)
 	 * @see org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage#getIntentIndexEntry_ReferencedElement()
-	 * @model
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement#getIndexEntry
+	 * @model opposite="indexEntry"
 	 * @generated
 	 */
 	IntentGenericElement getReferencedElement();

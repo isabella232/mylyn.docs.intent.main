@@ -27,7 +27,8 @@ public interface IntentIndexerFactory extends EFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	IntentIndexerFactory eINSTANCE = org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerFactoryImpl.init();
+	IntentIndexerFactory eINSTANCE = org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerFactoryImpl
+			.init();
 
 	/**
 	 * Returns a new object of class '<em>Intent Index</em>'.

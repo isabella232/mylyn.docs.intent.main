@@ -25,6 +25,8 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
+import org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
@@ -123,6 +125,9 @@ public class DescriptionUnitPackageImpl extends EPackageImpl implements Descript
 		CompilerPackageImpl theCompilerPackage = (CompilerPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) instanceof CompilerPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) : CompilerPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theDescriptionUnitPackage.createPackageContents();
@@ -130,6 +135,7 @@ public class DescriptionUnitPackageImpl extends EPackageImpl implements Descript
 		theGenericUnitPackage.createPackageContents();
 		theIntentDocumentPackage.createPackageContents();
 		theCompilerPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theDescriptionUnitPackage.initializePackageContents();
@@ -137,6 +143,7 @@ public class DescriptionUnitPackageImpl extends EPackageImpl implements Descript
 		theGenericUnitPackage.initializePackageContents();
 		theIntentDocumentPackage.initializePackageContents();
 		theCompilerPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theDescriptionUnitPackage.freeze();

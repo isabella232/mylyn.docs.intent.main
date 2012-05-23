@@ -5,6 +5,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="IntentGenericElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="compilationStatus" upperBound="-1"
         eType="ecore:EClass compilerInformations.ecore#//CompilationStatus" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="indexEntry" eType="ecore:EClass indexer.ecore#//IntentIndexEntry"
+        eOpposite="indexer.ecore#//IntentIndexEntry/referencedElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntentStructuredElement" abstract="true"
       eSuperTypes="../../org.eclipse.mylyn.docs.intent.markup/model/markup.ecore#//Section #//IntentGenericElement">

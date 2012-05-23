@@ -78,6 +78,15 @@ public interface DescriptionUnitPackage extends EPackage {
 	int DESCRIPTION_UNIT__COMPILATION_STATUS = GenericUnitPackage.GENERIC_UNIT__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DESCRIPTION_UNIT__INDEX_ENTRY = GenericUnitPackage.GENERIC_UNIT__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Instructions</b></em>' containment reference list.
 	 * <!-- begin-user-doc
 	 * --> <!-- end-user-doc -->
@@ -123,6 +132,15 @@ public interface DescriptionUnitPackage extends EPackage {
 	int DESCRIPTION_UNIT_INSTRUCTION__COMPILATION_STATUS = GenericUnitPackage.UNIT_INSTRUCTION__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DESCRIPTION_UNIT_INSTRUCTION__INDEX_ENTRY = GenericUnitPackage.UNIT_INSTRUCTION__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
@@ -166,6 +184,15 @@ public interface DescriptionUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int DESCRIPTION_BLOC__COMPILATION_STATUS = DESCRIPTION_UNIT_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DESCRIPTION_BLOC__INDEX_ENTRY = DESCRIPTION_UNIT_INSTRUCTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.

@@ -38,6 +38,8 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
+import org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
@@ -228,6 +230,9 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		IntentDocumentPackageImpl theIntentDocumentPackage = (IntentDocumentPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) instanceof IntentDocumentPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) : IntentDocumentPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		DescriptionUnitPackageImpl theDescriptionUnitPackage = (DescriptionUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) instanceof DescriptionUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) : DescriptionUnitPackage.eINSTANCE);
@@ -237,6 +242,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		theModelingUnitPackage.createPackageContents();
 		theGenericUnitPackage.createPackageContents();
 		theIntentDocumentPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
@@ -244,6 +250,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		theModelingUnitPackage.initializePackageContents();
 		theGenericUnitPackage.initializePackageContents();
 		theIntentDocumentPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed

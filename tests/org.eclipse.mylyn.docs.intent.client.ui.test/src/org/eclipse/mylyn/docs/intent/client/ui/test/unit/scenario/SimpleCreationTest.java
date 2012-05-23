@@ -10,10 +10,14 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
+import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
 
 /**
  * <p>
@@ -50,17 +54,32 @@ public class SimpleCreationTest extends AbstractIntentUITest {
 	 * Ensures that abstract resources are not synchronized.
 	 */
 	public void testSimpleModifications() {
-		repositoryListener.startRecording();
-
 		document.set("Document {\n\tChapter Title {\n\t\tText\n\n\t\tSection Title {\n\t\t\tText\n\t\t}\n\t}\n\tChapter Title {\n\t\tText\n\t}\n}");
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
-		waitForSynchronizer();
 
 		document.set("Document {\n\tChapter C1 {\n\t\tText\n\n\t\tSection C11 {\n\t\t\tText\n\t\t}\n\t}\n\tChapter C2 {\n\t\tText\n\t}\n}");
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
-		waitForSynchronizer();
+	}
+
+	/**
+	 * Ensures that abstract resources are not synchronized.
+	 * 
+	 * @throws IOException
+	 */
+	public void testSectionRenamming() throws IOException {
+		String intialContent = FileToStringConverter.getFileAsString(new File(
+				"data/unit/documents/scenario/simpleCreation/simpleCreation01.intent"));
+		String renamedContent = FileToStringConverter.getFileAsString(new File(
+				"data/unit/documents/scenario/simpleCreation/simpleCreation02.intent"));
+		document.set(intialContent);
+		editor.doSave(new NullProgressMonitor());
+		waitForAllOperationsInUIThread();
+
+		document.set(renamedContent);
+		editor.doSave(new NullProgressMonitor());
+		waitForAllOperationsInUIThread();
 	}
 
 	/**

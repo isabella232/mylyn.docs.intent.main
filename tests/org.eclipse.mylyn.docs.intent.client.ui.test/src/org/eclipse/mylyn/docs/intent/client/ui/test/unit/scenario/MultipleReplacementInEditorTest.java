@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
@@ -58,89 +57,25 @@ public class MultipleReplacementInEditorTest extends AbstractIntentUITest {
 	/**
 	 * Ensures that pasting several times content inside the document does not cause any issue.
 	 * 
-	 * @throws IOException
+	 * @throws Exception
 	 */
-	public void testCopyPastBigDocuments() throws IOException {
+	public void testCopyPastBigDocuments() throws Exception {
 		String smallDocumentContent = FileToStringConverter.getFileAsString(new File(INTENT_SMALL_DOC_PATH));
 		String bigDocumentContent = FileToStringConverter.getFileAsString(new File(INTENT_BIG_DOC_PATH));
 
-		document.set(bigDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
+		for (int i = 1; i < 200; i++) {
+			System.err.println(i);
+			document.set(bigDocumentContent);
+			editor.doSave(new NullProgressMonitor());
 
-		document.set(smallDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(bigDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(smallDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(bigDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(smallDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(bigDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(smallDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(bigDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(smallDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(bigDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(smallDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
+			document.set(smallDocumentContent);
+			editor.doSave(new NullProgressMonitor());
+			if (i % 15 == 0) {
+				waitForAllOperationsInUIThread();
+				tearDown();
+				setUp();
+			}
+		}
 	}
 
-	/**
-	 * Ensures that pasting several times content inside the document, and removing all document content does
-	 * not cause any issue.
-	 * 
-	 * @throws IOException
-	 */
-	public void testCopyPastAndEmptyDocuments() throws IOException {
-		String smallDocumentContent = FileToStringConverter.getFileAsString(new File(INTENT_SMALL_DOC_PATH));
-		String bigDocumentContent = FileToStringConverter.getFileAsString(new File(INTENT_BIG_DOC_PATH));
-
-		document.set(bigDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set("Document {\n}");
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(bigDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set(smallDocumentContent);
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-
-		document.set("Document {\n}");
-		editor.doSave(new NullProgressMonitor());
-		waitForAllOperationsInUIThread();
-	}
 }

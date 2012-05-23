@@ -87,13 +87,22 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_GENERIC_ELEMENT__COMPILATION_STATUS = 0;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_GENERIC_ELEMENT__INDEX_ENTRY = 1;
+
+	/**
 	 * The number of structural features of the '<em>Intent Generic Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_GENERIC_ELEMENT_FEATURE_COUNT = 1;
+	int INTENT_GENERIC_ELEMENT_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.AnnotationMappingImpl <em>Annotation Mapping</em>}' class.
@@ -161,13 +170,22 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_STRUCTURED_ELEMENT__COMPILATION_STATUS = MarkupPackage.SECTION_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_STRUCTURED_ELEMENT__INDEX_ENTRY = MarkupPackage.SECTION_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Formatted Title</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE = MarkupPackage.SECTION_FEATURE_COUNT + 1;
+	int INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE = MarkupPackage.SECTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Intent Structured Element</em>' class.
@@ -176,7 +194,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT = MarkupPackage.SECTION_FEATURE_COUNT + 2;
+	int INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT = MarkupPackage.SECTION_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' attribute.
@@ -363,6 +381,15 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_DOCUMENT__COMPILATION_STATUS = INTENT_STRUCTURED_ELEMENT__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_DOCUMENT__INDEX_ENTRY = INTENT_STRUCTURED_ELEMENT__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Formatted Title</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -452,6 +479,15 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @ordered
 	 */
 	int INTENT_SUB_SECTION_CONTAINER__COMPILATION_STATUS = INTENT_STRUCTURED_ELEMENT__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SUB_SECTION_CONTAINER__INDEX_ENTRY = INTENT_STRUCTURED_ELEMENT__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Formatted Title</b></em>' attribute.
@@ -563,6 +599,15 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_CHAPTER__COMPILATION_STATUS = INTENT_SUB_SECTION_CONTAINER__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_CHAPTER__INDEX_ENTRY = INTENT_SUB_SECTION_CONTAINER__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Formatted Title</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -670,6 +715,15 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @ordered
 	 */
 	int INTENT_SECTION__COMPILATION_STATUS = INTENT_SUB_SECTION_CONTAINER__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__INDEX_ENTRY = INTENT_SUB_SECTION_CONTAINER__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Formatted Title</b></em>' attribute.
@@ -865,6 +919,17 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getIntentGenericElement_CompilationStatus();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement#getIndexEntry <em>Index Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Index Entry</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement#getIndexEntry()
+	 * @see #getIntentGenericElement()
+	 * @generated
+	 */
+	EReference getIntentGenericElement_IndexEntry();
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Annotation Mapping</em>}'.
@@ -1260,6 +1325,14 @@ public interface IntentDocumentPackage extends EPackage {
 		 */
 		EReference INTENT_GENERIC_ELEMENT__COMPILATION_STATUS = eINSTANCE
 				.getIntentGenericElement_CompilationStatus();
+
+		/**
+		 * The meta object literal for the '<em><b>Index Entry</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INTENT_GENERIC_ELEMENT__INDEX_ENTRY = eINSTANCE.getIntentGenericElement_IndexEntry();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.AnnotationMappingImpl <em>Annotation Mapping</em>}' class.
