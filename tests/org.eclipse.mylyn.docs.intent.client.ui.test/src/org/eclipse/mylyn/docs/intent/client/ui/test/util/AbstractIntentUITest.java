@@ -73,7 +73,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 
 	public static final String INTENT_NEW_PROJECT_WIZARD_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.wizards.NewIntentProjectWizard";
 
-	private static final String INTENT_EMPTY_DOC_PATH = "data/unit/documents/scenario/empty.intent";
+	private static final String INTENT_EMPTY_DOC_PATH = "data/unit/documents/empty.intent";
 
 	protected IProject intentProject;
 
