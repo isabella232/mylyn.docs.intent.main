@@ -1,0 +1,12 @@
+Document {
+	Chapter c {
+		Section s {
+			@M
+				mu {
+				}
+			M@
+	
+			Text
+		}
+	}
+}

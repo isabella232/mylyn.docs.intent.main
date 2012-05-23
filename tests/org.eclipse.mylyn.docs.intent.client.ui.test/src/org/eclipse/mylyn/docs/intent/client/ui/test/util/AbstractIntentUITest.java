@@ -73,6 +73,8 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 
 	public static final String INTENT_NEW_PROJECT_WIZARD_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.wizards.NewIntentProjectWizard";
 
+	private static final String INTENT_EMPTY_DOC_PATH = "data/unit/documents/scenario/empty.intent";
+
 	protected IProject intentProject;
 
 	protected Repository repository;
@@ -199,6 +201,16 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		// Step 2 : creating the client
 		this.repositoryListener = new RepositoryListenerForTests();
 		repositoryListener.addRepositoryObjectHandler(handler);
+	}
+
+	/**
+	 * Creates a new empty Intent project.
+	 * 
+	 * @param projectName
+	 *            the intent project name
+	 */
+	protected void setUpIntentProject(final String projectName) {
+		setUpIntentProject(projectName, INTENT_EMPTY_DOC_PATH, false);
 	}
 
 	/**

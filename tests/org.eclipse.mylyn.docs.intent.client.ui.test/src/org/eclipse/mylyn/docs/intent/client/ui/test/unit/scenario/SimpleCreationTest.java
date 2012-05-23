@@ -23,7 +23,6 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class SimpleCreationTest extends AbstractIntentUITest {
-	private static final String INTENT_DOC_PATH = "data/unit/documents/scenario/empty.intent";
 
 	private IntentEditor editor;
 
@@ -39,7 +38,7 @@ public class SimpleCreationTest extends AbstractIntentUITest {
 		super.setUp();
 
 		// Step 1 : Generic set up
-		setUpIntentProject("intentProject", INTENT_DOC_PATH, true);
+		setUpIntentProject("intentProject");
 
 		// Step 2 : open an editor on the root document
 		editor = openIntentEditor();
@@ -50,17 +49,13 @@ public class SimpleCreationTest extends AbstractIntentUITest {
 	 * Ensures that abstract resources are not synchronized.
 	 */
 	public void testSimpleModifications() {
-		repositoryListener.startRecording();
-
 		document.set("Document {\n\tChapter Title {\n\t\tText\n\n\t\tSection Title {\n\t\t\tText\n\t\t}\n\t}\n\tChapter Title {\n\t\tText\n\t}\n}");
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
-		waitForSynchronizer();
 
 		document.set("Document {\n\tChapter C1 {\n\t\tText\n\n\t\tSection C11 {\n\t\t\tText\n\t\t}\n\t}\n\tChapter C2 {\n\t\tText\n\t}\n}");
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
-		waitForSynchronizer();
 	}
 
 	/**
