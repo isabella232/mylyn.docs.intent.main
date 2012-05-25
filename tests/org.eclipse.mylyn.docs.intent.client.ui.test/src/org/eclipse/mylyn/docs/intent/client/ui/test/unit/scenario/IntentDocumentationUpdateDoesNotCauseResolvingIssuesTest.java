@@ -25,7 +25,7 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils.FileToStri
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest extends AbstractIntentUITest {
-	private static final String INTENT_DOC_PATH = "data/unit/documents/scenario/empty.intent";
+	private static final String INTENT_DOC_PATH = "data/unit/documents/empty.intent";
 
 	private IntentEditor editor;
 
