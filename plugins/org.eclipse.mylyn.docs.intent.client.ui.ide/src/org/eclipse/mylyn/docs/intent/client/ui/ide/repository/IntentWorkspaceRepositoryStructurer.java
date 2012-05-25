@@ -97,8 +97,10 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 			}
 
 			// Do the same for all children of the given element
-			for (EObject containedElement : Sets.newLinkedHashSet(element.eContents())) {
+			for (EObject containedElement : element.eContents()) {
+				if (!containedElement.eIsProxy()){
 				splitElementAndSons(workspaceAdapter, containedElement);
+				}
 			}
 		}
 	}

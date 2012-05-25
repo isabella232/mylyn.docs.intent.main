@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.navigator;
 
-import com.google.common.collect.Lists;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -87,10 +85,9 @@ public class UpdateProblemsViewJob extends Job {
 			CompilationStatusManager statusManager = (CompilationStatusManager)statusResource.getContents()
 					.iterator().next();
 
-			for (CompilationStatus status : Lists.newArrayList(statusManager.getCompilationStatusList())) {
+			for (CompilationStatus status : statusManager.getCompilationStatusList()) {
 				createMarkerFromStatus(status);
 			}
-
 		}
 		return Status.OK_STATUS;
 	}
@@ -104,8 +101,8 @@ public class UpdateProblemsViewJob extends Job {
 	private void createMarkerFromStatus(CompilationStatus status) {
 		IMarker marker = null;
 		try {
-			if (project.isAccessible() && status.eResource() != null
-					&& status.getTarget().eResource() != null) {
+			if (project.isAccessible() && !status.eIsProxy() && !status.getTarget().eIsProxy()
+					&& status.eResource() != null && status.getTarget().eResource() != null) {
 				marker = project.createMarker("org.eclipse.core.resources.problemmarker");
 
 				if (status.getSeverity() == CompilationStatusSeverity.WARNING) {

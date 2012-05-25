@@ -340,7 +340,7 @@ public class ModelingUnitCompiler {
 	 */
 	protected void validateGeneratedElement() {
 
-		for (EObject generatedElement : Sets.newLinkedHashSet(informationHolder.getCurrentCreatedElements())) {
+		for (EObject generatedElement : informationHolder.getCurrentCreatedElements()) {
 			GeneratedElementValidator validator = new GeneratedElementValidator(
 					informationHolder.getInstructionByCreatedElement(generatedElement), generatedElement);
 			Diagnostic diagnostic;

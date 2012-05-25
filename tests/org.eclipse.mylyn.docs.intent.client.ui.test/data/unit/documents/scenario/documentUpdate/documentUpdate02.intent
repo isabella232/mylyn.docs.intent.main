@@ -1,0 +1,26 @@
+Document {
+	Chapter Chapter1 {
+		Text
+
+		Section section42 {
+			Text
+			
+			@M
+				Resource myResource {
+					URI = "platform:/resource/intentTest/truc.ecore";
+					content += thing;
+				}
+				new EPackage thing {}
+			M@
+			
+		}
+
+		Section section23 {			
+			@M
+				thing {
+				}
+			M@
+			
+		}
+	}
+}
