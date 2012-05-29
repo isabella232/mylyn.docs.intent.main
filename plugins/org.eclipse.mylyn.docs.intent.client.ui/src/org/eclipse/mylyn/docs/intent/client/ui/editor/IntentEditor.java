@@ -44,8 +44,6 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.QuickOutlineInform
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.ModelingUnitDecorationPainter;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
-import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
-import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
@@ -366,13 +364,13 @@ public class IntentEditor extends TextEditor {
 	}
 
 	/**
-	 * Sets the highlighted range of this text editor to the specified element ; if the element isn't in the
-	 * given editor, open a new editor.
+	 * Sets the highlighted range of this text editor to the specified element.
 	 * 
 	 * @param element
 	 *            the element to highlight
+	 * @return true if the editor was able to select the given element, false otherwise
 	 */
-	public void selectRange(final IntentGenericElement element) {
+	public boolean selectRange(final IntentGenericElement element) {
 
 		// We first get the position of the element
 		ParsedElementPosition position = null;
@@ -410,15 +408,10 @@ public class IntentEditor extends TextEditor {
 				setHighlightRange(begin, length, true);
 				selectAndReveal(begin, length);
 				widget.setRedraw(true);
-			} else {
-
-				if (element != null) {
-					Repository repository = ((IntentDocumentProvider)this.getDocumentProvider())
-							.getRepository();
-					IntentEditorOpener.openIntentEditor(repository, element, false, element, false);
-				}
+				return true;
 			}
 		}
+		return false;
 	}
 
 	/**

@@ -132,17 +132,18 @@ public final class IntentEditorOpener {
 			repositoryAdapter.openSaveContext();
 		}
 
+		boolean foundInAlreadyExistingEditor = false;
 		if (!forceNewEditor) {
 			// Step 2 : if an editor containing this element is already opened
 			IntentEditor editor = getAlreadyOpenedEditor(elementToOpen);
 			if (editor != null) {
 				editor.getEditorSite().getPage().activate(editor);
 				openedEditor = editor;
-				editor.selectRange((IntentGenericElement)elementToOpen);
+				foundInAlreadyExistingEditor = editor.selectRange((IntentGenericElement)elementToOpen);
 			}
 		}
 
-		if (openedEditor == null) {
+		if (openedEditor == null || !foundInAlreadyExistingEditor) {
 
 			// Step 3 : we open a new editor.
 			IWorkbenchPage page = null;
