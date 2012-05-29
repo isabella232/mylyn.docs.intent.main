@@ -27,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.refresher.RefresherTest
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentRepositoryStructurerTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
 
 /**
  * This suite will launch all the tests relative to the UI behavior.
@@ -70,6 +71,7 @@ public class UITestSuite extends TestCase {
 		 */
 		final TestSuite uiTestSuite = new TestSuite("Intent UI tests");
 		suite.addTest(uiTestSuite);
+
 		// Core tests
 		// All tests that test a technical concern (emf compare behavior, project lifecycle...)
 		final TestSuite basicTestSuite = new TestSuite("Technical tests");
@@ -83,6 +85,7 @@ public class UITestSuite extends TestCase {
 		// Scenario tests
 		// all tests that test an identified scenario for the end-user (very simple use case)
 		final TestSuite scenarioSuite = new TestSuite("Simple End-User Scenarios");
+		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
 		scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
 		scenarioSuite.addTestSuite(IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest.class);
 		uiTestSuite.addTest(scenarioSuite);

@@ -205,7 +205,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 
 		// First of all, we use the documentStructurer to structure the resource set
 		if (documentStructurer != null) {
-			documentStructurer.structure(WorkspaceAdapter.this);
+			this.resourcesToIgnorePaths.addAll(documentStructurer.structure(WorkspaceAdapter.this));
 		}
 		final Collection<Resource> resources = Lists.newArrayList(this.repository.getResourceSet()
 				.getResources());
@@ -230,17 +230,23 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 						treatSessionWarning(resource);
 
 						// We finally save this resource
-						resource.save(getSaveOptions());
-						resource.setTrackingModification(true);
-
 						if (resource.getContents().isEmpty()) {
 							resource.delete(null);
+						} else {
+							resource.save(getSaveOptions());
+							resource.setTrackingModification(true);
 						}
 
 					} else {
 						// Removing dangling references
-						if (resource.getContents().iterator().next().eContainer() != null
-								&& resource.getContents().iterator().next().eContainer().eResource() == null) {
+						Iterator<EObject> iterator = resource.getContents().iterator();
+						while (iterator.hasNext()) {
+							EObject root = iterator.next();
+							if (root.eContainer() != null && root.eContainer().eResource() == null) {
+								iterator.remove();
+							}
+						}
+						if (resource.getContents().isEmpty()) {
 							resource.delete(null);
 						}
 					}

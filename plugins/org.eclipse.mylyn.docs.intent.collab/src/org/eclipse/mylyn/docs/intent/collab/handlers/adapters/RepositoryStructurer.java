@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.handlers.adapters;
 
+import java.util.Collection;
+
 /**
  * Repository Structurer used to restructure automaticly the resources contained in the repository :
  * <p>
@@ -34,8 +36,9 @@ public interface RepositoryStructurer {
 	 * 
 	 * @param repositoryAdapter
 	 *            the RepositoryAdapter to use for restructuring the repository.
+	 * @return the pathes of the modified resources
 	 * @throws ReadOnlyException
 	 *             if the current context associated to the given adapter is read-only
 	 */
-	void structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException;
+	Collection<String> structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException;
 }

@@ -1,0 +1,15 @@
+Document {
+	Chapter Title {
+		Section Title {
+			Section Title {
+				Section Title {
+					Some content.
+					@M
+						something {
+						}
+					M@
+				}
+			}
+		}
+	}
+}

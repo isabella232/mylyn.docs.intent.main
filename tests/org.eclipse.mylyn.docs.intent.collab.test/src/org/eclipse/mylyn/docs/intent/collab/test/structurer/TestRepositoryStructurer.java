@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.test.structurer;
 
+import com.google.common.collect.Sets;
+
+import java.util.Collection;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -36,10 +40,11 @@ public class TestRepositoryStructurer implements RepositoryStructurer {
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer#structure(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter)
 	 */
-	public void structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
-
+	public Collection<String> structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
+		Collection<String> modifiedResources = Sets.newLinkedHashSet();
 		// We first get the Test Index
 		Resource indexResource = repositoryAdapter.getResource(TestCollabSettings.TEST_INDEX);
 		TestIndex testIndex = (TestIndex)indexResource.getContents().get(0);
@@ -47,8 +52,9 @@ public class TestRepositoryStructurer implements RepositoryStructurer {
 		// For each entry of the index
 		for (TestIndexEntry entry : testIndex.getEntries()) {
 			// We structure (i.e place in the correct resource) the reference element
-			placeCorrectly(repositoryAdapter, entry);
+			modifiedResources.addAll(placeCorrectly(repositoryAdapter, entry));
 		}
+		return modifiedResources;
 	}
 
 	/**
@@ -58,8 +64,11 @@ public class TestRepositoryStructurer implements RepositoryStructurer {
 	 *            the RepositoryAdapter to use for restructuring the repository
 	 * @param indexEntry
 	 *            the indexEntry to consider
+	 * @return
 	 */
-	private void placeCorrectly(RepositoryAdapter repositoryAdapter, TestIndexEntry indexEntry) {
+	private Collection<? extends String> placeCorrectly(RepositoryAdapter repositoryAdapter,
+			TestIndexEntry indexEntry) {
+		Collection<String> modifiedResources = Sets.newLinkedHashSet();
 		// We get the referenceElement
 		AbstractTestClass testClass = indexEntry.getReferencedElement();
 
@@ -77,11 +86,13 @@ public class TestRepositoryStructurer implements RepositoryStructurer {
 			try {
 				resource = repositoryAdapter.getOrCreateResource(resourcePath);
 				resource.getContents().add(testClass);
+				modifiedResources.add(resourcePath);
 			} catch (ReadOnlyException e) {
 				// As we are in a testCase, we supposed the context has been openned as a save context
 			}
 
 		}
+		return modifiedResources;
 	}
 
 	/**

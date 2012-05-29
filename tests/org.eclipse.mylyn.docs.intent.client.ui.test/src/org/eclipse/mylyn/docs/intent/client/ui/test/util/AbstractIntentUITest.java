@@ -73,7 +73,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 
 	public static final String INTENT_NEW_PROJECT_WIZARD_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.wizards.NewIntentProjectWizard";
 
-	private static final String INTENT_EMPTY_DOC_PATH = "data/unit/documents/empty.intent";
+	protected static final String INTENT_EMPTY_DOC_PATH = "data/unit/documents/empty.intent";
 
 	protected IProject intentProject;
 
@@ -433,6 +433,22 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			} catch (InterruptedException e) {
 				// Nothing to do
 			}
+		}
+	}
+
+	/**
+	 * Reopens the given Intent project.
+	 */
+	protected void reopenIntentProject(IProject intentProject) {
+		try {
+			intentProject.close(new NullProgressMonitor());
+			intentDocument = null;
+			intentProject.open(new NullProgressMonitor());
+			waitForAllOperationsInUIThread();
+		} catch (Exception e) {
+			AssertionFailedError fail = new AssertionFailedError(e.getMessage());
+			fail.setStackTrace(e.getStackTrace());
+			throw fail;
 		}
 	}
 
