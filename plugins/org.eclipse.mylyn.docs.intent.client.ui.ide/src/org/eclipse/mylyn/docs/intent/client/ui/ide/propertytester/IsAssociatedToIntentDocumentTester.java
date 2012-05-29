@@ -20,6 +20,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -66,6 +68,7 @@ public class IsAssociatedToIntentDocumentTester extends PropertyTester {
 	 */
 	public static IntentDocument getIntentDocument(Object any) {
 		IntentDocument document = null;
+		IntentLogger.getInstance().log(LogType.INFO, any.toString());
 		if (any instanceof Collection<?> && ((Collection<?>)any).iterator().hasNext()) {
 			any = ((Collection<?>)any).iterator().next();
 		}

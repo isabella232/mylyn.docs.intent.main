@@ -96,8 +96,11 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 			if (isInSameResourceThanContainer
 					|| !(isStoredAtExpectedLocation(element, workspaceAdapter, newResourcePath))) {
 				if (element.eResource().getContents().isEmpty()) {
-					String oldResourcePath = element.eResource().getURI().toString()
-							.replace("platform:/resource/intentProject/.repository/", "");
+					String oldResourcePath = element.eResource().getURI().toString();
+					if (oldResourcePath.indexOf(".repository") != -1) {
+						oldResourcePath = oldResourcePath.substring(oldResourcePath.indexOf(".repository"))
+								.replace(".repository/", "");
+					}
 					modifiedResources.add(oldResourcePath);
 				}
 				// Place the element in a new resource
