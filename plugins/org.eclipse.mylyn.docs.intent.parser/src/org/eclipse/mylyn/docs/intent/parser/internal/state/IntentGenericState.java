@@ -109,7 +109,8 @@ public class IntentGenericState {
 	 */
 	public IntentGenericState beginChapter(int offset, int declarationLength, String title)
 			throws ParseException {
-		throw new ParseException("Can't open any chapter here.", offset, declarationLength);
+		throw new ParseException("Can't open any chapter here : only in a document.", offset,
+				declarationLength);
 	}
 
 	/**
@@ -138,7 +139,8 @@ public class IntentGenericState {
 	 */
 	public IntentGenericState beginSection(int offset, int declarationLength, String title)
 			throws ParseException {
-		throw new ParseException("Can't open any section here.", offset, declarationLength);
+		throw new ParseException("Can't open any section here : only in sections and chapters.", offset,
+				declarationLength);
 	}
 
 	/**
@@ -167,7 +169,7 @@ public class IntentGenericState {
 	 */
 	public IntentGenericState modelingUnitContent(int offset, int length, String modelingUnitContent)
 			throws ParseException {
-		throw new ParseException("Can't open any modeling unit here.", offset, length);
+		throw new ParseException("Can't open any modeling unit here : only in sections.", offset, length);
 	}
 
 	/**
