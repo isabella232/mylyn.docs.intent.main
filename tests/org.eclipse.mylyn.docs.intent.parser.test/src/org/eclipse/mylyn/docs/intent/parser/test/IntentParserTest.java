@@ -119,4 +119,22 @@ public class IntentParserTest {
 		}
 	}
 
+	/**
+	 * Tests parser and serializer behavior when faced to a line starting with spaces instead of tabs.
+	 */
+	@Test
+	public void testSpaces() {
+		try {
+			File file = new File("dataTests/intentDocuments/intentdocumentspecification/spaces.intent");
+
+			String section = FileToStringConverter.getFileAsString(file);
+			EObject generated = parser.parse(section);
+			Assert.assertEquals(section, serializer.serialize(generated));
+		} catch (IOException e) {
+			throw new AssertionFailedError(e.getMessage());
+		} catch (ParseException e) {
+			throw new AssertionFailedError(e.getMessage());
+		}
+	}
+
 }

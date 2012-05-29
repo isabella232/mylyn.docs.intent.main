@@ -288,6 +288,7 @@ public class IntentBuilder {
 		// For each line
 		for (int i = 0; i < lines.length; i++) {
 			String currentLine = lines[i];
+			currentLine = removeBeginningSpaces(currentLine);
 
 			// We remove the N first tabulations, with N equals to the currentImbricationLevel
 			for (int j = 0; j < this.currentImbricationLevel + temporaryIncrease; j++) {
@@ -298,5 +299,23 @@ public class IntentBuilder {
 			intentContent += currentLine + "\n";
 		}
 		return intentContent;
+	}
+
+	/**
+	 * Remove all spaces at the beginning of the line.
+	 * 
+	 * @param line
+	 *            the line
+	 * @return the fixed line
+	 */
+	private String removeBeginningSpaces(String line) {
+		if (!line.isEmpty()) {
+			int offset = 0;
+			while (offset < line.length() && line.charAt(offset) == ' ') {
+				offset++;
+			}
+			return line.substring(offset);
+		}
+		return "";
 	}
 }

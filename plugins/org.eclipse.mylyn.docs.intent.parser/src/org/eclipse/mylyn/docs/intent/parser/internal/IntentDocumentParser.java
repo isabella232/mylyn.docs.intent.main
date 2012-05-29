@@ -154,23 +154,19 @@ public class IntentDocumentParser {
 			builder.beginDocument(offset - parsedSentence.length(), parsedSentence.trim().length());
 		}
 		if (parsedSentenceWithoutDescriptionUnit.contains(IntentKeyWords.INTENT_KEYWORD_CHAPTER)) {
-			String title = null;
+			String title = "";
 			Matcher m = Pattern.compile(IntentParserUtil.EXPREG_OPEN_CHAPTER).matcher(parsedSentence.trim());
 			if (m.matches()) {
 				title = m.group(1);
-			} else {
-				System.err.println(parsedSentence);
 			}
 			builder.beginChapter(offset - parsedSentence.length(), parsedSentence.trim().length(), title);
 		}
 		if (parsedSentenceWithoutDescriptionUnit.contains(IntentKeyWords.INTENT_KEYWORD_SECTION)) {
-			String title = null;
+			String title = "";
 			Matcher m = Pattern.compile(IntentParserUtil.EXPREG_OPEN_SECTION).matcher(
 					parsedSentenceWithoutDescriptionUnit.trim());
 			if (m.matches()) {
 				title = m.group(1);
-			} else {
-				System.err.println(parsedSentenceWithoutDescriptionUnit);
 			}
 			builder.beginSection(offset - parsedSentenceWithoutDescriptionUnit.trim().length(),
 					parsedSentenceWithoutDescriptionUnit.trim().length(), title);
