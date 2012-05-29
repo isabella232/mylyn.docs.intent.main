@@ -44,7 +44,6 @@ public class TestRepositoryStructurer implements RepositoryStructurer {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer#structure(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter)
 	 */
 	public Collection<String> structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
-		Collection<String> modifiedResources = Sets.newLinkedHashSet();
 		// We first get the Test Index
 		Resource indexResource = repositoryAdapter.getResource(TestCollabSettings.TEST_INDEX);
 		TestIndex testIndex = (TestIndex)indexResource.getContents().get(0);
@@ -52,9 +51,9 @@ public class TestRepositoryStructurer implements RepositoryStructurer {
 		// For each entry of the index
 		for (TestIndexEntry entry : testIndex.getEntries()) {
 			// We structure (i.e place in the correct resource) the reference element
-			modifiedResources.addAll(placeCorrectly(repositoryAdapter, entry));
+			placeCorrectly(repositoryAdapter, entry);
 		}
-		return modifiedResources;
+		return Sets.newLinkedHashSet();
 	}
 
 	/**
@@ -66,9 +65,7 @@ public class TestRepositoryStructurer implements RepositoryStructurer {
 	 *            the indexEntry to consider
 	 * @return
 	 */
-	private Collection<? extends String> placeCorrectly(RepositoryAdapter repositoryAdapter,
-			TestIndexEntry indexEntry) {
-		Collection<String> modifiedResources = Sets.newLinkedHashSet();
+	private void placeCorrectly(RepositoryAdapter repositoryAdapter, TestIndexEntry indexEntry) {
 		// We get the referenceElement
 		AbstractTestClass testClass = indexEntry.getReferencedElement();
 
@@ -86,13 +83,11 @@ public class TestRepositoryStructurer implements RepositoryStructurer {
 			try {
 				resource = repositoryAdapter.getOrCreateResource(resourcePath);
 				resource.getContents().add(testClass);
-				modifiedResources.add(resourcePath);
 			} catch (ReadOnlyException e) {
 				// As we are in a testCase, we supposed the context has been openned as a save context
 			}
 
 		}
-		return modifiedResources;
 	}
 
 	/**
