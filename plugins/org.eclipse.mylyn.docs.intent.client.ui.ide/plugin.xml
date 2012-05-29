@@ -164,7 +164,12 @@ Contributors:
                 id="org.eclipse.mylyn.docs.intent.client.ui.ide.menu"
                 label="Intent">
              <visibleWhen
-                   checkEnabled="true">
+                   checkEnabled="false">
+                <test
+                      forcePluginActivation="true"
+                      property="org.eclipse.mylyn.docs.intent.client.ui.ide.isIntentDocument"
+                      value="true">
+                </test>
              </visibleWhen>
           </menu>
        </menuContribution>

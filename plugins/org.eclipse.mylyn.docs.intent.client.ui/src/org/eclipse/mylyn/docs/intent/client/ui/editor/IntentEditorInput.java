@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -216,8 +218,12 @@ public class IntentEditorInput extends URIEditorInput {
 	@Override
 	public void saveState(IMemento memento) {
 		super.saveState(memento);
-		memento.putString(URI_FRAGMENT_TAG, element.eResource().getURIFragment(element));
-		memento.putString(CLASS_TAG, getClass().getName());
+		if (element != null && element.eResource() != null) {
+			memento.putString(URI_FRAGMENT_TAG, element.eResource().getURIFragment(element));
+			memento.putString(CLASS_TAG, getClass().getName());
+		} else {
+			IntentLogger.getInstance().log(LogType.WARNING, "Could not save Intent Editor state");
+		}
 	}
 
 	/**

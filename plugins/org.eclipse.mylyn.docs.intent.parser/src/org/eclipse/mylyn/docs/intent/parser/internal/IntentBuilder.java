@@ -309,7 +309,7 @@ public class IntentBuilder {
 	 * @return the fixed line
 	 */
 	private String removeBeginningSpaces(String line) {
-		if (!line.isEmpty()) {
+		if (line != null && line.length() > 0) {
 			int offset = 0;
 			while (offset < line.length() && line.charAt(offset) == ' ') {
 				offset++;

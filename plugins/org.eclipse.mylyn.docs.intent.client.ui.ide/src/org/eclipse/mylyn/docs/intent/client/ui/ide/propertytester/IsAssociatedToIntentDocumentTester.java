@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.propertytester;
 
+import java.util.Collection;
+
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -64,6 +66,9 @@ public class IsAssociatedToIntentDocumentTester extends PropertyTester {
 	 */
 	public static IntentDocument getIntentDocument(Object any) {
 		IntentDocument document = null;
+		if (any instanceof Collection<?> && ((Collection<?>)any).iterator().hasNext()) {
+			any = ((Collection<?>)any).iterator().next();
+		}
 		if (any instanceof IProject) {
 
 			// if the selected element is an IProject
