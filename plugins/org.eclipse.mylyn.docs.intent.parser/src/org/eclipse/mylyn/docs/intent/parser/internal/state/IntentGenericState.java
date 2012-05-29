@@ -109,7 +109,7 @@ public class IntentGenericState {
 	 */
 	public IntentGenericState beginChapter(int offset, int declarationLength, String title)
 			throws ParseException {
-		return this;
+		throw new ParseException("Can't open any chapter here.", offset, declarationLength);
 	}
 
 	/**
@@ -138,11 +138,11 @@ public class IntentGenericState {
 	 */
 	public IntentGenericState beginSection(int offset, int declarationLength, String title)
 			throws ParseException {
-		return this;
+		throw new ParseException("Can't open any section here.", offset, declarationLength);
 	}
 
 	/**
-	 * Indicates the detection of section options (visibility and header References).
+	 * Indicates the detection of section options (visibility).
 	 * 
 	 * @param visibility
 	 *            the visibility of the section ("hidden", "internal" or null)
@@ -150,7 +150,6 @@ public class IntentGenericState {
 	 */
 	public IntentGenericState sectionOptions(String visibility) {
 		return this;
-
 	}
 
 	/**
@@ -168,7 +167,7 @@ public class IntentGenericState {
 	 */
 	public IntentGenericState modelingUnitContent(int offset, int length, String modelingUnitContent)
 			throws ParseException {
-		return this;
+		throw new ParseException("Can't open any modeling unit here.", offset, length);
 	}
 
 	/**
