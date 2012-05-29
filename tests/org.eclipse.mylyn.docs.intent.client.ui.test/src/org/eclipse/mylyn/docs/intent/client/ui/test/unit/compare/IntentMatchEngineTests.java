@@ -40,17 +40,17 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 
 	private int compareCasesNumber = 0;
 
+	public void testCompareDocumentWithChaperTitles() {
+		doTestDiffEngine("compareTest-01.xmi");
+	}
+
 	public void testCompareDocumentWithoutChaperTitles() {
 		doTestDiffEngine("compareTest-02.xmi");
 	}
 
-	public void testCompareBigDocument() {
-		doTestDiffEngine("compareTest-03.xmi");
-	}
-
-	public void testCompareDocumentWithChaperTitles() {
-		doTestDiffEngine("compareTest-01.xmi");
-	}
+	// public void testCompareBigDocument() {
+	// doTestDiffEngine("compareTest-03.xmi");
+	// }
 
 	/**
 	 * Ensures that all modifications that can be made on the IntentDocument located at the given model path
