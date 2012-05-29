@@ -121,6 +121,11 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	private IDocumentPartitioner partitioner;
 
 	/**
+	 * A flag indicating whether the current document has syntax errors or not.
+	 */
+	private boolean hasSyntaxErrors;
+
+	/**
 	 * IntentDocumentProvider constructor.
 	 * 
 	 * @param editor
@@ -130,6 +135,16 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		this.elementsToDocuments = new HashMap<Object, List<IntentEditorDocument>>();
 		this.associatedEditor = editor;
 		this.annotationModelManager = new IntentAnnotationModelManager();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractDocumentProvider#canSaveDocument(java.lang.Object)
+	 */
+	@Override
+	public boolean canSaveDocument(Object element) {
+		return hasSyntaxErrors || super.canSaveDocument(element);
 	}
 
 	/**
@@ -310,6 +325,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		if (document instanceof IntentEditorDocument) {
 			final EObject localAST;
 			try {
+				hasSyntaxErrors = false;
 				this.removeSyntaxErrors();
 
 				localAST = new IntentParser().parse(document.get());
@@ -338,6 +354,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				((IntentEditorDocument)document).reloadFromAST();
 			} catch (ParseException e) {
 				this.createSyntaxErrorAnnotation(e.getMessage(), e.getErrorOffset(), e.getErrorLength());
+				hasSyntaxErrors = true;
 			}
 		}
 	}
