@@ -22,8 +22,6 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
-import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
-import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -65,7 +63,6 @@ public class IsAssociatedToIntentDocumentTester extends PropertyTester {
 
 	private boolean isIntentProject(Object receiver) {
 		Object any = receiver;
-		IntentLogger.getInstance().log(LogType.INFO, any.toString());
 		if (receiver instanceof Collection<?> && ((Collection<?>)receiver).iterator().hasNext()) {
 			any = ((Collection<?>)receiver).iterator().next();
 		}
@@ -74,10 +71,8 @@ public class IsAssociatedToIntentDocumentTester extends PropertyTester {
 		}
 
 		if (any instanceof IProject) {
-			IntentLogger.getInstance().log(LogType.INFO, any.toString() + "is a project");
 			try {
 				boolean hasIntentNature = ((IProject)any).hasNature(IntentNature.NATURE_ID);
-				IntentLogger.getInstance().log(LogType.INFO, any.toString() + " with expected nature");
 				return hasIntentNature;
 			} catch (CoreException e) {
 				// Silent catch
@@ -98,6 +93,9 @@ public class IsAssociatedToIntentDocumentTester extends PropertyTester {
 		IntentDocument document = null;
 		if (any instanceof Collection<?> && ((Collection<?>)any).iterator().hasNext()) {
 			any = ((Collection<?>)any).iterator().next();
+		}
+		if (any instanceof IStructuredSelection && !((IStructuredSelection)any).isEmpty()) {
+			any = ((IStructuredSelection)any).iterator().next();
 		}
 		if (any instanceof IProject) {
 
