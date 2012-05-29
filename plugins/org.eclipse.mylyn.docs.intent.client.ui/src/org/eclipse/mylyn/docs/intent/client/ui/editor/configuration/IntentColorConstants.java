@@ -22,30 +22,30 @@ public final class IntentColorConstants {
 	// -----------------------------------
 	// Color constant for MODELING UNITS
 	// ----------------------------------
-	public static final RGB MU_BACKGROUND = new RGB(221, 221, 221);
+	private static final RGB MU_BACKGROUND = new RGB(221, 221, 221);
 
-	public static final RGB MU_KEYWORD_FOREGROUND = new RGB(139, 10, 80);
+	private static final RGB MU_KEYWORD_FOREGROUND = new RGB(139, 10, 80);
 
-	public static final RGB MU_DEFAULT_FOREGROUND = new RGB(0, 0, 0);
+	private static final RGB MU_DEFAULT_FOREGROUND = new RGB(0, 0, 0);
 
-	public static final RGB MU_STRING_FOREGROUND = new RGB(0, 0, 180);
+	private static final RGB MU_STRING_FOREGROUND = new RGB(0, 0, 180);
 
-	public static final RGB MU_DECORATION_LINE_FOREGROUND = new RGB(84, 84, 84);
+	private static final RGB MU_DECORATION_LINE_FOREGROUND = new RGB(84, 84, 84);
 
-	public static final RGB MU_DECORATION_BACKGROUND = new RGB(195, 195, 195);
+	private static final RGB MU_DECORATION_BACKGROUND = new RGB(195, 195, 195);
 
-	public static final int MU_DECORATION_LINE_WIDTH = 2;
+	private static final int MU_DECORATION_LINE_WIDTH = 2;
 
 	// -----------------------------------
 	// Color constant for DECRIPTION UNITS
 	// ----------------------------------
-	public static final RGB DU_BACKGROUND = null;
+	private static final RGB DU_BACKGROUND = null;
 
-	public static final RGB DU_KEYWORD_FOREGROUND = new RGB(139, 10, 80);
+	private static final RGB DU_KEYWORD_FOREGROUND = new RGB(139, 10, 80);
 
-	public static final RGB DU_DEFAULT_FOREGROUND = new RGB(0, 0, 0); // new RGB(63, 95, 191);
+	private static final RGB DU_DEFAULT_FOREGROUND = new RGB(0, 0, 0);
 
-	public static final RGB DU_TITLE_FOREGROUND = new RGB(0, 0, 0);
+	private static final RGB DU_TITLE_FOREGROUND = new RGB(0, 0, 0);
 
 	/**
 	 * IntentColorConstant constructor.
@@ -53,4 +53,56 @@ public final class IntentColorConstants {
 	private IntentColorConstants() {
 
 	}
+
+	/*
+	 * Colors managed through preferences
+	 */
+
+	/*
+	 * Private colors
+	 */
+	public static RGB getDuBackground() {
+		return DU_BACKGROUND;
+	}
+
+	public static RGB getDuDefaultForeground() {
+		return DU_DEFAULT_FOREGROUND;
+	}
+
+	public static RGB getDuKeywordForeground() {
+		return DU_KEYWORD_FOREGROUND;
+	}
+
+	public static RGB getDuTitleForeground() {
+		return DU_TITLE_FOREGROUND;
+	}
+
+	public static RGB getMuBackground() {
+		return MU_BACKGROUND;
+	}
+
+	public static RGB getMuDecorationBackground() {
+		return MU_DECORATION_BACKGROUND;
+	}
+
+	public static RGB getMuDecorationLineForeground() {
+		return MU_DECORATION_LINE_FOREGROUND;
+	}
+
+	public static int getMuDecorationLineWidth() {
+		return MU_DECORATION_LINE_WIDTH;
+	}
+
+	public static RGB getMuDefaultForeground() {
+		return MU_DEFAULT_FOREGROUND;
+	}
+
+	public static RGB getMuKeywordForeground() {
+		return MU_KEYWORD_FOREGROUND;
+	}
+
+	public static RGB getMuStringForeground() {
+		return MU_STRING_FOREGROUND;
+	}
+
 }

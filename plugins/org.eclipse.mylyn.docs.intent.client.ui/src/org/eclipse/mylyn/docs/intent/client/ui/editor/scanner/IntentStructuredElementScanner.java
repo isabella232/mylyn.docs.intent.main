@@ -55,18 +55,18 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 
 		Color backgroundColor = null;
 
-		Color duForeGroundColor = colorManager.getColor(IntentColorConstants.DU_DEFAULT_FOREGROUND);
+		Color duForeGroundColor = colorManager.getColor(IntentColorConstants.getDuDefaultForeground());
 		IToken duToken = new Token(new TextAttribute(duForeGroundColor, backgroundColor, SWT.NONE,
 				IntentFontConstants.getDescriptionFont()));
 
-		Color defaultforeGroundColor = colorManager.getColor(IntentColorConstants.DU_TITLE_FOREGROUND);
+		Color defaultforeGroundColor = colorManager.getColor(IntentColorConstants.getDuTitleForeground());
 		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, backgroundColor, SWT.BOLD,
 				IntentFontConstants.getTitleFont()));
 
-		Color keyWordForeGroundColor = colorManager.getColor(IntentColorConstants.DU_KEYWORD_FOREGROUND);
+		Color keyWordForeGroundColor = colorManager.getColor(IntentColorConstants.getDuKeywordForeground());
 		IToken keyWordToken = new Token(new TextAttribute(keyWordForeGroundColor, backgroundColor, SWT.BOLD));
 
-		Color stringforeGroundColor = colorManager.getColor(IntentColorConstants.MU_STRING_FOREGROUND);
+		Color stringforeGroundColor = colorManager.getColor(IntentColorConstants.getMuStringForeground());
 		List<IRule> rules = new ArrayList<IRule>();
 		rules.add(computeKeyWordRule(defaultToken, keyWordToken));
 		rules.addAll(computeStringRules(stringforeGroundColor));

@@ -322,8 +322,8 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 			boolean usingAlpha) {
 		int decorationLineLength = fTextWidget.getSize().x;
 		gc.setAlpha(100);
-		gc.setForeground(colorManager.getColor(IntentColorConstants.MU_DECORATION_LINE_FOREGROUND));
-		gc.setBackground(colorManager.getColor(IntentColorConstants.MU_DECORATION_BACKGROUND));
+		gc.setForeground(colorManager.getColor(IntentColorConstants.getMuDecorationLineForeground()));
+		gc.setBackground(colorManager.getColor(IntentColorConstants.getMuDecorationBackground()));
 		Point beginPos = fTextWidget.getLocationAtOffset(beginOffset);
 		Point endPos = fTextWidget.getLocationAtOffset(endOffset);
 		gc.drawRoundRectangle(beginPos.x - LEFT_DECORATION_PADDING, beginPos.y, decorationLineLength

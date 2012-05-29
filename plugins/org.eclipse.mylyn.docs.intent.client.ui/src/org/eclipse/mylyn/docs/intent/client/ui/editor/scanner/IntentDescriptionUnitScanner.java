@@ -51,14 +51,14 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 		super(colorManager);
 		Color backgroundColor = null;
 
-		Color defaultforeGroundColor = colorManager.getColor(IntentColorConstants.DU_DEFAULT_FOREGROUND);
+		Color defaultforeGroundColor = colorManager.getColor(IntentColorConstants.getDuDefaultForeground());
 		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, backgroundColor, SWT.NONE,
 				IntentFontConstants.getDescriptionFont()));
 
-		Color keyWordForeGroundColor = colorManager.getColor(IntentColorConstants.DU_KEYWORD_FOREGROUND);
+		Color keyWordForeGroundColor = colorManager.getColor(IntentColorConstants.getDuKeywordForeground());
 		IToken keyWordToken = new Token(new TextAttribute(keyWordForeGroundColor, backgroundColor, SWT.BOLD));
 
-		Color stringforeGroundColor = colorManager.getColor(IntentColorConstants.MU_STRING_FOREGROUND);
+		Color stringforeGroundColor = colorManager.getColor(IntentColorConstants.getMuStringForeground());
 
 		setDefaultReturnToken(defaultToken);
 		List<IRule> rules = new ArrayList<IRule>();

@@ -68,9 +68,9 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	public IntentModelingUnitScanner(ColorManager colorManager) {
 		super(colorManager);
 
-		defaultforeGroundColor = colorManager.getColor(IntentColorConstants.MU_DEFAULT_FOREGROUND);
-		keyWordforeGroundColor = colorManager.getColor(IntentColorConstants.MU_KEYWORD_FOREGROUND);
-		stringforeGroundColor = colorManager.getColor(IntentColorConstants.MU_STRING_FOREGROUND);
+		defaultforeGroundColor = colorManager.getColor(IntentColorConstants.getMuDefaultForeground());
+		keyWordforeGroundColor = colorManager.getColor(IntentColorConstants.getMuKeywordForeground());
+		stringforeGroundColor = colorManager.getColor(IntentColorConstants.getMuStringForeground());
 		defaultBackGroundColor = null;
 		backgroundColor = null;
 
