@@ -25,6 +25,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.Ja
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.refresher.RefresherTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentRepositoryStructurerTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.CompilerNotificationsTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
@@ -85,8 +86,9 @@ public class UITestSuite extends TestCase {
 		// Scenario tests
 		// all tests that test an identified scenario for the end-user (very simple use case)
 		final TestSuite scenarioSuite = new TestSuite("Simple End-User Scenarios");
-		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
+		scenarioSuite.addTestSuite(CompilerNotificationsTest.class);
 		scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
+		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
 		scenarioSuite.addTestSuite(IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest.class);
 		uiTestSuite.addTest(scenarioSuite);
 

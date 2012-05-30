@@ -10,47 +10,40 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import java.util.Set;
+import java.util.Collection;
+import java.util.Map;
 
-import junit.framework.AssertionFailedError;
-
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
-import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
+import org.eclipse.core.runtime.ILogListener;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 
 /**
- * A {@link org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient} used to detect if an event
- * happened or not on the repository.
+ * A listener used to detect if an event happened or not on the repository.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class RepositoryListenerForTests extends AbstractRepositoryClient {
+public class RepositoryListenerForTests implements ILogListener {
 
 	/**
 	 * Delay to wait before checking again that an event occurred.
 	 */
-	private static final int WAITING_STEP_DELAY = 600;
+	private static final int WAITING_STEP_DELAY = 200;
 
 	/**
 	 * Delay to wait before considering that an expected event never occurred.
 	 */
-	private static final long TIME_OUT_DELAY = 20000;
+	private static final long TIME_OUT_DELAY = 2000;
 
 	/**
-	 * The list of modified elements since the last call to
-	 * {@link RepositoryListenerForTests#startRecording()}.
+	 * A map associating each client Identifier (Indexer, Compiler...) with the messages sent by this client.
 	 */
-	private Set<EObject> modifiedElements = Sets.newLinkedHashSet();
-
-	/**
-	 * The URIs of modified resources since the last call to
-	 * {@link RepositoryListenerForTests#startRecording()}.
-	 */
-	private Set<URI> modifiedResourcesURI = Sets.newLinkedHashSet();
+	private Map<String, Collection<String>> clientsMessages = Maps.newLinkedHashMap();
 
 	/**
 	 * Indicates whether this Repository listener is recording or not.
@@ -60,30 +53,71 @@ public class RepositoryListenerForTests extends AbstractRepositoryClient {
 	/**
 	 * Removes all registered notifications and start listening to the repository.
 	 */
-	public void startRecording() {
+	public void clearPreviousEntries() {
 		isRecording = true;
-		modifiedElements.clear();
-		modifiedResourcesURI.clear();
+		// Changing preferences : activating logging
+		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
+				.getBundle().getSymbolicName());
+		node.putBoolean(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, true);
+
+		clientsMessages.clear();
+		clientsMessages.put("Indexer", Sets.<String> newLinkedHashSet());
+		clientsMessages.put("Compiler", Sets.<String> newLinkedHashSet());
+		clientsMessages.put("Synchronizer", Sets.<String> newLinkedHashSet());
 	}
 
 	/**
-	 * Waits for a modification on the intent resource located at the given path. Returns true if the
-	 * modification occurred, false if it did not after a certain delay.
+	 * Notifies this listener that given status has been logged by a plug-in. The listener is free to retain
+	 * or ignore this status.
 	 * 
-	 * @param resourcePath
-	 *            the path of the intent resource which is expected to be modified
-	 * @return true if the modification occurred, false if it did not after a certain delay
+	 * @param status
+	 *            the status being logged
+	 * @param plugin
+	 *            the plugin of the log which generated this event
 	 */
-	public boolean waitForModificationOn(final String resourcePath) {
+	public void logging(IStatus status, String plugin) {
+		if (isRecording) {
+			String clientIdentifier = getClientIdentifier(status);
+			if (clientIdentifier != null) {
+				clientsMessages.get(clientIdentifier).add(
+						status.getMessage().replaceFirst("[" + clientIdentifier + "]", "").trim());
 
+			}
+		}
+	}
+
+	/**
+	 * Returns the client identifier associated to the given status (null if none found).
+	 * 
+	 * @param status
+	 *            the status to analyses
+	 * @return the client identifier (e.g. "Indexer", "Compiler"...) associated to the given status (null if
+	 *         none found)
+	 */
+	private String getClientIdentifier(IStatus status) {
+		for (String clientID : clientsMessages.keySet()) {
+			if (status.getMessage().startsWith("[" + clientID + "]")) {
+				return clientID;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Waits for a message sent by the given client. Returns true if the message was sent, false if it did not
+	 * after a certain delay.
+	 * 
+	 * @param clientIdentifier
+	 *            the client identifier (e.g. "Indexer", "Compiler")
+	 * @return true if the message was sent by the expected client, false if it did not after a certain delay
+	 */
+	public boolean waitForModificationOn(String clientIdentifier) {
 		long startTime = System.currentTimeMillis();
 		boolean timeOutDetected = false;
 		try {
-			while (!resourceHasBeenModified(resourcePath) && !timeOutDetected) {
-
+			while (clientsMessages.get(clientIdentifier).isEmpty() && !timeOutDetected) {
 				Thread.sleep(WAITING_STEP_DELAY);
 				timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
-
 			}
 			Thread.sleep(WAITING_STEP_DELAY);
 			return !timeOutDetected;
@@ -93,53 +127,15 @@ public class RepositoryListenerForTests extends AbstractRepositoryClient {
 	}
 
 	/**
-	 * Indicates if the repository resource located at the given path has been modified since
-	 * {@link RepositoryListenerForTests#startRecording()} has been called.
+	 * Returns all messages sent by the client with the given identifier (e.g. "Compiler", "Synchronizer"...)
+	 * since the last call to startRecording().
 	 * 
-	 * @param resourcePath
-	 *            the relative path of the resource (from the root of the repository)
-	 * @return true if the repository resource located at the given path has been modified since
-	 *         {@link RepositoryListenerForTests#startRecording()} has been called, false otherwise
+	 * @param clientIdentifier
+	 *            the client identifier (e.g. "Indexer", "Compiler")
+	 * @return all messages sent by the client with the given identifier
 	 */
-	private boolean resourceHasBeenModified(String resourcePath) {
-		if (!isRecording) {
-			throw new AssertionFailedError(
-					"The Repository listener has not started recording. Please call the startRecording() method before trying to determine which actions have been determined");
-		}
-
-		if (!modifiedResourcesURI.isEmpty()) {
-			URI expectedModifiedResourceURI = this.getRepositoryObjectHandler().getRepositoryAdapter()
-					.getResource(resourcePath).getURI();
-			return modifiedResourcesURI.contains(expectedModifiedResourceURI);
-		}
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
-	 */
-	@Override
-	public void handleChangeNotification(RepositoryChangeNotification notification) {
-		if (isRecording) {
-			// We registered the modified elements and the URI of their resource
-			modifiedElements.addAll(notification.getRightRoots());
-			for (EObject modifiedElement : notification.getRightRoots()) {
-				modifiedResourcesURI.add(modifiedElement.eResource().getURI());
-			}
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient#createNotificationJob(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
-	 */
-	@Override
-	protected Job createNotificationJob(RepositoryChangeNotification notification) {
-		// nothing to do, as we override handleChangeNotification this method will not be called
-		return null;
+	public Collection<String> getClientMessage(String clientIdentifier) {
+		return clientsMessages.get(clientIdentifier);
 	}
 
 }

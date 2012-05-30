@@ -1,0 +1,7 @@
+Section newSection {
+	And the following EClass :
+	@M
+		new EClass44 c1 {}
+	M@
+
+}

@@ -73,7 +73,7 @@ public class IntentAbstractResourceTest extends AbstractIntentUITest {
 		document.set(expectedDocumentContent);
 
 		// Step 2 : we start recording for any modification made on the repository
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		// save
 		editor.doSave(new NullProgressMonitor());
 		// and wait the synchronizer to be notified
@@ -95,7 +95,7 @@ public class IntentAbstractResourceTest extends AbstractIntentUITest {
 		document.set(expectedDocumentContent);
 
 		// Step 2 : we start recording for any modification made on the repository
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		// save
 		editor.doSave(new NullProgressMonitor());
 		// and wait the compiler to be notified
@@ -149,7 +149,7 @@ public class IntentAbstractResourceTest extends AbstractIntentUITest {
 			document.set(expectedDocumentContent);
 
 			// Step 3 : we start recording for any modification made on the repository
-			repositoryListener.startRecording();
+			repositoryListener.clearPreviousEntries();
 			// save
 			editor.doSave(new NullProgressMonitor());
 			// and wait the synchronizer to be notified
@@ -163,7 +163,7 @@ public class IntentAbstractResourceTest extends AbstractIntentUITest {
 			// Step 5 : we make this concrete resource abstract again
 			document.set(document.get().replace(resourceURIDeclaration, ""));
 
-			repositoryListener.startRecording();
+			repositoryListener.clearPreviousEntries();
 			editor.doSave(new NullProgressMonitor());
 			waitForSynchronizer();
 

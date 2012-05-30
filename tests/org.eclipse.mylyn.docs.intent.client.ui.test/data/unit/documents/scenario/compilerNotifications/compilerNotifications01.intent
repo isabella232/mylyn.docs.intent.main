@@ -1,0 +1,20 @@
+Document {
+	Chapter Chapter1 {
+		This is chapter 1.
+
+		Section Section2 {
+			This is section 1.
+
+			We define the following @EPackage@ :
+			
+			@M
+				new EPackage p1 {
+					nsPrefix = "p1";
+					nsURI = "http://p1";
+					eClassifiers += c1;
+				}
+			M@
+			
+		}
+	}
+}

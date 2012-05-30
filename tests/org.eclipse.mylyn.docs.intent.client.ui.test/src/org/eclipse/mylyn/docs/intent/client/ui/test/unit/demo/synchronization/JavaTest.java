@@ -74,7 +74,7 @@ public class JavaTest extends AbstractDemoTest {
 		// Step 2 : create a modeling unit section, check for the annotation
 		document37.set(getFileContent(SECTION_37_V1_FILENAME));
 
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		editor37.doSave(new NullProgressMonitor());
 		waitForCompiler();
 
@@ -88,7 +88,8 @@ public class JavaTest extends AbstractDemoTest {
 		// Step 3 : update the modeling unit section, check that the last annotation disappeared
 		document37.set(getFileContent(SECTION_37_V2_FILENAME));
 
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
+		repositoryListener.clearPreviousEntries();
 		editor37.doSave(new NullProgressMonitor());
 		waitForCompiler();
 
@@ -97,7 +98,7 @@ public class JavaTest extends AbstractDemoTest {
 				"-The required feature 'accessibleThrough' of 'patchingDifferences' must be set", true));
 
 		// Step 4 : create a java test class
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		File javaTestFile = new File(JAVA_TEST_FILENAME);
 		IProject testProject = ResourcesPlugin.getWorkspace().getRoot()
 				.getProject("org.eclipse.emf.compare.tests");
@@ -131,7 +132,7 @@ public class JavaTest extends AbstractDemoTest {
 		// Step 6.2 : update 7.2
 		document72.set(getFileContent(SECTION_72_FILENAME));
 
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		editor72.doSave(new NullProgressMonitor());
 		editor72.close(false);
 		waitForSynchronizer();

@@ -42,7 +42,7 @@ public class IndexerNotificationsTest extends AbstractIntentUITest {
 
 		// Step 2: make a structural modification :
 		IntentEditor editor = openIntentEditor();
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		IntentEditorDocument document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(
 				editor.getEditorInput());
 		document.set("Document {\n\tChapter {\n\t}\n" + document.get().replace("Document {", ""));
@@ -62,6 +62,7 @@ public class IndexerNotificationsTest extends AbstractIntentUITest {
 				index.getEntries().clear();
 			}
 		});
+		repositoryListener.clearPreviousEntries();
 		repositoryAdapter.save();
 		// -> indexer should not be notified
 		waitForIndexer(false);
