@@ -23,8 +23,6 @@ import org.eclipse.mylyn.docs.intent.client.compiler.errors.PackageNotFoundResol
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.PackageRegistrationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.ResolveException;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
-import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
-import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
@@ -45,11 +43,6 @@ public class ModelingUnitLinkResolver {
 	private EPackage.Registry packageRegistry;
 
 	/**
-	 * The repository allowing us to register generated packages.
-	 */
-	private Repository repository;
-
-	/**
 	 * The information holder to use for register the generated elements.
 	 */
 	private IntentCompilerInformationHolder informationHolder;
@@ -57,29 +50,15 @@ public class ModelingUnitLinkResolver {
 	/**
 	 * MetaTypeLinkResolver constructor.
 	 * 
-	 * @param repository
-	 *            the repository which will provide the package registry to use for resolving links
+	 * @param packageRegistry
+	 *            the repository package registry
 	 * @param informationHolder
 	 *            the information holder to use for register the generated elements
-	 * @throws RepositoryConnectionException
-	 *             if the connection to the repository is invalid
 	 */
-	public ModelingUnitLinkResolver(Repository repository, IntentCompilerInformationHolder informationHolder)
-			throws RepositoryConnectionException {
-		this.repository = repository;
+	public ModelingUnitLinkResolver(EPackage.Registry packageRegistry,
+			IntentCompilerInformationHolder informationHolder) {
+		this.packageRegistry = packageRegistry;
 		this.informationHolder = informationHolder;
-		setPackageRegistry(repository.getPackageRegistry());
-
-	}
-
-	/**
-	 * Sets the package registry to use.
-	 * 
-	 * @param packageRegistry
-	 *            the package registry to use
-	 */
-	public void setPackageRegistry(Object packageRegistry) {
-		this.packageRegistry = (EPackage.Registry)packageRegistry;
 	}
 
 	/**
@@ -282,18 +261,12 @@ public class ModelingUnitLinkResolver {
 						+ "\" cannot be registered (maybe because of an invalid connection to the repository)");
 
 		// If no package exception has been registered, we throw this exception
-		if (this.repository == null) {
+		if (this.packageRegistry == null) {
 			throw exception;
 		}
 
 		// We try to add the generated package to the packageRegistry
-		try {
 
-			repository.getPackageRegistry().put(generatedPackage.getNsURI(), generatedPackage);
-
-		} catch (RepositoryConnectionException e) {
-			throw exception;
-		}
-
+		packageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
 	}
 }

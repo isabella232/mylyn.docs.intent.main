@@ -115,39 +115,40 @@ public class CompilationJob extends Job {
 				.getInstance();
 		informationHolder.initialize();
 
-		// LinkResolver initialization
-		if (!monitor.isCanceled()) {
-			try {
-				resolver = new ModelingUnitLinkResolver(repository, informationHolder);
-			} catch (RepositoryConnectionException e) {
-				IntentLogger.getInstance().log(LogType.ERROR,
-						"Compilation Failed during link resolver intialization", e);
+		try {
+			// LinkResolver initialization
+			if (!monitor.isCanceled()) {
+				resolver = new ModelingUnitLinkResolver(repository.getPackageRegistry(), informationHolder);
 			}
-		}
 
-		// Compiler initialization
-		if (!monitor.isCanceled()) {
-			compiler = new ModelingUnitCompiler(repository, resolver, informationHolder,
-					BasicMonitor.toMonitor(monitor));
+			// Compiler initialization
+			if (!monitor.isCanceled()) {
+				compiler = new ModelingUnitCompiler(repository.getPackageRegistry(), resolver,
+						informationHolder, BasicMonitor.toMonitor(monitor));
 
-			for (EObject resourceContent : resourceIndex.getContents()) {
-				modelingUnitsToCompile.addAll(UnitGetter
-						.getAllModelingUnitsContainedInElement(resourceContent));
+				for (EObject resourceContent : resourceIndex.getContents()) {
+					modelingUnitsToCompile.addAll(UnitGetter
+							.getAllModelingUnitsContainedInElement(resourceContent));
+				}
 			}
-		}
 
-		if (!monitor.isCanceled()) {
-			compiler.compile(modelingUnitsToCompile);
-		}
+			if (!monitor.isCanceled()) {
+				compiler.compile(modelingUnitsToCompile);
+			}
 
-		// Saving the new compilations errors
-		if (!monitor.isCanceled()) {
-			IntentLogger.getInstance().log(
-					LogType.LIFECYCLE,
-					"[Compiler] compiled " + informationHolder.getDeclaredResources().size() + " resources, "
-							+ informationHolder.getCompilationStatusList().size() + " errors detected");
-			saveCompilationInformations(repositoryAdapter, informationHolder, monitor);
-			IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Compiler] Saved on repository");
+			// Saving the new compilations errors
+			if (!monitor.isCanceled()) {
+				IntentLogger.getInstance().log(
+						LogType.LIFECYCLE,
+						"[Compiler] compiled " + informationHolder.getDeclaredResources().size()
+								+ " resources, " + informationHolder.getCompilationStatusList().size()
+								+ " errors detected");
+				saveCompilationInformations(repositoryAdapter, informationHolder, monitor);
+				IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Compiler] Saved on repository");
+			}
+		} catch (RepositoryConnectionException e) {
+			IntentLogger.getInstance().log(LogType.ERROR,
+					"Compilation Failed during link resolver intialization", e);
 		}
 	}
 

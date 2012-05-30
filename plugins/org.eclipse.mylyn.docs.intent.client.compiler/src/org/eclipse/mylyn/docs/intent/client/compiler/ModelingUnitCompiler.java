@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler;
 
-import com.google.common.collect.Sets;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.AbstractRuntimeCompilationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationErrorType;
@@ -32,8 +31,6 @@ import org.eclipse.mylyn.docs.intent.client.compiler.generator.modelgeneration.S
 import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.ModelingUnitLinkResolver;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
 import org.eclipse.mylyn.docs.intent.client.compiler.validator.GeneratedElementValidator;
-import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
-import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
@@ -76,9 +73,9 @@ public class ModelingUnitCompiler {
 	private final ModelingUnitLinkResolver linkResolver;
 
 	/**
-	 * The repository containing the modeling units to compile (and define available EPackages).
+	 * The repository registry containing the modeling units to compile (and define available EPackages).
 	 */
-	private Repository repository;
+	private EPackage.Registry packageRegistry;
 
 	/**
 	 * The progressMonitor to use for compilation ; if canceled, the compilation will stop immediately.
@@ -88,8 +85,8 @@ public class ModelingUnitCompiler {
 	/**
 	 * ModelingUnitCompiler constructor.
 	 * 
-	 * @param repository
-	 *            the repository containing the modeling units to compile
+	 * @param packageRegistry
+	 *            the repository package registry
 	 * @param linkResolver
 	 *            the linkResolver used to resolved the links in modelingUnits
 	 * @param informationHolder
@@ -97,9 +94,9 @@ public class ModelingUnitCompiler {
 	 * @param progressMonitor
 	 *            the progressMonitor to use for compilation
 	 */
-	public ModelingUnitCompiler(Repository repository, ModelingUnitLinkResolver linkResolver,
+	public ModelingUnitCompiler(EPackage.Registry packageRegistry, ModelingUnitLinkResolver linkResolver,
 			IntentCompilerInformationHolder informationHolder, Monitor progressMonitor) {
-		this.repository = repository;
+		this.packageRegistry = packageRegistry;
 		this.informationHolder = informationHolder;
 		this.modelingUnitGenerator = new ModelingUnitGenerator(linkResolver, informationHolder,
 				progressMonitor);
@@ -276,18 +273,13 @@ public class ModelingUnitCompiler {
 	 *            indicates if the compiler is currently genereting EPackages only
 	 * @return the packages imported by the given modelingUnit
 	 */
-	@Deprecated
 	protected List<String> getImportedPackages(ModelingUnit modelingUnitToCompile,
 			boolean generateOnlyEPackages) {
 		// TODO define a priority between EPackages to consider
 		List<String> importedPackages = new ArrayList<String>();
-		try {
-			importedPackages.add(EcorePackage.eINSTANCE.getNsURI());
-			for (String ePackage : repository.getPackageRegistry().keySet()) {
-				importedPackages.add(ePackage);
-			}
-		} catch (RepositoryConnectionException e) {
-			// Nothing to do, packages will not be correctly computed and a compilation error will be thrown
+		importedPackages.add(EcorePackage.eINSTANCE.getNsURI());
+		for (String ePackage : packageRegistry.keySet()) {
+			importedPackages.add(ePackage);
 		}
 		return importedPackages;
 	}
