@@ -1,0 +1,10 @@
+@M
+Resource R1 {
+	URI = "R1";
+	content += p1;
+}
+new EPackage p1 {
+	nsURI = "p1URI";
+	nsPrefix = "p1Prefix";
+}
+M@

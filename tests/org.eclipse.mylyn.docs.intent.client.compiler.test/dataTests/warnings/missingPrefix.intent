@@ -1,0 +1,9 @@
+@M
+Resource R2 {
+	URI = "R2";
+	content += p2;
+}
+new EPackage p2 {
+	nsURI = "p2URI";
+}
+M@
