@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.navigator;
 
+import java.util.ConcurrentModificationException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -85,8 +87,12 @@ public class UpdateProblemsViewJob extends Job {
 			CompilationStatusManager statusManager = (CompilationStatusManager)statusResource.getContents()
 					.iterator().next();
 
-			for (CompilationStatus status : statusManager.getCompilationStatusList()) {
-				createMarkerFromStatus(status);
+			try {
+				for (CompilationStatus status : statusManager.getCompilationStatusList()) {
+					createMarkerFromStatus(status);
+				}
+			} catch (ConcurrentModificationException e) {
+				IntentLogger.getInstance().log(LogType.WARNING, "Error while updating problem view", e);
 			}
 		}
 		return Status.OK_STATUS;
