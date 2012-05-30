@@ -34,7 +34,7 @@ public class RefresherTest extends AbstractIntentUITest {
 		// Step 1: we initialize an intent project
 		setUpIntentProject("intentProject", "data/unit/documents/editorupdates/refreshTest.intent", true);
 		IntentEditor editor = openIntentEditor();
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 
 		// Step 2: check that the error is present
 		assertTrue(getProblems().contains(
@@ -53,6 +53,7 @@ public class RefresherTest extends AbstractIntentUITest {
 
 		// Step 4: check that the errors disappears
 		document.set("Document {\n\tChapter Title {\n\t\tSection Title {\n\t\t\tText\n\t\t}\n\t}\n}");
+		repositoryListener.clearPreviousEntries();
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
 		waitForCompiler();

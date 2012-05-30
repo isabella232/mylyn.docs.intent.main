@@ -10,15 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
-import com.google.common.collect.Sets;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -33,8 +30,10 @@ import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -43,20 +42,14 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
-import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListNotificator;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator;
-import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -150,12 +143,12 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	@Override
 	protected void tearDown() throws Exception {
 		waitForAllOperationsInUIThread();
-		// Step 1 : close editors
+		// Step 1: close editors
 		for (IntentEditor editor : openedEditors) {
 			editor.close(false);
 		}
 
-		// Step 2 : clean workspace
+		// Step 2: clean workspace
 		if (intentProject != null) {
 			IntentRepositoryManager.INSTANCE.deleteRepository(intentProject.getName());
 			waitForAllOperationsInUIThread();
@@ -165,7 +158,15 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		IntentEditorActivator.getDefault().getLog().removeLogListener(this);
 		WorkspaceUtils.cleanWorkspace();
 
-		// Step 3 : setting all fields to null (to avoid memory leaks)
+		// Step 3: unregister repository listener and deactivate advance loggin
+		if (repositoryListener != null) {
+			Platform.removeLogListener(repositoryListener);
+		}
+		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
+				.getBundle().getSymbolicName());
+		node.putBoolean(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, false);
+
+		// Step 4: setting all fields to null (to avoid memory leaks)
 		setAllFieldsToNull();
 
 		super.tearDown();
@@ -180,27 +181,8 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * charge of detecting that events happened on the repository.
 	 */
 	protected void registerRepositoryListener() {
-		// Step 1 : creating the handler
-		// we listen for all modifications made on the traceability index
-		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
-
-		if (getIntentDocument() == null) {
-			fail("Cannot register a repository listener without having setted up an Intent Document");
-		}
-		Set<EObject> listenedElements = Sets.newLinkedHashSet();
-		listenedElements.add(getIntentDocument());
-		listenedElements.add(handler.getRepositoryAdapter()
-				.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH).getContents().iterator().next());
-		Notificator elementNotificator = new ElementListNotificator(listenedElements,
-				new ElementListAdapter(), repositoryAdapter);
-		Notificator compilationStatusNotificator = new TypeNotificator(
-				Sets.newLinkedHashSet(CompilerPackage.eINSTANCE.getCompilationStatusManager()
-						.getEAllStructuralFeatures()));
-		handler.addNotificator(elementNotificator);
-		handler.addNotificator(compilationStatusNotificator);
-		// Step 2 : creating the client
 		this.repositoryListener = new RepositoryListenerForTests();
-		repositoryListener.addRepositoryObjectHandler(handler);
+		Platform.addLogListener(repositoryListener);
 	}
 
 	/**
@@ -486,10 +468,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 				repositoryListener);
 		if (synchronizerShouldBeNotified) {
 			assertTrue("Time out : synchronizer should have handle changes but did not",
-					repositoryListener.waitForModificationOn(IntentLocations.COMPILATION_STATUS_INDEX_PATH));
+					repositoryListener.waitForModificationOn("Synchronizer"));
 		} else {
 			assertFalse("Synchonizer should not have been notifed",
-					repositoryListener.waitForModificationOn(IntentLocations.COMPILATION_STATUS_INDEX_PATH));
+					repositoryListener.waitForModificationOn("Synchronizer"));
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -507,10 +489,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 				repositoryListener);
 		if (indexerShouldBeNotified) {
 			assertTrue("Time out : indexer should have handle changes but did not",
-					repositoryListener.waitForModificationOn(IntentLocations.GENERAL_INDEX_PATH));
+					repositoryListener.waitForModificationOn("Indexer"));
 		} else {
 			assertFalse("Indexer should not have been notifed",
-					repositoryListener.waitForModificationOn(IntentLocations.GENERAL_INDEX_PATH));
+					repositoryListener.waitForModificationOn("Indexer"));
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -528,10 +510,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 				repositoryListener);
 		if (compilerShouldBeNotified) {
 			assertTrue("Time out : compiler should have handle changes but did not",
-					repositoryListener.waitForModificationOn(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH));
+					repositoryListener.waitForModificationOn("Compiler"));
 		} else {
 			assertFalse("Compiler should not have been notifed",
-					repositoryListener.waitForModificationOn(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH));
+					repositoryListener.waitForModificationOn("Compiler"));
 		}
 		waitForAllOperationsInUIThread();
 	}

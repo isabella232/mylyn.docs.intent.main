@@ -81,7 +81,7 @@ public class EcoreTest extends AbstractDemoTest {
 		sideEnum.getEEnumLiteral("Right").setLiteral("New");
 
 		// we start recording for any modification made on the repository
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		// save the changes made on the match.ecore model
 		modelResource.save(null);
 		// and wait the synchronizer to be notified
@@ -99,6 +99,7 @@ public class EcoreTest extends AbstractDemoTest {
 		newContent = newContent.replaceFirst("literal = \"Left\"", "literal = \"Old\"");
 		newContent = newContent.replaceFirst("literal = \"Right\"", "literal = \"New\"");
 		document.set(newContent);
+		repositoryListener.clearPreviousEntries();
 		editor.doSave(new NullProgressMonitor());
 
 		waitForCompiler();
@@ -129,7 +130,7 @@ public class EcoreTest extends AbstractDemoTest {
 		document.set(newContent);
 
 		// Step 2 : we start recording for any modification made on the repository
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		// save
 		editor.doSave(new NullProgressMonitor());
 		// and wait the synchronizer and the compiler to be notified
@@ -140,6 +141,7 @@ public class EcoreTest extends AbstractDemoTest {
 		IntentAnnotation annotation = AnnotationUtils.getIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_ANCESTOR, true);
 		assertNotNull(TEST_SYNCHRONIZER_NO_WARNING_MSG, annotation);
+		repositoryListener.clearPreviousEntries();
 
 		// Step 4 : apply quick fix
 		AnnotationUtils.applyAnnotationFix(annotation);

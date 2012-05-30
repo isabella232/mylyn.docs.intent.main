@@ -64,7 +64,7 @@ public class CompileTest extends AbstractDemoTest {
 		document.set(newContent);
 
 		// Step 2 : we start recording for any modification made on the repository
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		// save
 		editor.doSave(new NullProgressMonitor());
 		// and wait the compiler to be notified
@@ -76,6 +76,7 @@ public class CompileTest extends AbstractDemoTest {
 
 		// Step 4 : fix the error by resetting the content
 		document.set(initialContent);
+		repositoryListener.clearPreviousEntries();
 		editor.doSave(new NullProgressMonitor());
 
 		waitForCompiler();
@@ -95,7 +96,7 @@ public class CompileTest extends AbstractDemoTest {
 		document.set(newContent);
 
 		// Step 2 : we start recording for any modification made on the repository
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		// save
 		editor.doSave(new NullProgressMonitor());
 		// and wait the compiler to be notified
@@ -107,7 +108,7 @@ public class CompileTest extends AbstractDemoTest {
 
 		// Step 3 : fix the info by resetting the content
 		document.set(initialContent);
-		repositoryListener.startRecording();
+		repositoryListener.clearPreviousEntries();
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler();
 

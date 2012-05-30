@@ -1,0 +1,6 @@
+Section newSection2 {
+	@M
+		new EClass2 c2 {}
+	M@
+
+}
