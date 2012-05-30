@@ -154,7 +154,7 @@ $${thirdPartyJarsDir}/ant-contrib.jar          = ${thirdPartyJarsDir}/ant-contri
 		<!-- copy zip packages -->
 		<copy todir="${build.drop.directory}">
 			<fileset dir="${build.root}">
-				<filename name="${build.root.updatesite.name}" />
+				<filename name="*.zip" />
 			</fileset>
 		</copy>
 
@@ -221,7 +221,7 @@ $${thirdPartyJarsDir}/ant-contrib.jar          = ${thirdPartyJarsDir}/ant-contri
 		<!-- unzip update site to final location -->
 		<unzip dest="${build.repository.directory}">
 			<fileset dir="${build.root}">
-				<filename name="*.zip" />
+				<filename name="${build.root.updatesite.name}" />
 			</fileset>
 		</unzip>
 
