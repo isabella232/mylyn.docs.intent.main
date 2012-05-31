@@ -44,4 +44,8 @@ public class GeneratedResourcesTests extends AbstractIntentCompilerTest {
 	public void testDataType() {
 		compile("dataTests/resources/dataType.intent");
 	}
+
+	public void testFeatureMapEntry() {
+		compile("dataTests/resources/featureMapEntry.intent");
+	}
 }
