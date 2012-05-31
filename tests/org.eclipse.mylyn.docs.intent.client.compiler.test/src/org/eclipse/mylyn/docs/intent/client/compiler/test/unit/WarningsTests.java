@@ -39,6 +39,6 @@ public class WarningsTests extends AbstractIntentCompilerTest {
 	public void testMissingPrefix() {
 		compile("dataTests/warnings/missingPrefix.intent");
 		checkCompilationStatus(CompilationStatusSeverity.WARNING,
-				"-The namespace prefix 'null' is not well formed \n");
+				"-The namespace prefix 'null' is not well formed\n");
 	}
 }

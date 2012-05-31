@@ -125,7 +125,7 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	public static void clearCompilationStatus(IntentGenericElement element) {
 		Iterator<CompilationStatus> iterator = element.getCompilationStatus().iterator();
 		while (iterator.hasNext()) {
-			CompilationStatus status = iterator.next();
+			iterator.next();
 			iterator.remove();
 		}
 	}
@@ -137,13 +137,14 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	 */
 	@Override
 	public List<Object> caseModelingUnit(ModelingUnit modelingUnit) {
-
 		List<Object> createdObject = new ArrayList<Object>();
-		// If we have to consider this org.eclipse.mylyn.docs.intent.core.modelingunit
-		if (isModelingUnitToConsider(modelingUnit)) {
-			// We generate the elements (in other cases we simply do nothing)
-			currentImportedPackages = getImportedPackages(modelingUnit);
-			for (UnitInstruction instruction : modelingUnit.getInstructions()) {
+
+		// We generate the elements (in other cases we simply do nothing)
+		currentImportedPackages = getImportedPackages(modelingUnit);
+		for (UnitInstruction instruction : modelingUnit.getInstructions()) {
+			// if the instruction has to be considered (i.e. describes or not an epackage according to the
+			// compiling mode)
+			if (isInstructionToConsider(instruction)) {
 				if (!progressMonitor.isCanceled()) {
 					doSwitch(instruction);
 				}
@@ -156,51 +157,49 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	 * Returns true if the given org.eclipse.mylyn.docs.intent.core.modelingunit must be considered, according
 	 * to the mode of the generator (generate only EPackages declarations mode or not).
 	 * 
-	 * @param modelingUnit
+	 * @param instruction
 	 *            the modeling unit to consider
 	 * @return true if the given org.eclipse.mylyn.docs.intent.core.modelingunit must be considered, false
 	 *         otherwise
 	 */
-	private boolean isModelingUnitToConsider(ModelingUnit modelingUnit) {
+	private boolean isInstructionToConsider(UnitInstruction instruction) {
 		// If we are in generateOnlyEPackage mode, we consider this modelingunit
 		// only if it is describing at least one EPackage
 		// or is a contribution instruction
-		boolean isModelingUnitToConsider = isGenerateOnlyEPackages() && isDescribingEPackages(modelingUnit);
+		boolean isModelingUnitToConsider = isGenerateOnlyEPackages() && isDescribingEPackages(instruction);
 		// Otherwise, it must define no EPackage at all
 		isModelingUnitToConsider = isModelingUnitToConsider
-				|| (!isGenerateOnlyEPackages() && !isDescribingEPackages(modelingUnit));
+				|| (!isGenerateOnlyEPackages() && !isDescribingEPackages(instruction));
 		return isModelingUnitToConsider;
 	}
 
 	/**
 	 * Returns true if the given modeling Unit instantiate at least one EPackage.
 	 * 
-	 * @param modelingUnit
-	 *            the modeling unit to consider
+	 * @param instruction
+	 *            the instruction to test
 	 * @return true if the given modeling Unit instantiate at least one EPackage or contain a contribution
 	 *         instruction, false otherwise
 	 */
-	private boolean isDescribingEPackages(ModelingUnit modelingUnit) {
+	private boolean isDescribingEPackages(UnitInstruction instruction) {
 		boolean isDescribingEPackages = false;
 
-		for (UnitInstruction instruction : modelingUnit.getInstructions()) {
-			if (!progressMonitor.isCanceled()) {
-				// At least one instruction must match an EPackage instanciation
-				if (instruction instanceof InstanciationInstruction) {
-					isDescribingEPackages = isDescribingEPackages
-							|| InstanciationInstructionGenerator
-									.isEPackageInstanciation((InstanciationInstruction)instruction);
-				}
+		if (!progressMonitor.isCanceled()) {
+			// At least one instruction must match an EPackage instanciation
+			if (instruction instanceof InstanciationInstruction) {
+				isDescribingEPackages = isDescribingEPackages
+						|| InstanciationInstructionGenerator
+								.isEPackageInstanciation((InstanciationInstruction)instruction);
+			}
 
-				// or a completion (we can't know by advance if it's completing an EPackage
-				if (instruction instanceof ContributionInstruction) {
-					ContributionInstruction contributionInstruction = (ContributionInstruction)instruction;
-					// this.getInformationHolder().addUnresolvedContribution(
-					// contribution.getReferencedElement().getHref(), contribution);
-					// ContributionInstructionGenerator.generate(contribution, this, linkResolver, null);
-					// isDescribingEPackages = true;
-					ContributionInstructionGenerator.generate(contributionInstruction, this, linkResolver);
-				}
+			// or a completion (we can't know by advance if it's completing an EPackage
+			if (instruction instanceof ContributionInstruction) {
+				ContributionInstruction contributionInstruction = (ContributionInstruction)instruction;
+				// this.getInformationHolder().addUnresolvedContribution(
+				// contribution.getReferencedElement().getHref(), contribution);
+				// ContributionInstructionGenerator.generate(contribution, this, linkResolver, null);
+				// isDescribingEPackages = true;
+				ContributionInstructionGenerator.generate(contributionInstruction, this, linkResolver);
 			}
 		}
 		return isDescribingEPackages;
@@ -359,6 +358,9 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 		return informationHolder;
 	}
 
+	/**
+	 * Clears resource declarations.
+	 */
 	public void clearResourceDeclarations() {
 		resourceDeclarations.clear();
 	}

@@ -178,11 +178,16 @@ public class ModelingUnitCompiler {
 
 		// Step 2.4 : we associate each generated object in the given resource
 		if (!progressMonitor.isCanceled()) {
-			mapResourceDeclarationToGeneratedObjects();
+			if (!generateOnlyEPackages) {
+				mapResourceDeclarationToGeneratedObjects();
+			}
 		}
 		// Step 2.5 : Validation
 		if (!progressMonitor.isCanceled()) {
-			validateGeneratedElement();
+			// We only validate content when not considering epackage (validation will only be launched once)
+			if (!generateOnlyEPackages) {
+				validateGeneratedElement();
+			}
 		}
 		// TODO Handle compilation Time.
 
@@ -331,7 +336,6 @@ public class ModelingUnitCompiler {
 	 * Validate the generated Elements and create a Compilation Status if the generation Failed.
 	 */
 	protected void validateGeneratedElement() {
-
 		for (EObject generatedElement : informationHolder.getCurrentCreatedElements()) {
 			GeneratedElementValidator validator = new GeneratedElementValidator(
 					informationHolder.getInstructionByCreatedElement(generatedElement), generatedElement);
