@@ -92,7 +92,7 @@ public final class InstanciationInstructionGenerator {
 			// We generate a compilation status
 			modelingUnitGenerator.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
 					new CompilationException(e.getInvalidInstruction(),
-							CompilationErrorType.INVALID_REFRENCE_ERROR, e.getMessage()));
+							CompilationErrorType.INVALID_REFERENCE_ERROR, e.getMessage()));
 			// And we create a sample object, in order to let the compilation running
 			createdElement = EcoreFactory.eINSTANCE.createEObject();
 		} catch (IllegalArgumentException e) {

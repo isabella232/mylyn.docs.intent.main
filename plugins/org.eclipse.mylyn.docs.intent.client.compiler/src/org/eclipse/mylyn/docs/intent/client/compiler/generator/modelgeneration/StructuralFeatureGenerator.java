@@ -69,7 +69,7 @@ public final class StructuralFeatureGenerator {
 			EStructuralFeature feature = linkResolver.resolveEStructuralFeature(affectation, eClass.eClass());
 			if (feature == null || feature.getEType() == null) {
 				modelingUnitGenerator.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
-						new CompilationException(affectation, CompilationErrorType.INVALID_REFRENCE_ERROR,
+						new CompilationException(affectation, CompilationErrorType.INVALID_REFERENCE_ERROR,
 								"The feature " + feature.getName() + " is derived and cannot be set."));
 				feature.setEType(EcorePackage.eINSTANCE.getEString());
 			}
@@ -127,7 +127,7 @@ public final class StructuralFeatureGenerator {
 			// we add a CompilationSats
 			modelingUnitGenerator.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
 					new CompilationException(e.getInvalidInstruction(),
-							CompilationErrorType.INVALID_REFRENCE_ERROR, e.getMessage()));
+							CompilationErrorType.INVALID_REFERENCE_ERROR, e.getMessage()));
 		}
 
 	}

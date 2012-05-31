@@ -67,7 +67,7 @@ public final class CompilationStatusConverter {
 			CompilationErrorType type) {
 		CompilationMessageType returnedMessageType = null;
 		switch (type) {
-			case INVALID_REFRENCE_ERROR:
+			case INVALID_REFERENCE_ERROR:
 				returnedMessageType = CompilationMessageType.INVALID_REFERENCE_ERROR;
 				break;
 			case INVALID_VALUE_ERROR:
@@ -103,7 +103,7 @@ public final class CompilationStatusConverter {
 			CompilationErrorType type) {
 		CompilationStatusSeverity returnedSeverity = null;
 		switch (type) {
-			case INVALID_REFRENCE_ERROR:
+			case INVALID_REFERENCE_ERROR:
 				returnedSeverity = CompilationStatusSeverity.ERROR;
 				break;
 			case INVALID_VALUE_ERROR:

@@ -138,7 +138,7 @@ public class ModelingUnitCompiler {
 						informationHolder
 								.registerCompilationExceptionAsCompilationStatus(new CompilationException(
 										unresolvedContributionHolder.getReferencedContribution(),
-										CompilationErrorType.INVALID_REFRENCE_ERROR,
+										CompilationErrorType.INVALID_REFERENCE_ERROR,
 										"The element "
 												+ unresolvedName
 												+ " cannot be resolved. This contribution instruction will be ignored. "));
@@ -217,7 +217,7 @@ public class ModelingUnitCompiler {
 					// If the reference cannot be resolved, we register a new compilation status.
 					informationHolder
 							.registerCompilationExceptionAsCompilationStatus(new CompilationException(
-									resource, CompilationErrorType.INVALID_REFRENCE_ERROR, e.getMessage()));
+									resource, CompilationErrorType.INVALID_REFERENCE_ERROR, e.getMessage()));
 				}
 			}
 		}
@@ -257,7 +257,7 @@ public class ModelingUnitCompiler {
 			compilationErrorType = CompilationErrorType.PACKAGE_REGISTRATION_ERROR;
 		} catch (InvalidReferenceException e) {
 			thrownException = e;
-			compilationErrorType = CompilationErrorType.INVALID_REFRENCE_ERROR;
+			compilationErrorType = CompilationErrorType.INVALID_REFERENCE_ERROR;
 		} catch (InvalidValueException e) {
 			thrownException = e;
 			compilationErrorType = CompilationErrorType.INVALID_VALUE_ERROR;
@@ -325,7 +325,7 @@ public class ModelingUnitCompiler {
 					// we register a compilation status
 					informationHolder
 							.registerCompilationExceptionAsCompilationStatus(new CompilationException(e
-									.getInvalidInstruction(), CompilationErrorType.INVALID_REFRENCE_ERROR, e
+									.getInvalidInstruction(), CompilationErrorType.INVALID_REFERENCE_ERROR, e
 									.getMessage()));
 				}
 			}
