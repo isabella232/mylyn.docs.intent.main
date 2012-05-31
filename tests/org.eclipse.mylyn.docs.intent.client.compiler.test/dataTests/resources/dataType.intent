@@ -7,15 +7,23 @@ new EPackage p1 {
 	nsURI = "p1URI";
 	nsPrefix = "p1Prefix";
 	eClassifiers += new EDataType TestType {
+		instanceClassName = "java.lang.String";
 		instanceTypeName = "java.lang.String";
 	};
 	eClassifiers += new EClass Dynamic {
 		eStructuralFeatures += new EAttribute {
-			name = "test";
+			name = "attr";
 			eType = TestType;
 			changeable = "true";
 			ordered = "true";
 		};
 	};
+}
+Resource R2 {
+	URI = "R2";
+	content += instance;
+}
+new Dynamic instance {
+	attr = "instance";
 }
 M@

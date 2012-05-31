@@ -7,7 +7,8 @@ new EPackage p1 {
 	nsURI = "p1URI";
 	nsPrefix = "p1Prefix";
 	eClassifiers += new EClass Dynamic {
-		eAnnotations += new EStringToStringMapEntry {};
+		eAnnotations += new EStringToStringMapEntry {
+		};
 	};
 }
 M@

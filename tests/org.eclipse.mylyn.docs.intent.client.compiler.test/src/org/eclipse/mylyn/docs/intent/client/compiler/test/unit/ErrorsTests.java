@@ -35,4 +35,7 @@ public class ErrorsTests extends AbstractIntentCompilerTest {
 		checkCompilationStatus(CompilationStatusSeverity.ERROR, "The reference p1 cannot be resolved. ");
 	}
 
+	public void testIncorrectType() {
+		compile("dataTests/errors/featureMapEntry.intent");
+	}
 }

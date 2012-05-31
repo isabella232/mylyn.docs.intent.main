@@ -2,6 +2,6 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="p1" nsURI="p1URI" nsPrefix="p1Prefix">
   <eClassifiers xsi:type="ecore:EDataType" name="TestType" instanceClassName="java.lang.String"/>
   <eClassifiers xsi:type="ecore:EClass" name="Dynamic">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="test" eType="//TestType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="attr" eType="//TestType"/>
   </eClassifiers>
 </ecore:EPackage>
