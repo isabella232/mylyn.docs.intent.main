@@ -176,7 +176,8 @@ public abstract class AbstractIntentCompilerTest extends TestCase implements ILo
 					MatchModel matchModel = MatchService.doResourceMatch(expected, generatedResource,
 							new HashMap<String, Object>());
 					DiffModel diff = DiffService.doDiff(matchModel, false);
-					assertTrue(diff.getDifferences().isEmpty());
+					assertTrue("There are differences between expected and actual", diff.getDifferences()
+							.isEmpty());
 				} catch (InterruptedException e) {
 					fail(e.getMessage());
 				}

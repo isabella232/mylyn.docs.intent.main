@@ -36,4 +36,12 @@ public class GeneratedResourcesTests extends AbstractIntentCompilerTest {
 	public void testResourceDeclaration() {
 		compile("dataTests/resources/resourceDeclaration.intent");
 	}
+
+	public void testDynamicInstance() {
+		compile("dataTests/resources/dynamicInstance.intent");
+	}
+
+	public void testDataType() {
+		compile("dataTests/resources/dataType.intent");
+	}
 }
