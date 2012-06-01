@@ -17,7 +17,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import junit.framework.TestCase;
+import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
@@ -47,13 +48,15 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParserImpl;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
+import org.junit.After;
+import org.junit.Before;
 
 /**
  * An abstract test class providing API for manage an Intent IDE projects and editors.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public abstract class AbstractIntentCompilerTest extends TestCase implements ILogListener {
+public abstract class AbstractIntentCompilerTest implements ILogListener {
 
 	/**
 	 * The parser.
@@ -87,9 +90,8 @@ public abstract class AbstractIntentCompilerTest extends TestCase implements ILo
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Before
+	public void setUp() throws Exception {
 		statusToCheck.clear();
 		resourceSet.getResources().clear();
 	}
@@ -99,16 +101,15 @@ public abstract class AbstractIntentCompilerTest extends TestCase implements ILo
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	@Override
-	protected void tearDown() throws Exception {
+	@After
+	public void tearDown() throws Exception {
 		if (!statusToCheck.isEmpty()) {
 			StringBuilder builder = new StringBuilder();
 			for (CompilationStatus status : statusToCheck) {
 				builder.append(status.getSeverity().toString() + ' ' + status.getMessage() + "\n");
 			}
-			fail("There are unchecked status :\n" + builder.toString());
+			throw new AssertionFailedError("There are unchecked status :\n" + builder.toString());
 		}
-		super.tearDown();
 	}
 
 	/**
@@ -125,9 +126,9 @@ public abstract class AbstractIntentCompilerTest extends TestCase implements ILo
 				return (ModelingUnit)res;
 			}
 		} catch (ParseException e) {
-			fail(e.getMessage());
+			throw new AssertionFailedError(e.getMessage());
 		} catch (IOException e) {
-			fail(e.getMessage());
+			throw new AssertionFailedError(e.getMessage());
 		}
 		return null;
 	}
@@ -168,7 +169,7 @@ public abstract class AbstractIntentCompilerTest extends TestCase implements ILo
 				try {
 					expectedResource.save(null);
 				} catch (IOException e) {
-					fail(e.getMessage());
+					throw new AssertionFailedError(e.getMessage());
 				}
 			} else {
 				Resource expected = resourceSet.getResource(expectedURI, true);
@@ -176,10 +177,10 @@ public abstract class AbstractIntentCompilerTest extends TestCase implements ILo
 					MatchModel matchModel = MatchService.doResourceMatch(expected, generatedResource,
 							new HashMap<String, Object>());
 					DiffModel diff = DiffService.doDiff(matchModel, false);
-					assertTrue("There are differences between expected and actual", diff.getDifferences()
-							.isEmpty());
+					Assert.assertTrue("There are differences between expected and actual", diff
+							.getDifferences().isEmpty());
 				} catch (InterruptedException e) {
-					fail(e.getMessage());
+					throw new AssertionFailedError(e.getMessage());
 				}
 			}
 		}
@@ -194,7 +195,7 @@ public abstract class AbstractIntentCompilerTest extends TestCase implements ILo
 	 */
 	public void logging(IStatus status, String plugin) {
 		if (status.getSeverity() == IStatus.ERROR) {
-			fail(status.getMessage());
+			throw new AssertionFailedError(status.getMessage());
 		}
 	}
 
@@ -222,7 +223,7 @@ public abstract class AbstractIntentCompilerTest extends TestCase implements ILo
 			return;
 		}
 		if (candidates.size() == 1) {
-			assertEquals(message, candidates.get(0));
+			Assert.assertEquals(message, candidates.get(0));
 		} else {
 			if (!candidates.isEmpty()) {
 				StringBuilder builder = new StringBuilder();
@@ -231,7 +232,7 @@ public abstract class AbstractIntentCompilerTest extends TestCase implements ILo
 				}
 				System.out.println("candidates :\n" + builder.toString());
 			}
-			fail("Status not found : " + severity + ' ' + message);
+			throw new AssertionFailedError("Status not found : " + severity + ' ' + message);
 		}
 	}
 }

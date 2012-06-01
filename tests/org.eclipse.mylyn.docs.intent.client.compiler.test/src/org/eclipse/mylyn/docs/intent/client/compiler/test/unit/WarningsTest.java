@@ -12,30 +12,23 @@ package org.eclipse.mylyn.docs.intent.client.compiler.test.unit;
 
 import org.eclipse.mylyn.docs.intent.client.compiler.test.util.AbstractIntentCompilerTest;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
+import org.junit.Test;
 
 /**
  * Tests the correct behavior of Intent compiler warnings.
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class WarningsTests extends AbstractIntentCompilerTest {
+public class WarningsTest extends AbstractIntentCompilerTest {
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-
+	@Test
 	public void testMissingURI() {
 		compile("dataTests/warnings/missingURI.intent");
 		checkCompilationStatus(CompilationStatusSeverity.WARNING,
 				"-The namespace URI 'null' is not well formed\n");
 	}
 
+	@Test
 	public void testMissingPrefix() {
 		compile("dataTests/warnings/missingPrefix.intent");
 		checkCompilationStatus(CompilationStatusSeverity.WARNING,

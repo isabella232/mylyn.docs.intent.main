@@ -10,11 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.test.suite;
 
-import junit.framework.TestCase;
-
-import org.eclipse.mylyn.docs.intent.client.compiler.test.unit.ErrorsTests;
-import org.eclipse.mylyn.docs.intent.client.compiler.test.unit.GeneratedResourcesTests;
-import org.eclipse.mylyn.docs.intent.client.compiler.test.unit.WarningsTests;
+import org.eclipse.mylyn.docs.intent.client.compiler.test.unit.ErrorsTest;
+import org.eclipse.mylyn.docs.intent.client.compiler.test.unit.GeneratedResourcesTest;
+import org.eclipse.mylyn.docs.intent.client.compiler.test.unit.WarningsTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -24,8 +22,8 @@ import org.junit.runners.Suite;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({GeneratedResourcesTests.class, ErrorsTests.class, WarningsTests.class,
+@Suite.SuiteClasses({GeneratedResourcesTest.class, ErrorsTest.class, WarningsTest.class,
 })
-public class CompilerTestSuite extends TestCase {
+public class CompilerTestSuite {
 
 }

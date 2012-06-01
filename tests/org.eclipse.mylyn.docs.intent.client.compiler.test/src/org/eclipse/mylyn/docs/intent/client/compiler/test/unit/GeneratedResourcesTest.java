@@ -11,31 +11,33 @@
 package org.eclipse.mylyn.docs.intent.client.compiler.test.unit;
 
 import org.eclipse.mylyn.docs.intent.client.compiler.test.util.AbstractIntentCompilerTest;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
+import org.junit.Test;
 
 /**
- * Tests the correct behavior of Intent compiler errors.
+ * Tests the correct behavior of Intent compiler model generation.
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class ErrorsTests extends AbstractIntentCompilerTest {
+public class GeneratedResourcesTest extends AbstractIntentCompilerTest {
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	@Test
+	public void testSeveralResources() {
+		compile("dataTests/resources/severalResources.intent");
 	}
 
-	public void testNoResourceCreated() {
-		compile("dataTests/errors/noResourceCreated.intent");
-		checkCompilationStatus(CompilationStatusSeverity.ERROR, "The reference p1 cannot be resolved. ");
+	@Test
+	public void testResourceDeclaration() {
+		compile("dataTests/resources/resourceDeclaration.intent");
 	}
 
-	public void testIncorrectType() {
-		compile("dataTests/errors/featureMapEntry.intent");
+	@Test
+	public void testDynamicInstance() {
+		compile("dataTests/resources/dynamicInstance.intent");
 	}
+
+	@Test
+	public void testDataType() {
+		compile("dataTests/resources/dataType.intent");
+	}
+
 }
