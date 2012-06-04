@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.client.compiler;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -209,7 +210,7 @@ public class ModelingUnitCompiler {
 			for (ModelingUnitInstructionReference newContainedElementRefrence : resource.getContent()) {
 				// We resolve this reference
 				try {
-					EObject newContainedElement = linkResolver.resolveReferenceinElementList(resource, null,
+					EObject newContainedElement = linkResolver.resolveReferenceInElementList(resource, null,
 							newContainedElementRefrence.getIntentHref());
 					// and add it to the resource mapping of the informationHolder
 					informationHolder.addResourceToGeneratedElementMapping(resource, newContainedElement);
@@ -275,7 +276,7 @@ public class ModelingUnitCompiler {
 	 * @param modelingUnitToCompile
 	 *            the modelingUnit to inspect
 	 * @param generateOnlyEPackages
-	 *            indicates if the compiler is currently genereting EPackages only
+	 *            indicates if the compiler is currently generating EPackages only
 	 * @return the packages imported by the given modelingUnit
 	 */
 	protected List<String> getImportedPackages(ModelingUnit modelingUnitToCompile,
@@ -295,15 +296,18 @@ public class ModelingUnitCompiler {
 	protected void resolveLinks() {
 
 		for (EObject elementContainingUnresolvedReference : informationHolder.getCurrentCreatedElements()) {
-			for (UnresolvedReferenceHolder referenceHolder : informationHolder
-					.getUnresolvedReferencesByGeneratedElement(elementContainingUnresolvedReference)) {
+
+			for (Iterator<UnresolvedReferenceHolder> iterator = informationHolder
+					.getUnresolvedReferencesByGeneratedElement(elementContainingUnresolvedReference)
+					.iterator(); iterator.hasNext();) {
+				UnresolvedReferenceHolder referenceHolder = iterator.next();
 
 				// This list will contains the resolved value of the reference
 				List<Object> referenceValue = new ArrayList<Object>();
 				try {
 					try {
 
-						EObject referencedElement = linkResolver.resolveReferenceinElementList(
+						EObject referencedElement = linkResolver.resolveReferenceInElementList(
 								referenceHolder.getInstructionContainer(),
 								// should be referenceHolder.getConcernedFeature().eClass()
 								null, referenceHolder.getTextualReference());
@@ -318,8 +322,17 @@ public class ModelingUnitCompiler {
 								referenceHolder.getTextualReference()));
 					}
 
-					StructuralFeatureGenerator.setFeatureValueInElement(elementContainingUnresolvedReference,
+					StructuralFeatureGenerator.setFeatureValueInElement(
+							referenceHolder.getInstructionContainer(), elementContainingUnresolvedReference,
 							referenceHolder.getConcernedFeature(), referenceValue);
+				} catch (InvalidValueException e) {
+					// If the reference cannot be resolved with both ways
+					// we register a compilation status
+					informationHolder
+							.registerCompilationExceptionAsCompilationStatus(new CompilationException(e
+									.getInvalidInstruction(), CompilationErrorType.INVALID_REFERENCE_ERROR, e
+									.getMessage()));
+					iterator.remove();
 				} catch (ResolveException e) {
 					// If the reference cannot be resolved with both ways
 					// we register a compilation status
@@ -327,6 +340,7 @@ public class ModelingUnitCompiler {
 							.registerCompilationExceptionAsCompilationStatus(new CompilationException(e
 									.getInvalidInstruction(), CompilationErrorType.INVALID_REFERENCE_ERROR, e
 									.getMessage()));
+					iterator.remove();
 				}
 			}
 		}

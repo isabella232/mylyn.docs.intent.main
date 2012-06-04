@@ -12,7 +12,6 @@ package org.eclipse.mylyn.docs.intent.client.compiler.test.unit;
 
 import org.eclipse.mylyn.docs.intent.client.compiler.test.util.AbstractIntentCompilerTest;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -29,8 +28,16 @@ public class ErrorsTest extends AbstractIntentCompilerTest {
 	}
 
 	@Test
-	@Ignore
-	public void testIncorrectType() {
-		compile("dataTests/errors/featureMapEntry.intent");
+	public void testIncorrectTypeInstanciation() {
+		compile("dataTests/errors/incorrectTypeInstanciation.intent");
+		checkCompilationStatus(CompilationStatusSeverity.ERROR,
+				"The feature eAnnotations cannot handle type EStringToStringMapEntryImpl. ");
+	}
+
+	@Test
+	public void testIncorrectTypeReference() {
+		compile("dataTests/errors/incorrectTypeReference.intent");
+		checkCompilationStatus(CompilationStatusSeverity.ERROR,
+				"The feature eSuperTypes cannot handle type EPackageImpl. ");
 	}
 }

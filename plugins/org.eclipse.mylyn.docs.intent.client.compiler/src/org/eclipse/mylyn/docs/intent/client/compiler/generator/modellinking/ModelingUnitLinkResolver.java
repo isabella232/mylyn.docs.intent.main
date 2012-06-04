@@ -126,7 +126,7 @@ public class ModelingUnitLinkResolver {
 		}
 
 		if (resolvedClassifier == null) {
-			throw new ResolveException(instruction, "The Entity " + href + "cannot be resolved");
+			throw new ResolveException(instruction, "The Entity " + href + " cannot be resolved");
 		}
 		return resolvedClassifier;
 	}
@@ -200,7 +200,7 @@ public class ModelingUnitLinkResolver {
 	}
 
 	/**
-	 * resolve an undresolved reference using the informationHolder's informations.
+	 * Resolve an unresolved reference using the informationHolder's informations.
 	 * 
 	 * @param instruction
 	 *            the instruction that makes this reference (used to construct error message).
@@ -212,7 +212,7 @@ public class ModelingUnitLinkResolver {
 	 * @throws InvalidReferenceException
 	 *             if the element cannot be found in the generated element list
 	 */
-	public EObject resolveReferenceinElementList(UnitInstruction instruction, EClassifier searchedType,
+	public EObject resolveReferenceInElementList(UnitInstruction instruction, EClassifier searchedType,
 			String referencedValue) throws InvalidReferenceException {
 		EObject foundReference = (EObject)informationHolder.getCreatedInstanceByName(searchedType,
 				referencedValue);
