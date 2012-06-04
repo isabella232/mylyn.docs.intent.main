@@ -75,6 +75,7 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 		rules.add(new KeywordRule(IntentKeyWords.INTENT_KEYWORD_OPEN, true, true, duToken));
 
 		setRules(rules.toArray(new IRule[rules.size()]));
+		setDefaultReturnToken(defaultToken);
 	}
 
 	/**
