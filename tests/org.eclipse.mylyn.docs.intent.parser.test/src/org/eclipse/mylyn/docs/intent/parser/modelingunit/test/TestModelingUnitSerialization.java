@@ -109,4 +109,9 @@ public class TestModelingUnitSerialization {
 		parseAndCompareSerializationToExpected("resourcesRelatedTest/resourceReference", true);
 	}
 
+	@Test
+	public void testQualifiedNamesSerialization() {
+		parseAndCompareSerializationToExpected("qualifiedNames/qualifiedName", true);
+		parseAndCompareSerializationToExpected("qualifiedNames/qualifiedNameNewInstance", true);
+	}
 }

@@ -180,23 +180,51 @@ public class ModelingUnitLinkResolver {
 	 */
 	private EClassifier resolveEClassifierUsingPackage(UnitInstruction instruction, String nsURI, String href)
 			throws PackageNotFoundResolveException {
-
+		
 		EPackage ePackage = this.packageRegistry.getEPackage(nsURI);
-
+		
 		if (ePackage == null) {
 			throw new PackageNotFoundResolveException(instruction, "The package with nsURI \"" + nsURI
 					+ "\" cannot be found. ");
 		}
+
+		// resolving ePackage from qualified name if necessary
+		String classifierName = href;
+		if (href.contains(".")) {
+			classifierName = href.substring(href.lastIndexOf('.') + 1);
+			String packageQualifiedName = href.substring(0, href.lastIndexOf('.'));
+			if (!getQualifiedName(ePackage).equals(packageQualifiedName)) {
+				return null;
+			}
+		}
+
 		EClassifier resolvedClass = null;
-		EClassifier foundClassifier = ePackage.getEClassifier(href);
+		EClassifier foundClassifier = ePackage.getEClassifier(classifierName);
 		if (foundClassifier != null) {
 			resolvedClass = foundClassifier;
 			if (instruction instanceof ReferenceValueForStructuralFeature) {
 				((ReferenceValueForStructuralFeature)instruction).setReferencedMetaType(resolvedClass);
 			}
 		}
-
+		
 		return resolvedClass;
+	}
+
+	/**
+	 * Returns the qualified name of the ePackage.
+	 * 
+	 * @param ePackage
+	 *            the ePackage
+	 * @return the qualified name of the ePackage
+	 */
+	private String getQualifiedName(EPackage ePackage) {
+		String res = ePackage.getName();
+		EPackage tmp = (EPackage)ePackage.eContainer();
+		while (tmp != null) {
+			res = tmp.getName() + '.' + res;
+			tmp = (EPackage)tmp.eContainer();
+		}
+		return res;
 	}
 
 	/**
