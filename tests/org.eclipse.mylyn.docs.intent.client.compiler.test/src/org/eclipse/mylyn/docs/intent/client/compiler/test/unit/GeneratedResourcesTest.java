@@ -49,4 +49,9 @@ public class GeneratedResourcesTest extends AbstractIntentCompilerTest {
 	public void testQualifiedNameNewInstance() {
 		compile("dataTests/resources/qualifiedNameNewInstance.intent");
 	}
+
+	@Test
+	public void testReference() {
+		compile("dataTests/resources/reference.intent");
+	}
 }
