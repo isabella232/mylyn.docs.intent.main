@@ -1,0 +1,40 @@
+@M
+Resource TestGenModel {
+	URI = "platform:/resource/enumerations/TestGenModel.genmodel";
+	content += testGenModel;
+}
+new GenModel testGenModel {
+	featureDelegation = "Virtual";
+}
+Resource TestMetamodel {
+	URI = "platform:/resource/enumerations/TestMetamodel.ecore";
+	content += testMetamodel;
+}
+new EPackage testMetamodel {
+	nsURI = "testMetamodel";
+	nsPrefix = "testMetamodel";
+	eClassifiers += new EClass TestType {
+		eStructuralFeatures += new EAttribute {
+			name = "visibility";
+			eType = TestTypeVisibility;
+			changeable = "true";
+			ordered = "true";
+		};
+	};
+	eClassifiers += new EEnum TestTypeVisibility {
+		eLiterals += new EEnumLiteral public {};
+		eLiterals += new EEnumLiteral private {};
+	};
+}
+Resource TestModel {
+	URI = "platform:/resource/enumerations/TestModel.xmi";
+	content += testTypeInstanceByReference;
+	content += testTypeInstance;
+}
+new TestType testTypeInstanceByReference {
+	visibility = private;
+}
+new TestType testTypeInstance {
+	visibility = "public";
+}
+M@

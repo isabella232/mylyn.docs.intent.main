@@ -112,8 +112,8 @@ public final class NativeValueForStructuralFeatureGenerator {
 			if (type instanceof EEnum) {
 				EEnum typeAsEnum = (EEnum)type;
 				// Then we call the specific methods of this EEnum to get the correct literal.
-				generatedValue = typeAsEnum
-						.getEEnumLiteralByLiteral(removeQuotes(valueInstruction.getValue()));
+				generatedValue = typeAsEnum.getEEnumLiteralByLiteral(
+						removeQuotes(valueInstruction.getValue())).getInstance();
 			} else if (type instanceof EDataType) {
 				EDataType typeAsDataType = (EDataType)type;
 				if (typeAsDataType.getInstanceClass().equals(Integer.class)) {

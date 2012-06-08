@@ -52,6 +52,11 @@ public class GeneratedResourcesTest extends AbstractIntentCompilerTest {
 	}
 
 	@Test
+	public void testEnumerations() {
+		compile("dataTests/resources/enumerations.intent");
+	}
+
+	@Test
 	@Ignore
 	public void testReference() {
 		compile("dataTests/resources/reference.intent");
