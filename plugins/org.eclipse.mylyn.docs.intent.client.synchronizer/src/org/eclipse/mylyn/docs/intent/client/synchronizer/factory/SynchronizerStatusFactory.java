@@ -161,7 +161,7 @@ public final class SynchronizerStatusFactory {
 				compiledElementTarget = ((ReferenceChangeLeftTarget)difference).getLeftElement();
 				break;
 			case DiffPackage.REFERENCE_CHANGE_RIGHT_TARGET:
-				compiledElementTarget = ((ReferenceChangeRightTarget)difference).getRightElement();
+				compiledElementTarget = ((ReferenceChangeRightTarget)difference).getLeftElement();
 				break;
 			case DiffPackage.RESOURCE_DIFF:
 				// TODO
