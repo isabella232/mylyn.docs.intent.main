@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.client.compiler.test.unit;
 
 import org.eclipse.mylyn.docs.intent.client.compiler.test.util.AbstractIntentCompilerTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -51,6 +52,7 @@ public class GeneratedResourcesTest extends AbstractIntentCompilerTest {
 	}
 
 	@Test
+	@Ignore
 	public void testReference() {
 		compile("dataTests/resources/reference.intent");
 	}
