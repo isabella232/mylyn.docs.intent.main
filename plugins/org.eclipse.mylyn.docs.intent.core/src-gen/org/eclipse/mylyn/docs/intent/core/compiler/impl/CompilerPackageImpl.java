@@ -742,7 +742,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceState() {
+	public EAttribute getSynchronizerCompilationStatus_WorkingCopyElementURIFragment() {
 		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -751,8 +751,26 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSynchronizerCompilationStatus_CompiledResourceState() {
+	public EAttribute getSynchronizerCompilationStatus_CompiledElementURIFragment() {
 		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceState() {
+		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSynchronizerCompilationStatus_CompiledResourceState() {
+		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -900,6 +918,10 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 				SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI);
 		createEAttribute(synchronizerCompilationStatusEClass,
 				SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI);
+		createEAttribute(synchronizerCompilationStatusEClass,
+				SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT);
+		createEAttribute(synchronizerCompilationStatusEClass,
+				SYNCHRONIZER_COMPILATION_STATUS__COMPILED_ELEMENT_URI_FRAGMENT);
 		createEAttribute(synchronizerCompilationStatusEClass,
 				SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE);
 		createEAttribute(synchronizerCompilationStatusEClass,
@@ -1151,6 +1173,14 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		initEAttribute(getSynchronizerCompilationStatus_CompiledResourceURI(), ecorePackage.getEString(),
 				"compiledResourceURI", null, 0, 1, SynchronizerCompilationStatus.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSynchronizerCompilationStatus_WorkingCopyElementURIFragment(),
+				ecorePackage.getEString(), "workingCopyElementURIFragment", null, 0, 1,
+				SynchronizerCompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSynchronizerCompilationStatus_CompiledElementURIFragment(),
+				ecorePackage.getEString(), "compiledElementURIFragment", null, 0, 1,
+				SynchronizerCompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSynchronizerCompilationStatus_WorkingCopyResourceState(),
 				this.getSynchronizerResourceState(), "workingCopyResourceState", null, 0, 1,
 				SynchronizerCompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,

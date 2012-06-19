@@ -777,13 +777,31 @@ public interface CompilerPackage extends EPackage {
 	int SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI = COMPILATION_STATUS_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Working Copy Element URI Fragment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT = COMPILATION_STATUS_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Element URI Fragment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONIZER_COMPILATION_STATUS__COMPILED_ELEMENT_URI_FRAGMENT = COMPILATION_STATUS_FEATURE_COUNT + 3;
+
+	/**
 	 * The feature id for the '<em><b>Working Copy Resource State</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE = COMPILATION_STATUS_FEATURE_COUNT + 2;
+	int SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE = COMPILATION_STATUS_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Compiled Resource State</b></em>' attribute.
@@ -792,7 +810,7 @@ public interface CompilerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_STATE = COMPILATION_STATUS_FEATURE_COUNT + 3;
+	int SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_STATE = COMPILATION_STATUS_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Synchronizer Compilation Status</em>' class.
@@ -801,7 +819,7 @@ public interface CompilerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT = COMPILATION_STATUS_FEATURE_COUNT + 4;
+	int SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT = COMPILATION_STATUS_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}' enum.
@@ -1460,6 +1478,28 @@ public interface CompilerPackage extends EPackage {
 	EAttribute getSynchronizerCompilationStatus_CompiledResourceURI();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyElementURIFragment <em>Working Copy Element URI Fragment</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Working Copy Element URI Fragment</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyElementURIFragment()
+	 * @see #getSynchronizerCompilationStatus()
+	 * @generated
+	 */
+	EAttribute getSynchronizerCompilationStatus_WorkingCopyElementURIFragment();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledElementURIFragment <em>Compiled Element URI Fragment</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Compiled Element URI Fragment</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledElementURIFragment()
+	 * @see #getSynchronizerCompilationStatus()
+	 * @generated
+	 */
+	EAttribute getSynchronizerCompilationStatus_CompiledElementURIFragment();
+
+	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceState <em>Working Copy Resource State</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2061,6 +2101,24 @@ public interface CompilerPackage extends EPackage {
 		 */
 		EAttribute SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI = eINSTANCE
 				.getSynchronizerCompilationStatus_CompiledResourceURI();
+
+		/**
+		 * The meta object literal for the '<em><b>Working Copy Element URI Fragment</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT = eINSTANCE
+				.getSynchronizerCompilationStatus_WorkingCopyElementURIFragment();
+
+		/**
+		 * The meta object literal for the '<em><b>Compiled Element URI Fragment</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SYNCHRONIZER_COMPILATION_STATUS__COMPILED_ELEMENT_URI_FRAGMENT = eINSTANCE
+				.getSynchronizerCompilationStatus_CompiledElementURIFragment();
 
 		/**
 		 * The meta object literal for the '<em><b>Working Copy Resource State</b></em>' attribute feature.

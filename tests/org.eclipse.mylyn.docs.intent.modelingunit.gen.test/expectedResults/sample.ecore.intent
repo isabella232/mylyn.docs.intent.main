@@ -1,0 +1,23 @@
+@M
+	new EClass c1 {
+		name = "c1";
+	}
+M@
+
+
+@M
+	new EClass c2 {
+		name = "c2";
+	}
+M@
+
+
+@M
+	new EPackage p {
+		name = "p";
+		nsURI = "p";
+		nsPrefix = "p";
+	}
+M@
+
+

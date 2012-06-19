@@ -114,7 +114,7 @@ public class IntentDocumentSwitch<T> extends Switch<T> {
 			}
 			case IntentDocumentPackage.ANNOTATION_MAPPING: {
 				@SuppressWarnings("unchecked")
-				Map.Entry<String, Object> annotationMapping = (Map.Entry<String, Object>)theEObject;
+				Map.Entry<String, String> annotationMapping = (Map.Entry<String, String>)theEObject;
 				T result = caseAnnotationMapping(annotationMapping);
 				if (result == null)
 					result = defaultCase(theEObject);
@@ -263,7 +263,7 @@ public class IntentDocumentSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseAnnotationMapping(Map.Entry<String, Object> object) {
+	public T caseAnnotationMapping(Map.Entry<String, String> object) {
 		return null;
 	}
 

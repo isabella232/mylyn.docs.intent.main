@@ -100,6 +100,12 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 						proposals.add(new EMFCompareFix(annotation));
 					}
 
+					// experimental: modeling unit generation
+					if (IntentAnnotationFactory.DIFF_RESOURCE_TAG.equals(annotationTag)
+							&& ((IntentAnnotation)annotation).getAdditionalInformations().size() == 6) {
+						proposals.add(new GenerateModelingUnitFix(annotation));
+					}
+
 					return proposals.toArray(new ICompletionProposal[proposals.size()]);
 				}
 			}

@@ -14,6 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
@@ -122,6 +123,12 @@ public final class IntentAnnotationFactory {
 					additionalInformations.add(syncStatus.getWorkingCopyResourceURI());
 					if (targetURI != null) {
 						additionalInformations.add(targetURI.toString());
+					}
+
+					if (additionalInformations.contains(DIFF_RESOURCE_TAG)) {
+						additionalInformations.add(syncStatus.getCompiledElementURIFragment());
+						additionalInformations.add(syncStatus.getWorkingCopyElementURIFragment());
+						additionalInformations.add(EcoreUtil.getURI(syncStatus.getTarget()).toString());
 					}
 
 					annotation.setAdditionalInformations(additionalInformations);

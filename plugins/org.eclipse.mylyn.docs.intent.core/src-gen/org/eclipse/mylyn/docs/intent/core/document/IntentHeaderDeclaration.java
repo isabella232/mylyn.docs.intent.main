@@ -64,7 +64,7 @@ public interface IntentHeaderDeclaration extends CDOObject {
 
 	/**
 	 * Returns the value of the '<em><b>Imports</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.Object}.
+	 * The list contents are of type {@link String}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Imports</em>' attribute list isn't clear,
@@ -76,12 +76,12 @@ public interface IntentHeaderDeclaration extends CDOObject {
 	 * @model dataType="org.eclipse.mylyn.docs.intent.core.document.URI"
 	 * @generated
 	 */
-	EList<Object> getImports();
+	EList<String> getImports();
 
 	/**
 	 * Returns the value of the '<em><b>Annotation Mappings</b></em>' map.
 	 * The key is of type {@link java.lang.String},
-	 * and the value is of type {@link java.lang.Object},
+	 * and the value is of type {@link String},
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Annotation Mappings</em>' map isn't clear,
@@ -93,7 +93,7 @@ public interface IntentHeaderDeclaration extends CDOObject {
 	 * @model mapType="org.eclipse.mylyn.docs.intent.core.document.AnnotationMapping<org.eclipse.emf.ecore.EString, org.eclipse.mylyn.docs.intent.core.document.URI>"
 	 * @generated
 	 */
-	EMap<String, Object> getAnnotationMappings();
+	EMap<String, String> getAnnotationMappings();
 
 	/**
 	 * Returns the value of the '<em><b>Resource</b></em>' containment reference.

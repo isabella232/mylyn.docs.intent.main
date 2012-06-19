@@ -98,7 +98,7 @@ public class IntentDocumentAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseAnnotationMapping(Map.Entry<String, Object> object) {
+		public Adapter caseAnnotationMapping(Map.Entry<String, String> object) {
 			return createAnnotationMappingAdapter();
 		}
 

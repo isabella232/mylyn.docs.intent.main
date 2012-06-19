@@ -1215,7 +1215,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>URI</em>'.
 	 * @see String
-	 * @model instanceClass="java.lang.Object"
+	 * @model instanceClass="String"
 	 * @generated
 	 */
 	EDataType getURI();

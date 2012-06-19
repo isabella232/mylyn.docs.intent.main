@@ -125,6 +125,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyResourceURI"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="compiledResourceURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyElementURIFragment"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compiledElementURIFragment"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyResourceState"
         eType="#//SynchronizerResourceState"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="compiledResourceState"

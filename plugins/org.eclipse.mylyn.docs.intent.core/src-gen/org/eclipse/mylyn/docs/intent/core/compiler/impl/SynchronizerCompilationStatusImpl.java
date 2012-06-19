@@ -20,6 +20,8 @@ import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getWorkingCopyResourceURI <em>Working Copy Resource URI</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getCompiledResourceURI <em>Compiled Resource URI</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getWorkingCopyElementURIFragment <em>Working Copy Element URI Fragment</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getCompiledElementURIFragment <em>Compiled Element URI Fragment</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getWorkingCopyResourceState <em>Working Copy Resource State</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getCompiledResourceState <em>Compiled Resource State</em>}</li>
  * </ul>
@@ -85,6 +87,47 @@ public class SynchronizerCompilationStatusImpl extends CompilationStatusImpl imp
 	public void setCompiledResourceURI(String newCompiledResourceURI) {
 		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI,
 				newCompiledResourceURI);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getWorkingCopyElementURIFragment() {
+		return (String)eGet(
+				CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT,
+				true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWorkingCopyElementURIFragment(String newWorkingCopyElementURIFragment) {
+		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT,
+				newWorkingCopyElementURIFragment);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getCompiledElementURIFragment() {
+		return (String)eGet(
+				CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__COMPILED_ELEMENT_URI_FRAGMENT, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCompiledElementURIFragment(String newCompiledElementURIFragment) {
+		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__COMPILED_ELEMENT_URI_FRAGMENT,
+				newCompiledElementURIFragment);
 	}
 
 	/**

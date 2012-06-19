@@ -234,4 +234,12 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 		return MODELING_SUFFIX_DECORATION.length();
 	}
 
+	/**
+	 * Returns the intent editor.
+	 * 
+	 * @return the intent editor
+	 */
+	public IntentEditor getIntentEditor() {
+		return associatedEditor;
+	}
 }

@@ -75,6 +75,14 @@ public final class SynchronizerStatusFactory {
 			status.setMessage(SynchronizerMessageProvider.createMessageFromDiffElement(difference));
 			status.setWorkingCopyResourceURI(indexEntry.getResourceDeclaration().getUri().toString());
 			status.setCompiledResourceURI(indexEntry.getGeneratedResourcePath());
+
+			// experimental: we provide a fix only in this case
+			if (difference instanceof ModelElementChangeRightTarget) {
+				ModelElementChangeRightTarget change = (ModelElementChangeRightTarget)difference;
+				status.setWorkingCopyElementURIFragment(change.getRightElement().eResource()
+						.getURIFragment(change.getRightElement()));
+			}
+
 			if (targetInstruction != null) {
 				status.setTarget(targetInstruction);
 				statusList.add(status);

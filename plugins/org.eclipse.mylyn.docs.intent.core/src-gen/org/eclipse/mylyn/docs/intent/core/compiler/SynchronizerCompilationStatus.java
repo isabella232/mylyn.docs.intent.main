@@ -16,6 +16,8 @@ package org.eclipse.mylyn.docs.intent.core.compiler;
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceURI <em>Working Copy Resource URI</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledResourceURI <em>Compiled Resource URI</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyElementURIFragment <em>Working Copy Element URI Fragment</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledElementURIFragment <em>Compiled Element URI Fragment</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceState <em>Working Copy Resource State</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledResourceState <em>Compiled Resource State</em>}</li>
  * </ul>
@@ -77,6 +79,58 @@ public interface SynchronizerCompilationStatus extends CompilationStatus {
 	 * @generated
 	 */
 	void setCompiledResourceURI(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Working Copy Element URI Fragment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Working Copy Element URI Fragment</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Working Copy Element URI Fragment</em>' attribute.
+	 * @see #setWorkingCopyElementURIFragment(String)
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage#getSynchronizerCompilationStatus_WorkingCopyElementURIFragment()
+	 * @model
+	 * @generated
+	 */
+	String getWorkingCopyElementURIFragment();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyElementURIFragment <em>Working Copy Element URI Fragment</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Working Copy Element URI Fragment</em>' attribute.
+	 * @see #getWorkingCopyElementURIFragment()
+	 * @generated
+	 */
+	void setWorkingCopyElementURIFragment(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Compiled Element URI Fragment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Compiled Element URI Fragment</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Compiled Element URI Fragment</em>' attribute.
+	 * @see #setCompiledElementURIFragment(String)
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage#getSynchronizerCompilationStatus_CompiledElementURIFragment()
+	 * @model
+	 * @generated
+	 */
+	String getCompiledElementURIFragment();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledElementURIFragment <em>Compiled Element URI Fragment</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Compiled Element URI Fragment</em>' attribute.
+	 * @see #getCompiledElementURIFragment()
+	 * @generated
+	 */
+	void setCompiledElementURIFragment(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Working Copy Resource State</b></em>' attribute.
