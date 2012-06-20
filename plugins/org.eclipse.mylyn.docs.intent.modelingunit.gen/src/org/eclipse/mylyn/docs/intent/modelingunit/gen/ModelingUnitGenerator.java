@@ -54,6 +54,20 @@ public class ModelingUnitGenerator {
 		ref.setIntentHref(instanciation.getName());
 		contribution.setReferencedElement(ref);
 
+		StructuralFeatureAffectation affectation = generateContainerAffectation(root);
+
+		contribution.getContributions().add(affectation);
+		return contribution;
+	}
+
+	/**
+	 * Generates the affectation of the given object to its container.
+	 * 
+	 * @param root
+	 *            the object to instantiate
+	 * @return the affectation
+	 */
+	private StructuralFeatureAffectation generateContainerAffectation(final EObject root) {
 		StructuralFeatureAffectation affectation = ModelingUnitFactory.eINSTANCE
 				.createStructuralFeatureAffectation();
 		EStructuralFeature eContainingFeature = root.eContainingFeature();
@@ -64,14 +78,12 @@ public class ModelingUnitGenerator {
 		}
 		affectation.setUsedOperator(operator);
 
-		contribution.getContributions().add(affectation);
-
 		NewObjectValueForStructuralFeature value = ModelingUnitFactory.eINSTANCE
 				.createNewObjectValueForStructuralFeature();
 		value.setValue(genInstanciation(root));
 
 		affectation.getValues().add(value);
-		return contribution;
+		return affectation;
 	}
 
 	/**
@@ -106,11 +118,22 @@ public class ModelingUnitGenerator {
 		instanciation.setName(getName(root));
 		instanciation.setMetaType(typeReference);
 		for (EStructuralFeature feature : root.eClass().getEAllAttributes()) {
-			StructuralFeatureAffectation affectation = genAffectation(root, (EAttribute)feature);
-			if (affectation != null) {
-				instanciation.getStructuralFeatures().add(affectation);
+			if (feature.isChangeable() && !feature.isDerived()) {
+				StructuralFeatureAffectation affectation = genAffectation(root, (EAttribute)feature);
+				if (affectation != null) {
+					instanciation.getStructuralFeatures().add(affectation);
+				}
 			}
 		}
+
+		for (EObject content : root.eContents()) {
+			EStructuralFeature eContainingFeature = content.eContainingFeature();
+			if (eContainingFeature.isChangeable() && !eContainingFeature.isDerived()
+					&& !eContainingFeature.isUnsettable()) {
+				instanciation.getStructuralFeatures().add(generateContainerAffectation(content));
+			}
+		}
+
 		return instanciation;
 	}
 
@@ -127,7 +150,7 @@ public class ModelingUnitGenerator {
 				return eo.eGet(attr).toString();
 			}
 		}
-		return "UNNAMED";
+		return null;
 	}
 
 	/**
@@ -145,7 +168,13 @@ public class ModelingUnitGenerator {
 		affectation.setLineBreak(true);
 		affectation.setName(attribute.getName());
 		Object value = object.eGet(attribute);
-		if (value != null && !value.equals(attribute.getDefaultValue())) {
+
+		if (value != null) {
+
+			if (attribute.getDefaultValue() != null && value.equals(attribute.getDefaultValue())) {
+				return null;
+			}
+
 			if (value instanceof Collection) {
 				affectation.setUsedOperator(AffectationOperator.MULTI_VALUED_AFFECTATION);
 				for (Object element : (Collection<?>)value) {
