@@ -71,7 +71,7 @@
     <module>tests/org.eclipse.mylyn.docs.intent.collab.test</module>
     <module>tests/org.eclipse.mylyn.docs.intent.client.ui.test</module>
 	<module>tests/org.eclipse.mylyn.docs.intent.client.compiler.test</module>
-	<module>plugins/org.eclipse.mylyn.docs.intent.modelingunit.gen.test</module>
+	<module>tests/org.eclipse.mylyn.docs.intent.modelingunit.gen.test</module>
 
     <module>examples/org.eclipse.mylyn.docs.intent.retro</module>
    </modules>
