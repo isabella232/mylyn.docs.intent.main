@@ -115,7 +115,6 @@ public class ModelingUnitGenerator {
 		typeReference.setIntentHref(root.eClass().getName());
 		typeReference.setResolvedType(root.eClass());
 
-		instanciation.setName(getName(root));
 		instanciation.setMetaType(typeReference);
 		for (EStructuralFeature feature : root.eClass().getEAllAttributes()) {
 			if (feature.isChangeable() && !feature.isDerived()) {
@@ -135,22 +134,6 @@ public class ModelingUnitGenerator {
 		}
 
 		return instanciation;
-	}
-
-	/**
-	 * Computes the name of any object.
-	 * 
-	 * @param eo
-	 *            the object
-	 * @return the name
-	 */
-	private static String getName(EObject eo) {
-		for (EAttribute attr : eo.eClass().getEAllAttributes()) {
-			if ("name".equals(attr.getName())) {
-				return eo.eGet(attr).toString();
-			}
-		}
-		return null;
 	}
 
 	/**

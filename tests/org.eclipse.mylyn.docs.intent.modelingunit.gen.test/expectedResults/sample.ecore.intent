@@ -1,7 +1,7 @@
 @M
-	new EClass c1 {
+	new EClass {
 		name = "c1";
-		eStructuralFeatures += new EAttribute a {
+		eStructuralFeatures += new EAttribute {
 			name = "a";
 		}
 	;}
@@ -9,9 +9,9 @@ M@
 
 
 @M
-	new EClass c2 {
+	new EClass {
 		name = "c2";
-		eStructuralFeatures += new EReference ref {
+		eStructuralFeatures += new EReference {
 			name = "ref";
 		}
 	;}
@@ -19,7 +19,7 @@ M@
 
 
 @M
-	new EPackage p {
+	new EPackage {
 		name = "p";
 		nsURI = "p";
 		nsPrefix = "p";

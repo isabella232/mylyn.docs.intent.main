@@ -51,6 +51,11 @@ public class GenerateModelingUnitFix implements ICompletionProposal {
 	private IntentAnnotation syncAnnotation;
 
 	/**
+	 * The root {@link EObject} to generate.
+	 */
+	private EObject root;
+
+	/**
 	 * Default constructor.
 	 * 
 	 * @param annotation
@@ -95,13 +100,7 @@ public class GenerateModelingUnitFix implements ICompletionProposal {
 			if (target != null) {
 				// generates the addition
 
-				String workingCopyResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[1])
-						.replace("\"", "");
-				ResourceSetImpl rs = new ResourceSetImpl();
-				Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
-				String workingCopyElementURIFragment = ((String)syncAnnotation.getAdditionalInformations()
-						.toArray()[4]).replace("\"", "");
-				final EObject root = workingCopyResource.getEObject(workingCopyElementURIFragment);
+				final EObject root = getRootEObjectToGenerate();
 				final ModelingUnit container = (ModelingUnit)target;
 
 				final ContributionInstruction contribution = generator.generateContribution(instanciation,
@@ -128,6 +127,24 @@ public class GenerateModelingUnitFix implements ICompletionProposal {
 				((IntentEditorDocument)document).reloadFromAST();
 			}
 		}
+	}
+
+	/**
+	 * Returns the root EObject to generate.
+	 * 
+	 * @return the root EObject to generate
+	 */
+	private EObject getRootEObjectToGenerate() {
+		if (root == null) {
+			String workingCopyResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[1])
+					.replace("\"", "");
+			ResourceSetImpl rs = new ResourceSetImpl();
+			Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
+			String workingCopyElementURIFragment = ((String)syncAnnotation.getAdditionalInformations()
+					.toArray()[4]).replace("\"", "");
+			root = workingCopyResource.getEObject(workingCopyElementURIFragment);
+		}
+		return root;
 	}
 
 	/**
@@ -172,7 +189,8 @@ public class GenerateModelingUnitFix implements ICompletionProposal {
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
 	 */
 	public String getDisplayString() {
-		return "Generate missing instructions (experimental)";
+		return "Generate missing " + getRootEObjectToGenerate().eClass().getName()
+				+ " element (experimental)";
 	}
 
 	/**
