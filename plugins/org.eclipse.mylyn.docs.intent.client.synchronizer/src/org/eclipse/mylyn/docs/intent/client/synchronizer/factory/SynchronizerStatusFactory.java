@@ -21,6 +21,7 @@ import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeRightTarget;
 import org.eclipse.emf.compare.diff.metamodel.ReferenceChange;
 import org.eclipse.emf.compare.diff.metamodel.ReferenceChangeLeftTarget;
 import org.eclipse.emf.compare.diff.metamodel.ReferenceChangeRightTarget;
+import org.eclipse.emf.compare.diff.metamodel.ReferenceOrderChange;
 import org.eclipse.emf.compare.diff.metamodel.UpdateAttribute;
 import org.eclipse.emf.compare.diff.metamodel.UpdateReference;
 import org.eclipse.emf.ecore.EObject;
@@ -171,14 +172,15 @@ public final class SynchronizerStatusFactory {
 			case DiffPackage.REFERENCE_CHANGE_RIGHT_TARGET:
 				compiledElementTarget = ((ReferenceChangeRightTarget)difference).getLeftElement();
 				break;
+			case DiffPackage.REFERENCE_ORDER_CHANGE:
+				compiledElementTarget = ((ReferenceOrderChange)difference).getLeftElement();
+				break;
 			case DiffPackage.RESOURCE_DIFF:
 				// TODO
 				break;
 			default:
 				break;
-
 		}
-
 		return compiledElementTarget;
 	}
 
