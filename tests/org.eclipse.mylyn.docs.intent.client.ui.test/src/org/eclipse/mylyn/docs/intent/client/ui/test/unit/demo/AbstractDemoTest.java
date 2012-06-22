@@ -103,6 +103,8 @@ public abstract class AbstractDemoTest extends AbstractIntentUITest {
 		assertFalse("The Intent clients have not been launched although the project has been imported",
 				timeOutDetected);
 		registerRepositoryListener();
+		repositoryListener.clearPreviousEntries();
+		waitForSynchronizer();
 	}
 
 	private boolean waitForNature() throws RepositoryConnectionException, CoreException, InterruptedException {

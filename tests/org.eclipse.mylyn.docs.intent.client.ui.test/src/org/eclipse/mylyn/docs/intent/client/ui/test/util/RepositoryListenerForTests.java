@@ -10,10 +10,11 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.ILogListener;
@@ -38,12 +39,18 @@ public class RepositoryListenerForTests implements ILogListener {
 	/**
 	 * Delay to wait before considering that an expected event never occurred.
 	 */
-	private static final long TIME_OUT_DELAY = 2000;
+	private static final long TIME_OUT_DELAY = 5000;
 
 	/**
 	 * A map associating each client Identifier (Indexer, Compiler...) with the messages sent by this client.
 	 */
-	private Map<String, Collection<String>> clientsMessages = Maps.newLinkedHashMap();
+	private Map<String, List<String>> clientsMessages = Maps.newLinkedHashMap();
+
+	/**
+	 * A map associating a client identfier with a string identifying an end message (e.g. the compiler has
+	 * done compiling).
+	 */
+	private Map<String, String> clientIdentifierToEndMessage = Maps.newLinkedHashMap();
 
 	/**
 	 * Indicates whether this Repository listener is recording or not.
@@ -61,10 +68,13 @@ public class RepositoryListenerForTests implements ILogListener {
 		node.putBoolean(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, true);
 
 		clientsMessages.clear();
-		clientsMessages.put("Indexer", Sets.<String> newLinkedHashSet());
-		clientsMessages.put("Compiler", Sets.<String> newLinkedHashSet());
-		clientsMessages.put("Synchronizer", Sets.<String> newLinkedHashSet());
-		clientsMessages.put("Project Explorer Refresher", Sets.<String> newLinkedHashSet());
+		clientsMessages.put("Indexer", Lists.<String> newArrayList());
+		clientIdentifierToEndMessage.put("Indexer", "Index saved");
+		clientsMessages.put("Compiler", Lists.<String> newArrayList());
+		clientIdentifierToEndMessage.put("Compiler", "Saved on repository");
+		clientsMessages.put("Synchronizer", Lists.<String> newArrayList());
+		clientIdentifierToEndMessage.put("Synchronizer", "Synchronization ended");
+		clientsMessages.put("Project Explorer Refresher", Lists.<String> newArrayList());
 	}
 
 	/**
@@ -80,9 +90,11 @@ public class RepositoryListenerForTests implements ILogListener {
 		if (isRecording) {
 			String clientIdentifier = getClientIdentifier(status);
 			if (clientIdentifier != null) {
-				clientsMessages.get(clientIdentifier).add(
-						status.getMessage().replaceFirst("[" + clientIdentifier + "]", "").trim());
-
+				if (clientIdentifierToEndMessage.get(clientIdentifier) == null
+						|| status.getMessage().contains(clientIdentifierToEndMessage.get(clientIdentifier))) {
+					clientsMessages.get(clientIdentifier).add(
+							status.getMessage().replaceFirst("[" + clientIdentifier + "]", "").trim());
+				}
 			}
 		}
 	}
@@ -91,7 +103,7 @@ public class RepositoryListenerForTests implements ILogListener {
 	 * Returns the client identifier associated to the given status (null if none found).
 	 * 
 	 * @param status
-	 *            the status to analyses
+	 *            the status to analyze
 	 * @return the client identifier (e.g. "Indexer", "Compiler"...) associated to the given status (null if
 	 *         none found)
 	 */
@@ -116,7 +128,7 @@ public class RepositoryListenerForTests implements ILogListener {
 		long startTime = System.currentTimeMillis();
 		boolean timeOutDetected = false;
 		try {
-			while (clientsMessages.get(clientIdentifier).isEmpty() && !timeOutDetected) {
+			while (!hasReceivedMessage(clientIdentifier) && !timeOutDetected) {
 				Thread.sleep(WAITING_STEP_DELAY);
 				timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
 			}
@@ -125,6 +137,14 @@ public class RepositoryListenerForTests implements ILogListener {
 		} catch (InterruptedException e) {
 			return false;
 		}
+	}
+
+	private boolean hasReceivedMessage(String clientIdentifier) {
+		boolean hasReceivedMessage = !clientsMessages.get(clientIdentifier).isEmpty();
+		if (hasReceivedMessage) {
+			clientsMessages.get(clientIdentifier).clear();
+		}
+		return hasReceivedMessage;
 	}
 
 	/**

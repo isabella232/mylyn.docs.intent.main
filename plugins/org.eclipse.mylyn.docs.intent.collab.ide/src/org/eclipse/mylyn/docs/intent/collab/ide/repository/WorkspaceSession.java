@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.collab.ide.repository;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	/**
 	 * Resources that had been saved but for which we didn't receive any notification yet.
 	 */
-	protected Collection<Resource> savedResources = Sets.newLinkedHashSet();
+	protected Collection<Resource> savedResources = Lists.newArrayList();
 
 	/**
 	 * The {@link WorkspaceRepository} associated to this session.
@@ -317,9 +318,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 *            the new save resource
 	 */
 	public void addSavedResource(Resource savedResource) {
-		if (!savedResources.contains(savedResource)) {
-			savedResources.add(savedResource);
-		}
+		savedResources.add(savedResource);
 	}
 
 	/**

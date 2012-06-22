@@ -92,7 +92,8 @@ public class EcoreTest extends AbstractDemoTest {
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_LEFT, true));
 		assertTrue(TEST_SYNCHRONIZER_NO_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_RIGHT, true));
-
+		waitForSynchronizer(false);
+		
 		// Step 3 : update the document
 		String initialContent = document.get();
 		String newContent = initialContent;
@@ -110,6 +111,8 @@ public class EcoreTest extends AbstractDemoTest {
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_LEFT, true));
 		assertFalse(TEST_SYNCHRONIZER_INVALID_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_RIGHT, true));
+		waitForCompiler(false);
+		waitForSynchronizer(false);
 
 	}
 
@@ -141,17 +144,19 @@ public class EcoreTest extends AbstractDemoTest {
 		IntentAnnotation annotation = AnnotationUtils.getIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_ANCESTOR, true);
 		assertNotNull(TEST_SYNCHRONIZER_NO_WARNING_MSG, annotation);
-		repositoryListener.clearPreviousEntries();
+		waitForCompiler(false);
+		waitForSynchronizer(false);
 
 		// Step 4 : apply quick fix
+		repositoryListener.clearPreviousEntries();
 		AnnotationUtils.applyAnnotationFix(annotation);
-
-		waitForCompiler();
 		waitForSynchronizer();
 
 		// Step 5 : ensure that synchronization issues no longer exists
 		assertFalse(TEST_SYNCHRONIZER_INVALID_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_ANCESTOR, true));
+		waitForCompiler(false);
+		waitForSynchronizer(false);
 	}
 
 }

@@ -484,6 +484,11 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			assertFalse("Synchonizer should not have been notifed",
 					repositoryListener.waitForModificationOn("Synchronizer"));
 		}
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+
+		}
 		waitForAllOperationsInUIThread();
 	}
 
@@ -546,6 +551,11 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		} else {
 			assertFalse("Compiler should not have been notifed",
 					repositoryListener.waitForModificationOn("Compiler"));
+		}
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+
 		}
 		waitForAllOperationsInUIThread();
 	}
