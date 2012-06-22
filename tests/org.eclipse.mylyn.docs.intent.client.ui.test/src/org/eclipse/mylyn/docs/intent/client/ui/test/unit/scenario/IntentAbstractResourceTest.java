@@ -77,7 +77,7 @@ public class IntentAbstractResourceTest extends AbstractIntentUITest {
 		// save
 		editor.doSave(new NullProgressMonitor());
 		// and wait the synchronizer to be notified
-		waitForSynchronizer();
+		waitForCompiler();
 
 		// Step 3 : we check that no synchronization error has been detected
 		assertFalse("An abstract resource should not be handled by the Intent synchronizer",

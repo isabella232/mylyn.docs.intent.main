@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.indexer;
 
+import com.google.common.collect.Lists;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -67,6 +69,8 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 					repositoryAdapter.openSaveContext();
 					indexComputor.computeIndex(index, document);
 					try {
+						repositoryAdapter.setSendSessionWarningBeforeSaving(Lists
+								.newArrayList(IntentLocations.INTENT_FOLDER));
 						repositoryAdapter.save();
 					} catch (SaveException e) {
 						IntentLogger.getInstance().log(LogType.ERROR, "Indexer failed to save changes", e);

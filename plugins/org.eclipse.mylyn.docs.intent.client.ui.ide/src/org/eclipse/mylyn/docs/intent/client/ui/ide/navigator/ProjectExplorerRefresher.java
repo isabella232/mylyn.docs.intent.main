@@ -21,6 +21,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
@@ -112,6 +114,8 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 			res = new ProjectExplorerRefreshJob(project, null);
 		}
 		updateProblemView();
+		IntentLogger.getInstance().log(LogType.LIFECYCLE,
+				"[ProjectExplorer Refresher] Project explorer and Problem view refreshed");
 		return res;
 	}
 

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -18,6 +20,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
@@ -102,23 +105,33 @@ public class SynchronizeRepositoryJob extends Job {
 		}
 
 		if (!monitor.isCanceled()) {
-			client.addAllStatusToTargetElement(statusList);
-			// We add these status to the targets Element
+
 			try {
-				repositoryAdapter.save();
+				// We add these status to the targets Element
+				client.addAllStatusToTargetElement(statusList);
+				if (monitor != null && !monitor.isCanceled()) {
+
+					// A warning should be sent to the session so that the compiler cannot be notified of
+					// changes made by the synchronizer on modeling units
+					repositoryAdapter.setSendSessionWarningBeforeSaving(Lists
+							.newArrayList(IntentLocations.INTENT_FOLDER));
+					repositoryAdapter.save();
+
+					IntentLogger.getInstance().log(
+							LogType.LIFECYCLE,
+							"[Synchronizer] Synchronization ended, detected " + statusList.size()
+									+ " synchronization issues");
+				}
 			} catch (ReadOnlyException e) {
 				// As we have just opened a save context, we are sure that this will never happens
 			} catch (SaveException e) {
+				IntentLogger.getInstance().log(LogType.ERROR, "Synchronizer failed to save changes", e);
 				try {
 					repositoryAdapter.undo();
 				} catch (ReadOnlyException e1) {
 					// As we have just opened a save context, we are sure that this will never happens
 				}
 			}
-			IntentLogger.getInstance().log(
-					LogType.LIFECYCLE,
-					"[Synchronizer] Synchronization ended, detected " + statusList.size()
-							+ " synchronization issues");
 		}
 	}
 }

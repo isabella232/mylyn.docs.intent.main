@@ -253,6 +253,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			// Step 3 : registering the repository listener
 			registerRepositoryListener();
 
+			// Step 4: waiting for synchronizer to pass
+			repositoryListener.clearPreviousEntries();
+			waitForSynchronizer();
+
 		} catch (CoreException e) {
 			AssertionFailedError error = new AssertionFailedError("Failed to create Intent project");
 			error.setStackTrace(e.getStackTrace());
@@ -456,6 +460,13 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	}
 
 	/**
+	 * Wait for the project explorer refresher to complete work.
+	 */
+	protected void waitForProjectExplorerRefresher() {
+		waitForProjectExplorerRefresher(true);
+	}
+
+	/**
 	 * Ensures that the synchronizer has been launched or not, according to the given boolean.
 	 * 
 	 * @param compilerShouldBeNotified
@@ -493,6 +504,27 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		} else {
 			assertFalse("Indexer should not have been notifed",
 					repositoryListener.waitForModificationOn("Indexer"));
+		}
+		waitForAllOperationsInUIThread();
+	}
+
+	/**
+	 * Ensures that the project explorer refreshed has been launched or not, according to the given boolean.
+	 * 
+	 * @param refresherShouldBeNotified
+	 *            indicates whether the indexer should be notified or not
+	 */
+	protected void waitForProjectExplorerRefresher(boolean refresherShouldBeNotified) {
+		waitForAllOperationsInUIThread();
+		assertNotNull(
+				"Cannot wait for Project Explorer Refresher : you need to initialize a repository listener by calling the registerRepositoryListener() method",
+				repositoryListener);
+		if (refresherShouldBeNotified) {
+			assertTrue("Time out : Project Explorer Refresher should have handle changes but did not",
+					repositoryListener.waitForModificationOn("Project Explorer Refresher"));
+		} else {
+			assertFalse("Project Explorer Refresher should not have been notifed",
+					repositoryListener.waitForModificationOn("Project Explorer Refresher"));
 		}
 		waitForAllOperationsInUIThread();
 	}

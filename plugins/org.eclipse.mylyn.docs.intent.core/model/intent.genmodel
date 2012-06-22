@@ -7,115 +7,23 @@
     featureDelegation="Reflective" containmentProxies="true" complianceLevel="5.0"
     copyrightFields="false" usedGenPackages="../../org.eclipse.mylyn.docs.intent.markup/model/markupCDO.genmodel#//markup"
     classNamePattern="">
-  <foreignModel>modelingUnit.ecore</foreignModel>
+  <foreignModel>indexer.ecore</foreignModel>
   <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
-  <genPackages prefix="ModelingUnit" basePackage="org.eclipse.mylyn.docs.intent.core"
-      disposableProviderFactory="true" ecorePackage="modelingUnit.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="modelingUnit.ecore#//AffectationOperator">
-      <genEnumLiterals ecoreEnumLiteral="modelingUnit.ecore#//AffectationOperator/SINGLE_VALUED_AFFECTATION"/>
-      <genEnumLiterals ecoreEnumLiteral="modelingUnit.ecore#//AffectationOperator/MULTI_VALUED_AFFECTATION"/>
+  <genPackages prefix="IntentIndexer" basePackage="org.eclipse.mylyn.docs.intent.core"
+      disposableProviderFactory="true" ecorePackage="indexer.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="indexer.ecore#//INDEX_ENTRY_TYPE">
+      <genEnumLiterals ecoreEnumLiteral="indexer.ecore#//INDEX_ENTRY_TYPE/IntentDocument"/>
+      <genEnumLiterals ecoreEnumLiteral="indexer.ecore#//INDEX_ENTRY_TYPE/IntentChapter"/>
+      <genEnumLiterals ecoreEnumLiteral="indexer.ecore#//INDEX_ENTRY_TYPE/IntentSection"/>
     </genEnums>
-    <genClasses ecoreClass="modelingUnit.ecore#//KeyValForAnnotation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//KeyValForAnnotation/key"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//KeyValForAnnotation/value"/>
+    <genClasses ecoreClass="indexer.ecore#//IntentIndex">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference indexer.ecore#//IntentIndex/entries"/>
     </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//ModelingUnit">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ModelingUnit/usedBy"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ModelingUnit/seeAlso"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ModelingUnit/resource"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="modelingUnit.ecore#//ModelingUnitInstruction"/>
-    <genClasses ecoreClass="modelingUnit.ecore#//ResourceReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ResourceReference/referencedElement"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//ResourceReference/lineBreak"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//ModelingUnitInstructionReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ModelingUnitInstructionReference/referencedElement"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//InstanciationInstructionReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//InstanciationInstructionReference/referencedElement"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//ResourceDeclaration">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//ResourceDeclaration/uri"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//ResourceDeclaration/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//ResourceDeclaration/contentType"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ResourceDeclaration/content"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//IntentSectionReferenceinModelingUnit"/>
-    <genClasses ecoreClass="modelingUnit.ecore#//LabelinModelingUnit"/>
-    <genClasses ecoreClass="modelingUnit.ecore#//AnnotationDeclaration">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//AnnotationDeclaration/annotationID"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//AnnotationDeclaration/map"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//TypeReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//TypeReference/resolvedType"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="modelingUnit.ecore#//InstanceLevelInstruction">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//InstanceLevelInstruction/metaType"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//InstanciationInstruction">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//InstanciationInstruction/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//InstanciationInstruction/structuralFeatures"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//StructuralFeatureAffectation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//StructuralFeatureAffectation/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//StructuralFeatureAffectation/usedOperator"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//StructuralFeatureAffectation/values"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="modelingUnit.ecore#//ValueForStructuralFeature"/>
-    <genClasses ecoreClass="modelingUnit.ecore#//NativeValueForStructuralFeature">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//NativeValueForStructuralFeature/value"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//NewObjectValueForStructuralFeature">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//NewObjectValueForStructuralFeature/value"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//ReferenceValueForStructuralFeature">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ReferenceValueForStructuralFeature/referencedElement"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ReferenceValueForStructuralFeature/referencedMetaType"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//ContributionInstruction">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ContributionInstruction/referencedElement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ContributionInstruction/contributions"/>
-    </genClasses>
-  </genPackages>
-  <genPackages prefix="GenericUnit" basePackage="org.eclipse.mylyn.docs.intent.core"
-      disposableProviderFactory="true" ecorePackage="genericUnit.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="genericUnit.ecore#//TypeLabel">
-      <genEnumLiterals ecoreEnumLiteral="genericUnit.ecore#//TypeLabel/LAZY"/>
-      <genEnumLiterals ecoreEnumLiteral="genericUnit.ecore#//TypeLabel/EXPLICIT"/>
-    </genEnums>
-    <genClasses image="false" ecoreClass="genericUnit.ecore#//GenericUnit">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference genericUnit.ecore#//GenericUnit/instructions"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//GenericUnit/unitName"/>
-    </genClasses>
-    <genClasses image="false" ecoreClass="genericUnit.ecore#//UnitInstruction">
-      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference genericUnit.ecore#//UnitInstruction/unit"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//UnitInstruction/lineBreak"/>
-    </genClasses>
-    <genClasses ecoreClass="genericUnit.ecore#//UnitInstructionReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference genericUnit.ecore#//UnitInstructionReference/referencedElement"/>
-    </genClasses>
-    <genClasses ecoreClass="genericUnit.ecore#//LabelDeclarationReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference genericUnit.ecore#//LabelDeclarationReference/referencedElement"/>
-    </genClasses>
-    <genClasses ecoreClass="genericUnit.ecore#//IntentSectionReferenceInstruction">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference genericUnit.ecore#//IntentSectionReferenceInstruction/referencedObject"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//IntentSectionReferenceInstruction/textToPrint"/>
-    </genClasses>
-    <genClasses ecoreClass="genericUnit.ecore#//LabelDeclaration">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//LabelDeclaration/labelValue"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//LabelDeclaration/textToPrint"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//LabelDeclaration/type"/>
-    </genClasses>
-    <genClasses ecoreClass="genericUnit.ecore#//LabelReferenceInstruction">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference genericUnit.ecore#//LabelReferenceInstruction/referencedLabel"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//LabelReferenceInstruction/type"/>
-    </genClasses>
-    <genClasses ecoreClass="genericUnit.ecore#//AdressedAnnotation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//AdressedAnnotation/receiver"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//AdressedAnnotation/source"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//AdressedAnnotation/message"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//AdressedAnnotation/type"/>
+    <genClasses ecoreClass="indexer.ecore#//IntentIndexEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute indexer.ecore#//IntentIndexEntry/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute indexer.ecore#//IntentIndexEntry/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference indexer.ecore#//IntentIndexEntry/referencedElement"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference indexer.ecore#//IntentIndexEntry/subEntries"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="IntentDocument" basePackage="org.eclipse.mylyn.docs.intent.core"
@@ -128,6 +36,7 @@
     <genDataTypes ecoreDataType="document.ecore#//URI"/>
     <genClasses ecoreClass="document.ecore#//IntentGenericElement">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference document.ecore#//IntentGenericElement/compilationStatus"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference document.ecore#//IntentGenericElement/indexEntry"/>
     </genClasses>
     <genClasses image="false" ecoreClass="document.ecore#//IntentStructuredElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentStructuredElement/formattedTitle"/>
@@ -239,6 +148,7 @@
     <genClasses ecoreClass="compilerInformations.ecore#//CompilationStatusManager">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompilationStatusManager/compilationStatusList"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompilationStatusManager/modelingUnitToStatusList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//CompilationStatusManager/validationTime"/>
     </genClasses>
     <genClasses ecoreClass="compilerInformations.ecore#//CompilationInformationHolder">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompilationInformationHolder/generatedElementList"/>
@@ -275,12 +185,121 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/compiledResourceState"/>
     </genClasses>
   </genPackages>
+  <genPackages prefix="GenericUnit" basePackage="org.eclipse.mylyn.docs.intent.core"
+      disposableProviderFactory="true" ecorePackage="genericUnit.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="genericUnit.ecore#//TypeLabel">
+      <genEnumLiterals ecoreEnumLiteral="genericUnit.ecore#//TypeLabel/LAZY"/>
+      <genEnumLiterals ecoreEnumLiteral="genericUnit.ecore#//TypeLabel/EXPLICIT"/>
+    </genEnums>
+    <genClasses image="false" ecoreClass="genericUnit.ecore#//GenericUnit">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference genericUnit.ecore#//GenericUnit/instructions"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//GenericUnit/unitName"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="genericUnit.ecore#//UnitInstruction">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference genericUnit.ecore#//UnitInstruction/unit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//UnitInstruction/lineBreak"/>
+    </genClasses>
+    <genClasses ecoreClass="genericUnit.ecore#//UnitInstructionReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference genericUnit.ecore#//UnitInstructionReference/referencedElement"/>
+    </genClasses>
+    <genClasses ecoreClass="genericUnit.ecore#//LabelDeclarationReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference genericUnit.ecore#//LabelDeclarationReference/referencedElement"/>
+    </genClasses>
+    <genClasses ecoreClass="genericUnit.ecore#//IntentSectionReferenceInstruction">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference genericUnit.ecore#//IntentSectionReferenceInstruction/referencedObject"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//IntentSectionReferenceInstruction/textToPrint"/>
+    </genClasses>
+    <genClasses ecoreClass="genericUnit.ecore#//LabelDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//LabelDeclaration/labelValue"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//LabelDeclaration/textToPrint"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//LabelDeclaration/type"/>
+    </genClasses>
+    <genClasses ecoreClass="genericUnit.ecore#//LabelReferenceInstruction">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference genericUnit.ecore#//LabelReferenceInstruction/referencedLabel"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//LabelReferenceInstruction/type"/>
+    </genClasses>
+    <genClasses ecoreClass="genericUnit.ecore#//AdressedAnnotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//AdressedAnnotation/receiver"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//AdressedAnnotation/source"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//AdressedAnnotation/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//AdressedAnnotation/type"/>
+    </genClasses>
+  </genPackages>
   <genPackages prefix="DescriptionUnit" basePackage="org.eclipse.mylyn.docs.intent.core"
       disposableProviderFactory="true" ecorePackage="descriptionUnit.ecore#/">
     <genClasses ecoreClass="descriptionUnit.ecore#//DescriptionUnit"/>
     <genClasses image="false" ecoreClass="descriptionUnit.ecore#//DescriptionUnitInstruction"/>
     <genClasses ecoreClass="descriptionUnit.ecore#//DescriptionBloc">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference descriptionUnit.ecore#//DescriptionBloc/descriptionBloc"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="ModelingUnit" basePackage="org.eclipse.mylyn.docs.intent.core"
+      disposableProviderFactory="true" ecorePackage="modelingUnit.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="modelingUnit.ecore#//AffectationOperator">
+      <genEnumLiterals ecoreEnumLiteral="modelingUnit.ecore#//AffectationOperator/SINGLE_VALUED_AFFECTATION"/>
+      <genEnumLiterals ecoreEnumLiteral="modelingUnit.ecore#//AffectationOperator/MULTI_VALUED_AFFECTATION"/>
+    </genEnums>
+    <genClasses ecoreClass="modelingUnit.ecore#//KeyValForAnnotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//KeyValForAnnotation/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//KeyValForAnnotation/value"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//ModelingUnit">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ModelingUnit/usedBy"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ModelingUnit/seeAlso"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ModelingUnit/resource"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="modelingUnit.ecore#//ModelingUnitInstruction"/>
+    <genClasses ecoreClass="modelingUnit.ecore#//ResourceReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ResourceReference/referencedElement"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//ResourceReference/lineBreak"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//ModelingUnitInstructionReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ModelingUnitInstructionReference/referencedElement"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//InstanciationInstructionReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//InstanciationInstructionReference/referencedElement"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//ResourceDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//ResourceDeclaration/uri"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//ResourceDeclaration/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//ResourceDeclaration/contentType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ResourceDeclaration/content"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//IntentSectionReferenceinModelingUnit"/>
+    <genClasses ecoreClass="modelingUnit.ecore#//LabelinModelingUnit"/>
+    <genClasses ecoreClass="modelingUnit.ecore#//AnnotationDeclaration">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//AnnotationDeclaration/annotationID"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//AnnotationDeclaration/map"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//TypeReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//TypeReference/resolvedType"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="modelingUnit.ecore#//InstanceLevelInstruction">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//InstanceLevelInstruction/metaType"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//InstanciationInstruction">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//InstanciationInstruction/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//InstanciationInstruction/structuralFeatures"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//StructuralFeatureAffectation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//StructuralFeatureAffectation/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//StructuralFeatureAffectation/usedOperator"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//StructuralFeatureAffectation/values"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="modelingUnit.ecore#//ValueForStructuralFeature"/>
+    <genClasses ecoreClass="modelingUnit.ecore#//NativeValueForStructuralFeature">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//NativeValueForStructuralFeature/value"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//NewObjectValueForStructuralFeature">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//NewObjectValueForStructuralFeature/value"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//ReferenceValueForStructuralFeature">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ReferenceValueForStructuralFeature/referencedElement"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ReferenceValueForStructuralFeature/referencedMetaType"/>
+    </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//ContributionInstruction">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ContributionInstruction/referencedElement"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ContributionInstruction/contributions"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

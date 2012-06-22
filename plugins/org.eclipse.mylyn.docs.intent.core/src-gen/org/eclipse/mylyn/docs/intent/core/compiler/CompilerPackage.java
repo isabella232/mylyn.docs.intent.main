@@ -467,13 +467,22 @@ public interface CompilerPackage extends EPackage {
 	int COMPILATION_STATUS_MANAGER__MODELING_UNIT_TO_STATUS_LIST = 1;
 
 	/**
+	 * The feature id for the '<em><b>Validation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPILATION_STATUS_MANAGER__VALIDATION_TIME = 2;
+
+	/**
 	 * The number of structural features of the '<em>Compilation Status Manager</em>' class. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
 	 * @generated
 	 * @ordered
 	 */
-	int COMPILATION_STATUS_MANAGER_FEATURE_COUNT = 2;
+	int COMPILATION_STATUS_MANAGER_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationInformationHolderImpl <em>Compilation Information Holder</em>}' class.
@@ -723,7 +732,7 @@ public interface CompilerPackage extends EPackage {
 	int SYNCHRONIZER_COMPILATION_STATUS = 16;
 
 	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * The feature id for the '<em><b>Target</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1227,6 +1236,17 @@ public interface CompilerPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getCompilationStatusManager_ModelingUnitToStatusList();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getValidationTime <em>Validation Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Validation Time</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getValidationTime()
+	 * @see #getCompilationStatusManager()
+	 * @generated
+	 */
+	EAttribute getCompilationStatusManager_ValidationTime();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder <em>Compilation Information Holder</em>}'.
@@ -1830,7 +1850,7 @@ public interface CompilerPackage extends EPackage {
 		EClass COMPILATION_STATUS = eINSTANCE.getCompilationStatus();
 
 		/**
-		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Target</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1886,6 +1906,15 @@ public interface CompilerPackage extends EPackage {
 		 */
 		EReference COMPILATION_STATUS_MANAGER__MODELING_UNIT_TO_STATUS_LIST = eINSTANCE
 				.getCompilationStatusManager_ModelingUnitToStatusList();
+
+		/**
+		 * The meta object literal for the '<em><b>Validation Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPILATION_STATUS_MANAGER__VALIDATION_TIME = eINSTANCE
+				.getCompilationStatusManager_ValidationTime();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationInformationHolderImpl <em>Compilation Information Holder</em>}' class.

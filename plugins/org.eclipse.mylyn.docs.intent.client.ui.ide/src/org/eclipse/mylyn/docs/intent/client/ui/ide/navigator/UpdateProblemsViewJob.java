@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
@@ -68,7 +69,6 @@ public class UpdateProblemsViewJob extends Job {
 		Resource intentDocumentResource = adapter.getResource(IntentLocations.INTENT_INDEX);
 		String platformString = intentDocumentResource.getURI().toPlatformString(true);
 		IFile intentDocumentFile = (IFile)ResourcesPlugin.getWorkspace().getRoot().findMember(platformString);
-
 		if (intentDocumentFile != null && !(statusResource.getContents().isEmpty())) {
 
 			// Step 1: delete currently defined markers
@@ -107,10 +107,10 @@ public class UpdateProblemsViewJob extends Job {
 	private void createMarkerFromStatus(CompilationStatus status) {
 		IMarker marker = null;
 		try {
-			if (project.isAccessible() && !status.eIsProxy() && !status.getTarget().eIsProxy()
-					&& status.eResource() != null && status.getTarget().eResource() != null) {
+			if (project.isAccessible() && !status.eIsProxy() && status.getTarget() != null
+					&& !status.getTarget().eIsProxy() && status.eResource() != null
+					&& status.getTarget().eResource() != null) {
 				marker = project.createMarker("org.eclipse.core.resources.problemmarker");
-
 				if (status.getSeverity() == CompilationStatusSeverity.WARNING) {
 					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
 				} else if (status.getSeverity() == CompilationStatusSeverity.INFO) {
@@ -124,8 +124,7 @@ public class UpdateProblemsViewJob extends Job {
 					markerMessage = "[Sync] " + markerMessage;
 				}
 				marker.setAttribute(IMarker.MESSAGE, markerMessage);
-				marker.setAttribute(IMarker.LOCATION, status.eResource().getURI() + "#"
-						+ status.getTarget().eResource().getURIFragment(status));
+				marker.setAttribute(IMarker.LOCATION, EcoreUtil.getURI(status).toString());
 				marker.setAttribute(IMarker.SOURCE_ID, "Intent");
 			}
 		} catch (CoreException e) {

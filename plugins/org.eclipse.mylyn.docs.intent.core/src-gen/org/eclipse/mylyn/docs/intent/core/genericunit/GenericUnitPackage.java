@@ -86,6 +86,15 @@ public interface GenericUnitPackage extends EPackage {
 	int GENERIC_UNIT__COMPILATION_STATUS = IntentDocumentPackage.INTENT_GENERIC_ELEMENT__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GENERIC_UNIT__INDEX_ENTRY = IntentDocumentPackage.INTENT_GENERIC_ELEMENT__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Instructions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -130,6 +139,15 @@ public interface GenericUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int UNIT_INSTRUCTION__COMPILATION_STATUS = IntentDocumentPackage.INTENT_GENERIC_ELEMENT__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIT_INSTRUCTION__INDEX_ENTRY = IntentDocumentPackage.INTENT_GENERIC_ELEMENT__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -252,6 +270,15 @@ public interface GenericUnitPackage extends EPackage {
 	int INTENT_SECTION_REFERENCE_INSTRUCTION__COMPILATION_STATUS = UNIT_INSTRUCTION__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION_REFERENCE_INSTRUCTION__INDEX_ENTRY = UNIT_INSTRUCTION__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -314,6 +341,15 @@ public interface GenericUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int LABEL_DECLARATION__COMPILATION_STATUS = UNIT_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_DECLARATION__INDEX_ENTRY = UNIT_INSTRUCTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -389,6 +425,15 @@ public interface GenericUnitPackage extends EPackage {
 	int LABEL_REFERENCE_INSTRUCTION__COMPILATION_STATUS = UNIT_INSTRUCTION__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_REFERENCE_INSTRUCTION__INDEX_ENTRY = UNIT_INSTRUCTION__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -451,6 +496,15 @@ public interface GenericUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int ADRESSED_ANNOTATION__COMPILATION_STATUS = UNIT_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ADRESSED_ANNOTATION__INDEX_ENTRY = UNIT_INSTRUCTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.

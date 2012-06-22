@@ -64,10 +64,13 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	/**
 	 * Adds all the given compilationStatus to their targets instructions.
 	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter
 	 * @param statusList
 	 *            the list of status to add
 	 */
 	public void addAllStatusToTargetElement(final Collection<? extends CompilationStatus> statusList) {
+
 		// Step 1: removing all old synchronization status
 		CompilationStatusManager statusManager = getStatusManager();
 		Iterator<SynchronizerCompilationStatus> iterator2 = Iterables.filter(
@@ -75,7 +78,9 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 		Collection<SynchronizerCompilationStatus> toRemove = Sets.newLinkedHashSet();
 		while (iterator2.hasNext()) {
 			SynchronizerCompilationStatus oldStatus = iterator2.next();
-			oldStatus.getTarget().getCompilationStatus().remove(oldStatus);
+			if (oldStatus.getTarget() != null) {
+				oldStatus.getTarget().getCompilationStatus().remove(oldStatus);
+			}
 			statusManager.getModelingUnitToStatusList().remove(oldStatus);
 			toRemove.add(oldStatus);
 		}
@@ -84,8 +89,10 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 		// Step 2 : for each status to add
 		for (CompilationStatus status : statusList) {
 			// We add it to its target and to the status manager
-			status.getTarget().getCompilationStatus().add(status);
-			statusManager.getCompilationStatusList().add(status);
+			if (status.getTarget() != null) {
+				status.getTarget().getCompilationStatus().add(status);
+				statusManager.getCompilationStatusList().add(status);
+			}
 		}
 	}
 

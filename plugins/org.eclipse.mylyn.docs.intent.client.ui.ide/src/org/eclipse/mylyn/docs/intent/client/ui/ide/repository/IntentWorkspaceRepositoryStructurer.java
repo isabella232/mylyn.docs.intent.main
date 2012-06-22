@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.repository;
 
-import com.google.common.collect.Sets;
-
-import java.util.Collection;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
@@ -54,17 +50,15 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	 * @see org.eclipse.mylyn.docs.intent.collab.ide.adapters.DefaultWorkspaceRepositoryStructurer#structure(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter)
 	 */
 	@Override
-	public Collection<String> structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
+	public void structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
 		super.structure(repositoryAdapter);
 		WorkspaceAdapter workspaceAdapter = (WorkspaceAdapter)repositoryAdapter;
 
 		// We start splitting the elements from the IntentDocument
-		Collection<String> modifiedResources = Sets.newLinkedHashSet();
 		Resource documentResource = workspaceAdapter.getResource(IntentLocations.INTENT_INDEX);
 		for (EObject document : documentResource.getContents()) {
-			modifiedResources.addAll(splitElementAndSons(workspaceAdapter, document));
+			splitElementAndSons(workspaceAdapter, document);
 		}
-		return modifiedResources;
 	}
 
 	/**
@@ -78,9 +72,9 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	 * @throws ReadOnlyException
 	 *             if the current context associated to the given adapter is read-only
 	 */
-	protected Collection<? extends String> splitElementAndSons(WorkspaceAdapter workspaceAdapter,
-			EObject element) throws ReadOnlyException {
-		Collection<String> modifiedResources = Sets.newLinkedHashSet();
+	protected void splitElementAndSons(WorkspaceAdapter workspaceAdapter, EObject element)
+			throws ReadOnlyException {
+
 		if (isElementToSplit(element)) {
 
 			// The resource path should check the following structure :
@@ -95,29 +89,19 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 			// Then we ensure that the element is stored at the expected location
 			if (isInSameResourceThanContainer
 					|| !(isStoredAtExpectedLocation(element, workspaceAdapter, newResourcePath))) {
-				if (element.eResource().getContents().isEmpty()) {
-					String oldResourcePath = element.eResource().getURI().toString();
-					if (oldResourcePath.indexOf(".repository") != -1) {
-						oldResourcePath = oldResourcePath.substring(oldResourcePath.indexOf(".repository"))
-								.replace(".repository/", "");
-					}
-					modifiedResources.add(oldResourcePath);
-				}
+
 				// Place the element in a new resource
 				Resource newResource = workspaceAdapter.getOrCreateResource(newResourcePath);
 				newResource.getContents().add(element);
-				newResource.setTrackingModification(true);
-				modifiedResources.add(newResourcePath);
 			}
 
 			// Do the same for all children of the given element
 			for (EObject containedElement : element.eContents()) {
 				if (!containedElement.eIsProxy()) {
-					modifiedResources.addAll(splitElementAndSons(workspaceAdapter, containedElement));
+					splitElementAndSons(workspaceAdapter, containedElement);
 				}
 			}
 		}
-		return modifiedResources;
 	}
 
 	/**

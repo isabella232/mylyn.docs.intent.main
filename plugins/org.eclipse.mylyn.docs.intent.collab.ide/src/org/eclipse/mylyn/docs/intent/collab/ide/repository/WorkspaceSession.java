@@ -48,7 +48,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	/**
 	 * Resources that had been saved but for which we didn't receive any notification yet.
 	 */
-	protected Collection<Resource> savedResources = new ArrayList<Resource>();
+	protected Collection<Resource> savedResources = Sets.newLinkedHashSet();
 
 	/**
 	 * The {@link WorkspaceRepository} associated to this session.
@@ -179,31 +179,29 @@ public class WorkspaceSession implements IResourceChangeListener {
 		// For each changed resources
 		for (final Resource changedResource : changedResources) {
 
-			if (changedResource.isLoaded()) {
-				repositoryAdapter.execute(new IntentCommand() {
+			repositoryAdapter.execute(new IntentCommand() {
 
-					public void execute() {
-						// TODO [DISABLED]
-						// this make the resource unstable, some commands launched within the bad timing will
-						// have side
-						// effects
-						// we want to reload the resource if it has been modified by another tool, but not if
-						// it has been
-						// modified by a client
-						// temporary workaround: disabling
-						// System.out.println("Reloading " + changedResource + "...");
-						// // We reload this resource (if it's loaded, otherwise we simply do nothing)
-						//
-						// reloadResource(changedResource);
-						//
-						// System.out.println(changedResource + " reloaded.");
+				public void execute() {
+					// TODO [DISABLED]
+					// this make the resource unstable, some commands launched within the bad timing will
+					// have side
+					// effects
+					// we want to reload the resource if it has been modified by another tool, but not if
+					// it has been
+					// modified by a client
+					// temporary workaround: disabling
+					// System.out.println("Reloading " + changedResource + "...");
+					// // We reload this resource (if it's loaded, otherwise we simply do nothing)
+					//
+					// reloadResource(changedResource);
+					//
+					// System.out.println(changedResource + " reloaded.");
 
-						// Finally, we notify the listeners of this session
-						notifyListeners(changedResource);
-					}
+					// Finally, we notify the listeners of this session
+					notifyListeners(changedResource);
+				}
 
-				});
-			}
+			});
 		}
 	}
 
@@ -283,7 +281,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	private void notifyListeners(Resource resource) {
 
 		// Step 1 : notifying type listeners
-		for (WorkspaceTypeListener listener : this.workspaceSessionListeners) {
+		for (WorkspaceTypeListener listener : Sets.newLinkedHashSet(this.workspaceSessionListeners)) {
 			listener.notifyResourceChanged(resource);
 		}
 

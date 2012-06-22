@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,19 +168,25 @@ public class CompilationJob extends Job {
 	public void saveCompilationInformations(RepositoryAdapter repositoryAdapter,
 			IntentCompilerInformationHolder compilationInformationHolder, IProgressMonitor monitor) {
 		repositoryAdapter.openSaveContext();
+
+		// We merge the local compilation manager with the remote
 		CompilerInformationsSaver saver = new CompilerInformationsSaver(monitor);
 		if (monitor != null && !monitor.isCanceled()) {
-			saver.saveOnRepository(compilationInformationHolder, repositoryObjectHandler);
-		}
-		try {
-			repositoryAdapter.save();
-		} catch (ReadOnlyException e) {
-			// We are sure that this compiler isn't in read-only mode
-		} catch (SaveException e) {
+
 			try {
-				repositoryAdapter.undo();
-			} catch (ReadOnlyException e1) {
+				saver.saveOnRepository(compilationInformationHolder, repositoryObjectHandler);
+				repositoryAdapter.setSendSessionWarningBeforeSaving(Lists
+						.newArrayList(IntentLocations.INTENT_FOLDER));
+				repositoryAdapter.save();
+			} catch (ReadOnlyException e) {
 				// We are sure that this compiler isn't in read-only mode
+			} catch (SaveException e) {
+				IntentLogger.getInstance().log(LogType.ERROR, "Compiler failed to save changes", e);
+				try {
+					repositoryAdapter.undo();
+				} catch (ReadOnlyException e1) {
+					// We are sure that this compiler isn't in read-only mode
+				}
 			}
 		}
 		repositoryAdapter.closeContext();

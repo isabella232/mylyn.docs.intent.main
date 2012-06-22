@@ -88,8 +88,8 @@ public class UITestSuite extends TestCase {
 		final TestSuite scenarioSuite = new TestSuite("Simple End-User Scenarios");
 		scenarioSuite.addTestSuite(CompilerNotificationsTest.class);
 		scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
-		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
 		scenarioSuite.addTestSuite(IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest.class);
+		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
 		uiTestSuite.addTest(scenarioSuite);
 
 		// Complete use case testSuite

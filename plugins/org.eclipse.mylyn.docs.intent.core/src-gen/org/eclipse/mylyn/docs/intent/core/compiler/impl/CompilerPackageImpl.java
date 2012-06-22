@@ -38,6 +38,8 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
+import org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
@@ -219,32 +221,37 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		MarkupPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		ModelingUnitPackageImpl theModelingUnitPackage = (ModelingUnitPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(ModelingUnitPackage.eNS_URI) instanceof ModelingUnitPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(ModelingUnitPackage.eNS_URI) : ModelingUnitPackage.eINSTANCE);
-		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		IntentDocumentPackageImpl theIntentDocumentPackage = (IntentDocumentPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) instanceof IntentDocumentPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) : IntentDocumentPackage.eINSTANCE);
+		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
 		DescriptionUnitPackageImpl theDescriptionUnitPackage = (DescriptionUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) instanceof DescriptionUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) : DescriptionUnitPackage.eINSTANCE);
+		ModelingUnitPackageImpl theModelingUnitPackage = (ModelingUnitPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(ModelingUnitPackage.eNS_URI) instanceof ModelingUnitPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(ModelingUnitPackage.eNS_URI) : ModelingUnitPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theCompilerPackage.createPackageContents();
-		theModelingUnitPackage.createPackageContents();
-		theGenericUnitPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 		theIntentDocumentPackage.createPackageContents();
+		theGenericUnitPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
+		theModelingUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theCompilerPackage.initializePackageContents();
-		theModelingUnitPackage.initializePackageContents();
-		theGenericUnitPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 		theIntentDocumentPackage.initializePackageContents();
+		theGenericUnitPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
+		theModelingUnitPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theCompilerPackage.freeze();
@@ -540,6 +547,15 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	 */
 	public EReference getCompilationStatusManager_ModelingUnitToStatusList() {
 		return (EReference)compilationStatusManagerEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCompilationStatusManager_ValidationTime() {
+		return (EAttribute)compilationStatusManagerEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -876,6 +892,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		createEReference(compilationStatusManagerEClass, COMPILATION_STATUS_MANAGER__COMPILATION_STATUS_LIST);
 		createEReference(compilationStatusManagerEClass,
 				COMPILATION_STATUS_MANAGER__MODELING_UNIT_TO_STATUS_LIST);
+		createEAttribute(compilationStatusManagerEClass, COMPILATION_STATUS_MANAGER__VALIDATION_TIME);
 
 		compilationInformationHolderEClass = createEClass(COMPILATION_INFORMATION_HOLDER);
 		createEReference(compilationInformationHolderEClass,
@@ -1066,9 +1083,9 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		initEClass(compilationStatusEClass, CompilationStatus.class, "CompilationStatus", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompilationStatus_Target(), theIntentDocumentPackage.getIntentGenericElement(),
-				null, "target", null, 1, 1, CompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
+				theIntentDocumentPackage.getIntentGenericElement_CompilationStatus(), "target", null, 1, 1,
+				CompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCompilationStatus_Message(), ecorePackage.getEString(), "message", null, 1, 1,
 				CompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1089,6 +1106,9 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 				this.getModelingUnitToStatusList(), null, "modelingUnitToStatusList", null, 0, -1,
 				CompilationStatusManager.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCompilationStatusManager_ValidationTime(), ecorePackage.getEBigInteger(),
+				"validationTime", null, 0, 1, CompilationStatusManager.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compilationInformationHolderEClass, CompilationInformationHolder.class,
 				"CompilationInformationHolder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

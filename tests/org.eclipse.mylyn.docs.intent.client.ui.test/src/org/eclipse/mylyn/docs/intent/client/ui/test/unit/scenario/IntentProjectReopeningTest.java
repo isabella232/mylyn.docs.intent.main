@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
@@ -78,7 +79,9 @@ public class IntentProjectReopeningTest extends AbstractIntentUITest {
 		waitForAllOperationsInUIThread();
 
 		document.set(newContent);
+		repositoryListener.clearPreviousEntries();
 		editor.doSave(new NullProgressMonitor());
+		waitForIndexer();
 		waitForAllOperationsInUIThread();
 
 		IntentDocument newDocument = reopenProjectAndGetDocument();
@@ -101,6 +104,7 @@ public class IntentProjectReopeningTest extends AbstractIntentUITest {
 		if (documentResource != null && documentResource.getContents().iterator().hasNext()
 				&& documentResource.getContents().iterator().next() instanceof IntentStructuredElement) {
 			if (documentResource.getContents().iterator().next() instanceof IntentDocument) {
+				EcoreUtil.resolveAll(documentResource.getResourceSet());
 				newDocument = (IntentDocument)documentResource.getContents().iterator().next();
 			}
 		}

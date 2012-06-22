@@ -15,16 +15,19 @@ import com.google.common.collect.Sets.SetView;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
@@ -364,17 +367,10 @@ public class CompilerInformationsSaver {
 	 */
 	private void mergeCompilationStatusManager(CompilationStatusManager localStatusManager,
 			CompilationStatusManager repositoryStatusManager, Resource statusManagerResource) {
-
 		// Step 1 : Cleaning repositoryRootModel
 		// Step 1.1 : removing dangling references
 		removeDanglingReferences(repositoryStatusManager, statusManagerResource);
 
-		List<IntentGenericElement> genEl = new ArrayList<IntentGenericElement>();
-		for (CompilationStatus compilationStatus : repositoryStatusManager.getCompilationStatusList()) {
-			genEl.add(compilationStatus.getTarget());
-		}
-
-		List<EObject> cleanTargets = new ArrayList<EObject>();
 		// Step 2 : adding all the new compilation status
 		for (ModelingUnit mu : localStatusManager.getModelingUnitToStatusList().keySet()) {
 			for (CompilationStatus status : localStatusManager.getModelingUnitToStatusList().get(mu)) {
@@ -383,36 +379,24 @@ public class CompilerInformationsSaver {
 							.get(mu), status)) {
 
 						if (!repositoryStatusManager.getCompilationStatusList().contains(status)) {
-							repositoryStatusManager.getCompilationStatusList().add(status);
-							if (!status.getTarget().getCompilationStatus().contains(status)) {
-								if (!cleanTargets.contains(status.getTarget())) {
-									cleanTargets.add(status.getTarget());
-									status.getTarget().getCompilationStatus().clear();
-								}
+							if (status.getTarget() != null
+									&& !status.getTarget().getCompilationStatus().contains(status)) {
 								status.getTarget().getCompilationStatus().add(status);
 							}
-						}
-						if (repositoryStatusManager.getModelingUnitToStatusList().get(mu) == null) {
-							repositoryStatusManager.getModelingUnitToStatusList().put(mu,
-									new BasicEList<CompilationStatus>());
-						}
-						try {
-							repositoryStatusManager.getModelingUnitToStatusList().get(mu).add(status);
-						} catch (NullPointerException e) {
-							// TODO remove this catch, only for test
-							e.printStackTrace();
-						}
+							repositoryStatusManager.getCompilationStatusList().add(status);
 
+							if (repositoryStatusManager.getModelingUnitToStatusList().get(mu) == null) {
+								repositoryStatusManager.getModelingUnitToStatusList().put(mu,
+										new BasicEList<CompilationStatus>());
+							}
+							repositoryStatusManager.getModelingUnitToStatusList().get(mu).add(status);
+						}
 					}
 				}
 			}
 		}
 
-		genEl = new ArrayList<IntentGenericElement>();
-		for (CompilationStatus compilationStatus : repositoryStatusManager.getCompilationStatusList()) {
-			genEl.add(compilationStatus.getTarget());
-
-		}
+		repositoryStatusManager.setValidationTime(BigInteger.valueOf(System.currentTimeMillis()));
 	}
 
 	/**
@@ -422,20 +406,31 @@ public class CompilerInformationsSaver {
 	 *            the compilationSatusManager from which remove the dangling references
 	 * @param statusManagerResource
 	 *            the resource containing the repositoryStatusManager
-	 * @return the modified CompilationStatusManager
 	 */
-	private CompilationStatusManager removeDanglingReferences(
-			CompilationStatusManager repositoryStatusManager, Resource statusManagerResource) {
+	private void removeDanglingReferences(CompilationStatusManager repositoryStatusManager,
+			Resource statusManagerResource) {
 		CompilationStatusManager manager = repositoryStatusManager;
-		try {
-			manager.getCompilationStatusList().clear();
-			manager.getModelingUnitToStatusList().clear();
-		} catch (ObjectNotFoundException notFoundException) {
-			statusManagerResource.getContents().clear();
-			manager = CompilerFactory.eINSTANCE.createCompilationStatusManager();
-			statusManagerResource.getContents().add(manager);
+		Collection<URI> changedModelingUnits = Sets.newLinkedHashSet();
+
+		ListIterator<Entry<ModelingUnit, EList<CompilationStatus>>> entries = manager
+				.getModelingUnitToStatusList().listIterator();
+		while (entries.hasNext()) {
+			Entry<ModelingUnit, EList<CompilationStatus>> entry = entries.next();
+			if (entry.getKey() == null || entry.getKey().eResource() == null) {
+				manager.getCompilationStatusList().removeAll(entry.getValue());
+				entries.remove();
+			} else {
+				ListIterator<CompilationStatus> statusList = entry.getValue().listIterator();
+				while (statusList.hasNext()) {
+					CompilationStatus status = statusList.next();
+					if (status.getTarget() != null && status.getTarget().eResource() != null) {
+						status.getTarget().getCompilationStatus().remove(status);
+					}
+					changedModelingUnits.add(entry.getKey().eResource().getURI());
+					statusList.remove();
+				}
+			}
 		}
-		return manager;
 	}
 
 }

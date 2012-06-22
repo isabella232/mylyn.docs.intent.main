@@ -64,6 +64,7 @@ public class RepositoryListenerForTests implements ILogListener {
 		clientsMessages.put("Indexer", Sets.<String> newLinkedHashSet());
 		clientsMessages.put("Compiler", Sets.<String> newLinkedHashSet());
 		clientsMessages.put("Synchronizer", Sets.<String> newLinkedHashSet());
+		clientsMessages.put("Project Explorer Refresher", Sets.<String> newLinkedHashSet());
 	}
 
 	/**

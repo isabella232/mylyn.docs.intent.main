@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.launcher;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -68,9 +66,6 @@ public final class SynchronizerCreator {
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 
-		Collection<String> resourcesToIgnorePaths = new ArrayList<String>();
-		resourcesToIgnorePaths.add(IntentLocations.INTENT_FOLDER);
-		repositoryAdapter.setSendSessionWarningBeforeSaving(resourcesToIgnorePaths);
 		repositoryAdapter.openSaveContext();
 		try {
 			final Resource traceabilityResource = repositoryAdapter

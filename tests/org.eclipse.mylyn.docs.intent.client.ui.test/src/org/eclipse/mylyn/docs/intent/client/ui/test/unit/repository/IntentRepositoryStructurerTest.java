@@ -60,8 +60,9 @@ public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 		// => all previous content should be stored in new resources
 		IntentEditorDocument document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(
 				editor.getEditorInput());
-		document.set("Document {\n\tChapter {\n\tNew Chapter\n\tNew Chapter\n\tSection {\n\t}\n\t}\n"
-				+ document.get().replace("Document {", ""));
+		String newDoc = "Document {\n\tChapter New Chapter{\n\tNew chapter.\n\tSection {\n\t}\n\t}\n"
+				+ document.get().replace("Document {", "");
+		document.set(newDoc);
 
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();

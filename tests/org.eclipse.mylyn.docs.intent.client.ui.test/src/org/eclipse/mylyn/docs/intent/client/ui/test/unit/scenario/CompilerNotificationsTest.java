@@ -49,6 +49,7 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 		// Step 2 : open an editor on the root document
 		editor = openIntentEditor();
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
+		waitForAllOperationsInUIThread();
 	}
 
 	public void testCompilerIsNotifiedWhenModifyingMU() {

@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.core.compiler;
 
+import java.math.BigInteger;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
@@ -24,6 +25,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getCompilationStatusList <em>Compilation Status List</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getModelingUnitToStatusList <em>Modeling Unit To Status List</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getValidationTime <em>Validation Time</em>}</li>
  * </ul>
  * </p>
  *
@@ -66,5 +68,31 @@ public interface CompilationStatusManager extends CDOObject {
 	 * @generated
 	 */
 	EMap<ModelingUnit, EList<CompilationStatus>> getModelingUnitToStatusList();
+
+	/**
+	 * Returns the value of the '<em><b>Validation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Validation Time</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Validation Time</em>' attribute.
+	 * @see #setValidationTime(BigInteger)
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage#getCompilationStatusManager_ValidationTime()
+	 * @model
+	 * @generated
+	 */
+	BigInteger getValidationTime();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getValidationTime <em>Validation Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Validation Time</em>' attribute.
+	 * @see #getValidationTime()
+	 * @generated
+	 */
+	void setValidationTime(BigInteger value);
 
 } // CompilationStatusManager

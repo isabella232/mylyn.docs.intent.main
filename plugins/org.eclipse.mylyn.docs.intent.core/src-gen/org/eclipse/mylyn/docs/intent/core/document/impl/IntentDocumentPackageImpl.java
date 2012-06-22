@@ -38,6 +38,8 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
+import org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
@@ -194,32 +196,37 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		MarkupPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		ModelingUnitPackageImpl theModelingUnitPackage = (ModelingUnitPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(ModelingUnitPackage.eNS_URI) instanceof ModelingUnitPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(ModelingUnitPackage.eNS_URI) : ModelingUnitPackage.eINSTANCE);
-		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		CompilerPackageImpl theCompilerPackage = (CompilerPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) instanceof CompilerPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) : CompilerPackage.eINSTANCE);
+		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
 		DescriptionUnitPackageImpl theDescriptionUnitPackage = (DescriptionUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) instanceof DescriptionUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) : DescriptionUnitPackage.eINSTANCE);
+		ModelingUnitPackageImpl theModelingUnitPackage = (ModelingUnitPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(ModelingUnitPackage.eNS_URI) instanceof ModelingUnitPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(ModelingUnitPackage.eNS_URI) : ModelingUnitPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theIntentDocumentPackage.createPackageContents();
-		theModelingUnitPackage.createPackageContents();
-		theGenericUnitPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 		theCompilerPackage.createPackageContents();
+		theGenericUnitPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
+		theModelingUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theIntentDocumentPackage.initializePackageContents();
-		theModelingUnitPackage.initializePackageContents();
-		theGenericUnitPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 		theCompilerPackage.initializePackageContents();
+		theGenericUnitPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
+		theModelingUnitPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theIntentDocumentPackage.freeze();
@@ -245,6 +252,15 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 	 */
 	public EReference getIntentGenericElement_CompilationStatus() {
 		return (EReference)intentGenericElementEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIntentGenericElement_IndexEntry() {
+		return (EReference)intentGenericElementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -575,6 +591,7 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		// Create classes and their features
 		intentGenericElementEClass = createEClass(INTENT_GENERIC_ELEMENT);
 		createEReference(intentGenericElementEClass, INTENT_GENERIC_ELEMENT__COMPILATION_STATUS);
+		createEReference(intentGenericElementEClass, INTENT_GENERIC_ELEMENT__INDEX_ENTRY);
 
 		intentStructuredElementEClass = createEClass(INTENT_STRUCTURED_ELEMENT);
 		createEAttribute(intentStructuredElementEClass, INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE);
@@ -652,6 +669,8 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		// Obtain other dependent packages
 		CompilerPackage theCompilerPackage = (CompilerPackage)EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI);
+		IntentIndexerPackage theIntentIndexerPackage = (IntentIndexerPackage)EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI);
 		MarkupPackage theMarkupPackage = (MarkupPackage)EPackage.Registry.INSTANCE
 				.getEPackage(MarkupPackage.eNS_URI);
 		GenericUnitPackage theGenericUnitPackage = (GenericUnitPackage)EPackage.Registry.INSTANCE
@@ -679,8 +698,13 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		initEClass(intentGenericElementEClass, IntentGenericElement.class, "IntentGenericElement",
 				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIntentGenericElement_CompilationStatus(),
-				theCompilerPackage.getCompilationStatus(), null, "compilationStatus", null, 0, -1,
-				IntentGenericElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				theCompilerPackage.getCompilationStatus(), theCompilerPackage.getCompilationStatus_Target(),
+				"compilationStatus", null, 0, -1, IntentGenericElement.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getIntentGenericElement_IndexEntry(), theIntentIndexerPackage.getIntentIndexEntry(),
+				theIntentIndexerPackage.getIntentIndexEntry_ReferencedElement(), "indexEntry", null, 0, 1,
+				IntentGenericElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(intentStructuredElementEClass, IntentStructuredElement.class, "IntentStructuredElement",

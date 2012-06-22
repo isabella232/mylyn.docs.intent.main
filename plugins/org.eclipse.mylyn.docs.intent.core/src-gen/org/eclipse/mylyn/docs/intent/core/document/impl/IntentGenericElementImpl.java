@@ -16,6 +16,7 @@ import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,6 +26,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentGenericElementImpl#getCompilationStatus <em>Compilation Status</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentGenericElementImpl#getIndexEntry <em>Index Entry</em>}</li>
  * </ul>
  * </p>
  *
@@ -69,6 +71,25 @@ public class IntentGenericElementImpl extends CDOObjectImpl implements IntentGen
 	public EList<CompilationStatus> getCompilationStatus() {
 		return (EList<CompilationStatus>)eGet(
 				IntentDocumentPackage.Literals.INTENT_GENERIC_ELEMENT__COMPILATION_STATUS, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IntentIndexEntry getIndexEntry() {
+		return (IntentIndexEntry)eGet(IntentDocumentPackage.Literals.INTENT_GENERIC_ELEMENT__INDEX_ENTRY,
+				true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIndexEntry(IntentIndexEntry newIndexEntry) {
+		eSet(IntentDocumentPackage.Literals.INTENT_GENERIC_ELEMENT__INDEX_ENTRY, newIndexEntry);
 	}
 
 } //IntentGenericElementImpl

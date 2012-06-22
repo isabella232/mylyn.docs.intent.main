@@ -12,8 +12,12 @@ package org.eclipse.mylyn.docs.intent.collab.ide.adapters;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -30,6 +34,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
@@ -139,15 +145,8 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	public static Map<String, Object> getSaveOptions() {
 		if (saveOptions == null) {
 			saveOptions = new HashMap<String, Object>();
-			// We want the resource to be saved only if changes have been detected.
-			// In order to make the system as scalable as possible,
-			// We use a fileBuffer instead of a memory buffer
-			// saveOptions.put(Resource.OPTION_SAVE_ONLY_IF_CHANGED,
-			// Resource.OPTION_SAVE_ONLY_IF_CHANGED_FILE_BUFFER);
 			// We do not format the document when saving (less human-readable but faster to save and to load)
 			saveOptions.put(XMLResource.OPTION_FORMATTED, false);
-
-			// TODO If scalability problems occur, should use XMLResource.OPTION_USE_FILE_BUFFER
 		}
 		return saveOptions;
 	}
@@ -203,58 +202,52 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 					"Cannot save with a read-only context. The context should have been started with the 'openSaveContext' method.");
 		}
 
-		// First of all, we use the documentStructurer to structure the resource set
+		// Step 1: we use the documentStructurer to structure the resource set
 		if (documentStructurer != null) {
-			this.resourcesToIgnorePaths.addAll(documentStructurer.structure(WorkspaceAdapter.this));
+			documentStructurer.structure(WorkspaceAdapter.this);
 		}
 		final Collection<Resource> resources = Lists.newArrayList(this.repository.getResourceSet()
 				.getResources());
-
+		SaveException saveException = null;
 		try {
 			for (Resource resource : resources) {
 
-				// We only save the resource if it has been modified
 				try {
-					if (resource.isModified() || resource.getContents().isEmpty()) {
-
-						// We make sure the session isn't still reacting to previous saves
-						while (((WorkspaceSession)this.repository.getOrCreateSession()).isProcessingDelta()) {
-							try {
-								Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
-							} catch (InterruptedException e) {
-								throw new SaveException(e.getMessage());
+					if (!removeDanglingElements(resource) && hasDifferentSerialization(resource)) {
+						try {
+							// We make sure the session isn't still reacting to previous saves
+							while (((WorkspaceSession)this.repository.getOrCreateSession())
+									.isProcessingDelta()) {
+								try {
+									Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
+								} catch (InterruptedException e) {
+									throw new SaveException(e.getMessage());
+								}
 							}
-						}
 
-						// We send a warning to the WorkspaceSession if necessary
-						treatSessionWarning(resource);
+							// Step 2: we send a warning to the WorkspaceSession if necessary
+							treatSessionWarning(resource);
 
-						// We finally save this resource
-						if (resource.getContents().isEmpty()) {
-							resource.delete(null);
-						} else {
-							resource.save(getSaveOptions());
-							resource.setTrackingModification(true);
-						}
+							// Step 3: save the resource
 
-					} else {
-						// Removing dangling references
-						Iterator<EObject> iterator = resource.getContents().iterator();
-						while (iterator.hasNext()) {
-							EObject root = iterator.next();
-							if (root.eContainer() != null && root.eContainer().eResource() == null) {
-								iterator.remove();
+							if (resource.getContents().isEmpty()) {
+								// if the resource is empty, we delete it
+								resource.delete(getSaveOptions());
+							} else {
+								resource.save(getSaveOptions());
 							}
-						}
-						if (resource.getContents().isEmpty()) {
-							resource.delete(null);
+						} catch (IOException e) {
+							removeDanglingElements(resource);
+						} catch (RepositoryConnectionException e) {
+							saveException = new SaveException(e.getMessage());
 						}
 					}
-				} catch (IOException e) {
-					throw new SaveException(e.getMessage());
 				} catch (RepositoryConnectionException e) {
-					throw new SaveException(e.getMessage());
+					saveException = new SaveException(e.getMessage());
+				} catch (IOException e) {
+					saveException = new SaveException(e.getMessage());
 				}
+
 			}
 
 		} catch (ConcurrentModificationException cme) {
@@ -262,7 +255,75 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 			// FIXME : can we make a better choice ? The causes of this exception don't seem obvious
 			save();
 		}
+		if (saveException != null) {
+			throw saveException;
+		}
 
+	}
+
+	/**
+	 * Returns true if the resource will get a different serialization than the one on the disk.
+	 * 
+	 * @param options
+	 *            save options.
+	 * @return true if the resource will get a different serialization than the one on the disk.
+	 * @throws IOException
+	 *             on error while saving.
+	 */
+	public boolean hasDifferentSerialization(final Resource resourcetoSave) throws IOException {
+		// CHECKSTYLE:OFF : code coming from
+		// ResourceImpl.saveOnlyIfChangedWithFileBuffer
+		resourcetoSave.eSetDeliver(false);
+		final File temporaryFile = File.createTempFile("ResourceSaveHelper", null);
+		boolean equal = true;
+		try {
+			final URI temporaryFileURI = URI.createFileURI(temporaryFile.getPath());
+
+			final URIConverter uriConverter = resourcetoSave.getResourceSet() == null ? new ResourceSetImpl()
+					.getURIConverter() : resourcetoSave.getResourceSet().getURIConverter();
+			final OutputStream temporaryFileOutputStream = uriConverter.createOutputStream(temporaryFileURI);
+			try {
+				resourcetoSave.save(temporaryFileOutputStream, getSaveOptions());
+			} finally {
+				temporaryFileOutputStream.close();
+			}
+
+			InputStream oldContents = null;
+			try {
+				oldContents = uriConverter.createInputStream(resourcetoSave.getURI());
+			} catch (final IOException exception) {
+				equal = false;
+			}
+			final byte[] newContentBuffer = new byte[4000];
+			if (oldContents != null) {
+				try {
+					final InputStream newContents = uriConverter.createInputStream(temporaryFileURI);
+					try {
+						final byte[] oldContentBuffer = new byte[4000];
+						LOOP: for (int oldLength = oldContents.read(oldContentBuffer), newLength = newContents
+								.read(newContentBuffer); (equal = oldLength == newLength) && oldLength > 0; oldLength = oldContents
+								.read(oldContentBuffer), newLength = newContents.read(newContentBuffer)) {
+							for (int i = 0; i < oldLength; ++i) {
+								if (oldContentBuffer[i] != newContentBuffer[i]) {
+									equal = false;
+									break LOOP;
+								}
+							}
+						}
+					} finally {
+						newContents.close();
+					}
+				} finally {
+					oldContents.close();
+				}
+			}
+		} finally {
+			temporaryFile.delete();
+			resourcetoSave.eSetDeliver(true);
+		}
+		// CHECKSTYLE:ON
+
+		return !equal;
 	}
 
 	/**
@@ -438,9 +499,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		// We calculate the Repository URI corresponding to the given path
 		URI uri = this.repository.getURIMatchingPath(repositoryRelativePath);
 		final Resource resource = this.repository.getResourceSet().getResource(uri, loadResourceOnDemand);
-		if (resource != null) {
-			resource.setTrackingModification(true);
-		}
 		return resource;
 	}
 
@@ -472,7 +530,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 				}
 			}
 		}
-		returnedResource.setTrackingModification(true);
 		return returnedResource;
 	}
 
@@ -551,9 +608,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		if (elementToReload.eIsProxy()) {
 			resolve = EcoreUtil.resolve(elementToReload, this.repository.getResourceSet());
 		}
-		for (Resource resource : this.repository.getResourceSet().getResources()) {
-			resource.setTrackingModification(true);
-		}
 		return resolve;
 	}
 
@@ -577,4 +631,69 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getResourcePath(org.eclipse.emf.common.util.URI)
+	 */
+	public String getResourcePath(URI resourceURI) {
+		return resourceURI.toString().replace("." + resourceURI.fileExtension(), "")
+				.replace("platform:/resource", "")
+				.replace(this.repository.getWorkspaceConfig().getRepositoryAbsolutePath(), "");
+	}
+
+	/**
+	 * Removes the dangling references contained in the given resource and saves the resource (without
+	 * notifying other clients).
+	 * 
+	 * @param resource
+	 *            the resource to clean
+	 * @return true if the given resource contained dangling references (and hence was cleaned and saved),
+	 *         false otherwise
+	 * @throws SaveException
+	 *             if resource cannot be save
+	 * @throws RepositoryConnectionException
+	 *             if repository cannot be accessed
+	 */
+	private boolean removeDanglingElements(Resource resource) throws SaveException,
+			RepositoryConnectionException {
+
+		// Step 1: detect dangling references
+		Collection<EObject> objectsToRemove = Sets.newLinkedHashSet();
+		Iterator<EObject> iterator = resource.getContents().iterator();
+		while (iterator.hasNext()) {
+			EObject root = iterator.next();
+			if (root.eContainer() != null && root.eContainer().eResource() == null) {
+				objectsToRemove.add(root);
+			}
+		}
+
+		try {
+			if (!objectsToRemove.isEmpty()) {
+				// Step 2: save or delete the resource if empty
+				treatSessionWarning(resource);
+				if (resource.getContents().size() <= objectsToRemove.size()) {
+					resource.delete(getSaveOptions());
+				} else {
+					for (EObject objectToRemove : objectsToRemove) {
+						EcoreUtil.remove(objectToRemove);
+					}
+					for (EObject nonDanglingElement : resource.getContents()) {
+						new RemoveDanglingReferences(this.repository.getEditingDomain(), nonDanglingElement)
+								.execute();
+					}
+					resource.save(getSaveOptions());
+				}
+				return true;
+			} else {
+				for (EObject nonDanglingElement : resource.getContents()) {
+					new RemoveDanglingReferences(this.repository.getEditingDomain(), nonDanglingElement)
+							.execute();
+				}
+			}
+		} catch (IOException ioE) {
+			throw new SaveException(ioE.getMessage());
+		}
+		return false;
+	}
 }

@@ -106,7 +106,8 @@ public class IntentIndexEntryImpl extends CDOObjectImpl implements IntentIndexEn
 	 * @generated
 	 */
 	public IntentGenericElement getReferencedElement() {
-		return (IntentGenericElement)eGet(IntentIndexerPackage.Literals.INTENT_INDEX_ENTRY__REFERENCED_ELEMENT, true);
+		return (IntentGenericElement)eGet(
+				IntentIndexerPackage.Literals.INTENT_INDEX_ENTRY__REFERENCED_ELEMENT, true);
 	}
 
 	/**
@@ -125,7 +126,8 @@ public class IntentIndexEntryImpl extends CDOObjectImpl implements IntentIndexEn
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<IntentIndexEntry> getSubEntries() {
-		return (EList<IntentIndexEntry>)eGet(IntentIndexerPackage.Literals.INTENT_INDEX_ENTRY__SUB_ENTRIES, true);
+		return (EList<IntentIndexEntry>)eGet(IntentIndexerPackage.Literals.INTENT_INDEX_ENTRY__SUB_ENTRIES,
+				true);
 	}
 
 } //IntentIndexEntryImpl

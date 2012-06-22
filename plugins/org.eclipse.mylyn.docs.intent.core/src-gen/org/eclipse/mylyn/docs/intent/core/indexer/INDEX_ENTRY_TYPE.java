@@ -107,12 +107,9 @@ public enum INDEX_ENTRY_TYPE implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final INDEX_ENTRY_TYPE[] VALUES_ARRAY =
-		new INDEX_ENTRY_TYPE[] {
-			INTENT_DOCUMENT,
-			INTENT_CHAPTER,
-			INTENT_SECTION,
-		};
+	private static final INDEX_ENTRY_TYPE[] VALUES_ARRAY = new INDEX_ENTRY_TYPE[] {INTENT_DOCUMENT,
+			INTENT_CHAPTER, INTENT_SECTION,
+	};
 
 	/**
 	 * A public read-only list of all the '<em><b>INDEX ENTRY TYPE</b></em>' enumerators.
@@ -120,7 +117,8 @@ public enum INDEX_ENTRY_TYPE implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static final List<INDEX_ENTRY_TYPE> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
+	public static final List<INDEX_ENTRY_TYPE> VALUES = Collections.unmodifiableList(Arrays
+			.asList(VALUES_ARRAY));
 
 	/**
 	 * Returns the '<em><b>INDEX ENTRY TYPE</b></em>' literal with the specified literal value.
@@ -162,9 +160,12 @@ public enum INDEX_ENTRY_TYPE implements Enumerator {
 	 */
 	public static INDEX_ENTRY_TYPE get(int value) {
 		switch (value) {
-			case INTENT_DOCUMENT_VALUE: return INTENT_DOCUMENT;
-			case INTENT_CHAPTER_VALUE: return INTENT_CHAPTER;
-			case INTENT_SECTION_VALUE: return INTENT_SECTION;
+			case INTENT_DOCUMENT_VALUE:
+				return INTENT_DOCUMENT;
+			case INTENT_CHAPTER_VALUE:
+				return INTENT_CHAPTER;
+			case INTENT_SECTION_VALUE:
+				return INTENT_SECTION;
 		}
 		return null;
 	}
@@ -208,7 +209,7 @@ public enum INDEX_ENTRY_TYPE implements Enumerator {
 	 * @generated
 	 */
 	public int getValue() {
-	  return value;
+		return value;
 	}
 
 	/**
@@ -217,7 +218,7 @@ public enum INDEX_ENTRY_TYPE implements Enumerator {
 	 * @generated
 	 */
 	public String getName() {
-	  return name;
+		return name;
 	}
 
 	/**
@@ -226,7 +227,7 @@ public enum INDEX_ENTRY_TYPE implements Enumerator {
 	 * @generated
 	 */
 	public String getLiteral() {
-	  return literal;
+		return literal;
 	}
 
 	/**
@@ -239,5 +240,5 @@ public enum INDEX_ENTRY_TYPE implements Enumerator {
 	public String toString() {
 		return literal;
 	}
-	
+
 } //INDEX_ENTRY_TYPE
