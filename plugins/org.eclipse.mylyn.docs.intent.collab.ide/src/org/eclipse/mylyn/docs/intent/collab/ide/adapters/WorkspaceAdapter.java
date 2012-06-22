@@ -627,7 +627,11 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		// first we check that the repository has not been disposed
 		final CommandStack commandStack = editingDomain.getCommandStack();
 		if (commandStack != null) {
-			commandStack.execute(recordingCommand);
+			try {
+				commandStack.execute(recordingCommand);
+			} catch (NullPointerException e) {
+				// can happen when TED is disposed
+			}
 		}
 	}
 

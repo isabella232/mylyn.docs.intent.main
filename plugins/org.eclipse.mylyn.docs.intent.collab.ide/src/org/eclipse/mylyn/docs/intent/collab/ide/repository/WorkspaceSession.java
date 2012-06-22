@@ -129,43 +129,44 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 *            the IResourceDelta to analyse
 	 */
 	private synchronized void analyseWorkspaceDelta(IResourceDelta repositoryDelta) {
+		if (repositoryAdapter != null) {
+			// We first create a DeltaVisitor on the repository Path
+			final WorkspaceSessionDeltaVisitor visitor = new WorkspaceSessionDeltaVisitor(repositoryAdapter,
+					repositoryPath);
+			try {
+				// We visit the given delta using this visitor
+				repositoryDelta.accept(visitor);
 
-		// We first create a DeltaVisitor on the repository Path
-		final WorkspaceSessionDeltaVisitor visitor = new WorkspaceSessionDeltaVisitor(repositoryAdapter,
-				repositoryPath);
-		try {
-			// We visit the given delta using this visitor
-			repositoryDelta.accept(visitor);
+				// We get the changed and removed Resources
+				Collection<Resource> removedResources = new ArrayList<Resource>();
+				Collection<Resource> changedResources = new ArrayList<Resource>();
 
-			// We get the changed and removed Resources
-			Collection<Resource> removedResources = new ArrayList<Resource>();
-			Collection<Resource> changedResources = new ArrayList<Resource>();
-
-			if (!visitor.getRemovedResources().isEmpty()) {
-				removedResources.addAll(visitor.getRemovedResources());
-			}
-
-			for (Resource changedResource : visitor.getChangedResources()) {
-
-				// If the resource is contained in the savedResources list, it means
-				// that we should ignore this notification ; however we remove this resource
-				// from this list so that we'll treat the next notifications
-				if (!savedResources.contains(changedResource)) {
-					changedResources.add(changedResource);
-				} else {
-					savedResources.remove(changedResource);
+				if (!visitor.getRemovedResources().isEmpty()) {
+					removedResources.addAll(visitor.getRemovedResources());
 				}
+
+				for (Resource changedResource : visitor.getChangedResources()) {
+
+					// If the resource is contained in the savedResources list, it means
+					// that we should ignore this notification ; however we remove this resource
+					// from this list so that we'll treat the next notifications
+					if (!savedResources.contains(changedResource)) {
+						changedResources.add(changedResource);
+					} else {
+						savedResources.remove(changedResource);
+					}
+				}
+
+				// Finally, we treat each removed or changed resource.
+				treatRemovedResources(removedResources);
+				treatChangedResources(changedResources);
+
+			} catch (CoreException e) {
+				// TODO define a standard reaction to this exception :
+				// - relaunch the session
+				// - try to visit the delta again
+				// - do nothing
 			}
-
-			// Finally, we treat each removed or changed resource.
-			treatRemovedResources(removedResources);
-			treatChangedResources(changedResources);
-
-		} catch (CoreException e) {
-			// TODO define a standard reaction to this exception :
-			// - relaunch the session
-			// - try to visit the delta again
-			// - do nothing
 		}
 	}
 
@@ -179,30 +180,31 @@ public class WorkspaceSession implements IResourceChangeListener {
 	private void treatChangedResources(Collection<Resource> changedResources) {
 		// For each changed resources
 		for (final Resource changedResource : changedResources) {
+			if (repositoryAdapter != null) {
+				repositoryAdapter.execute(new IntentCommand() {
 
-			repositoryAdapter.execute(new IntentCommand() {
+					public void execute() {
+						// TODO [DISABLED]
+						// this make the resource unstable, some commands launched within the bad timing will
+						// have side
+						// effects
+						// we want to reload the resource if it has been modified by another tool, but not if
+						// it has been
+						// modified by a client
+						// temporary workaround: disabling
+						// System.out.println("Reloading " + changedResource + "...");
+						// // We reload this resource (if it's loaded, otherwise we simply do nothing)
+						//
+						// reloadResource(changedResource);
+						//
+						// System.out.println(changedResource + " reloaded.");
 
-				public void execute() {
-					// TODO [DISABLED]
-					// this make the resource unstable, some commands launched within the bad timing will
-					// have side
-					// effects
-					// we want to reload the resource if it has been modified by another tool, but not if
-					// it has been
-					// modified by a client
-					// temporary workaround: disabling
-					// System.out.println("Reloading " + changedResource + "...");
-					// // We reload this resource (if it's loaded, otherwise we simply do nothing)
-					//
-					// reloadResource(changedResource);
-					//
-					// System.out.println(changedResource + " reloaded.");
+						// Finally, we notify the listeners of this session
+						notifyListeners(changedResource);
+					}
 
-					// Finally, we notify the listeners of this session
-					notifyListeners(changedResource);
-				}
-
-			});
+				});
+			}
 		}
 	}
 
