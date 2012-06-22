@@ -542,9 +542,19 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		Iterator<EPackage> availablePackages = Iterables.filter(
 				getTraceabilityIndex().eResource().getResourceSet().getPackageRegistry().values(),
 				EPackage.class).iterator();
+
+		String packageName = null;
+		String classifierName = contributionName;
+		if (contributionName.contains(".")
+				&& !(contributionName.startsWith(".") || contributionName.endsWith("."))) {
+			packageName = contributionName.split("\\.")[0];
+			classifierName = contributionName.split("\\.")[1];
+		}
 		while (availablePackages.hasNext() && classifierToConsider == null) {
 			EPackage availablePackage = availablePackages.next();
-			classifierToConsider = availablePackage.getEClassifier(contributionName);
+			if (packageName == null || packageName.equals(availablePackage.getName())) {
+				classifierToConsider = availablePackage.getEClassifier(classifierName);
+			}
 		}
 		return classifierToConsider;
 	}
