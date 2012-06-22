@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.synchronizer;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
@@ -36,7 +38,6 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtensionRegistry;
-import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerMessageProvider;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerStatusFactory;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.DefaultSynchronizerStrategy;
@@ -378,7 +379,8 @@ public class IntentSynchronizer {
 	private List<CompilationStatus> createSynchronizerSatusListFromDiffModel(
 			TraceabilityIndexEntry indexEntry, List<DiffElement> differences, Monitor progressMonitor)
 			throws InterruptedException {
-		Map<IntentGenericElement, CompilationStatus> elementToSyncStatus = new HashMap<IntentGenericElement, CompilationStatus>();
+		Map<IntentGenericElement, Collection<CompilationStatus>> elementToSyncStatus = Maps
+				.newLinkedHashMap();
 		List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
 
 		for (DiffElement difference : differences) {
@@ -388,20 +390,11 @@ public class IntentSynchronizer {
 					indexEntry, difference)) {
 				stopIfCanceled(progressMonitor);
 
-				// If the target element has no defined synchronization satus
 				if (elementToSyncStatus.get(newStatus.getTarget()) == null) {
-					elementToSyncStatus.put(newStatus.getTarget(), newStatus);
-					statusList.add(newStatus);
-				} else {
-					// If the target element has already a synchronization status
-					// We construct a new status corresponding to the old
-					// one and the new one
-					CompilationStatus oldStatus = elementToSyncStatus.get(newStatus.getTarget());
-					statusList.remove(oldStatus);
-					oldStatus.setMessage(oldStatus.getMessage()
-							+ SynchronizerMessageProvider.getStatusSeparator() + newStatus.getMessage());
-					statusList.add(oldStatus);
+					elementToSyncStatus.put(newStatus.getTarget(), Lists.<CompilationStatus> newArrayList());
 				}
+				elementToSyncStatus.get(newStatus.getTarget()).add(newStatus);
+				statusList.add(newStatus);
 			}
 		}
 
