@@ -9,10 +9,8 @@
 [comment encoding = UTF-8 /]
 [module htmlGenDocument('http://www.eclipse.org/intent/markup/0.7','http://www.eclipse.org/intent/markup/generator/0.7')/]
 [import org::eclipse::mylyn::docs::intent::markup::gen::files::html /]
- 
-[query public fileName(d : GenHtmlDocument) : String = 
-  eResourceName().replace('textile','html')
-/]
+[import org::eclipse::mylyn::docs::intent::markup::gen::queries::htmlQueries/]
+
 
 [template public generate(e : GenHtmlDocument)]
 

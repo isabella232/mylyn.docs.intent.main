@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="HTMLBootstrapGenDocument" name="org.eclipse.mylyn.docs.intent.exporter">
-    <property name="ECLIPSE_HOME" value="../../../../../../02. Devs/eclipse/juno/M6/eclipse"/>
+    <property name="ECLIPSE_HOME" value="../../../../../../02. Devs/eclipse/juno/M7/eclipse"/>
     <property name="ECLIPSE_WORKSPACE" value="../../../../../../03. Workspaces/Intent/Intent_trunk"/>
 
     <!-- The classpath with only the dependencies used by the project -->
@@ -15,35 +15,36 @@
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.equinox.preferences_3.5.0.v20120120-1210.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.core.contenttype_3.4.100.v20110423-0524.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.equinox.app_1.3.100.v20111010-1614.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.ecore_2.8.0.v20120127-1049.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.common_2.8.0.v20120127-1049.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.ecore.xmi_2.8.0.v20120127-1049.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ocl_3.2.0.v20120130-1105.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.ecore_2.8.0.v20120504-0433.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.common_2.8.0.v20120504-0433.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.ecore.xmi_2.8.0.v20120504-0433.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ocl_3.2.0.v20120507-1337.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/lpg.runtime.java_2.0.17.v201004271640.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ocl.ecore_3.2.0.v20120126-0656.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.acceleo.common_3.3.0.v20120131-0422.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.acceleo.parser_3.3.0.v20120131-0422.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.acceleo.model_3.3.0.v20120131-0422.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.acceleo.profiler_3.3.0.v20120131-0422.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.acceleo.engine_3.3.0.v20120131-0422.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.codegen.ecore_2.8.0.v20120130-0821.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.codegen_2.8.0.v20120130-0821.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ocl.common_1.0.0.v20120504-1834.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ocl.ecore_3.2.0.v20120507-1203.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.acceleo.common_3.3.0.v20120504-0423.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.acceleo.parser_3.3.0.v20120504-0423.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.acceleo.model_3.3.0.v20120504-0423.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.acceleo.profiler_3.3.0.v20120504-0423.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.acceleo.engine_3.3.0.v20120504-0423.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.codegen.ecore_2.8.0.v20120507-0712.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.codegen_2.8.0.v20120507-0712.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/com.google.guava_10.0.1.v201203051515.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.cdo_4.1.0.v20120126-0936.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.cdo.common_4.1.0.v20120127-1416.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.net4j.util_3.2.0.v20120131-0642.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.edit_2.8.0.v20120130-0821.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.ecore.change_2.8.0.v20120127-1049.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.edit.ui_2.8.0.v20120130-0821.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.cdo_4.1.0.v20120501-1545.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.cdo.common_4.1.0.v20120502-0748.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.net4j.util_3.2.0.v20120508-1423.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.edit_2.8.0.v20120507-0712.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.ecore.change_2.8.0.v20120504-0433.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.edit.ui_2.8.0.v20120507-0712.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ui.views_3.6.100.v20111215-1440.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ui.workbench_3.103.0.v20120126-1500.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.common.ui_2.7.0.v20120130-0821.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ui_3.102.0.v20120118-1650.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ui.workbench_3.8.0.v20120123-1720.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.common.ui_2.7.0.v20120507-0712.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ui_3.7.100.v20111215-1440.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.swt_3.8.0.v3820a.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.swt.win32.win32.x86_3.8.0.v3820a.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.jface_3.8.0.v20120108-2018.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.core.commands_3.6.0.v20111007-1312.jar"/>
-        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.compare.diff_1.3.0.v20120131-1039.jar"/>
+        <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.emf.compare.diff_1.3.1.v20120522-1149.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.core.resources_3.8.0.v20120120-1053.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.ui.editors_3.8.0.v20120123-1559.jar"/>
         <pathelement location="${ECLIPSE_WORKSPACE}//.metadata/.plugins/org.eclipse.pde.core/.bundle_pool/plugins/org.eclipse.core.filebuffers_3.5.200.v20111215-1439.jar"/>

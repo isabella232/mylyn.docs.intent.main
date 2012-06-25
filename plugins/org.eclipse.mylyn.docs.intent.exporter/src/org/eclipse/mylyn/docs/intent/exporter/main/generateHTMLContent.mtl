@@ -3,22 +3,8 @@
 [import org::eclipse::mylyn::docs::intent::markup::gen::files::html/]
 [import org::eclipse::mylyn::docs::intent::markup::gen::files::htmlGenDocument/]
 [import org::eclipse::mylyn::docs::intent::exporter::main::generateToc/]
+[import org::eclipse::mylyn::docs::intent::exporter::queries::documentQueries/]
 
-[query public getHeaderSize(sectionID : String) : String = 
-invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getHeaderSizeForSection(java.lang.String)', Sequence{sectionID})
-/]
-
-[query public getQualifiedImageId(classifer : EObject) : String = 
-invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getQualifiedImageID(org.eclipse.emf.ecore.EObject)', Sequence{classifer})
-/]
-
-[query public getContainingSection(classifer : EObject) : IntentSection = 
-invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getContainingSection(org.eclipse.emf.ecore.EObject)', Sequence{classifer})
-/]
-
-[query public getContainingSectionID(classifer : EObject) : String = 
-invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getContainingSectionID(org.eclipse.emf.ecore.EObject)', Sequence{classifer})
-/]
 
 
 [template public generateHTMLContent(intentDocument : IntentDocument)]
