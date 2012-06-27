@@ -47,6 +47,10 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private RepositoryAdapter repositoryAdapter;
 
+	private static final String IDENTIFIER_REGEXP = "([a-zA-z0-9_-]+)";
+
+	private static final String QUALIFIED_NAME_DELIMITER = "\\.";
+
 	public ModelingUnitCompletionProcessor(RepositoryAdapter repositoryAdapter) {
 		this.repositoryAdapter = repositoryAdapter;
 	}
@@ -545,10 +549,11 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 		String packageName = null;
 		String classifierName = contributionName;
-		if (contributionName.contains(".")
-				&& !(contributionName.startsWith(".") || contributionName.endsWith("."))) {
-			packageName = contributionName.split("\\.")[0];
-			classifierName = contributionName.split("\\.")[1];
+
+		if (contributionName.matches(IDENTIFIER_REGEXP + QUALIFIED_NAME_DELIMITER + IDENTIFIER_REGEXP)) {
+			String[] split = contributionName.split(QUALIFIED_NAME_DELIMITER);
+			packageName = split[0];
+			classifierName = split[1];
 		}
 		while (availablePackages.hasNext() && classifierToConsider == null) {
 			EPackage availablePackage = availablePackages.next();
