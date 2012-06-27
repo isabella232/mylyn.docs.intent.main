@@ -527,7 +527,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			}
 		}
 		String description = "Set the value " + contributionName + "." + feature.getName();
-		return createTemplateProposal(label, description, feature.getName() + " " + affect + " ${value};",
+		return createTemplateProposal(label, description, feature.getName() + " " + affect + " ",
 				"icon/outline/modelingunit_affect.png");
 	}
 
