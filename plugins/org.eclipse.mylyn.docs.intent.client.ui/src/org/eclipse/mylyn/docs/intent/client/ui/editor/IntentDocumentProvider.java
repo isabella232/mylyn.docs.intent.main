@@ -56,6 +56,7 @@ import org.eclipse.mylyn.docs.intent.compare.IntentASTMerger;
 import org.eclipse.mylyn.docs.intent.compare.MergingException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
@@ -168,9 +169,11 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 					posit = new ParsedElementPosition(0, 0);
 				}
 
-				annotationModelManager.addAnnotationFromStatus(
-						this.listenedElementsHandler.getRepositoryAdapter(), status,
-						new Position(posit.getOffset(), posit.getLength()));
+				if (!status.getSeverity().equals(CompilationStatusSeverity.INFO)) {
+					annotationModelManager.addAnnotationFromStatus(
+							this.listenedElementsHandler.getRepositoryAdapter(), status,
+							new Position(posit.getOffset(), posit.getLength()));
+				}
 			}
 		}
 		return annotationModelManager.getAnnotationModel();
@@ -515,10 +518,12 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			Position position = new Position(parsedElementPosition.getOffset(),
 					parsedElementPosition.getLength());
 
-			// Step 2.2 : Adding this annotation to the model (will update overview and vertical rulers of
-			// the editor)
-			annotationModelManager.addAnnotationFromStatus(
-					this.listenedElementsHandler.getRepositoryAdapter(), statusToAdd, position);
+			if (!statusToAdd.getSeverity().equals(CompilationStatusSeverity.INFO)) {
+				// Step 2.2 : Adding this annotation to the model (will update overview and vertical rulers of
+				// the editor)
+				annotationModelManager.addAnnotationFromStatus(
+						this.listenedElementsHandler.getRepositoryAdapter(), statusToAdd, position);
+			}
 		}
 	}
 

@@ -96,6 +96,7 @@
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//CompilationMessageType/INVALID_VALUE_ERROR"/>
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//CompilationMessageType/GENERAL_WARNING"/>
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//CompilationMessageType/SYNCHRONIZER_WARNING"/>
+      <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//CompilationMessageType/SYNCHRONIZER_INFO"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="compilerInformations.ecore#//SynchronizerResourceState">
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerResourceState/DEFAULT"/>

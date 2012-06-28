@@ -164,7 +164,7 @@ public class IntentSynchronizer {
 
 		while (statusIterator.hasNext()) {
 			CompilationStatus status = statusIterator.next();
-			if (status.getType().equals(CompilationMessageType.SYNCHRONIZER_WARNING)) {
+			if (isSyncStatus(status)) {
 				statusIterator.remove();
 			}
 		}
@@ -179,12 +179,25 @@ public class IntentSynchronizer {
 				Iterator<CompilationStatus> iterator = instruction.getCompilationStatus().iterator();
 				while (iterator.hasNext()) {
 					CompilationStatus status = iterator.next();
-					if (status.getType().equals(CompilationMessageType.SYNCHRONIZER_WARNING)) {
+					if (isSyncStatus(status)) {
 						iterator.remove();
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Returns true if the given status is related to a synchronization issue.
+	 * 
+	 * @param status
+	 *            the status to test
+	 * @return true if the given status is related to a synchronization issue
+	 */
+	private boolean isSyncStatus(CompilationStatus status) {
+		CompilationMessageType type = status.getType();
+		return type.equals(CompilationMessageType.SYNCHRONIZER_WARNING)
+				|| type.equals(CompilationMessageType.SYNCHRONIZER_INFO);
 	}
 
 	/**

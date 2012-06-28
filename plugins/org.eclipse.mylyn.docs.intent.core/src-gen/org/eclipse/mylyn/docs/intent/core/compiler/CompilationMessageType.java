@@ -96,7 +96,15 @@ public enum CompilationMessageType implements Enumerator {
 																 * @generated
 																 * @ordered
 																 */
-	SYNCHRONIZER_WARNING(7, "SYNCHRONIZER_WARNING", "SYNCHRONIZER_WARNING");
+	SYNCHRONIZER_WARNING(7, "SYNCHRONIZER_WARNING", "SYNCHRONIZER_WARNING"), /**
+																				 * The '<em><b>SYNCHRONIZER INFO</b></em>' literal object.
+																				 * <!-- begin-user-doc -->
+																				 * <!-- end-user-doc -->
+																				 * @see #SYNCHRONIZER_INFO_VALUE
+																				 * @generated
+																				 * @ordered
+																				 */
+	SYNCHRONIZER_INFO(8, "SYNCHRONIZER_INFO", "SYNCHRONIZER_INFO");
 
 	/**
 	 * The '<em><b>RESOLVE ERROR</b></em>' literal value.
@@ -219,6 +227,21 @@ public enum CompilationMessageType implements Enumerator {
 	public static final int SYNCHRONIZER_WARNING_VALUE = 7;
 
 	/**
+	 * The '<em><b>SYNCHRONIZER INFO</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>SYNCHRONIZER INFO</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #SYNCHRONIZER_INFO
+	 * @model
+	 * @generated
+	 * @ordered
+	 */
+	public static final int SYNCHRONIZER_INFO_VALUE = 8;
+
+	/**
 	 * An array of all the '<em><b>Compilation Message Type</b></em>' enumerators.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -226,7 +249,7 @@ public enum CompilationMessageType implements Enumerator {
 	 */
 	private static final CompilationMessageType[] VALUES_ARRAY = new CompilationMessageType[] {RESOLVE_ERROR,
 			PACKAGE_NOT_FOUND_ERROR, PACKAGE_REGISTRATION_ERROR, INVALID_REFERENCE_ERROR, VALIDATION_ERROR,
-			INVALID_VALUE_ERROR, GENERAL_WARNING, SYNCHRONIZER_WARNING,
+			INVALID_VALUE_ERROR, GENERAL_WARNING, SYNCHRONIZER_WARNING, SYNCHRONIZER_INFO,
 	};
 
 	/**
@@ -294,6 +317,8 @@ public enum CompilationMessageType implements Enumerator {
 				return GENERAL_WARNING;
 			case SYNCHRONIZER_WARNING_VALUE:
 				return SYNCHRONIZER_WARNING;
+			case SYNCHRONIZER_INFO_VALUE:
+				return SYNCHRONIZER_INFO;
 		}
 		return null;
 	}

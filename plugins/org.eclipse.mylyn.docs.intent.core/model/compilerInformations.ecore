@@ -65,6 +65,7 @@
     <eLiterals name="INVALID_VALUE_ERROR" value="5"/>
     <eLiterals name="GENERAL_WARNING" value="6"/>
     <eLiterals name="SYNCHRONIZER_WARNING" value="7" literal="SYNCHRONIZER_WARNING"/>
+    <eLiterals name="SYNCHRONIZER_INFO" value="8" literal="SYNCHRONIZER_INFO"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompilationStatus">
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"

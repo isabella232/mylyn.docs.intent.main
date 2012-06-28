@@ -69,8 +69,14 @@ public final class SynchronizerStatusFactory {
 			SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
 					.createSynchronizerCompilationStatus();
 
-			status.setSeverity(CompilationStatusSeverity.WARNING);
-			status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
+			if (difference instanceof ReferenceOrderChange) {
+				status.setSeverity(CompilationStatusSeverity.INFO);
+				status.setType(CompilationMessageType.SYNCHRONIZER_INFO);
+			} else {
+				status.setSeverity(CompilationStatusSeverity.WARNING);
+				status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
+			}
+
 			IntentGenericElement targetInstruction = getTargetInstructionFromDiffElement(indexEntry,
 					difference);
 			status.setMessage(SynchronizerMessageProvider.createMessageFromDiffElement(difference));

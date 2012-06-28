@@ -1227,6 +1227,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.INVALID_VALUE_ERROR);
 		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.GENERAL_WARNING);
 		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.SYNCHRONIZER_WARNING);
+		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.SYNCHRONIZER_INFO);
 
 		initEEnum(synchronizerResourceStateEEnum, SynchronizerResourceState.class,
 				"SynchronizerResourceState");

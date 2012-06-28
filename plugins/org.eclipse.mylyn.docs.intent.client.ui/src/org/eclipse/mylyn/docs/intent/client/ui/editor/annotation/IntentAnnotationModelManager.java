@@ -22,6 +22,7 @@ import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 
@@ -91,7 +92,6 @@ public class IntentAnnotationModelManager {
 					.createAnnotationFromCompilationStatus(uri, status);
 			addAnnotation(annotation, position);
 			handledCompilationStatus.put(status, annotation);
-
 		}
 	}
 
