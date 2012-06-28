@@ -139,7 +139,8 @@ public final class IntentEditorOpener {
 			if (editor != null) {
 				editor.getEditorSite().getPage().activate(editor);
 				openedEditor = editor;
-				foundInAlreadyExistingEditor = editor.selectRange((IntentGenericElement)elementToOpen);
+				foundInAlreadyExistingEditor = editor
+						.selectRange((IntentGenericElement)elementToSelectRangeWith);
 			}
 		}
 
