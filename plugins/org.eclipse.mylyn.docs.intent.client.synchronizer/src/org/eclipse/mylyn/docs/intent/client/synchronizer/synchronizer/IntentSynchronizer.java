@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -173,14 +174,17 @@ public class IntentSynchronizer {
 
 			// We must remove the synchronization statuses from the instruction that generated this
 			// element
-			IntentGenericElement instruction = indexEntry.getContainedElementToInstructions()
-					.get(containedElement).iterator().next();
-			if (instruction != null) {
-				Iterator<CompilationStatus> iterator = instruction.getCompilationStatus().iterator();
-				while (iterator.hasNext()) {
-					CompilationStatus status = iterator.next();
-					if (isSyncStatus(status)) {
-						iterator.remove();
+			EList<IntentGenericElement> eList = indexEntry.getContainedElementToInstructions().get(
+					containedElement);
+			if (eList != null && !eList.isEmpty()) {
+				IntentGenericElement instruction = eList.iterator().next();
+				if (instruction != null) {
+					Iterator<CompilationStatus> iterator = instruction.getCompilationStatus().iterator();
+					while (iterator.hasNext()) {
+						CompilationStatus status = iterator.next();
+						if (isSyncStatus(status)) {
+							iterator.remove();
+						}
 					}
 				}
 			}

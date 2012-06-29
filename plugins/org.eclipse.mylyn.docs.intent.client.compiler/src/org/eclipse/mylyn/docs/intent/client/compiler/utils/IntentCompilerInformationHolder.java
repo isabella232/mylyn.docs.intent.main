@@ -23,7 +23,6 @@ import java.util.Set;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationException;
@@ -318,26 +317,25 @@ public final class IntentCompilerInformationHolder {
 	 */
 	public void addNameToCreatedElementEntry(String name, EObject createdElement,
 			InstanciationInstruction instruction) {
+		if (name != null) {
+			StringToEObjectMap nameToElement = this.informationHolder.getTypeToNameToElementsMap().get(
+					createdElement.eClass());
+			if (nameToElement == null) {
+				nameToElement = CompilerFactory.eINSTANCE.createStringToEObjectMap();
+				this.informationHolder.getTypeToNameToElementsMap().put(createdElement.eClass(),
+						nameToElement);
+			}
 
-		// If an element has already been registered with this name
-		if (this.getNameToCreatedElement().get(name) != null) {
-			throw new InvalidValueException(instruction, "The name " + name
-					+ " has already been used to identify an element.");
-		}
+			// If an element has already been registered with this name
+			if (nameToElement.getNameToElement().get(name) != null) {
+				throw new InvalidValueException(instruction, "The name " + name
+						+ " has already been used to identify an element.");
+			}
 
-		// Otherwise, we register the given element
-		if (this.getNameToCreatedElement().get(createdElement.eClass()) == null) {
-			this.getNameToCreatedElement().put(createdElement.eClass(),
-					CompilerFactory.eINSTANCE.createStringToEObjectMap());
+			// Otherwise, we register the given element
+			nameToElement.getNameToElement().put(name, createdElement);
 		}
-		this.getNameToCreatedElement().get(createdElement.eClass()).getNameToElement()
-				.put(name, createdElement);
 		this.addCreatedElementsToCurrentList(instruction, createdElement);
-
-		// If there were unresolved contribution instructions associated to this element
-		// if (this.informationHolder.getUnresolvedContributions().get(name) != null) {
-		// this.informationHolder.getUnresolvedContributions().get(name).setResolved(true);
-		// }
 	}
 
 	public boolean isUnresolvedContribution(ContributionInstruction contributionInstruction) {
@@ -386,15 +384,6 @@ public final class IntentCompilerInformationHolder {
 	 */
 	public Set<String> getAllUnresolvedContributionsNames() {
 		return this.informationHolder.getUnresolvedContributions().keySet();
-	}
-
-	/**
-	 * Returns a map associating created elements to their names and sorted by the elements type.
-	 * 
-	 * @return a map associating created elements to their names and sorted by the elements type
-	 */
-	private EMap<EClassifier, StringToEObjectMap> getNameToCreatedElement() {
-		return this.informationHolder.getTypeToNameToElementsMap();
 	}
 
 	/**
