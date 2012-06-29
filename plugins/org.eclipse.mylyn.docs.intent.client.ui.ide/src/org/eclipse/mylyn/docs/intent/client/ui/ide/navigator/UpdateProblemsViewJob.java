@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.CompilationStatusQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
@@ -47,6 +48,8 @@ public class UpdateProblemsViewJob extends Job {
 
 	private IProject project;
 
+	private CompilationStatusQuery statusQuery;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -57,6 +60,7 @@ public class UpdateProblemsViewJob extends Job {
 		super(UPDATE_PROBLEMS_VIEW_JOB_NAME);
 		this.project = project;
 		this.adapter = adapter;
+		this.statusQuery = new CompilationStatusQuery(adapter);
 	}
 
 	/**
@@ -84,8 +88,7 @@ public class UpdateProblemsViewJob extends Job {
 			}
 
 			// Step 2: create marker for each status
-			CompilationStatusManager statusManager = (CompilationStatusManager)statusResource.getContents()
-					.iterator().next();
+			CompilationStatusManager statusManager = statusQuery.getOrCreateCompilationStatusManager();
 
 			try {
 				for (CompilationStatus status : statusManager.getCompilationStatusList()) {

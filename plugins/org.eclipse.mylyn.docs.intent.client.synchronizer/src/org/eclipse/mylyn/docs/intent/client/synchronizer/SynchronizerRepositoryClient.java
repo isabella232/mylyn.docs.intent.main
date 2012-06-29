@@ -17,10 +17,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.synchronizer.IntentSynchronizer;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
@@ -50,15 +48,24 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	private TraceabilityIndex traceabilityIndex;
 
 	/**
+	 * The {@link CompilationStatusManager} to use for adding statuses.
+	 */
+	private CompilationStatusManager statusManager;
+
+	/**
 	 * SynchronizerRepositoryClient constructor.
 	 * 
 	 * @param traceabilityIndex
-	 *            the listened TraceAbilityIndex
+	 *            the listened {@link TraceabilityIndex}
+	 * @param statusManager
+	 *            the {@link CompilationStatusManager} to use for adding statuses
 	 */
-	public SynchronizerRepositoryClient(TraceabilityIndex traceabilityIndex) {
+	public SynchronizerRepositoryClient(TraceabilityIndex traceabilityIndex,
+			CompilationStatusManager statusManager) {
 		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Synchronizer] Ready");
 		this.synchronizer = new IntentSynchronizer(this);
 		this.traceabilityIndex = traceabilityIndex;
+		this.statusManager = statusManager;
 	}
 
 	/**
@@ -72,7 +79,6 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	public void addAllStatusToTargetElement(final Collection<? extends CompilationStatus> statusList) {
 
 		// Step 1: removing all old synchronization status
-		CompilationStatusManager statusManager = getStatusManager();
 		Iterator<SynchronizerCompilationStatus> iterator2 = Iterables.filter(
 				statusManager.getCompilationStatusList(), SynchronizerCompilationStatus.class).iterator();
 		Collection<SynchronizerCompilationStatus> toRemove = Sets.newLinkedHashSet();
@@ -94,17 +100,6 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 				statusManager.getCompilationStatusList().add(status);
 			}
 		}
-	}
-
-	private CompilationStatusManager getStatusManager() {
-		// First of all, getting the compilation status manager
-		Resource resource = repositoryObjectHandler.getRepositoryAdapter().getResource(
-				IntentLocations.COMPILATION_STATUS_INDEX_PATH);
-		CompilationStatusManager statusManager = null;
-		if (resource != null && !resource.getContents().isEmpty()) {
-			statusManager = (CompilationStatusManager)resource.getContents().iterator().next();
-		}
-		return statusManager;
 	}
 
 	/**

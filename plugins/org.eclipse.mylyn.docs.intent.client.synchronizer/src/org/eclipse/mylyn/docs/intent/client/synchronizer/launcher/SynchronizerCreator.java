@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
+import org.eclipse.mylyn.docs.intent.collab.common.query.CompilationStatusQuery;
 import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -28,6 +29,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementLi
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 
@@ -67,8 +69,10 @@ public final class SynchronizerCreator {
 		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 
 		repositoryAdapter.openSaveContext();
-		EObject traceabilityIndex = new TraceabilityInformationsQuery(repositoryAdapter)
+		TraceabilityIndex traceabilityIndex = new TraceabilityInformationsQuery(repositoryAdapter)
 				.getOrCreateTraceabilityIndex();
+		CompilationStatusManager statusManager = new CompilationStatusQuery(repositoryAdapter)
+				.getOrCreateCompilationStatusManager();
 
 		listenedElements.add(traceabilityIndex);
 		// Step 2 : create the adapter and the handler for these types
@@ -82,8 +86,8 @@ public final class SynchronizerCreator {
 		handler.addNotificator(listenedElementsNotificator);
 
 		// Step 3 : create the synchronizer
-		SynchronizerRepositoryClient synchronizerClient = new SynchronizerRepositoryClient(
-				(TraceabilityIndex)traceabilityIndex);
+		SynchronizerRepositoryClient synchronizerClient = new SynchronizerRepositoryClient(traceabilityIndex,
+				statusManager);
 		synchronizerClient.addRepositoryObjectHandler(handler);
 		synchronizerClient.setGeneratedElementListener(generatedElementListener);
 

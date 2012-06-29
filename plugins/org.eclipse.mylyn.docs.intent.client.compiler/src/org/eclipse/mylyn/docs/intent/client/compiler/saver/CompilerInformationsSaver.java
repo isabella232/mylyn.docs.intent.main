@@ -35,6 +35,7 @@ import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInforma
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.CompilationStatusQuery;
 import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -67,6 +68,8 @@ public class CompilerInformationsSaver {
 
 	private TraceabilityInformationsQuery traceabilityInfoQuery;
 
+	private CompilationStatusQuery statusQuery;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -90,6 +93,7 @@ public class CompilerInformationsSaver {
 			RepositoryObjectHandler handler) {
 
 		this.traceabilityInfoQuery = new TraceabilityInformationsQuery(handler.getRepositoryAdapter());
+		this.statusQuery = new CompilationStatusQuery(handler.getRepositoryAdapter());
 		resourceToTraceabilityElementIndexEntry = Maps.newLinkedHashMap();
 		try {
 
@@ -209,18 +213,9 @@ public class CompilerInformationsSaver {
 	 */
 	private void saveStatusInformations(IntentCompilerInformationHolder informationHolder,
 			RepositoryObjectHandler handler) throws ReadOnlyException {
-		Resource resourceForCompilationStatusList = handler.getRepositoryAdapter().getOrCreateResource(
-				IntentLocations.COMPILATION_STATUS_INDEX_PATH);
-
-		if (resourceForCompilationStatusList.getContents().isEmpty()) {
-			resourceForCompilationStatusList.getContents().add(
-					CompilerFactory.eINSTANCE.createCompilationStatusManager());
-		}
-		CompilationStatusManager manager = (CompilationStatusManager)resourceForCompilationStatusList
-				.getContents().get(0);
+		CompilationStatusManager manager = statusQuery.getOrCreateCompilationStatusManager();
 		if (!progressMonitor.isCanceled()) {
-			mergeCompilationStatusManager(informationHolder.getStatusManager(), manager,
-					resourceForCompilationStatusList);
+			mergeCompilationStatusManager(informationHolder.getStatusManager(), manager, manager.eResource());
 		}
 	}
 

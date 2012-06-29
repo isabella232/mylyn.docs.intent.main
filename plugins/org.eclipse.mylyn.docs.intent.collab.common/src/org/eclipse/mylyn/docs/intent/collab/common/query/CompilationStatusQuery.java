@@ -13,17 +13,18 @@ package org.eclipse.mylyn.docs.intent.collab.common.query;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
-import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 
 /**
- * An utility class allowing to query the {@link TraceabilityIndex} to get useful traceability informations.
+ * An utility class allowing to query the {@link CompilationStatusManager} to get useful informations about
+ * compilation statuses.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class TraceabilityInformationsQuery extends AbstractIntentQuery {
+public class CompilationStatusQuery extends AbstractIntentQuery {
 
-	private TraceabilityIndex traceabilityIndex;
+	private CompilationStatusManager statusManager;
 
 	/**
 	 * Creates the query.
@@ -31,24 +32,24 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 	 * @param repositoryAdapter
 	 *            the {@link RepositoryAdapter} to use for querying the repository.
 	 */
-	public TraceabilityInformationsQuery(RepositoryAdapter repositoryAdapter) {
+	public CompilationStatusQuery(RepositoryAdapter repositoryAdapter) {
 		super(repositoryAdapter);
 	}
 
 	/**
-	 * Returns the {@link TraceabilityIndex} of the current repository. If none find, creates it.
+	 * Returns the {@link CompilationStatusManager} of the current repository. If none find, creates it.
 	 * 
-	 * @return the {@link TraceabilityIndex} index of the current repository. If none find, creates it
+	 * @return the {@link CompilationStatusManager} of the current repository. If none find, creates it
 	 */
-	public TraceabilityIndex getOrCreateTraceabilityIndex() {
-		if (traceabilityIndex == null) {
-			final Resource traceabilityResource = repositoryAdapter
-					.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
-			if (traceabilityResource.getContents().isEmpty()) {
-				traceabilityResource.getContents().add(CompilerFactory.eINSTANCE.createTraceabilityIndex());
+	public CompilationStatusManager getOrCreateCompilationStatusManager() {
+		if (statusManager == null) {
+			Resource resource = repositoryAdapter.getResource(IntentLocations.COMPILATION_STATUS_INDEX_PATH);
+			if (resource.getContents().isEmpty()) {
+				resource.getContents().add(CompilerFactory.eINSTANCE.createCompilationStatusManager());
 			}
-			traceabilityIndex = (TraceabilityIndex)traceabilityResource.getContents().get(0);
+			statusManager = (CompilationStatusManager)resource.getContents().get(0);
 		}
-		return traceabilityIndex;
+		return statusManager;
 	}
+
 }

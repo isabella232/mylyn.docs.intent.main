@@ -23,6 +23,7 @@ import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.CompilationStatusQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -90,8 +91,7 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 
 		listenedElements.addAll(repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH)
 				.getContents());
-		listenedElements.addAll(repositoryAdapter.getResource(IntentLocations.COMPILATION_STATUS_INDEX_PATH)
-				.getContents());
+		listenedElements.add(new CompilationStatusQuery(repositoryAdapter).getOrCreateCompilationStatusManager());
 
 		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements,
 				repositoryAdapter);
