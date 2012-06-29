@@ -27,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.ProjectExplorerRefr
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.ui.IEditorPart;
@@ -110,7 +111,7 @@ public final class IntentProjectManager {
 
 				// Indexer
 				if (indexerClient == null) {
-					indexerClient = IndexerCreator.launchIndexer(repository);
+					indexerClient = IndexerCreator.createIndexer(repository);
 				}
 
 				// Project explorer refresher
@@ -131,6 +132,8 @@ public final class IntentProjectManager {
 						+ project.getName());
 			}
 		} catch (CoreException e) {
+			throw new RepositoryConnectionException(e.getMessage());
+		} catch (ReadOnlyException e) {
 			throw new RepositoryConnectionException(e.getMessage());
 		}
 		isConnected = true;

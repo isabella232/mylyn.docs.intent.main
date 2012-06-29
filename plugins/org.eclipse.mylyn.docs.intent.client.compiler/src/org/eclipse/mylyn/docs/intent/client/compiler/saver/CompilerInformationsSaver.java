@@ -35,6 +35,7 @@ import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInforma
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
@@ -64,6 +65,8 @@ public class CompilerInformationsSaver {
 	 */
 	private IProgressMonitor progressMonitor;
 
+	private TraceabilityInformationsQuery traceabilityInfoQuery;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -85,6 +88,8 @@ public class CompilerInformationsSaver {
 	 */
 	public void saveOnRepository(IntentCompilerInformationHolder informationHolder,
 			RepositoryObjectHandler handler) {
+
+		this.traceabilityInfoQuery = new TraceabilityInformationsQuery(handler.getRepositoryAdapter());
 		resourceToTraceabilityElementIndexEntry = Maps.newLinkedHashMap();
 		try {
 
@@ -236,13 +241,7 @@ public class CompilerInformationsSaver {
 			throws ReadOnlyException {
 
 		// We first get the Traceability index
-		final Resource traceabilityResource = handler.getRepositoryAdapter().getResource(
-				IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
-
-		if (traceabilityResource.getContents().isEmpty()) {
-			traceabilityResource.getContents().add(CompilerFactory.eINSTANCE.createTraceabilityIndex());
-		}
-		TraceabilityIndex traceIndex = (TraceabilityIndex)traceabilityResource.getContents().get(0);
+		TraceabilityIndex traceIndex = traceabilityInfoQuery.getOrCreateTraceabilityIndex();
 
 		List<TraceabilityIndexEntry> newTraceabilityEntries = new ArrayList<TraceabilityIndexEntry>();
 		Set<IntentGenericElement> handledInstructions = Sets.newLinkedHashSet();

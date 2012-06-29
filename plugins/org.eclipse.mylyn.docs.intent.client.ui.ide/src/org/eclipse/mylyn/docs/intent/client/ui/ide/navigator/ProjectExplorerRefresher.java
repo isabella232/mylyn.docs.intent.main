@@ -24,6 +24,7 @@ import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
@@ -73,9 +74,11 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 	 *             if cannot correctly connect to the given repository
 	 * @throws CoreException
 	 *             if needed the repository type cannot be found
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
 	public static ProjectExplorerRefresher createProjectExplorerRefresher(IProject project)
-			throws RepositoryConnectionException, CoreException {
+			throws RepositoryConnectionException, CoreException, ReadOnlyException {
 		// Step 1 : Create a Repository Adapter
 		Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();

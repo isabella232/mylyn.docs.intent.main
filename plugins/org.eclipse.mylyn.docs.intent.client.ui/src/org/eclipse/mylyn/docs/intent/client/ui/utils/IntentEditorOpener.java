@@ -19,6 +19,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -126,10 +128,20 @@ public final class IntentEditorOpener {
 		IntentEditor openedEditor = null;
 		IStatus status = null;
 		// We get the element on which open this editor
+		if (!readOnlyMode) {
+			try {
+				repositoryAdapter.openSaveContext();
+			} catch (ReadOnlyException e) {
+				IntentLogger
+						.getInstance()
+						.log(LogType.WARNING,
+								"The Intent Editor has insufficient rights (read-only) to save modifications on the repository. A read-only context will be used instead.");
+				readOnlyMode = true;
+			}
+		}
+
 		if (readOnlyMode) {
 			repositoryAdapter.openReadOnlyContext();
-		} else {
-			repositoryAdapter.openSaveContext();
 		}
 
 		boolean foundInAlreadyExistingEditor = false;

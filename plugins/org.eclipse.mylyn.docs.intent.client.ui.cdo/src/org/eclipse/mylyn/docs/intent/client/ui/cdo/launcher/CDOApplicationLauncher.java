@@ -31,6 +31,7 @@ import org.eclipse.mylyn.docs.intent.collab.cdo.notification.CDORepositoryChange
 import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDOConfig;
 import org.eclipse.mylyn.docs.intent.collab.cdo.utils.IntentRepositoryConnectionSettingsForCDO;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotificationFactoryHolder;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -123,6 +124,9 @@ public final class CDOApplicationLauncher {
 
 					CompilerCreator.createCompilerClient(repository);
 				} catch (RepositoryConnectionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ReadOnlyException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

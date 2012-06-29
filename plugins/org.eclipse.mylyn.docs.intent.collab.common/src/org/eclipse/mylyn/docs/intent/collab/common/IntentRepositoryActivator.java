@@ -1,3 +1,4 @@
+package org.eclipse.mylyn.docs.intent.collab.common;
 /*******************************************************************************
  * Copyright (c) 2010, 2011 Obeo.
  * All rights reserved. This program and the accompanying materials

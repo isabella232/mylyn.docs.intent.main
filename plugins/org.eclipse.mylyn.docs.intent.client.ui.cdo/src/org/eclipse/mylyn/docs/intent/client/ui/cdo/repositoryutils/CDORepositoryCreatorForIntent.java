@@ -21,6 +21,7 @@ import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDOConfig;
 import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDORepository;
 import org.eclipse.mylyn.docs.intent.collab.cdo.utils.CDORepositoryCreator;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
@@ -102,21 +103,27 @@ public final class CDORepositoryCreatorForIntent extends CDORepositoryCreator {
 			throws RepositoryConnectionException {
 		// We first create an adapter to get the resource to listen
 		RepositoryAdapter repositoryAdapter = this.createRepositoryAdapterForRepository(repository);
-		repositoryAdapter.openSaveContext();
-		Resource resourceFromPath = repositoryAdapter.getResource(pathToListenedResource);
+		try {
+			repositoryAdapter.openSaveContext();
 
-		// We get the contained elements
-		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
-		listenedElements.addAll(resourceFromPath.getContents());
+			Resource resourceFromPath = repositoryAdapter.getResource(pathToListenedResource);
 
-		// We create the handler
-		RepositoryObjectHandler elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
-		ElementListAdapter adapter = new ElementListAdapter();
-		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements, adapter,
-				repositoryAdapter);
-		elementHandler.addNotificator(listenedElementsNotificator);
+			// We get the contained elements
+			Set<EObject> listenedElements = new LinkedHashSet<EObject>();
+			listenedElements.addAll(resourceFromPath.getContents());
 
-		return elementHandler;
+			// We create the handler
+			RepositoryObjectHandler elementHandler = new ReadWriteRepositoryObjectHandlerImpl(
+					repositoryAdapter);
+			ElementListAdapter adapter = new ElementListAdapter();
+			Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements, adapter,
+					repositoryAdapter);
+			elementHandler.addNotificator(listenedElementsNotificator);
+
+			return elementHandler;
+		} catch (ReadOnlyException e) {
+			throw new RepositoryConnectionException(e.getMessage());
+		}
 	}
 
 	/**

@@ -20,7 +20,6 @@ import java.nio.channels.FileChannel;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
@@ -36,10 +35,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 
@@ -54,8 +50,6 @@ public class CopyImageUtils {
 	private static AdapterFactoryItemDelegator itemDelegator;
 
 	private static ResourceSetImpl resourceSet;
-
-	private static TraceabilityIndex traceabilityIndex;
 
 	/**
 	 * Determines the image associated to the given EObject, copies it inside the exported documentation and
@@ -107,53 +101,43 @@ public class CopyImageUtils {
 	 * @return the URL of the image corresponding to the given EObject, null if none found
 	 */
 	private static URL getImageFromWorkspace(EClassifier any, RepositoryAdapter repositoryAdapter) {
-		try {
-			TraceabilityIndex projectTraceabilityIndex = getTraceabilityIndex(repositoryAdapter);
-			if (projectTraceabilityIndex != null) {
-				for (TraceabilityIndexEntry entry : projectTraceabilityIndex.getEntries()) {
-					if (any.eResource().getURI().toString().contains(entry.getGeneratedResourcePath())) {
-						Object metamodelURI = entry.getResourceDeclaration().getUri();
-						if (metamodelURI != null
-								&& metamodelURI.toString().replace("\"", "").endsWith("ecore")) {
-							URI genModelURI = URI.createURI(metamodelURI.toString().replace("\"", "")
-									.replace("ecore", "genmodel"));
-							try {
-								Resource resource = getResourceSet().getResource(genModelURI, true);
-								if (!resource.getContents().isEmpty()
-										&& resource.getContents().iterator().next() instanceof GenModel) {
-									String editIconsDirectory = ((GenModel)resource.getContents().iterator()
-											.next()).getEditIconsDirectory();
-									IFolder folder = ResourcesPlugin.getWorkspace().getRoot()
-											.getFolder(new Path(editIconsDirectory + "/full/obj16"));
-									if (folder.exists()) {
-										for (String imageExtension : new String[] {"gif", "png"
-										}) {
-											if (folder.getFile(any.getName() + "." + imageExtension).exists()) {
-												return new URL(
-														"file:/"
-																+ folder.getFile(
-																		any.getName() + "." + imageExtension)
-																		.getLocation().toString());
-											}
+		TraceabilityIndex projectTraceabilityIndex = IntentAcceleoServices
+				.getTraceabilityIndex(repositoryAdapter);
+		if (projectTraceabilityIndex != null) {
+			for (TraceabilityIndexEntry entry : projectTraceabilityIndex.getEntries()) {
+				if (any.eResource().getURI().toString().contains(entry.getGeneratedResourcePath())) {
+					Object metamodelURI = entry.getResourceDeclaration().getUri();
+					if (metamodelURI != null && metamodelURI.toString().replace("\"", "").endsWith("ecore")) {
+						URI genModelURI = URI.createURI(metamodelURI.toString().replace("\"", "")
+								.replace("ecore", "genmodel"));
+						try {
+							Resource resource = getResourceSet().getResource(genModelURI, true);
+							if (!resource.getContents().isEmpty()
+									&& resource.getContents().iterator().next() instanceof GenModel) {
+								String editIconsDirectory = ((GenModel)resource.getContents().iterator()
+										.next()).getEditIconsDirectory();
+								IFolder folder = ResourcesPlugin.getWorkspace().getRoot()
+										.getFolder(new Path(editIconsDirectory + "/full/obj16"));
+								if (folder.exists()) {
+									for (String imageExtension : new String[] {"gif", "png"
+									}) {
+										if (folder.getFile(any.getName() + "." + imageExtension).exists()) {
+											return new URL("file:/"
+													+ folder.getFile(any.getName() + "." + imageExtension)
+															.getLocation().toString());
 										}
 									}
 								}
-							} catch (RuntimeException e) {
-								IntentUiLogger.logInfo("Cannot find genmodel at " + genModelURI
-										+ ". Default image will be use to display " + any.getName());
-							} catch (MalformedURLException e) {
-								IntentUiLogger.logError(e);
 							}
+						} catch (RuntimeException e) {
+							IntentUiLogger.logInfo("Cannot find genmodel at " + genModelURI
+									+ ". Default image will be use to display " + any.getName());
+						} catch (MalformedURLException e) {
+							IntentUiLogger.logError(e);
 						}
 					}
 				}
 			}
-		} catch (RepositoryConnectionException e) {
-			IntentUiLogger.logError(e);
-		} catch (CoreException e) {
-			IntentUiLogger.logError(e);
-		} catch (ReadOnlyException e) {
-			IntentUiLogger.logError(e);
 		}
 		return null;
 	}
@@ -252,21 +236,6 @@ public class CopyImageUtils {
 			itemDelegator = new AdapterFactoryItemDelegator(adapterFactory);
 		}
 		return itemDelegator;
-	}
-
-	private static TraceabilityIndex getTraceabilityIndex(RepositoryAdapter repositoryAdapter)
-			throws RepositoryConnectionException, CoreException, ReadOnlyException {
-		if (traceabilityIndex == null) {
-			Resource traceabilityIndexResource = repositoryAdapter
-					.getOrCreateResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
-			if (!traceabilityIndexResource.getContents().isEmpty()
-					&& traceabilityIndexResource.getContents().iterator().next() instanceof TraceabilityIndex) {
-				traceabilityIndex = (TraceabilityIndex)traceabilityIndexResource.getContents().iterator()
-						.next();
-			}
-
-		}
-		return traceabilityIndex;
 	}
 
 	private static ResourceSet getResourceSet() {

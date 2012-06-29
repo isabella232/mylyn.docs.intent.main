@@ -68,13 +68,21 @@ public class SynchronizeRepositoryJob extends Job {
 			repositoryAdapter.execute(new IntentCommand() {
 
 				public void execute() {
-					repositoryAdapter.openSaveContext();
-					client.setTraceabilityIndex((TraceabilityIndex)repositoryAdapter.reload(client
-							.getTraceabilityIndex()));
+					try {
+						repositoryAdapter.openSaveContext();
+						client.setTraceabilityIndex((TraceabilityIndex)repositoryAdapter.reload(client
+								.getTraceabilityIndex()));
 
-					IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Synchronizer] Start synchronization");
-					synchronize(monitor, repositoryAdapter);
-					repositoryAdapter.closeContext();
+						IntentLogger.getInstance().log(LogType.LIFECYCLE,
+								"[Synchronizer] Start synchronization");
+						synchronize(monitor, repositoryAdapter);
+						repositoryAdapter.closeContext();
+					} catch (ReadOnlyException e) {
+						IntentLogger
+								.getInstance()
+								.log(LogType.ERROR,
+										"Synchronizer has insufficient rights (read-only) to save the modifications on the repository");
+					}
 
 				}
 

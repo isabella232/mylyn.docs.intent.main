@@ -92,8 +92,8 @@ public final class IDEApplicationManager {
 		repositoryAdapter.execute(new IntentCommand() {
 
 			public void execute() {
-				repositoryAdapter.openSaveContext();
 				try {
+					repositoryAdapter.openSaveContext();
 					initializeInRepository(initialContent, repositoryAdapter);
 				} catch (ReadOnlyException e) {
 					IntentUiLogger.logError(e);

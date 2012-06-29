@@ -66,9 +66,10 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 					IntentLogger.getInstance().log(LogType.LIFECYCLE,
 							"[Indexer] Indexing " + document.getChapters().size() + "chapters");
 
-					repositoryAdapter.openSaveContext();
-					indexComputor.computeIndex(index, document);
 					try {
+						repositoryAdapter.openSaveContext();
+						indexComputor.computeIndex(index, document);
+
 						repositoryAdapter.setSendSessionWarningBeforeSaving(Lists
 								.newArrayList(IntentLocations.INTENT_FOLDER));
 						repositoryAdapter.save();

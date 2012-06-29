@@ -37,6 +37,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotatio
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection.EditorElementListAdapter;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.ReadWriteRepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
@@ -271,12 +273,22 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	private static RepositoryObjectHandler createElementHandler(RepositoryAdapter repositoryAdapter,
 			boolean readOnlyMode) {
-		final RepositoryObjectHandler elementHandler;
+		RepositoryObjectHandler elementHandler = null;
+		if (!readOnlyMode) {
+			try {
+				elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
+			} catch (ReadOnlyException e) {
+				IntentLogger
+						.getInstance()
+						.log(LogType.WARNING,
+								"The Intent Editor has insufficient rights (read-only) to save modifications on the repository. A read-only context will be used instead.");
+				readOnlyMode = true;
+			}
+		}
+
 		if (readOnlyMode) {
 			elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
 			elementHandler.setRepositoryAdapter(repositoryAdapter);
-		} else {
-			elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 		}
 		return elementHandler;
 	}
@@ -339,8 +351,8 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				repositoryAdapter.execute(new IntentCommand() {
 
 					public void execute() {
-						repositoryAdapter.openSaveContext();
 						try {
+							repositoryAdapter.openSaveContext();
 							merge((IntentEditorDocument)document, localAST);
 							repositoryAdapter.save();
 						} catch (ReadOnlyException e) {

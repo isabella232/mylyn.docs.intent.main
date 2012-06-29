@@ -20,7 +20,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
@@ -43,6 +43,8 @@ public final class IntentAcceleoServices {
 	private static String intentDocumentTitle;
 
 	private static RepositoryAdapter repositoryAdapter;
+
+	private static TraceabilityIndex traceabilityIndex;
 
 	/**
 	 * Returns the header size to apply to the section with the given ID. For example,
@@ -122,8 +124,7 @@ public final class IntentAcceleoServices {
 	 */
 	public static Collection<ContributionInstruction> getAllContributions(UnitInstruction instruction) {
 		Collection<ContributionInstruction> contributionInstructions = Sets.newLinkedHashSet();
-		TraceabilityIndex index = (TraceabilityIndex)repositoryAdapter
-				.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH).getContents().get(0);
+		TraceabilityIndex index = getTraceabilityIndex(repositoryAdapter);
 
 		boolean foundContributions = false;
 		for (Iterator<TraceabilityIndexEntry> iterator = index.getEntries().iterator(); iterator.hasNext()
@@ -145,6 +146,14 @@ public final class IntentAcceleoServices {
 		return contributionInstructions;
 	}
 
+	public static TraceabilityIndex getTraceabilityIndex(RepositoryAdapter repositoryAdapter) {
+		if (traceabilityIndex == null) {
+			traceabilityIndex = new TraceabilityInformationsQuery(repositoryAdapter)
+					.getOrCreateTraceabilityIndex();
+		}
+		return traceabilityIndex;
+	}
+
 	public static void initialize(String documentTitle, File generationOutputFolder, RepositoryAdapter adapter) {
 		intentDocumentTitle = documentTitle;
 		outputFolder = generationOutputFolder;
@@ -154,6 +163,8 @@ public final class IntentAcceleoServices {
 	public static void dispose() {
 		CopyImageUtils.dispose();
 		outputFolder = null;
+		repositoryAdapter = null;
+		traceabilityIndex = null;
 		repositoryAdapter = null;
 	}
 

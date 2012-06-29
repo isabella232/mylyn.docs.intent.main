@@ -32,7 +32,7 @@ public interface RepositoryAdapter {
 	 * 
 	 * @return a save context
 	 */
-	Object openSaveContext();
+	Object openSaveContext() throws ReadOnlyException;
 
 	/**
 	 * Open and returns a readOnly context (connection in read-only mode - GET).
