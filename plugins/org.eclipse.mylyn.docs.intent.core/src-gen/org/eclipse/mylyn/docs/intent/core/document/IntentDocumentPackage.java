@@ -188,13 +188,22 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE = MarkupPackage.SECTION_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL = MarkupPackage.SECTION_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Intent Structured Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT = MarkupPackage.SECTION_FEATURE_COUNT + 3;
+	int INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT = MarkupPackage.SECTION_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' attribute.
@@ -399,6 +408,15 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_DOCUMENT__FORMATTED_TITLE = INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE;
 
 	/**
+	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_DOCUMENT__COMPLETE_LEVEL = INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL;
+
+	/**
 	 * The feature id for the '<em><b>Chapters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -497,6 +515,15 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @ordered
 	 */
 	int INTENT_SUB_SECTION_CONTAINER__FORMATTED_TITLE = INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE;
+
+	/**
+	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SUB_SECTION_CONTAINER__COMPLETE_LEVEL = INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL;
 
 	/**
 	 * The feature id for the '<em><b>Intent Content</b></em>' containment reference list.
@@ -617,6 +644,15 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_CHAPTER__FORMATTED_TITLE = INTENT_SUB_SECTION_CONTAINER__FORMATTED_TITLE;
 
 	/**
+	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_CHAPTER__COMPLETE_LEVEL = INTENT_SUB_SECTION_CONTAINER__COMPLETE_LEVEL;
+
+	/**
 	 * The feature id for the '<em><b>Intent Content</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -735,6 +771,15 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_SECTION__FORMATTED_TITLE = INTENT_SUB_SECTION_CONTAINER__FORMATTED_TITLE;
 
 	/**
+	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__COMPLETE_LEVEL = INTENT_SUB_SECTION_CONTAINER__COMPLETE_LEVEL;
+
+	/**
 	 * The feature id for the '<em><b>Intent Content</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -780,22 +825,13 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_SECTION__VISIBILITY = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__COMPLETE_LEVEL = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Modeling Units</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION__MODELING_UNITS = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 2;
+	int INTENT_SECTION__MODELING_UNITS = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Imported Headers</b></em>' attribute list.
@@ -804,7 +840,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION__IMPORTED_HEADERS = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 3;
+	int INTENT_SECTION__IMPORTED_HEADERS = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Declared Headers</b></em>' containment reference list.
@@ -813,7 +849,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION__DECLARED_HEADERS = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 4;
+	int INTENT_SECTION__DECLARED_HEADERS = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Intent Section</em>' class.
@@ -822,7 +858,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_FEATURE_COUNT = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 5;
+	int INTENT_SECTION_FEATURE_COUNT = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentHeaderDeclarationImpl <em>Intent Header Declaration</em>}' class.
@@ -985,6 +1021,17 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getIntentStructuredElement_FormattedTitle();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement#getCompleteLevel <em>Complete Level</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Complete Level</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement#getCompleteLevel()
+	 * @see #getIntentStructuredElement()
+	 * @generated
+	 */
+	EAttribute getIntentStructuredElement_CompleteLevel();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference <em>Intent Reference</em>}'.
@@ -1165,17 +1212,6 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getIntentSection_Visibility();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getCompleteLevel <em>Complete Level</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Complete Level</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSection#getCompleteLevel()
-	 * @see #getIntentSection()
-	 * @generated
-	 */
-	EAttribute getIntentSection_CompleteLevel();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getModelingUnits <em>Modeling Units</em>}'.
@@ -1380,6 +1416,15 @@ public interface IntentDocumentPackage extends EPackage {
 				.getIntentStructuredElement_FormattedTitle();
 
 		/**
+		 * The meta object literal for the '<em><b>Complete Level</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL = eINSTANCE
+				.getIntentStructuredElement_CompleteLevel();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl <em>Intent Reference</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1533,14 +1578,6 @@ public interface IntentDocumentPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute INTENT_SECTION__VISIBILITY = eINSTANCE.getIntentSection_Visibility();
-
-		/**
-		 * The meta object literal for the '<em><b>Complete Level</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute INTENT_SECTION__COMPLETE_LEVEL = eINSTANCE.getIntentSection_CompleteLevel();
 
 		/**
 		 * The meta object literal for the '<em><b>Modeling Units</b></em>' reference list feature.

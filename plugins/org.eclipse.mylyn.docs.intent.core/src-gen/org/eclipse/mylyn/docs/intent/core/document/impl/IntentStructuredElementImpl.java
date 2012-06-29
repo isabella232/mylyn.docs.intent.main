@@ -29,6 +29,7 @@ import org.eclipse.mylyn.docs.intent.markup.markup.impl.SectionImpl;
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentStructuredElementImpl#getCompilationStatus <em>Compilation Status</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentStructuredElementImpl#getIndexEntry <em>Index Entry</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentStructuredElementImpl#getFormattedTitle <em>Formatted Title</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentStructuredElementImpl#getCompleteLevel <em>Complete Level</em>}</li>
  * </ul>
  * </p>
  *
@@ -100,6 +101,24 @@ public abstract class IntentStructuredElementImpl extends SectionImpl implements
 	 */
 	public void setFormattedTitle(String newFormattedTitle) {
 		eSet(IntentDocumentPackage.Literals.INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE, newFormattedTitle);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getCompleteLevel() {
+		return (String)eGet(IntentDocumentPackage.Literals.INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setCompleteLevel(String newCompleteLevel) {
+		eSet(IntentDocumentPackage.Literals.INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL, newCompleteLevel);
 	}
 
 	/**

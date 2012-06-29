@@ -10,7 +10,7 @@
 [template public generateHTMLContent(intentDocument : IntentDocument)]
 <div id="content" >
 	[for (chapter : IntentChapter | intentDocument.chapters)]
-		[generateHTMLContent(chapter, chapter.indexInContainer().toString())/]
+		[generateHTMLContent(chapter, chapter.getIndex())/]
 	[/for]
 </div>
 [/template]
@@ -32,10 +32,10 @@
 [for (child : EObject | subSectionContainer.intentContent)]
 
 	[if child.oclIsTypeOf(IntentSection)]
-		[child.oclAsType(IntentSection).generateHTMLContent(index + '_' + child.oclAsType(IntentSection).indexInContainer())/]
+		[child.oclAsType(IntentSection).generateHTMLContent(child.oclAsType(IntentSection).getIndex())/]
 	[else]
 		[if child.oclIsTypeOf(ModelingUnit)]
-			[child.oclAsType(ModelingUnit).generateHTMLContent(index + '_' + child.oclAsType(ModelingUnit).indexInContainer())/]
+			[child.oclAsType(ModelingUnit).generateHTMLContent(index + '_' + child.oclAsType(ModelingUnit).getIndex())/]
 		[else ]
 			[child.generateHTMLContent()/]
 		[/if]
@@ -273,7 +273,7 @@
 [template public generatePopoverLinks(instruction : InstanciationInstruction)]
 data-content="<h4> Definition </h4>
 [let containingSection : IntentSection = instruction.getContainingSection()]
-	<ul><li><a href='#[containingSection.getContainingSectionID()/]' >[containingSection.generateSubSectionTitle(true)/]</a></li></ul>
+	<ul><li><a href='#[containingSection.getIndex()/]' >[containingSection.generateSubSectionTitle(true)/]</a></li></ul>
 [/let]
 
 [let  contributions : OrderedSet(ContributionInstruction) = instruction.getAllContributions()]
@@ -283,7 +283,7 @@ data-content="<h4> Definition </h4>
 [/if]
 [for (contribution : ContributionInstruction | contributions)]
 [let containingSection : IntentSection = contribution.getContainingSection()]
-		<li><a href='#[containingSection.getContainingSectionID()/]' >[containingSection.generateSubSectionTitle(true)/]</a></li>
+		<li><a href='#[containingSection.getIndex()/]' >[containingSection.generateSubSectionTitle(true)/]</a></li>
 [/let]
 [/for]
 [if contributions->size()>0]	

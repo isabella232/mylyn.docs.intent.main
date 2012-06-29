@@ -22,7 +22,6 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getVisibility <em>Visibility</em>}</li>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getCompleteLevel <em>Complete Level</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getModelingUnits <em>Modeling Units</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getImportedHeaders <em>Imported Headers</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getDeclaredHeaders <em>Declared Headers</em>}</li>
@@ -62,32 +61,6 @@ public interface IntentSection extends IntentSubSectionContainer {
 	 * @generated
 	 */
 	void setVisibility(IntentSectionVisibility value);
-
-	/**
-	 * Returns the value of the '<em><b>Complete Level</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Complete Level</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Complete Level</em>' attribute.
-	 * @see #setCompleteLevel(String)
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage#getIntentSection_CompleteLevel()
-	 * @model derived="true"
-	 * @generated
-	 */
-	String getCompleteLevel();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getCompleteLevel <em>Complete Level</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Complete Level</em>' attribute.
-	 * @see #getCompleteLevel()
-	 * @generated
-	 */
-	void setCompleteLevel(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Modeling Units</b></em>' reference list.

@@ -313,6 +313,15 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIntentStructuredElement_CompleteLevel() {
+		return (EAttribute)intentStructuredElementEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIntentReference() {
 		return intentReferenceEClass;
 	}
@@ -466,17 +475,8 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getIntentSection_CompleteLevel() {
-		return (EAttribute)intentSectionEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getIntentSection_ModelingUnits() {
-		return (EReference)intentSectionEClass.getEStructuralFeatures().get(2);
+		return (EReference)intentSectionEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -485,7 +485,7 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 	 * @generated
 	 */
 	public EAttribute getIntentSection_ImportedHeaders() {
-		return (EAttribute)intentSectionEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)intentSectionEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -494,7 +494,7 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 	 * @generated
 	 */
 	public EReference getIntentSection_DeclaredHeaders() {
-		return (EReference)intentSectionEClass.getEStructuralFeatures().get(4);
+		return (EReference)intentSectionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -595,6 +595,7 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 
 		intentStructuredElementEClass = createEClass(INTENT_STRUCTURED_ELEMENT);
 		createEAttribute(intentStructuredElementEClass, INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE);
+		createEAttribute(intentStructuredElementEClass, INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL);
 
 		annotationMappingEClass = createEClass(ANNOTATION_MAPPING);
 		createEAttribute(annotationMappingEClass, ANNOTATION_MAPPING__KEY);
@@ -624,7 +625,6 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 
 		intentSectionEClass = createEClass(INTENT_SECTION);
 		createEAttribute(intentSectionEClass, INTENT_SECTION__VISIBILITY);
-		createEAttribute(intentSectionEClass, INTENT_SECTION__COMPLETE_LEVEL);
 		createEReference(intentSectionEClass, INTENT_SECTION__MODELING_UNITS);
 		createEAttribute(intentSectionEClass, INTENT_SECTION__IMPORTED_HEADERS);
 		createEReference(intentSectionEClass, INTENT_SECTION__DECLARED_HEADERS);
@@ -712,6 +712,9 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		initEAttribute(getIntentStructuredElement_FormattedTitle(), ecorePackage.getEString(),
 				"formattedTitle", null, 0, 1, IntentStructuredElement.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIntentStructuredElement_CompleteLevel(), ecorePackage.getEString(),
+				"completeLevel", null, 0, 1, IntentStructuredElement.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(annotationMappingEClass, Map.Entry.class, "AnnotationMapping", !IS_ABSTRACT,
 				!IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
@@ -778,9 +781,6 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		initEAttribute(getIntentSection_Visibility(), this.getIntentSectionVisibility(), "visibility", null,
 				0, 1, IntentSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
 				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getIntentSection_CompleteLevel(), ecorePackage.getEString(), "completeLevel", null, 0,
-				1, IntentSection.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
-				IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEReference(getIntentSection_ModelingUnits(), theModelingUnitPackage.getModelingUnit(), null,
 				"modelingUnits", null, 0, -1, IntentSection.class, !IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE,
 				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);

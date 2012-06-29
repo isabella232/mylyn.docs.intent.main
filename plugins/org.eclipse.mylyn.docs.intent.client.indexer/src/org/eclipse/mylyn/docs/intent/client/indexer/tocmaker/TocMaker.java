@@ -58,7 +58,7 @@ public class TocMaker {
 			EcoreUtil.remove(o);
 		}
 
-		// Step 1 : use an existing index entry if any
+		// Step 1: use an existing index entry if any
 		IntentIndexEntry documentIndexEntry = null;
 		if (index.getEntries().isEmpty()) {
 			documentIndexEntry = IntentIndexerFactory.eINSTANCE.createIntentIndexEntry();
@@ -67,26 +67,26 @@ public class TocMaker {
 			documentIndexEntry = index.getEntries().get(0);
 		}
 
-		// Step 2 : compute the title
+		// Step 2: compute the title
 		String title = StructuredElementHelper.getTitle(document);
 		if ((title == null) || (title.length() < 1)) {
 			title = "Document";
 		}
 
-		// Step 3 : setting index entry informations
+		// Step 3: setting index entry informations
 		documentIndexEntry.setName(title);
 		documentIndexEntry.setReferencedElement(document);
 		documentIndexEntry.setType(INDEX_ENTRY_TYPE.INTENT_DOCUMENT);
 		int chapterIt = 0;
 
-		// Step 4 : for each chapter contained in this document
+		// Step 4: for each chapter contained in this document
 		for (IntentChapter chapter : document.getChapters()) {
 			IntentIndexEntry candidateChapterEntry = null;
-			// Step 4.1 : we use an existing index entry if any
+			// Step 4.1: we use an existing index entry if any
 			if (documentIndexEntry.getSubEntries().size() > chapterIt) {
 				candidateChapterEntry = documentIndexEntry.getSubEntries().get(chapterIt);
 			}
-			// Step 4.2 : and compute the entry for this chapter
+			// Step 4.2: and compute the entry for this chapter
 			computeEntryForChapter(documentIndexEntry, candidateChapterEntry, chapter);
 			chapterIt++;
 		}
@@ -105,35 +105,40 @@ public class TocMaker {
 	 */
 	private IntentIndexEntry computeEntryForChapter(IntentIndexEntry documentIndexEntry,
 			IntentIndexEntry candidateChapterEntry, IntentChapter chapter) {
-		// Step 1 : use an existing index entry if any
+		// Step 1: use an existing index entry if any
 		IntentIndexEntry chapterEntry = candidateChapterEntry;
 		if (candidateChapterEntry == null) {
 			chapterEntry = IntentIndexerFactory.eINSTANCE.createIntentIndexEntry();
 			documentIndexEntry.getSubEntries().add(chapterEntry);
 		}
 
-		// Step 2 : compute the title
+		// Step 2: compute the title
 		String chapterIndex = getIndex(chapter);
 		String title = StructuredElementHelper.getTitle(chapter);
 		if ((title == null) || (title.length() < 1)) {
 			title = "Untitled Chapter";
 		}
 
-		// Step 3 : setting index entry informations
+		// Step 3: setting index entry informations
 		chapterEntry.setName(chapterIndex + " " + title);
 		chapterEntry.setReferencedElement(chapter);
 		chapterEntry.setType(INDEX_ENTRY_TYPE.INTENT_CHAPTER);
 
-		// Step 4 : for each section contained in this chapter
+		// Step 4: update the level of this chapter
+		if (!chapterIndex.equals(chapter.getCompleteLevel())) {
+			chapter.setCompleteLevel(chapterIndex);
+		}
+
+		// Step 5: for each section contained in this chapter
 		int subSectionIt = 0;
 		for (IntentSection section : chapter.getSubSections()) {
-			// Step 4.1 : we use an existing index entry if any
+			// Step 5.1: we use an existing index entry if any
 			IntentIndexEntry candidateSectionEntry = null;
 			if (chapterEntry.getSubEntries().size() > subSectionIt) {
 				candidateSectionEntry = chapterEntry.getSubEntries().get(subSectionIt);
 			}
-			// Step 4.2 : and compute the entry for this section
-			computeEntryForSection(chapterEntry, candidateSectionEntry, chapterIndex, section);
+			// Step 5.2: and compute the entry for this section
+			computeEntryForSection(chapterEntry, candidateSectionEntry, section);
 			subSectionIt++;
 		}
 		return chapterEntry;
@@ -153,36 +158,42 @@ public class TocMaker {
 	 * @return the entry corresponding to the given chapter's toc
 	 */
 	private IntentIndexEntry computeEntryForSection(IntentIndexEntry containerIndexEntry,
-			IntentIndexEntry candidateSectionEntry, String chapterIndex, IntentSection section) {
-		// Step 1 : use an existing index entry if any
+			IntentIndexEntry candidateSectionEntry, IntentSection section) {
+		// Step 1: use an existing index entry if any
 		IntentIndexEntry sectionEntry = candidateSectionEntry;
 		if (candidateSectionEntry == null) {
 			sectionEntry = IntentIndexerFactory.eINSTANCE.createIntentIndexEntry();
 			containerIndexEntry.getSubEntries().add(sectionEntry);
 		}
 
-		// Step 2 : compute the title
-		String sectionIndex = chapterIndex + getIndex(section);
+		// Step 2: compute the title
+		String sectionIndex = ((IntentStructuredElement)containerIndexEntry.getReferencedElement())
+				.getCompleteLevel() + "." + getIndex(section);
 		String title = StructuredElementHelper.getTitle(section);
 		if ((title == null) || (title.length() < 1)) {
 			title = "Untitled Section";
 		}
 
-		// Step 3 : setting index entry informations
+		// Step 3: setting index entry informations
 		sectionEntry.setName(sectionIndex + " " + title);
 		sectionEntry.setReferencedElement(section);
 		sectionEntry.setType(INDEX_ENTRY_TYPE.INTENT_SECTION);
 
-		// Step 4 : for each sub-section contained in this section
+		// Step 4: update the level of this chapter
+		if (!sectionIndex.equals(section.getCompleteLevel())) {
+			section.setCompleteLevel(sectionIndex);
+		}
+
+		// Step 5: for each sub-section contained in this section
 		int subSectionIt = 0;
 		for (IntentSection subSection : section.getSubSections()) {
-			// Step 4.1 : we use an existing index entry if any
+			// Step 5.1: we use an existing index entry if any
 			IntentIndexEntry candidateSubSectionEntry = null;
 			if (sectionEntry.getSubEntries().size() > subSectionIt) {
 				candidateSubSectionEntry = sectionEntry.getSubEntries().get(subSectionIt);
 			}
-			// Step 4.2 : and compute the entry for this sub-section
-			computeEntryForSection(sectionEntry, candidateSubSectionEntry, sectionIndex, subSection);
+			// Step 5.2: and compute the entry for this sub-section
+			computeEntryForSection(sectionEntry, candidateSubSectionEntry, subSection);
 			subSectionIt++;
 		}
 		return sectionEntry;
@@ -196,7 +207,6 @@ public class TocMaker {
 	 * @return the index of this element
 	 */
 	private String getIndex(IntentStructuredElement element) {
-
 		int positionInContainer = 0;
 		// If the element is contained in a document
 		if (element.eContainer() instanceof IntentDocument) {
@@ -210,7 +220,7 @@ public class TocMaker {
 						.indexOf(element) + 1;
 			}
 		}
-		return Integer.toString(positionInContainer) + ".";
+		return Integer.toString(positionInContainer);
 	}
 
 }

@@ -11,7 +11,7 @@
 					<div id="toc" class="demo" style="height:100px;">					
 						<ul id="menu" >
 						[for (chapter : IntentChapter | intentDocument.chapters)]
-							[chapter.generateToc(indexInContainer(chapter))/]
+							[chapter.generateToc(chapter.getIndex())/]
 						[/for]							
 						</ul>
 					</div>
@@ -26,7 +26,7 @@
 	</a>
 	<ul>
 		[for (subSection : IntentSection | subSectionContainer.intentContent->filter(IntentSection))]
-			[subSection.generateToc(index + '_' + indexInContainer(subSection.oclAsType(IntentSection)))/]
+			[subSection.generateToc(subSection.getIndex())/]
 		[/for]
 	</ul>
 </li>

@@ -17,9 +17,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 
@@ -72,28 +71,6 @@ public final class IntentAcceleoServices {
 		return CopyImageUtils.copyImageAndGetImageID(any, repositoryAdapter, outputFolder);
 	}
 
-	public static String getContainingSectionID(EObject any) {
-		String ID = "";
-		if (any instanceof IntentSection) {
-			EObject container = any;
-			while (container != null & !(container instanceof IntentDocument)) {
-				if (container.eContainer() instanceof IntentSubSectionContainer) {
-					ID = (((IntentSubSectionContainer)container.eContainer()).getSubSections().indexOf(
-							container) + 1)
-							+ "_" + ID;
-				} else {
-					if (container.eContainer() instanceof IntentDocument) {
-						ID = (((IntentDocument)container.eContainer()).getChapters().indexOf(container) + 1)
-								+ "_" + ID;
-					}
-				}
-
-				container = container.eContainer();
-			}
-		}
-		return ID.substring(0, ID.lastIndexOf("_"));
-	}
-
 	public static IntentSection getContainingSection(EObject any) {
 		EObject container = any;
 		if (any instanceof UnitInstruction) {
@@ -124,6 +101,11 @@ public final class IntentAcceleoServices {
 					.getOrCreateTraceabilityIndex();
 		}
 		return traceabilityIndex;
+	}
+
+	public static String getIndex(IntentStructuredElement structuredElement) {
+		String index = structuredElement.getCompleteLevel().replace(".", "_");
+		return index;
 	}
 
 	public static void initialize(String documentTitle, File generationOutputFolder, RepositoryAdapter adapter) {

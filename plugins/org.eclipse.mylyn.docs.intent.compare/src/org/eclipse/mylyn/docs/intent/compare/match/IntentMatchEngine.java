@@ -70,7 +70,7 @@ public class IntentMatchEngine extends GenericMatchEngine {
 		featuresToIgnoreList.add(ModelingUnitPackage.eINSTANCE.getResourceReference_ReferencedElement());
 		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentGenericElement_CompilationStatus());
 		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentStructuredElement_FormattedTitle());
-		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentSection_CompleteLevel());
+		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentStructuredElement_CompleteLevel());
 
 		((IntentElementFilter)filter).defineFeaturesToIgnore(featuresToIgnoreList);
 
