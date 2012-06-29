@@ -31,14 +31,12 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -101,42 +99,37 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 			// Step 1: get the intent document associated to the given project
 			Repository repository = IntentRepositoryManager.INSTANCE.getRepository(intentProject.getName());
 			final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
-			Resource intentDocumentResource = repositoryAdapter
-					.getOrCreateResource(IntentLocations.INTENT_INDEX);
-			if (!intentDocumentResource.getContents().isEmpty()
-					&& intentDocumentResource.getContents().iterator().next() instanceof IntentDocument) {
-				IntentDocument intentDocument = (IntentDocument)intentDocumentResource.getContents()
-						.iterator().next();
+			IntentDocument intentDocument = new IntentDocumentQuery(repositoryAdapter)
+					.getOrCreateIntentDocument();
 
-				// Step 2: determine target folder
-				File targetFolder = new File(targetFolderLocation);
-				if (!targetFolder.exists()) {
-					targetFolder.mkdirs();
-				}
+			// Step 2: determine target folder
+			File targetFolder = new File(targetFolderLocation);
+			if (!targetFolder.exists()) {
+				targetFolder.mkdirs();
+			}
 
-				// Step 3: make sure that the target folder contains all required resources (css,
-				// javascript...)
-				copyRequiredResourcesToGenerationFolder(targetFolder);
+			// Step 3: make sure that the target folder contains all required resources (css,
+			// javascript...)
+			copyRequiredResourcesToGenerationFolder(targetFolder);
 
-				// Step 4: launch generation
-				HTMLBootstrapGenDocument generator = new HTMLBootstrapGenDocument(intentDocument,
-						targetFolder, new ArrayList<Object>());
-				generator.doGenerate(progressMonitor, projectName, repositoryAdapter);
+			// Step 4: launch generation
+			HTMLBootstrapGenDocument generator = new HTMLBootstrapGenDocument(intentDocument, targetFolder,
+					new ArrayList<Object>());
+			generator.doGenerate(progressMonitor, projectName, repositoryAdapter);
 
-				// Step 5: if target folder is in workspace, refresh the folder
-				String workspaceRelativePath = targetFolder
-						.getAbsolutePath()
-						.toString()
-						.replace(
-								new File(ResourcesPlugin.getWorkspace().getRoot().getLocationURI())
-										.getAbsolutePath().toString(), "").substring(1);
-				IFolder targetFolderInWorkspace = ResourcesPlugin.getWorkspace().getRoot()
-						.getFolder(new Path(workspaceRelativePath));
-				if (targetFolderInWorkspace.exists()) {
-					targetFolderInWorkspace.refreshLocal(IResource.DEPTH_INFINITE, null);
-				} else {
-					intentProject.refreshLocal(IResource.DEPTH_INFINITE, null);
-				}
+			// Step 5: if target folder is in workspace, refresh the folder
+			String workspaceRelativePath = targetFolder
+					.getAbsolutePath()
+					.toString()
+					.replace(
+							new File(ResourcesPlugin.getWorkspace().getRoot().getLocationURI())
+									.getAbsolutePath().toString(), "").substring(1);
+			IFolder targetFolderInWorkspace = ResourcesPlugin.getWorkspace().getRoot()
+					.getFolder(new Path(workspaceRelativePath));
+			if (targetFolderInWorkspace.exists()) {
+				targetFolderInWorkspace.refreshLocal(IResource.DEPTH_INFINITE, null);
+			} else {
+				intentProject.refreshLocal(IResource.DEPTH_INFINITE, null);
 			}
 			repositoryAdapter.closeContext();
 		} catch (IOException e) {
@@ -144,8 +137,6 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 		} catch (CoreException e) {
 			IntentUiLogger.logError(e);
 		} catch (RepositoryConnectionException e) {
-			IntentUiLogger.logError(e);
-		} catch (ReadOnlyException e) {
 			IntentUiLogger.logError(e);
 		}
 

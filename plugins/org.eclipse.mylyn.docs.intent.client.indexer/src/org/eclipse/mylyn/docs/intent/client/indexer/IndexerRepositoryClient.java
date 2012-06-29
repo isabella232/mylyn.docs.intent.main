@@ -21,6 +21,7 @@ import org.eclipse.mylyn.docs.intent.client.indexer.tocmaker.TocMaker;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -62,7 +63,8 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 
 				public void execute() {
 					final IntentIndex index = getIntentIndex();
-					final IntentDocument document = getIntentDocument();
+					final IntentDocument document = new IntentDocumentQuery(repositoryAdapter)
+							.getOrCreateIntentDocument();
 					IntentLogger.getInstance().log(LogType.LIFECYCLE,
 							"[Indexer] Indexing " + document.getChapters().size() + "chapters");
 
@@ -103,21 +105,6 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 			return null;
 		}
 
-	}
-
-	/**
-	 * Returns the IntentDocument stored on the repository.
-	 * 
-	 * @return the IntentDocument stored on the repository
-	 */
-	private IntentDocument getIntentDocument() {
-		Resource indexResource = repositoryObjectHandler.getRepositoryAdapter().getResource(
-				IntentLocations.INTENT_INDEX);
-		if ((indexResource.getContents().size() > 0)
-				&& ((indexResource.getContents().get(0) instanceof IntentDocument))) {
-			return (IntentDocument)indexResource.getContents().get(0);
-		}
-		return null;
 	}
 
 	/**

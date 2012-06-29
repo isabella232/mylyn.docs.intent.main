@@ -45,8 +45,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManage
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -331,16 +330,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	protected IntentDocument getIntentDocument() {
 		if (intentDocument == null) {
-			try {
-				Resource documentResource = repositoryAdapter
-						.getOrCreateResource(IntentLocations.INTENT_INDEX);
-				assertTrue("Invalid content of resource '" + IntentLocations.INTENT_INDEX + "'",
-						documentResource.getContents().iterator().next() instanceof IntentDocument);
-				intentDocument = (IntentDocument)documentResource.getContents().iterator().next();
-			} catch (ReadOnlyException e) {
-				// Cannot happen in the test context : no readonly access
-			}
-
+			intentDocument = new IntentDocumentQuery(repositoryAdapter).getOrCreateIntentDocument();
 		}
 		return intentDocument;
 	}

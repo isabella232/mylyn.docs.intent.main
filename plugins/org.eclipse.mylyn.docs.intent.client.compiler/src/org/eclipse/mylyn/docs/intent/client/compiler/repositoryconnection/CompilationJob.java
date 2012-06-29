@@ -20,8 +20,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.BasicMonitor;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.compiler.ModelingUnitCompiler;
 import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.ModelingUnitLinkResolver;
 import org.eclipse.mylyn.docs.intent.client.compiler.saver.CompilerInformationsSaver;
@@ -29,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInforma
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -111,8 +110,6 @@ public class CompilationJob extends Job {
 		final List<ModelingUnit> modelingUnitsToCompile = new ArrayList<ModelingUnit>();
 
 		// InformationHolder Initialization
-		final Resource resourceIndex = repositoryAdapter.getResource(IntentLocations.INTENT_INDEX);
-
 		final IntentCompilerInformationHolder informationHolder = IntentCompilerInformationHolder
 				.getInstance();
 		informationHolder.initialize();
@@ -128,10 +125,9 @@ public class CompilationJob extends Job {
 				compiler = new ModelingUnitCompiler(repository.getPackageRegistry(), resolver,
 						informationHolder, BasicMonitor.toMonitor(monitor));
 
-				for (EObject resourceContent : resourceIndex.getContents()) {
-					modelingUnitsToCompile.addAll(UnitGetter
-							.getAllModelingUnitsContainedInElement(resourceContent));
-				}
+				modelingUnitsToCompile.addAll(UnitGetter
+						.getAllModelingUnitsContainedInElement(new IntentDocumentQuery(repositoryAdapter)
+								.getOrCreateIntentDocument()));
 			}
 
 			if (!monitor.isCanceled()) {

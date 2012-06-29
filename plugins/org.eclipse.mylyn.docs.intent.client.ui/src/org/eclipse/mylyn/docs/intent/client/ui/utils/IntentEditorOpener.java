@@ -18,9 +18,9 @@ import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -65,15 +65,10 @@ public final class IntentEditorOpener {
 	public static void openIntentEditor(final Repository repository, boolean readOnlyMode) {
 		try {
 			final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
-			Resource resource = repositoryAdapter.getOrCreateResource(IntentLocations.INTENT_INDEX);
-			if (!resource.getContents().isEmpty()
-					&& resource.getContents().iterator().next() instanceof IntentDocument) {
-				EObject elementToOpen = resource.getContents().iterator().next();
-				openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, false);
-			}
+			IntentDocument elementToOpen = new IntentDocumentQuery(repositoryAdapter)
+					.getOrCreateIntentDocument();
+			openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, false);
 		} catch (PartInitException e) {
-			IntentUiLogger.logError(e);
-		} catch (ReadOnlyException e) {
 			IntentUiLogger.logError(e);
 		}
 	}
