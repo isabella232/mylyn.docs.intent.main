@@ -10,22 +10,14 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.exporter.services;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
-
 import java.io.File;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
-import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
-import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
@@ -123,27 +115,7 @@ public final class IntentAcceleoServices {
 	 * @return all the {@link ContributionInstruction}s related to the given {@link UnitInstruction}
 	 */
 	public static Collection<ContributionInstruction> getAllContributions(UnitInstruction instruction) {
-		Collection<ContributionInstruction> contributionInstructions = Sets.newLinkedHashSet();
-		TraceabilityIndex index = getTraceabilityIndex(repositoryAdapter);
-
-		boolean foundContributions = false;
-		for (Iterator<TraceabilityIndexEntry> iterator = index.getEntries().iterator(); iterator.hasNext()
-				&& !foundContributions;) {
-			TraceabilityIndexEntry entry = (TraceabilityIndexEntry)iterator.next();
-			for (Iterator<Entry<EObject, EList<IntentGenericElement>>> elements = entry
-					.getContainedElementToInstructions().iterator(); elements.hasNext()
-					&& !foundContributions;) {
-
-				Entry<EObject, EList<IntentGenericElement>> elementToInstruction = elements.next();
-				if (elementToInstruction.getValue().contains(instruction)) {
-					contributionInstructions.addAll(Sets.newLinkedHashSet(Iterables.filter(
-							elementToInstruction.getValue(), ContributionInstruction.class)));
-					foundContributions = true;
-				}
-			}
-		}
-		contributionInstructions.remove(instruction);
-		return contributionInstructions;
+		return new TraceabilityInformationsQuery(repositoryAdapter).getAllRelatedContributions(instruction);
 	}
 
 	public static TraceabilityIndex getTraceabilityIndex(RepositoryAdapter repositoryAdapter) {
