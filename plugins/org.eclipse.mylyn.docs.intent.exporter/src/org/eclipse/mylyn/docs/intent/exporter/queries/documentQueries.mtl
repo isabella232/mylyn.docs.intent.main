@@ -17,3 +17,15 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 [query public getContainingSectionID(classifer : EObject) : String = 
 invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getContainingSectionID(org.eclipse.emf.ecore.EObject)', Sequence{classifer})
 /]
+
+[query public indexInContainer(subSectionContainer : IntentSubSectionContainer) : String = 
+subSectionContainer.eContainer().eContents()->filter(IntentSubSectionContainer)->asSequence()->indexOf(subSectionContainer).toString()
+/]
+
+[query public indexInContainer(modelingUnit : ModelingUnit) : String = 
+modelingUnit.eContainer().eContents()->filter(ModelingUnit)->asSequence()->indexOf(modelingUnit).toString()
+/]
+
+[query public getAllContributions(instanciationOrContributionInstruction : UnitInstruction) : OrderedSet(ContributionInstruction) =
+invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getAllContributions(org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction)', Sequence{instanciationOrContributionInstruction})
+ /]

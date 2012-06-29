@@ -139,7 +139,7 @@ public class CompilerSwitch<T> extends Switch<T> {
 			}
 			case CompilerPackage.CREATED_ELEMENT_TO_INSTRUCTION_MAP_ENTRY: {
 				@SuppressWarnings("unchecked")
-				Map.Entry<EObject, UnitInstruction> createdElementToInstructionMapEntry = (Map.Entry<EObject, UnitInstruction>)theEObject;
+				Map.Entry<EObject, EList<UnitInstruction>> createdElementToInstructionMapEntry = (Map.Entry<EObject, EList<UnitInstruction>>)theEObject;
 				T result = caseCreatedElementToInstructionMapEntry(createdElementToInstructionMapEntry);
 				if (result == null)
 					result = defaultCase(theEObject);
@@ -196,7 +196,7 @@ public class CompilerSwitch<T> extends Switch<T> {
 			}
 			case CompilerPackage.COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY: {
 				@SuppressWarnings("unchecked")
-				Map.Entry<EObject, IntentGenericElement> compiledElementToInstructionEntry = (Map.Entry<EObject, IntentGenericElement>)theEObject;
+				Map.Entry<EObject, EList<IntentGenericElement>> compiledElementToInstructionEntry = (Map.Entry<EObject, EList<IntentGenericElement>>)theEObject;
 				T result = caseCompiledElementToInstructionEntry(compiledElementToInstructionEntry);
 				if (result == null)
 					result = defaultCase(theEObject);
@@ -320,7 +320,7 @@ public class CompilerSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCreatedElementToInstructionMapEntry(Map.Entry<EObject, UnitInstruction> object) {
+	public T caseCreatedElementToInstructionMapEntry(Map.Entry<EObject, EList<UnitInstruction>> object) {
 		return null;
 	}
 
@@ -432,7 +432,7 @@ public class CompilerSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCompiledElementToInstructionEntry(Map.Entry<EObject, IntentGenericElement> object) {
+	public T caseCompiledElementToInstructionEntry(Map.Entry<EObject, EList<IntentGenericElement>> object) {
 		return null;
 	}
 

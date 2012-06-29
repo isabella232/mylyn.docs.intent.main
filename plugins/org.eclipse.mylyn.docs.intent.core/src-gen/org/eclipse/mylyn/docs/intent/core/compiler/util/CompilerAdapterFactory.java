@@ -124,7 +124,8 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseCreatedElementToInstructionMapEntry(Map.Entry<EObject, UnitInstruction> object) {
+		public Adapter caseCreatedElementToInstructionMapEntry(
+				Map.Entry<EObject, EList<UnitInstruction>> object) {
 			return createCreatedElementToInstructionMapEntryAdapter();
 		}
 
@@ -164,7 +165,8 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseCompiledElementToInstructionEntry(Map.Entry<EObject, IntentGenericElement> object) {
+		public Adapter caseCompiledElementToInstructionEntry(
+				Map.Entry<EObject, EList<IntentGenericElement>> object) {
 			return createCompiledElementToInstructionEntryAdapter();
 		}
 

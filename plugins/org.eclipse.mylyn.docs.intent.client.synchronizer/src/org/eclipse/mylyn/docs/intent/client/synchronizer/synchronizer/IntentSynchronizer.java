@@ -173,8 +173,8 @@ public class IntentSynchronizer {
 
 			// We must remove the synchronization statuses from the instruction that generated this
 			// element
-			IntentGenericElement instruction = indexEntry.getContainedElementToInstructions().get(
-					containedElement);
+			IntentGenericElement instruction = indexEntry.getContainedElementToInstructions()
+					.get(containedElement).iterator().next();
 			if (instruction != null) {
 				Iterator<CompilationStatus> iterator = instruction.getCompilationStatus().iterator();
 				while (iterator.hasNext()) {

@@ -1059,7 +1059,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 				null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCreatedElementToInstructionMapEntry_Value(),
-				theGenericUnitPackage.getUnitInstruction(), null, "value", null, 0, 1, Map.Entry.class,
+				theGenericUnitPackage.getUnitInstruction(), null, "value", null, 0, -1, Map.Entry.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1181,7 +1181,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 				null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCompiledElementToInstructionEntry_Value(),
-				theIntentDocumentPackage.getIntentGenericElement(), null, "value", null, 1, 1,
+				theIntentDocumentPackage.getIntentGenericElement(), null, "value", null, 1, -1,
 				Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

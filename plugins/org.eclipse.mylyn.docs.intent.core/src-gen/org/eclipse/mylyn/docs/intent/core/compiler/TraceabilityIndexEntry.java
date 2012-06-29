@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.core.compiler;
 import java.math.BigInteger;
 
 import org.eclipse.emf.cdo.CDOObject;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -120,7 +121,7 @@ public interface TraceabilityIndexEntry extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Contained Element To Instructions</b></em>' map.
 	 * The key is of type {@link org.eclipse.emf.ecore.EObject},
-	 * and the value is of type {@link org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement},
+	 * and the value is of type list of {@link org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement},
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Contained Element To Instructions</em>' map isn't clear,
@@ -132,6 +133,6 @@ public interface TraceabilityIndexEntry extends CDOObject {
 	 * @model mapType="org.eclipse.mylyn.docs.intent.core.compiler.CompiledElementToInstructionEntry<org.eclipse.emf.ecore.EObject, org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement>"
 	 * @generated
 	 */
-	EMap<EObject, IntentGenericElement> getContainedElementToInstructions();
+	EMap<EObject, EList<IntentGenericElement>> getContainedElementToInstructions();
 
 } // TraceabilityIndexEntry

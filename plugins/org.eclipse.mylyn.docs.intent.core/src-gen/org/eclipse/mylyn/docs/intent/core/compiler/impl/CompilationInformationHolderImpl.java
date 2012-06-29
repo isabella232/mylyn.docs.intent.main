@@ -105,8 +105,8 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EMap<EObject, UnitInstruction> getCreatedElementsToInstructions() {
-		return (EMap<EObject, UnitInstruction>)eGet(
+	public EMap<EObject, EList<UnitInstruction>> getCreatedElementsToInstructions() {
+		return (EMap<EObject, EList<UnitInstruction>>)eGet(
 				CompilerPackage.Literals.COMPILATION_INFORMATION_HOLDER__CREATED_ELEMENTS_TO_INSTRUCTIONS,
 				true);
 	}

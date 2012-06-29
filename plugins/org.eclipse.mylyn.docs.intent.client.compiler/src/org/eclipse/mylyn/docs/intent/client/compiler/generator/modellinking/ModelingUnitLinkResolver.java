@@ -251,7 +251,7 @@ public class ModelingUnitLinkResolver {
 		}
 
 		UnitInstruction instanciationInstruction = informationHolder
-				.getInstructionByCreatedElement(foundReference);
+				.getInstanciationInstructionByCreatedElement(foundReference);
 		if (instanciationInstruction instanceof ModelingUnitInstruction
 				&& instruction instanceof ContributionInstruction) {
 			((ContributionInstruction)instruction).getReferencedElement().setReferencedElement(

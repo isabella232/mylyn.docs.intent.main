@@ -94,7 +94,7 @@ public interface CompilationInformationHolder extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Created Elements To Instructions</b></em>' map.
 	 * The key is of type {@link org.eclipse.emf.ecore.EObject},
-	 * and the value is of type {@link org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction},
+	 * and the value is of type list of {@link org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction},
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Created Elements To Instructions</em>' map isn't clear, there really should
@@ -106,7 +106,7 @@ public interface CompilationInformationHolder extends CDOObject {
 	 * @model mapType="org.eclipse.mylyn.docs.intent.core.compiler.CreatedElementToInstructionMapEntry<org.eclipse.emf.ecore.EObject, org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction>"
 	 * @generated
 	 */
-	EMap<EObject, UnitInstruction> getCreatedElementsToInstructions();
+	EMap<EObject, EList<UnitInstruction>> getCreatedElementsToInstructions();
 
 	/**
 	 * Returns the value of the '<em><b>Current Generated Element List</b></em>' reference list.

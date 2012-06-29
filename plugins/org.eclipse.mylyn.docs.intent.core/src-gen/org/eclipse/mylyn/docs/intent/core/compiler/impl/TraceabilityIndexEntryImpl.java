@@ -12,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import java.math.BigInteger;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -129,8 +130,8 @@ public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements Traceab
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EMap<EObject, IntentGenericElement> getContainedElementToInstructions() {
-		return (EMap<EObject, IntentGenericElement>)eGet(
+	public EMap<EObject, EList<IntentGenericElement>> getContainedElementToInstructions() {
+		return (EMap<EObject, EList<IntentGenericElement>>)eGet(
 				CompilerPackage.Literals.TRACEABILITY_INDEX_ENTRY__CONTAINED_ELEMENT_TO_INSTRUCTIONS, true);
 	}
 

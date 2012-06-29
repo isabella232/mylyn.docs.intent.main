@@ -317,7 +317,7 @@ public interface CompilerPackage extends EPackage {
 	int CREATED_ELEMENT_TO_INSTRUCTION_MAP_ENTRY__KEY = 0;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' reference.
+	 * The feature id for the '<em><b>Value</b></em>' reference list.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
@@ -704,7 +704,7 @@ public interface CompilerPackage extends EPackage {
 	int COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY__KEY = 0;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' reference.
+	 * The feature id for the '<em><b>Value</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -1079,7 +1079,7 @@ public interface CompilerPackage extends EPackage {
 	 * @return the meta object for class '<em>Created Element To Instruction Map Entry</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyType="org.eclipse.emf.ecore.EObject"
-	 *        valueType="org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction"
+	 *        valueType="org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction" valueMany="true"
 	 * @generated
 	 */
 	EClass getCreatedElementToInstructionMapEntry();
@@ -1438,7 +1438,7 @@ public interface CompilerPackage extends EPackage {
 	 * @return the meta object for class '<em>Compiled Element To Instruction Entry</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyType="org.eclipse.emf.ecore.EObject" keyRequired="true"
-	 *        valueType="org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement" valueRequired="true"
+	 *        valueType="org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement" valueRequired="true" valueMany="true"
 	 * @generated
 	 */
 	EClass getCompiledElementToInstructionEntry();
@@ -1455,10 +1455,10 @@ public interface CompilerPackage extends EPackage {
 	EReference getCompiledElementToInstructionEntry_Key();
 
 	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * Returns the meta object for the reference list '{@link java.util.Map.Entry <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Value</em>'.
+	 * @return the meta object for the reference list '<em>Value</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getCompiledElementToInstructionEntry()
 	 * @generated
@@ -1787,7 +1787,7 @@ public interface CompilerPackage extends EPackage {
 				.getCreatedElementToInstructionMapEntry_Key();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -2095,7 +2095,7 @@ public interface CompilerPackage extends EPackage {
 				.getCompiledElementToInstructionEntry_Key();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

@@ -201,7 +201,7 @@ public final class SynchronizerStatusFactory {
 	 */
 	private static IntentGenericElement getInstructionFromCompiledElement(TraceabilityIndexEntry indexEntry,
 			EObject compiledElement) {
-		return indexEntry.getContainedElementToInstructions().get(compiledElement);
+		return indexEntry.getContainedElementToInstructions().get(compiledElement).iterator().next();
 	}
 
 }

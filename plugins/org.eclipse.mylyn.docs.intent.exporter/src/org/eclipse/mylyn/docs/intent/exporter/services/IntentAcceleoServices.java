@@ -10,14 +10,26 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.exporter.services;
 
-import java.io.File;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
+import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
+import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 
 /**
  * Regroups all services use during doc export.
@@ -99,6 +111,38 @@ public final class IntentAcceleoServices {
 			return (IntentSection)container;
 		}
 		return null;
+	}
+
+	/**
+	 * Returns all the {@link ContributionInstruction}s related to the given {@link UnitInstruction}.
+	 * 
+	 * @param instruction
+	 *            the instruction to consider
+	 * @return all the {@link ContributionInstruction}s related to the given {@link UnitInstruction}
+	 */
+	public static Collection<ContributionInstruction> getAllContributions(UnitInstruction instruction) {
+		Collection<ContributionInstruction> contributionInstructions = Sets.newLinkedHashSet();
+		TraceabilityIndex index = (TraceabilityIndex)repositoryAdapter
+				.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH).getContents().get(0);
+
+		boolean foundContributions = false;
+		for (Iterator<TraceabilityIndexEntry> iterator = index.getEntries().iterator(); iterator.hasNext()
+				&& !foundContributions;) {
+			TraceabilityIndexEntry entry = (TraceabilityIndexEntry)iterator.next();
+			for (Iterator<Entry<EObject, EList<IntentGenericElement>>> elements = entry
+					.getContainedElementToInstructions().iterator(); elements.hasNext()
+					&& !foundContributions;) {
+
+				Entry<EObject, EList<IntentGenericElement>> elementToInstruction = elements.next();
+				if (elementToInstruction.getValue().contains(instruction)) {
+					contributionInstructions.addAll(Sets.newLinkedHashSet(Iterables.filter(
+							elementToInstruction.getValue(), ContributionInstruction.class)));
+					foundContributions = true;
+				}
+			}
+		}
+		contributionInstructions.remove(instruction);
+		return contributionInstructions;
 	}
 
 	public static void initialize(String documentTitle, File generationOutputFolder, RepositoryAdapter adapter) {

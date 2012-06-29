@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.common.util.BasicEMap;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -32,7 +33,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
  *
  * @generated
  */
-public class CompiledElementToInstructionEntryImpl extends CDOObjectImpl implements BasicEMap.Entry<EObject, IntentGenericElement> {
+public class CompiledElementToInstructionEntryImpl extends CDOObjectImpl implements BasicEMap.Entry<EObject, EList<IntentGenericElement>> {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -85,18 +86,10 @@ public class CompiledElementToInstructionEntryImpl extends CDOObjectImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntentGenericElement getTypedValue() {
-		return (IntentGenericElement)eGet(
+	@SuppressWarnings("unchecked")
+	public EList<IntentGenericElement> getTypedValue() {
+		return (EList<IntentGenericElement>)eGet(
 				CompilerPackage.Literals.COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY__VALUE, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTypedValue(IntentGenericElement newValue) {
-		eSet(CompilerPackage.Literals.COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY__VALUE, newValue);
 	}
 
 	/**
@@ -151,7 +144,7 @@ public class CompiledElementToInstructionEntryImpl extends CDOObjectImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntentGenericElement getValue() {
+	public EList<IntentGenericElement> getValue() {
 		return getTypedValue();
 	}
 
@@ -160,9 +153,10 @@ public class CompiledElementToInstructionEntryImpl extends CDOObjectImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntentGenericElement setValue(IntentGenericElement value) {
-		IntentGenericElement oldValue = getValue();
-		setTypedValue(value);
+	public EList<IntentGenericElement> setValue(EList<IntentGenericElement> value) {
+		EList<IntentGenericElement> oldValue = getValue();
+		getTypedValue().clear();
+		getTypedValue().addAll(value);
 		return oldValue;
 	}
 
@@ -172,9 +166,9 @@ public class CompiledElementToInstructionEntryImpl extends CDOObjectImpl impleme
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EMap<EObject, IntentGenericElement> getEMap() {
+	public EMap<EObject, EList<IntentGenericElement>> getEMap() {
 		EObject container = eContainer();
-		return container == null ? null : (EMap<EObject, IntentGenericElement>)container
+		return container == null ? null : (EMap<EObject, EList<IntentGenericElement>>)container
 				.eGet(eContainmentFeature());
 	}
 

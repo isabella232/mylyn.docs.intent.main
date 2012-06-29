@@ -38,7 +38,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="CreatedElementToInstructionMapEntry"
       instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" eType="ecore:EClass genericUnit.ecore#//UnitInstruction"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
+        eType="ecore:EClass genericUnit.ecore#//UnitInstruction"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnresolvedReferenceHolder">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="textualReference" lowerBound="1"
@@ -121,7 +122,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompiledElementToInstructionEntry" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EReference" name="key" lowerBound="1" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" eType="ecore:EClass document.ecore#//IntentGenericElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" upperBound="-1"
+        eType="ecore:EClass document.ecore#//IntentGenericElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SynchronizerCompilationStatus" eSuperTypes="#//CompilationStatus">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyResourceURI"

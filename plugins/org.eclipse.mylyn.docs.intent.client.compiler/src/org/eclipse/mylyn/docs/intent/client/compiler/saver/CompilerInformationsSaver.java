@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.saver;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 
@@ -55,7 +56,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
  */
 public class CompilerInformationsSaver {
 
-	private Map<ResourceDeclaration, Map<EObject, IntentGenericElement>> resourceToTraceabilityElementIndexEntry;
+	private Map<ResourceDeclaration, Map<EObject, Collection<IntentGenericElement>>> resourceToTraceabilityElementIndexEntry;
 
 	/**
 	 * Progress monitor allowing to cancel a save operation if another notification has been received by the
@@ -84,7 +85,7 @@ public class CompilerInformationsSaver {
 	 */
 	public void saveOnRepository(IntentCompilerInformationHolder informationHolder,
 			RepositoryObjectHandler handler) {
-		resourceToTraceabilityElementIndexEntry = new HashMap<ResourceDeclaration, Map<EObject, IntentGenericElement>>();
+		resourceToTraceabilityElementIndexEntry = Maps.newLinkedHashMap();
 		try {
 
 			// We first save the generated elements
@@ -166,16 +167,23 @@ public class CompilerInformationsSaver {
 		// For each element contained in the resource
 		for (EObject element : elementsToConsider) {
 			if (!progressMonitor.isCanceled()) {
-				// We get the instruction that defined this element
-				UnitInstruction instruction = informationHolder.getInstructionByCreatedElement(element);
+				// We add an entry to the traceability map
+				if (resourceToTraceabilityElementIndexEntry.get(resource) == null) {
+					resourceToTraceabilityElementIndexEntry.put(resource,
+							Maps.<EObject, Collection<IntentGenericElement>> newLinkedHashMap());
+				}
 
-				if (instruction != null) {
-					// We add an entry to the traceability map
-					if (resourceToTraceabilityElementIndexEntry.get(resource) == null) {
-						resourceToTraceabilityElementIndexEntry.put(resource,
-								new HashMap<EObject, IntentGenericElement>());
+				// We get the instructions that defined or contributed to this element
+				Collection<UnitInstruction> instructions = informationHolder
+						.getAllInstructionsByCreatedElement(element);
+
+				if (instructions != null && !instructions.isEmpty()) {
+
+					if (resourceToTraceabilityElementIndexEntry.get(resource).get(element) == null) {
+						resourceToTraceabilityElementIndexEntry.get(resource).put(element,
+								Sets.<IntentGenericElement> newLinkedHashSet());
 					}
-					resourceToTraceabilityElementIndexEntry.get(resource).put(element, instruction);
+					resourceToTraceabilityElementIndexEntry.get(resource).get(element).addAll(instructions);
 
 					// We do the same for each contained element
 					updateTraceabilityFromResourceContent(resource, informationHolder, element.eContents());
@@ -248,10 +256,14 @@ public class CompilerInformationsSaver {
 
 			// For each entry, we define a mapping between contained elements and instructions
 			if (resourceToTraceabilityElementIndexEntry.get(resourceDeclaration) != null) {
-				entry.getContainedElementToInstructions().putAll(
-						resourceToTraceabilityElementIndexEntry.get(resourceDeclaration));
-				handledInstructions.addAll(resourceToTraceabilityElementIndexEntry.get(resourceDeclaration)
-						.values());
+				for (Entry<EObject, Collection<IntentGenericElement>> traceabilityEntry : resourceToTraceabilityElementIndexEntry
+						.get(resourceDeclaration).entrySet()) {
+					entry.getContainedElementToInstructions().put(traceabilityEntry.getKey(),
+							new BasicEList<IntentGenericElement>());
+					entry.getContainedElementToInstructions().get(traceabilityEntry.getKey())
+							.addAll(traceabilityEntry.getValue());
+					handledInstructions.addAll(traceabilityEntry.getValue());
+				}
 			}
 			newTraceabilityEntries.add(entry);
 		}
@@ -265,7 +277,9 @@ public class CompilerInformationsSaver {
 			entry.setCompilationTime(BigInteger.valueOf(System.currentTimeMillis()));
 
 			for (UnitInstruction instruction : instanciationsInstructionNotContainedInResource) {
-				entry.getContainedElementToInstructions().put(instruction, instruction);
+				entry.getContainedElementToInstructions().put(instruction,
+						new BasicEList<IntentGenericElement>());
+				entry.getContainedElementToInstructions().get(instruction).add(instruction);
 			}
 			newTraceabilityEntries.add(entry);
 		}

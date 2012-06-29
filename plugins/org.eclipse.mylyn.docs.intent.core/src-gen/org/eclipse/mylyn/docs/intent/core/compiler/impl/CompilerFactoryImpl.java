@@ -224,7 +224,7 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<EObject, UnitInstruction> createCreatedElementToInstructionMapEntry() {
+	public Map.Entry<EObject, EList<UnitInstruction>> createCreatedElementToInstructionMapEntry() {
 		CreatedElementToInstructionMapEntryImpl createdElementToInstructionMapEntry = new CreatedElementToInstructionMapEntryImpl();
 		return createdElementToInstructionMapEntry;
 	}
@@ -299,7 +299,7 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<EObject, IntentGenericElement> createCompiledElementToInstructionEntry() {
+	public Map.Entry<EObject, EList<IntentGenericElement>> createCompiledElementToInstructionEntry() {
 		CompiledElementToInstructionEntryImpl compiledElementToInstructionEntry = new CompiledElementToInstructionEntryImpl();
 		return compiledElementToInstructionEntry;
 	}

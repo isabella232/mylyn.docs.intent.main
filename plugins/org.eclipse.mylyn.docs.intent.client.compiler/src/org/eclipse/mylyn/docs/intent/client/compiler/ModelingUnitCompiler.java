@@ -352,7 +352,7 @@ public class ModelingUnitCompiler {
 	protected void validateGeneratedElement() {
 		for (EObject generatedElement : informationHolder.getCurrentCreatedElements()) {
 			GeneratedElementValidator validator = new GeneratedElementValidator(
-					informationHolder.getInstructionByCreatedElement(generatedElement), generatedElement);
+					informationHolder.getInstanciationInstructionByCreatedElement(generatedElement), generatedElement);
 			Diagnostic diagnostic;
 			try {
 				diagnostic = validator.validate();
