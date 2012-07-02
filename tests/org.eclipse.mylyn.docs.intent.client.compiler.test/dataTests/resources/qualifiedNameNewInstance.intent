@@ -11,7 +11,8 @@ new EPackage p1 {
 new EPackage sub1 {
 	nsURI = "sub1URI";
 	nsPrefix = "sub1Prefix";
-	eClassifiers += new EClass Type {
+	eClassifiers += new EClass {
+		name = "Type";
 		eStructuralFeatures += new EAttribute {
 			name = "sub1attr";
 			eType = EString;
@@ -23,7 +24,8 @@ new EPackage sub1 {
 new EPackage p2 {
 	nsURI = "p2URI";
 	nsPrefix = "p2Prefix";
-	eClassifiers += new EClass Type {
+	eClassifiers += new EClass {
+		name = "Type";
 		eStructuralFeatures += new EAttribute {
 			name = "p2attr";
 			eType = EString;
