@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Tangler
+Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.client.linkresolver
+Bundle-Version: 0.7.0
+Bundle-Activator: org.eclipse.mylyn.docs.intent.client.linkresolver.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.mylyn.docs.intent.core;bundle-version="0.7.0",
+ org.eclipse.mylyn.docs.intent.collab;bundle-version="0.7.0",
+ org.eclipse.mylyn.docs.intent.collab.common;bundle-version="0.7.0",
+ com.google.guava;bundle-version="10.0.1"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.mylyn.docs.intent.client.linkresolver,
+ org.eclipse.mylyn.docs.intent.client.linkresolver.repository,
+ org.eclipse.mylyn.docs.intent.client.linkresolver.resolver
