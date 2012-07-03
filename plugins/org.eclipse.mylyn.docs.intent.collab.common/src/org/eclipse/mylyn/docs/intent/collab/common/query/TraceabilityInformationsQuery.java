@@ -51,9 +51,9 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 	}
 
 	/**
-	 * Returns the {@link TraceabilityIndex} of the current repository. If none find, creates it.
+	 * Returns the {@link TraceabilityIndex} of the queried repository. If none find, creates it.
 	 * 
-	 * @return the {@link TraceabilityIndex} index of the current repository. If none find, creates it
+	 * @return the {@link TraceabilityIndex} index of the queried repository. If none find, creates it
 	 */
 	public TraceabilityIndex getOrCreateTraceabilityIndex() {
 		if (traceabilityIndex == null) {

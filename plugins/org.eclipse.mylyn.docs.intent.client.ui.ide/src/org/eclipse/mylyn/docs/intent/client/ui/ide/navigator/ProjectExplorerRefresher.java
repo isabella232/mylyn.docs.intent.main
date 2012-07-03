@@ -20,10 +20,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.query.CompilationStatusQuery;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IndexQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -89,9 +89,9 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		// listening to the Intent Index
 		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 
-		listenedElements.addAll(repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH)
-				.getContents());
-		listenedElements.add(new CompilationStatusQuery(repositoryAdapter).getOrCreateCompilationStatusManager());
+		listenedElements.add(new IndexQuery(repositoryAdapter).getOrCreateIntentIndex());
+		listenedElements.add(new CompilationStatusQuery(repositoryAdapter)
+				.getOrCreateCompilationStatusManager());
 
 		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements,
 				repositoryAdapter);

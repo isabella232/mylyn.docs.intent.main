@@ -37,7 +37,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IndexQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -202,7 +202,8 @@ public class IntentQuickOutlineControl extends PopupDialog implements IInformati
 		EObject container = content;
 
 		// We get the content's container until we find a IntentDocument
-		while ((container != null) && !(container instanceof IntentDocument) && !(container instanceof Resource)) {
+		while ((container != null) && !(container instanceof IntentDocument)
+				&& !(container instanceof Resource)) {
 			container = container.eContainer();
 		}
 
@@ -226,15 +227,9 @@ public class IntentQuickOutlineControl extends PopupDialog implements IInformati
 		// We use the editor's documentProvider's adapter for getting the IntentDocument form the index
 		RepositoryAdapter repositoryAdapter = ((IntentDocumentProvider)this.editor.getDocumentProvider())
 				.getListenedElementsHandler().getRepositoryAdapter();
-		Resource indexResource = repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH);
-		if (indexResource.getContents().size() > 0) {
-			EObject indexRoot = indexResource.getContents().get(0);
-			if (indexRoot instanceof IntentIndex) {
-				IntentIndex index = (IntentIndex)indexRoot;
-				if (index.getEntries().size() > 0) {
-					root = index.getEntries().get(0).getReferencedElement();
-				}
-			}
+		IntentIndex index = new IndexQuery(repositoryAdapter).getOrCreateIntentIndex();
+		if (index.getEntries().size() > 0) {
+			root = index.getEntries().get(0).getReferencedElement();
 		}
 		if (root == null) {
 			root = content;
@@ -288,8 +283,8 @@ public class IntentQuickOutlineControl extends PopupDialog implements IInformati
 	 */
 	public void setInput(Object input) {
 
-		IntentOutlineInformationHolder newInputHolder = new IntentOutlineInformationHolder(getQuickOutlineRoot(),
-				true);
+		IntentOutlineInformationHolder newInputHolder = new IntentOutlineInformationHolder(
+				getQuickOutlineRoot(), true);
 		if (this.considerOnlyLocalASTElements) {
 			treeViewer.setSelection(null);
 		}
