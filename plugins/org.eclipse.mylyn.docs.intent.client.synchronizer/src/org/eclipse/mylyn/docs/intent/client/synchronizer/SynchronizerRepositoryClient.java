@@ -71,8 +71,6 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	/**
 	 * Adds all the given compilationStatus to their targets instructions.
 	 * 
-	 * @param repositoryAdapter
-	 *            the repository adapter
 	 * @param statusList
 	 *            the list of status to add
 	 */
