@@ -20,7 +20,7 @@ public interface IntentRepositoryConnectionSettingsForCDO {
 	/**
 	 * Address of the machine hosting the repository (for example : localhost or 192.33.33.33).
 	 */
-	String REPOSITORY_HOST_ADRESS = "192.168.30.118";
+	String REPOSITORY_HOST_ADRESS = "192.168.30.160";
 
 	/**
 	 * Complete adress of the repository : host adress ':' [port of the repository].
@@ -30,5 +30,5 @@ public interface IntentRepositoryConnectionSettingsForCDO {
 	/**
 	 * Name of the repository to connect on.
 	 */
-	String REPOSITORY_NAME = "repo1";
+	String REPOSITORY_NAME = "designer-server";
 }

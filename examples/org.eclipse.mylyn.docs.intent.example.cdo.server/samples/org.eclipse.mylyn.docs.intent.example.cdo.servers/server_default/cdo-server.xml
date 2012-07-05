@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- configuration of a CDORepository using an H2 database as back-end -->
+<cdoServer>
+
+	<acceptor type="tcp" listenAddr="0.0.0.0" port="2036">
+	</acceptor>
+
+	<repository name="intent-server">
+		<property name="overrideUUID" value="designer-server"/>
+		<property name="supportingAudits" value="false"/>
+		<property name="supportingBranches" value="false"/>
+ 		<property name="supportingEcore" value="false"/>
+
+		<store type="db">
+			<mappingStrategy type="horizontalBranching">
+				<property name="qualifiedNames" value="true"/>
+				<property name="toManyReferences" value="ONE_TABLE_PER_REFERENCE"/>
+				<property name="toOneReferences" value="LIKE_ATTRIBUTES"/>		
+			</mappingStrategy>
+
+			<dbAdapter name="h2"/>
+			<dataSource class="org.h2.jdbcx.JdbcDataSource"
+				uRL="jdbc:h2:_database/intent-server"/>
+		</store>
+	</repository>
+</cdoServer>

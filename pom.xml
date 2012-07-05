@@ -73,6 +73,7 @@
 	<module>tests/org.eclipse.mylyn.docs.intent.client.compiler.test</module>
 	<module>tests/org.eclipse.mylyn.docs.intent.modelingunit.gen.test</module>
 
+	<module>examples/org.eclipse.mylyn.docs.intent.example.cdo.server</module>
     <module>examples/org.eclipse.mylyn.docs.intent.retro</module>
    </modules>
   
