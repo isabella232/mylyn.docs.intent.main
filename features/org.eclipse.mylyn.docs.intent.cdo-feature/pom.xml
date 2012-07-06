@@ -17,7 +17,7 @@
     <relativePath>../..</relativePath>
   </parent>
 
-  <artifactId>org.eclipse.mylyn.docs.intent.workspace.feature</artifactId>
+  <artifactId>org.eclipse.mylyn.docs.intent.cdo.feature</artifactId>
   <packaging>eclipse-feature</packaging>
 
 </project>
