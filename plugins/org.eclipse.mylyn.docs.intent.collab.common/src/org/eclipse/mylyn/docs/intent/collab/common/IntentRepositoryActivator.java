@@ -1,4 +1,5 @@
 package org.eclipse.mylyn.docs.intent.collab.common;
+
 /*******************************************************************************
  * Copyright (c) 2010, 2011 Obeo.
  * All rights reserved. This program and the accompanying materials
@@ -11,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.collab.common;
  *******************************************************************************/
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.mylyn.docs.intent.collab.common.internal.logger.IntentLoggerRegistryListener;
+import org.eclipse.mylyn.docs.intent.collab.common.internal.repository.contribution.IntentRepositoryManagerContributionRegistryListener;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -22,6 +24,8 @@ public class IntentRepositoryActivator extends Plugin {
 
 	private IntentLoggerRegistryListener loggerRegistryListener = new IntentLoggerRegistryListener();
 
+	private IntentRepositoryManagerContributionRegistryListener repositoryContributionsRegistryListener = new IntentRepositoryManagerContributionRegistryListener();
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -31,8 +35,9 @@ public class IntentRepositoryActivator extends Plugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 
-		// Initializing registry listener for the logger extension point
+		// Initializing registry listener for all extension points
 		loggerRegistryListener.init();
+		repositoryContributionsRegistryListener.init();
 	}
 
 	/**
@@ -42,8 +47,9 @@ public class IntentRepositoryActivator extends Plugin {
 	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
-		// Initializing registry listener for the logger extension point
+		// Initializing registry listener for all extension points
 		loggerRegistryListener.dispose();
+		repositoryContributionsRegistryListener.dispose();
 
 		super.stop(context);
 	}

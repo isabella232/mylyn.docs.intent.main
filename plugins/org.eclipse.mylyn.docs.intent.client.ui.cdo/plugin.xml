@@ -101,5 +101,11 @@ Contributors:
              repositoryStructurerClass="org.eclipse.mylyn.docs.intent.client.ui.cdo.repository.IntentRepositoryCDORestructurer">
        </Repository>
     </extension>
+    <extension
+          point="org.eclipse.mylyn.docs.intent.collab.common.repositorymanagercontribution">
+       <repositorymanagercontribution
+             class="org.eclipse.mylyn.docs.intent.client.ui.cdo.repository.IntentCDOBasedRepositoryManagerContribution">
+       </repositorymanagercontribution>
+    </extension>
 
 </plugin>

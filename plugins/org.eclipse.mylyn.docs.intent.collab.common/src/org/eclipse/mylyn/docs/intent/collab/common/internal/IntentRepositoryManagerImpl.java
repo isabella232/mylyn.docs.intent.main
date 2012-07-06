@@ -11,17 +11,15 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.common.internal;
 
-import com.google.common.collect.Sets;
-
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManagerContribution;
+import org.eclipse.mylyn.docs.intent.collab.common.internal.repository.contribution.IntentRepositoryManagerContributionRegistry;
+import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
+import org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 
@@ -37,9 +35,6 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
  */
 public final class IntentRepositoryManagerImpl implements IntentRepositoryManager {
 
-	private static Collection<IntentRepositoryManagerContribution> managerContributions = Sets
-			.newLinkedHashSet();
-
 	/**
 	 * The list of created repositories, associated to the corresponding project.
 	 */
@@ -51,7 +46,7 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	 * {@inheritDoc}
 	 * 
 	 * @throws CoreException
-	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager#getRepository(java.lang.String)
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager#getRepository(java.lang.String)
 	 */
 	public synchronized Repository getRepository(String identifier) throws RepositoryConnectionException,
 			CoreException {
@@ -67,8 +62,8 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 			}
 
 			// then delegating the repository creation to a registered repository manager
-			for (Iterator<IntentRepositoryManagerContribution> iterator = managerContributions.iterator(); iterator
-					.hasNext() && repository == null;) {
+			for (Iterator<IntentRepositoryManagerContribution> iterator = IntentRepositoryManagerContributionRegistry
+					.getRepositoryManagerContributions().iterator(); iterator.hasNext() && repository == null;) {
 				IntentRepositoryManagerContribution repositoryManagerContribution = iterator.next();
 				if (repositoryManagerContribution.canCreateRepository(normalizedIdentifier)) {
 					repository = repositoryManagerContribution.createRepository(normalizedIdentifier);
@@ -86,7 +81,7 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager#isManagedProject(java.lang.String)
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager#isManagedProject(java.lang.String)
 	 */
 	public synchronized boolean isManagedProject(String identifier) {
 		String normalizedIdentifier = normalizeIdentifier(identifier);
@@ -96,29 +91,11 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager#deleteRepository(java.lang.String)
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager#deleteRepository(java.lang.String)
 	 */
 	public synchronized void deleteRepository(String identifier) {
 		String normalizedIdentifier = normalizeIdentifier(identifier);
 		repositoriesByProject.remove(normalizedIdentifier);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager#addIntentRepositoryManagerContribution(org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManagerContribution)
-	 */
-	public void addIntentRepositoryManagerContribution(IntentRepositoryManagerContribution contribution) {
-		managerContributions.add(contribution);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager#removeIntentRepositoryManagerContribution(org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManagerContribution)
-	 */
-	public void removeIntentRepositoryManagerContribution(IntentRepositoryManagerContribution contribution) {
-		managerContributions.remove(contribution);
 	}
 
 	/**

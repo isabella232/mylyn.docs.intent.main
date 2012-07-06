@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.collab.common;
+package org.eclipse.mylyn.docs.intent.collab.common.repository;
 
 import java.util.ArrayList;
 import java.util.List;

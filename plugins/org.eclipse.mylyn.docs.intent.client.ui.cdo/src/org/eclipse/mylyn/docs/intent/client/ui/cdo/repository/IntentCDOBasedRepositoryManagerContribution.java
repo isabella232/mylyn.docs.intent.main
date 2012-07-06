@@ -12,7 +12,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.cdo.repository;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDOConfig;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManagerContribution;
+import org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -30,7 +30,7 @@ public class IntentCDOBasedRepositoryManagerContribution implements IntentReposi
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManagerContribution#canCreateRepository(java.lang.String)
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution#canCreateRepository(java.lang.String)
 	 */
 	public boolean canCreateRepository(String identifier) {
 		return identifier.contains("cdo:/");
@@ -39,7 +39,7 @@ public class IntentCDOBasedRepositoryManagerContribution implements IntentReposi
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManagerContribution#createRepository(java.lang.String)
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution#createRepository(java.lang.String)
 	 */
 	public Repository createRepository(String identifier) throws RepositoryConnectionException {
 		String repositoryType = "org.eclipse.mylyn.docs.intent.collab.cdo.repository";

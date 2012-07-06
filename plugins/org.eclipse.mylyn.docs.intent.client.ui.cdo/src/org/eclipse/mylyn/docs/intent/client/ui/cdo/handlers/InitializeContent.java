@@ -13,7 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.cdo.handlers;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryInitializer;
+import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryInitializer;
 
 /**
  * Handler that print a widget allowing the user to select the Intent element to open.

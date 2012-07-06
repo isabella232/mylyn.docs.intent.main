@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.collab.common;
+package org.eclipse.mylyn.docs.intent.collab.common.repository;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.mylyn.docs.intent.collab.common.internal.IntentRepositoryManagerImpl;
@@ -56,22 +56,5 @@ public interface IntentRepositoryManager {
 	 *            from
 	 */
 	void deleteRepository(String identifier);
-
-	/**
-	 * Adds the given {@link IntentRepositoryManagerContribution} to this {@link IntentRepositoryManager},
-	 * that will use it to delegate Repositories creations.
-	 * 
-	 * @param contribution
-	 *            the contributed {@link IntentRepositoryManagerContribution}
-	 */
-	void addIntentRepositoryManagerContribution(IntentRepositoryManagerContribution contribution);
-
-	/**
-	 * Removes the given {@link IntentRepositoryManagerContribution}.
-	 * 
-	 * @param contribution
-	 *            the contributed {@link IntentRepositoryManagerContribution} to delete
-	 */
-	void removeIntentRepositoryManagerContribution(IntentRepositoryManagerContribution contribution);
 
 }

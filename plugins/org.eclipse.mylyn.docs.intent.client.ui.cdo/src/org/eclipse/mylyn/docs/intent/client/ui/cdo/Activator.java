@@ -11,8 +11,6 @@
 package org.eclipse.mylyn.docs.intent.client.ui.cdo;
 
 import org.eclipse.emf.cdo.util.CDOUtil;
-import org.eclipse.mylyn.docs.intent.client.ui.cdo.repository.IntentCDOBasedRepositoryManagerContribution;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -29,8 +27,6 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 
-	private IntentCDOBasedRepositoryManagerContribution repositoryManagerContribution;
-
 	/**
 	 * The Activator constructor.
 	 */
@@ -46,11 +42,6 @@ public class Activator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 
-		// Register the RepositoryManagerContribution allowing to handle CDORepositories
-		repositoryManagerContribution = new IntentCDOBasedRepositoryManagerContribution();
-		IntentRepositoryManager.INSTANCE
-				.addIntentRepositoryManagerContribution(repositoryManagerContribution);
-
 		// Allow legacy mode, in case Modeling Units describe non cdo-native models (like ECore)
 		CDOUtil.setLegacyModeDefault(true);
 	}
@@ -63,10 +54,6 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
-
-		// Unregister the RepositoryManagerContribution allowing to handle IProject
-		IntentRepositoryManager.INSTANCE
-				.removeIntentRepositoryManagerContribution(repositoryManagerContribution);
 	}
 
 	/**

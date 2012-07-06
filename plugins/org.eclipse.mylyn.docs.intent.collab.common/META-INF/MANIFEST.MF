@@ -8,7 +8,9 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.mylyn.docs.intent.collab.common,
  org.eclipse.mylyn.docs.intent.collab.common.location,
  org.eclipse.mylyn.docs.intent.collab.common.logger,
- org.eclipse.mylyn.docs.intent.collab.common.query
+ org.eclipse.mylyn.docs.intent.collab.common.query,
+ org.eclipse.mylyn.docs.intent.collab.common.repository,
+ org.eclipse.mylyn.docs.intent.collab.common.repository.contribution
 Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.mylyn.docs.intent.collab,
  com.google.guava;bundle-version="10.0.1",
