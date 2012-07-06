@@ -8,19 +8,17 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.client.ui.ide.launcher;
+package org.eclipse.mylyn.docs.intent.collab.common;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -38,40 +36,34 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public final class IDEApplicationManager {
+public final class IntentRepositoryInitializer {
 
 	/**
-	 * IDEApplicationManager constructor.
+	 * IntentRepositoryInitializer constructor.
 	 */
-	private IDEApplicationManager() {
+	private IntentRepositoryInitializer() {
 
 	}
 
 	/**
-	 * Initializes the project with sample content.
+	 * Initializes the {@link Repository} with the given identifier with sample content.
 	 * 
-	 * @param project
-	 *            the project to initialize
+	 * @param repositoryIdentifier
+	 *            the identifier of the Intent {@link Repository} to initialize
 	 * @param initialContent
 	 *            the initialContent
 	 */
-	public static void initializeContent(IProject project, String initialContent) {
+	public static void initializeContent(String repositoryIdentifier, String initialContent) {
 		try {
-			if (project.isAccessible()) {
-				final Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project
-						.getName());
-				repository.getOrCreateSession();
-				if (project.exists()) {
-					if (!project.isOpen()) {
-						project.open(null);
-					}
-				}
-				initializeWithSampleContent(repository, initialContent);
-			}
+			final Repository repository = IntentRepositoryManager.INSTANCE
+					.getRepository(repositoryIdentifier);
+			repository.getOrCreateSession();
+			initializeWithSampleContent(repository, initialContent);
+
 		} catch (CoreException e) {
-			IntentUiLogger.logError(e);
+			IntentLogger.getInstance().logError(e);
 		} catch (RepositoryConnectionException e) {
-			IntentUiLogger.logError(e);
+			IntentLogger.getInstance().logError(e);
 		}
 	}
 
@@ -96,11 +88,11 @@ public final class IDEApplicationManager {
 					repositoryAdapter.openSaveContext();
 					initializeInRepository(initialContent, repositoryAdapter);
 				} catch (ReadOnlyException e) {
-					IntentUiLogger.logError(e);
+					IntentLogger.getInstance().logError(e);
 				} catch (ParseException e) {
-					IntentUiLogger.logError(e);
+					IntentLogger.getInstance().logError(e);
 				} catch (SaveException e) {
-					IntentUiLogger.logError(e);
+					IntentLogger.getInstance().logError(e);
 				}
 				repositoryAdapter.closeContext();
 			}
@@ -117,10 +109,11 @@ public final class IDEApplicationManager {
 	 * @throws ReadOnlyException
 	 * @throws ParseException
 	 * @throws SaveException
+	 * @throws ParseException
 	 */
 	private static void initializeInRepository(final String initialContent,
-			final RepositoryAdapter repositoryAdapter) throws ReadOnlyException, ParseException,
-			SaveException {
+			final RepositoryAdapter repositoryAdapter) throws ReadOnlyException, SaveException,
+			ParseException {
 		Resource wpResourceIndex = repositoryAdapter.getOrCreateResource(IntentLocations.GENERAL_INDEX_PATH);
 		wpResourceIndex.getContents().add(IntentIndexerFactory.eINSTANCE.createIntentIndex());
 		Resource wpCompilStatusIndex = repositoryAdapter

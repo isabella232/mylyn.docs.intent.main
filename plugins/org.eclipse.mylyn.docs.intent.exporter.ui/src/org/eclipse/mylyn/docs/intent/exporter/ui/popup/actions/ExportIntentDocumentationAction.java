@@ -37,6 +37,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -99,6 +100,7 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 			// Step 1: get the intent document associated to the given project
 			Repository repository = IntentRepositoryManager.INSTANCE.getRepository(intentProject.getName());
 			final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
+			repositoryAdapter.openSaveContext();
 			IntentDocument intentDocument = new IntentDocumentQuery(repositoryAdapter)
 					.getOrCreateIntentDocument();
 
@@ -137,6 +139,8 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 		} catch (CoreException e) {
 			IntentUiLogger.logError(e);
 		} catch (RepositoryConnectionException e) {
+			IntentUiLogger.logError(e);
+		} catch (ReadOnlyException e) {
 			IntentUiLogger.logError(e);
 		}
 

@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
@@ -57,12 +58,19 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 	 */
 	public TraceabilityIndex getOrCreateTraceabilityIndex() {
 		if (traceabilityIndex == null) {
-			final Resource traceabilityResource = repositoryAdapter
-					.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
-			if (traceabilityResource.getContents().isEmpty()) {
-				traceabilityResource.getContents().add(CompilerFactory.eINSTANCE.createTraceabilityIndex());
+			Resource traceabilityResource;
+			try {
+				traceabilityResource = repositoryAdapter
+						.getOrCreateResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
+
+				if (traceabilityResource.getContents().isEmpty()) {
+					traceabilityResource.getContents().add(
+							CompilerFactory.eINSTANCE.createTraceabilityIndex());
+				}
+				traceabilityIndex = (TraceabilityIndex)traceabilityResource.getContents().get(0);
+			} catch (ReadOnlyException e) {
+				throw new RuntimeException(e);
 			}
-			traceabilityIndex = (TraceabilityIndex)traceabilityResource.getContents().get(0);
 		}
 		return traceabilityIndex;
 	}

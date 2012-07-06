@@ -13,7 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.cdo.handlers;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.mylyn.docs.intent.client.ui.cdo.launcher.CDOApplicationLauncher;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryInitializer;
 
 /**
  * Handler that print a widget allowing the user to select the Intent element to open.
@@ -35,7 +35,7 @@ public class InitializeContent extends AbstractHandler {
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		CDOApplicationLauncher.intializeContent();
+		IntentRepositoryInitializer.initializeContent("cdo:/intent-server", "Document {}");
 		System.out.println("Content correctly initialized.");
 		return null;
 	}

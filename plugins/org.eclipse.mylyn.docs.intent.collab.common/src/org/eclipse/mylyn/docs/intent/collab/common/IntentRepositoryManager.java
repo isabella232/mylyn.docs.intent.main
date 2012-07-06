@@ -24,33 +24,54 @@ public interface IntentRepositoryManager {
 	IntentRepositoryManager INSTANCE = new IntentRepositoryManagerImpl();
 
 	/**
-	 * Returns the {@link Repository} associated to the given Intent project name.
+	 * Returns the {@link Repository} associated to the given identifier (can be an IProject name, a CDO
+	 * Repository name...).
 	 * 
-	 * @param projectName
-	 *            the Intent project name to get the Repository from
+	 * @param identifier
+	 *            the identifier (can be an IProject name, a CDO Repository name...) to get the Repository
+	 *            from
 	 * @return the {@link Repository} associated to the given Intent project name
 	 * @throws RepositoryConnectionException
 	 *             if the repository cannot be created
 	 * @throws CoreException
 	 *             if the repository type cannot be found
 	 */
-	Repository getRepository(String projectName) throws RepositoryConnectionException, CoreException;
+	Repository getRepository(String identifier) throws RepositoryConnectionException, CoreException;
 
 	/**
 	 * Indicates if the given project is handled by a {@link Repository}.
 	 * 
-	 * @param projectName
-	 *            the project to test
+	 * @param identifier
+	 *            the identifier (can be an IProject name, a CDO Repository name...) to get the Repository
+	 *            from
 	 * @return true if the given project is handled by a {@link Repository}, false otherwise
 	 */
-	boolean isManagedProject(String projectName);
+	boolean isManagedProject(String identifier);
 
 	/**
 	 * Removes the repository from the registry.
 	 * 
-	 * @param projectName
-	 *            the projectName associated to the repository
+	 * @param identifier
+	 *            the identifier (can be an IProject name, a CDO Repository name...) to get the Repository
+	 *            from
 	 */
-	void deleteRepository(String projectName);
+	void deleteRepository(String identifier);
+
+	/**
+	 * Adds the given {@link IntentRepositoryManagerContribution} to this {@link IntentRepositoryManager},
+	 * that will use it to delegate Repositories creations.
+	 * 
+	 * @param contribution
+	 *            the contributed {@link IntentRepositoryManagerContribution}
+	 */
+	void addIntentRepositoryManagerContribution(IntentRepositoryManagerContribution contribution);
+
+	/**
+	 * Removes the given {@link IntentRepositoryManagerContribution}.
+	 * 
+	 * @param contribution
+	 *            the contributed {@link IntentRepositoryManagerContribution} to delete
+	 */
+	void removeIntentRepositoryManagerContribution(IntentRepositoryManagerContribution contribution);
 
 }

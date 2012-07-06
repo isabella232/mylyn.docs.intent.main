@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -56,6 +57,14 @@ public class CompilerRepositoryClient extends AbstractRepositoryClient {
 	 */
 	@Override
 	protected Job createNotificationJob(RepositoryChangeNotification notification) {
+		try {
+			// Open a save context if needed
+			if (this.repositoryObjectHandler.getRepositoryAdapter().getContext() == null) {
+				this.repositoryObjectHandler.getRepositoryAdapter().openSaveContext();
+			}
+		} catch (ReadOnlyException e) {
+			IntentLogger.getInstance().logError(e);
+		}
 		return new CompilationJob(this.repository, this.repositoryObjectHandler);
 	}
 
@@ -65,6 +74,7 @@ public class CompilerRepositoryClient extends AbstractRepositoryClient {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#dispose()
 	 */
 	public void dispose() {
+		this.repositoryObjectHandler.getRepositoryAdapter().closeContext();
 		this.repository.unregister(this);
 		super.dispose();
 	}

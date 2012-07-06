@@ -16,7 +16,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.ui.URIEditorInput;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
@@ -193,7 +192,7 @@ public class IntentEditorInput extends URIEditorInput {
 			}
 		}
 		if (repositoryAdapter != null) {
-			return repositoryAdapter.getResource(getPath(getURI()));
+			return repositoryAdapter.getResource(repositoryAdapter.getResourcePath(getURI()));
 		}
 		return null;
 	}
@@ -205,7 +204,7 @@ public class IntentEditorInput extends URIEditorInput {
 	 */
 	public Repository getRepository() {
 		try {
-			return IntentRepositoryManager.INSTANCE.getRepository(getProjectName(getURI()));
+			return IntentRepositoryManager.INSTANCE.getRepository(getURI().toString());
 		} catch (RepositoryConnectionException e) {
 			IntentUiLogger.logError(e);
 		} catch (CoreException e) {
@@ -232,42 +231,6 @@ public class IntentEditorInput extends URIEditorInput {
 		} else {
 			IntentLogger.getInstance().log(LogType.WARNING, "Could not save Intent Editor state");
 		}
-	}
-
-	/**
-	 * Retrieves the project name from an URI. TODO merge, there are similar methods in intent.
-	 * 
-	 * @param uri
-	 *            the uri
-	 * @return the project name
-	 */
-	private static String getProjectName(URI uri) {
-		String projectName = null;
-		if (uri.isPlatformResource()) {
-			projectName = uri.toString().replaceFirst("platform:/resource/", "");
-			projectName = projectName.split("/")[0];
-		} else {
-			// should not happen
-		}
-		return projectName;
-	}
-
-	/**
-	 * Retrieves the resource path from an URI. TODO merge, there are similar methods in intent.
-	 * 
-	 * @param uri
-	 *            the uri
-	 * @return the resource path
-	 */
-	private static String getPath(URI uri) {
-		String path = null;
-		if (uri.isPlatformResource()) {
-			path = uri.trimFileExtension().toString().replaceFirst("platform:/resource/", "");
-			path = path.substring(path.indexOf("INTENT") - 1);
-		} else {
-			// should not happen
-		}
-		return path;
 	}
 
 	/**

@@ -65,7 +65,15 @@ public final class IntentLogger implements IIntentLogger {
 		for (IIntentLogger logger : IntentLoggerRegistry.getDeclaredLoggers()) {
 			logger.log(logType, message, exception);
 		}
+	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger#logError(java.lang.Throwable)
+	 */
+	public void logError(Throwable throwable) {
+		log(LogType.ERROR, throwable.getMessage(), throwable);
 	}
 
 	/**

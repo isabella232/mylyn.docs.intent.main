@@ -62,6 +62,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
@@ -352,7 +353,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 
 					public void execute() {
 						try {
-							repositoryAdapter.openSaveContext();
 							merge((IntentEditorDocument)document, localAST);
 							repositoryAdapter.save();
 						} catch (ReadOnlyException e) {
@@ -360,11 +360,9 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 						} catch (SaveException e) {
 							IntentUiLogger.logError(e);
 						}
-						repositoryAdapter.closeContext();
 					}
 
 				});
-				repositoryAdapter.closeContext();
 
 				((IntentEditorDocument)document).reloadFromAST();
 			} catch (ParseException e) {
@@ -673,7 +671,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	}
 
 	private void handleContentHasChanged(EObject modifiedObject, Object modifiedObjectIdentifier) {
-		if (modifiedObject instanceof IntentStructuredElement) {
+		if (modifiedObject instanceof IntentStructuredElement || modifiedObject instanceof UnitInstruction) {
 			if (listenedElementsHandler.getRepositoryAdapter().getIDFromElement(documentRoot)
 					.equals(modifiedObjectIdentifier)) {
 				documentRoot = modifiedObject;

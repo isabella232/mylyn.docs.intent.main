@@ -12,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.collab.common.query;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
@@ -43,11 +44,18 @@ public class CompilationStatusQuery extends AbstractIntentQuery {
 	 */
 	public CompilationStatusManager getOrCreateCompilationStatusManager() {
 		if (statusManager == null) {
-			Resource resource = repositoryAdapter.getResource(IntentLocations.COMPILATION_STATUS_INDEX_PATH);
-			if (resource.getContents().isEmpty()) {
-				resource.getContents().add(CompilerFactory.eINSTANCE.createCompilationStatusManager());
+			Resource resource;
+			try {
+				resource = repositoryAdapter
+						.getOrCreateResource(IntentLocations.COMPILATION_STATUS_INDEX_PATH);
+
+				if (resource.getContents().isEmpty()) {
+					resource.getContents().add(CompilerFactory.eINSTANCE.createCompilationStatusManager());
+				}
+				statusManager = (CompilationStatusManager)resource.getContents().get(0);
+			} catch (ReadOnlyException e) {
+				throw new RuntimeException(e);
 			}
-			statusManager = (CompilationStatusManager)resource.getContents().get(0);
 		}
 		return statusManager;
 	}

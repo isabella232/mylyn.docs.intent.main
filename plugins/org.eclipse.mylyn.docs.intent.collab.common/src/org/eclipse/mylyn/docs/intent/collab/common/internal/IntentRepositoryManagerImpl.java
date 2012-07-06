@@ -11,20 +11,19 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.common.internal;
 
+import com.google.common.collect.Sets;
+
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.core.resources.ICommand;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManagerContribution;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryCreator;
-import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryRegistry;
 
 /**
  * Handles an Intent Project lifecycle :
@@ -38,6 +37,9 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryRegistry;
  */
 public final class IntentRepositoryManagerImpl implements IntentRepositoryManager {
 
+	private static Collection<IntentRepositoryManagerContribution> managerContributions = Sets
+			.newLinkedHashSet();
+
 	/**
 	 * The list of created repositories, associated to the corresponding project.
 	 */
@@ -46,51 +48,38 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	private boolean lock;
 
 	/**
-	 * Gets or creates the {@link Repository} associated to the considered project.
-	 * 
-	 * @param project
-	 *            the project
-	 * @return the {@link Repository} associated to the considered project
-	 * @throws RepositoryConnectionException
-	 *             if the {@link Repository} cannot be created or accessed
-	 */
-	private Repository createRepository(IProject project) throws RepositoryConnectionException, CoreException {
-		Repository repository = null;
-		if (project.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature")) {
-			String repositoryType = getRepositoryType(project);
-			RepositoryCreator repositoryCreator = RepositoryRegistry.INSTANCE
-					.getRepositoryCreator(repositoryType);
-			RepositoryStructurer repositoryStructurer = RepositoryRegistry.INSTANCE
-					.getRepositoryStructurer(repositoryType);
-			if (repositoryCreator == null) {
-				throw new RepositoryConnectionException("Cannot instantiate a repository of type:"
-						+ repositoryType);
-			}
-			repository = repositoryCreator.createRepository(project, repositoryStructurer);
-		}
-		return repository;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @throws CoreException
 	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager#getRepository(java.lang.String)
 	 */
-	public synchronized Repository getRepository(String projectName) throws RepositoryConnectionException,
+	public synchronized Repository getRepository(String identifier) throws RepositoryConnectionException,
 			CoreException {
 		Assert.isTrue(!lock);
-		lock = true;
 		Repository repository = null;
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		if (project != null && project.isAccessible()) {
-			repository = repositoriesByProject.get(project.getName());
-			if (repository == null) {
-				repository = createRepository(project);
-				repositoriesByProject.put(project.getName(), repository);
+		String normalizedIdentifier = normalizeIdentifier(identifier);
+		lock = true;
+		try {
+
+			// First looking for an already opened repository
+			if (repositoriesByProject.get(normalizedIdentifier) != null) {
+				repository = repositoriesByProject.get(normalizedIdentifier);
 			}
+
+			// then delegating the repository creation to a registered repository manager
+			for (Iterator<IntentRepositoryManagerContribution> iterator = managerContributions.iterator(); iterator
+					.hasNext() && repository == null;) {
+				IntentRepositoryManagerContribution repositoryManagerContribution = iterator.next();
+				if (repositoryManagerContribution.canCreateRepository(normalizedIdentifier)) {
+					repository = repositoryManagerContribution.createRepository(normalizedIdentifier);
+					if (repository != null) {
+						repositoriesByProject.put(normalizedIdentifier, repository);
+					}
+				}
+			}
+		} finally {
+			lock = false;
 		}
-		lock = false;
 		return repository;
 	}
 
@@ -99,17 +88,9 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager#isManagedProject(java.lang.String)
 	 */
-	public synchronized boolean isManagedProject(String projectName) {
-		return repositoriesByProject.get(projectName) != null;
-	}
-
-	private static String getRepositoryType(IProject project) throws CoreException {
-		for (ICommand command : project.getDescription().getBuildSpec()) {
-			if (command.getBuilderName().equals("org.eclipse.mylyn.docs.intent.client.ui.ide.intentBuilder")) {
-				return command.getArguments().get("type");
-			}
-		}
-		return null;
+	public synchronized boolean isManagedProject(String identifier) {
+		String normalizedIdentifier = normalizeIdentifier(identifier);
+		return repositoriesByProject.get(normalizedIdentifier) != null;
 	}
 
 	/**
@@ -117,8 +98,47 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager#deleteRepository(java.lang.String)
 	 */
-	public synchronized void deleteRepository(String projectName) {
-		repositoriesByProject.remove(projectName);
+	public synchronized void deleteRepository(String identifier) {
+		String normalizedIdentifier = normalizeIdentifier(identifier);
+		repositoriesByProject.remove(normalizedIdentifier);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager#addIntentRepositoryManagerContribution(org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManagerContribution)
+	 */
+	public void addIntentRepositoryManagerContribution(IntentRepositoryManagerContribution contribution) {
+		managerContributions.add(contribution);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager#removeIntentRepositoryManagerContribution(org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManagerContribution)
+	 */
+	public void removeIntentRepositoryManagerContribution(IntentRepositoryManagerContribution contribution) {
+		managerContributions.remove(contribution);
+	}
+
+	/**
+	 * Returns the normalized form of the given identifier (e.g. if identifier is of the form
+	 * platform:/resource/PROJECT_NAME/..., returns PROJECT_NAME
+	 * 
+	 * @param identifier
+	 *            the identifier to normalize
+	 * @return the normalized form of the given identifier (e.g. if identifier is of the form
+	 *         platform:/resource/PROJECT_NAME/..., returns PROJECT_NAME
+	 */
+	private String normalizeIdentifier(String identifier) {
+		String normalizedIdentifier = identifier;
+		// If identifier is of the form platform:/resource/PROJECT_NAME/...
+		// we extract the IProject name
+		if (identifier.startsWith("platform:/resource")) {
+			normalizedIdentifier = identifier.toString().replaceFirst("platform:/resource/", "");
+			normalizedIdentifier = normalizedIdentifier.split("/")[0];
+		}
+		return normalizedIdentifier;
 	}
 
 }

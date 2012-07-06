@@ -41,9 +41,9 @@ import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryInitializer;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -233,7 +233,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 					IProject project = WorkspaceUtils.createProject(projectName, monitor);
 					ToggleNatureAction.toggleNature(project);
 
-					IDEApplicationManager.initializeContent(project, intentDocumentContent);
+					IntentRepositoryInitializer.initializeContent(projectName, intentDocumentContent);
 
 					// Step 3 : initializing all useful informations
 					intentProject = project;

@@ -9,7 +9,7 @@
 		<property name="overrideUUID" value="designer-server"/>
 		<property name="supportingAudits" value="false"/>
 		<property name="supportingBranches" value="false"/>
- 		<property name="supportingEcore" value="false"/>
+ 		<property name="supportingEcore" value="true"/>
 
 		<store type="db">
 			<mappingStrategy type="horizontalBranching">

@@ -17,6 +17,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentProjectListener;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.repository.IntentProjectBasedRepositoryManagerContribution;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManagerContribution;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -42,6 +45,8 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	private static Activator plugin;
 
+	private IntentRepositoryManagerContribution repositoryManagerContribution;
+
 	/**
 	 * The constructor.
 	 */
@@ -56,6 +61,12 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		// Register the RepositoryManagerContribution allowing to handle IProject
+		repositoryManagerContribution = new IntentProjectBasedRepositoryManagerContribution();
+		IntentRepositoryManager.INSTANCE
+				.addIntentRepositoryManagerContribution(repositoryManagerContribution);
+
 		// Awakes the listener if necessary
 		final Job activateListenerJob = new Job("Activating intent projects listener") {
 			@Override
@@ -79,6 +90,11 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		workspace.removeResourceChangeListener(intentProjectListener);
+
+		// Unregister the RepositoryManagerContribution allowing to handle IProject
+		IntentRepositoryManager.INSTANCE
+				.removeIntentRepositoryManagerContribution(repositoryManagerContribution);
+
 		plugin = null;
 		super.stop(context);
 	}

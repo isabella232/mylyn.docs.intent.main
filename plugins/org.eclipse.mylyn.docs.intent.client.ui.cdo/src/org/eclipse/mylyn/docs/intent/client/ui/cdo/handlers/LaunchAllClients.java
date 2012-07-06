@@ -13,7 +13,9 @@ package org.eclipse.mylyn.docs.intent.client.ui.cdo.handlers;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.mylyn.docs.intent.client.ui.cdo.launcher.CDOApplicationLauncher;
+import org.eclipse.mylyn.docs.intent.client.ui.cdo.launcher.IntentCDOManager;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
+import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 
 /**
  * Handler that print a widget allowing the user to select the Intent element to open.
@@ -35,7 +37,15 @@ public class LaunchAllClients extends AbstractHandler {
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		CDOApplicationLauncher.initializeClients();
+		try {
+			IntentCDOManager.getCDOManager("cdo:/intent-server").initializeClients();
+		} catch (RepositoryConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ReadOnlyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

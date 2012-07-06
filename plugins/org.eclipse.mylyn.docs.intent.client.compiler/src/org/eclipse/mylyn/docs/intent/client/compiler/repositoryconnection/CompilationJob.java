@@ -164,8 +164,6 @@ public class CompilationJob extends Job {
 	public void saveCompilationInformations(RepositoryAdapter repositoryAdapter,
 			IntentCompilerInformationHolder compilationInformationHolder, IProgressMonitor monitor) {
 		try {
-			repositoryAdapter.openSaveContext();
-
 			// We merge the local compilation manager with the remote
 			CompilerInformationsSaver saver = new CompilerInformationsSaver(monitor);
 			if (monitor != null && !monitor.isCanceled()) {
@@ -185,7 +183,5 @@ public class CompilationJob extends Job {
 				// We are sure that this compiler isn't in read-only mode
 			}
 		}
-
-		repositoryAdapter.closeContext();
 	}
 }

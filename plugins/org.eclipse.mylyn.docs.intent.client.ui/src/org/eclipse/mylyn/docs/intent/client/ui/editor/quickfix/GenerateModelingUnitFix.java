@@ -110,21 +110,17 @@ public class GenerateModelingUnitFix implements ICompletionProposal {
 
 					public void execute() {
 						try {
-							repositoryAdapter.openSaveContext();
 							container.getInstructions().add(contribution);
-
 							repositoryAdapter.save();
 						} catch (ReadOnlyException e) {
 							IntentUiLogger.logError(e);
 						} catch (SaveException e) {
 							IntentUiLogger.logError(e);
 						}
-						repositoryAdapter.closeContext();
 					}
 
 				});
 
-				repositoryAdapter.closeContext();
 				((IntentEditorDocument)document).reloadFromAST();
 			}
 		}

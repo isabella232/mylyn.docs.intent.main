@@ -65,10 +65,13 @@ public final class IntentEditorOpener {
 	public static void openIntentEditor(final Repository repository, boolean readOnlyMode) {
 		try {
 			final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
+			repositoryAdapter.openSaveContext();
 			IntentDocument elementToOpen = new IntentDocumentQuery(repositoryAdapter)
 					.getOrCreateIntentDocument();
 			openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, false);
 		} catch (PartInitException e) {
+			IntentUiLogger.logError(e);
+		} catch (ReadOnlyException e) {
 			IntentUiLogger.logError(e);
 		}
 	}
@@ -123,6 +126,64 @@ public final class IntentEditorOpener {
 		IntentEditor openedEditor = null;
 		IStatus status = null;
 		// We get the element on which open this editor
+		openContext(repositoryAdapter, readOnlyMode);
+
+		final EObject elementToOpenLoadedFromAdapter = repositoryAdapter.getElementWithID(repositoryAdapter
+				.getIDFromElement(elementToOpen));
+		final EObject elementToSelectRangeWithLoadedFromAdapter = repositoryAdapter
+				.getElementWithID(repositoryAdapter.getIDFromElement(elementToSelectRangeWith));
+
+		boolean foundInAlreadyExistingEditor = false;
+		if (!forceNewEditor) {
+			// Step 2 : if an editor containing this element is already opened
+			IntentEditor editor = getAlreadyOpenedEditor(elementToOpenLoadedFromAdapter);
+			if (editor != null) {
+				editor.getEditorSite().getPage().activate(editor);
+				openedEditor = editor;
+				foundInAlreadyExistingEditor = editor
+						.selectRange((IntentGenericElement)elementToSelectRangeWithLoadedFromAdapter);
+			}
+		}
+
+		if (openedEditor == null || !foundInAlreadyExistingEditor) {
+
+			// Step 3 : we open a new editor.
+			IWorkbenchPage page = null;
+			try {
+				page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				openedEditor = IntentEditorOpener.openEditor(repositoryAdapter, page,
+						elementToOpenLoadedFromAdapter);
+				EObject container = elementToSelectRangeWithLoadedFromAdapter;
+				while (container != null && !(container instanceof IntentGenericElement)) {
+					container = container.eContainer();
+				}
+				if (container instanceof IntentGenericElement) {
+					openedEditor.selectRange((IntentGenericElement)container);
+				} else {
+					if (elementToOpenLoadedFromAdapter instanceof IntentGenericElement) {
+						openedEditor.selectRange((IntentGenericElement)elementToOpenLoadedFromAdapter);
+					}
+				}
+
+			} catch (NullPointerException e) {
+				status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
+						"An unexpected error has occured");
+				throw new PartInitException(status);
+			}
+		}
+
+		return openedEditor;
+	}
+
+	/**
+	 * Opens a context through the {@link RepositoryAdapter}, read-only or not according to the given boolean.
+	 * 
+	 * @param repositoryAdapter
+	 *            the {@link RepositoryAdapter} to use
+	 * @param readOnlyMode
+	 *            indicates whether the context should be opened in read-only mode or node
+	 */
+	private static void openContext(RepositoryAdapter repositoryAdapter, boolean readOnlyMode) {
 		if (!readOnlyMode) {
 			try {
 				repositoryAdapter.openSaveContext();
@@ -139,45 +200,6 @@ public final class IntentEditorOpener {
 			repositoryAdapter.openReadOnlyContext();
 		}
 
-		boolean foundInAlreadyExistingEditor = false;
-		if (!forceNewEditor) {
-			// Step 2 : if an editor containing this element is already opened
-			IntentEditor editor = getAlreadyOpenedEditor(elementToOpen);
-			if (editor != null) {
-				editor.getEditorSite().getPage().activate(editor);
-				openedEditor = editor;
-				foundInAlreadyExistingEditor = editor
-						.selectRange((IntentGenericElement)elementToSelectRangeWith);
-			}
-		}
-
-		if (openedEditor == null || !foundInAlreadyExistingEditor) {
-
-			// Step 3 : we open a new editor.
-			IWorkbenchPage page = null;
-			try {
-				page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				openedEditor = IntentEditorOpener.openEditor(repositoryAdapter, page, elementToOpen);
-				EObject container = elementToSelectRangeWith;
-				while (container != null && !(container instanceof IntentGenericElement)) {
-					container = container.eContainer();
-				}
-				if (container instanceof IntentGenericElement) {
-					openedEditor.selectRange((IntentGenericElement)container);
-				} else {
-					if (elementToOpen instanceof IntentGenericElement) {
-						openedEditor.selectRange((IntentGenericElement)elementToOpen);
-					}
-				}
-
-			} catch (NullPointerException e) {
-				status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
-						"An unexpected error has occured");
-				throw new PartInitException(status);
-			}
-		}
-
-		return openedEditor;
 	}
 
 	/**

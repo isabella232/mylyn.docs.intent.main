@@ -41,6 +41,14 @@ public interface IIntentLogger {
 	void log(LogType logType, String message, Throwable exception);
 
 	/**
+	 * Logs the given {@link Throwable}, with a {@link LogType#ERROR} code.
+	 * 
+	 * @param throwable
+	 *            the throwable to log
+	 */
+	void logError(Throwable throwable);
+
+	/**
 	 * Indicates whether lifecycle informations (like the fact that the compiler has done compiling resources,
 	 * that the indexer indexed content...) should be displayed or not.
 	 * 

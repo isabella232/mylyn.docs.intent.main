@@ -9,7 +9,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.client.ui.ide.launcher;
+package org.eclipse.mylyn.docs.intent.client.ui.ide.projectmanager;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;

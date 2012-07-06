@@ -143,7 +143,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * Sets the new value of the ast and refresh the document.
 	 */
 	public void reloadFromAST() {
-		Display.getDefault().syncExec(new Runnable() {
+		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
 				if (associatedEditor.getSelectionProvider() != null) {
@@ -202,7 +202,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * Handle the fact that the content off this document has been deleted by other users.
 	 */
 	public void unsynchronize() {
-		Display.getDefault().syncExec(new Runnable() {
+		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
 

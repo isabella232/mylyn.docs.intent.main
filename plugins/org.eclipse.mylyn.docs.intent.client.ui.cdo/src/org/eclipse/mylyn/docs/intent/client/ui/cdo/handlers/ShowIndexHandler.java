@@ -13,7 +13,10 @@ package org.eclipse.mylyn.docs.intent.client.ui.cdo.handlers;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.mylyn.docs.intent.client.ui.cdo.launcher.CDOApplicationLauncher;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
+import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
+import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 
 /**
  * Handler that print a widget allowing the user to select the Intent element to open.
@@ -35,7 +38,16 @@ public class ShowIndexHandler extends AbstractHandler {
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		CDOApplicationLauncher.openElement();
+		try {
+			IntentEditorOpener.openIntentEditor(
+					IntentRepositoryManager.INSTANCE.getRepository("cdo:/intent-server"), false);
+		} catch (RepositoryConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 }
