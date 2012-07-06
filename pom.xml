@@ -96,6 +96,7 @@
 	<module>tests/org.eclipse.mylyn.docs.intent.modelingunit.gen.test</module>
 
 	<!-- Intent examples -->
+	<module>examples/org.eclipse.mylyn.docs.intent.example.documents</module>
 	<module>examples/org.eclipse.mylyn.docs.intent.example.cdo.server</module>
     <module>examples/org.eclipse.mylyn.docs.intent.retro</module>
    </modules>
