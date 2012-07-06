@@ -90,6 +90,7 @@ public class IntentProjectReopeningTest extends AbstractIntentUITest {
 	}
 
 	private IntentDocument reopenProjectAndGetDocument() throws CoreException {
+		editor.doSave(new NullProgressMonitor());
 		ToggleNatureAction.toggleNature(intentProject);
 		waitForAllOperationsInUIThread();
 		intentProject.close(new NullProgressMonitor());
