@@ -93,7 +93,7 @@ public class EcoreTest extends AbstractDemoTest {
 		assertTrue(TEST_SYNCHRONIZER_NO_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MESSAGE_RIGHT, true));
 		waitForSynchronizer(false);
-		
+
 		// Step 3 : update the document
 		String initialContent = document.get();
 		String newContent = initialContent;
@@ -149,7 +149,7 @@ public class EcoreTest extends AbstractDemoTest {
 
 		// Step 4 : apply quick fix
 		repositoryListener.clearPreviousEntries();
-		AnnotationUtils.applyAnnotationFix(annotation);
+		AnnotationUtils.applyAnnotationFix(repositoryAdapter, annotation);
 		waitForSynchronizer();
 
 		// Step 5 : ensure that synchronization issues no longer exists

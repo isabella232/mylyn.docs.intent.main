@@ -10,11 +10,10 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.annotation;
 
-import java.util.Set;
-
 import org.eclipse.core.runtime.AssertionFailedException;
 import org.eclipse.jface.text.quickassist.IQuickFixableAnnotation;
 import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 
 /**
  * Represents an Intent Annotation that can be used in any Editor.
@@ -32,9 +31,9 @@ public class IntentAnnotation extends Annotation implements IQuickFixableAnnotat
 	private boolean quickFixableState;
 
 	/**
-	 * Additional informations relative to this Annotation.
+	 * The associated compilation status.
 	 */
-	private Set<String> additionalInformations;
+	private CompilationStatus compilationStatus;
 
 	/**
 	 * IntentAnnotation constructor.
@@ -70,25 +69,6 @@ public class IntentAnnotation extends Annotation implements IQuickFixableAnnotat
 	}
 
 	/**
-	 * Returns additional informations relative to this Annotation.
-	 * 
-	 * @return additional informations relative to this Annotation
-	 */
-	public Set<String> getAdditionalInformations() {
-		return additionalInformations;
-	}
-
-	/**
-	 * Sets the additional informations relative to this Annotation.
-	 * 
-	 * @param additionalInformations
-	 *            the additional informations relative to this Annotation
-	 */
-	public void setAdditionalInformations(Set<String> additionalInformations) {
-		this.additionalInformations = additionalInformations;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.jface.text.quickassist.IQuickFixableAnnotation#setQuickFixable(boolean)
@@ -113,6 +93,25 @@ public class IntentAnnotation extends Annotation implements IQuickFixableAnnotat
 	 */
 	public boolean isQuickFixable() throws AssertionFailedException {
 		return true;
+	}
+
+	/**
+	 * Returns compilation status relative to this Annotation.
+	 * 
+	 * @return compilation status relative to this Annotation
+	 */
+	public CompilationStatus getCompilationStatus() {
+		return compilationStatus;
+	}
+
+	/**
+	 * Sets the compilation status relative to this Annotation.
+	 * 
+	 * @param compilationStatus
+	 *            the compilation status relative to this Annotation
+	 */
+	public void setCompilationStatus(CompilationStatus compilationStatus) {
+		this.compilationStatus = compilationStatus;
 	}
 
 }

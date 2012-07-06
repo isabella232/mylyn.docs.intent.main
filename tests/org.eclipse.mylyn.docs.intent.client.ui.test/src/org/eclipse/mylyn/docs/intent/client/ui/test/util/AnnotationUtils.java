@@ -29,6 +29,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 
 /**
  * Provide utilities to ease annotations manipulation.
@@ -102,6 +104,8 @@ public final class AnnotationUtils {
 	/**
 	 * Applies the given annotation quick fix.
 	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter
 	 * @param syncAnnotation
 	 *            the sync annotation
 	 * @throws InterruptedException
@@ -109,17 +113,18 @@ public final class AnnotationUtils {
 	 * @throws IOException
 	 *             if merging fails
 	 */
-	public static void applyAnnotationFix(IntentAnnotation syncAnnotation) throws IOException,
-			InterruptedException {
+	public static void applyAnnotationFix(RepositoryAdapter repositoryAdapter, IntentAnnotation syncAnnotation)
+			throws IOException, InterruptedException {
 		// Step 1 : getting the resources to compare URI
-		String workingCopyResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[1])
-				.replace("\"", "");
-		String generatedResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[2])
-				.replace("\"", "");
+		String workingCopyResourceURI = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
+				.getWorkingCopyResourceURI().replace("\"", "");
+		String generatedResourceURI = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
+				.getCompiledResourceURI().replace("\"", "");
 
 		// Step 2 : loading the resources
+		Resource generatedResource = repositoryAdapter.getResource(generatedResourceURI);
+
 		ResourceSetImpl rs = new ResourceSetImpl();
-		Resource generatedResource = rs.getResource(URI.createURI(generatedResourceURI), true);
 		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
 
 		// Step 3.1 : making match and diff

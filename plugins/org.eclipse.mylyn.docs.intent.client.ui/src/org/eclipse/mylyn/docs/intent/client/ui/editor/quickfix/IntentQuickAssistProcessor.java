@@ -25,6 +25,8 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.TextInvocationContext;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationFactory;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
 
 /**
  * {@link IntentQuickAssistProcessor} used by Intent to fix any issues.
@@ -77,33 +79,33 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 		IAnnotationModel model = viewer.getAnnotationModel();
 
 		int offset = context.getOffset();
-		ArrayList annotationList = new ArrayList();
-		Iterator iter = model.getAnnotationIterator();
+		Iterator<?> iter = model.getAnnotationIterator();
 		while (iter.hasNext()) {
 			Annotation annotation = (Annotation)iter.next();
 			if (canFix(annotation)) {
 				Position pos = model.getPosition(annotation);
-				if (isAtPosition(offset, pos)) {
+				if (pos != null && pos.includes(offset)) {
 
 					List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
 
-					String annotationTag = (String)((IntentAnnotation)annotation).getAdditionalInformations()
-							.toArray()[0];
+					SynchronizerCompilationStatus synchronizerCompilationStatus = (SynchronizerCompilationStatus)((IntentAnnotation)annotation)
+							.getCompilationStatus();
+					SynchronizerResourceState compiledResourceState = synchronizerCompilationStatus
+							.getCompiledResourceState();
+					SynchronizerResourceState workingCopyResourceState = synchronizerCompilationStatus
+							.getWorkingCopyResourceState();
 
-					if (IntentAnnotationFactory.EMPTY_DOCUMENT_RESOURCE_TAG.equals(annotationTag)) {
+					if (SynchronizerResourceState.EMPTY.equals(compiledResourceState)) {
 						proposals.add(new ClearResourceFix(annotation));
-					} else if (IntentAnnotationFactory.EMPTY_WORKING_COPY_RESOURCE_TAG.equals(annotationTag)) {
+					} else if (SynchronizerResourceState.EMPTY.equals(workingCopyResourceState)) {
 						proposals.add(new MergeEmptyResourceFix(annotation));
-					} else if (IntentAnnotationFactory.NULL_RESOURCE_TAG.equals(annotationTag)) {
+					} else if (SynchronizerResourceState.NULL.equals(workingCopyResourceState)) {
 						proposals.add(new CreateResourceFix(annotation));
 					} else {
 						proposals.add(new EMFCompareFix(annotation));
-					}
-
-					// experimental: modeling unit generation
-					if (IntentAnnotationFactory.DIFF_RESOURCE_TAG.equals(annotationTag)
-							&& ((IntentAnnotation)annotation).getAdditionalInformations().size() == 6) {
-						proposals.add(new GenerateModelingUnitFix(annotation));
+						if (synchronizerCompilationStatus.getWorkingCopyElementURIFragment() != null) {
+							proposals.add(new UpdateModelingUnitFix(annotation));
+						}
 					}
 
 					return proposals.toArray(new ICompletionProposal[proposals.size()]);
@@ -111,10 +113,6 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 			}
 		}
 		return null;
-	}
-
-	private boolean isAtPosition(int offset, Position pos) {
-		return (pos != null) && (offset >= pos.getOffset() && offset <= (pos.getOffset() + pos.getLength()));
 	}
 
 }

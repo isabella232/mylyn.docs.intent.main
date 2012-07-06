@@ -15,52 +15,50 @@ import java.io.IOException;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.jface.text.source.Annotation;
-import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 
 /**
- * {@link ICompletionProposal} used to fix a Synchronization issue by copying the compiled resource.
+ * Proposal used to fix a Synchronization issue by copying the compiled resource.
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class MergeEmptyResourceFix implements ICompletionProposal {
-
-	private IntentAnnotation syncAnnotation;
+public class MergeEmptyResourceFix extends AbstractIntentFix {
 
 	/**
 	 * Default constructor.
 	 * 
 	 * @param annotation
-	 *            the {@link IntentAnnotation} describing the synchronization issue.
+	 *            the annotation describing the synchronization issue.
 	 */
 	public MergeEmptyResourceFix(Annotation annotation) {
-		this.syncAnnotation = (IntentAnnotation)annotation;
+		super(annotation);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#apply(org.eclipse.jface.text.IDocument)
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix.AbstractIntentFix#applyFix(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter,
+	 *      org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument)
 	 */
-	public void apply(IDocument document) {
+	@Override
+	protected void applyFix(RepositoryAdapter repositoryAdapter, IntentEditorDocument document) {
 		// Step 1 : getting the resources to compare URI
-		String workingCopyResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[1])
-				.replace("\"", "");
-		String generatedResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[2])
-				.replace("\"", "");
+		SynchronizerCompilationStatus status = (SynchronizerCompilationStatus)syncAnnotation
+				.getCompilationStatus();
+		String workingCopyResourceURI = status.getWorkingCopyResourceURI().replace("\"", "");
+		String generatedResourceURI = status.getCompiledResourceURI().replace("\"", "");
 
 		// Step 2 : loading the resources
-		ResourceSetImpl rs = new ResourceSetImpl();
-		Resource generatedResource = rs.getResource(URI.createURI(generatedResourceURI), true);
+		Resource generatedResource = repositoryAdapter.getResource(generatedResourceURI);
+
+		ResourceSet rs = new ResourceSetImpl();
 		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
 
 		workingCopyResource.getContents().addAll(EcoreUtil.copyAll(generatedResource.getContents()));
@@ -75,46 +73,10 @@ public class MergeEmptyResourceFix implements ICompletionProposal {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getSelection(org.eclipse.jface.text.IDocument)
-	 */
-	public Point getSelection(IDocument document) {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getAdditionalProposalInfo()
-	 */
-	public String getAdditionalProposalInfo() {
-		return "";
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
 	 */
 	public String getDisplayString() {
 		return "Fill the working copy with the document content";
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getImage()
-	 */
-	public Image getImage() {
-		return IntentEditorActivator.getDefault().getImage("icon/annotation/sync-warning.gif");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getContextInformation()
-	 */
-	public IContextInformation getContextInformation() {
-		return null;
 	}
 
 }
