@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -552,15 +551,15 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getIDFromElement(org.eclipse.emf.ecore.EObject)
 	 */
 	public Object getIDFromElement(EObject element) {
-		// We use the standard EMF way to identify this element :
-		// <ResourceURI> + <URIFragment>
-		Assert.isNotNull(element);
-		URI uri = EcoreUtil.getURI(element);
+		URI uri = null;
+		if (element != null) {
+			uri = EcoreUtil.getURI(element);
 
-		// if the URI starts with "#", it means that the resource is no longer part of the resource set.
-		// we return null to indicate the the given element is now invalid
-		if (uri.toString().startsWith("#")) {
-			return null;
+			// if the URI starts with "#", it means that the resource is no longer part of the resource set.
+			// we return null to indicate the the given element is now invalid
+			if (uri.toString().startsWith("#")) {
+				return null;
+			}
 		}
 		return uri;
 	}
