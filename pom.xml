@@ -49,6 +49,7 @@
     <module>plugins/org.eclipse.mylyn.docs.intent.parser</module>
 	<module>plugins/org.eclipse.mylyn.docs.intent.compare</module>
 	<module>plugins/org.eclipse.mylyn.docs.intent.modelingunit.gen</module>
+	<module>plugins/org.eclipse.mylyn.docs.intent.modelingunit.update</module>
     
 	
 	<!-- Intent collab -->
