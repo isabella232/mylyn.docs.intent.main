@@ -15,9 +15,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdater;
+import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdaterUtils;
 
 /**
  * Proposal used to fix a Synchronization issue by opening the compare Editor.
@@ -65,7 +67,8 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
 	 */
 	public String getDisplayString() {
-		return "Update modeling unit by generating the missing element (experimental)";
+		return ModelingUnitUpdaterUtils.getFixMessage((SynchronizerCompilationStatus)syncAnnotation
+				.getCompilationStatus());
 	}
 
 }

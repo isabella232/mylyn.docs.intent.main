@@ -24,8 +24,10 @@ import org.eclipse.mylyn.docs.intent.collab.common.query.CompilationStatusQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdater;
+import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdaterUtils;
 import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
 
@@ -80,6 +82,7 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 			if (parent != null) {
 				updateModelingUnit((ModelingUnit)parent, droppedEObjects);
 			} else {
+				// TODO manage modeling units creation
 				IntentLogger.getInstance().log(LogType.ERROR, "Only modeling units support drops.");
 			}
 
@@ -110,7 +113,8 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 		CompilationStatusQuery query = new CompilationStatusQuery(repositoryAdapter);
 		for (CompilationStatus compilationStatus : query.getOrCreateCompilationStatusManager()
 				.getCompilationStatusList()) {
-			if (compilationStatus instanceof ModelElementChangeStatus) {
+			if (compilationStatus instanceof ModelElementChangeStatus
+					&& ModelingUnitUpdaterUtils.canFix((SynchronizerCompilationStatus)compilationStatus)) {
 				ModelElementChangeStatus status = (ModelElementChangeStatus)compilationStatus;
 				if (uriFragments.contains(status.getWorkingCopyElementURIFragment())) {
 					updater.fixSynchronizationStatus(status);

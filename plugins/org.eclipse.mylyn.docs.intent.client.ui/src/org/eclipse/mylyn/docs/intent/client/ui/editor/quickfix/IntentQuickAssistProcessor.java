@@ -25,11 +25,10 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.TextInvocationContext;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationFactory;
-import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
+import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdaterUtils;
 
 /**
  * {@link IntentQuickAssistProcessor} used by Intent to fix any issues.
@@ -122,10 +121,7 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 			}
 		} else {
 			proposals.add(new EMFCompareFix(annotation));
-			// TODO manage other types
-			if (status instanceof ModelElementChangeStatus
-					&& ((ModelElementChangeStatus)status).getChangeState().equals(
-							SynchronizerChangeState.WORKING_COPY_TARGET)) {
+			if (ModelingUnitUpdaterUtils.canFix(status)) {
 				proposals.add(new UpdateModelingUnitFix(annotation));
 			}
 		}

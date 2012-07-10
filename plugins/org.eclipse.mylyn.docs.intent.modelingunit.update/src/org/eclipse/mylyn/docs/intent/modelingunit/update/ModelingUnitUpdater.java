@@ -11,9 +11,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.modelingunit.update;
 
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
@@ -65,7 +63,9 @@ public class ModelingUnitUpdater extends ModelingUnitGenerator {
 				case CompilerPackage.MODEL_ELEMENT_CHANGE_STATUS:
 					InstanciationInstruction instanciation = (InstanciationInstruction)((SynchronizerCompilationStatus)status)
 							.getTarget();
-					create(instanciation, getRootEObjectToGenerate((ModelElementChangeStatus)status));
+					create(instanciation,
+							ModelingUnitUpdaterUtils
+									.getRootEObjectToGenerate((ModelElementChangeStatus)status));
 					break;
 
 				default:
@@ -98,17 +98,5 @@ public class ModelingUnitUpdater extends ModelingUnitGenerator {
 			}
 
 		});
-	}
-
-	/**
-	 * Returns the root EObject to generate.
-	 * 
-	 * @param status
-	 *            the sync status
-	 * @return the root EObject to generate
-	 */
-	public static EObject getRootEObjectToGenerate(ModelElementChangeStatus status) {
-		ResourceSetImpl rs = new ResourceSetImpl();
-		return rs.getEObject(URI.createURI(status.getWorkingCopyElementURIFragment()), true);
 	}
 }
