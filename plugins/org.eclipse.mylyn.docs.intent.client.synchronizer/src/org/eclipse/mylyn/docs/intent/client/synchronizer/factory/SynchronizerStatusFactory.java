@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.compare.diff.metamodel.AttributeChange;
+import org.eclipse.emf.compare.diff.metamodel.AttributeOrderChange;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
 import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeLeftTarget;
@@ -26,10 +27,14 @@ import org.eclipse.emf.compare.diff.metamodel.UpdateAttribute;
 import org.eclipse.emf.compare.diff.metamodel.UpdateReference;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
+import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -66,33 +71,102 @@ public final class SynchronizerStatusFactory {
 
 		// If we have a unitary diffElement
 		if (difference.getSubDiffElements().isEmpty()) {
-			SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
-					.createSynchronizerCompilationStatus();
+			SynchronizerCompilationStatus status = null;
 
-			if (difference instanceof ReferenceOrderChange) {
-				status.setSeverity(CompilationStatusSeverity.INFO);
-				status.setType(CompilationMessageType.SYNCHRONIZER_INFO);
-			} else {
-				status.setSeverity(CompilationStatusSeverity.WARNING);
-				status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
+			switch (difference.eClass().getClassifierID()) {
+			// attributes
+				case DiffPackage.ATTRIBUTE_CHANGE_LEFT_TARGET:
+					status = CompilerFactory.eINSTANCE.createAttributeChangeStatus();
+					((StructuralFeatureChangeStatus)status)
+							.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
+					break;
+				case DiffPackage.ATTRIBUTE_CHANGE_RIGHT_TARGET:
+					status = CompilerFactory.eINSTANCE.createAttributeChangeStatus();
+					((StructuralFeatureChangeStatus)status)
+							.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
+					break;
+				case DiffPackage.ATTRIBUTE_ORDER_CHANGE:
+					status = CompilerFactory.eINSTANCE.createAttributeChangeStatus();
+					((StructuralFeatureChangeStatus)status).setChangeState(SynchronizerChangeState.ORDER);
+					break;
+				case DiffPackage.UPDATE_ATTRIBUTE:
+					status = CompilerFactory.eINSTANCE.createAttributeChangeStatus();
+					((StructuralFeatureChangeStatus)status).setChangeState(SynchronizerChangeState.UPDATE);
+					break;
+
+				// references
+				case DiffPackage.REFERENCE_CHANGE_LEFT_TARGET:
+					status = CompilerFactory.eINSTANCE.createReferenceChangeStatus();
+					((StructuralFeatureChangeStatus)status)
+							.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
+					break;
+				case DiffPackage.REFERENCE_CHANGE_RIGHT_TARGET:
+					status = CompilerFactory.eINSTANCE.createReferenceChangeStatus();
+					((StructuralFeatureChangeStatus)status)
+							.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
+					break;
+				case DiffPackage.REFERENCE_ORDER_CHANGE:
+					status = CompilerFactory.eINSTANCE.createReferenceChangeStatus();
+					((StructuralFeatureChangeStatus)status).setChangeState(SynchronizerChangeState.ORDER);
+					break;
+				case DiffPackage.UPDATE_REFERENCE:
+					status = CompilerFactory.eINSTANCE.createReferenceChangeStatus();
+					((StructuralFeatureChangeStatus)status).setChangeState(SynchronizerChangeState.UPDATE);
+					break;
+
+				// model elements
+				case DiffPackage.MODEL_ELEMENT_CHANGE_LEFT_TARGET:
+					status = CompilerFactory.eINSTANCE.createModelElementChangeStatus();
+					((ModelElementChangeStatus)status)
+							.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
+					((ModelElementChangeStatus)status).setCompiledElementURIFragment(EcoreUtil.getURI(
+							((ModelElementChangeLeftTarget)difference).getLeftElement()).toString());
+					((ModelElementChangeStatus)status).setWorkingCopyParentURIFragment(EcoreUtil.getURI(
+							((ModelElementChangeLeftTarget)difference).getRightParent()).toString());
+					break;
+				case DiffPackage.MODEL_ELEMENT_CHANGE_RIGHT_TARGET:
+					status = CompilerFactory.eINSTANCE.createModelElementChangeStatus();
+					((ModelElementChangeStatus)status)
+							.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
+					((ModelElementChangeStatus)status).setWorkingCopyElementURIFragment(EcoreUtil.getURI(
+							((ModelElementChangeRightTarget)difference).getRightElement()).toString());
+					((ModelElementChangeStatus)status).setCompiledParentURIFragment(EcoreUtil.getURI(
+							((ModelElementChangeRightTarget)difference).getLeftParent()).toString());
+					break;
+				case DiffPackage.UPDATE_MODEL_ELEMENT:
+					status = CompilerFactory.eINSTANCE.createModelElementChangeStatus();
+					((ModelElementChangeStatus)status).setChangeState(SynchronizerChangeState.UPDATE);
+					break;
+
+				// resources
+				case DiffPackage.RESOURCE_DIFF:
+					status = CompilerFactory.eINSTANCE.createResourceChangeStatus();
+					break;
+				default:
+					break;
 			}
 
-			IntentGenericElement targetInstruction = getTargetInstructionFromDiffElement(indexEntry,
-					difference);
-			status.setMessage(SynchronizerMessageProvider.createMessageFromDiffElement(difference));
-			status.setWorkingCopyResourceURI(indexEntry.getResourceDeclaration().getUri().toString());
-			status.setCompiledResourceURI(indexEntry.getGeneratedResourcePath());
+			if (status != null) {
 
-			// experimental: we provide a fix only in this case
-			if (difference instanceof ModelElementChangeRightTarget) {
-				ModelElementChangeRightTarget change = (ModelElementChangeRightTarget)difference;
-				status.setWorkingCopyElementURIFragment(change.getRightElement().eResource()
-						.getURIFragment(change.getRightElement()));
-			}
+				// reference order differences are ignored for now
+				if (difference instanceof ReferenceOrderChange || difference instanceof AttributeOrderChange) {
+					status.setSeverity(CompilationStatusSeverity.INFO);
+					status.setType(CompilationMessageType.SYNCHRONIZER_INFO);
+				} else {
+					status.setSeverity(CompilationStatusSeverity.WARNING);
+					status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
+				}
 
-			if (targetInstruction != null) {
-				status.setTarget(targetInstruction);
-				statusList.add(status);
+				IntentGenericElement targetInstruction = getTargetInstructionFromDiffElement(indexEntry,
+						difference);
+				status.setMessage(SynchronizerMessageProvider.createMessageFromDiffElement(difference));
+				status.setWorkingCopyResourceURI(indexEntry.getResourceDeclaration().getUri().toString());
+				status.setCompiledResourceURI(indexEntry.getGeneratedResourcePath());
+
+				if (targetInstruction != null) {
+					status.setTarget(targetInstruction);
+					statusList.add(status);
+				}
 			}
 		} else {
 			// If the given diffElement contains sub-diffElements

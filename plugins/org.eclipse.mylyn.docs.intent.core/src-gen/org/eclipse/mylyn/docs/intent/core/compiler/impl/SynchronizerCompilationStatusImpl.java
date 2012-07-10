@@ -18,18 +18,14 @@ import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getWorkingCopyResourceURI <em>Working Copy Resource URI</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getCompiledResourceURI <em>Compiled Resource URI</em>}</li>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getWorkingCopyElementURIFragment <em>Working Copy Element URI Fragment</em>}</li>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getCompiledElementURIFragment <em>Compiled Element URI Fragment</em>}</li>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getWorkingCopyResourceState <em>Working Copy Resource State</em>}</li>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getCompiledResourceState <em>Compiled Resource State</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl#getWorkingCopyResourceURI <em>Working Copy Resource URI</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class SynchronizerCompilationStatusImpl extends CompilationStatusImpl implements SynchronizerCompilationStatus {
+public abstract class SynchronizerCompilationStatusImpl extends CompilationStatusImpl implements SynchronizerCompilationStatus {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -47,26 +43,6 @@ public class SynchronizerCompilationStatusImpl extends CompilationStatusImpl imp
 	@Override
 	protected EClass eStaticClass() {
 		return CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getWorkingCopyResourceURI() {
-		return (String)eGet(
-				CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setWorkingCopyResourceURI(String newWorkingCopyResourceURI) {
-		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI,
-				newWorkingCopyResourceURI);
 	}
 
 	/**
@@ -94,10 +70,9 @@ public class SynchronizerCompilationStatusImpl extends CompilationStatusImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getWorkingCopyElementURIFragment() {
+	public String getWorkingCopyResourceURI() {
 		return (String)eGet(
-				CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT,
-				true);
+				CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI, true);
 	}
 
 	/**
@@ -105,69 +80,9 @@ public class SynchronizerCompilationStatusImpl extends CompilationStatusImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setWorkingCopyElementURIFragment(String newWorkingCopyElementURIFragment) {
-		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT,
-				newWorkingCopyElementURIFragment);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getCompiledElementURIFragment() {
-		return (String)eGet(
-				CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__COMPILED_ELEMENT_URI_FRAGMENT, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCompiledElementURIFragment(String newCompiledElementURIFragment) {
-		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__COMPILED_ELEMENT_URI_FRAGMENT,
-				newCompiledElementURIFragment);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public SynchronizerResourceState getWorkingCopyResourceState() {
-		return (SynchronizerResourceState)eGet(
-				CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setWorkingCopyResourceState(SynchronizerResourceState newWorkingCopyResourceState) {
-		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE,
-				newWorkingCopyResourceState);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public SynchronizerResourceState getCompiledResourceState() {
-		return (SynchronizerResourceState)eGet(
-				CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_STATE, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCompiledResourceState(SynchronizerResourceState newCompiledResourceState) {
-		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_STATE,
-				newCompiledResourceState);
+	public void setWorkingCopyResourceURI(String newWorkingCopyResourceURI) {
+		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI,
+				newWorkingCopyResourceURI);
 	}
 
 } //SynchronizerCompilationStatusImpl

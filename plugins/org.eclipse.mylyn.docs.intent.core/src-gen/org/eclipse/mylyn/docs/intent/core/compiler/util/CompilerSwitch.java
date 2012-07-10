@@ -211,6 +211,65 @@ public class CompilerSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
+			case CompilerPackage.RESOURCE_CHANGE_STATUS: {
+				ResourceChangeStatus resourceChangeStatus = (ResourceChangeStatus)theEObject;
+				T result = caseResourceChangeStatus(resourceChangeStatus);
+				if (result == null)
+					result = caseSynchronizerCompilationStatus(resourceChangeStatus);
+				if (result == null)
+					result = caseCompilationStatus(resourceChangeStatus);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case CompilerPackage.MODEL_ELEMENT_CHANGE_STATUS: {
+				ModelElementChangeStatus modelElementChangeStatus = (ModelElementChangeStatus)theEObject;
+				T result = caseModelElementChangeStatus(modelElementChangeStatus);
+				if (result == null)
+					result = caseSynchronizerCompilationStatus(modelElementChangeStatus);
+				if (result == null)
+					result = caseCompilationStatus(modelElementChangeStatus);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case CompilerPackage.STRUCTURAL_FEATURE_CHANGE_STATUS: {
+				StructuralFeatureChangeStatus structuralFeatureChangeStatus = (StructuralFeatureChangeStatus)theEObject;
+				T result = caseStructuralFeatureChangeStatus(structuralFeatureChangeStatus);
+				if (result == null)
+					result = caseSynchronizerCompilationStatus(structuralFeatureChangeStatus);
+				if (result == null)
+					result = caseCompilationStatus(structuralFeatureChangeStatus);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case CompilerPackage.REFERENCE_CHANGE_STATUS: {
+				ReferenceChangeStatus referenceChangeStatus = (ReferenceChangeStatus)theEObject;
+				T result = caseReferenceChangeStatus(referenceChangeStatus);
+				if (result == null)
+					result = caseStructuralFeatureChangeStatus(referenceChangeStatus);
+				if (result == null)
+					result = caseSynchronizerCompilationStatus(referenceChangeStatus);
+				if (result == null)
+					result = caseCompilationStatus(referenceChangeStatus);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case CompilerPackage.ATTRIBUTE_CHANGE_STATUS: {
+				AttributeChangeStatus attributeChangeStatus = (AttributeChangeStatus)theEObject;
+				T result = caseAttributeChangeStatus(attributeChangeStatus);
+				if (result == null)
+					result = caseStructuralFeatureChangeStatus(attributeChangeStatus);
+				if (result == null)
+					result = caseSynchronizerCompilationStatus(attributeChangeStatus);
+				if (result == null)
+					result = caseCompilationStatus(attributeChangeStatus);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
 			default:
 				return defaultCase(theEObject);
 		}
@@ -448,6 +507,81 @@ public class CompilerSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSynchronizerCompilationStatus(SynchronizerCompilationStatus object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Resource Change Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Resource Change Status</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseResourceChangeStatus(ResourceChangeStatus object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Model Element Change Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Model Element Change Status</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseModelElementChangeStatus(ModelElementChangeStatus object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Structural Feature Change Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Structural Feature Change Status</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseStructuralFeatureChangeStatus(StructuralFeatureChangeStatus object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Reference Change Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Reference Change Status</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReferenceChangeStatus(ReferenceChangeStatus object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Attribute Change Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Attribute Change Status</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAttributeChangeStatus(AttributeChangeStatus object) {
 		return null;
 	}
 

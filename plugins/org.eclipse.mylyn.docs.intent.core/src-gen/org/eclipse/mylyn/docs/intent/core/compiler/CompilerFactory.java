@@ -99,13 +99,40 @@ public interface CompilerFactory extends EFactory {
 	TraceabilityIndexEntry createTraceabilityIndexEntry();
 
 	/**
-	 * Returns a new object of class '<em>Synchronizer Compilation Status</em>'.
+	 * Returns a new object of class '<em>Resource Change Status</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Synchronizer Compilation Status</em>'.
+	 * @return a new object of class '<em>Resource Change Status</em>'.
 	 * @generated
 	 */
-	SynchronizerCompilationStatus createSynchronizerCompilationStatus();
+	ResourceChangeStatus createResourceChangeStatus();
+
+	/**
+	 * Returns a new object of class '<em>Model Element Change Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Model Element Change Status</em>'.
+	 * @generated
+	 */
+	ModelElementChangeStatus createModelElementChangeStatus();
+
+	/**
+	 * Returns a new object of class '<em>Reference Change Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Reference Change Status</em>'.
+	 * @generated
+	 */
+	ReferenceChangeStatus createReferenceChangeStatus();
+
+	/**
+	 * Returns a new object of class '<em>Attribute Change Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Attribute Change Status</em>'.
+	 * @generated
+	 */
+	AttributeChangeStatus createAttributeChangeStatus();
 
 	/**
 	 * Returns the package supported by this factory.

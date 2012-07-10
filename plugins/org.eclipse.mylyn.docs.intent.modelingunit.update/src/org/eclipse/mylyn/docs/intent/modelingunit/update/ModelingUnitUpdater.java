@@ -13,7 +13,6 @@ package org.eclipse.mylyn.docs.intent.modelingunit.update;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
@@ -21,8 +20,9 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
@@ -61,12 +61,11 @@ public class ModelingUnitUpdater extends ModelingUnitGenerator {
 	 */
 	public void fixSynchronizationStatus(CompilationStatus... statusToFix) {
 		for (CompilationStatus status : statusToFix) {
-			switch (status.getType().getValue()) {
-			// TODO extend synchronization statuses qualification
-				case CompilationMessageType.SYNCHRONIZER_WARNING_VALUE:
+			switch (status.eClass().getClassifierID()) {
+				case CompilerPackage.MODEL_ELEMENT_CHANGE_STATUS:
 					InstanciationInstruction instanciation = (InstanciationInstruction)((SynchronizerCompilationStatus)status)
 							.getTarget();
-					create(instanciation, getRootEObjectToGenerate((SynchronizerCompilationStatus)status));
+					create(instanciation, getRootEObjectToGenerate((ModelElementChangeStatus)status));
 					break;
 
 				default:
@@ -108,11 +107,8 @@ public class ModelingUnitUpdater extends ModelingUnitGenerator {
 	 *            the sync status
 	 * @return the root EObject to generate
 	 */
-	public static EObject getRootEObjectToGenerate(SynchronizerCompilationStatus status) {
-		String workingCopyResourceURI = status.getWorkingCopyResourceURI().replace("\"", "");
+	public static EObject getRootEObjectToGenerate(ModelElementChangeStatus status) {
 		ResourceSetImpl rs = new ResourceSetImpl();
-		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
-		String workingCopyElementURIFragment = status.getWorkingCopyElementURIFragment().replace("\"", "");
-		return workingCopyResource.getEObject(workingCopyElementURIFragment);
+		return rs.getEObject(URI.createURI(status.getWorkingCopyElementURIFragment()), true);
 	}
 }

@@ -40,7 +40,7 @@
     </genClasses>
     <genClasses image="false" ecoreClass="document.ecore#//IntentStructuredElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentStructuredElement/formattedTitle"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentStructuredElement/identifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentStructuredElement/completeLevel"/>
     </genClasses>
     <genClasses ecoreClass="document.ecore#//AnnotationMapping">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//AnnotationMapping/key"/>
@@ -68,7 +68,6 @@
     <genClasses ecoreClass="document.ecore#//IntentChapter"/>
     <genClasses ecoreClass="document.ecore#//IntentSection">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentSection/visibility"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentSection/completeLevel"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference document.ecore#//IntentSection/modelingUnits"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentSection/importedHeaders"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference document.ecore#//IntentSection/declaredHeaders"/>
@@ -103,6 +102,12 @@
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerResourceState/DEFAULT"/>
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerResourceState/NULL"/>
       <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerResourceState/EMPTY"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="compilerInformations.ecore#//SynchronizerChangeState">
+      <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerChangeState/UPDATE"/>
+      <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerChangeState/ORDER"/>
+      <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerChangeState/WORKING_COPY_TARGET"/>
+      <genEnumLiterals ecoreEnumLiteral="compilerInformations.ecore#//SynchronizerChangeState/COMPILED_TARGET"/>
     </genEnums>
     <genClasses ecoreClass="compilerInformations.ecore#//EStringToEObject">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//EStringToEObject/key"/>
@@ -179,13 +184,31 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompiledElementToInstructionEntry/value"/>
     </genClasses>
     <genClasses ecoreClass="compilerInformations.ecore#//SynchronizerCompilationStatus">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/workingCopyResourceURI"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/compiledResourceURI"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/workingCopyElementURIFragment"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/compiledElementURIFragment"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/workingCopyResourceState"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/compiledResourceState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/workingCopyResourceURI"/>
     </genClasses>
+    <genClasses ecoreClass="compilerInformations.ecore#//ResourceChangeStatus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ResourceChangeStatus/workingCopyResourceState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ResourceChangeStatus/compiledResourceState"/>
+    </genClasses>
+    <genClasses ecoreClass="compilerInformations.ecore#//ModelElementChangeStatus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ModelElementChangeStatus/changeState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ModelElementChangeStatus/compiledParentURIFragment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ModelElementChangeStatus/workingCopyParentURIFragment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ModelElementChangeStatus/compiledElementURIFragment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ModelElementChangeStatus/workingCopyElementURIFragment"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="compilerInformations.ecore#//StructuralFeatureChangeStatus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//StructuralFeatureChangeStatus/changeState"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//StructuralFeatureChangeStatus/featureName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//StructuralFeatureChangeStatus/compiledElementURIFragment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//StructuralFeatureChangeStatus/workingCopyElementURIFragment"/>
+    </genClasses>
+    <genClasses ecoreClass="compilerInformations.ecore#//ReferenceChangeStatus">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ReferenceChangeStatus/compiledTargetURIFragment"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ReferenceChangeStatus/workingCopyTargetURIFragment"/>
+    </genClasses>
+    <genClasses ecoreClass="compilerInformations.ecore#//AttributeChangeStatus"/>
   </genPackages>
   <genPackages prefix="GenericUnit" basePackage="org.eclipse.mylyn.docs.intent.core"
       disposableProviderFactory="true" ecorePackage="genericUnit.ecore#/">

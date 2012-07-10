@@ -25,6 +25,9 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.TextInvocationContext;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationFactory;
+import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
 
@@ -85,34 +88,48 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 			if (canFix(annotation)) {
 				Position pos = model.getPosition(annotation);
 				if (pos != null && pos.includes(offset)) {
-
-					List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
-
-					SynchronizerCompilationStatus synchronizerCompilationStatus = (SynchronizerCompilationStatus)((IntentAnnotation)annotation)
-							.getCompilationStatus();
-					SynchronizerResourceState compiledResourceState = synchronizerCompilationStatus
-							.getCompiledResourceState();
-					SynchronizerResourceState workingCopyResourceState = synchronizerCompilationStatus
-							.getWorkingCopyResourceState();
-
-					if (SynchronizerResourceState.EMPTY.equals(compiledResourceState)) {
-						proposals.add(new ClearResourceFix(annotation));
-					} else if (SynchronizerResourceState.EMPTY.equals(workingCopyResourceState)) {
-						proposals.add(new MergeEmptyResourceFix(annotation));
-					} else if (SynchronizerResourceState.NULL.equals(workingCopyResourceState)) {
-						proposals.add(new CreateResourceFix(annotation));
-					} else {
-						proposals.add(new EMFCompareFix(annotation));
-						if (synchronizerCompilationStatus.getWorkingCopyElementURIFragment() != null) {
-							proposals.add(new UpdateModelingUnitFix(annotation));
-						}
-					}
-
+					List<ICompletionProposal> proposals = computeProposalsFromStatus(annotation);
 					return proposals.toArray(new ICompletionProposal[proposals.size()]);
 				}
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Returns the proposals according to the given annotation status.
+	 * 
+	 * @param annotation
+	 *            the annotation
+	 * @return the proposals according to the given annotation status
+	 */
+	private List<ICompletionProposal> computeProposalsFromStatus(Annotation annotation) {
+		SynchronizerCompilationStatus status = (SynchronizerCompilationStatus)((IntentAnnotation)annotation)
+				.getCompilationStatus();
+		List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
+		if (status instanceof ResourceChangeStatus) {
+			ResourceChangeStatus resourceChangeStatus = (ResourceChangeStatus)status;
+			SynchronizerResourceState compiledResourceState = resourceChangeStatus.getCompiledResourceState();
+			SynchronizerResourceState workingCopyResourceState = resourceChangeStatus
+					.getWorkingCopyResourceState();
+
+			if (SynchronizerResourceState.EMPTY.equals(compiledResourceState)) {
+				proposals.add(new ClearResourceFix(annotation));
+			} else if (SynchronizerResourceState.EMPTY.equals(workingCopyResourceState)) {
+				proposals.add(new MergeEmptyResourceFix(annotation));
+			} else if (SynchronizerResourceState.NULL.equals(workingCopyResourceState)) {
+				proposals.add(new CreateResourceFix(annotation));
+			}
+		} else {
+			proposals.add(new EMFCompareFix(annotation));
+			// TODO manage other types
+			if (status instanceof ModelElementChangeStatus
+					&& ((ModelElementChangeStatus)status).getChangeState().equals(
+							SynchronizerChangeState.WORKING_COPY_TARGET)) {
+				proposals.add(new UpdateModelingUnitFix(annotation));
+			}
+		}
+		return proposals;
 	}
 
 }

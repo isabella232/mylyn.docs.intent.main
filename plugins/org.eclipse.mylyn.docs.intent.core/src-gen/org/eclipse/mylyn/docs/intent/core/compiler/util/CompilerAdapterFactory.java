@@ -176,6 +176,31 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
+		public Adapter caseResourceChangeStatus(ResourceChangeStatus object) {
+			return createResourceChangeStatusAdapter();
+		}
+
+		@Override
+		public Adapter caseModelElementChangeStatus(ModelElementChangeStatus object) {
+			return createModelElementChangeStatusAdapter();
+		}
+
+		@Override
+		public Adapter caseStructuralFeatureChangeStatus(StructuralFeatureChangeStatus object) {
+			return createStructuralFeatureChangeStatusAdapter();
+		}
+
+		@Override
+		public Adapter caseReferenceChangeStatus(ReferenceChangeStatus object) {
+			return createReferenceChangeStatusAdapter();
+		}
+
+		@Override
+		public Adapter caseAttributeChangeStatus(AttributeChangeStatus object) {
+			return createAttributeChangeStatusAdapter();
+		}
+
+		@Override
 		public Adapter defaultCase(EObject object) {
 			return createEObjectAdapter();
 		}
@@ -412,6 +437,76 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSynchronizerCompilationStatusAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus <em>Resource Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus
+	 * @generated
+	 */
+	public Adapter createResourceChangeStatusAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus <em>Model Element Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus
+	 * @generated
+	 */
+	public Adapter createModelElementChangeStatusAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus <em>Structural Feature Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus
+	 * @generated
+	 */
+	public Adapter createStructuralFeatureChangeStatusAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus <em>Reference Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus
+	 * @generated
+	 */
+	public Adapter createReferenceChangeStatusAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus <em>Attribute Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus
+	 * @generated
+	 */
+	public Adapter createAttributeChangeStatusAdapter() {
 		return null;
 	}
 

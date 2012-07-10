@@ -111,8 +111,14 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 				return (EObject)createTraceabilityIndexEntry();
 			case CompilerPackage.COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY:
 				return (EObject)createCompiledElementToInstructionEntry();
-			case CompilerPackage.SYNCHRONIZER_COMPILATION_STATUS:
-				return (EObject)createSynchronizerCompilationStatus();
+			case CompilerPackage.RESOURCE_CHANGE_STATUS:
+				return (EObject)createResourceChangeStatus();
+			case CompilerPackage.MODEL_ELEMENT_CHANGE_STATUS:
+				return (EObject)createModelElementChangeStatus();
+			case CompilerPackage.REFERENCE_CHANGE_STATUS:
+				return (EObject)createReferenceChangeStatus();
+			case CompilerPackage.ATTRIBUTE_CHANGE_STATUS:
+				return (EObject)createAttributeChangeStatus();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName()
 						+ "' is not a valid classifier");
@@ -132,6 +138,8 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 				return createCompilationMessageTypeFromString(eDataType, initialValue);
 			case CompilerPackage.SYNCHRONIZER_RESOURCE_STATE:
 				return createSynchronizerResourceStateFromString(eDataType, initialValue);
+			case CompilerPackage.SYNCHRONIZER_CHANGE_STATE:
+				return createSynchronizerChangeStateFromString(eDataType, initialValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName()
 						+ "' is not a valid classifier");
@@ -151,6 +159,8 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 				return convertCompilationMessageTypeToString(eDataType, instanceValue);
 			case CompilerPackage.SYNCHRONIZER_RESOURCE_STATE:
 				return convertSynchronizerResourceStateToString(eDataType, instanceValue);
+			case CompilerPackage.SYNCHRONIZER_CHANGE_STATE:
+				return convertSynchronizerChangeStateToString(eDataType, instanceValue);
 			default:
 				throw new IllegalArgumentException("The datatype '" + eDataType.getName()
 						+ "' is not a valid classifier");
@@ -309,9 +319,39 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SynchronizerCompilationStatus createSynchronizerCompilationStatus() {
-		SynchronizerCompilationStatusImpl synchronizerCompilationStatus = new SynchronizerCompilationStatusImpl();
-		return synchronizerCompilationStatus;
+	public ResourceChangeStatus createResourceChangeStatus() {
+		ResourceChangeStatusImpl resourceChangeStatus = new ResourceChangeStatusImpl();
+		return resourceChangeStatus;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ModelElementChangeStatus createModelElementChangeStatus() {
+		ModelElementChangeStatusImpl modelElementChangeStatus = new ModelElementChangeStatusImpl();
+		return modelElementChangeStatus;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ReferenceChangeStatus createReferenceChangeStatus() {
+		ReferenceChangeStatusImpl referenceChangeStatus = new ReferenceChangeStatusImpl();
+		return referenceChangeStatus;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AttributeChangeStatus createAttributeChangeStatus() {
+		AttributeChangeStatusImpl attributeChangeStatus = new AttributeChangeStatusImpl();
+		return attributeChangeStatus;
 	}
 
 	/**
@@ -376,6 +416,29 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 	 * @generated
 	 */
 	public String convertSynchronizerResourceStateToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SynchronizerChangeState createSynchronizerChangeStateFromString(EDataType eDataType,
+			String initialValue) {
+		SynchronizerChangeState result = SynchronizerChangeState.get(initialValue);
+		if (result == null)
+			throw new IllegalArgumentException("The value '" + initialValue
+					+ "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertSynchronizerChangeStateToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
