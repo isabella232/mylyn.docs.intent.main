@@ -28,7 +28,6 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotatio
 import org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
-import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdaterUtils;
 
 /**
  * {@link IntentQuickAssistProcessor} used by Intent to fix any issues.
@@ -121,9 +120,7 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 			}
 		} else {
 			proposals.add(new EMFCompareFix(annotation));
-			if (ModelingUnitUpdaterUtils.canFix(status)) {
-				proposals.add(new UpdateModelingUnitFix(annotation));
-			}
+			proposals.add(new UpdateModelingUnitFix(annotation));
 		}
 		return proposals;
 	}

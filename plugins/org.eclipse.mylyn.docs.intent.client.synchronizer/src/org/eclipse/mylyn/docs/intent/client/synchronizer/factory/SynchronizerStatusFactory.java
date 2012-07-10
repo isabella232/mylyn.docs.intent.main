@@ -28,6 +28,7 @@ import org.eclipse.emf.compare.diff.metamodel.UpdateReference;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
@@ -91,7 +92,13 @@ public final class SynchronizerStatusFactory {
 					break;
 				case DiffPackage.UPDATE_ATTRIBUTE:
 					status = CompilerFactory.eINSTANCE.createAttributeChangeStatus();
-					((StructuralFeatureChangeStatus)status).setChangeState(SynchronizerChangeState.UPDATE);
+					((AttributeChangeStatus)status).setChangeState(SynchronizerChangeState.UPDATE);
+					UpdateAttribute updateAttribute = (UpdateAttribute)difference;
+					((AttributeChangeStatus)status).setFeatureName(updateAttribute.getAttribute().getName());
+					((AttributeChangeStatus)status).setWorkingCopyElementURIFragment(EcoreUtil.getURI(
+							updateAttribute.getRightElement()).toString());
+					((AttributeChangeStatus)status).setCompiledElementURIFragment(EcoreUtil.getURI(
+							updateAttribute.getLeftElement()).toString());
 					break;
 
 				// references

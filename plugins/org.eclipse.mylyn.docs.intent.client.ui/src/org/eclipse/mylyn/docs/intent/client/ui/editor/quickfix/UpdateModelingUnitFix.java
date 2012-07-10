@@ -15,11 +15,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdater;
-import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdaterUtils;
 
 /**
  * Proposal used to fix a Synchronization issue by opening the compare Editor.
@@ -53,9 +51,9 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 				intentTarget = intentTarget.eContainer();
 			}
 			if (intentTarget != null) {
-				ModelingUnitUpdater updater = new ModelingUnitUpdater(repositoryAdapter,
-						(ModelingUnit)intentTarget);
-				updater.fixSynchronizationStatus(syncAnnotation.getCompilationStatus());
+				ModelingUnitUpdater updater = new ModelingUnitUpdater(repositoryAdapter);
+				updater.fixSynchronizationStatus((ModelingUnit)intentTarget,
+						syncAnnotation.getCompilationStatus());
 				((IntentEditorDocument)document).reloadFromAST();
 			}
 		}
@@ -67,8 +65,7 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
 	 */
 	public String getDisplayString() {
-		return ModelingUnitUpdaterUtils.getFixMessage((SynchronizerCompilationStatus)syncAnnotation
-				.getCompilationStatus());
+		return "Update modeling unit";
 	}
 
 }
