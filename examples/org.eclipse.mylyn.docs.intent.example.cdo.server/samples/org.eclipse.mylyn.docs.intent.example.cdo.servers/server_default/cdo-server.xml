@@ -6,7 +6,7 @@
 	</acceptor>
 
 	<repository name="intent-server">
-		<property name="overrideUUID" value="designer-server"/>
+		<property name="overrideUUID" value="intent-server"/>
 		<property name="supportingAudits" value="false"/>
 		<property name="supportingBranches" value="false"/>
  		<property name="supportingEcore" value="true"/>

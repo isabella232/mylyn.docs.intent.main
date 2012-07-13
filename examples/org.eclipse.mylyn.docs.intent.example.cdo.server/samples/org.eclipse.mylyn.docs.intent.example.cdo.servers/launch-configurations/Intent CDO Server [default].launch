@@ -364,7 +364,7 @@
 <booleanAttribute key="useDefaultConfig" value="true"/>
 <booleanAttribute key="useDefaultConfigArea" value="true"/>
 <booleanAttribute key="useNamedJRE" value="true"/>
-<booleanAttribute key="useProduct" value="true"/>
+<booleanAttribute key="useProduct" value="false"/>
 <booleanAttribute key="usefeatures" value="false"/>
 <stringAttribute key="yk-options" value="&#13;&#10;snapshots-dir=&#13;&#10;additional-options2=onexit\=snapshot&#13;&#10;"/>
 </launchConfiguration>
