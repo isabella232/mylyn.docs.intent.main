@@ -24,6 +24,7 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnit
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.ModelingUnitParsingTestConfigurator;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -87,14 +88,20 @@ public class TestModelingUnitSerialization {
 
 	@Test
 	public void testSpecialvalues() {
-		// parseAndCompareSerializationToExpected("simpleTests/SpecialValues", true);
+		parseAndCompareSerializationToExpected("simpleTests/SpecialValues", true);
 	}
 
 	@Test
 	public void testCompleteSerialization() {
 		parseAndCompareSerializationToExpected("simpleTests/CompleteModelingUnit", true);
 		parseAndCompareSerializationToExpected("simpleTests/CompleteModelingUnit2", true);
-		// parseAndCompareSerializationToExpected("simpleTests/CompleteModelingUnit3", true);
+	}
+
+	@Test
+	@Ignore
+	// not supported
+	public void testCommentsSerialization() {
+		parseAndCompareSerializationToExpected("simpleTests/CompleteModelingUnit3", true);
 	}
 
 	@Test
