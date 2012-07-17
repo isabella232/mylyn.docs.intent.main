@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.mylyn.docs.intent.core.compiler.*;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
@@ -28,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
@@ -35,10 +35,10 @@ import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
@@ -111,6 +111,10 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 				return (EObject)createTraceabilityIndexEntry();
 			case CompilerPackage.COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY:
 				return (EObject)createCompiledElementToInstructionEntry();
+			case CompilerPackage.INSTRUCTION_TRACEABILITY_ENTRY:
+				return (EObject)createInstructionTraceabilityEntry();
+			case CompilerPackage.FEATURE_TO_AFFECTATION_ENTRY:
+				return (EObject)createFeatureToAffectationEntry();
 			case CompilerPackage.SYNCHRONIZER_COMPILATION_STATUS:
 				return (EObject)createSynchronizerCompilationStatus();
 			default:
@@ -299,9 +303,29 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<EObject, EList<IntentGenericElement>> createCompiledElementToInstructionEntry() {
+	public Map.Entry<EObject, EList<InstructionTraceabilityEntry>> createCompiledElementToInstructionEntry() {
 		CompiledElementToInstructionEntryImpl compiledElementToInstructionEntry = new CompiledElementToInstructionEntryImpl();
 		return compiledElementToInstructionEntry;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InstructionTraceabilityEntry createInstructionTraceabilityEntry() {
+		InstructionTraceabilityEntryImpl instructionTraceabilityEntry = new InstructionTraceabilityEntryImpl();
+		return instructionTraceabilityEntry;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<String, EList<ValueForStructuralFeature>> createFeatureToAffectationEntry() {
+		FeatureToAffectationEntryImpl featureToAffectationEntry = new FeatureToAffectationEntryImpl();
+		return featureToAffectationEntry;
 	}
 
 	/**

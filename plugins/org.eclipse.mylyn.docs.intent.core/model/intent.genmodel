@@ -40,7 +40,7 @@
     </genClasses>
     <genClasses image="false" ecoreClass="document.ecore#//IntentStructuredElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentStructuredElement/formattedTitle"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentStructuredElement/identifier"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentStructuredElement/completeLevel"/>
     </genClasses>
     <genClasses ecoreClass="document.ecore#//AnnotationMapping">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//AnnotationMapping/key"/>
@@ -68,7 +68,6 @@
     <genClasses ecoreClass="document.ecore#//IntentChapter"/>
     <genClasses ecoreClass="document.ecore#//IntentSection">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentSection/visibility"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentSection/completeLevel"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference document.ecore#//IntentSection/modelingUnits"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute document.ecore#//IntentSection/importedHeaders"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference document.ecore#//IntentSection/declaredHeaders"/>
@@ -177,6 +176,14 @@
     <genClasses ecoreClass="compilerInformations.ecore#//CompiledElementToInstructionEntry">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompiledElementToInstructionEntry/key"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompiledElementToInstructionEntry/value"/>
+    </genClasses>
+    <genClasses ecoreClass="compilerInformations.ecore#//InstructionTraceabilityEntry">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//InstructionTraceabilityEntry/instruction"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//InstructionTraceabilityEntry/features"/>
+    </genClasses>
+    <genClasses ecoreClass="compilerInformations.ecore#//FeatureToAffectationEntry">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//FeatureToAffectationEntry/key"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//FeatureToAffectationEntry/value"/>
     </genClasses>
     <genClasses ecoreClass="compilerInformations.ecore#//SynchronizerCompilationStatus">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/workingCopyResourceURI"/>

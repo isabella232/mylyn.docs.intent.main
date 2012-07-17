@@ -14,8 +14,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -24,12 +26,12 @@ import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 
 /**
@@ -80,7 +82,7 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 	 * {@link UnitInstruction}.
 	 * 
 	 * @param instruction
-	 *            the instruction to consider (can be whether an {@link InstanciationInstruction} or a
+	 *            the instruction to consider (can be whether an InstanciationInstruction or a
 	 *            {@link ContributionInstruction}.
 	 * @return all the {@link ContributionInstruction}s related to the given {@link UnitInstruction}
 	 */
@@ -94,28 +96,36 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 	 * {@link UnitInstruction}.
 	 * 
 	 * @param instruction
-	 *            the instruction to consider (can be whether an {@link InstanciationInstruction} or a
+	 *            the instruction to consider (can be whether an InstanciationInstruction or a
 	 *            {@link ContributionInstruction}.
 	 * @return all the {@link ContributionInstruction}s related to the given {@link UnitInstruction}
 	 */
 	private Collection<ModelingUnitInstruction> getAllRelatedInstructions(UnitInstruction instruction) {
 		Collection<ModelingUnitInstruction> relatedInstructions = Sets.newLinkedHashSet();
-
 		boolean foundContributions = false;
-		for (Iterator<TraceabilityIndexEntry> iterator = getOrCreateTraceabilityIndex().getEntries()
-				.iterator(); iterator.hasNext() && !foundContributions;) {
-			TraceabilityIndexEntry entry = (TraceabilityIndexEntry)iterator.next();
-			for (Iterator<Entry<EObject, EList<IntentGenericElement>>> elements = entry
-					.getContainedElementToInstructions().iterator(); elements.hasNext()
-					&& !foundContributions;) {
+		for (Iterator<TraceabilityIndexEntry> traceabilityIterator = getOrCreateTraceabilityIndex()
+				.getEntries().iterator(); traceabilityIterator.hasNext() && !foundContributions;) {
+			TraceabilityIndexEntry entry = (TraceabilityIndexEntry)traceabilityIterator.next();
 
-				Entry<EObject, EList<IntentGenericElement>> elementToInstruction = elements.next();
-				if (elementToInstruction.getValue().contains(instruction)) {
-					relatedInstructions.addAll(Sets.newLinkedHashSet(Iterables.filter(
-							elementToInstruction.getValue(), ContributionInstruction.class)));
+			for (Iterator<Entry<EObject, EList<InstructionTraceabilityEntry>>> iterator = entry
+					.getContainedElementToInstructions().iterator(); iterator.hasNext()
+					&& !foundContributions;) {
+				Entry<EObject, EList<InstructionTraceabilityEntry>> element = (Entry<EObject, EList<InstructionTraceabilityEntry>>)iterator
+						.next();
+
+				final Set<IntentGenericElement> instructions = new HashSet<IntentGenericElement>(element
+						.getValue().size());
+				for (InstructionTraceabilityEntry instructionEntry : element.getValue()) {
+					instructions.add(instructionEntry.getInstruction());
+				}
+
+				if (instructions.contains(instruction)) {
+					relatedInstructions.addAll(Sets.newLinkedHashSet(Iterables.filter(instructions,
+							ContributionInstruction.class)));
 					foundContributions = true;
 				}
 			}
+
 		}
 		return relatedInstructions;
 	}

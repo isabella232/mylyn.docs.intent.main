@@ -47,6 +47,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -174,16 +175,21 @@ public class IntentSynchronizer {
 
 			// We must remove the synchronization statuses from the instruction that generated this
 			// element
-			EList<IntentGenericElement> eList = indexEntry.getContainedElementToInstructions().get(
-					containedElement);
-			if (eList != null && !eList.isEmpty()) {
-				IntentGenericElement instruction = eList.iterator().next();
-				if (instruction != null) {
-					Iterator<CompilationStatus> iterator = instruction.getCompilationStatus().iterator();
-					while (iterator.hasNext()) {
-						CompilationStatus status = iterator.next();
-						if (isSyncStatus(status)) {
-							iterator.remove();
+			EList<InstructionTraceabilityEntry> instructionEntries = indexEntry
+					.getContainedElementToInstructions().get(containedElement);
+			if (instructionEntries != null) {
+				for (InstructionTraceabilityEntry instructionTraceabilityEntry : instructionEntries) {
+					IntentGenericElement instruction = instructionTraceabilityEntry.getInstruction();
+					if (instruction != null) {
+						EList<CompilationStatus> compilationStatus = instruction.getCompilationStatus();
+						if (compilationStatus != null) {
+							Iterator<CompilationStatus> iterator = compilationStatus.iterator();
+							while (iterator.hasNext()) {
+								CompilationStatus status = iterator.next();
+								if (isSyncStatus(status)) {
+									iterator.remove();
+								}
+							}
 						}
 					}
 				}

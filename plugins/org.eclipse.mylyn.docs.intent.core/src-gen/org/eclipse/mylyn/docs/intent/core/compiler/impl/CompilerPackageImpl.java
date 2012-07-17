@@ -25,6 +25,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
@@ -146,8 +147,19 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	private EClass compiledElementToInstructionEntryEClass = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass instructionTraceabilityEntryEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass featureToAffectationEntryEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EClass synchronizerCompilationStatusEClass = null;
@@ -165,8 +177,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	private EEnum compilationMessageTypeEEnum = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EEnum synchronizerResourceStateEEnum = null;
@@ -550,8 +561,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getCompilationStatusManager_ValidationTime() {
@@ -727,8 +737,55 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInstructionTraceabilityEntry() {
+		return instructionTraceabilityEntryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInstructionTraceabilityEntry_Instruction() {
+		return (EReference)instructionTraceabilityEntryEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInstructionTraceabilityEntry_Features() {
+		return (EReference)instructionTraceabilityEntryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFeatureToAffectationEntry() {
+		return featureToAffectationEntryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getFeatureToAffectationEntry_Key() {
+		return (EAttribute)featureToAffectationEntryEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFeatureToAffectationEntry_Value() {
+		return (EReference)featureToAffectationEntryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EClass getSynchronizerCompilationStatus() {
@@ -736,8 +793,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceURI() {
@@ -745,8 +801,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getSynchronizerCompilationStatus_CompiledResourceURI() {
@@ -754,8 +809,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getSynchronizerCompilationStatus_WorkingCopyElementURIFragment() {
@@ -763,8 +817,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getSynchronizerCompilationStatus_CompiledElementURIFragment() {
@@ -772,8 +825,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceState() {
@@ -781,8 +833,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getSynchronizerCompilationStatus_CompiledResourceState() {
@@ -806,8 +857,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EEnum getSynchronizerResourceState() {
@@ -929,6 +979,14 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		createEReference(compiledElementToInstructionEntryEClass, COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY__KEY);
 		createEReference(compiledElementToInstructionEntryEClass,
 				COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY__VALUE);
+
+		instructionTraceabilityEntryEClass = createEClass(INSTRUCTION_TRACEABILITY_ENTRY);
+		createEReference(instructionTraceabilityEntryEClass, INSTRUCTION_TRACEABILITY_ENTRY__INSTRUCTION);
+		createEReference(instructionTraceabilityEntryEClass, INSTRUCTION_TRACEABILITY_ENTRY__FEATURES);
+
+		featureToAffectationEntryEClass = createEClass(FEATURE_TO_AFFECTATION_ENTRY);
+		createEAttribute(featureToAffectationEntryEClass, FEATURE_TO_AFFECTATION_ENTRY__KEY);
+		createEReference(featureToAffectationEntryEClass, FEATURE_TO_AFFECTATION_ENTRY__VALUE);
 
 		synchronizerCompilationStatusEClass = createEClass(SYNCHRONIZER_COMPILATION_STATUS);
 		createEAttribute(synchronizerCompilationStatusEClass,
@@ -1180,8 +1238,28 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		initEReference(getCompiledElementToInstructionEntry_Key(), ecorePackage.getEObject(), null, "key",
 				null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCompiledElementToInstructionEntry_Value(),
-				theIntentDocumentPackage.getIntentGenericElement(), null, "value", null, 1, -1,
+		initEReference(getCompiledElementToInstructionEntry_Value(), this.getInstructionTraceabilityEntry(),
+				null, "value", null, 0, -1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(instructionTraceabilityEntryEClass, InstructionTraceabilityEntry.class,
+				"InstructionTraceabilityEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getInstructionTraceabilityEntry_Instruction(),
+				theIntentDocumentPackage.getIntentGenericElement(), null, "instruction", null, 1, 1,
+				InstructionTraceabilityEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInstructionTraceabilityEntry_Features(), this.getFeatureToAffectationEntry(), null,
+				"features", null, 0, -1, InstructionTraceabilityEntry.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+
+		initEClass(featureToAffectationEntryEClass, Map.Entry.class, "FeatureToAffectationEntry",
+				!IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getFeatureToAffectationEntry_Key(), ecorePackage.getEString(), "key", null, 0, 1,
+				Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFeatureToAffectationEntry_Value(),
+				theModelingUnitPackage.getValueForStructuralFeature(), null, "value", null, 1, -1,
 				Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 

@@ -18,21 +18,21 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.compiler.*;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * <!-- begin-user-doc --> The <b>Adapter Factory</b> for the model. It provides an adapter
@@ -166,8 +166,19 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 		@Override
 		public Adapter caseCompiledElementToInstructionEntry(
-				Map.Entry<EObject, EList<IntentGenericElement>> object) {
+				Map.Entry<EObject, EList<InstructionTraceabilityEntry>> object) {
 			return createCompiledElementToInstructionEntryAdapter();
+		}
+
+		@Override
+		public Adapter caseInstructionTraceabilityEntry(InstructionTraceabilityEntry object) {
+			return createInstructionTraceabilityEntryAdapter();
+		}
+
+		@Override
+		public Adapter caseFeatureToAffectationEntry(
+				Map.Entry<String, EList<ValueForStructuralFeature>> object) {
+			return createFeatureToAffectationEntryAdapter();
 		}
 
 		@Override
@@ -398,6 +409,34 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createCompiledElementToInstructionEntryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry <em>Instruction Traceability Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry
+	 * @generated
+	 */
+	public Adapter createInstructionTraceabilityEntryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Feature To Affectation Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see java.util.Map.Entry
+	 * @generated
+	 */
+	public Adapter createFeatureToAffectationEntryAdapter() {
 		return null;
 	}
 

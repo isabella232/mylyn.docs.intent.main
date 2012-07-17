@@ -17,21 +17,21 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
-import org.eclipse.mylyn.docs.intent.core.compiler.*;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * <!-- begin-user-doc --> The <b>Switch</b> for the model's inheritance hierarchy. It supports the call
@@ -196,8 +196,23 @@ public class CompilerSwitch<T> extends Switch<T> {
 			}
 			case CompilerPackage.COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY: {
 				@SuppressWarnings("unchecked")
-				Map.Entry<EObject, EList<IntentGenericElement>> compiledElementToInstructionEntry = (Map.Entry<EObject, EList<IntentGenericElement>>)theEObject;
+				Map.Entry<EObject, EList<InstructionTraceabilityEntry>> compiledElementToInstructionEntry = (Map.Entry<EObject, EList<InstructionTraceabilityEntry>>)theEObject;
 				T result = caseCompiledElementToInstructionEntry(compiledElementToInstructionEntry);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case CompilerPackage.INSTRUCTION_TRACEABILITY_ENTRY: {
+				InstructionTraceabilityEntry instructionTraceabilityEntry = (InstructionTraceabilityEntry)theEObject;
+				T result = caseInstructionTraceabilityEntry(instructionTraceabilityEntry);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case CompilerPackage.FEATURE_TO_AFFECTATION_ENTRY: {
+				@SuppressWarnings("unchecked")
+				Map.Entry<String, EList<ValueForStructuralFeature>> featureToAffectationEntry = (Map.Entry<String, EList<ValueForStructuralFeature>>)theEObject;
+				T result = caseFeatureToAffectationEntry(featureToAffectationEntry);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -432,7 +447,38 @@ public class CompilerSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCompiledElementToInstructionEntry(Map.Entry<EObject, EList<IntentGenericElement>> object) {
+	public T caseCompiledElementToInstructionEntry(
+			Map.Entry<EObject, EList<InstructionTraceabilityEntry>> object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Instruction Traceability Entry</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Instruction Traceability Entry</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInstructionTraceabilityEntry(InstructionTraceabilityEntry object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Feature To Affectation Entry</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Feature To Affectation Entry</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseFeatureToAffectationEntry(Map.Entry<String, EList<ValueForStructuralFeature>> object) {
 		return null;
 	}
 

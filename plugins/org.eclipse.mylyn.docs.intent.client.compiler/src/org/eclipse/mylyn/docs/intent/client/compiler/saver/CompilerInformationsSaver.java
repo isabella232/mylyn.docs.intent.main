@@ -27,7 +27,9 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -44,12 +46,18 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * Save all the compilation informations on the repository.
@@ -240,29 +248,39 @@ public class CompilerInformationsSaver {
 
 		List<TraceabilityIndexEntry> newTraceabilityEntries = new ArrayList<TraceabilityIndexEntry>();
 		Set<IntentGenericElement> handledInstructions = Sets.newLinkedHashSet();
+
 		// For each compiled resource
 		for (ResourceDeclaration resourceDeclaration : resourceToGeneratedPath.keySet()) {
+
 			// We create a traceability entry
 			TraceabilityIndexEntry entry = CompilerFactory.eINSTANCE.createTraceabilityIndexEntry();
 			entry.setCompilationTime(BigInteger.valueOf(System.currentTimeMillis()));
 			entry.setGeneratedResourcePath(resourceToGeneratedPath.get(resourceDeclaration));
 			entry.setResourceDeclaration(resourceDeclaration);
+			EMap<EObject, EList<InstructionTraceabilityEntry>> entryElementsMap = entry
+					.getContainedElementToInstructions();
 
 			// For each entry, we define a mapping between contained elements and instructions
 			if (resourceToTraceabilityElementIndexEntry.get(resourceDeclaration) != null) {
 				for (Entry<EObject, Collection<IntentGenericElement>> traceabilityEntry : resourceToTraceabilityElementIndexEntry
 						.get(resourceDeclaration).entrySet()) {
-					entry.getContainedElementToInstructions().put(traceabilityEntry.getKey(),
-							new BasicEList<IntentGenericElement>());
-					entry.getContainedElementToInstructions().get(traceabilityEntry.getKey())
-							.addAll(traceabilityEntry.getValue());
+					entryElementsMap.put(traceabilityEntry.getKey(),
+							new BasicEList<InstructionTraceabilityEntry>());
+					for (IntentGenericElement intentGenericElement : traceabilityEntry.getValue()) {
+						InstructionTraceabilityEntry instructionEntry = CompilerFactory.eINSTANCE
+								.createInstructionTraceabilityEntry();
+						instructionEntry.setInstruction(intentGenericElement);
+						instructionEntry.getFeatures().putAll(getAffectations(intentGenericElement));
+						entryElementsMap.get(traceabilityEntry.getKey()).add(instructionEntry);
+					}
+
 					handledInstructions.addAll(traceabilityEntry.getValue());
 				}
 			}
 			newTraceabilityEntries.add(entry);
 		}
 
-		// We also define an entry for instanciation instructions that are not referenced inside
+		// We also define an entry for instantiation instructions that are not referenced inside
 		// a Resource Declaration (useful for completion for example)
 		SetView<UnitInstruction> instanciationsInstructionNotContainedInResource = Sets.difference(
 				informationHolder.getAllInstanciationsInstructions(), handledInstructions);
@@ -272,13 +290,45 @@ public class CompilerInformationsSaver {
 
 			for (UnitInstruction instruction : instanciationsInstructionNotContainedInResource) {
 				entry.getContainedElementToInstructions().put(instruction,
-						new BasicEList<IntentGenericElement>());
-				entry.getContainedElementToInstructions().get(instruction).add(instruction);
+						new BasicEList<InstructionTraceabilityEntry>());
+				InstructionTraceabilityEntry instructionEntry = CompilerFactory.eINSTANCE
+						.createInstructionTraceabilityEntry();
+				instructionEntry.setInstruction(instruction);
+				instructionEntry.getFeatures().putAll(getAffectations(instruction));
+				entry.getContainedElementToInstructions().get(instruction).add(instructionEntry);
 			}
 			newTraceabilityEntries.add(entry);
 		}
 		traceIndex.getEntries().clear();
 		traceIndex.getEntries().addAll(newTraceabilityEntries);
+	}
+
+	/**
+	 * Returns the affectations declared by the given element.
+	 * 
+	 * @param intentGenericElement
+	 *            the element
+	 * @return the affectations declared by the given element
+	 */
+	private BasicEMap<String, EList<ValueForStructuralFeature>> getAffectations(
+			IntentGenericElement intentGenericElement) {
+		BasicEMap<String, EList<ValueForStructuralFeature>> affectations = new BasicEMap<String, EList<ValueForStructuralFeature>>();
+		if (intentGenericElement instanceof InstanciationInstruction) {
+			InstanciationInstruction instanciation = (InstanciationInstruction)intentGenericElement;
+			for (StructuralFeatureAffectation affectation : instanciation.getStructuralFeatures()) {
+				affectations.put(affectation.getName(), affectation.getValues());
+			}
+
+		} else if (intentGenericElement instanceof ContributionInstruction) {
+			ContributionInstruction contribution = (ContributionInstruction)intentGenericElement;
+			for (ModelingUnitInstruction instruction : contribution.getContributions()) {
+				if (instruction instanceof StructuralFeatureAffectation) {
+					StructuralFeatureAffectation affectation = (StructuralFeatureAffectation)instruction;
+					affectations.put(affectation.getName(), affectation.getValues());
+				}
+			}
+		}
+		return affectations;
 	}
 
 	/**

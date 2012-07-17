@@ -704,7 +704,7 @@ public interface CompilerPackage extends EPackage {
 	int COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY__KEY = 0;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' reference list.
+	 * The feature id for the '<em><b>Value</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -722,6 +722,80 @@ public interface CompilerPackage extends EPackage {
 	int COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY_FEATURE_COUNT = 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.InstructionTraceabilityEntryImpl <em>Instruction Traceability Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.InstructionTraceabilityEntryImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getInstructionTraceabilityEntry()
+	 * @generated
+	 */
+	int INSTRUCTION_TRACEABILITY_ENTRY = 16;
+
+	/**
+	 * The feature id for the '<em><b>Instruction</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTRUCTION_TRACEABILITY_ENTRY__INSTRUCTION = 0;
+
+	/**
+	 * The feature id for the '<em><b>Features</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTRUCTION_TRACEABILITY_ENTRY__FEATURES = 1;
+
+	/**
+	 * The number of structural features of the '<em>Instruction Traceability Entry</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTRUCTION_TRACEABILITY_ENTRY_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.FeatureToAffectationEntryImpl <em>Feature To Affectation Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.FeatureToAffectationEntryImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getFeatureToAffectationEntry()
+	 * @generated
+	 */
+	int FEATURE_TO_AFFECTATION_ENTRY = 17;
+
+	/**
+	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_TO_AFFECTATION_ENTRY__KEY = 0;
+
+	/**
+	 * The feature id for the '<em><b>Value</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_TO_AFFECTATION_ENTRY__VALUE = 1;
+
+	/**
+	 * The number of structural features of the '<em>Feature To Affectation Entry</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FEATURE_TO_AFFECTATION_ENTRY_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl <em>Synchronizer Compilation Status</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -729,7 +803,7 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getSynchronizerCompilationStatus()
 	 * @generated
 	 */
-	int SYNCHRONIZER_COMPILATION_STATUS = 16;
+	int SYNCHRONIZER_COMPILATION_STATUS = 18;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' container reference.
@@ -837,7 +911,7 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationStatusSeverity()
 	 * @generated
 	 */
-	int COMPILATION_STATUS_SEVERITY = 17;
+	int COMPILATION_STATUS_SEVERITY = 19;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType <em>Compilation Message Type</em>}' enum.
@@ -846,7 +920,7 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationMessageType()
 	 * @generated
 	 */
-	int COMPILATION_MESSAGE_TYPE = 18;
+	int COMPILATION_MESSAGE_TYPE = 20;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState <em>Synchronizer Resource State</em>}' enum.
@@ -856,7 +930,7 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getSynchronizerResourceState()
 	 * @generated
 	 */
-	int SYNCHRONIZER_RESOURCE_STATE = 19;
+	int SYNCHRONIZER_RESOURCE_STATE = 21;
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To EObject</em>}'. <!--
@@ -1438,7 +1512,7 @@ public interface CompilerPackage extends EPackage {
 	 * @return the meta object for class '<em>Compiled Element To Instruction Entry</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyType="org.eclipse.emf.ecore.EObject" keyRequired="true"
-	 *        valueType="org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement" valueRequired="true" valueMany="true"
+	 *        valueType="org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry" valueContainment="true" valueResolveProxies="true" valueMany="true"
 	 * @generated
 	 */
 	EClass getCompiledElementToInstructionEntry();
@@ -1455,15 +1529,81 @@ public interface CompilerPackage extends EPackage {
 	EReference getCompiledElementToInstructionEntry_Key();
 
 	/**
-	 * Returns the meta object for the reference list '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * Returns the meta object for the containment reference list '{@link java.util.Map.Entry <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Value</em>'.
+	 * @return the meta object for the containment reference list '<em>Value</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getCompiledElementToInstructionEntry()
 	 * @generated
 	 */
 	EReference getCompiledElementToInstructionEntry_Value();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry <em>Instruction Traceability Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Instruction Traceability Entry</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry
+	 * @generated
+	 */
+	EClass getInstructionTraceabilityEntry();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry#getInstruction <em>Instruction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Instruction</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry#getInstruction()
+	 * @see #getInstructionTraceabilityEntry()
+	 * @generated
+	 */
+	EReference getInstructionTraceabilityEntry_Instruction();
+
+	/**
+	 * Returns the meta object for the map '{@link org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry#getFeatures <em>Features</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the map '<em>Features</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry#getFeatures()
+	 * @see #getInstructionTraceabilityEntry()
+	 * @generated
+	 */
+	EReference getInstructionTraceabilityEntry_Features();
+
+	/**
+	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Feature To Affectation Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Feature To Affectation Entry</em>'.
+	 * @see java.util.Map.Entry
+	 * @model keyDataType="org.eclipse.emf.ecore.EString"
+	 *        valueType="org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature" valueRequired="true" valueMany="true"
+	 * @generated
+	 */
+	EClass getFeatureToAffectationEntry();
+
+	/**
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Key</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getFeatureToAffectationEntry()
+	 * @generated
+	 */
+	EAttribute getFeatureToAffectationEntry_Key();
+
+	/**
+	 * Returns the meta object for the reference list '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Value</em>'.
+	 * @see java.util.Map.Entry
+	 * @see #getFeatureToAffectationEntry()
+	 * @generated
+	 */
+	EReference getFeatureToAffectationEntry_Value();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus <em>Synchronizer Compilation Status</em>}'.
@@ -2095,13 +2235,67 @@ public interface CompilerPackage extends EPackage {
 				.getCompiledElementToInstructionEntry_Key();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Value</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY__VALUE = eINSTANCE
 				.getCompiledElementToInstructionEntry_Value();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.InstructionTraceabilityEntryImpl <em>Instruction Traceability Entry</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.InstructionTraceabilityEntryImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getInstructionTraceabilityEntry()
+		 * @generated
+		 */
+		EClass INSTRUCTION_TRACEABILITY_ENTRY = eINSTANCE.getInstructionTraceabilityEntry();
+
+		/**
+		 * The meta object literal for the '<em><b>Instruction</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INSTRUCTION_TRACEABILITY_ENTRY__INSTRUCTION = eINSTANCE
+				.getInstructionTraceabilityEntry_Instruction();
+
+		/**
+		 * The meta object literal for the '<em><b>Features</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INSTRUCTION_TRACEABILITY_ENTRY__FEATURES = eINSTANCE
+				.getInstructionTraceabilityEntry_Features();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.FeatureToAffectationEntryImpl <em>Feature To Affectation Entry</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.FeatureToAffectationEntryImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getFeatureToAffectationEntry()
+		 * @generated
+		 */
+		EClass FEATURE_TO_AFFECTATION_ENTRY = eINSTANCE.getFeatureToAffectationEntry();
+
+		/**
+		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FEATURE_TO_AFFECTATION_ENTRY__KEY = eINSTANCE.getFeatureToAffectationEntry_Key();
+
+		/**
+		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference FEATURE_TO_AFFECTATION_ENTRY__VALUE = eINSTANCE.getFeatureToAffectationEntry_Value();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl <em>Synchronizer Compilation Status</em>}' class.
