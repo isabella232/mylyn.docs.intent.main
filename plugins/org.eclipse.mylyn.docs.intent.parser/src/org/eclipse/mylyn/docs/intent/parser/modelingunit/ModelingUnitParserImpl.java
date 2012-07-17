@@ -648,6 +648,10 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			char c = charArray[i];
 			// CHECKSTYLE:OFF : We modify the i control variable in order to "jump".
 			switch (charArray[i]) {
+				case '"':
+					i = string.indexOf('"', i + 1);
+					break;
+
 				case '{':
 					i = getEndIndex(string, i + 1, '}');
 					break;

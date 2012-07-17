@@ -1,9 +1,9 @@
 @M
-Resource R {
-	content += p;
-}
-new ecore.EPackage p {
-	nsURI = "p";
-	nsPrefix = "p";
-}
+	Resource R {
+		content += p;
+	}
+	new ecore.EPackage p {
+		nsURI = "p";
+		nsPrefix = "p";
+	}
 M@

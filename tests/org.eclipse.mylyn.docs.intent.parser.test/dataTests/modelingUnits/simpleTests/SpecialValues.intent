@@ -1,0 +1,7 @@
+@M
+	new A myA {
+		myAtt1 = "41";
+		myAtt2 = "string with ; : ! %  } { characters";
+		myAtt3 = "string with ; : ! %  }  characters";
+	}
+M@

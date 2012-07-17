@@ -16,6 +16,7 @@ import java.io.IOException;
 import junit.framework.Assert;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitFormatter;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParserImpl;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
@@ -58,15 +59,12 @@ public class TestModelingUnitSerialization {
 
 			// Step 2 : we serialize this AST
 			String actual = modelingUnitSerializer.serialize(parsedAST);
+			actual = ModelingUnitFormatter.indentAccordingToBrackets(modelingUnitSerializer, actual);
 
 			// Step 3 : we get the file as a String
 			File expectedFile = new File(ModelingUnitParsingTestConfigurator.getDatatestsFolder()
 					+ fileToTest + ModelingUnitParsingTestConfigurator.getFileExtensions());
 			String expected = FileToStringConverter.getFileAsString(expectedFile);
-
-			// FIXME For now on, we remove the tabulations it manually
-			expected = expected.replace("\t", "");
-			actual = actual.replace("\t", "");
 
 			// Step 4 : we compare these to String
 			Assert.assertEquals(expected, actual);
@@ -85,6 +83,11 @@ public class TestModelingUnitSerialization {
 	@Test
 	public void testSimpleSerialization() {
 		parseAndCompareSerializationToExpected("simpleTests/SimpleModelingUnit", true);
+	}
+
+	@Test
+	public void testSpecialvalues() {
+		// parseAndCompareSerializationToExpected("simpleTests/SpecialValues", true);
 	}
 
 	@Test
