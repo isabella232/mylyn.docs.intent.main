@@ -12,7 +12,6 @@ package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
@@ -50,7 +49,6 @@ public final class InstanciationInstructionSerializer {
 		if (instanciationInstruction.getName() != null) {
 			renderedForm += instanciationInstruction.getName() + ModelingUnitSerializer.WHITESPACE;
 		}
-		int declarationLength = renderedForm.length();
 
 		renderedForm += "{";
 		if (instanciationInstruction.getStructuralFeatures().size() > 0) {
@@ -66,8 +64,7 @@ public final class InstanciationInstructionSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		dispatcher.setDeclarationPositionForInstruction(instanciationInstruction, initialOffset,
-				renderedForm.length(), declarationLength);
+		dispatcher.setPositionForInstruction(instanciationInstruction, initialOffset, renderedForm.length());
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 
 		return renderedForm;

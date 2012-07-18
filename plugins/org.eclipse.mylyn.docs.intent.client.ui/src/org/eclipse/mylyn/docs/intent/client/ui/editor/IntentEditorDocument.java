@@ -19,7 +19,6 @@ import org.eclipse.jface.text.GapTextStore;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
@@ -210,28 +209,6 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 				// TODO : make the editor and the document unsavable and stop the automatic parsing of the AST
 			}
 		});
-	}
-
-	/**
-	 * Returns the size of the decoration added by this document before the given Modeling Unit.
-	 * 
-	 * @param element
-	 *            the modelingUnit to inspect
-	 * @return the size of the decoration added by this document before the given Modeling Unit
-	 */
-	public int getModelingUnitPrefixDecorationSize(ModelingUnit element) {
-		return MODELING_PREFIX_DECORATION.length() + getPositionManager().getIndentationLevel(element);
-	}
-
-	/**
-	 * Returns the size of the decoration added by this document after the given Modeling Unit.
-	 * 
-	 * @param element
-	 *            the modelingUnit to inspect
-	 * @return the size of the decoration added by this document after the given Modeling Unit
-	 */
-	public int getModelingUnitSuffixDecorationSize(ModelingUnit element) {
-		return MODELING_SUFFIX_DECORATION.length();
 	}
 
 	/**

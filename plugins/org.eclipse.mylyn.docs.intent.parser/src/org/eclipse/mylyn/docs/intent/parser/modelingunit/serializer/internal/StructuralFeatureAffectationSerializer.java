@@ -13,7 +13,6 @@ package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
@@ -44,7 +43,6 @@ public final class StructuralFeatureAffectationSerializer {
 
 		int initialOffset = dispatcher.getCurrentOffset();
 		String renderedForm = structuralFeatureAffectation.getName();
-		int declarationLength = renderedForm.length();
 
 		renderedForm += ModelingUnitSerializer.WHITESPACE;
 		String affectationSymbol = "=";
@@ -79,8 +77,8 @@ public final class StructuralFeatureAffectationSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		dispatcher.setDeclarationPositionForInstruction(structuralFeatureAffectation, initialOffset,
-				renderedForm.length(), declarationLength);
+		dispatcher.setPositionForInstruction(structuralFeatureAffectation, initialOffset,
+				renderedForm.length());
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 		return renderedForm;
 	}

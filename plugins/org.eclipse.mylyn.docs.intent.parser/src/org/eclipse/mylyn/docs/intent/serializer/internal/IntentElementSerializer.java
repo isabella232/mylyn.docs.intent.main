@@ -125,7 +125,6 @@ public class IntentElementSerializer {
 	 * @return the serialized form of the given modelingUnit.
 	 */
 	private String handleModelingUnitSerialization(EObject modelingUnit) {
-		this.positionManager.setIndentationLevel(modelingUnit, getCurrentIndendationLevel());
 		int initialOffset = getCurrentOffset();
 		int length = 0;
 		int prefixLength = 0;
@@ -222,23 +221,6 @@ public class IntentElementSerializer {
 	 */
 	public void setPositionForElement(EObject element, int offset, int length) {
 		positionManager.setPositionForInstruction(element, offset, length);
-	}
-
-	/**
-	 * Associates the given element to the given offset and length, and also map the declaration length.
-	 * 
-	 * @param element
-	 *            the instruction to associate with the given position
-	 * @param offset
-	 *            the offset of the given element
-	 * @param length
-	 *            the length of the given element
-	 * @param declarationLength
-	 *            the length of the given element declaration
-	 */
-	public void setDeclarationPositionForElement(EObject element, int offset, int length,
-			int declarationLength) {
-		positionManager.setDeclarationPositionForInstruction(element, offset, length, declarationLength);
 	}
 
 	/**

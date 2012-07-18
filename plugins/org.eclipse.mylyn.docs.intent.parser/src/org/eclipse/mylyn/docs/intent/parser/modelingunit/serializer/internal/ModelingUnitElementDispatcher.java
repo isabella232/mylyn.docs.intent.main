@@ -265,23 +265,6 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 	}
 
 	/**
-	 * Associates the given instruction to the given offset and length, and also map the declaration length.
-	 * 
-	 * @param instruction
-	 *            the instruction to associate with the given position
-	 * @param offset
-	 *            the offset of the given instruction
-	 * @param length
-	 *            the length of the given instruction
-	 * @param declarationLength
-	 *            the length of the given instruction declaration
-	 */
-	public void setDeclarationPositionForInstruction(EObject instruction, int offset, int length,
-			int declarationLength) {
-		positionManager.setDeclarationPositionForInstruction(instruction, offset, length, declarationLength);
-	}
-
-	/**
 	 * Returns the positionManager associated to this ElementDispatcher.
 	 * 
 	 * @return the positionManager associated to this ElementDispatcher

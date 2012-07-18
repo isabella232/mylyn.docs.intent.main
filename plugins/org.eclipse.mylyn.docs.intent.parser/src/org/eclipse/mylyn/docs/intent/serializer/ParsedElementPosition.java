@@ -57,4 +57,12 @@ public class ParsedElementPosition {
 	public int getLength() {
 		return length;
 	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
 }

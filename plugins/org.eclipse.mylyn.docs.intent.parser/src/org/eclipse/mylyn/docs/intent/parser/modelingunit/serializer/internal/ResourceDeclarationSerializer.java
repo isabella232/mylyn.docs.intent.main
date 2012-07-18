@@ -12,7 +12,6 @@ package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
@@ -43,10 +42,8 @@ public final class ResourceDeclarationSerializer {
 
 		int initialOffset = dispatcher.getCurrentOffset();
 		String renderedForm = "Resource" + ModelingUnitSerializer.WHITESPACE;
-		int declarationLength = renderedForm.length();
 		if (resourceDeclaration.getName() != null && resourceDeclaration.getName().length() > 0) {
 			renderedForm += resourceDeclaration.getName();
-			declarationLength = renderedForm.length();
 			renderedForm += ModelingUnitSerializer.WHITESPACE;
 		}
 
@@ -77,8 +74,7 @@ public final class ResourceDeclarationSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		dispatcher.setDeclarationPositionForInstruction(resourceDeclaration, initialOffset,
-				renderedForm.length(), declarationLength);
+		dispatcher.setPositionForInstruction(resourceDeclaration, initialOffset, renderedForm.length());
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 		return renderedForm;
 	}
