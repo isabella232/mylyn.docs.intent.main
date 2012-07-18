@@ -43,6 +43,7 @@ public final class StructuralFeatureAffectationSerializer {
 
 		int initialOffset = dispatcher.getCurrentOffset();
 		String renderedForm = structuralFeatureAffectation.getName();
+		int declarationLength = renderedForm.length();
 
 		renderedForm += ModelingUnitSerializer.WHITESPACE;
 		String affectationSymbol = "=";
@@ -77,8 +78,8 @@ public final class StructuralFeatureAffectationSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		dispatcher.setPositionForInstruction(structuralFeatureAffectation, initialOffset,
-				renderedForm.length());
+		dispatcher.getPositionManager().setPositionForInstruction(structuralFeatureAffectation, initialOffset,
+				renderedForm.length(),declarationLength);
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 		return renderedForm;
 	}

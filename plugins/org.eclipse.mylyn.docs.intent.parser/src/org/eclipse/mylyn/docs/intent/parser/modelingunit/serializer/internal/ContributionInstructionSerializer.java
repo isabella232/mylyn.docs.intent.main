@@ -46,6 +46,7 @@ public final class ContributionInstructionSerializer {
 		if (contributionInstruction.getReferencedElement() != null) {
 			renderedForm += dispatcher.doSwitch(contributionInstruction.getReferencedElement());
 		}
+		int declarationLength = renderedForm.length();
 		renderedForm += ModelingUnitSerializer.WHITESPACE + "{" + ModelingUnitSerializer.LINE_BREAK;
 
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
@@ -58,7 +59,8 @@ public final class ContributionInstructionSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		dispatcher.setPositionForInstruction(contributionInstruction, initialOffset, renderedForm.length());
+		dispatcher.getPositionManager().setPositionForInstruction(contributionInstruction, initialOffset,
+				renderedForm.length(), declarationLength);
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 
 		return renderedForm;

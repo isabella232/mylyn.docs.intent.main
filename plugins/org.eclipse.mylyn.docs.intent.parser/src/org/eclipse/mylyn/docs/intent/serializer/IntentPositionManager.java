@@ -57,7 +57,7 @@ public class IntentPositionManager {
 	 * 
 	 * @param instruction
 	 *            the element for witch we want the position
-	 * @return the position of the given instruction element (null if no positition).
+	 * @return the position of the given instruction element (null if no position).
 	 */
 	public ParsedElementPosition getPositionForElement(EObject instruction) {
 		return instructionToPosition.get(instruction);
@@ -101,10 +101,27 @@ public class IntentPositionManager {
 	 * @param offset
 	 *            the offset of the given instruction
 	 * @param length
-	 *            the lenght of the given instruction
+	 *            the length of the given instruction
 	 */
 	public void setPositionForInstruction(EObject instruction, int offset, int length) {
 		instructionToPosition.put(instruction, new ParsedElementPosition(offset, length));
+		positionToInstruction.put(offset, instruction);
+	}
+
+	/**
+	 * Associates the given instruction to the given offset and length.
+	 * 
+	 * @param instruction
+	 *            the instruction to associate with the given position
+	 * @param offset
+	 *            the offset of the given instruction
+	 * @param length
+	 *            the length of the given instruction
+	 * @param declarationLength
+	 *            the length of the given instruction declaration
+	 */
+	public void setPositionForInstruction(EObject instruction, int offset, int length, int declarationLength) {
+		instructionToPosition.put(instruction, new ParsedElementPosition(offset, length, declarationLength));
 		positionToInstruction.put(offset, instruction);
 	}
 

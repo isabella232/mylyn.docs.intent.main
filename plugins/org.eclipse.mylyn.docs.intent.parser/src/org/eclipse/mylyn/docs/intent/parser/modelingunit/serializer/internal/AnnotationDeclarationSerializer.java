@@ -13,7 +13,6 @@ package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 import java.util.Map.Entry;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
@@ -57,7 +56,7 @@ public final class AnnotationDeclarationSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		modelingUnitElementDispatcher.setPositionForInstruction(annotationDeclaration,
+		modelingUnitElementDispatcher.getPositionManager().setPositionForInstruction(annotationDeclaration,
 				modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length());
 		modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
 				+ renderedForm.length());

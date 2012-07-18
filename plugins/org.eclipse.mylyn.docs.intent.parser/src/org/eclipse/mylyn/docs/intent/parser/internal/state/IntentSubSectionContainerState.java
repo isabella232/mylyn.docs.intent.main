@@ -169,7 +169,8 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 	 */
 	@Override
 	public IntentGenericState endStructuredElement(int offset) {
-		positionManager.setPositionForInstruction(getCurrentElement(), getOffset(), offset - getOffset());
+		positionManager.setPositionForInstruction(getCurrentElement(), getOffset(), offset - getOffset(),
+				getDeclarationLength());
 		return previousState();
 	}
 

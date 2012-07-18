@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
@@ -48,8 +47,8 @@ public final class ReferenceValueForStructuralFeatureSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		dispatcher.setPositionForInstruction(referenceValueForStructuralFeature, initialOffset,
-				renderedForm.length());
+		dispatcher.getPositionManager().setPositionForInstruction(referenceValueForStructuralFeature,
+				initialOffset, renderedForm.length());
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 		return renderedForm;
 	}

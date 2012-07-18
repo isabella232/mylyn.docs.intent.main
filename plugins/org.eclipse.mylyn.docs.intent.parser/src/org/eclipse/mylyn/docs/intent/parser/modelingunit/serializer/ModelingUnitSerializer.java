@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal.ModelingUnitElementDispatcher;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
@@ -98,7 +97,7 @@ public final class ModelingUnitSerializer {
 	 *            number of tabulations to add
 	 */
 	public void addTabulations(int currentOffset, int nbTabs) {
-		this.dispatcher.handleTabulations(currentOffset, nbTabs);
+		this.getPositionManager().handleTabulations(currentOffset, nbTabs);
 	}
 
 	/**

@@ -63,6 +63,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
@@ -175,7 +176,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				if (!status.getSeverity().equals(CompilationStatusSeverity.INFO)) {
 					annotationModelManager.addAnnotationFromStatus(
 							this.listenedElementsHandler.getRepositoryAdapter(), status,
-							new Position(posit.getOffset(), posit.getLength()));
+							new Position(posit.getOffset(), posit.getDeclarationLength()));
 				}
 			}
 		}
@@ -526,8 +527,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				parsedElementPosition = new ParsedElementPosition(0, 0);
 			}
 			Position position = new Position(parsedElementPosition.getOffset(),
-					parsedElementPosition.getLength());
-
+					parsedElementPosition.getDeclarationLength());
 			if (!statusToAdd.getSeverity().equals(CompilationStatusSeverity.INFO)) {
 				// Step 2.2 : Adding this annotation to the model (will update overview and vertical rulers of
 				// the editor)

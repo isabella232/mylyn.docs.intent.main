@@ -46,6 +46,7 @@ public final class IntentChapterSerializer {
 		int initalOffset = serializer.getCurrentOffset();
 
 		renderedForm += IntentKeyWords.INTENT_KEYWORD_CHAPTER;
+		int initialLength = renderedForm.length();
 		renderedForm += IntentKeyWords.INTENT_WHITESPACE;
 
 		// Chapter Title
@@ -73,7 +74,7 @@ public final class IntentChapterSerializer {
 		renderedForm += serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE
 				+ IntentKeyWords.INTENT_LINEBREAK;
 		serializer.setCurrentOffset(initalOffset + renderedForm.length());
-		serializer.setPositionForElement(chapter, initalOffset, renderedForm.length());
+		serializer.setPositionForElement(chapter, initalOffset, renderedForm.length(), initialLength);
 		return renderedForm;
 	}
 }

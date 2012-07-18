@@ -217,32 +217,12 @@ public class IntentElementSerializer {
 	 * @param offset
 	 *            the offset of the given element
 	 * @param length
-	 *            the lenght of the given element
+	 *            the length of the given element
+	 * @param declarationLength
+	 *            the declaration length of the element
 	 */
-	public void setPositionForElement(EObject element, int offset, int length) {
-		positionManager.setPositionForInstruction(element, offset, length);
-	}
-
-	/**
-	 * Returns the position of the given element.
-	 * 
-	 * @param instruction
-	 *            the element for witch we want the position
-	 * @return the position of the given element (null if no position).
-	 */
-	public ParsedElementPosition getPositionForElement(EObject instruction) {
-		return positionManager.getPositionForElement(instruction);
-	}
-
-	/**
-	 * Returns the element corresponding to the given position.
-	 * 
-	 * @param offset
-	 *            the current offset
-	 * @return the element corresponding to the given position
-	 */
-	public EObject getElementAtPosition(int offset) {
-		return positionManager.getElementAtPosition(offset);
+	public void setPositionForElement(EObject element, int offset, int length, int declarationLength) {
+		positionManager.setPositionForInstruction(element, offset, length, declarationLength);
 	}
 
 	/**

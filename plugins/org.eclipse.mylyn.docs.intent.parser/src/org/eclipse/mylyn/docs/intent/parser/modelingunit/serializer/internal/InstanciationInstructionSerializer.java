@@ -49,6 +49,7 @@ public final class InstanciationInstructionSerializer {
 		if (instanciationInstruction.getName() != null) {
 			renderedForm += instanciationInstruction.getName() + ModelingUnitSerializer.WHITESPACE;
 		}
+		int declarationLength = renderedForm.length();
 
 		renderedForm += "{";
 		if (instanciationInstruction.getStructuralFeatures().size() > 0) {
@@ -64,7 +65,7 @@ public final class InstanciationInstructionSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		dispatcher.setPositionForInstruction(instanciationInstruction, initialOffset, renderedForm.length());
+		dispatcher.getPositionManager().setPositionForInstruction(instanciationInstruction, initialOffset, renderedForm.length(), declarationLength);
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 
 		return renderedForm;

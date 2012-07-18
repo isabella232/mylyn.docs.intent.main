@@ -45,7 +45,7 @@ public final class NativeValueForStructuralFeatureSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		modelingUnitElementDispatcher.setPositionForInstruction(nativeValueForStructuralFeature,
+		modelingUnitElementDispatcher.getPositionManager().setPositionForInstruction(nativeValueForStructuralFeature,
 				modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length());
 		modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
 				+ renderedForm.length());
