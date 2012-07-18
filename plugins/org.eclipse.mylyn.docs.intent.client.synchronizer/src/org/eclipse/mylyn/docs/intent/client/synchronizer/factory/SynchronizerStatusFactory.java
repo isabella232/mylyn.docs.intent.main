@@ -170,10 +170,6 @@ public final class SynchronizerStatusFactory {
 				compiledElement = referenceChangeLeftTarget.getLeftElement();
 				targetInstruction = getInstructionFromAffectation(indexEntry, compiledElement,
 						referenceChangeLeftTarget.getReference(), referenceChangeLeftTarget.getLeftTarget());
-				if (targetInstruction == null) {
-					// in case of implicit opposite link
-					targetInstruction = getInstructionFromCompiledElement(indexEntry, compiledElement);
-				}
 				break;
 
 			case DiffPackage.MODEL_ELEMENT_CHANGE_LEFT_TARGET:
@@ -239,7 +235,7 @@ public final class SynchronizerStatusFactory {
 	}
 
 	/**
-	 * Lookup for a value instruction.
+	 * Lookup for a value instruction. If not found, returns the compiledElement instruction.
 	 * 
 	 * @param indexEntry
 	 *            the index entry
@@ -272,7 +268,7 @@ public final class SynchronizerStatusFactory {
 				}
 			}
 		}
-		return null;
+		return getInstructionFromCompiledElement(indexEntry, compiledElement);
 	}
 
 	/**
