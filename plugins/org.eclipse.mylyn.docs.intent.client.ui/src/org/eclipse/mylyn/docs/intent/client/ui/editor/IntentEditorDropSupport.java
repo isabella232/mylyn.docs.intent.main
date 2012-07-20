@@ -73,11 +73,11 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 
 			// TODO accurate drop, currently parent modeling unit lookup
 			// TODO we should be able to create a new modeling unit
-			EObject parent = intentElement.eContainer();
+			EObject parent = intentElement;
 			while (parent != null && !(parent instanceof ModelingUnit)) {
 				parent = parent.eContainer();
 			}
-			if (parent != null) {
+			if (parent instanceof ModelingUnit) {
 				updateModelingUnit((ModelingUnit)parent, droppedEObjects);
 			} else {
 				// TODO manage modeling units creation
