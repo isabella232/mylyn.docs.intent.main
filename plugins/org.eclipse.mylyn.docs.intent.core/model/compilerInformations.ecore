@@ -136,22 +136,50 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" upperBound="-1"
         eType="ecore:EClass modelingUnit.ecore#//ValueForStructuralFeature"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SynchronizerCompilationStatus" eSuperTypes="#//CompilationStatus">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyResourceURI"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compiledResourceURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyElementURIFragment"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compiledElementURIFragment"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ResourceChangeStatus" eSuperTypes="#//SynchronizerCompilationStatus">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyResourceState"
         eType="#//SynchronizerResourceState"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="compiledResourceState"
         eType="#//SynchronizerResourceState" defaultValueLiteral=""/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ModelElementChangeStatus" eSuperTypes="#//SynchronizerCompilationStatus">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="changeState" eType="#//SynchronizerChangeState"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compiledParent" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compiledElement" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyParentURIFragment"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyElementURIFragment"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StructuralFeatureChangeStatus" abstract="true"
+      eSuperTypes="#//SynchronizerCompilationStatus">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="changeState" eType="#//SynchronizerChangeState"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="featureName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compiledElement" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyElementURIFragment"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferenceChangeStatus" eSuperTypes="#//StructuralFeatureChangeStatus">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compiledTarget" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyTargetURIFragment"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeChangeStatus" eSuperTypes="#//StructuralFeatureChangeStatus"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SynchronizerCompilationStatus" abstract="true"
+      eSuperTypes="#//CompilationStatus">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="compiledResourceURI" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyResourceURI"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SynchronizerResourceState">
     <eLiterals name="DEFAULT" literal="DEFAULT"/>
     <eLiterals name="NULL" value="1" literal="NULL"/>
     <eLiterals name="EMPTY" value="2" literal="EMPTY"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SynchronizerChangeState">
+    <eLiterals name="UPDATE" literal="UPDATE"/>
+    <eLiterals name="ORDER" value="1" literal="ORDER"/>
+    <eLiterals name="WORKING_COPY_TARGET" value="2" literal="WORKING_COPY_TARGEt"/>
+    <eLiterals name="COMPILED_TARGET" value="3" literal="COMPILED_TARGET"/>
   </eClassifiers>
 </ecore:EPackage>

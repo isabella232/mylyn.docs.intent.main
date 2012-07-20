@@ -18,6 +18,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.core.compiler.*;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
@@ -179,6 +180,31 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 		public Adapter caseFeatureToAffectationEntry(
 				Map.Entry<String, EList<ValueForStructuralFeature>> object) {
 			return createFeatureToAffectationEntryAdapter();
+		}
+
+		@Override
+		public Adapter caseResourceChangeStatus(ResourceChangeStatus object) {
+			return createResourceChangeStatusAdapter();
+		}
+
+		@Override
+		public Adapter caseModelElementChangeStatus(ModelElementChangeStatus object) {
+			return createModelElementChangeStatusAdapter();
+		}
+
+		@Override
+		public Adapter caseStructuralFeatureChangeStatus(StructuralFeatureChangeStatus object) {
+			return createStructuralFeatureChangeStatusAdapter();
+		}
+
+		@Override
+		public Adapter caseReferenceChangeStatus(ReferenceChangeStatus object) {
+			return createReferenceChangeStatusAdapter();
+		}
+
+		@Override
+		public Adapter caseAttributeChangeStatus(AttributeChangeStatus object) {
+			return createAttributeChangeStatusAdapter();
 		}
 
 		@Override
@@ -437,6 +463,76 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createFeatureToAffectationEntryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus <em>Resource Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus
+	 * @generated
+	 */
+	public Adapter createResourceChangeStatusAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus <em>Model Element Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus
+	 * @generated
+	 */
+	public Adapter createModelElementChangeStatusAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus <em>Structural Feature Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus
+	 * @generated
+	 */
+	public Adapter createStructuralFeatureChangeStatusAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus <em>Reference Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus
+	 * @generated
+	 */
+	public Adapter createReferenceChangeStatusAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus <em>Attribute Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus
+	 * @generated
+	 */
+	public Adapter createAttributeChangeStatusAdapter() {
 		return null;
 	}
 

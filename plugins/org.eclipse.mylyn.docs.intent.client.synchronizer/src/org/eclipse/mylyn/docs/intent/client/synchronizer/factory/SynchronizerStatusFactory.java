@@ -15,25 +15,32 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.compare.diff.metamodel.AttributeChange;
 import org.eclipse.emf.compare.diff.metamodel.AttributeChangeLeftTarget;
-import org.eclipse.emf.compare.diff.metamodel.AttributeChangeRightTarget;
 import org.eclipse.emf.compare.diff.metamodel.AttributeOrderChange;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
+import org.eclipse.emf.compare.diff.metamodel.ModelElementChange;
 import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeLeftTarget;
 import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeRightTarget;
+import org.eclipse.emf.compare.diff.metamodel.ReferenceChange;
 import org.eclipse.emf.compare.diff.metamodel.ReferenceChangeLeftTarget;
-import org.eclipse.emf.compare.diff.metamodel.ReferenceChangeRightTarget;
 import org.eclipse.emf.compare.diff.metamodel.ReferenceOrderChange;
-import org.eclipse.emf.compare.diff.metamodel.UpdateAttribute;
-import org.eclipse.emf.compare.diff.metamodel.UpdateReference;
+import org.eclipse.emf.compare.diff.metamodel.ResourceDiff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
+import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -76,33 +83,45 @@ public final class SynchronizerStatusFactory {
 
 		// If we have a unitary diffElement
 		if (difference.getSubDiffElements().isEmpty()) {
-			SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
-					.createSynchronizerCompilationStatus();
+			SynchronizerCompilationStatus status = null;
 
-			if (difference instanceof ReferenceOrderChange) {
-				status.setSeverity(CompilationStatusSeverity.INFO);
-				status.setType(CompilationMessageType.SYNCHRONIZER_INFO);
-			} else {
-				status.setSeverity(CompilationStatusSeverity.WARNING);
-				status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
+			if (difference instanceof AttributeChange) {
+				status = createStatusFromAttributeChange(indexEntry, (AttributeChange)difference);
+			} else if (difference instanceof ReferenceChange) {
+				status = createStatusFromReferenceChange(indexEntry, (ReferenceChange)difference);
+			} else if (difference instanceof ModelElementChange) {
+				status = createStatusFromModelElementChange(indexEntry, (ModelElementChange)difference);
+			} else if (difference instanceof ResourceDiff) {
+				status = CompilerFactory.eINSTANCE.createResourceChangeStatus();
 			}
 
-			IntentGenericElement targetInstruction = getTargetInstructionFromDiffElement(indexEntry,
-					difference);
-			status.setMessage(SynchronizerMessageProvider.createMessageFromDiffElement(difference));
-			status.setWorkingCopyResourceURI(indexEntry.getResourceDeclaration().getUri().toString());
-			status.setCompiledResourceURI(indexEntry.getGeneratedResourcePath());
+			if (status != null) {
+				// reference order differences are ignored for now
+				if (difference instanceof ReferenceOrderChange || difference instanceof AttributeOrderChange) {
+					status.setSeverity(CompilationStatusSeverity.INFO);
+					status.setType(CompilationMessageType.SYNCHRONIZER_INFO);
+				} else {
+					status.setSeverity(CompilationStatusSeverity.WARNING);
+					status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
+				}
 
-			// experimental: we provide a fix only in this case
-			if (difference instanceof ModelElementChangeRightTarget) {
-				ModelElementChangeRightTarget change = (ModelElementChangeRightTarget)difference;
-				status.setWorkingCopyElementURIFragment(change.getRightElement().eResource()
-						.getURIFragment(change.getRightElement()));
-			}
+				status.setMessage(SynchronizerMessageProvider.createMessageFromDiffElement(difference));
+				status.setWorkingCopyResourceURI(indexEntry.getResourceDeclaration().getUri().toString());
+				status.setCompiledResourceURI(indexEntry.getGeneratedResourcePath());
 
-			if (targetInstruction != null) {
-				status.setTarget(targetInstruction);
+				if (status.getTarget() == null) {
+					// If no instruction has been found, we associated the status with the currently compiled
+					// resource
+					IntentLogger.getInstance().log(
+							LogType.WARNING,
+							"CANNOT FIND ANY INSTRUCTION FOR " + difference.eClass().getName() + ": "
+									+ difference);
+					status.setTarget(indexEntry.getResourceDeclaration());
+				}
 				statusList.add(status);
+			} else {
+				IntentLogger.getInstance().log(LogType.WARNING,
+						"CANNOT HANDLE DIFFERENCE " + difference.eClass().getName() + ": " + difference);
 			}
 		} else {
 			// If the given diffElement contains sub-diffElements
@@ -114,100 +133,161 @@ public final class SynchronizerStatusFactory {
 	}
 
 	/**
-	 * Returns the instruction that defined the target of the given diffElement ; if not element found,
-	 * returns the resourceDeclaration that defined this element.
+	 * Creates the status related to the given difference.
 	 * 
 	 * @param indexEntry
-	 *            the indexEntry currently visited
+	 *            the current index entry
 	 * @param difference
-	 *            the {@link DiffElement} describing the differences between an element of the internal
-	 *            generated model and the element of an external generated model
-	 * @return the instruction that defined the target of the given diffElement ; if not element found,
-	 *         returns the resourceDeclaration that defined this element
+	 *            the difference
+	 * @return the status
 	 */
-	private static IntentGenericElement getTargetInstructionFromDiffElement(
-			TraceabilityIndexEntry indexEntry, DiffElement difference) {
-		IntentGenericElement targetInstruction = null;
-		EObject compiledElement = null;
+	private static ModelElementChangeStatus createStatusFromModelElementChange(
+			TraceabilityIndexEntry indexEntry, ModelElementChange difference) {
+		ModelElementChangeStatus status = CompilerFactory.eINSTANCE.createModelElementChangeStatus();
 
 		switch (difference.eClass().getClassifierID()) {
 
-			case DiffPackage.UPDATE_REFERENCE:
-				UpdateReference updateReference = (UpdateReference)difference;
-				compiledElement = updateReference.getLeftElement();
-				targetInstruction = getInstructionFromAffectation(indexEntry, compiledElement,
-						updateReference.getReference(), compiledElement.eGet(updateReference.getReference()));
-				break;
-
-			case DiffPackage.UPDATE_ATTRIBUTE:
-				UpdateAttribute updateAttribute = (UpdateAttribute)difference;
-				compiledElement = updateAttribute.getLeftElement();
-				targetInstruction = getInstructionFromAffectation(indexEntry, compiledElement,
-						updateAttribute.getAttribute(), compiledElement.eGet(updateAttribute.getAttribute()));
-				break;
-
-			case DiffPackage.ATTRIBUTE_CHANGE_RIGHT_TARGET:
-				AttributeChangeRightTarget attributeChangeRightTarget = (AttributeChangeRightTarget)difference;
-				compiledElement = attributeChangeRightTarget.getLeftElement();
-				targetInstruction = getInstructionFromCompiledElement(indexEntry, compiledElement);
-				break;
-
-			case DiffPackage.ATTRIBUTE_CHANGE_LEFT_TARGET:
-				AttributeChangeLeftTarget attributeChangeLeftTarget = (AttributeChangeLeftTarget)difference;
-				compiledElement = attributeChangeLeftTarget.getLeftElement();
-				targetInstruction = getInstructionFromAffectation(indexEntry, compiledElement,
-						attributeChangeLeftTarget.getAttribute(), attributeChangeLeftTarget.getLeftTarget());
-				break;
-
-			case DiffPackage.REFERENCE_CHANGE_RIGHT_TARGET:
-				ReferenceChangeRightTarget referenceChangeRightTarget = (ReferenceChangeRightTarget)difference;
-				compiledElement = referenceChangeRightTarget.getLeftElement();
-				targetInstruction = getInstructionFromCompiledElement(indexEntry, compiledElement);
-				break;
-
-			case DiffPackage.REFERENCE_CHANGE_LEFT_TARGET:
-				ReferenceChangeLeftTarget referenceChangeLeftTarget = (ReferenceChangeLeftTarget)difference;
-				compiledElement = referenceChangeLeftTarget.getLeftElement();
-				targetInstruction = getInstructionFromAffectation(indexEntry, compiledElement,
-						referenceChangeLeftTarget.getReference(), referenceChangeLeftTarget.getLeftTarget());
-				break;
-
 			case DiffPackage.MODEL_ELEMENT_CHANGE_LEFT_TARGET:
-				compiledElement = ((ModelElementChangeLeftTarget)difference).getLeftElement();
-				targetInstruction = getInstructionFromCompiledElement(indexEntry, compiledElement);
+				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
+				ModelElementChangeLeftTarget letTargetDiff = (ModelElementChangeLeftTarget)difference;
+				status.setCompiledElement(letTargetDiff.getLeftElement());
+				status.setWorkingCopyParentURIFragment(EcoreUtil.getURI(letTargetDiff.getRightParent())
+						.toString());
+				status.setTarget(getInstructionFromCompiledElement(indexEntry, letTargetDiff.getLeftElement()));
 				break;
 
 			case DiffPackage.MODEL_ELEMENT_CHANGE_RIGHT_TARGET:
-				compiledElement = ((ModelElementChangeRightTarget)difference).getLeftParent();
-				targetInstruction = getInstructionFromCompiledElement(indexEntry, compiledElement);
+				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
+				ModelElementChangeRightTarget rightTargetDiff = (ModelElementChangeRightTarget)difference;
+				status.setWorkingCopyElementURIFragment(EcoreUtil.getURI(rightTargetDiff.getRightElement())
+						.toString());
+				status.setCompiledParent(rightTargetDiff.getLeftParent());
+				status.setTarget(getInstructionFromCompiledElement(indexEntry,
+						rightTargetDiff.getLeftParent()));
 				break;
 
-			case DiffPackage.ATTRIBUTE_ORDER_CHANGE:
-				compiledElement = ((AttributeOrderChange)difference).getLeftElement();
-				targetInstruction = getInstructionFromCompiledElement(indexEntry, compiledElement);
-				break;
-
-			case DiffPackage.REFERENCE_ORDER_CHANGE:
-				compiledElement = ((ReferenceOrderChange)difference).getLeftElement();
-				targetInstruction = getInstructionFromCompiledElement(indexEntry, compiledElement);
-				break;
-
-			case DiffPackage.RESOURCE_DIFF:
-				// TODO
+			case DiffPackage.UPDATE_MODEL_ELEMENT:
+				status.setChangeState(SynchronizerChangeState.UPDATE);
 				break;
 
 			default:
+				status = null;
+				break;
+		}
+		return status;
+	}
+
+	/**
+	 * Creates the status related to the given difference.
+	 * 
+	 * @param indexEntry
+	 *            the current index entry
+	 * @param difference
+	 *            the difference
+	 * @return the status
+	 */
+	private static ReferenceChangeStatus createStatusFromReferenceChange(TraceabilityIndexEntry indexEntry,
+			ReferenceChange difference) {
+		EObject compiledElement = difference.getLeftElement();
+		IntentGenericElement target = null;
+		ReferenceChangeStatus status = CompilerFactory.eINSTANCE.createReferenceChangeStatus();
+
+		switch (difference.eClass().getClassifierID()) {
+
+			case DiffPackage.REFERENCE_CHANGE_LEFT_TARGET:
+				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
+				target = getInstructionFromAffectation(indexEntry, compiledElement,
+						difference.getReference(), ((ReferenceChangeLeftTarget)difference).getLeftTarget());
+				break;
+
+			case DiffPackage.REFERENCE_CHANGE_RIGHT_TARGET:
+				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
+				break;
+
+			case DiffPackage.REFERENCE_ORDER_CHANGE:
+				status.setChangeState(SynchronizerChangeState.ORDER);
+				break;
+
+			case DiffPackage.UPDATE_REFERENCE:
+				status.setChangeState(SynchronizerChangeState.UPDATE);
+				target = getInstructionFromAffectation(indexEntry, compiledElement,
+						difference.getReference(), difference.getLeftElement()
+								.eGet(difference.getReference()));
+				break;
+
+			default:
+				status = null;
 				break;
 		}
 
-		// If no instruction has been found, we associated the status with the currently compiled resource
-		if (targetInstruction == null) {
-			System.err.println("CANNOT FIND ANY INSTRUCTION FOR " + difference.eClass().getName() + ": "
-					+ difference);
-			targetInstruction = indexEntry.getResourceDeclaration();
+		// target setting: if affectation not found (or not available), use the parent compiled element
+		if (status != null) {
+			if (target == null) {
+				if (compiledElement != null) {
+					target = getInstructionFromCompiledElement(indexEntry, compiledElement);
+				}
+			}
+			status.setTarget(target);
+		}
+		return status;
+	}
+
+	/**
+	 * Creates the status related to the given difference.
+	 * 
+	 * @param indexEntry
+	 *            the current index entry
+	 * @param difference
+	 *            the difference
+	 * @return the status
+	 */
+	private static AttributeChangeStatus createStatusFromAttributeChange(TraceabilityIndexEntry indexEntry,
+			AttributeChange difference) {
+		EObject compiledElement = difference.getLeftElement();
+		IntentGenericElement target = null;
+		AttributeChangeStatus status = CompilerFactory.eINSTANCE.createAttributeChangeStatus();
+		status.setCompiledElement(compiledElement);
+
+		switch (difference.eClass().getClassifierID()) {
+
+			case DiffPackage.ATTRIBUTE_CHANGE_LEFT_TARGET:
+				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
+				target = getInstructionFromAffectation(indexEntry, difference.getLeftElement(),
+						difference.getAttribute(), ((AttributeChangeLeftTarget)difference).getLeftTarget());
+				break;
+
+			case DiffPackage.ATTRIBUTE_CHANGE_RIGHT_TARGET:
+				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
+				break;
+
+			case DiffPackage.ATTRIBUTE_ORDER_CHANGE:
+				status.setChangeState(SynchronizerChangeState.ORDER);
+				break;
+
+			case DiffPackage.UPDATE_ATTRIBUTE:
+				status.setChangeState(SynchronizerChangeState.UPDATE);
+				status.setFeatureName(difference.getAttribute().getName());
+				status.setWorkingCopyElementURIFragment(EcoreUtil.getURI(difference.getRightElement())
+						.toString());
+				target = getInstructionFromAffectation(indexEntry, compiledElement,
+						difference.getAttribute(), compiledElement.eGet(difference.getAttribute()));
+				break;
+
+			default:
+				status = null;
+				break;
 		}
 
-		return targetInstruction;
+		// target setting: if affectation not found (or not available), use the parent compiled element
+		if (status != null) {
+			if (target == null) {
+				if (compiledElement != null) {
+					target = getInstructionFromCompiledElement(indexEntry, compiledElement);
+				}
+			}
+			status.setTarget(target);
+		}
+		return status;
 	}
 
 	/**
@@ -268,7 +348,7 @@ public final class SynchronizerStatusFactory {
 				}
 			}
 		}
-		return getInstructionFromCompiledElement(indexEntry, compiledElement);
+		return null;
 	}
 
 	/**

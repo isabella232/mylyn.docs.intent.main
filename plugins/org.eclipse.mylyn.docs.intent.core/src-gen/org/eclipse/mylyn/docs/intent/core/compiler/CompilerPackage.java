@@ -803,7 +803,7 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getSynchronizerCompilationStatus()
 	 * @generated
 	 */
-	int SYNCHRONIZER_COMPILATION_STATUS = 18;
+	int SYNCHRONIZER_COMPILATION_STATUS = 23;
 
 	/**
 	 * The feature id for the '<em><b>Target</b></em>' container reference.
@@ -842,58 +842,22 @@ public interface CompilerPackage extends EPackage {
 	int SYNCHRONIZER_COMPILATION_STATUS__TYPE = COMPILATION_STATUS__TYPE;
 
 	/**
-	 * The feature id for the '<em><b>Working Copy Resource URI</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI = COMPILATION_STATUS_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Compiled Resource URI</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI = COMPILATION_STATUS_FEATURE_COUNT + 1;
+	int SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI = COMPILATION_STATUS_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Working Copy Element URI Fragment</b></em>' attribute.
+	 * The feature id for the '<em><b>Working Copy Resource URI</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT = COMPILATION_STATUS_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Compiled Element URI Fragment</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SYNCHRONIZER_COMPILATION_STATUS__COMPILED_ELEMENT_URI_FRAGMENT = COMPILATION_STATUS_FEATURE_COUNT + 3;
-
-	/**
-	 * The feature id for the '<em><b>Working Copy Resource State</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE = COMPILATION_STATUS_FEATURE_COUNT + 4;
-
-	/**
-	 * The feature id for the '<em><b>Compiled Resource State</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_STATE = COMPILATION_STATUS_FEATURE_COUNT + 5;
+	int SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI = COMPILATION_STATUS_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Synchronizer Compilation Status</em>' class.
@@ -902,7 +866,561 @@ public interface CompilerPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT = COMPILATION_STATUS_FEATURE_COUNT + 6;
+	int SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT = COMPILATION_STATUS_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ResourceChangeStatusImpl <em>Resource Change Status</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ResourceChangeStatusImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getResourceChangeStatus()
+	 * @generated
+	 */
+	int RESOURCE_CHANGE_STATUS = 18;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_CHANGE_STATUS__TARGET = SYNCHRONIZER_COMPILATION_STATUS__TARGET;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_CHANGE_STATUS__MESSAGE = SYNCHRONIZER_COMPILATION_STATUS__MESSAGE;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_CHANGE_STATUS__SEVERITY = SYNCHRONIZER_COMPILATION_STATUS__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_CHANGE_STATUS__TYPE = SYNCHRONIZER_COMPILATION_STATUS__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_CHANGE_STATUS__COMPILED_RESOURCE_URI = SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_CHANGE_STATUS__WORKING_COPY_RESOURCE_URI = SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Resource State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_CHANGE_STATUS__WORKING_COPY_RESOURCE_STATE = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Resource State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_CHANGE_STATUS__COMPILED_RESOURCE_STATE = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Resource Change Status</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_CHANGE_STATUS_FEATURE_COUNT = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ModelElementChangeStatusImpl <em>Model Element Change Status</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ModelElementChangeStatusImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getModelElementChangeStatus()
+	 * @generated
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS = 19;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__TARGET = SYNCHRONIZER_COMPILATION_STATUS__TARGET;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__MESSAGE = SYNCHRONIZER_COMPILATION_STATUS__MESSAGE;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__SEVERITY = SYNCHRONIZER_COMPILATION_STATUS__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__TYPE = SYNCHRONIZER_COMPILATION_STATUS__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__COMPILED_RESOURCE_URI = SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__WORKING_COPY_RESOURCE_URI = SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI;
+
+	/**
+	 * The feature id for the '<em><b>Change State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__CHANGE_STATE = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Parent</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__COMPILED_PARENT = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__COMPILED_ELEMENT = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Parent URI Fragment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__WORKING_COPY_PARENT_URI_FRAGMENT = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Element URI Fragment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of structural features of the '<em>Model Element Change Status</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_ELEMENT_CHANGE_STATUS_FEATURE_COUNT = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 5;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.StructuralFeatureChangeStatusImpl <em>Structural Feature Change Status</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.StructuralFeatureChangeStatusImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getStructuralFeatureChangeStatus()
+	 * @generated
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS = 20;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS__TARGET = SYNCHRONIZER_COMPILATION_STATUS__TARGET;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS__MESSAGE = SYNCHRONIZER_COMPILATION_STATUS__MESSAGE;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS__SEVERITY = SYNCHRONIZER_COMPILATION_STATUS__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS__TYPE = SYNCHRONIZER_COMPILATION_STATUS__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS__COMPILED_RESOURCE_URI = SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS__WORKING_COPY_RESOURCE_URI = SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI;
+
+	/**
+	 * The feature id for the '<em><b>Change State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS__CHANGE_STATE = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS__FEATURE_NAME = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS__COMPILED_ELEMENT = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Element URI Fragment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Structural Feature Change Status</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_CHANGE_STATUS_FEATURE_COUNT = SYNCHRONIZER_COMPILATION_STATUS_FEATURE_COUNT + 4;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ReferenceChangeStatusImpl <em>Reference Change Status</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ReferenceChangeStatusImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getReferenceChangeStatus()
+	 * @generated
+	 */
+	int REFERENCE_CHANGE_STATUS = 21;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__TARGET = STRUCTURAL_FEATURE_CHANGE_STATUS__TARGET;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__MESSAGE = STRUCTURAL_FEATURE_CHANGE_STATUS__MESSAGE;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__SEVERITY = STRUCTURAL_FEATURE_CHANGE_STATUS__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__TYPE = STRUCTURAL_FEATURE_CHANGE_STATUS__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__COMPILED_RESOURCE_URI = STRUCTURAL_FEATURE_CHANGE_STATUS__COMPILED_RESOURCE_URI;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__WORKING_COPY_RESOURCE_URI = STRUCTURAL_FEATURE_CHANGE_STATUS__WORKING_COPY_RESOURCE_URI;
+
+	/**
+	 * The feature id for the '<em><b>Change State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__CHANGE_STATE = STRUCTURAL_FEATURE_CHANGE_STATUS__CHANGE_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__FEATURE_NAME = STRUCTURAL_FEATURE_CHANGE_STATUS__FEATURE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__COMPILED_ELEMENT = STRUCTURAL_FEATURE_CHANGE_STATUS__COMPILED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Element URI Fragment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT = STRUCTURAL_FEATURE_CHANGE_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__COMPILED_TARGET = STRUCTURAL_FEATURE_CHANGE_STATUS_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Target URI Fragment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS__WORKING_COPY_TARGET_URI_FRAGMENT = STRUCTURAL_FEATURE_CHANGE_STATUS_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Reference Change Status</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_CHANGE_STATUS_FEATURE_COUNT = STRUCTURAL_FEATURE_CHANGE_STATUS_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.AttributeChangeStatusImpl <em>Attribute Change Status</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.AttributeChangeStatusImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getAttributeChangeStatus()
+	 * @generated
+	 */
+	int ATTRIBUTE_CHANGE_STATUS = 22;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS__TARGET = STRUCTURAL_FEATURE_CHANGE_STATUS__TARGET;
+
+	/**
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS__MESSAGE = STRUCTURAL_FEATURE_CHANGE_STATUS__MESSAGE;
+
+	/**
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS__SEVERITY = STRUCTURAL_FEATURE_CHANGE_STATUS__SEVERITY;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS__TYPE = STRUCTURAL_FEATURE_CHANGE_STATUS__TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS__COMPILED_RESOURCE_URI = STRUCTURAL_FEATURE_CHANGE_STATUS__COMPILED_RESOURCE_URI;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Resource URI</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS__WORKING_COPY_RESOURCE_URI = STRUCTURAL_FEATURE_CHANGE_STATUS__WORKING_COPY_RESOURCE_URI;
+
+	/**
+	 * The feature id for the '<em><b>Change State</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS__CHANGE_STATE = STRUCTURAL_FEATURE_CHANGE_STATUS__CHANGE_STATE;
+
+	/**
+	 * The feature id for the '<em><b>Feature Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS__FEATURE_NAME = STRUCTURAL_FEATURE_CHANGE_STATUS__FEATURE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Compiled Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS__COMPILED_ELEMENT = STRUCTURAL_FEATURE_CHANGE_STATUS__COMPILED_ELEMENT;
+
+	/**
+	 * The feature id for the '<em><b>Working Copy Element URI Fragment</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT = STRUCTURAL_FEATURE_CHANGE_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT;
+
+	/**
+	 * The number of structural features of the '<em>Attribute Change Status</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CHANGE_STATUS_FEATURE_COUNT = STRUCTURAL_FEATURE_CHANGE_STATUS_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}' enum.
@@ -911,7 +1429,7 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationStatusSeverity()
 	 * @generated
 	 */
-	int COMPILATION_STATUS_SEVERITY = 19;
+	int COMPILATION_STATUS_SEVERITY = 24;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType <em>Compilation Message Type</em>}' enum.
@@ -920,7 +1438,7 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationMessageType()
 	 * @generated
 	 */
-	int COMPILATION_MESSAGE_TYPE = 20;
+	int COMPILATION_MESSAGE_TYPE = 25;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState <em>Synchronizer Resource State</em>}' enum.
@@ -930,7 +1448,17 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getSynchronizerResourceState()
 	 * @generated
 	 */
-	int SYNCHRONIZER_RESOURCE_STATE = 21;
+	int SYNCHRONIZER_RESOURCE_STATE = 26;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState <em>Synchronizer Change State</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getSynchronizerChangeState()
+	 * @generated
+	 */
+	int SYNCHRONIZER_CHANGE_STATE = 27;
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To EObject</em>}'. <!--
@@ -1606,6 +2134,199 @@ public interface CompilerPackage extends EPackage {
 	EReference getFeatureToAffectationEntry_Value();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus <em>Resource Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Resource Change Status</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus
+	 * @generated
+	 */
+	EClass getResourceChangeStatus();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus#getWorkingCopyResourceState <em>Working Copy Resource State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Working Copy Resource State</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus#getWorkingCopyResourceState()
+	 * @see #getResourceChangeStatus()
+	 * @generated
+	 */
+	EAttribute getResourceChangeStatus_WorkingCopyResourceState();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus#getCompiledResourceState <em>Compiled Resource State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Compiled Resource State</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus#getCompiledResourceState()
+	 * @see #getResourceChangeStatus()
+	 * @generated
+	 */
+	EAttribute getResourceChangeStatus_CompiledResourceState();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus <em>Model Element Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Model Element Change Status</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus
+	 * @generated
+	 */
+	EClass getModelElementChangeStatus();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus#getChangeState <em>Change State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Change State</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus#getChangeState()
+	 * @see #getModelElementChangeStatus()
+	 * @generated
+	 */
+	EAttribute getModelElementChangeStatus_ChangeState();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus#getCompiledParent <em>Compiled Parent</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Compiled Parent</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus#getCompiledParent()
+	 * @see #getModelElementChangeStatus()
+	 * @generated
+	 */
+	EReference getModelElementChangeStatus_CompiledParent();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus#getCompiledElement <em>Compiled Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Compiled Element</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus#getCompiledElement()
+	 * @see #getModelElementChangeStatus()
+	 * @generated
+	 */
+	EReference getModelElementChangeStatus_CompiledElement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus#getWorkingCopyParentURIFragment <em>Working Copy Parent URI Fragment</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Working Copy Parent URI Fragment</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus#getWorkingCopyParentURIFragment()
+	 * @see #getModelElementChangeStatus()
+	 * @generated
+	 */
+	EAttribute getModelElementChangeStatus_WorkingCopyParentURIFragment();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus#getWorkingCopyElementURIFragment <em>Working Copy Element URI Fragment</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Working Copy Element URI Fragment</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus#getWorkingCopyElementURIFragment()
+	 * @see #getModelElementChangeStatus()
+	 * @generated
+	 */
+	EAttribute getModelElementChangeStatus_WorkingCopyElementURIFragment();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus <em>Structural Feature Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Structural Feature Change Status</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus
+	 * @generated
+	 */
+	EClass getStructuralFeatureChangeStatus();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus#getChangeState <em>Change State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Change State</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus#getChangeState()
+	 * @see #getStructuralFeatureChangeStatus()
+	 * @generated
+	 */
+	EAttribute getStructuralFeatureChangeStatus_ChangeState();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus#getFeatureName <em>Feature Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Feature Name</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus#getFeatureName()
+	 * @see #getStructuralFeatureChangeStatus()
+	 * @generated
+	 */
+	EAttribute getStructuralFeatureChangeStatus_FeatureName();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus#getCompiledElement <em>Compiled Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Compiled Element</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus#getCompiledElement()
+	 * @see #getStructuralFeatureChangeStatus()
+	 * @generated
+	 */
+	EReference getStructuralFeatureChangeStatus_CompiledElement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus#getWorkingCopyElementURIFragment <em>Working Copy Element URI Fragment</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Working Copy Element URI Fragment</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus#getWorkingCopyElementURIFragment()
+	 * @see #getStructuralFeatureChangeStatus()
+	 * @generated
+	 */
+	EAttribute getStructuralFeatureChangeStatus_WorkingCopyElementURIFragment();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus <em>Reference Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Reference Change Status</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus
+	 * @generated
+	 */
+	EClass getReferenceChangeStatus();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus#getCompiledTarget <em>Compiled Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Compiled Target</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus#getCompiledTarget()
+	 * @see #getReferenceChangeStatus()
+	 * @generated
+	 */
+	EReference getReferenceChangeStatus_CompiledTarget();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus#getWorkingCopyTargetURIFragment <em>Working Copy Target URI Fragment</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Working Copy Target URI Fragment</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus#getWorkingCopyTargetURIFragment()
+	 * @see #getReferenceChangeStatus()
+	 * @generated
+	 */
+	EAttribute getReferenceChangeStatus_WorkingCopyTargetURIFragment();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus <em>Attribute Change Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Attribute Change Status</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus
+	 * @generated
+	 */
+	EClass getAttributeChangeStatus();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus <em>Synchronizer Compilation Status</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1638,50 +2359,6 @@ public interface CompilerPackage extends EPackage {
 	EAttribute getSynchronizerCompilationStatus_CompiledResourceURI();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyElementURIFragment <em>Working Copy Element URI Fragment</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Working Copy Element URI Fragment</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyElementURIFragment()
-	 * @see #getSynchronizerCompilationStatus()
-	 * @generated
-	 */
-	EAttribute getSynchronizerCompilationStatus_WorkingCopyElementURIFragment();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledElementURIFragment <em>Compiled Element URI Fragment</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Compiled Element URI Fragment</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledElementURIFragment()
-	 * @see #getSynchronizerCompilationStatus()
-	 * @generated
-	 */
-	EAttribute getSynchronizerCompilationStatus_CompiledElementURIFragment();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceState <em>Working Copy Resource State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Working Copy Resource State</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceState()
-	 * @see #getSynchronizerCompilationStatus()
-	 * @generated
-	 */
-	EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceState();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledResourceState <em>Compiled Resource State</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Compiled Resource State</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledResourceState()
-	 * @see #getSynchronizerCompilationStatus()
-	 * @generated
-	 */
-	EAttribute getSynchronizerCompilationStatus_CompiledResourceState();
-
-	/**
 	 * Returns the meta object for enum '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for enum '<em>Compilation Status Severity</em>'.
@@ -1708,6 +2385,16 @@ public interface CompilerPackage extends EPackage {
 	 * @generated
 	 */
 	EEnum getSynchronizerResourceState();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState <em>Synchronizer Change State</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Synchronizer Change State</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState
+	 * @generated
+	 */
+	EEnum getSynchronizerChangeState();
 
 	/**
 	 * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!-- end-user-doc
@@ -2298,6 +2985,173 @@ public interface CompilerPackage extends EPackage {
 		EReference FEATURE_TO_AFFECTATION_ENTRY__VALUE = eINSTANCE.getFeatureToAffectationEntry_Value();
 
 		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ResourceChangeStatusImpl <em>Resource Change Status</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ResourceChangeStatusImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getResourceChangeStatus()
+		 * @generated
+		 */
+		EClass RESOURCE_CHANGE_STATUS = eINSTANCE.getResourceChangeStatus();
+
+		/**
+		 * The meta object literal for the '<em><b>Working Copy Resource State</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RESOURCE_CHANGE_STATUS__WORKING_COPY_RESOURCE_STATE = eINSTANCE
+				.getResourceChangeStatus_WorkingCopyResourceState();
+
+		/**
+		 * The meta object literal for the '<em><b>Compiled Resource State</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute RESOURCE_CHANGE_STATUS__COMPILED_RESOURCE_STATE = eINSTANCE
+				.getResourceChangeStatus_CompiledResourceState();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ModelElementChangeStatusImpl <em>Model Element Change Status</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ModelElementChangeStatusImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getModelElementChangeStatus()
+		 * @generated
+		 */
+		EClass MODEL_ELEMENT_CHANGE_STATUS = eINSTANCE.getModelElementChangeStatus();
+
+		/**
+		 * The meta object literal for the '<em><b>Change State</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MODEL_ELEMENT_CHANGE_STATUS__CHANGE_STATE = eINSTANCE
+				.getModelElementChangeStatus_ChangeState();
+
+		/**
+		 * The meta object literal for the '<em><b>Compiled Parent</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL_ELEMENT_CHANGE_STATUS__COMPILED_PARENT = eINSTANCE
+				.getModelElementChangeStatus_CompiledParent();
+
+		/**
+		 * The meta object literal for the '<em><b>Compiled Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL_ELEMENT_CHANGE_STATUS__COMPILED_ELEMENT = eINSTANCE
+				.getModelElementChangeStatus_CompiledElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Working Copy Parent URI Fragment</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MODEL_ELEMENT_CHANGE_STATUS__WORKING_COPY_PARENT_URI_FRAGMENT = eINSTANCE
+				.getModelElementChangeStatus_WorkingCopyParentURIFragment();
+
+		/**
+		 * The meta object literal for the '<em><b>Working Copy Element URI Fragment</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MODEL_ELEMENT_CHANGE_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT = eINSTANCE
+				.getModelElementChangeStatus_WorkingCopyElementURIFragment();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.StructuralFeatureChangeStatusImpl <em>Structural Feature Change Status</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.StructuralFeatureChangeStatusImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getStructuralFeatureChangeStatus()
+		 * @generated
+		 */
+		EClass STRUCTURAL_FEATURE_CHANGE_STATUS = eINSTANCE.getStructuralFeatureChangeStatus();
+
+		/**
+		 * The meta object literal for the '<em><b>Change State</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STRUCTURAL_FEATURE_CHANGE_STATUS__CHANGE_STATE = eINSTANCE
+				.getStructuralFeatureChangeStatus_ChangeState();
+
+		/**
+		 * The meta object literal for the '<em><b>Feature Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STRUCTURAL_FEATURE_CHANGE_STATUS__FEATURE_NAME = eINSTANCE
+				.getStructuralFeatureChangeStatus_FeatureName();
+
+		/**
+		 * The meta object literal for the '<em><b>Compiled Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference STRUCTURAL_FEATURE_CHANGE_STATUS__COMPILED_ELEMENT = eINSTANCE
+				.getStructuralFeatureChangeStatus_CompiledElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Working Copy Element URI Fragment</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute STRUCTURAL_FEATURE_CHANGE_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT = eINSTANCE
+				.getStructuralFeatureChangeStatus_WorkingCopyElementURIFragment();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ReferenceChangeStatusImpl <em>Reference Change Status</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ReferenceChangeStatusImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getReferenceChangeStatus()
+		 * @generated
+		 */
+		EClass REFERENCE_CHANGE_STATUS = eINSTANCE.getReferenceChangeStatus();
+
+		/**
+		 * The meta object literal for the '<em><b>Compiled Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference REFERENCE_CHANGE_STATUS__COMPILED_TARGET = eINSTANCE
+				.getReferenceChangeStatus_CompiledTarget();
+
+		/**
+		 * The meta object literal for the '<em><b>Working Copy Target URI Fragment</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute REFERENCE_CHANGE_STATUS__WORKING_COPY_TARGET_URI_FRAGMENT = eINSTANCE
+				.getReferenceChangeStatus_WorkingCopyTargetURIFragment();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.AttributeChangeStatusImpl <em>Attribute Change Status</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.AttributeChangeStatusImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getAttributeChangeStatus()
+		 * @generated
+		 */
+		EClass ATTRIBUTE_CHANGE_STATUS = eINSTANCE.getAttributeChangeStatus();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.SynchronizerCompilationStatusImpl <em>Synchronizer Compilation Status</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2326,42 +3180,6 @@ public interface CompilerPackage extends EPackage {
 				.getSynchronizerCompilationStatus_CompiledResourceURI();
 
 		/**
-		 * The meta object literal for the '<em><b>Working Copy Element URI Fragment</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT = eINSTANCE
-				.getSynchronizerCompilationStatus_WorkingCopyElementURIFragment();
-
-		/**
-		 * The meta object literal for the '<em><b>Compiled Element URI Fragment</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SYNCHRONIZER_COMPILATION_STATUS__COMPILED_ELEMENT_URI_FRAGMENT = eINSTANCE
-				.getSynchronizerCompilationStatus_CompiledElementURIFragment();
-
-		/**
-		 * The meta object literal for the '<em><b>Working Copy Resource State</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE = eINSTANCE
-				.getSynchronizerCompilationStatus_WorkingCopyResourceState();
-
-		/**
-		 * The meta object literal for the '<em><b>Compiled Resource State</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_STATE = eINSTANCE
-				.getSynchronizerCompilationStatus_CompiledResourceState();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}' enum.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity
@@ -2388,6 +3206,16 @@ public interface CompilerPackage extends EPackage {
 		 * @generated
 		 */
 		EEnum SYNCHRONIZER_RESOURCE_STATE = eINSTANCE.getSynchronizerResourceState();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState <em>Synchronizer Change State</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState
+		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getSynchronizerChangeState()
+		 * @generated
+		 */
+		EEnum SYNCHRONIZER_CHANGE_STATE = eINSTANCE.getSynchronizerChangeState();
 
 	}
 

@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdater;
 
@@ -45,17 +44,18 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 	 */
 	@Override
 	protected void applyFix(final RepositoryAdapter repositoryAdapter, IntentEditorDocument document) {
-		EObject intentTarget = syncAnnotation.getCompilationStatus().getTarget();
-		if (intentTarget instanceof InstanciationInstruction) {
-			while (intentTarget != null && !(intentTarget instanceof ModelingUnit)) {
-				intentTarget = intentTarget.eContainer();
-			}
-			if (intentTarget != null) {
-				ModelingUnitUpdater updater = new ModelingUnitUpdater(repositoryAdapter,
-						(ModelingUnit)intentTarget);
-				updater.fixSynchronizationStatus(syncAnnotation.getCompilationStatus());
-				((IntentEditorDocument)document).reloadFromAST();
-			}
+		EObject modelingUnit = syncAnnotation.getCompilationStatus().getTarget();
+
+		// TODO purpose new modeling unit creation
+		while (modelingUnit != null && !(modelingUnit instanceof ModelingUnit)) {
+			modelingUnit = modelingUnit.eContainer();
+		}
+
+		if (modelingUnit != null) {
+			ModelingUnitUpdater updater = new ModelingUnitUpdater(repositoryAdapter);
+			updater.fixSynchronizationStatus((ModelingUnit)modelingUnit,
+					syncAnnotation.getCompilationStatus());
+			((IntentEditorDocument)document).reloadFromAST();
 		}
 	}
 
@@ -65,7 +65,7 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
 	 */
 	public String getDisplayString() {
-		return "Update modeling unit by generating the missing element (experimental)";
+		return "Update modeling unit";
 	}
 
 }

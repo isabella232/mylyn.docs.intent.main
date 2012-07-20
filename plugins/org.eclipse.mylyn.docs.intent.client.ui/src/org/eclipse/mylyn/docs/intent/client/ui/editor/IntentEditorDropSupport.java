@@ -23,7 +23,7 @@ import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.query.CompilationStatusQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdater;
 import org.eclipse.swt.dnd.DropTargetAdapter;
@@ -80,6 +80,7 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 			if (parent != null) {
 				updateModelingUnit((ModelingUnit)parent, droppedEObjects);
 			} else {
+				// TODO manage modeling units creation
 				IntentLogger.getInstance().log(LogType.ERROR, "Only modeling units support drops.");
 			}
 
@@ -104,18 +105,16 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 		IntentDocumentProvider documentProvider = (IntentDocumentProvider)editor.getDocumentProvider();
 		final RepositoryAdapter repositoryAdapter = documentProvider.getListenedElementsHandler()
 				.getRepositoryAdapter();
-		ModelingUnitUpdater updater = new ModelingUnitUpdater(repositoryAdapter, modelingUnit);
+		ModelingUnitUpdater updater = new ModelingUnitUpdater(repositoryAdapter);
 
 		boolean astChanged = false;
 		CompilationStatusQuery query = new CompilationStatusQuery(repositoryAdapter);
 		for (CompilationStatus compilationStatus : query.getOrCreateCompilationStatusManager()
 				.getCompilationStatusList()) {
-			if (compilationStatus instanceof SynchronizerCompilationStatus) {
-				SynchronizerCompilationStatus syncStatus = (SynchronizerCompilationStatus)compilationStatus;
-				String uriFragment = syncStatus.getWorkingCopyResourceURI().replaceAll("\"", "") + "#"
-						+ syncStatus.getWorkingCopyElementURIFragment();
-				if (uriFragments.contains(uriFragment)) {
-					updater.fixSynchronizationStatus(syncStatus);
+			if (compilationStatus instanceof ModelElementChangeStatus) {
+				ModelElementChangeStatus status = (ModelElementChangeStatus)compilationStatus;
+				if (uriFragments.contains(status.getWorkingCopyElementURIFragment())) {
+					updater.fixSynchronizationStatus(modelingUnit, status);
 					astChanged = true;
 				}
 			}
