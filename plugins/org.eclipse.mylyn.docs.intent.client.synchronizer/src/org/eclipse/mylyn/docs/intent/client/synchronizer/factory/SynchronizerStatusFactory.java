@@ -348,6 +348,8 @@ public final class SynchronizerStatusFactory {
 				}
 			}
 		}
+		IntentLogger.getInstance().log(LogType.WARNING,
+				"CANNOT RESOLVE AFFECTATION " + feature.getName() + " = " + diffValue);
 		return null;
 	}
 
@@ -371,6 +373,8 @@ public final class SynchronizerStatusFactory {
 						.getReferencedElement().getReferencedElement();
 				if (referencedInstanciation != null) {
 					res = getCompiledElement(indexEntry, referencedInstanciation);
+				} else {
+					res = ((ReferenceValueForStructuralFeature)value).getReferencedMetaType();
 				}
 				break;
 			case ModelingUnitPackage.NEW_OBJECT_VALUE_FOR_STRUCTURAL_FEATURE:
