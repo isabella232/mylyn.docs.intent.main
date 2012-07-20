@@ -347,8 +347,6 @@ public final class SynchronizerStatusFactory {
 				}
 			}
 		}
-		IntentLogger.getInstance().log(LogType.WARNING,
-				"CANNOT RESOLVE AFFECTATION " + feature.getName() + " = " + diffValue);
 		return null;
 	}
 
