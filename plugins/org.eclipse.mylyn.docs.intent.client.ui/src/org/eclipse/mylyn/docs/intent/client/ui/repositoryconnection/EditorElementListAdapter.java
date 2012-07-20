@@ -12,11 +12,8 @@ package org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.RepositoryChangeNotificationImpl;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListNotificator;
-import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
 
 /**
@@ -62,11 +59,7 @@ public class EditorElementListAdapter extends ElementListAdapter {
 	@Override
 	public void notifyChanged(Notification notification) {
 		if (isRelevantNotifier((Notifier)notification.getNotifier())) {
-			RepositoryChangeNotification newNotification = new RepositoryChangeNotificationImpl();
-			if (target != null) {
-				newNotification.getRightRoots().add((EObject)notification.getNotifier());
-			}
-			this.notificator.notifyHandlers(newNotification);
+			super.notifyChanged(notification);
 		}
 	}
 }
