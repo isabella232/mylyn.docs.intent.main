@@ -146,7 +146,6 @@ public final class SynchronizerStatusFactory {
 		ModelElementChangeStatus status = CompilerFactory.eINSTANCE.createModelElementChangeStatus();
 
 		switch (difference.eClass().getClassifierID()) {
-
 			case DiffPackage.MODEL_ELEMENT_CHANGE_LEFT_TARGET:
 				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
 				ModelElementChangeLeftTarget letTargetDiff = (ModelElementChangeLeftTarget)difference;
@@ -191,21 +190,23 @@ public final class SynchronizerStatusFactory {
 		EObject compiledElement = difference.getLeftElement();
 		IntentGenericElement target = null;
 		ReferenceChangeStatus status = CompilerFactory.eINSTANCE.createReferenceChangeStatus();
+		status.setCompiledElement(compiledElement);
+		status.setFeatureName(difference.getReference().getName());
+		status.setWorkingCopyElementURIFragment(EcoreUtil.getURI(difference.getRightElement()).toString());
 
 		switch (difference.eClass().getClassifierID()) {
-
-			case DiffPackage.REFERENCE_CHANGE_LEFT_TARGET:
-				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
-				target = getInstructionFromAffectation(indexEntry, compiledElement,
-						difference.getReference(), ((ReferenceChangeLeftTarget)difference).getLeftTarget());
-				break;
-
 			case DiffPackage.REFERENCE_CHANGE_RIGHT_TARGET:
 				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
 				break;
 
 			case DiffPackage.REFERENCE_ORDER_CHANGE:
 				status.setChangeState(SynchronizerChangeState.ORDER);
+				break;
+
+			case DiffPackage.REFERENCE_CHANGE_LEFT_TARGET:
+				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
+				target = getInstructionFromAffectation(indexEntry, compiledElement,
+						difference.getReference(), ((ReferenceChangeLeftTarget)difference).getLeftTarget());
 				break;
 
 			case DiffPackage.UPDATE_REFERENCE:
@@ -247,15 +248,10 @@ public final class SynchronizerStatusFactory {
 		IntentGenericElement target = null;
 		AttributeChangeStatus status = CompilerFactory.eINSTANCE.createAttributeChangeStatus();
 		status.setCompiledElement(compiledElement);
+		status.setFeatureName(difference.getAttribute().getName());
+		status.setWorkingCopyElementURIFragment(EcoreUtil.getURI(difference.getRightElement()).toString());
 
 		switch (difference.eClass().getClassifierID()) {
-
-			case DiffPackage.ATTRIBUTE_CHANGE_LEFT_TARGET:
-				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
-				target = getInstructionFromAffectation(indexEntry, difference.getLeftElement(),
-						difference.getAttribute(), ((AttributeChangeLeftTarget)difference).getLeftTarget());
-				break;
-
 			case DiffPackage.ATTRIBUTE_CHANGE_RIGHT_TARGET:
 				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
 				break;
@@ -264,11 +260,14 @@ public final class SynchronizerStatusFactory {
 				status.setChangeState(SynchronizerChangeState.ORDER);
 				break;
 
+			case DiffPackage.ATTRIBUTE_CHANGE_LEFT_TARGET:
+				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
+				target = getInstructionFromAffectation(indexEntry, difference.getLeftElement(),
+						difference.getAttribute(), ((AttributeChangeLeftTarget)difference).getLeftTarget());
+				break;
+
 			case DiffPackage.UPDATE_ATTRIBUTE:
 				status.setChangeState(SynchronizerChangeState.UPDATE);
-				status.setFeatureName(difference.getAttribute().getName());
-				status.setWorkingCopyElementURIFragment(EcoreUtil.getURI(difference.getRightElement())
-						.toString());
 				target = getInstructionFromAffectation(indexEntry, compiledElement,
 						difference.getAttribute(), compiledElement.eGet(difference.getAttribute()));
 				break;

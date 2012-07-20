@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.modelingunit.update;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -20,17 +23,18 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
-import org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.modelingunit.gen.ModelingUnitGenerator;
 
 /**
@@ -53,19 +57,6 @@ public class ModelingUnitUpdater extends ModelingUnitGenerator {
 	}
 
 	/**
-	 * Load the object at the given uri.
-	 * 
-	 * @param uri
-	 *            the uri
-	 * @return the loaded object
-	 */
-	private static EObject getWorkingCopyEObject(String uri) {
-		ResourceSetImpl rs = new ResourceSetImpl();
-		EObject target = rs.getEObject(URI.createURI(uri), true);
-		return target;
-	}
-
-	/**
 	 * Fixes the given statuses by updating the given modeling unit.
 	 * 
 	 * @param modelingUnit
@@ -73,22 +64,33 @@ public class ModelingUnitUpdater extends ModelingUnitGenerator {
 	 * @param statusToFix
 	 *            the statuses to fix
 	 */
-	public void fixSynchronizationStatus(ModelingUnit modelingUnit, CompilationStatus... statusToFix) {
-		for (CompilationStatus status : statusToFix) {
-			switch (status.eClass().getClassifierID()) {
-				case CompilerPackage.MODEL_ELEMENT_CHANGE_STATUS:
-					fixModelElementChangeStatus(modelingUnit, (ModelElementChangeStatus)status);
-					break;
-				case CompilerPackage.ATTRIBUTE_CHANGE_STATUS:
-					fixAttributeChangeStatus(modelingUnit, (AttributeChangeStatus)status);
-					break;
-				case CompilerPackage.REFERENCE_CHANGE_STATUS:
-					fixReferenceChangeStatus(modelingUnit, (ReferenceChangeStatus)status);
-					break;
-				default:
-					break;
+	public void fixSynchronizationStatus(final ModelingUnit modelingUnit,
+			final CompilationStatus... statusToFix) {
+		repositoryAdapter.execute(new IntentCommand() {
+			public void execute() {
+				for (CompilationStatus status : statusToFix) {
+					switch (status.eClass().getClassifierID()) {
+						case CompilerPackage.MODEL_ELEMENT_CHANGE_STATUS:
+							fixModelElementChangeStatus(modelingUnit, (ModelElementChangeStatus)status);
+							break;
+						case CompilerPackage.ATTRIBUTE_CHANGE_STATUS:
+						case CompilerPackage.REFERENCE_CHANGE_STATUS:
+							fixStructuralFeatureChangeStatus(modelingUnit,
+									(StructuralFeatureChangeStatus)status);
+							break;
+						default:
+							break;
+					}
+				}
+				try {
+					repositoryAdapter.save();
+				} catch (ReadOnlyException e) {
+					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				} catch (SaveException e) {
+					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				}
 			}
-		}
+		});
 	}
 
 	/**
@@ -99,37 +101,35 @@ public class ModelingUnitUpdater extends ModelingUnitGenerator {
 	 * @param status
 	 *            the status to fix
 	 */
-	private void fixModelElementChangeStatus(final ModelingUnit modelingUnit, ModelElementChangeStatus status) {
+	private void fixModelElementChangeStatus(ModelingUnit modelingUnit, ModelElementChangeStatus status) {
 		switch (status.getChangeState().getValue()) {
 			case SynchronizerChangeState.WORKING_COPY_TARGET_VALUE:
-				InstanciationInstruction containerInstanciation = (InstanciationInstruction)status
-						.getTarget();
+				EObject container = getContainer(status, ModelingUnitPackage.CONTRIBUTION_INSTRUCTION,
+						ModelingUnitPackage.INSTANCIATION_INSTRUCTION);
+				if (container instanceof ContributionInstruction) {
+					ContributionInstruction contribution = (ContributionInstruction)container;
+					container = contribution.getReferencedElement().getReferencedElement();
+				}
 
-				EObject target = getWorkingCopyEObject(status.getWorkingCopyElementURIFragment());
+				if (container instanceof InstanciationInstruction) {
+					InstanciationInstruction instanciation = (InstanciationInstruction)container;
 
-				final ContributionInstruction contribution = generateContribution(containerInstanciation,
-						target);
-				repositoryAdapter.execute(new IntentCommand() {
+					// computes additions
+					EObject workingCopyObject = getWorkingCopyEObject(status
+							.getWorkingCopyElementURIFragment());
+					ContributionInstruction contribution = generateContribution(instanciation,
+							workingCopyObject);
 
-					public void execute() {
-						try {
-							modelingUnit.getInstructions().add(contribution);
-							repositoryAdapter.save();
-						} catch (ReadOnlyException e) {
-							IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
-						} catch (SaveException e) {
-							IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
-						}
-					}
-
-				});
+					// updates the modeling unit
+					modelingUnit.getInstructions().add(contribution);
+				}
 				break;
 
 			default:
 				IntentLogger.getInstance().log(
 						LogType.INFO,
-						"UNSUPPORTED MODEL ELEMENT CHANGE: " + status.getMessage() + "("
-								+ ((ModelElementChangeStatus)status).getChangeState() + ")");
+						"UNSUPPORTED MODEL ELEMENT CHANGE: " + status.getMessage() + '('
+								+ ((ModelElementChangeStatus)status).getChangeState() + ')');
 				break;
 		}
 	}
@@ -142,71 +142,95 @@ public class ModelingUnitUpdater extends ModelingUnitGenerator {
 	 * @param status
 	 *            the status to fix
 	 */
-	private void fixAttributeChangeStatus(final ModelingUnit modelingUnit, AttributeChangeStatus status) {
+	private void fixStructuralFeatureChangeStatus(ModelingUnit modelingUnit,
+			StructuralFeatureChangeStatus status) {
 		switch (status.getChangeState().getValue()) {
 			case SynchronizerChangeState.UPDATE_VALUE:
+				EObject container = getContainer(status.getTarget(),
+						ModelingUnitPackage.STRUCTURAL_FEATURE_AFFECTATION);
+				if (container instanceof StructuralFeatureAffectation) {
+					StructuralFeatureAffectation affectation = (StructuralFeatureAffectation)container;
 
-				EObject tmp = status.getTarget();
-				while (tmp != null && !(tmp instanceof InstanciationInstruction)) {
-					tmp = tmp.eContainer();
-				}
+					// computes new value
+					EObject element = getWorkingCopyEObject(status.getWorkingCopyElementURIFragment());
+					Object newValue = element.eGet(element.eClass().getEStructuralFeature(
+							status.getFeatureName()));
 
-				if (tmp instanceof InstanciationInstruction) {
-					InstanciationInstruction target = (InstanciationInstruction)tmp;
-					for (StructuralFeatureAffectation affectation : target.getStructuralFeatures()) {
-						if (affectation.getName().equals(status.getFeatureName())) {
-							final NativeValueForStructuralFeature value = (NativeValueForStructuralFeature)affectation
-									.getValues().get(0);
-
-							EObject element = getWorkingCopyEObject(status.getWorkingCopyElementURIFragment());
-							final Object newValue = element.eGet(element.eClass().getEStructuralFeature(
-									status.getFeatureName()));
-							repositoryAdapter.execute(new IntentCommand() {
-
-								public void execute() {
-									try {
-										value.setValue("\"" + newValue.toString() + "\"");
-										repositoryAdapter.save();
-									} catch (ReadOnlyException e) {
-										IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
-									} catch (SaveException e) {
-										IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
-									}
-								}
-
-							});
-
-						}
-					}
+					// updates the modeling unit
+					ValueForStructuralFeature value = affectation.getValues().get(0);
+					setValue(value, newValue);
 				}
 				break;
+
+			case SynchronizerChangeState.COMPILED_TARGET_VALUE:
+				// TODO value added in document
+
+			case SynchronizerChangeState.WORKING_COPY_TARGET_VALUE:
+				// TODO value removed from document
 
 			default:
 				IntentLogger.getInstance().log(
 						LogType.INFO,
-						"UNSUPPORTED ATTRIBUTE CHANGE: " + status.getMessage() + "("
-								+ ((AttributeChangeStatus)status).getChangeState() + ")");
+						"UNSUPPORTED CHANGE: " + status.getMessage() + " ("
+								+ ((StructuralFeatureChangeStatus)status).getChangeState() + ')');
 				break;
 		}
 	}
 
 	/**
-	 * Fixes the given statuses by updating the given modeling unit.
+	 * Sets the correct value in the given value instruction.
 	 * 
-	 * @param modelingUnit
-	 *            the modeling unit to update
-	 * @param status
-	 *            the status to fix
+	 * @param valueInstruction
+	 *            the value instruction
+	 * @param newValue
+	 *            the value to set
 	 */
-	private void fixReferenceChangeStatus(ModelingUnit modelingUnit, ReferenceChangeStatus status) {
-		switch (status.getChangeState().getValue()) {
+	private static void setValue(ValueForStructuralFeature valueInstruction, Object newValue) {
+		switch (valueInstruction.eClass().getClassifierID()) {
+			case ModelingUnitPackage.NATIVE_VALUE_FOR_STRUCTURAL_FEATURE:
+				((NativeValueForStructuralFeature)valueInstruction).setValue("\"" + newValue.toString()
+						+ "\"");
+				break;
+			// TODO manage all other cases
 			default:
-				IntentLogger.getInstance().log(
-						LogType.INFO,
-						"UNSUPPORTED REFERENCE CHANGE: " + status.getMessage() + "("
-								+ ((ReferenceChangeStatus)status).getChangeState() + ")");
 				break;
 		}
+	}
+
+	/**
+	 * Returns the container of the given type from a root element.
+	 * 
+	 * @param object
+	 *            the root
+	 * @param classifierId
+	 *            the classifier ids to consider
+	 * @return the parent instruction
+	 */
+	private static EObject getContainer(EObject object, int... classifierId) {
+		List<Integer> ids = new ArrayList<Integer>();
+		for (Integer id : classifierId) {
+			ids.add(id);
+		}
+
+		EObject tmp = object;
+		while (tmp != null && !ids.contains(tmp.eClass().getClassifierID())) {
+			tmp = tmp.eContainer();
+		}
+		if (ids.contains(tmp.eClass().getClassifierID())) {
+			return tmp;
+		}
+		return null;
+	}
+
+	/**
+	 * Load the object at the given uri.
+	 * 
+	 * @param uri
+	 *            the uri
+	 * @return the loaded object
+	 */
+	private static EObject getWorkingCopyEObject(String uri) {
+		return new ResourceSetImpl().getEObject(URI.createURI(uri), true);
 	}
 
 }
