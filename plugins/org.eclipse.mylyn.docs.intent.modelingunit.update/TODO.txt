@@ -1,0 +1,31 @@
+TODO TESTS
+
+changes
+=======
+(test with string, boolean and integers for attributes, EDataTypes & internal references for references)
+
+structural feature change 
+-------------------------
+defined in doc & WC, different
+=> setValue
+defined in doc & WC, different, WC is default
+=> remove from doc
+defined in doc only
+=> remove from doc
+defined in WC only (non-default)
+=> add to doc
+
+model element change
+--------------------
+an element is defined in doc but not in WC
+=> remove from doc
+an element is defined in WC but not in doc
+=> add to doc
+
+merge
+=====
+not defined in doc
+	container defined in doc
+	container not defined in doc
+already defined in doc
+links between elements

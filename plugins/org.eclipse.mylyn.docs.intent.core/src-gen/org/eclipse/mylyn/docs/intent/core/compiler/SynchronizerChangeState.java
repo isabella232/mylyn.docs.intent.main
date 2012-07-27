@@ -46,7 +46,7 @@ public enum SynchronizerChangeState implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	WORKING_COPY_TARGET(2, "WORKING_COPY_TARGET", "WORKING_COPY_TARGEt"),
+	WORKING_COPY_TARGET(2, "WORKING_COPY_TARGET", "WORKING_COPY_TARGET"),
 
 	/**
 	 * The '<em><b>COMPILED TARGET</b></em>' literal object.
@@ -97,7 +97,7 @@ public enum SynchronizerChangeState implements Enumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #WORKING_COPY_TARGET
-	 * @model literal="WORKING_COPY_TARGEt"
+	 * @model
 	 * @generated
 	 * @ordered
 	 */

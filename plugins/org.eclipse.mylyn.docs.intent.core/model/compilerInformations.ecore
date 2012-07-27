@@ -179,7 +179,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="SynchronizerChangeState">
     <eLiterals name="UPDATE" literal="UPDATE"/>
     <eLiterals name="ORDER" value="1" literal="ORDER"/>
-    <eLiterals name="WORKING_COPY_TARGET" value="2" literal="WORKING_COPY_TARGEt"/>
+    <eLiterals name="WORKING_COPY_TARGET" value="2" literal="WORKING_COPY_TARGET"/>
     <eLiterals name="COMPILED_TARGET" value="3" literal="COMPILED_TARGET"/>
   </eClassifiers>
 </ecore:EPackage>

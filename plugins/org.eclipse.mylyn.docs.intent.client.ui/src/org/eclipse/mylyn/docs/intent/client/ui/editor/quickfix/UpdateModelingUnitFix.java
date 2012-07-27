@@ -15,8 +15,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-import org.eclipse.mylyn.docs.intent.modelingunit.update.ModelingUnitUpdater;
+import org.eclipse.mylyn.docs.intent.modelingunit.update.SyncStatusUpdater;
 
 /**
  * Proposal used to fix a Synchronization issue by opening the compare Editor.
@@ -52,9 +53,9 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 		}
 
 		if (modelingUnit != null) {
-			ModelingUnitUpdater updater = new ModelingUnitUpdater(repositoryAdapter);
+			SyncStatusUpdater updater = new SyncStatusUpdater(repositoryAdapter);
 			updater.fixSynchronizationStatus((ModelingUnit)modelingUnit,
-					syncAnnotation.getCompilationStatus());
+					(SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus());
 			((IntentEditorDocument)document).reloadFromAST();
 		}
 	}

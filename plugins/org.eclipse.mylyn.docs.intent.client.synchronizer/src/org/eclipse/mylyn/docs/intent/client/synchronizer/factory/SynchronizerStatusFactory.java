@@ -25,8 +25,10 @@ import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeLeftTarget;
 import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeRightTarget;
 import org.eclipse.emf.compare.diff.metamodel.ReferenceChange;
 import org.eclipse.emf.compare.diff.metamodel.ReferenceChangeLeftTarget;
+import org.eclipse.emf.compare.diff.metamodel.ReferenceChangeRightTarget;
 import org.eclipse.emf.compare.diff.metamodel.ReferenceOrderChange;
 import org.eclipse.emf.compare.diff.metamodel.ResourceDiff;
+import org.eclipse.emf.compare.diff.metamodel.UpdateReference;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -177,6 +179,21 @@ public final class SynchronizerStatusFactory {
 	}
 
 	/**
+	 * Creates a fragment if possible.
+	 * 
+	 * @param eo
+	 *            the object
+	 * @return the fragment or null
+	 */
+	private static String createURIFragment(EObject eo) {
+		if (eo != null) {
+			return EcoreUtil.getURI(eo).toString();
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * Creates the status related to the given difference.
 	 * 
 	 * @param indexEntry
@@ -197,6 +214,9 @@ public final class SynchronizerStatusFactory {
 		switch (difference.eClass().getClassifierID()) {
 			case DiffPackage.REFERENCE_CHANGE_RIGHT_TARGET:
 				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
+				status.setCompiledTarget(((ReferenceChangeRightTarget)difference).getLeftTarget());
+				status.setWorkingCopyTargetURIFragment(createURIFragment(((ReferenceChangeRightTarget)difference)
+						.getRightTarget()));
 				break;
 
 			case DiffPackage.REFERENCE_ORDER_CHANGE:
@@ -207,6 +227,9 @@ public final class SynchronizerStatusFactory {
 				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
 				target = getInstructionFromAffectation(indexEntry, compiledElement,
 						difference.getReference(), ((ReferenceChangeLeftTarget)difference).getLeftTarget());
+				status.setCompiledTarget(((ReferenceChangeLeftTarget)difference).getLeftTarget());
+				status.setWorkingCopyTargetURIFragment(createURIFragment(((ReferenceChangeLeftTarget)difference)
+						.getRightTarget()));
 				break;
 
 			case DiffPackage.UPDATE_REFERENCE:
@@ -214,6 +237,13 @@ public final class SynchronizerStatusFactory {
 				target = getInstructionFromAffectation(indexEntry, compiledElement,
 						difference.getReference(), difference.getLeftElement()
 								.eGet(difference.getReference()));
+
+				// Workaround EMF compare 1 issue :
+				// Targets are in fact merging utilities and may not be relevant.
+				// In the current context, targets are inverted.
+				status.setCompiledTarget(((UpdateReference)difference).getRightTarget());
+				status.setWorkingCopyTargetURIFragment(createURIFragment(((UpdateReference)difference)
+						.getLeftTarget()));
 				break;
 
 			default:

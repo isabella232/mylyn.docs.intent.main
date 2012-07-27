@@ -316,19 +316,36 @@ public class CompilerInformationsSaver {
 		if (intentGenericElement instanceof InstanciationInstruction) {
 			InstanciationInstruction instanciation = (InstanciationInstruction)intentGenericElement;
 			for (StructuralFeatureAffectation affectation : instanciation.getStructuralFeatures()) {
-				affectations.put(affectation.getName(), affectation.getValues());
+				includeValues(affectations, affectation);
 			}
 
 		} else if (intentGenericElement instanceof ContributionInstruction) {
 			ContributionInstruction contribution = (ContributionInstruction)intentGenericElement;
 			for (ModelingUnitInstruction instruction : contribution.getContributions()) {
 				if (instruction instanceof StructuralFeatureAffectation) {
-					StructuralFeatureAffectation affectation = (StructuralFeatureAffectation)instruction;
-					affectations.put(affectation.getName(), affectation.getValues());
+					includeValues(affectations, (StructuralFeatureAffectation)instruction);
 				}
 			}
 		}
 		return affectations;
+	}
+
+	/**
+	 * Includes the affectation values into the map.
+	 * 
+	 * @param affectations
+	 *            the existing map
+	 * @param affectation
+	 *            the new affectation to include values from
+	 */
+	private void includeValues(BasicEMap<String, EList<ValueForStructuralFeature>> affectations,
+			StructuralFeatureAffectation affectation) {
+		EList<ValueForStructuralFeature> existing = affectations.get(affectation.getName());
+		if (existing == null) {
+			existing = new BasicEList<ValueForStructuralFeature>();
+		}
+		existing.addAll(affectation.getValues());
+		affectations.put(affectation.getName(), existing);
 	}
 
 	/**

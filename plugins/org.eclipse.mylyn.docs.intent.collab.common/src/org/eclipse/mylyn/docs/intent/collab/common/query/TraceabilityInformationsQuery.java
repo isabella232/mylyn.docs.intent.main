@@ -32,6 +32,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 
 /**
@@ -89,6 +90,49 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 	public Collection<ContributionInstruction> getAllRelatedContributions(UnitInstruction instruction) {
 		return Sets.newLinkedHashSet(Iterables.filter(getAllRelatedInstructions(instruction),
 				ContributionInstruction.class));
+	}
+
+	/**
+	 * Returns the instanciation associated to the given element.
+	 * 
+	 * @param instance
+	 *            the instance element
+	 * @return the instanciation associated to the given element
+	 */
+	public InstanciationInstruction getInstanciation(EObject instance) {
+		for (TraceabilityIndexEntry entry : getOrCreateTraceabilityIndex().getEntries()) {
+			EList<InstructionTraceabilityEntry> instructions = entry.getContainedElementToInstructions().get(
+					instance);
+			if (instructions != null) {
+				for (InstructionTraceabilityEntry instructionTraceabilityEntry : instructions) {
+					if (instructionTraceabilityEntry.getInstruction() instanceof InstanciationInstruction) {
+						return (InstanciationInstruction)instructionTraceabilityEntry.getInstruction();
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the instance associated to the given instanciation.
+	 * 
+	 * @param instanciation
+	 *            the instanciation
+	 * @return the instance associated to the given instanciation
+	 */
+	public EObject getInstance(InstanciationInstruction instanciation) {
+		for (TraceabilityIndexEntry entry : getOrCreateTraceabilityIndex().getEntries()) {
+			for (Entry<EObject, EList<InstructionTraceabilityEntry>> instructionsEntry : entry
+					.getContainedElementToInstructions()) {
+				for (InstructionTraceabilityEntry instructionTraceabilityEntry : instructionsEntry.getValue()) {
+					if (instructionTraceabilityEntry.getInstruction().equals(instanciation)) {
+						return instructionsEntry.getKey();
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
