@@ -115,10 +115,10 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 	 *            the status to fix
 	 */
 	private void fixModelElementChange(ModelingUnit modelingUnit, ModelElementChangeStatus status) {
+		IntentGenericElement target = status.getTarget();
 		switch (status.getChangeState().getValue()) {
 			case SynchronizerChangeState.WORKING_COPY_TARGET_VALUE:
-				EObject container = getContainer(status.getTarget(),
-						ModelingUnitPackage.CONTRIBUTION_INSTRUCTION,
+				EObject container = getContainer(target, ModelingUnitPackage.CONTRIBUTION_INSTRUCTION,
 						ModelingUnitPackage.INSTANCIATION_INSTRUCTION);
 				if (container instanceof ContributionInstruction) {
 					ContributionInstruction contribution = (ContributionInstruction)container;
@@ -138,22 +138,18 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 					}
 					setNewObjects(newObjects);
 
-					// TODO generate contribution, modeling unit, or contribute to existing one ?
-					ContributionInstruction contribution = generateContribution(instanciation);
-					contribution.getContributions().add(
-							generateAffectation(workingCopyObject.eContainingFeature(), workingCopyObject));
-
-					// updates the modeling unit
-					modelingUnit.getInstructions().add(contribution);
+					StructuralFeatureAffectation affectation = generateAffectation(
+							workingCopyObject.eContainingFeature(), workingCopyObject);
+					instanciation.getStructuralFeatures().add(affectation);
 				}
 				break;
 			case SynchronizerChangeState.COMPILED_TARGET_VALUE:
-				EObject affectation = getContainer(status.getTarget(),
-						ModelingUnitPackage.STRUCTURAL_FEATURE_AFFECTATION);
+				EObject affectation = getContainer(target, ModelingUnitPackage.STRUCTURAL_FEATURE_AFFECTATION);
 				if (affectation instanceof StructuralFeatureAffectation) {
 					removeAffectation((StructuralFeatureAffectation)affectation);
 				}
-				// TODO remove associated contributions ?
+				// TODO remove related contributions
+				// TODO remove related references
 				break;
 			default:
 				IntentLogger.getInstance().log(

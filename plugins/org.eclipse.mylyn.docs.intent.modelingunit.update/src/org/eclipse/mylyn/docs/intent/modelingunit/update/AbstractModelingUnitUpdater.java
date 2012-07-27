@@ -39,14 +39,14 @@ import org.eclipse.mylyn.docs.intent.modelingunit.gen.AbstractModelingUnitGenera
 public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGenerator {
 
 	/**
+	 * The common traceability query.
+	 */
+	protected TraceabilityInformationsQuery query;
+
+	/**
 	 * The mapping between working copy objects and existing instanciation instructions.
 	 */
 	private Map<EObject, InstanciationInstruction> match = new HashMap<EObject, InstanciationInstruction>();
-
-	/**
-	 * The common traceability query.
-	 */
-	private TraceabilityInformationsQuery query;
 
 	/**
 	 * Creates a modeling unit updater.

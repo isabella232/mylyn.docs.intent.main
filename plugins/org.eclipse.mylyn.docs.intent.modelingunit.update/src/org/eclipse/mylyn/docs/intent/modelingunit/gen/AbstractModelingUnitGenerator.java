@@ -67,6 +67,7 @@ public abstract class AbstractModelingUnitGenerator {
 	 * other.
 	 * 
 	 * @param newObjects
+	 *            the objects available during the creation process
 	 */
 	public void setNewObjects(List<EObject> newObjects) {
 		this.newObjects = newObjects;
