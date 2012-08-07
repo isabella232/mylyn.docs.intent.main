@@ -43,6 +43,10 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 	 */
 	protected TraceabilityInformationsQuery query;
 
+	private int lastIndex = -1;
+
+	private Map<EObject, String> referenceNames = new HashMap<EObject, String>();
+
 	/**
 	 * The mapping between working copy objects and existing instanciation instructions.
 	 */
@@ -166,4 +170,30 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.modelingunit.gen.AbstractModelingUnitGenerator#getReferenceName(org.eclipse.emf.ecore.EObject)
+	 */
+	@Override
+	protected String getReferenceName(EObject eObject) {
+		String res = referenceNames.get(eObject);
+		if (res == null) {
+			if (lastIndex < 0) {
+				// we have to init the index from existing instanciations
+				String regex = "REF[0-9]+";
+				for (InstanciationInstruction instanciation : query.getInstanciations()) {
+					String name = instanciation.getName();
+					if (name != null && name.matches(regex)) {
+						int current = Integer.valueOf(name.substring(3));
+						lastIndex = Math.max(lastIndex, current);
+					}
+				}
+			}
+			lastIndex++;
+			res = "REF" + lastIndex;
+			referenceNames.put(eObject, res);
+		}
+		return res;
+	}
 }

@@ -13,9 +13,11 @@ package org.eclipse.mylyn.docs.intent.collab.common.query;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -112,6 +114,31 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Returns the instanciations.
+	 * 
+	 * @return the instanciations list
+	 */
+	public List<InstanciationInstruction> getInstanciations() {
+		List<InstanciationInstruction> instanciations = new ArrayList<InstanciationInstruction>();
+		for (TraceabilityIndexEntry entry : getOrCreateTraceabilityIndex().getEntries()) {
+			Collection<EList<InstructionTraceabilityEntry>> mapValues = entry
+					.getContainedElementToInstructions().values();
+			if (mapValues != null) {
+				for (EList<InstructionTraceabilityEntry> instructions : mapValues) {
+					for (InstructionTraceabilityEntry instructionTraceabilityEntry : instructions) {
+						if (instructionTraceabilityEntry.getInstruction() instanceof InstanciationInstruction) {
+							instanciations.add((InstanciationInstruction)instructionTraceabilityEntry
+									.getInstruction());
+						}
+					}
+				}
+
+			}
+		}
+		return instanciations;
 	}
 
 	/**

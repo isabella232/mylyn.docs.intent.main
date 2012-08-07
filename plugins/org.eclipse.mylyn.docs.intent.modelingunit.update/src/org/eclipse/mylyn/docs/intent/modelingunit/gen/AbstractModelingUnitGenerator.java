@@ -87,8 +87,9 @@ public abstract class AbstractModelingUnitGenerator {
 				.createModelingUnitInstructionReference();
 		ref.setReferencedElement(instanciation);
 		if (instanciation.getName() == null) {
+			// if there is no reference available we generate a new one
 			EObject generated = getGeneratedElement(instanciation);
-			instanciation.setName(generateReferenceName(generated));
+			instanciation.setName(getReferenceName(generated));
 		}
 		ref.setIntentHref(instanciation.getName());
 		contribution.setReferencedElement(ref);
@@ -106,7 +107,7 @@ public abstract class AbstractModelingUnitGenerator {
 		InstanciationInstruction instanciation = ModelingUnitFactory.eINSTANCE
 				.createInstanciationInstruction();
 		instanciation.setLineBreak(true);
-		instanciation.setName(generateReferenceName(root));
+		instanciation.setName(getReferenceName(root)); // we set the previously generated reference name
 
 		TypeReference typeReference = ModelingUnitFactory.eINSTANCE.createTypeReference();
 		typeReference.setIntentHref(root.eClass().getName());
@@ -229,13 +230,14 @@ public abstract class AbstractModelingUnitGenerator {
 					InstanciationInstruction instanciation = getExistingInstanciationFor((EObject)newValue);
 					if (instanciation != null) {
 						if (instanciation.getName() == null) {
-							instanciation.setName(generateReferenceName(instanciation));
+							// if there is no reference available we generate a new one
+							instanciation.setName(getReferenceName(getGeneratedElement(instanciation)));
 						}
 						reference.setIntentHref(instanciation.getName());
 						((ReferenceValueForStructuralFeature)valueInstruction)
 								.setReferencedElement(reference);
 					} else if (newObjects != null && newObjects.contains(newValue)) {
-						reference.setIntentHref(generateReferenceName((EObject)newValue));
+						reference.setIntentHref(getReferenceName((EObject)newValue));
 						((ReferenceValueForStructuralFeature)valueInstruction)
 								.setReferencedElement(reference);
 					} else {
@@ -259,7 +261,7 @@ public abstract class AbstractModelingUnitGenerator {
 	protected boolean filter(EStructuralFeature feature) {
 		boolean isUnsettable = feature instanceof EReference && ((EReference)feature).isContainment()
 				&& feature.isUnsettable();
-		return !feature.isChangeable() || feature.isDerived() || isUnsettable;
+		return !feature.isChangeable() || feature.isDerived() || isUnsettable || feature.isTransient();
 	}
 
 	/**
@@ -287,8 +289,5 @@ public abstract class AbstractModelingUnitGenerator {
 	 *            the object to reference
 	 * @return the id
 	 */
-	private String generateReferenceName(EObject eObject) {
-		// TODO find a more convenient id ?
-		return "REF" + eObject.hashCode();
-	}
+	protected abstract String getReferenceName(EObject eObject);
 }
