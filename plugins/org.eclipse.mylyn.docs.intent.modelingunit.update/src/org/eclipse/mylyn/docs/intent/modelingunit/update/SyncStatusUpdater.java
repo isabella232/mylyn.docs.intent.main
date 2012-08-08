@@ -176,7 +176,9 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 			// in case of collections, we only want the value related to the status
 			newValue = getWorkingCopyEObject(((ReferenceChangeStatus)status)
 					.getWorkingCopyTargetURIFragment());
-		} else {
+		}
+
+		if (newValue == null) {
 			newValue = element.eGet(feature);
 		}
 
@@ -194,7 +196,9 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 					}
 				} else if (status.getTarget() instanceof InstanciationInstruction) {
 					StructuralFeatureAffectation newAffectation = generateAffectation(feature, newValue);
-					addAffectation((InstanciationInstruction)status.getTarget(), newAffectation);
+					if (newAffectation != null) {
+						addAffectation((InstanciationInstruction)status.getTarget(), newAffectation);
+					}
 				}
 				break;
 

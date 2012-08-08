@@ -48,9 +48,9 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 	private Map<EObject, String> referenceNames = new HashMap<EObject, String>();
 
 	/**
-	 * The mapping between working copy objects and existing instanciation instructions.
+	 * The mapping of working copy objects, compiled objects.
 	 */
-	private Map<EObject, InstanciationInstruction> match = new HashMap<EObject, InstanciationInstruction>();
+	private Map<EObject, EObject> match = new HashMap<EObject, EObject>();
 
 	/**
 	 * Creates a modeling unit updater.
@@ -99,12 +99,9 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 	private void collectAllMatches(MatchElement matchElement) {
 		if (matchElement instanceof Match2Elements) {
 			Match2Elements match2Elements = (Match2Elements)matchElement;
-			EObject rightElement = match2Elements.getRightElement();
-			EObject leftElement = match2Elements.getLeftElement();
-			InstanciationInstruction instanciation = query.getInstanciation(leftElement);
-			if (instanciation != null) {
-				match.put(rightElement, instanciation);
-			}
+			EObject workingCopyObject = match2Elements.getRightElement();
+			EObject compiledObject = match2Elements.getLeftElement();
+			match.put(workingCopyObject, compiledObject);
 		}
 		for (MatchElement subMatchElement : matchElement.getSubMatchElements()) {
 			collectAllMatches(subMatchElement);
@@ -118,7 +115,14 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 	 */
 	@Override
 	protected InstanciationInstruction getExistingInstanciationFor(EObject o) {
-		return match.get(o);
+		EObject compiledObject = match.get(o);
+		if (compiledObject != null) {
+			// working copy object
+			return query.getInstanciation(compiledObject);
+		} else {
+			// compiled object
+			return query.getInstanciation(o);
+		}
 	}
 
 	/**

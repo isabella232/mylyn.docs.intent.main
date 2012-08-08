@@ -233,17 +233,22 @@ public final class SynchronizerStatusFactory {
 				break;
 
 			case DiffPackage.UPDATE_REFERENCE:
+				UpdateReference updateDifference = (UpdateReference)difference;
 				status.setChangeState(SynchronizerChangeState.UPDATE);
 				target = getInstructionFromAffectation(indexEntry, compiledElement,
 						difference.getReference(), difference.getLeftElement()
 								.eGet(difference.getReference()));
 
+				EObject leftTarget = updateDifference.getLeftTarget();
+				EObject rightTarget = updateDifference.getRightTarget();
+
 				// Workaround EMF compare 1 issue :
 				// Targets are in fact merging utilities and may not be relevant.
-				// In the current context, targets are inverted.
-				status.setCompiledTarget(((UpdateReference)difference).getRightTarget());
-				status.setWorkingCopyTargetURIFragment(createURIFragment(((UpdateReference)difference)
-						.getLeftTarget()));
+				status.setCompiledTarget(leftTarget);
+				if (rightTarget != null) {
+					status.setWorkingCopyTargetURIFragment(createURIFragment(updateDifference
+							.getRightTarget()));
+				}
 				break;
 
 			default:
