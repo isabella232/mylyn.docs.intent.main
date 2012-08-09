@@ -22,15 +22,20 @@ import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.modelingunit.update.SyncStatusUpdater;
+import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 /**
  * Provide utilities to ease annotations manipulation.
@@ -102,6 +107,31 @@ public final class AnnotationUtils {
 	}
 
 	/**
+	 * Returns all annotations of the given {@link IntentAnnotationMessageType}.
+	 * 
+	 * @param intentEditor
+	 *            the editor to search into
+	 * @param messageType
+	 *            the searched {@link IntentAnnotationMessageType}
+	 * @return the annotations
+	 */
+	public static List<IntentAnnotation> getIntentAnnotations(IntentEditor intentEditor,
+			IntentAnnotationMessageType messageType) {
+		List<IntentAnnotation> res = new ArrayList<IntentAnnotation>();
+		Iterator<?> annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
+				.getAnnotationModel(null).getAnnotationIterator();
+		while (annotationIterator.hasNext()) {
+			Object annotation = annotationIterator.next();
+			if (annotation instanceof IntentAnnotation) {
+				if (messageType.equals(((IntentAnnotation)annotation).getMessageType())) {
+					res.add((IntentAnnotation)annotation);
+				}
+			}
+		}
+		return res;
+	}
+
+	/**
 	 * Applies the given annotation quick fix.
 	 * 
 	 * @param repositoryAdapter
@@ -113,7 +143,7 @@ public final class AnnotationUtils {
 	 * @throws IOException
 	 *             if merging fails
 	 */
-	public static void applyAnnotationFix(RepositoryAdapter repositoryAdapter, IntentAnnotation syncAnnotation)
+	public static void mergeToWorkingCopy(RepositoryAdapter repositoryAdapter, IntentAnnotation syncAnnotation)
 			throws IOException, InterruptedException {
 		// Step 1 : getting the resources to compare URI
 		String workingCopyResourceURI = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
@@ -137,6 +167,43 @@ public final class AnnotationUtils {
 
 		// Step 3.3 : Save model
 		workingCopyResource.save(null);
+	}
+
+	/**
+	 * Applies the annotation quick fix at the given index.
+	 * 
+	 * @param document
+	 *            the intent editor document
+	 * @param repositoryAdapter
+	 *            the repository adapter
+	 * @param syncAnnotation
+	 *            the sync annotation
+	 * @param index
+	 *            the annotation index
+	 */
+	public static void applyAnnotationFix(IntentEditorDocument document, RepositoryAdapter repositoryAdapter,
+			IntentAnnotation syncAnnotation, int index) {
+		// NOTE: similar to
+		// org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix.UpdateModelingUnitFix.applyFix(RepositoryAdapter,
+		// IntentEditorDocument)
+
+		EObject modelingUnit = syncAnnotation.getCompilationStatus().getTarget();
+
+		while (modelingUnit != null && !(modelingUnit instanceof ModelingUnit)) {
+			modelingUnit = modelingUnit.eContainer();
+		}
+
+		if (modelingUnit != null) {
+			SyncStatusUpdater updater = new SyncStatusUpdater(repositoryAdapter);
+			updater.fixSynchronizationStatus((SynchronizerCompilationStatus)syncAnnotation
+					.getCompilationStatus());
+			document.reloadFromAST();
+		}
+
+		// FIXME WORKAROUND
+		// workaround issue when applying quick fixes : editor doesn't reflect modifications
+		document.set(new IntentSerializer().serialize((EObject)document.getAST()));
+		// END WORKAROUND
 	}
 
 	/**

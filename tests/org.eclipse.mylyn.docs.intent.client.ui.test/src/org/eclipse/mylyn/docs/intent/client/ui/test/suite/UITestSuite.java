@@ -29,6 +29,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.CompilerNotifi
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.update.QuickFixTest;
 
 /**
  * This suite will launch all the tests relative to the UI behavior.
@@ -100,6 +101,11 @@ public class UITestSuite extends TestCase {
 		demoSuite.addTestSuite(EcoreTest.class);
 		demoSuite.addTestSuite(JavaTest.class);
 		// uiTestSuite.addTest(demoSuite);
+
+		// Updates tests
+		final TestSuite updatesSuite = new TestSuite("Modeling Unit update tests");
+		updatesSuite.addTestSuite(QuickFixTest.class);
+		uiTestSuite.addTest(updatesSuite);
 
 		return suite;
 	}

@@ -1,0 +1,58 @@
+Document {
+	Chapter QuickFixes {
+		Tests the creation of modeling units by application of quick fixes.
+
+		Section Modeling Unit {
+			This section contains the main modeling unit.
+			
+			@M
+				Resource testResource {
+					URI = "platform:/resource/intentProject/test.ecore";
+					content += testPackage;
+				}
+				new EPackage testPackage {
+					name = "testPackage";
+					nsURI = "testPackageURI";
+					nsPrefix = "testPackagePrefix";
+					eClassifiers += new EClass REF0 {
+						name = "A";
+						eStructuralFeatures += new EAttribute REF1 {
+							name = "a1";
+							lowerBound = "1";
+							upperBound = "-1";
+							eType = EInt;
+						};
+						eStructuralFeatures += new EAttribute REF2 {
+							name = "a2";
+							lowerBound = "1";
+							upperBound = "4";
+							eType = EString;
+						};
+						eStructuralFeatures += new EAttribute REF3 {
+							name = "a3";
+							upperBound = "-1";
+							eType = EBoolean;
+						};
+					};
+					eSubpackages += new EPackage REF4 {
+						name = "sub";
+						nsURI = "sub";
+						nsPrefix = "sub";
+						eClassifiers += new EClass REF5 {
+							name = "B";
+							eSuperTypes += REF0;
+						};
+						eClassifiers += new EClass REF6 {
+							name = "C";
+							eStructuralFeatures += new EReference REF7 {
+								name = "ref";
+								eType = REF5;
+							};
+						};
+					};
+				}
+			M@
+			
+		}
+	}
+}

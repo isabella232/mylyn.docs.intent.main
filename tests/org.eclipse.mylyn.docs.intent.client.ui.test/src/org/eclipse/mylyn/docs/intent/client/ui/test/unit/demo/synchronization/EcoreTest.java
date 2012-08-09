@@ -149,7 +149,7 @@ public class EcoreTest extends AbstractDemoTest {
 
 		// Step 4 : apply quick fix
 		repositoryListener.clearPreviousEntries();
-		AnnotationUtils.applyAnnotationFix(repositoryAdapter, annotation);
+		AnnotationUtils.mergeToWorkingCopy(repositoryAdapter, annotation);
 		waitForSynchronizer();
 
 		// Step 5 : ensure that synchronization issues no longer exists

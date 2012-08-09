@@ -54,8 +54,8 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 
 		if (modelingUnit != null) {
 			SyncStatusUpdater updater = new SyncStatusUpdater(repositoryAdapter);
-			updater.fixSynchronizationStatus((ModelingUnit)modelingUnit,
-					(SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus());
+			updater.fixSynchronizationStatus((SynchronizerCompilationStatus)syncAnnotation
+					.getCompilationStatus());
 			((IntentEditorDocument)document).reloadFromAST();
 		}
 	}

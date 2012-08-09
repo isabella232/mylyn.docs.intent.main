@@ -34,7 +34,6 @@ import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
@@ -72,24 +71,21 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 	/**
 	 * Fixes the given statuses by updating the given modeling unit.
 	 * 
-	 * @param modelingUnit
-	 *            the modeling unit to update
 	 * @param statusToFix
 	 *            the statuses to fix
 	 */
-	public void fixSynchronizationStatus(final ModelingUnit modelingUnit,
-			final SynchronizerCompilationStatus... statusToFix) {
+	public void fixSynchronizationStatus(final SynchronizerCompilationStatus... statusToFix) {
 		repositoryAdapter.execute(new IntentCommand() {
 			public void execute() {
 				for (SynchronizerCompilationStatus status : statusToFix) {
 					initMatch(status);
 					switch (status.eClass().getClassifierID()) {
 						case CompilerPackage.MODEL_ELEMENT_CHANGE_STATUS:
-							fixModelElementChange(modelingUnit, (ModelElementChangeStatus)status);
+							fixModelElementChange((ModelElementChangeStatus)status);
 							break;
 						case CompilerPackage.ATTRIBUTE_CHANGE_STATUS:
 						case CompilerPackage.REFERENCE_CHANGE_STATUS:
-							fixStructuralFeatureChange(modelingUnit, (StructuralFeatureChangeStatus)status);
+							fixStructuralFeatureChange((StructuralFeatureChangeStatus)status);
 							break;
 						default:
 							break;
@@ -109,12 +105,10 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 	/**
 	 * Fixes the given statuses by updating the given modeling unit.
 	 * 
-	 * @param modelingUnit
-	 *            the modeling unit to update
 	 * @param status
 	 *            the status to fix
 	 */
-	private void fixModelElementChange(ModelingUnit modelingUnit, ModelElementChangeStatus status) {
+	private void fixModelElementChange(ModelElementChangeStatus status) {
 		IntentGenericElement target = status.getTarget();
 		switch (status.getChangeState().getValue()) {
 			case SynchronizerChangeState.WORKING_COPY_TARGET_VALUE:
@@ -140,7 +134,9 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 
 					StructuralFeatureAffectation affectation = generateAffectation(
 							workingCopyObject.eContainingFeature(), workingCopyObject);
-					instanciation.getStructuralFeatures().add(affectation);
+					if (affectation != null) {
+						instanciation.getStructuralFeatures().add(affectation);
+					}
 				}
 				break;
 			case SynchronizerChangeState.COMPILED_TARGET_VALUE:
@@ -161,14 +157,12 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 	}
 
 	/**
-	 * Fixes the given statuses by updating the given modeling unit.
+	 * Fixes the given statuses.
 	 * 
-	 * @param modelingUnit
-	 *            the modeling unit to update
 	 * @param status
 	 *            the status to fix
 	 */
-	private void fixStructuralFeatureChange(ModelingUnit modelingUnit, StructuralFeatureChangeStatus status) {
+	private void fixStructuralFeatureChange(StructuralFeatureChangeStatus status) {
 		EObject element = getWorkingCopyEObject(status.getWorkingCopyElementURIFragment());
 		EStructuralFeature feature = element.eClass().getEStructuralFeature(status.getFeatureName());
 		Object newValue = null;
