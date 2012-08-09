@@ -239,15 +239,16 @@ public final class SynchronizerStatusFactory {
 						difference.getReference(), difference.getLeftElement()
 								.eGet(difference.getReference()));
 
-				EObject leftTarget = updateDifference.getLeftTarget();
-				EObject rightTarget = updateDifference.getRightTarget();
-
 				// Workaround EMF compare 1 issue :
-				// Targets are in fact merging utilities and may not be relevant.
+				// Actual targets are in fact merging utilities and may not be relevant.
+				EObject leftTarget = (EObject)updateDifference.getLeftElement().eGet(
+						updateDifference.getReference());
+				EObject rightTarget = (EObject)updateDifference.getRightElement().eGet(
+						updateDifference.getReference());
+
 				status.setCompiledTarget(leftTarget);
 				if (rightTarget != null) {
-					status.setWorkingCopyTargetURIFragment(createURIFragment(updateDifference
-							.getRightTarget()));
+					status.setWorkingCopyTargetURIFragment(createURIFragment(rightTarget));
 				}
 				break;
 
