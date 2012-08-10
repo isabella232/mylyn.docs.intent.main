@@ -41,12 +41,21 @@ Document {
 						eClassifiers += new EClass REF5 {
 							name = "B";
 							eSuperTypes += REF0;
+							eSuperTypes += REF6;
 						};
-						eClassifiers += new EClass REF6 {
+						eClassifiers += new EClass REF7 {
 							name = "C";
-							eStructuralFeatures += new EReference REF7 {
+							eStructuralFeatures += new EReference REF8 {
 								name = "ref";
 								eType = REF5;
+							};
+						};
+						eClassifiers += new EClass REF6 {
+							name = "D";
+							abstract = "true";
+							eStructuralFeatures += new EAttribute REF9 {
+								name = "name";
+								eType = EString;
 							};
 						};
 					};
