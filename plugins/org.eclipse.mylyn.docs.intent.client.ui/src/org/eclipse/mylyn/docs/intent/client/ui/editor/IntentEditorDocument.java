@@ -170,7 +170,6 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * @return the position of the given element if the document contains it, null otherwise
 	 */
 	public ParsedElementPosition getIntentPosition(EObject element) {
-
 		ParsedElementPosition positionForElement = getPositionManager().getPositionForElement(element);
 		return positionForElement;
 	}
@@ -183,17 +182,6 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * @return the element located at the given position
 	 */
 	public EObject getElementAtOffset(int offset) {
-		return getPositionManager().getElementAtPosition(offset);
-	}
-
-	/**
-	 * Returns the element corresponding to the given position.
-	 * 
-	 * @param offset
-	 *            the current offset
-	 * @return the element corresponding to the given position
-	 */
-	public EObject getElementAtPosition(int offset) {
 		return getPositionManager().getElementAtPosition(offset);
 	}
 
