@@ -63,7 +63,6 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
@@ -457,12 +456,12 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
 	public void handleChangeNotification(RepositoryChangeNotification notification) {
-		// Step 1 : If the received notification indicates the deletion of the root of the associated document
+		// If the received notification indicates the deletion of the root of the associated document
 		if (handleRootHasBeenDeleted(notification)) {
 			return;
 		}
 
-		// Step 2 : For each object modified indicated by this notification
+		// For each object modified indicated by this notification
 		for (EObject modifiedObject : notification.getRightRoots()) {
 			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
 					.getIDFromElement(modifiedObject);
@@ -471,7 +470,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
 				handleContentHasChanged(modifiedObject, modifiedObjectIdentifier);
 			} else {
-				// Step 2 : update annotations (if the compilation status manager has changed)
+				// update annotations (if the compilation status manager has changed)
 				handleCompilationStatusHasChanged(modifiedObject);
 			}
 		}
