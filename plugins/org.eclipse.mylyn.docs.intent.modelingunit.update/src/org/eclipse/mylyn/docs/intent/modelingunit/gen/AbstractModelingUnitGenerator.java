@@ -83,6 +83,7 @@ public abstract class AbstractModelingUnitGenerator {
 	 */
 	public ContributionInstruction generateContribution(InstanciationInstruction instanciation) {
 		ContributionInstruction contribution = ModelingUnitFactory.eINSTANCE.createContributionInstruction();
+		contribution.setLineBreak(true);
 		ModelingUnitInstructionReference ref = ModelingUnitFactory.eINSTANCE
 				.createModelingUnitInstructionReference();
 		ref.setReferencedElement(instanciation);
@@ -106,7 +107,6 @@ public abstract class AbstractModelingUnitGenerator {
 	public InstanciationInstruction generateInstanciation(EObject root) {
 		InstanciationInstruction instanciation = ModelingUnitFactory.eINSTANCE
 				.createInstanciationInstruction();
-		instanciation.setLineBreak(true);
 		instanciation.setName(getReferenceName(root)); // we set the previously generated reference name
 
 		TypeReference typeReference = ModelingUnitFactory.eINSTANCE.createTypeReference();

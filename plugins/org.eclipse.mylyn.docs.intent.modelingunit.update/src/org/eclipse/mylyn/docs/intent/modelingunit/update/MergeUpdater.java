@@ -11,13 +11,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.modelingunit.update;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
@@ -117,7 +116,7 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 	 *            the elements
 	 */
 	private void internalCreate(final ModelingUnit modelingUnit, final List<EObject> elements) {
-		setNewObjects(elements);
+		setNewObjects(getAllNewObjects(elements));
 		newInstanciations = new HashMap<EObject, InstanciationInstruction>();
 		for (EObject workingCopyObject : elements) {
 			ModelElementChangeStatus status = findStatus(workingCopyObject);
@@ -151,6 +150,22 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 	}
 
 	/**
+	 * Gather all objects content.
+	 * 
+	 * @param roots
+	 *            the root objects
+	 * @return the objects and their content
+	 */
+	private List<EObject> getAllNewObjects(List<EObject> roots) {
+		List<EObject> res = new ArrayList<EObject>();
+		for (EObject root : roots) {
+			res.add(root);
+			res.addAll(getAllNewObjects(root.eContents()));
+		}
+		return res;
+	}
+
+	/**
 	 * Finds a status associated to the given object.
 	 * 
 	 * @param eObject
@@ -170,17 +185,6 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 			}
 		}
 		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.modelingunit.gen.AbstractModelingUnitGenerator#filter(org.eclipse.emf.ecore.EStructuralFeature)
-	 */
-	@Override
-	protected boolean filter(EStructuralFeature feature) {
-		return super.filter(feature)
-				|| (feature instanceof EReference && ((EReference)feature).isContainment());
 	}
 
 }
