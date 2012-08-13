@@ -44,7 +44,7 @@ public class WorkspaceRepository implements Repository {
 	/**
 	 * The default extension for any element stored on the repository.
 	 */
-	private static final String WORKSPACE_RESOURCE_EXTENSION = "xmi";
+	private static final String WORKSPACE_RESOURCE_EXTENSION = "repomodel";
 
 	/**
 	 * Represents this repository configuration.

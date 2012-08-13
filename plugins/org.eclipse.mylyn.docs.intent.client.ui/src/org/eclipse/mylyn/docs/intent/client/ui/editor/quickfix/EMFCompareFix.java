@@ -12,6 +12,7 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareUI;
@@ -33,6 +34,7 @@ import org.eclipse.emf.compare.diff.metamodel.ComparisonSnapshot;
 import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
+import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
@@ -92,7 +94,9 @@ public class EMFCompareFix extends AbstractIntentFix {
 		// Step 3 : opening a new Compare Editor on these two resources
 		try {
 			// Step 3.1 : making match and diff
-			MatchModel match = MatchService.doResourceMatch(generatedResource, workingCopyResource, null);
+			final HashMap<String, Object> options = new HashMap<String, Object>();
+			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
+			MatchModel match = MatchService.doResourceMatch(generatedResource, workingCopyResource, options);
 			DiffModel diff = DiffService.doDiff(match, false);
 
 			// Step 3.2 : creating a comparaison snapshot from this diff

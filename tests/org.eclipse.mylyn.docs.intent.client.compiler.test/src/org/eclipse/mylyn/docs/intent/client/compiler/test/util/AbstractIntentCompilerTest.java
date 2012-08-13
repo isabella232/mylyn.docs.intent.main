@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
+import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EObject;
@@ -176,8 +177,10 @@ public abstract class AbstractIntentCompilerTest implements ILogListener {
 			} else {
 				Resource expected = resourceSet.getResource(expectedURI, true);
 				try {
-					MatchModel matchModel = MatchService.doResourceMatch(expected, generatedResource,
-							new HashMap<String, Object>());
+					final HashMap<String, Object> options = new HashMap<String, Object>();
+					options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
+					MatchModel matchModel = MatchService
+							.doResourceMatch(expected, generatedResource, options);
 					DiffModel diff = DiffService.doDiff(matchModel, false);
 					Assert.assertTrue("There are differences between expected and actual", diff
 							.getDifferences().isEmpty());

@@ -306,7 +306,8 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 */
 	public boolean isRepositoryResource(IResource resource) {
 		boolean isRepositoryResource = false;
-		isRepositoryResource = "xmi".equals(resource.getFileExtension());
+		isRepositoryResource = WorkspaceRepository.getWorkspaceResourceExtension().equals(
+				resource.getFileExtension());
 		isRepositoryResource = isRepositoryResource
 				&& repository.isInRepositoryPath(resource.getFullPath().toString());
 		return isRepositoryResource;

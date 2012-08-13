@@ -12,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.eclipse.emf.compare.diff.merge.service.MergeService;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
+import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EObject;
@@ -158,7 +160,9 @@ public final class AnnotationUtils {
 		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
 
 		// Step 3.1 : making match and diff
-		MatchModel match = MatchService.doResourceMatch(generatedResource, workingCopyResource, null);
+		final HashMap<String, Object> options = new HashMap<String, Object>();
+		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
+		MatchModel match = MatchService.doResourceMatch(generatedResource, workingCopyResource, options);
 		DiffModel diff = DiffService.doDiff(match, false);
 
 		// Step 3.2 : Merges all differences from local to repository

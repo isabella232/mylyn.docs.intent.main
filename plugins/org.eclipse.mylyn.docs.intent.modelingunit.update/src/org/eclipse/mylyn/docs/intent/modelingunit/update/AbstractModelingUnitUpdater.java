@@ -24,7 +24,6 @@ import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -74,10 +73,7 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 	protected void includeMatch(Resource compiledResource, Resource workingCopyResource) {
 		try {
 			final HashMap<String, Object> options = new HashMap<String, Object>();
-			if ((compiledResource instanceof XMIResource && !(workingCopyResource instanceof XMIResource))
-					|| (workingCopyResource instanceof XMIResource && !(compiledResource instanceof XMIResource))) {
-				options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
-			}
+			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
 			MatchModel matchModel = MatchService.doResourceMatch(compiledResource, workingCopyResource,
 					options);
 			for (MatchElement matchElement : matchModel.getMatchedElements()) {

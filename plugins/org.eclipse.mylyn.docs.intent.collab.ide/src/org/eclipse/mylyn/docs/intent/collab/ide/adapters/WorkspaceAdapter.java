@@ -322,6 +322,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		}
 		// CHECKSTYLE:ON
 
+		// return !equal || resourcetoSave.getURI().toString().contains("StatusIndex");
 		return !equal;
 	}
 

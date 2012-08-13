@@ -35,7 +35,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtensionRegistry;
@@ -488,10 +487,7 @@ public class IntentSynchronizer {
 			// TODO : treat differently models and meta-models : this match isn't efficient on
 			// simple meta-models instances
 			final HashMap<String, Object> options = new HashMap<String, Object>();
-			if ((leftResource instanceof XMIResource && !(rightResource instanceof XMIResource))
-					|| (rightResource instanceof XMIResource && !(leftResource instanceof XMIResource))) {
-				options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
-			}
+			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
 			MatchModel matchModel = MatchService.doResourceMatch(leftResource, rightResource, options);
 			DiffModel diff = DiffService.doDiff(matchModel, false);
 			return diff.getDifferences();

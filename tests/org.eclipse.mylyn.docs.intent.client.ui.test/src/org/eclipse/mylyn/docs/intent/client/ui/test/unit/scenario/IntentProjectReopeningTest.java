@@ -24,6 +24,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceRepository;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils.FileToStringConverter;
@@ -100,7 +101,7 @@ public class IntentProjectReopeningTest extends AbstractIntentUITest {
 		ResourceSet rs = new ResourceSetImpl();
 		IntentDocument newDocument = null;
 		URI documentURI = URI.createURI("platform:/resource/" + intentProject.getName() + "/.repository/"
-				+ IntentLocations.INTENT_INDEX + ".xmi");
+				+ IntentLocations.INTENT_INDEX + '.' + WorkspaceRepository.getWorkspaceResourceExtension());
 		Resource documentResource = rs.getResource(documentURI, true);
 		if (documentResource != null && documentResource.getContents().iterator().hasNext()
 				&& documentResource.getContents().iterator().next() instanceof IntentStructuredElement) {

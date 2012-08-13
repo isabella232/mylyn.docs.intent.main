@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Obeo.
+ * Copyright (c) 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -131,7 +131,7 @@ public class QuickFixTest extends AbstractZipBasedTest {
 		if (!annotations.isEmpty()) {
 			AnnotationUtils.displayAnnotations(editor);
 		}
-		assertTrue(annotations.isEmpty());
 		assertEquals(FileToStringConverter.getFileAsString(new File(FINAL_INTENT_DOC)), document.get());
+		assertTrue(annotations.isEmpty());
 	}
 }

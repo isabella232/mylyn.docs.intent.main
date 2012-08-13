@@ -21,6 +21,7 @@ import org.eclipse.mylyn.docs.intent.collab.common.query.IndexQuery;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceConfig;
+import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceRepository;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
@@ -90,7 +91,8 @@ public class RepositoryContentProvider implements ITreeContentProvider {
 		IFolder repositoryFolder = project.getFolder(WorkspaceConfig.getRepositoryStandardName());
 		if (repositoryFolder.exists()) {
 			// If this repositoryFolder has an index
-			IFile file = repositoryFolder.getFile(IntentLocations.GENERAL_INDEX_PATH + ".xmi");
+			IFile file = repositoryFolder.getFile(IntentLocations.GENERAL_INDEX_PATH + '.'
+					+ WorkspaceRepository.getWorkspaceResourceExtension());
 			if (file.exists()) {
 				return file;
 			}
