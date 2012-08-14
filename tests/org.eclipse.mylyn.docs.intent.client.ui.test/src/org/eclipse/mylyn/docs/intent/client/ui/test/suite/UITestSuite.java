@@ -105,6 +105,7 @@ public class UITestSuite extends TestCase {
 		// Updates tests
 		final TestSuite updatesSuite = new TestSuite("Modeling Unit update tests");
 		updatesSuite.addTestSuite(QuickFixTest.class);
+		// updatesSuite.addTestSuite(DragAndDropTest.class);
 		uiTestSuite.addTest(updatesSuite);
 
 		return suite;
