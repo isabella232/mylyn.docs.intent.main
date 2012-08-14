@@ -330,7 +330,7 @@
 				<url>https://hudson.eclipse.org/hudson/job/m2t-acceleo-master/lastSuccessfulBuild/artifact/Acceleo.p2.repository/</url>
 			</repository>			
 			<repository><id>emfcompare</id><layout>p2</layout>
-				<url>http://download.eclipse.org/modeling/emf/compare/updates/milestones/1.3/</url>
+				<url>http://download.eclipse.org/modeling/emf/compare/updates/releases/1.3/</url>
 			</repository>
 			<repository><id>juno</id><layout>p2</layout>
 			   <url>http://download.eclipse.org/releases/juno</url>          
