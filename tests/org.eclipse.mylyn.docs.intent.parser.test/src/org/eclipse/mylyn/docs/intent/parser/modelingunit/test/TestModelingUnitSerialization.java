@@ -46,7 +46,7 @@ public class TestModelingUnitSerialization {
 	@Before
 	public void setUp() {
 		modelingUnitParser = new ModelingUnitParserImpl();
-		modelingUnitSerializer = ModelingUnitSerializer.getSerializer();
+		modelingUnitSerializer = new ModelingUnitSerializer();
 	}
 
 	static void parseAndCompareSerializationToExpected(String fileToTest, boolean supposedToWork) {

@@ -33,11 +33,6 @@ public final class ModelingUnitSerializer {
 	public static final String WHITESPACE = IntentKeyWords.INTENT_WHITESPACE;
 
 	/**
-	 * Instance of the Serializer (singleton).
-	 */
-	private static ModelingUnitSerializer serializer;
-
-	/**
 	 * Dispatcher used to render the WikiText element according to its type.
 	 */
 	private ModelingUnitElementDispatcher dispatcher;
@@ -47,18 +42,6 @@ public final class ModelingUnitSerializer {
 	 */
 	public ModelingUnitSerializer() {
 		dispatcher = new ModelingUnitElementDispatcher();
-	}
-
-	/**
-	 * Returns the current instance of the serializer.
-	 * 
-	 * @return the current instance of the serializer.
-	 */
-	public static ModelingUnitSerializer getSerializer() {
-		if (serializer == null) {
-			serializer = new ModelingUnitSerializer();
-		}
-		return serializer;
 	}
 
 	/**
