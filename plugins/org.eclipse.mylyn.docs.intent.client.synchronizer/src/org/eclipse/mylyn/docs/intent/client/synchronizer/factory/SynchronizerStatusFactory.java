@@ -373,10 +373,13 @@ public final class SynchronizerStatusFactory {
 					for (ValueForStructuralFeature value : values) {
 						Object compiledValue = getCompiledValue(indexEntry, value);
 						boolean isNativeValueEquals = value instanceof NativeValueForStructuralFeature
-								&& diffValue.toString().equals(compiledValue);
-						if (isNativeValueEquals
-								|| ((value instanceof ReferenceValueForStructuralFeature || value instanceof NewObjectValueForStructuralFeature) && diffValue
-										.equals(compiledValue))) {
+								&& diffValue != null && diffValue.toString().equals(compiledValue);
+						boolean isRefValue = value instanceof ReferenceValueForStructuralFeature
+								|| value instanceof NewObjectValueForStructuralFeature;
+						boolean refValueEquals = (diffValue == null && compiledValue == null)
+								|| (diffValue != null && diffValue.equals(compiledValue));
+						boolean isRefValueEquals = isRefValue && refValueEquals;
+						if (isNativeValueEquals || isRefValueEquals) {
 							return value;
 						}
 					}
