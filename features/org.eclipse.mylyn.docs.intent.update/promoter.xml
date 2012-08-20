@@ -23,7 +23,7 @@
 	-->
 
 	<property name="downloads.project.root" value="intent" />
-	<property name="build.root" value="/shared/jobs/mylyn-docs-intent-0.7-nightly/lastSuccessful/archive/features/org.eclipse.mylyn.docs.intent.update/target/" />
+	<property name="build.root" value="/shared/jobs/mylyn-docs-intent-master/lastSuccessful/archive/features/org.eclipse.mylyn.docs.intent.update/target/" />
 	<property name="project.name" value="Mylyn Intent"/>
 	<property name="thirdPartyJarsDir" value="/shared/mylyn/intent" />
 	<property name="final.updatesite.name" value="mylyn-doc-intent-Update"/>
