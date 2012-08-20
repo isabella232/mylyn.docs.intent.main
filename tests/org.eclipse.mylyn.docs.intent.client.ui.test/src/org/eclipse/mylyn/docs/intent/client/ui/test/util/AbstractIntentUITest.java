@@ -41,20 +41,11 @@ import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
-<<<<<<< HEAD
-import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
-import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
-import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
-=======
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryInitializer;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
->>>>>>> master
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -482,14 +473,11 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		} else {
 			assertFalse("Synchonizer should not have been notifed",
 					repositoryListener.waitForModificationOn("Synchronizer"));
-<<<<<<< HEAD
-=======
 		}
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 
->>>>>>> master
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -511,8 +499,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		} else {
 			assertFalse("Indexer should not have been notifed",
 					repositoryListener.waitForModificationOn("Indexer"));
-<<<<<<< HEAD
-=======
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -534,7 +520,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		} else {
 			assertFalse("Project Explorer Refresher should not have been notifed",
 					repositoryListener.waitForModificationOn("Project Explorer Refresher"));
->>>>>>> master
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -556,14 +541,11 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		} else {
 			assertFalse("Compiler should not have been notifed",
 					repositoryListener.waitForModificationOn("Compiler"));
-<<<<<<< HEAD
-=======
 		}
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 
->>>>>>> master
 		}
 		waitForAllOperationsInUIThread();
 	}

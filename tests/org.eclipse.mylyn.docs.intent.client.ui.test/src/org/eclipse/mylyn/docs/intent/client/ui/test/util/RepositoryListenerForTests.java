@@ -10,18 +10,11 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
-<<<<<<< HEAD
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
-import java.util.Collection;
-=======
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import java.util.Collection;
 import java.util.List;
->>>>>>> master
 import java.util.Map;
 
 import org.eclipse.core.runtime.ILogListener;
