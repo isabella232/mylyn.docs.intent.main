@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Localization: plugin
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.client.ui.cdo;singleton:=true
-Bundle-Version: 0.7.0.qualifier
+Bundle-Version: 0.7.1.qualifier
 Bundle-Vendor: %providerName
 Bundle-Activator: org.eclipse.mylyn.docs.intent.client.ui.cdo.Activator
 Require-Bundle: org.eclipse.ui,

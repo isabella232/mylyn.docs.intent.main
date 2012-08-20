@@ -11,13 +11,13 @@
  <parent>
     <groupId>org.eclipse.mylyn.docs.intent-group</groupId>
     <artifactId>intent-parent</artifactId>
-    <version>0.7.0-SNAPSHOT</version>
+    <version>0.7.1-SNAPSHOT</version>
     <relativePath>../..</relativePath>
   </parent>
 
   <groupId>acceleo</groupId>
   <artifactId>org.eclipse.mylyn.docs.intent.markup.gen</artifactId>
-  <version>0.7.0.qualifier</version> <!-- This version should match the version of your project in the MANIFEST.MF-->
+  <version>0.7.1.qualifier</version> <!-- This version should match the version of your project in the MANIFEST.MF-->
   <packaging>eclipse-plugin</packaging>
 
   <build>
