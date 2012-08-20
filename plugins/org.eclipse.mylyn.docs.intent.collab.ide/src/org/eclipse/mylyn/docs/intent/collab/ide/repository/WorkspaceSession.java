@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.collab.ide.repository;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	/**
 	 * Resources that had been saved but for which we didn't receive any notification yet.
 	 */
-	protected Collection<Resource> savedResources = new ArrayList<Resource>();
+	protected Collection<Resource> savedResources = Lists.newArrayList();
 
 	/**
 	 * The {@link WorkspaceRepository} associated to this session.
@@ -128,43 +129,44 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 *            the IResourceDelta to analyse
 	 */
 	private synchronized void analyseWorkspaceDelta(IResourceDelta repositoryDelta) {
+		if (repositoryAdapter != null) {
+			// We first create a DeltaVisitor on the repository Path
+			final WorkspaceSessionDeltaVisitor visitor = new WorkspaceSessionDeltaVisitor(repositoryAdapter,
+					repositoryPath);
+			try {
+				// We visit the given delta using this visitor
+				repositoryDelta.accept(visitor);
 
-		// We first create a DeltaVisitor on the repository Path
-		final WorkspaceSessionDeltaVisitor visitor = new WorkspaceSessionDeltaVisitor(repositoryAdapter,
-				repositoryPath);
-		try {
-			// We visit the given delta using this visitor
-			repositoryDelta.accept(visitor);
+				// We get the changed and removed Resources
+				Collection<Resource> removedResources = new ArrayList<Resource>();
+				Collection<Resource> changedResources = new ArrayList<Resource>();
 
-			// We get the changed and removed Resources
-			Collection<Resource> removedResources = new ArrayList<Resource>();
-			Collection<Resource> changedResources = new ArrayList<Resource>();
-
-			if (!visitor.getRemovedResources().isEmpty()) {
-				removedResources.addAll(visitor.getRemovedResources());
-			}
-
-			for (Resource changedResource : visitor.getChangedResources()) {
-
-				// If the resource is contained in the savedResources list, it means
-				// that we should ignore this notification ; however we remove this resource
-				// from this list so that we'll treat the next notifications
-				if (!savedResources.contains(changedResource)) {
-					changedResources.add(changedResource);
-				} else {
-					savedResources.remove(changedResource);
+				if (!visitor.getRemovedResources().isEmpty()) {
+					removedResources.addAll(visitor.getRemovedResources());
 				}
+
+				for (Resource changedResource : visitor.getChangedResources()) {
+
+					// If the resource is contained in the savedResources list, it means
+					// that we should ignore this notification ; however we remove this resource
+					// from this list so that we'll treat the next notifications
+					if (!savedResources.contains(changedResource)) {
+						changedResources.add(changedResource);
+					} else {
+						savedResources.remove(changedResource);
+					}
+				}
+
+				// Finally, we treat each removed or changed resource.
+				treatRemovedResources(removedResources);
+				treatChangedResources(changedResources);
+
+			} catch (CoreException e) {
+				// TODO define a standard reaction to this exception :
+				// - relaunch the session
+				// - try to visit the delta again
+				// - do nothing
 			}
-
-			// Finally, we treat each removed or changed resource.
-			treatRemovedResources(removedResources);
-			treatChangedResources(changedResources);
-
-		} catch (CoreException e) {
-			// TODO define a standard reaction to this exception :
-			// - relaunch the session
-			// - try to visit the delta again
-			// - do nothing
 		}
 	}
 
@@ -178,8 +180,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	private void treatChangedResources(Collection<Resource> changedResources) {
 		// For each changed resources
 		for (final Resource changedResource : changedResources) {
-
-			if (changedResource.isLoaded()) {
+			if (repositoryAdapter != null) {
 				repositoryAdapter.execute(new IntentCommand() {
 
 					public void execute() {
@@ -283,7 +284,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	private void notifyListeners(Resource resource) {
 
 		// Step 1 : notifying type listeners
-		for (WorkspaceTypeListener listener : this.workspaceSessionListeners) {
+		for (WorkspaceTypeListener listener : Sets.newLinkedHashSet(this.workspaceSessionListeners)) {
 			listener.notifyResourceChanged(resource);
 		}
 
@@ -305,7 +306,8 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 */
 	public boolean isRepositoryResource(IResource resource) {
 		boolean isRepositoryResource = false;
-		isRepositoryResource = "xmi".equals(resource.getFileExtension());
+		isRepositoryResource = WorkspaceRepository.getWorkspaceResourceExtension().equals(
+				resource.getFileExtension());
 		isRepositoryResource = isRepositoryResource
 				&& repository.isInRepositoryPath(resource.getFullPath().toString());
 		return isRepositoryResource;
@@ -319,9 +321,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 *            the new save resource
 	 */
 	public void addSavedResource(Resource savedResource) {
-		if (!savedResources.contains(savedResource)) {
-			savedResources.add(savedResource);
-		}
+		savedResources.add(savedResource);
 	}
 
 	/**

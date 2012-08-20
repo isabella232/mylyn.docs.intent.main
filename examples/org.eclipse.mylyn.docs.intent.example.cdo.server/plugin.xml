@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="org.eclipse.ui.Examples/org.eclipse.mylyn.docs.intent.example.category"
+            class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard"
+            icon="icons/CDORepository.png"
+            id="org.eclipse.mylyn.docs.intent.example.cdo.server.wizard"
+            name="Intent Server Examples"
+            project="true">
+         <description>
+            Off-the-shelf repository configurations allowing to launch a CDO Server for Intent.
+         </description>
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.emf.common.ui.examples">
+      <example
+            pageImage="icons/CDORepository.png"
+            wizardID="org.eclipse.mylyn.docs.intent.example.cdo.server.wizard">
+         <projectDescriptor
+               contentURI="samples/org.eclipse.mylyn.docs.intent.example.cdo.servers/"
+               description="Off-the-shelf repository configurations allowing to launch a CDO Server for Intent."
+               name="org.eclipse.mylyn.docs.intent.example.cdo.servers">
+         </projectDescriptor>
+      </example>
+   </extension>
+
+</plugin>

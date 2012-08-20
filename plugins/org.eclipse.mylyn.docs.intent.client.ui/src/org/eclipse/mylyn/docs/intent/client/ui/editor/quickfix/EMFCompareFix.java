@@ -12,6 +12,7 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareUI;
@@ -33,20 +34,17 @@ import org.eclipse.emf.compare.diff.metamodel.ComparisonSnapshot;
 import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
+import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Point;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.ISourceProvider;
 import org.eclipse.ui.IWorkbenchPart;
@@ -56,47 +54,49 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.services.IServiceLocator;
 
 /**
- * {@link ICompletionProposal} used to fix a Synchronization issue by opening the compare Editor.
+ * Proposal used to fix a Synchronization issue by opening the compare Editor.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class EMFCompareFix implements ICompletionProposal {
+public class EMFCompareFix extends AbstractIntentFix {
 
 	private static final String COMPARE_EDITOR_TITLE = "Comparing Intent Document and Working Copy";
-
-	private IntentAnnotation syncAnnotation;
 
 	/**
 	 * Default constructor.
 	 * 
 	 * @param annotation
-	 *            the {@link IntentAnnotation} describing the synchronization issue.
+	 *            the annotation describing the synchronization issue.
 	 */
 	public EMFCompareFix(Annotation annotation) {
-		this.syncAnnotation = (IntentAnnotation)annotation;
+		super(annotation);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#apply(org.eclipse.jface.text.IDocument)
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix.AbstractIntentFix#applyFix(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter,
+	 *      org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument)
 	 */
-	public void apply(IDocument document) {
+	@Override
+	protected void applyFix(RepositoryAdapter repositoryAdapter, IntentEditorDocument document) {
 		// Step 1 : getting the resources to compare URI
-		String workingCopyResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[1])
-				.replace("\"", "");
-		String generatedResourceURI = ((String)syncAnnotation.getAdditionalInformations().toArray()[2])
-				.replace("\"", "");
+		String workingCopyResourceURI = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
+				.getWorkingCopyResourceURI().replace("\"", "");
+		String generatedResourceURI = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
+				.getCompiledResourceURI().replace("\"", "");
 
 		// Step 2 : loading the resources
+		Resource generatedResource = repositoryAdapter.getResource(generatedResourceURI);
 		ResourceSetImpl rs = new ResourceSetImpl();
-		Resource generatedResource = rs.getResource(URI.createURI(generatedResourceURI), true);
 		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
 
 		// Step 3 : opening a new Compare Editor on these two resources
 		try {
 			// Step 3.1 : making match and diff
-			MatchModel match = MatchService.doResourceMatch(generatedResource, workingCopyResource, null);
+			final HashMap<String, Object> options = new HashMap<String, Object>();
+			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
+			MatchModel match = MatchService.doResourceMatch(generatedResource, workingCopyResource, options);
 			DiffModel diff = DiffService.doDiff(match, false);
 
 			// Step 3.2 : creating a comparaison snapshot from this diff
@@ -115,25 +115,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		} catch (InterruptedException e) {
 			// Editor will not be opened
 		}
-
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getSelection(org.eclipse.jface.text.IDocument)
-	 */
-	public Point getSelection(IDocument document) {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getAdditionalProposalInfo()
-	 */
-	public String getAdditionalProposalInfo() {
-		return "";
 	}
 
 	/**
@@ -143,24 +124,6 @@ public class EMFCompareFix implements ICompletionProposal {
 	 */
 	public String getDisplayString() {
 		return "See differences in Compare Editor";
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getImage()
-	 */
-	public Image getImage() {
-		return IntentEditorActivator.getDefault().getImage("icon/annotation/sync-warning.gif");
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getContextInformation()
-	 */
-	public IContextInformation getContextInformation() {
-		return null;
 	}
 
 	/**
@@ -302,7 +265,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 * @see org.eclipse.ui.services.IDisposable#dispose()
 		 */
 		public void dispose() {
-
 		}
 
 		/**
@@ -311,7 +273,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 * @see org.eclipse.ui.services.IServiceWithSources#removeSourceProvider(org.eclipse.ui.ISourceProvider)
 		 */
 		public void removeSourceProvider(ISourceProvider provider) {
-
 		}
 
 		/**
@@ -320,7 +281,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 * @see org.eclipse.ui.services.IServiceWithSources#addSourceProvider(org.eclipse.ui.ISourceProvider)
 		 */
 		public void addSourceProvider(ISourceProvider provider) {
-
 		}
 
 		/**
@@ -330,7 +290,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 *      java.lang.String)
 		 */
 		public void setHelpContextId(IHandler handler, String helpContextId) {
-
 		}
 
 		/**
@@ -339,7 +298,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 * @see org.eclipse.ui.handlers.IHandlerService#readRegistry()
 		 */
 		public void readRegistry() {
-
 		}
 
 		/**
@@ -348,7 +306,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 * @see org.eclipse.ui.handlers.IHandlerService#getCurrentState()
 		 */
 		public IEvaluationContext getCurrentState() {
-
 			return null;
 		}
 
@@ -362,7 +319,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		public Object executeCommandInContext(ParameterizedCommand command, Event event,
 				IEvaluationContext context) throws ExecutionException, NotDefinedException,
 				NotEnabledException, NotHandledException {
-
 			return null;
 		}
 
@@ -374,7 +330,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 */
 		public Object executeCommand(ParameterizedCommand command, Event event) throws ExecutionException,
 				NotDefinedException, NotEnabledException, NotHandledException {
-
 			return null;
 		}
 
@@ -386,7 +341,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 */
 		public Object executeCommand(String commandId, Event event) throws ExecutionException,
 				NotDefinedException, NotEnabledException, NotHandledException {
-
 			return null;
 		}
 
@@ -397,7 +351,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 * @see org.eclipse.ui.handlers.IHandlerService#deactivateHandlers(java.util.Collection)
 		 */
 		public void deactivateHandlers(Collection activations) {
-
 		}
 
 		/**
@@ -406,7 +359,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 * @see org.eclipse.ui.handlers.IHandlerService#deactivateHandler(org.eclipse.ui.handlers.IHandlerActivation)
 		 */
 		public void deactivateHandler(IHandlerActivation activation) {
-
 		}
 
 		/**
@@ -416,7 +368,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 *      org.eclipse.swt.widgets.Event)
 		 */
 		public ExecutionEvent createExecutionEvent(ParameterizedCommand command, Event event) {
-
 			return null;
 		}
 
@@ -427,7 +378,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 *      org.eclipse.swt.widgets.Event)
 		 */
 		public ExecutionEvent createExecutionEvent(Command command, Event event) {
-
 			return null;
 		}
 
@@ -437,7 +387,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 * @see org.eclipse.ui.handlers.IHandlerService#createContextSnapshot(boolean)
 		 */
 		public IEvaluationContext createContextSnapshot(boolean includeSelection) {
-
 			return null;
 		}
 
@@ -449,7 +398,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 */
 		public IHandlerActivation activateHandler(String commandId, IHandler handler, Expression expression,
 				int sourcePriorities) {
-
 			return null;
 		}
 
@@ -461,7 +409,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 */
 		public IHandlerActivation activateHandler(String commandId, IHandler handler, Expression expression,
 				boolean global) {
-
 			return null;
 		}
 
@@ -472,7 +419,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 *      org.eclipse.core.commands.IHandler, org.eclipse.core.expressions.Expression)
 		 */
 		public IHandlerActivation activateHandler(String commandId, IHandler handler, Expression expression) {
-
 			return null;
 		}
 
@@ -483,7 +429,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 *      org.eclipse.core.commands.IHandler)
 		 */
 		public IHandlerActivation activateHandler(String commandId, IHandler handler) {
-
 			return null;
 		}
 
@@ -493,7 +438,6 @@ public class EMFCompareFix implements ICompletionProposal {
 		 * @see org.eclipse.ui.handlers.IHandlerService#activateHandler(org.eclipse.ui.handlers.IHandlerActivation)
 		 */
 		public IHandlerActivation activateHandler(IHandlerActivation activation) {
-
 			return null;
 		}
 

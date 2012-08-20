@@ -139,8 +139,11 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 
 	/**
 	 * Creates a {@link ListenerOnlyTestRepositoryClient} and a {@link RepositoryWriterTestRepositoryClient}.
+	 * 
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
-	protected void createTypeListeningClients() {
+	protected void createTypeListeningClients() throws ReadOnlyException {
 		if (listeningClient == null) {
 			// Step 1 : creating the listening client
 			// Step 1.1 : defining the listened features (here the attribute To Listen of sampleClass1)
@@ -175,8 +178,11 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 
 	/**
 	 * Creates a {@link ListenerOnlyTestRepositoryClient} and a {@link RepositoryWriterTestRepositoryClient}.
+	 * 
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
-	protected void createElementListeningClients() {
+	protected void createElementListeningClients() throws ReadOnlyException {
 		if (listeningClient == null) {
 			// Step 1 : creating the listening client
 			// Step 1.1 : defining the listened elements
@@ -215,7 +221,12 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 	protected void initializeContent() {
 		final RepositoryAdapter adapter = repository.createRepositoryAdapter();
 
-		adapter.openSaveContext();
+		try {
+			adapter.openSaveContext();
+		} catch (ReadOnlyException e2) {
+			fail(e2.getMessage());
+		}
+
 		Resource indexResource = adapter.getResource(TestCollabSettings.TEST_INDEX);
 		final TestIndex testIndex = (TestIndex)indexResource.getContents().get(0);
 		// Sample content creation

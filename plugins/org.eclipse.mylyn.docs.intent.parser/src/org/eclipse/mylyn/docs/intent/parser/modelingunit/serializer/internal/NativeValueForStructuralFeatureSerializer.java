@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
@@ -46,7 +45,7 @@ public final class NativeValueForStructuralFeatureSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		modelingUnitElementDispatcher.setPositionForInstruction(nativeValueForStructuralFeature,
+		modelingUnitElementDispatcher.getPositionManager().setPositionForInstruction(nativeValueForStructuralFeature,
 				modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length());
 		modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
 				+ renderedForm.length());

@@ -1,0 +1,349 @@
+@M  
+Resource extlibraryResource {
+	URI = "extlibrary";
+	contentType = "ECore";
+	content += extlibrary;
+}
+new EPackage extlibrary {
+	nsURI = "http://www.eclipse.org/Intent/Extlibrary/1.0.0";
+	nsPrefix = "extlib";
+}
+extlibrary {
+	eClassifiers += new EClass Book {
+		eStructuralFeatures += new EAttribute {
+			name = "title";
+			eType = EString;
+			changeable = "true";
+			ordered = "true";
+		};
+		eStructuralFeatures += new EReference book_writer {
+			name = "author";
+			eType = Writer;
+			lowerBound = "1";
+			changeable = "true";
+			ordered = "true";
+			eOpposite = writer_books;
+		};
+	};
+}
+@Annotation javaDoc documentation="Number of pages of a Book. By default, we set it to 100."
+Book {
+	eStructuralFeatures += new EAttribute {
+		name = "pages";
+		eType = EInt;
+		changeable = "true";
+		defaultValueLiteral = "100";
+		ordered = "true";
+	};
+}
+extlibrary {
+	eClassifiers += new EEnum BookCategory {
+		serializable = "true";
+		eLiterals += new EEnumLiteral {
+			name = "Mystery";
+			literal = "Mystery";
+			value = "0";
+		};
+		eLiterals += new EEnumLiteral {
+			name = "ScienceFiction";
+			literal = "ScienceFiction";
+			value = "1";
+		};
+		eLiterals += new EEnumLiteral {
+			name = "Biography";
+			literal = "Biography";
+			value = "2";
+		};
+	};
+}
+Book {
+	eStructuralFeatures += new EAttribute {
+		name = "category";
+		eType = BookCategory;
+		changeable = "true";
+		ordered = "true";
+		unsettable = "true";
+	};
+	eSuperTypes += CirculatingItem;
+}
+extlibrary {
+	eClassifiers += new EClass Library {
+		eSuperTypes += Addressable;
+		eStructuralFeatures += new EAttribute {
+			name = "name";
+			eType = EString;
+			changeable = "true";
+			ordered = "true";
+		};
+		eStructuralFeatures += new EReference {
+			name = "writers";
+			eType = Writer;
+			containment = "true";
+			resolveProxies = "false";
+			upperBound = "-1";
+			changeable = "true";
+			derived = "true";
+			ordered = "true";
+			transient = "true";
+			volatile = "true";
+		};
+		eStructuralFeatures += new EReference {
+			name = "stock";
+			eType = Item;
+			containment = "true";
+			resolveProxies = "false";
+			upperBound = "-1";
+			changeable = "true";
+			ordered = "false";
+		};
+		eStructuralFeatures += new EReference {
+			name = "books";
+			eType = Book;
+			upperBound = "-1";
+			changeable = "true";
+			derived = "true";
+			transient = "true";
+			ordered = "false";
+		};
+	};
+}
+Library {
+	eStructuralFeatures += new EReference {
+		name = "employees";
+		eType = Employee;
+		containment = "true";
+		resolveProxies = "false";
+		upperBound = "-1";
+		changeable = "true";
+		derived = "true";
+		ordered = "true";
+		transient = "true";
+		volatile = "true";
+	};
+	eStructuralFeatures += new EReference {
+		name = "borrowers";
+		eType = Borrower;
+		containment = "true";
+		resolveProxies = "false";
+		upperBound = "-1";
+		changeable = "true";
+		derived = "true";
+		ordered = "false";
+		transient = "true";
+		volatile = "true";
+	};
+	eStructuralFeatures += new EAttribute {
+		name = "people";
+		eType = EFeatureMapEntry;
+		upperBound = "-1";
+		changeable = "true";
+		ordered = "true";
+	};
+}
+Library {
+	eStructuralFeatures += new EReference lib_branches {
+		name = "branches";
+		eType = Library;
+		containment = "true";
+		upperBound = "-1";
+		changeable = "true";
+		ordered = "true";
+		eOpposite = lib_parentBranch;
+	};
+	eStructuralFeatures += new EReference lib_parentBranch {
+		name = "parentBranch";
+		eType = Library;
+		container = "true";
+		changeable = "true";
+		ordered = "true";
+		eOpposite = lib_branches;
+	};
+}
+extlibrary {
+	eClassifiers += new EClass Writer {
+		eSuperTypes += Person;
+		eStructuralFeatures += new EAttribute {
+			name = "name";
+			eType = EString;
+			changeable = "true";
+			ordered = "true";
+			transient = "true";
+			volatile = "true";
+		};
+		eStructuralFeatures += new EReference writer_books {
+			name = "books";
+			eType = Book;
+			upperBound = "-1";
+			changeable = "true";
+			ordered = "true";
+			eOpposite = book_writer;
+		};
+	};
+}
+extlibrary {
+	eClassifiers += new EClass Item {
+		abstract = "true";
+		eStructuralFeatures += new EAttribute {
+			name = "publicationDate";
+			eType = EDate;
+			changeable = "true";
+			ordered = "true";
+		};
+	};
+}
+extlibrary {
+	eClassifiers += new EClass Lendable {
+		abstract = "true";
+		interface = "true";
+		eStructuralFeatures += new EAttribute {
+			name = "copies";
+			eType = EInt;
+			lowerBound = "1";
+			changeable = "true";
+			ordered = "true";
+		};
+		eStructuralFeatures += new EReference lendable_borrowers {
+			name = "borrowers";
+			eType = Borrower;
+			upperBound = "-1";
+			changeable = "true";
+			eOpposite = borrowed;
+			ordered = "true";
+		};
+	};
+}
+extlibrary {
+	eClassifiers += new EClass CirculatingItem {
+		abstract = "true";
+		eSuperTypes += [ Item , Lendable ];
+	};
+}
+extlibrary {
+	eClassifiers += new EClass Periodical {
+		abstract = "true";
+		eSuperTypes += Item;
+		eStructuralFeatures += new EAttribute {
+			name = "title";
+			eType = EString;
+			changeable = "true";
+			ordered = "true";
+		};
+		eStructuralFeatures += new EAttribute {
+			name = "issuesPerYear";
+			eType = EInt;
+			lowerBound = "1";
+			changeable = "true";
+			ordered = "true";
+		};
+	};
+}
+extlibrary {
+	eClassifiers += new EClass AudioVisualItem {
+		eSuperTypes += CirculatingItem;
+		abstract = "true";
+		eStructuralFeatures += new EAttribute {
+			name = "title";
+			eType = EString;
+			changeable = "true";
+			ordered = "true";
+		};
+		eStructuralFeatures += new EAttribute {
+			name = "minutesLength";
+			eType = EInt;
+			lowerBound = "1";
+			changeable = "true";
+			ordered = "true";
+		};
+		eStructuralFeatures += new EAttribute {
+			name = "damaged";
+			eType = EBoolean;
+			changeable = "true";
+			ordered = "true";
+		};
+	};
+}
+extlibrary {
+	eClassifiers += new EClass BookOnTape {
+		eSuperTypes += AudioVisualItem;
+		eStructuralFeatures += new EReference {
+			name = "reader";
+			eType = Person;
+			changeable = "true";
+			ordered = "true";
+		};
+		eStructuralFeatures += new EReference {
+			name = "author";
+			eType = Writer;	
+			changeable = "true";
+			ordered = "true";
+		};
+	};
+}
+extlibrary {
+	eClassifiers += new EClass VideoCassette {
+		eSuperTypes += AudioVisualItem;
+		eStructuralFeatures += new EReference {
+			name = "cast";
+			eType = Person;
+			upperBound = "-1";
+			changeable = "true";
+			ordered = "true";
+		};
+	};
+}
+extlibrary {
+	eClassifiers += new EClass Borrower {
+		eSuperTypes += Person;
+		eStructuralFeatures += new EReference borrowed {
+			name = "borrowed";
+			eType = Lendable;
+			upperBound = "-1";
+			changeable = "true";
+			ordered = "true";
+			eOpposite = lendable_borrowers;
+		};
+	};
+}
+extlibrary {
+	eClassifiers += new EClass Person {
+		eSuperTypes += Addressable;
+		eStructuralFeatures += new EAttribute {
+			name = "firstName";
+			eType = EString;
+			lowerBound = "1";
+			changeable = "true";
+			ordered = "true";
+		};
+		eStructuralFeatures += new EAttribute {
+			name = "lastName";
+			eType = EString;
+			lowerBound = "1";
+			changeable = "true";
+			ordered = "true";
+		};
+	};
+}
+extlibrary {
+	eClassifiers += new EClass Employee {
+		eSuperTypes += Person;
+		eStructuralFeatures += new EReference {
+			name = "manager";
+			eType = Employee;
+			changeable = "true";
+			ordered = "true";
+		};
+	};
+}
+extlibrary {
+	eClassifiers += new EClass Addressable {
+		abstract = "true";
+		interface = "true";
+		eStructuralFeatures += new EAttribute {
+			name = "address";
+			eType = EString;
+			changeable = "true";
+			ordered = "true";
+		};
+	};
+}
+M@

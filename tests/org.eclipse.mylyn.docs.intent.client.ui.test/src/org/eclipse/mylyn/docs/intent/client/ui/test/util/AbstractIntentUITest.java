@@ -41,12 +41,20 @@ import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
+<<<<<<< HEAD
 import org.eclipse.mylyn.docs.intent.client.ui.ide.launcher.IDEApplicationManager;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
+=======
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
+import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryInitializer;
+import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
+>>>>>>> master
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -234,7 +242,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 					IProject project = WorkspaceUtils.createProject(projectName, monitor);
 					ToggleNatureAction.toggleNature(project);
 
-					IDEApplicationManager.initializeContent(project, intentDocumentContent);
+					IntentRepositoryInitializer.initializeContent(projectName, intentDocumentContent);
 
 					// Step 3 : initializing all useful informations
 					intentProject = project;
@@ -252,6 +260,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 
 			// Step 3 : registering the repository listener
 			registerRepositoryListener();
+
+			// Step 4: waiting for synchronizer to pass
+			repositoryListener.clearPreviousEntries();
+			waitForSynchronizer();
 
 		} catch (CoreException e) {
 			AssertionFailedError error = new AssertionFailedError("Failed to create Intent project");
@@ -327,16 +339,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	protected IntentDocument getIntentDocument() {
 		if (intentDocument == null) {
-			try {
-				Resource documentResource = repositoryAdapter
-						.getOrCreateResource(IntentLocations.INTENT_INDEX);
-				assertTrue("Invalid content of resource '" + IntentLocations.INTENT_INDEX + "'",
-						documentResource.getContents().iterator().next() instanceof IntentDocument);
-				intentDocument = (IntentDocument)documentResource.getContents().iterator().next();
-			} catch (ReadOnlyException e) {
-				// Cannot happen in the test context : no readonly access
-			}
-
+			intentDocument = new IntentDocumentQuery(repositoryAdapter).getOrCreateIntentDocument();
 		}
 		return intentDocument;
 	}
@@ -456,6 +459,13 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	}
 
 	/**
+	 * Wait for the project explorer refresher to complete work.
+	 */
+	protected void waitForProjectExplorerRefresher() {
+		waitForProjectExplorerRefresher(true);
+	}
+
+	/**
 	 * Ensures that the synchronizer has been launched or not, according to the given boolean.
 	 * 
 	 * @param compilerShouldBeNotified
@@ -472,6 +482,14 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		} else {
 			assertFalse("Synchonizer should not have been notifed",
 					repositoryListener.waitForModificationOn("Synchronizer"));
+<<<<<<< HEAD
+=======
+		}
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+
+>>>>>>> master
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -493,6 +511,30 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		} else {
 			assertFalse("Indexer should not have been notifed",
 					repositoryListener.waitForModificationOn("Indexer"));
+<<<<<<< HEAD
+=======
+		}
+		waitForAllOperationsInUIThread();
+	}
+
+	/**
+	 * Ensures that the project explorer refreshed has been launched or not, according to the given boolean.
+	 * 
+	 * @param refresherShouldBeNotified
+	 *            indicates whether the indexer should be notified or not
+	 */
+	protected void waitForProjectExplorerRefresher(boolean refresherShouldBeNotified) {
+		waitForAllOperationsInUIThread();
+		assertNotNull(
+				"Cannot wait for Project Explorer Refresher : you need to initialize a repository listener by calling the registerRepositoryListener() method",
+				repositoryListener);
+		if (refresherShouldBeNotified) {
+			assertTrue("Time out : Project Explorer Refresher should have handle changes but did not",
+					repositoryListener.waitForModificationOn("Project Explorer Refresher"));
+		} else {
+			assertFalse("Project Explorer Refresher should not have been notifed",
+					repositoryListener.waitForModificationOn("Project Explorer Refresher"));
+>>>>>>> master
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -514,6 +556,14 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		} else {
 			assertFalse("Compiler should not have been notifed",
 					repositoryListener.waitForModificationOn("Compiler"));
+<<<<<<< HEAD
+=======
+		}
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+
+>>>>>>> master
 		}
 		waitForAllOperationsInUIThread();
 	}

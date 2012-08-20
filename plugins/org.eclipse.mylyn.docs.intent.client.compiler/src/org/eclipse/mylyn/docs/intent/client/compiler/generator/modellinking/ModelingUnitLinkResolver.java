@@ -23,8 +23,6 @@ import org.eclipse.mylyn.docs.intent.client.compiler.errors.PackageNotFoundResol
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.PackageRegistrationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.ResolveException;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
-import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
-import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
@@ -45,11 +43,6 @@ public class ModelingUnitLinkResolver {
 	private EPackage.Registry packageRegistry;
 
 	/**
-	 * The repository allowing us to register generated packages.
-	 */
-	private Repository repository;
-
-	/**
 	 * The information holder to use for register the generated elements.
 	 */
 	private IntentCompilerInformationHolder informationHolder;
@@ -57,29 +50,15 @@ public class ModelingUnitLinkResolver {
 	/**
 	 * MetaTypeLinkResolver constructor.
 	 * 
-	 * @param repository
-	 *            the repository which will provide the package registry to use for resolving links
+	 * @param packageRegistry
+	 *            the repository package registry
 	 * @param informationHolder
 	 *            the information holder to use for register the generated elements
-	 * @throws RepositoryConnectionException
-	 *             if the connection to the repository is invalid
 	 */
-	public ModelingUnitLinkResolver(Repository repository, IntentCompilerInformationHolder informationHolder)
-			throws RepositoryConnectionException {
-		this.repository = repository;
+	public ModelingUnitLinkResolver(EPackage.Registry packageRegistry,
+			IntentCompilerInformationHolder informationHolder) {
+		this.packageRegistry = packageRegistry;
 		this.informationHolder = informationHolder;
-		setPackageRegistry(repository.getPackageRegistry());
-
-	}
-
-	/**
-	 * Sets the package registry to use.
-	 * 
-	 * @param packageRegistry
-	 *            the package registry to use
-	 */
-	public void setPackageRegistry(Object packageRegistry) {
-		this.packageRegistry = (EPackage.Registry)packageRegistry;
 	}
 
 	/**
@@ -147,7 +126,7 @@ public class ModelingUnitLinkResolver {
 		}
 
 		if (resolvedClassifier == null) {
-			throw new ResolveException(instruction, "The Entity " + href + "cannot be resolved");
+			throw new ResolveException(instruction, "The Entity " + href + " cannot be resolved");
 		}
 		return resolvedClassifier;
 	}
@@ -201,27 +180,55 @@ public class ModelingUnitLinkResolver {
 	 */
 	private EClassifier resolveEClassifierUsingPackage(UnitInstruction instruction, String nsURI, String href)
 			throws PackageNotFoundResolveException {
-
+		
 		EPackage ePackage = this.packageRegistry.getEPackage(nsURI);
-
+		
 		if (ePackage == null) {
 			throw new PackageNotFoundResolveException(instruction, "The package with nsURI \"" + nsURI
 					+ "\" cannot be found. ");
 		}
+
+		// resolving ePackage from qualified name if necessary
+		String classifierName = href;
+		if (href.contains(".")) {
+			classifierName = href.substring(href.lastIndexOf('.') + 1);
+			String packageQualifiedName = href.substring(0, href.lastIndexOf('.'));
+			if (!getQualifiedName(ePackage).equals(packageQualifiedName)) {
+				return null;
+			}
+		}
+
 		EClassifier resolvedClass = null;
-		EClassifier foundClassifier = ePackage.getEClassifier(href);
+		EClassifier foundClassifier = ePackage.getEClassifier(classifierName);
 		if (foundClassifier != null) {
 			resolvedClass = foundClassifier;
 			if (instruction instanceof ReferenceValueForStructuralFeature) {
 				((ReferenceValueForStructuralFeature)instruction).setReferencedMetaType(resolvedClass);
 			}
 		}
-
+		
 		return resolvedClass;
 	}
 
 	/**
-	 * resolve an undresolved reference using the informationHolder's informations.
+	 * Returns the qualified name of the ePackage.
+	 * 
+	 * @param ePackage
+	 *            the ePackage
+	 * @return the qualified name of the ePackage
+	 */
+	private String getQualifiedName(EPackage ePackage) {
+		String res = ePackage.getName();
+		EPackage tmp = (EPackage)ePackage.eContainer();
+		while (tmp != null) {
+			res = tmp.getName() + '.' + res;
+			tmp = (EPackage)tmp.eContainer();
+		}
+		return res;
+	}
+
+	/**
+	 * Resolve an unresolved reference using the informationHolder's informations.
 	 * 
 	 * @param instruction
 	 *            the instruction that makes this reference (used to construct error message).
@@ -233,7 +240,7 @@ public class ModelingUnitLinkResolver {
 	 * @throws InvalidReferenceException
 	 *             if the element cannot be found in the generated element list
 	 */
-	public EObject resolveReferenceinElementList(UnitInstruction instruction, EClassifier searchedType,
+	public EObject resolveReferenceInElementList(UnitInstruction instruction, EClassifier searchedType,
 			String referencedValue) throws InvalidReferenceException {
 		EObject foundReference = (EObject)informationHolder.getCreatedInstanceByName(searchedType,
 				referencedValue);
@@ -244,7 +251,7 @@ public class ModelingUnitLinkResolver {
 		}
 
 		UnitInstruction instanciationInstruction = informationHolder
-				.getInstructionByCreatedElement(foundReference);
+				.getInstanciationInstructionByCreatedElement(foundReference);
 		if (instanciationInstruction instanceof ModelingUnitInstruction
 				&& instruction instanceof ContributionInstruction) {
 			((ContributionInstruction)instruction).getReferencedElement().setReferencedElement(
@@ -282,18 +289,12 @@ public class ModelingUnitLinkResolver {
 						+ "\" cannot be registered (maybe because of an invalid connection to the repository)");
 
 		// If no package exception has been registered, we throw this exception
-		if (this.repository == null) {
+		if (this.packageRegistry == null) {
 			throw exception;
 		}
 
 		// We try to add the generated package to the packageRegistry
-		try {
 
-			repository.getPackageRegistry().put(generatedPackage.getNsURI(), generatedPackage);
-
-		} catch (RepositoryConnectionException e) {
-			throw exception;
-		}
-
+		packageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
 	}
 }

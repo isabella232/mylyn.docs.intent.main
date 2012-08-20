@@ -14,13 +14,15 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationException;
@@ -37,6 +39,7 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 
 /**
@@ -111,7 +114,28 @@ public final class IntentCompilerInformationHolder {
 	private void addCreatedElementsToCurrentList(UnitInstruction instruction, EObject createdElement) {
 		if (createdElement != null) {
 			this.getCurrentCreatedElements().add(createdElement);
-			this.informationHolder.getCreatedElementsToInstructions().put(createdElement, instruction);
+			BasicEList<UnitInstruction> unitInstructions = new BasicEList<UnitInstruction>();
+			unitInstructions.add(instruction);
+			this.informationHolder.getCreatedElementsToInstructions().put(createdElement, unitInstructions);
+		}
+	}
+
+	private void referenceContributionInstruction(String name, ContributionInstruction contributionInstruction) {
+		if (contributionInstruction.getReferencedElement() != null
+				&& contributionInstruction.getReferencedElement().getReferencedElement() != null) {
+
+			Iterator<Entry<EObject, EList<UnitInstruction>>> entryIterator = this.informationHolder
+					.getCreatedElementsToInstructions().entrySet().iterator();
+			ModelingUnitInstruction targetInstanciationInstruction = contributionInstruction
+					.getReferencedElement().getReferencedElement();
+			boolean instanciationInstructionFound = false;
+			while (entryIterator.hasNext() && !instanciationInstructionFound) {
+				Entry<EObject, EList<UnitInstruction>> entry = entryIterator.next();
+				if (entry.getValue().contains(targetInstanciationInstruction)) {
+					entry.getValue().add(contributionInstruction);
+					instanciationInstructionFound = true;
+				}
+			}
 		}
 	}
 
@@ -122,7 +146,12 @@ public final class IntentCompilerInformationHolder {
 	 *            the element to inspect
 	 * @return the instruction that declared the given element
 	 */
-	public UnitInstruction getInstructionByCreatedElement(EObject createdElement) {
+	public UnitInstruction getInstanciationInstructionByCreatedElement(EObject createdElement) {
+		return this.informationHolder.getCreatedElementsToInstructions().get(createdElement).iterator()
+				.next();
+	}
+
+	public Collection<UnitInstruction> getAllInstructionsByCreatedElement(EObject createdElement) {
 		return this.informationHolder.getCreatedElementsToInstructions().get(createdElement);
 	}
 
@@ -132,14 +161,15 @@ public final class IntentCompilerInformationHolder {
 	 * @return all the instanciation instructions that have a non-null name (e.g new EClass e1 {})
 	 */
 	public Set<UnitInstruction> getAllInstanciationsInstructions() {
-		return Sets.newLinkedHashSet(Iterables.filter(this.informationHolder
-				.getCreatedElementsToInstructions().values(), new Predicate<UnitInstruction>() {
+		return Sets.newLinkedHashSet(Iterables.filter(
+				Iterables.concat(this.informationHolder.getCreatedElementsToInstructions().values()),
+				new Predicate<UnitInstruction>() {
 
-			public boolean apply(UnitInstruction instruction) {
-				return instruction instanceof InstanciationInstruction
-						&& ((InstanciationInstruction)instruction).getName() != null;
-			}
-		}));
+					public boolean apply(UnitInstruction instruction) {
+						return instruction instanceof InstanciationInstruction
+								&& ((InstanciationInstruction)instruction).getName() != null;
+					}
+				}));
 	}
 
 	/**
@@ -287,26 +317,25 @@ public final class IntentCompilerInformationHolder {
 	 */
 	public void addNameToCreatedElementEntry(String name, EObject createdElement,
 			InstanciationInstruction instruction) {
+		if (name != null) {
+			StringToEObjectMap nameToElement = this.informationHolder.getTypeToNameToElementsMap().get(
+					createdElement.eClass());
+			if (nameToElement == null) {
+				nameToElement = CompilerFactory.eINSTANCE.createStringToEObjectMap();
+				this.informationHolder.getTypeToNameToElementsMap().put(createdElement.eClass(),
+						nameToElement);
+			}
 
-		// If an element has already been registered with this name
-		if (this.getNameToCreatedElement().get(name) != null) {
-			throw new InvalidValueException(instruction, "The name " + name
-					+ " has already been used to identify an element.");
-		}
+			// If an element has already been registered with this name
+			if (nameToElement.getNameToElement().get(name) != null) {
+				throw new InvalidValueException(instruction, "The name " + name
+						+ " has already been used to identify an element.");
+			}
 
-		// Otherwise, we register the given element
-		if (this.getNameToCreatedElement().get(createdElement.eClass()) == null) {
-			this.getNameToCreatedElement().put(createdElement.eClass(),
-					CompilerFactory.eINSTANCE.createStringToEObjectMap());
+			// Otherwise, we register the given element
+			nameToElement.getNameToElement().put(name, createdElement);
 		}
-		this.getNameToCreatedElement().get(createdElement.eClass()).getNameToElement()
-				.put(name, createdElement);
 		this.addCreatedElementsToCurrentList(instruction, createdElement);
-
-		// If there were unresolved contribution instructions associated to this element
-		// if (this.informationHolder.getUnresolvedContributions().get(name) != null) {
-		// this.informationHolder.getUnresolvedContributions().get(name).setResolved(true);
-		// }
 	}
 
 	public boolean isUnresolvedContribution(ContributionInstruction contributionInstruction) {
@@ -355,15 +384,6 @@ public final class IntentCompilerInformationHolder {
 	 */
 	public Set<String> getAllUnresolvedContributionsNames() {
 		return this.informationHolder.getUnresolvedContributions().keySet();
-	}
-
-	/**
-	 * Returns a map associating created elements to their names and sorted by the elements type.
-	 * 
-	 * @return a map associating created elements to their names and sorted by the elements type
-	 */
-	private EMap<EClassifier, StringToEObjectMap> getNameToCreatedElement() {
-		return this.informationHolder.getTypeToNameToElementsMap();
 	}
 
 	/**
@@ -420,7 +440,7 @@ public final class IntentCompilerInformationHolder {
 			newStatus.setSeverity(CompilationStatusConverter
 					.createStatusSeverityFromDiagnosticSeverity(subDiagnostic));
 			newStatus.setType(CompilationMessageType.VALIDATION_ERROR);
-			newStatus.setTarget(this.getInstructionByCreatedElement(generatedElement));
+			newStatus.setTarget(this.getInstanciationInstructionByCreatedElement(generatedElement));
 
 			// and add this status to the diagnostic list.
 			compilationStatusList.add(newStatus);
@@ -428,7 +448,7 @@ public final class IntentCompilerInformationHolder {
 
 		// Step 2 : we register the new Diagnostics in the informationHolder
 		addStatusListToInformationHolder(
-				getModelingUnitForInstruction(getInstructionByCreatedElement(generatedElement)),
+				getModelingUnitForInstruction(getInstanciationInstructionByCreatedElement(generatedElement)),
 				compilationStatusList);
 
 	}
@@ -535,5 +555,8 @@ public final class IntentCompilerInformationHolder {
 				holder.setResolved(true);
 			}
 		}
+		referenceContributionInstruction(((InstanciationInstruction)contributionInstruction
+				.getReferencedElement().getReferencedElement()).getName(), contributionInstruction);
 	}
+
 }

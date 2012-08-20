@@ -12,7 +12,6 @@ package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
 import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
@@ -55,7 +54,7 @@ public final class LabelinModelingUnitSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		modelingUnitElementDispatcher.setPositionForInstruction(labelinModelingUnit,
+		modelingUnitElementDispatcher.getPositionManager().setPositionForInstruction(labelinModelingUnit,
 				modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length());
 		modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
 				+ renderedForm.length());

@@ -29,6 +29,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.CompilerNotifi
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.update.DragAndDropTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.update.QuickFixTest;
 
 /**
  * This suite will launch all the tests relative to the UI behavior.
@@ -90,6 +92,7 @@ public class UITestSuite extends TestCase {
 		scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
 		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
 		scenarioSuite.addTestSuite(IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest.class);
+		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
 		uiTestSuite.addTest(scenarioSuite);
 
 		// Complete use case testSuite
@@ -99,8 +102,13 @@ public class UITestSuite extends TestCase {
 		demoSuite.addTestSuite(CompileTest.class);
 		demoSuite.addTestSuite(EcoreTest.class);
 		demoSuite.addTestSuite(JavaTest.class);
-
 		// uiTestSuite.addTest(demoSuite);
+
+		// Updates tests
+		final TestSuite updatesSuite = new TestSuite("Modeling Unit update tests");
+		updatesSuite.addTestSuite(QuickFixTest.class);
+		updatesSuite.addTestSuite(DragAndDropTest.class);
+		uiTestSuite.addTest(updatesSuite);
 
 		return suite;
 	}

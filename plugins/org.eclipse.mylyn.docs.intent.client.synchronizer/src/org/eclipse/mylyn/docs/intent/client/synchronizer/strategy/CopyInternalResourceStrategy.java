@@ -29,7 +29,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
-import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 
@@ -116,8 +116,7 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 	public Collection<? extends CompilationStatus> getStatusForNullExternalResource(
 			ResourceDeclaration resourceDeclaration, String resourcePath) {
 
-		SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
-				.createSynchronizerCompilationStatus();
+		ResourceChangeStatus status = CompilerFactory.eINSTANCE.createResourceChangeStatus();
 		status.setSeverity(CompilationStatusSeverity.WARNING);
 		status.setTarget(resourceDeclaration);
 		status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
@@ -147,8 +146,7 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 	 */
 	public Collection<? extends CompilationStatus> getStatusForEmptyExternalResource(
 			ResourceDeclaration resourceDeclaration, String resourcePath) {
-		SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
-				.createSynchronizerCompilationStatus();
+		ResourceChangeStatus status = CompilerFactory.eINSTANCE.createResourceChangeStatus();
 		status.setCompiledResourceURI(resourcePath);
 		status.setWorkingCopyResourceURI(resourceDeclaration.getUri().toString());
 		status.setSeverity(CompilationStatusSeverity.WARNING);
@@ -168,8 +166,7 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 	 */
 	public Collection<? extends CompilationStatus> getStatusForEmptyInternalResource(
 			ResourceDeclaration resourceDeclaration, String resourcePath) {
-		SynchronizerCompilationStatus status = CompilerFactory.eINSTANCE
-				.createSynchronizerCompilationStatus();
+		ResourceChangeStatus status = CompilerFactory.eINSTANCE.createResourceChangeStatus();
 		status.setCompiledResourceURI(resourcePath);
 		status.setWorkingCopyResourceURI(resourceDeclaration.getUri().toString());
 		status.setSeverity(CompilationStatusSeverity.WARNING);

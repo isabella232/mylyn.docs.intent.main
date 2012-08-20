@@ -42,7 +42,7 @@ public final class ResourceReferenceSerializer {
 		// if (resourceReference.isLineBreak()) {
 		// renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		// }
-		modelingUnitElementDispatcher.setPositionForInstruction(resourceReference,
+		modelingUnitElementDispatcher.getPositionManager().setPositionForInstruction(resourceReference,
 				modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length());
 		modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
 				+ renderedForm.length());

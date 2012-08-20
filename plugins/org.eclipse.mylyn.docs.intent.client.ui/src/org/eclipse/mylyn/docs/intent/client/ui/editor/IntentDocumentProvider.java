@@ -37,6 +37,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotatio
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection.EditorElementListAdapter;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.ReadWriteRepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
@@ -56,9 +58,11 @@ import org.eclipse.mylyn.docs.intent.compare.IntentASTMerger;
 import org.eclipse.mylyn.docs.intent.compare.MergingException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
@@ -168,9 +172,11 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 					posit = new ParsedElementPosition(0, 0);
 				}
 
-				annotationModelManager.addAnnotationFromStatus(
-						this.listenedElementsHandler.getRepositoryAdapter(), status,
-						new Position(posit.getOffset(), posit.getLength()));
+				if (!status.getSeverity().equals(CompilationStatusSeverity.INFO)) {
+					annotationModelManager.addAnnotationFromStatus(
+							this.listenedElementsHandler.getRepositoryAdapter(), status,
+							new Position(posit.getOffset(), posit.getDeclarationLength()));
+				}
 			}
 		}
 		return annotationModelManager.getAnnotationModel();
@@ -268,12 +274,22 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	private static RepositoryObjectHandler createElementHandler(RepositoryAdapter repositoryAdapter,
 			boolean readOnlyMode) {
-		final RepositoryObjectHandler elementHandler;
+		RepositoryObjectHandler elementHandler = null;
+		if (!readOnlyMode) {
+			try {
+				elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
+			} catch (ReadOnlyException e) {
+				IntentLogger
+						.getInstance()
+						.log(LogType.WARNING,
+								"The Intent Editor has insufficient rights (read-only) to save modifications on the repository. A read-only context will be used instead.");
+				readOnlyMode = true;
+			}
+		}
+
 		if (readOnlyMode) {
 			elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
 			elementHandler.setRepositoryAdapter(repositoryAdapter);
-		} else {
-			elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 		}
 		return elementHandler;
 	}
@@ -336,7 +352,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				repositoryAdapter.execute(new IntentCommand() {
 
 					public void execute() {
-						repositoryAdapter.openSaveContext();
 						try {
 							merge((IntentEditorDocument)document, localAST);
 							repositoryAdapter.save();
@@ -345,11 +360,9 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 						} catch (SaveException e) {
 							IntentUiLogger.logError(e);
 						}
-						repositoryAdapter.closeContext();
 					}
 
 				});
-				repositoryAdapter.closeContext();
 
 				((IntentEditorDocument)document).reloadFromAST();
 			} catch (ParseException e) {
@@ -443,12 +456,12 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#handleChangeNotification(org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification)
 	 */
 	public void handleChangeNotification(RepositoryChangeNotification notification) {
-		// Step 1 : If the received notification indicates the deletion of the root of the associated document
+		// If the received notification indicates the deletion of the root of the associated document
 		if (handleRootHasBeenDeleted(notification)) {
 			return;
 		}
 
-		// Step 2 : For each object modified indicated by this notification
+		// For each object modified indicated by this notification
 		for (EObject modifiedObject : notification.getRightRoots()) {
 			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
 					.getIDFromElement(modifiedObject);
@@ -457,7 +470,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
 				handleContentHasChanged(modifiedObject, modifiedObjectIdentifier);
 			} else {
-				// Step 2 : update annotations (if the compilation status manager has changed)
+				// update annotations (if the compilation status manager has changed)
 				handleCompilationStatusHasChanged(modifiedObject);
 			}
 		}
@@ -513,12 +526,13 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				parsedElementPosition = new ParsedElementPosition(0, 0);
 			}
 			Position position = new Position(parsedElementPosition.getOffset(),
-					parsedElementPosition.getLength());
-
-			// Step 2.2 : Adding this annotation to the model (will update overview and vertical rulers of
-			// the editor)
-			annotationModelManager.addAnnotationFromStatus(
-					this.listenedElementsHandler.getRepositoryAdapter(), statusToAdd, position);
+					parsedElementPosition.getDeclarationLength());
+			if (!statusToAdd.getSeverity().equals(CompilationStatusSeverity.INFO)) {
+				// Step 2.2 : Adding this annotation to the model (will update overview and vertical rulers of
+				// the editor)
+				annotationModelManager.addAnnotationFromStatus(
+						this.listenedElementsHandler.getRepositoryAdapter(), statusToAdd, position);
+			}
 		}
 	}
 
@@ -656,7 +670,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	}
 
 	private void handleContentHasChanged(EObject modifiedObject, Object modifiedObjectIdentifier) {
-		if (modifiedObject instanceof IntentStructuredElement) {
+		if (modifiedObject instanceof IntentStructuredElement || modifiedObject instanceof UnitInstruction) {
 			if (listenedElementsHandler.getRepositoryAdapter().getIDFromElement(documentRoot)
 					.equals(modifiedObjectIdentifier)) {
 				documentRoot = modifiedObject;

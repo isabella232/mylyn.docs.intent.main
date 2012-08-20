@@ -56,6 +56,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
 		// Awakes the listener if necessary
 		final Job activateListenerJob = new Job("Activating intent projects listener") {
 			@Override
@@ -79,6 +80,7 @@ public class Activator extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		workspace.removeResourceChangeListener(intentProjectListener);
+
 		plugin = null;
 		super.stop(context);
 	}

@@ -1,0 +1,45 @@
+@M
+	Resource R1 {
+		content += p1;
+		content += p2;
+	}
+	new EPackage p1 {
+		nsURI = "p1URI";
+		nsPrefix = "p1Prefix";
+		eSubpackages += sub1;
+	}
+	new EPackage sub1 {
+		nsURI = "sub1URI";
+		nsPrefix = "sub1Prefix";
+		eClassifiers += new EClass Type {
+			eStructuralFeatures += new EAttribute {
+				name = "sub1attr";
+				eType = EString;
+				changeable = "true";
+				ordered = "true";
+			};
+		};
+	}
+	new EPackage p2 {
+		nsURI = "p2URI";
+		nsPrefix = "p2Prefix";
+		eClassifiers += new EClass Type {
+			eStructuralFeatures += new EAttribute {
+				name = "p2attr";
+				eType = EString;
+				changeable = "true";
+				ordered = "true";
+			};
+		};
+	}
+	Resource R2 {
+		content += instance1;
+		content += instance2;
+	}
+	new p1.sub1.Type instance1 {
+		sub1attr = "instance1";
+	}
+	new p2.Type instance2 {
+		p2attr = "instance2";
+	}
+M@

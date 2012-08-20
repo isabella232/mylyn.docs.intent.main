@@ -118,6 +118,14 @@ public class TestModelingUnitParser {
 	}
 
 	/**
+	 * Test which purpose is to test the correct parsing of a special values.
+	 */
+	@Test
+	public void testSpecialvalues() {
+		parseAndCompareToExpected("simpleTests/SpecialValues", true);
+	}
+
+	/**
 	 * Test which purpose is to test the correct parsing of a complete Intent file.
 	 */
 	@Test

@@ -87,11 +87,9 @@ public class IntentAnnotationModelManager {
 			}
 
 			// We create an annotation from the status and add it to the annotation model
-			Annotation annotation = IntentAnnotationFactory
-					.createAnnotationFromCompilationStatus(uri, status);
+			Annotation annotation = IntentAnnotationFactory.createAnnotationFromCompilationStatus(status);
 			addAnnotation(annotation, position);
 			handledCompilationStatus.put(status, annotation);
-
 		}
 	}
 
@@ -146,14 +144,18 @@ public class IntentAnnotationModelManager {
 		// For each compilationStatus associated to the given element
 		Iterator<CompilationStatus> compilationStatusIterator = handledCompilationStatus.keySet().iterator();
 		while (compilationStatusIterator.hasNext()) {
-			boolean removeCurrentStatus = false;
 			CompilationStatus currentStatus = compilationStatusIterator.next();
-			Object currentStatusTargetID = adapter.getIDFromElement(currentStatus.getTarget());
-			Object elementID = adapter.getIDFromElement(element);
-			removeCurrentStatus = currentStatusTargetID == null;
+			boolean removeCurrentStatus = currentStatus == null || currentStatus.getTarget() == null;
+			Object currentStatusTargetID = null;
+			Object elementID = null;
+			if (!removeCurrentStatus) {
+				currentStatusTargetID = adapter.getIDFromElement(currentStatus.getTarget());
+				elementID = adapter.getIDFromElement(element);
+				removeCurrentStatus = currentStatusTargetID == null;
+			}
 			// If the status is concerning the given element
 			// FIXME find a way to determine those targets
-			if (currentStatusTargetID != null && currentStatusTargetID.equals(elementID)) {
+			if (!removeCurrentStatus && currentStatusTargetID.equals(elementID)) {
 				if (isCompilerAnnotation(this.handledCompilationStatus.get(currentStatus).getType())) {
 					// If the currentElement doesn't contain this status any more
 					if (!element.getCompilationStatus().contains(currentStatus)) {

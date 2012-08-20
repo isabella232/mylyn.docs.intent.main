@@ -12,8 +12,10 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.BadLocationException;
@@ -200,34 +202,33 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 	 */
 	private void createOrUpdateAnnotation(final int newOffset, final int newLength, boolean initiallyCollapsed)
 			throws BadLocationException {
-		// desactivated position merge : with Intent text can be the same in several sections
-
-		// boolean createAnnotation = true;
-		// final Map<Annotation, Position> copy = new HashMap<Annotation, Position>(currentAnnotations);
+		boolean createAnnotation = true;
+		final Map<Annotation, Position> copy = new HashMap<Annotation, Position>(currentAnnotations);
 		final String text = document.get(newOffset, newLength);
-		// for (Iterator<Entry<Annotation, Position>> iterator = copy.entrySet().iterator();
-		// iterator.hasNext();) {
-		// Entry<Annotation, Position> entry = iterator.next();
-		// if (entry.getKey().getText().equals(text)) {
-		// createAnnotation = false;
-		// final Position oldPosition = entry.getValue();
-		// if (oldPosition.getOffset() != newOffset || oldPosition.getLength() != newLength) {
-		// final Position newPosition = new Position(newOffset, newLength);
-		// modifiedAnnotations.put(entry.getKey(), newPosition);
-		// currentAnnotations.put(entry.getKey(), newPosition);
-		// }
-		// deletedAnnotations.remove(entry.getKey());
-		// break;
-		// }
-		// }
-		// if (createAnnotation) {
-		Annotation annotation = null;
-		annotation = new ProjectionAnnotation(initiallyCollapsed);
-		annotation.setText(text);
-		final Position position = new Position(newOffset, newLength);
-		currentAnnotations.put(annotation, position);
-		addedAnnotations.put(annotation, position);
-		// }
+		for (Iterator<Entry<Annotation, Position>> iterator = copy.entrySet().iterator(); iterator.hasNext();) {
+			Entry<Annotation, Position> entry = iterator.next();
+			// if (entry.getKey().getText().equals(text)) {
+			// added checking to avoid same text elements to bo ignored
+			if (entry.getKey().getText().equals(text) && entry.getValue().getOffset() == newOffset) {
+				createAnnotation = false;
+				final Position oldPosition = entry.getValue();
+				if (oldPosition.getOffset() != newOffset || oldPosition.getLength() != newLength) {
+					final Position newPosition = new Position(newOffset, newLength);
+					modifiedAnnotations.put(entry.getKey(), newPosition);
+					currentAnnotations.put(entry.getKey(), newPosition);
+				}
+				deletedAnnotations.remove(entry.getKey());
+				break;
+			}
+		}
+		if (createAnnotation) {
+			Annotation annotation = null;
+			annotation = new ProjectionAnnotation(initiallyCollapsed);
+			annotation.setText(text);
+			final Position position = new Position(newOffset, newLength);
+			currentAnnotations.put(annotation, position);
+			addedAnnotations.put(annotation, position);
+		}
 	}
 
 	/**

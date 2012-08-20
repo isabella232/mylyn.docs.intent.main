@@ -16,7 +16,6 @@ import org.eclipse.mylyn.docs.intent.parser.internal.IntentDocumentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParserImpl;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
-import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
 
 /**
  * High-level parser that delegates the parsing to the correct parser according to the possible entry points
@@ -30,17 +29,6 @@ public class IntentParser {
 	 * The position manager that handle the mapping between Intent element to positions.
 	 */
 	private IntentPositionManager positionManager;
-
-	/**
-	 * Returns the position of the given instruction element.
-	 * 
-	 * @param element
-	 *            the element for witch we want the position
-	 * @return the position of the given instruction element (null if no position).
-	 */
-	public ParsedElementPosition getPositionForElement(EObject element) {
-		return this.positionManager.getPositionForElement(element);
-	}
 
 	/**
 	 * Parse the given content and return the described element.

@@ -23,7 +23,6 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IRegion;
@@ -31,7 +30,7 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentPairMatcher;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
@@ -47,8 +46,15 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private RepositoryAdapter repositoryAdapter;
 
+	private TraceabilityInformationsQuery traceabilityInfoQuery;
+
+	private static final String IDENTIFIER_REGEXP = "([a-zA-z0-9_-]+)";
+
+	private static final String QUALIFIED_NAME_DELIMITER = "\\.";
+
 	public ModelingUnitCompletionProcessor(RepositoryAdapter repositoryAdapter) {
 		this.repositoryAdapter = repositoryAdapter;
+		this.traceabilityInfoQuery = new TraceabilityInformationsQuery(repositoryAdapter);
 	}
 
 	/**
@@ -523,18 +529,12 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			}
 		}
 		String description = "Set the value " + contributionName + "." + feature.getName();
-		return createTemplateProposal(label, description, feature.getName() + " " + affect + " ${value};",
+		return createTemplateProposal(label, description, feature.getName() + " " + affect + " ",
 				"icon/outline/modelingunit_affect.png");
 	}
 
 	private TraceabilityIndex getTraceabilityIndex() throws ReadOnlyException {
-		Resource traceabilityIndexResource = repositoryAdapter
-				.getOrCreateResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
-		if (traceabilityIndexResource.getContents().isEmpty()
-				|| !(traceabilityIndexResource.getContents().iterator().next() instanceof TraceabilityIndex)) {
-			throw new IllegalArgumentException();
-		}
-		return (TraceabilityIndex)traceabilityIndexResource.getContents().iterator().next();
+		return traceabilityInfoQuery.getOrCreateTraceabilityIndex();
 	}
 
 	private EClassifier getEClassifier(String contributionName) throws ReadOnlyException {
@@ -542,9 +542,20 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		Iterator<EPackage> availablePackages = Iterables.filter(
 				getTraceabilityIndex().eResource().getResourceSet().getPackageRegistry().values(),
 				EPackage.class).iterator();
+
+		String packageName = null;
+		String classifierName = contributionName;
+
+		if (contributionName.matches(IDENTIFIER_REGEXP + QUALIFIED_NAME_DELIMITER + IDENTIFIER_REGEXP)) {
+			String[] split = contributionName.split(QUALIFIED_NAME_DELIMITER);
+			packageName = split[0];
+			classifierName = split[1];
+		}
 		while (availablePackages.hasNext() && classifierToConsider == null) {
 			EPackage availablePackage = availablePackages.next();
-			classifierToConsider = availablePackage.getEClassifier(contributionName);
+			if (packageName == null || packageName.equals(availablePackage.getName())) {
+				classifierToConsider = availablePackage.getEClassifier(classifierName);
+			}
 		}
 		return classifierToConsider;
 	}

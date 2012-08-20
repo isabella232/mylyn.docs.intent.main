@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
+import org.eclipse.mylyn.docs.intent.core.genericunit.*;
 import org.eclipse.mylyn.docs.intent.core.genericunit.AdressedAnnotation;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +20,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.BasicMonitor;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.compiler.ModelingUnitCompiler;
 import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.ModelingUnitLinkResolver;
 import org.eclipse.mylyn.docs.intent.client.compiler.saver.CompilerInformationsSaver;
@@ -27,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInforma
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -109,45 +110,43 @@ public class CompilationJob extends Job {
 		final List<ModelingUnit> modelingUnitsToCompile = new ArrayList<ModelingUnit>();
 
 		// InformationHolder Initialization
-		final Resource resourceIndex = repositoryAdapter.getResource(IntentLocations.INTENT_INDEX);
-
 		final IntentCompilerInformationHolder informationHolder = IntentCompilerInformationHolder
 				.getInstance();
 		informationHolder.initialize();
 
-		// LinkResolver initialization
-		if (!monitor.isCanceled()) {
-			try {
-				resolver = new ModelingUnitLinkResolver(repository, informationHolder);
-			} catch (RepositoryConnectionException e) {
-				IntentLogger.getInstance().log(LogType.ERROR,
-						"Compilation Failed during link resolver intialization", e);
+		try {
+			// LinkResolver initialization
+			if (!monitor.isCanceled()) {
+				resolver = new ModelingUnitLinkResolver(repository.getPackageRegistry(), informationHolder);
 			}
-		}
 
-		// Compiler initialization
-		if (!monitor.isCanceled()) {
-			compiler = new ModelingUnitCompiler(repository, resolver, informationHolder,
-					BasicMonitor.toMonitor(monitor));
+			// Compiler initialization
+			if (!monitor.isCanceled()) {
+				compiler = new ModelingUnitCompiler(repository.getPackageRegistry(), resolver,
+						informationHolder, BasicMonitor.toMonitor(monitor));
 
-			for (EObject resourceContent : resourceIndex.getContents()) {
 				modelingUnitsToCompile.addAll(UnitGetter
-						.getAllModelingUnitsContainedInElement(resourceContent));
+						.getAllModelingUnitsContainedInElement(new IntentDocumentQuery(repositoryAdapter)
+								.getOrCreateIntentDocument()));
 			}
-		}
 
-		if (!monitor.isCanceled()) {
-			compiler.compile(modelingUnitsToCompile);
-		}
+			if (!monitor.isCanceled()) {
+				compiler.compile(modelingUnitsToCompile);
+			}
 
-		// Saving the new compilations errors
-		if (!monitor.isCanceled()) {
-			IntentLogger.getInstance().log(
-					LogType.LIFECYCLE,
-					"[Compiler] compiled " + informationHolder.getDeclaredResources().size() + " resources, "
-							+ informationHolder.getCompilationStatusList().size() + " errors detected");
-			saveCompilationInformations(repositoryAdapter, informationHolder, monitor);
-			IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Compiler] Saved on repository");
+			// Saving the new compilations errors
+			if (!monitor.isCanceled()) {
+				IntentLogger.getInstance().log(
+						LogType.LIFECYCLE,
+						"[Compiler] compiled " + informationHolder.getDeclaredResources().size()
+								+ " resources, " + informationHolder.getCompilationStatusList().size()
+								+ " errors detected");
+				saveCompilationInformations(repositoryAdapter, informationHolder, monitor);
+				IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Compiler] Saved on repository");
+			}
+		} catch (RepositoryConnectionException e) {
+			IntentLogger.getInstance().log(LogType.ERROR,
+					"Compilation Failed during link resolver intialization", e);
 		}
 	}
 
@@ -164,22 +163,25 @@ public class CompilationJob extends Job {
 	 */
 	public void saveCompilationInformations(RepositoryAdapter repositoryAdapter,
 			IntentCompilerInformationHolder compilationInformationHolder, IProgressMonitor monitor) {
-		repositoryAdapter.openSaveContext();
-		CompilerInformationsSaver saver = new CompilerInformationsSaver(monitor);
-		if (monitor != null && !monitor.isCanceled()) {
-			saver.saveOnRepository(compilationInformationHolder, repositoryObjectHandler);
-		}
 		try {
+			// We merge the local compilation manager with the remote
+			CompilerInformationsSaver saver = new CompilerInformationsSaver(monitor);
+			if (monitor != null && !monitor.isCanceled()) {
+
+				saver.saveOnRepository(compilationInformationHolder, repositoryObjectHandler);
+				repositoryAdapter.setSendSessionWarningBeforeSaving(Lists
+						.newArrayList(IntentLocations.INTENT_FOLDER));
+			}
 			repositoryAdapter.save();
 		} catch (ReadOnlyException e) {
 			// We are sure that this compiler isn't in read-only mode
 		} catch (SaveException e) {
+			IntentLogger.getInstance().log(LogType.ERROR, "Compiler failed to save changes", e);
 			try {
 				repositoryAdapter.undo();
 			} catch (ReadOnlyException e1) {
 				// We are sure that this compiler isn't in read-only mode
 			}
 		}
-		repositoryAdapter.closeContext();
 	}
 }

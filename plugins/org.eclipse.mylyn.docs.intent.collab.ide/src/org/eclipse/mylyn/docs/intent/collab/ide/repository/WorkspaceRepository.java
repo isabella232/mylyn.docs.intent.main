@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -25,6 +26,7 @@ import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
@@ -42,7 +44,7 @@ public class WorkspaceRepository implements Repository {
 	/**
 	 * The default extension for any element stored on the repository.
 	 */
-	private static final String WORKSPACE_RESOURCE_EXTENSION = "xmi";
+	private static final String WORKSPACE_RESOURCE_EXTENSION = "repomodel";
 
 	/**
 	 * Represents this repository configuration.
@@ -179,6 +181,12 @@ public class WorkspaceRepository implements Repository {
 			ResourcesPlugin.getWorkspace().removeResourceChangeListener(session);
 			this.session.close();
 			this.session = null;
+		}
+
+		// If a transaction is being executed, we abort it
+		if (((InternalTransactionalEditingDomain)this.editingDomain).getActiveTransaction() != null) {
+			((InternalTransactionalEditingDomain)this.editingDomain).getActiveTransaction().abort(
+					Status.CANCEL_STATUS);
 		}
 		this.editingDomain.dispose();
 	}

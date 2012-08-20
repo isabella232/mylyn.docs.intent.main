@@ -4,12 +4,16 @@
     nsPrefix="intentDocument">
   <eClassifiers xsi:type="ecore:EClass" name="IntentGenericElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="compilationStatus" upperBound="-1"
-        eType="ecore:EClass compilerInformations.ecore#//CompilationStatus" containment="true"/>
+        eType="ecore:EClass compilerInformations.ecore#//CompilationStatus" containment="true"
+        eOpposite="compilerInformations.ecore#//CompilationStatus/target"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="indexEntry" eType="ecore:EClass indexer.ecore#//IntentIndexEntry"
+        eOpposite="indexer.ecore#//IntentIndexEntry/referencedElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntentStructuredElement" abstract="true"
       eSuperTypes="../../org.eclipse.mylyn.docs.intent.markup/model/markup.ecore#//Section #//IntentGenericElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="formattedTitle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         derived="true" iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="completeLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="IntentSectionVisibility">
     <eLiterals name="PUBLIC"/>
@@ -51,8 +55,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="IntentChapter" eSuperTypes="#//IntentSubSectionContainer"/>
   <eClassifiers xsi:type="ecore:EClass" name="IntentSection" eSuperTypes="#//IntentSubSectionContainer">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" eType="#//IntentSectionVisibility"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="completeLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelingUnits" upperBound="-1"
         eType="ecore:EClass modelingUnit.ecore#//ModelingUnit" volatile="true" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedHeaders" upperBound="-1"

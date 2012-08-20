@@ -93,5 +93,19 @@ Contributors:
                commandId="org.eclipse.mylyn.docs.intent.client.ui.cdo.selectionwidget.command">
       </handler>
    </extension>
+    <extension
+          point="org.eclipse.mylyn.docs.intent.collab.repository.extension">
+       <Repository
+             id="org.eclipse.mylyn.docs.intent.collab.cdo.repository"
+             repositoryCreatorClass="org.eclipse.mylyn.docs.intent.client.ui.cdo.repository.CDORepositoryCreatorForIntent"
+             repositoryStructurerClass="org.eclipse.mylyn.docs.intent.client.ui.cdo.repository.IntentRepositoryCDORestructurer">
+       </Repository>
+    </extension>
+    <extension
+          point="org.eclipse.mylyn.docs.intent.collab.common.repositorymanagercontribution">
+       <repositorymanagercontribution
+             class="org.eclipse.mylyn.docs.intent.client.ui.cdo.repository.IntentCDOBasedRepositoryManagerContribution">
+       </repositorymanagercontribution>
+    </extension>
 
 </plugin>

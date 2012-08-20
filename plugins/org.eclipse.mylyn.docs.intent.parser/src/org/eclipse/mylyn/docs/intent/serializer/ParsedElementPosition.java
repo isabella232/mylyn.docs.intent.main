@@ -28,6 +28,11 @@ public class ParsedElementPosition {
 	private int length;
 
 	/**
+	 * The declaration length.
+	 */
+	private int declarationLength;
+
+	/**
 	 * constructor.
 	 * 
 	 * @param offset
@@ -38,6 +43,23 @@ public class ParsedElementPosition {
 	public ParsedElementPosition(int offset, int length) {
 		this.offset = offset;
 		this.length = length;
+		this.declarationLength = length;
+	}
+
+	/**
+	 * constructor.
+	 * 
+	 * @param offset
+	 *            the offset (indice of the first character)
+	 * @param length
+	 *            the length
+	 * @param declarationLength
+	 *            the declaration length
+	 */
+	public ParsedElementPosition(int offset, int length, int declarationLength) {
+		this.offset = offset;
+		this.length = length;
+		this.declarationLength = declarationLength;
 	}
 
 	/**
@@ -57,4 +79,17 @@ public class ParsedElementPosition {
 	public int getLength() {
 		return length;
 	}
+
+	public int getDeclarationLength() {
+		return declarationLength;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
+
 }

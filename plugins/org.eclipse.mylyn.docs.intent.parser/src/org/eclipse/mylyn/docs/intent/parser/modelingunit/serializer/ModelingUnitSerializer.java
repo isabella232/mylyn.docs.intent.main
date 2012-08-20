@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal.ModelingUnitElementDispatcher;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
@@ -34,11 +33,6 @@ public final class ModelingUnitSerializer {
 	public static final String WHITESPACE = IntentKeyWords.INTENT_WHITESPACE;
 
 	/**
-	 * Instance of the Serializer (singleton).
-	 */
-	private static ModelingUnitSerializer serializer;
-
-	/**
 	 * Dispatcher used to render the WikiText element according to its type.
 	 */
 	private ModelingUnitElementDispatcher dispatcher;
@@ -48,18 +42,6 @@ public final class ModelingUnitSerializer {
 	 */
 	public ModelingUnitSerializer() {
 		dispatcher = new ModelingUnitElementDispatcher();
-	}
-
-	/**
-	 * Returns the current instance of the serializer.
-	 * 
-	 * @return the current instance of the serializer.
-	 */
-	public static ModelingUnitSerializer getSerializer() {
-		if (serializer == null) {
-			serializer = new ModelingUnitSerializer();
-		}
-		return serializer;
 	}
 
 	/**
@@ -98,7 +80,7 @@ public final class ModelingUnitSerializer {
 	 *            number of tabulations to add
 	 */
 	public void addTabulations(int currentOffset, int nbTabs) {
-		this.dispatcher.handleTabulations(currentOffset, nbTabs);
+		this.getPositionManager().handleTabulations(currentOffset, nbTabs);
 	}
 
 	/**

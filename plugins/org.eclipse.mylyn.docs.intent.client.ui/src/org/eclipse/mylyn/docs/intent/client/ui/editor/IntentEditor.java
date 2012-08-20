@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.AbstractInformationControlManager;
 import org.eclipse.jface.text.IDocument;
@@ -50,11 +51,14 @@ import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.dnd.IDragAndDropService;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.texteditor.ChainedPreferenceStore;
 import org.eclipse.ui.texteditor.SourceViewerDecorationSupport;
@@ -468,5 +472,20 @@ public class IntentEditor extends TextEditor {
 		setPreferenceStore(new ChainedPreferenceStore(stores));
 		support.install(getPreferenceStore());
 		super.configureSourceViewerDecorationSupport(support);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#initializeDragAndDrop(org.eclipse.jface.text.source.ISourceViewer)
+	 */
+	@Override
+	protected void initializeDragAndDrop(ISourceViewer viewer) {
+		StyledText text = viewer.getTextWidget();
+		int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_DEFAULT;
+		Transfer[] transfers = new Transfer[] {LocalTransfer.getInstance(),
+		};
+		IDragAndDropService service = (IDragAndDropService)getSite().getService(IDragAndDropService.class);
+		service.addMergedDropTarget(text, operations, transfers, new IntentEditorDropSupport(this));
 	}
 }

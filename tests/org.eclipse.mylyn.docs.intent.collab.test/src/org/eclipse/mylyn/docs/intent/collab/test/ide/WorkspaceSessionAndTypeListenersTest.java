@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.collab.test.ide;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceRepository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.collab.test.assertioncontainer.NotificationAssertionContainer;
@@ -67,8 +68,11 @@ public class WorkspaceSessionAndTypeListenersTest extends AbstractWorkspaceRepos
 	/**
 	 * Ensure that the listening clients are correctly notified when there are several modifications on the
 	 * repository.
+	 * 
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
-	public void testSeveralNotificationsOnListenedTypes() {
+	public void testSeveralNotificationsOnListenedTypes() throws ReadOnlyException {
 
 		// We create a new SampleClass2 element : listening client shouldn't be notified
 		AbstractTestClass newTestClass2 = writingClient.createNewInstance(
@@ -113,8 +117,11 @@ public class WorkspaceSessionAndTypeListenersTest extends AbstractWorkspaceRepos
 	/**
 	 * Ensure that the listening clients are correctly notified when there are several modifications on the
 	 * repository.
+	 * 
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
-	public void testSeveralNotificationsOnListenedTypesWithAutomaticReload() {
+	public void testSeveralNotificationsOnListenedTypesWithAutomaticReload() throws ReadOnlyException {
 		// We create a new SampleClass2 element : listening client shouldn't be notified
 		AbstractTestClass testElement2 = writingClient.createNewInstance(
 				TestPackagePackage.eINSTANCE.getTestClass2(), "theTestClass2-2");

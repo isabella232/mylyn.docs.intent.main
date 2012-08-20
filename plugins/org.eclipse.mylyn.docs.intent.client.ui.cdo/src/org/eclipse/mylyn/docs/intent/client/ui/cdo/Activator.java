@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.cdo;
 
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -40,6 +41,9 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		// Allow legacy mode, in case Modeling Units describe non cdo-native models (like ECore)
+		CDOUtil.setLegacyModeDefault(true);
 	}
 
 	/**

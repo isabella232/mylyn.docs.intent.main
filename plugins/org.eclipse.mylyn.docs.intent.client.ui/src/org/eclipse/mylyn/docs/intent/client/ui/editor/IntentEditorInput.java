@@ -16,14 +16,14 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.ui.URIEditorInput;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
@@ -181,11 +181,18 @@ public class IntentEditorInput extends URIEditorInput {
 		if (repositoryAdapter == null) {
 			if (getRepository() != null) {
 				repositoryAdapter = getRepository().createRepositoryAdapter();
-				repositoryAdapter.openSaveContext();
+				try {
+					repositoryAdapter.openSaveContext();
+				} catch (ReadOnlyException e) {
+					IntentLogger
+							.getInstance()
+							.log(LogType.ERROR,
+									"The Intent Editor has insufficient rights (read-only) to save modifications on the repository. A read-only context will be used instead.");
+				}
 			}
 		}
 		if (repositoryAdapter != null) {
-			return repositoryAdapter.getResource(getPath(getURI()));
+			return repositoryAdapter.getResource(repositoryAdapter.getResourcePath(getURI()));
 		}
 		return null;
 	}
@@ -197,7 +204,7 @@ public class IntentEditorInput extends URIEditorInput {
 	 */
 	public Repository getRepository() {
 		try {
-			return IntentRepositoryManager.INSTANCE.getRepository(getProjectName(getURI()));
+			return IntentRepositoryManager.INSTANCE.getRepository(getURI().toString());
 		} catch (RepositoryConnectionException e) {
 			IntentUiLogger.logError(e);
 		} catch (CoreException e) {
@@ -224,42 +231,6 @@ public class IntentEditorInput extends URIEditorInput {
 		} else {
 			IntentLogger.getInstance().log(LogType.WARNING, "Could not save Intent Editor state");
 		}
-	}
-
-	/**
-	 * Retrieves the project name from an URI. TODO merge, there are similar methods in intent.
-	 * 
-	 * @param uri
-	 *            the uri
-	 * @return the project name
-	 */
-	private static String getProjectName(URI uri) {
-		String projectName = null;
-		if (uri.isPlatformResource()) {
-			projectName = uri.toString().replaceFirst("platform:/resource/", "");
-			projectName = projectName.split("/")[0];
-		} else {
-			// should not happen
-		}
-		return projectName;
-	}
-
-	/**
-	 * Retrieves the resource path from an URI. TODO merge, there are similar methods in intent.
-	 * 
-	 * @param uri
-	 *            the uri
-	 * @return the resource path
-	 */
-	private static String getPath(URI uri) {
-		String path = null;
-		if (uri.isPlatformResource()) {
-			path = uri.trimFileExtension().toString().replaceFirst("platform:/resource/", "");
-			path = path.substring(path.indexOf("INTENT") - 1);
-		} else {
-			// should not happen
-		}
-		return path;
 	}
 
 	/**

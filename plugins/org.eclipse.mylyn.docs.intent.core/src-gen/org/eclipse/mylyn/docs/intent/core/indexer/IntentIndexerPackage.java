@@ -62,7 +62,8 @@ public interface IntentIndexerPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	IntentIndexerPackage eINSTANCE = org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl.init();
+	IntentIndexerPackage eINSTANCE = org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl
+			.init();
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexImpl <em>Intent Index</em>}' class.
@@ -147,7 +148,6 @@ public interface IntentIndexerPackage extends EPackage {
 	 */
 	int INTENT_INDEX_ENTRY_FEATURE_COUNT = 4;
 
-
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE <em>INDEX ENTRY TYPE</em>}' enum.
 	 * <!-- begin-user-doc -->
@@ -157,7 +157,6 @@ public interface IntentIndexerPackage extends EPackage {
 	 * @generated
 	 */
 	int INDEX_ENTRY_TYPE = 2;
-
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex <em>Intent Index</em>}'.

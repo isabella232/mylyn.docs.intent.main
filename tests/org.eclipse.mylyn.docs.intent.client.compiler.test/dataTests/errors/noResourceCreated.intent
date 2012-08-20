@@ -1,0 +1,6 @@
+@M
+Resource R1 {
+	URI = "R1";
+	content += p1;
+}
+M@

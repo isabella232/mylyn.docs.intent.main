@@ -129,8 +129,10 @@ public class RepositoryWriterTestRepositoryClient extends AbstractTestRepository
 	 * @param elementToModify
 	 *            the element to modify
 	 * @return the modified Element
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
-	public AbstractTestClass modifyElementAndSave(AbstractTestClass elementToModify) {
+	public AbstractTestClass modifyElementAndSave(AbstractTestClass elementToModify) throws ReadOnlyException {
 		this.repositoryObjectHandler.getRepositoryAdapter().openSaveContext();
 
 		final AbstractTestClass updatedElementToModify = (AbstractTestClass)this.repositoryObjectHandler

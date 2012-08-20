@@ -124,6 +124,15 @@ public interface ModelingUnitPackage extends EPackage {
 	int MODELING_UNIT__COMPILATION_STATUS = GenericUnitPackage.GENERIC_UNIT__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODELING_UNIT__INDEX_ENTRY = GenericUnitPackage.GENERIC_UNIT__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Instructions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -195,6 +204,15 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int MODELING_UNIT_INSTRUCTION__COMPILATION_STATUS = GenericUnitPackage.UNIT_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODELING_UNIT_INSTRUCTION__INDEX_ENTRY = GenericUnitPackage.UNIT_INSTRUCTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -363,6 +381,15 @@ public interface ModelingUnitPackage extends EPackage {
 	int RESOURCE_DECLARATION__COMPILATION_STATUS = MODELING_UNIT_INSTRUCTION__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int RESOURCE_DECLARATION__INDEX_ENTRY = MODELING_UNIT_INSTRUCTION__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -445,6 +472,15 @@ public interface ModelingUnitPackage extends EPackage {
 	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT__COMPILATION_STATUS = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT__INDEX_ENTRY = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -525,6 +561,15 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int LABELIN_MODELING_UNIT__COMPILATION_STATUS = GenericUnitPackage.LABEL_DECLARATION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABELIN_MODELING_UNIT__INDEX_ENTRY = GenericUnitPackage.LABEL_DECLARATION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -616,6 +661,15 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int ANNOTATION_DECLARATION__COMPILATION_STATUS = MODELING_UNIT_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ANNOTATION_DECLARATION__INDEX_ENTRY = MODELING_UNIT_INSTRUCTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -737,6 +791,15 @@ public interface ModelingUnitPackage extends EPackage {
 	int INSTANCE_LEVEL_INSTRUCTION__COMPILATION_STATUS = MODELING_UNIT_INSTRUCTION__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTANCE_LEVEL_INSTRUCTION__INDEX_ENTRY = MODELING_UNIT_INSTRUCTION__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -790,6 +853,15 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int INSTANCIATION_INSTRUCTION__COMPILATION_STATUS = INSTANCE_LEVEL_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTANCIATION_INSTRUCTION__INDEX_ENTRY = INSTANCE_LEVEL_INSTRUCTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -863,6 +935,15 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int STRUCTURAL_FEATURE_AFFECTATION__COMPILATION_STATUS = INSTANCE_LEVEL_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int STRUCTURAL_FEATURE_AFFECTATION__INDEX_ENTRY = INSTANCE_LEVEL_INSTRUCTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -947,6 +1028,15 @@ public interface ModelingUnitPackage extends EPackage {
 	int VALUE_FOR_STRUCTURAL_FEATURE__COMPILATION_STATUS = MODELING_UNIT_INSTRUCTION__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALUE_FOR_STRUCTURAL_FEATURE__INDEX_ENTRY = MODELING_UNIT_INSTRUCTION__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -991,6 +1081,15 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int NATIVE_VALUE_FOR_STRUCTURAL_FEATURE__COMPILATION_STATUS = VALUE_FOR_STRUCTURAL_FEATURE__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NATIVE_VALUE_FOR_STRUCTURAL_FEATURE__INDEX_ENTRY = VALUE_FOR_STRUCTURAL_FEATURE__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -1048,6 +1147,15 @@ public interface ModelingUnitPackage extends EPackage {
 	int NEW_OBJECT_VALUE_FOR_STRUCTURAL_FEATURE__COMPILATION_STATUS = VALUE_FOR_STRUCTURAL_FEATURE__COMPILATION_STATUS;
 
 	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEW_OBJECT_VALUE_FOR_STRUCTURAL_FEATURE__INDEX_ENTRY = VALUE_FOR_STRUCTURAL_FEATURE__INDEX_ENTRY;
+
+	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1101,6 +1209,15 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__COMPILATION_STATUS = VALUE_FOR_STRUCTURAL_FEATURE__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__INDEX_ENTRY = VALUE_FOR_STRUCTURAL_FEATURE__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -1165,6 +1282,15 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @ordered
 	 */
 	int CONTRIBUTION_INSTRUCTION__COMPILATION_STATUS = MODELING_UNIT_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONTRIBUTION_INSTRUCTION__INDEX_ENTRY = MODELING_UNIT_INSTRUCTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.

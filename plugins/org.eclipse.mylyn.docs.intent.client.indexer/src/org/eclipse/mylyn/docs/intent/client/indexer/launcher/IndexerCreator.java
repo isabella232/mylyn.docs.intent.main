@@ -16,6 +16,7 @@ import java.util.Set;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator;
@@ -46,9 +47,11 @@ public final class IndexerCreator {
 	 * @return an Indexer client listening for any changes on the document stored on the given repository
 	 * @throws RepositoryConnectionException
 	 *             if a connection to the given repository cannot be established
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
-	public static IndexerRepositoryClient launchIndexer(Repository repository)
-			throws RepositoryConnectionException {
+	public static IndexerRepositoryClient createIndexer(Repository repository)
+			throws RepositoryConnectionException, ReadOnlyException {
 
 		// Step 1 : adapter creation
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();

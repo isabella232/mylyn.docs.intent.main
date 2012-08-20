@@ -2,5 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="intentlogger" name="org.eclipse.mylyn.docs.intent.collab.common.intentlogger" schema="schema/intentlogger.exsd"/>
+   <extension-point id="repositorymanagercontribution" name="org.eclipse.mylyn.docs.intent.collab.common.repositorymanagercontribution" schema="schema/repositorymanagerextension.exsd"/>
 
 </plugin>

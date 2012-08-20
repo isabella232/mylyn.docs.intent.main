@@ -84,18 +84,20 @@ public class JavaTest extends AbstractDemoTest {
 		assertTrue(TEST_COMPILER_NO_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor37,
 				IntentAnnotationMessageType.COMPILER_INFO,
 				"-The required feature 'accessibleThrough' of 'patchingDifferences' must be set", true));
+		waitForCompiler(false);
 
 		// Step 3 : update the modeling unit section, check that the last annotation disappeared
 		document37.set(getFileContent(SECTION_37_V2_FILENAME));
 
 		repositoryListener.clearPreviousEntries();
-		repositoryListener.clearPreviousEntries();
+
 		editor37.doSave(new NullProgressMonitor());
 		waitForCompiler();
 
 		assertFalse(TEST_COMPILER_INVALID_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor37,
 				IntentAnnotationMessageType.COMPILER_INFO,
 				"-The required feature 'accessibleThrough' of 'patchingDifferences' must be set", true));
+		waitForCompiler(false);
 
 		// Step 4 : create a java test class
 		repositoryListener.clearPreviousEntries();
@@ -121,7 +123,7 @@ public class JavaTest extends AbstractDemoTest {
 		IntentEditor editor71 = openIntentEditor(getIntentSection(EDITOR_SECTION_7_1));
 		assertTrue(TEST_SYNCHRONIZER_NO_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor71,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MSG, false));
-
+		waitForSynchronizer(false);
 		// Step 6 : fix error from 7.1 in 7.2
 
 		// Step 6.1 : open 7.2
@@ -140,6 +142,7 @@ public class JavaTest extends AbstractDemoTest {
 		// Step 6.3 : check 7.1
 		assertFalse(TEST_SYNCHRONIZER_INVALID_WARNING_MSG, AnnotationUtils.hasIntentAnnotation(editor71,
 				IntentAnnotationMessageType.SYNC_WARNING, SYNC_WARNING_MSG, true));
+		waitForSynchronizer(false);
 
 		// Step 7 : fix error in 3.7
 		document37.set(getFileContent(SECTION_37_V3_FILENAME));

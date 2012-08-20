@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.serializer;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -31,29 +32,16 @@ public class IntentPositionManager {
 	private Map<EObject, ParsedElementPosition> instructionToPosition;
 
 	/**
-	 * Maps a unitInstruction with a position corresponding to the declaration.<br/>
-	 * For example : for "new Class A { ... }" we will map only the declaration "new Class A " position.
-	 */
-	private Map<EObject, ParsedElementPosition> instructionToDeclarationPosition;
-
-	/**
 	 * Maps an offset with an instruction.
 	 */
 	private SortedMap<Integer, EObject> positionToInstruction;
-
-	/**
-	 * Mapping between elements and their indentation level (does not map all the elements).
-	 */
-	private Map<EObject, Integer> elementToIndentationLevel;
 
 	/**
 	 * IntentPositionManager constructor.
 	 */
 	public IntentPositionManager() {
 		instructionToPosition = new HashMap<EObject, ParsedElementPosition>();
-		instructionToDeclarationPosition = new HashMap<EObject, ParsedElementPosition>();
 		positionToInstruction = new TreeMap<Integer, EObject>();
-		elementToIndentationLevel = new HashMap<EObject, Integer>();
 	}
 
 	/**
@@ -61,9 +49,7 @@ public class IntentPositionManager {
 	 */
 	public void clear() {
 		instructionToPosition.clear();
-		instructionToDeclarationPosition.clear();
 		positionToInstruction.clear();
-		elementToIndentationLevel.clear();
 	}
 
 	/**
@@ -71,12 +57,9 @@ public class IntentPositionManager {
 	 * 
 	 * @param instruction
 	 *            the element for witch we want the position
-	 * @return the position of the given instruction element (null if no positition).
+	 * @return the position of the given instruction element (null if no position).
 	 */
 	public ParsedElementPosition getPositionForElement(EObject instruction) {
-		if (instructionToDeclarationPosition.get(instruction) != null) {
-			return instructionToDeclarationPosition.get(instruction);
-		}
 		return instructionToPosition.get(instruction);
 	}
 
@@ -107,9 +90,7 @@ public class IntentPositionManager {
 	 */
 	public void addIntentPositionManagerInformations(IntentPositionManager positionManager) {
 		this.instructionToPosition.putAll(positionManager.instructionToPosition);
-		this.instructionToDeclarationPosition.putAll(positionManager.instructionToDeclarationPosition);
 		this.positionToInstruction.putAll(positionManager.positionToInstruction);
-		this.elementToIndentationLevel.putAll(positionManager.elementToIndentationLevel);
 	}
 
 	/**
@@ -120,7 +101,7 @@ public class IntentPositionManager {
 	 * @param offset
 	 *            the offset of the given instruction
 	 * @param length
-	 *            the lenght of the given instruction
+	 *            the length of the given instruction
 	 */
 	public void setPositionForInstruction(EObject instruction, int offset, int length) {
 		instructionToPosition.put(instruction, new ParsedElementPosition(offset, length));
@@ -128,7 +109,7 @@ public class IntentPositionManager {
 	}
 
 	/**
-	 * Associates the given instruction to the given offset and length, and also map the declaration length.
+	 * Associates the given instruction to the given offset and length.
 	 * 
 	 * @param instruction
 	 *            the instruction to associate with the given position
@@ -139,11 +120,8 @@ public class IntentPositionManager {
 	 * @param declarationLength
 	 *            the length of the given instruction declaration
 	 */
-	public void setDeclarationPositionForInstruction(EObject instruction, int offset, int length,
-			int declarationLength) {
-		instructionToPosition.put(instruction, new ParsedElementPosition(offset, length));
-		instructionToDeclarationPosition.put(instruction,
-				new ParsedElementPosition(offset, declarationLength));
+	public void setPositionForInstruction(EObject instruction, int offset, int length, int declarationLength) {
+		instructionToPosition.put(instruction, new ParsedElementPosition(offset, length, declarationLength));
 		positionToInstruction.put(offset, instruction);
 	}
 
@@ -156,84 +134,21 @@ public class IntentPositionManager {
 	 *            number of tabulations added
 	 */
 	public void handleTabulations(int tabOffset, int nbTabs) {
-		Iterator<Integer> offsetIterator = positionToInstruction.keySet().iterator();
-		Integer currentOffsetValue = 0;
-		Map<Integer, EObject> newPositionToInstructions = new HashMap<Integer, EObject>();
-
-		while (offsetIterator.hasNext()) {
-			currentOffsetValue = offsetIterator.next();
-
-			if (currentOffsetValue >= tabOffset) {
-				EObject movedElement = positionToInstruction.get(currentOffsetValue);
-
-				newPositionToInstructions.put(currentOffsetValue + nbTabs, movedElement);
-				ParsedElementPosition position = instructionToPosition.get(movedElement);
-				ParsedElementPosition newPosition = new ParsedElementPosition(position.getOffset() + nbTabs,
-						position.getLength());
-
-				instructionToPosition.put(movedElement, newPosition);
-
-				if (instructionToDeclarationPosition.get(movedElement) != null) {
-					ParsedElementPosition declarationPosition = instructionToDeclarationPosition
-							.get(movedElement);
-					ParsedElementPosition newDeclarationPosition = new ParsedElementPosition(
-							declarationPosition.getOffset() + nbTabs, declarationPosition.getLength());
-					instructionToDeclarationPosition.put(movedElement, newDeclarationPosition);
-				}
-
+		positionToInstruction.clear();
+		for (Entry<EObject, ParsedElementPosition> entry : instructionToPosition.entrySet()) {
+			ParsedElementPosition position = entry.getValue();
+			int offset = position.getOffset();
+			int length = position.getLength();
+			if (offset <= tabOffset && (offset + length) >= tabOffset) {
+				length += nbTabs;
 			}
+			if (offset >= tabOffset) {
+				offset += nbTabs;
+			}
+			position.setOffset(offset);
+			position.setLength(length);
+			positionToInstruction.put(offset, entry.getKey());
 		}
-
-		for (Integer newOffset : newPositionToInstructions.keySet()) {
-			positionToInstruction.remove(newOffset - nbTabs);
-			positionToInstruction.put(newOffset, newPositionToInstructions.get(newOffset));
-		}
-		// TODO : update positionToInstruction
-	}
-
-	/**
-	 * Sets the indentationLevel of the given element to the given value (shouldn't be used if not necessary).
-	 * 
-	 * @param element
-	 *            the element from which we want to assign an indentation level
-	 * @param indentationLevel
-	 *            the indentation level to map the given element with
-	 */
-	public void setIndentationLevel(EObject element, int indentationLevel) {
-		elementToIndentationLevel.put(element, indentationLevel);
-	}
-
-	/**
-	 * Returns the indentation level of the given element, or -1 if this level is unknown.
-	 * 
-	 * @param element
-	 *            the element from which we want to know the indentation level
-	 * @return the indentation level of the given element, or -1 if this level is unknown
-	 */
-	public int getIndentationLevel(EObject element) {
-		if (elementToIndentationLevel.get(element) != null) {
-			return elementToIndentationLevel.get(element);
-		}
-		return -1;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	@Deprecated
-	public String toString() {
-		String rF = "";
-		// for (EObject i : instructionToPosition.keySet()) {
-		// rF += "- " + i.eClass().getName() + " => " + instructionToPosition.get(i).getOffset() + "-"
-		// + instructionToPosition.get(i).getLength() + "\n";
-		// }
-		for (Integer pos : positionToInstruction.keySet()) {
-			rF += "-" + pos + "=>" + positionToInstruction.get(pos) + "\n";
-		}
-		return rF;
 	}
 
 }

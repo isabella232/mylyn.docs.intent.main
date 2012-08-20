@@ -49,6 +49,7 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 		// Step 2 : open an editor on the root document
 		editor = openIntentEditor();
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
+		waitForAllOperationsInUIThread();
 	}
 
 	public void testCompilerIsNotifiedWhenModifyingMU() {
@@ -59,6 +60,8 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 		waitForCompiler(true);
 		assertFalse("The compiler should not detect any issue", AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, "", false));
+		// FIXME add this condition
+		// waitForCompiler(false);
 
 		// Update Modeling Unit : Add an error
 		repositoryListener.clearPreviousEntries();
@@ -67,24 +70,33 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 		waitForCompiler(true);
 		assertTrue("The compiler should not detect any issue", AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, "The Entity c1 cannot be resolved", true));
+		// FIXME add this condition
+		// waitForCompiler(false);
 	}
 
 	public void testCompilerIsNotifiedWhenRenamingSections() throws IOException {
 		// Renaming the section
 		repositoryListener.clearPreviousEntries();
 		document.set(document.get().replace("Section2", "RenamedSection"));
+
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler(true);
 		assertTrue("The compiler should still detect the issue", AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, "The Entity c1 cannot be resolved", true));
+		// FIXME add this condition
+		// waitForCompiler(false);
 
 		// Renaming the section and change the issue
 		repositoryListener.clearPreviousEntries();
 		document.set(document.get().replace("c1", "cRenamed"));
+
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler(true);
 		assertTrue("The compiler should still detect the issue", AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, "The Entity cRenamed cannot be resolved", true));
+
+		// FIXME add this condition
+		// waitForCompiler(false);
 
 	}
 
@@ -94,21 +106,28 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 		String newSection = FileToStringConverter.getFileAsString(new File(INTENT_DATA_FOLDER
 				+ "newSection01.intent"));
 		document.set(document.get().replace("M@", "M@\n" + newSection));
+
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler(true);
 		assertTrue("The compiler should detect a new issue", AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, "The Entity EClass44 cannot be resolved", true));
+		// FIXME add this condition
+		// waitForCompiler(false);
 
 		// Create another new Modeling Unit : Add an error
 		repositoryListener.clearPreviousEntries();
 		int beginIndex = document.get().lastIndexOf("@M");
 		int endIndex = document.get().lastIndexOf("M@");
 		document.set(document.get().substring(0, beginIndex) + document.get().substring(endIndex + 2));
+
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler(true);
 		assertFalse("The compiler should not detect any new issue", AnnotationUtils.hasIntentAnnotation(
 				editor, IntentAnnotationMessageType.COMPILER_ERROR, "The Entity EClass44 cannot be resolved",
 				true));
+
+		// FIXME add this condition
+		// waitForCompiler(false);
 	}
 
 	public void testCompilerIsNotifiedWhenRemovingMU() {
@@ -117,10 +136,14 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 		int beginIndex = document.get().indexOf("@M");
 		int endIndex = document.get().indexOf("M@");
 		document.set(document.get().substring(0, beginIndex) + document.get().substring(endIndex + 2));
+
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler(true);
 		assertFalse("The compiler should not detect any issue", AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, "", false));
+
+		// FIXME add this condition
+		// waitForCompiler(false);
 
 	}
 

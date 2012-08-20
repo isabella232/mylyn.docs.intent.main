@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+import org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
@@ -25,7 +26,13 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
+import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
+import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
@@ -38,6 +45,8 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
+import org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
@@ -144,8 +153,54 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	private EClass compiledElementToInstructionEntryEClass = null;
 
 	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass instructionTraceabilityEntryEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass featureToAffectationEntryEClass = null;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass resourceChangeStatusEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass modelElementChangeStatusEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass structuralFeatureChangeStatusEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass referenceChangeStatusEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass attributeChangeStatusEClass = null;
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EClass synchronizerCompilationStatusEClass = null;
@@ -163,11 +218,17 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	private EEnum compilationMessageTypeEEnum = null;
 
 	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum synchronizerResourceStateEEnum = null;
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EEnum synchronizerResourceStateEEnum = null;
+	private EEnum synchronizerChangeStateEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -219,32 +280,37 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		MarkupPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		ModelingUnitPackageImpl theModelingUnitPackage = (ModelingUnitPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(ModelingUnitPackage.eNS_URI) instanceof ModelingUnitPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(ModelingUnitPackage.eNS_URI) : ModelingUnitPackage.eINSTANCE);
-		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		IntentDocumentPackageImpl theIntentDocumentPackage = (IntentDocumentPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) instanceof IntentDocumentPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) : IntentDocumentPackage.eINSTANCE);
+		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
 		DescriptionUnitPackageImpl theDescriptionUnitPackage = (DescriptionUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) instanceof DescriptionUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) : DescriptionUnitPackage.eINSTANCE);
+		ModelingUnitPackageImpl theModelingUnitPackage = (ModelingUnitPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(ModelingUnitPackage.eNS_URI) instanceof ModelingUnitPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(ModelingUnitPackage.eNS_URI) : ModelingUnitPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theCompilerPackage.createPackageContents();
-		theModelingUnitPackage.createPackageContents();
-		theGenericUnitPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 		theIntentDocumentPackage.createPackageContents();
+		theGenericUnitPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
+		theModelingUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theCompilerPackage.initializePackageContents();
-		theModelingUnitPackage.initializePackageContents();
-		theGenericUnitPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 		theIntentDocumentPackage.initializePackageContents();
+		theGenericUnitPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
+		theModelingUnitPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theCompilerPackage.freeze();
@@ -546,6 +612,14 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getCompilationStatusManager_ValidationTime() {
+		return (EAttribute)compilationStatusManagerEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCompilationInformationHolder() {
 		return compilationInformationHolderEClass;
 	}
@@ -711,8 +785,217 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInstructionTraceabilityEntry() {
+		return instructionTraceabilityEntryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInstructionTraceabilityEntry_Instruction() {
+		return (EReference)instructionTraceabilityEntryEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInstructionTraceabilityEntry_Features() {
+		return (EReference)instructionTraceabilityEntryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getFeatureToAffectationEntry() {
+		return featureToAffectationEntryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getFeatureToAffectationEntry_Key() {
+		return (EAttribute)featureToAffectationEntryEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getFeatureToAffectationEntry_Value() {
+		return (EReference)featureToAffectationEntryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getResourceChangeStatus() {
+		return resourceChangeStatusEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getResourceChangeStatus_WorkingCopyResourceState() {
+		return (EAttribute)resourceChangeStatusEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getResourceChangeStatus_CompiledResourceState() {
+		return (EAttribute)resourceChangeStatusEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getModelElementChangeStatus() {
+		return modelElementChangeStatusEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getModelElementChangeStatus_ChangeState() {
+		return (EAttribute)modelElementChangeStatusEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getModelElementChangeStatus_CompiledParent() {
+		return (EReference)modelElementChangeStatusEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getModelElementChangeStatus_CompiledElement() {
+		return (EReference)modelElementChangeStatusEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getModelElementChangeStatus_WorkingCopyParentURIFragment() {
+		return (EAttribute)modelElementChangeStatusEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getModelElementChangeStatus_WorkingCopyElementURIFragment() {
+		return (EAttribute)modelElementChangeStatusEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getStructuralFeatureChangeStatus() {
+		return structuralFeatureChangeStatusEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStructuralFeatureChangeStatus_ChangeState() {
+		return (EAttribute)structuralFeatureChangeStatusEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStructuralFeatureChangeStatus_FeatureName() {
+		return (EAttribute)structuralFeatureChangeStatusEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getStructuralFeatureChangeStatus_CompiledElement() {
+		return (EReference)structuralFeatureChangeStatusEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getStructuralFeatureChangeStatus_WorkingCopyElementURIFragment() {
+		return (EAttribute)structuralFeatureChangeStatusEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReferenceChangeStatus() {
+		return referenceChangeStatusEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReferenceChangeStatus_CompiledTarget() {
+		return (EReference)referenceChangeStatusEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getReferenceChangeStatus_WorkingCopyTargetURIFragment() {
+		return (EAttribute)referenceChangeStatusEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAttributeChangeStatus() {
+		return attributeChangeStatusEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EClass getSynchronizerCompilationStatus() {
@@ -720,39 +1003,19 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceURI() {
-		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getSynchronizerCompilationStatus_CompiledResourceURI() {
 		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceState() {
-		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getSynchronizerCompilationStatus_CompiledResourceState() {
-		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(3);
+	public EAttribute getSynchronizerCompilationStatus_CompiledResourceURI() {
+		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -772,12 +1035,20 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EEnum getSynchronizerResourceState() {
 		return synchronizerResourceStateEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getSynchronizerChangeState() {
+		return synchronizerChangeStateEEnum;
 	}
 
 	/**
@@ -858,6 +1129,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		createEReference(compilationStatusManagerEClass, COMPILATION_STATUS_MANAGER__COMPILATION_STATUS_LIST);
 		createEReference(compilationStatusManagerEClass,
 				COMPILATION_STATUS_MANAGER__MODELING_UNIT_TO_STATUS_LIST);
+		createEAttribute(compilationStatusManagerEClass, COMPILATION_STATUS_MANAGER__VALIDATION_TIME);
 
 		compilationInformationHolderEClass = createEClass(COMPILATION_INFORMATION_HOLDER);
 		createEReference(compilationInformationHolderEClass,
@@ -895,20 +1167,53 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		createEReference(compiledElementToInstructionEntryEClass,
 				COMPILED_ELEMENT_TO_INSTRUCTION_ENTRY__VALUE);
 
+		instructionTraceabilityEntryEClass = createEClass(INSTRUCTION_TRACEABILITY_ENTRY);
+		createEReference(instructionTraceabilityEntryEClass, INSTRUCTION_TRACEABILITY_ENTRY__INSTRUCTION);
+		createEReference(instructionTraceabilityEntryEClass, INSTRUCTION_TRACEABILITY_ENTRY__FEATURES);
+
+		featureToAffectationEntryEClass = createEClass(FEATURE_TO_AFFECTATION_ENTRY);
+		createEAttribute(featureToAffectationEntryEClass, FEATURE_TO_AFFECTATION_ENTRY__KEY);
+		createEReference(featureToAffectationEntryEClass, FEATURE_TO_AFFECTATION_ENTRY__VALUE);
+
+		resourceChangeStatusEClass = createEClass(RESOURCE_CHANGE_STATUS);
+		createEAttribute(resourceChangeStatusEClass, RESOURCE_CHANGE_STATUS__WORKING_COPY_RESOURCE_STATE);
+		createEAttribute(resourceChangeStatusEClass, RESOURCE_CHANGE_STATUS__COMPILED_RESOURCE_STATE);
+
+		modelElementChangeStatusEClass = createEClass(MODEL_ELEMENT_CHANGE_STATUS);
+		createEAttribute(modelElementChangeStatusEClass, MODEL_ELEMENT_CHANGE_STATUS__CHANGE_STATE);
+		createEReference(modelElementChangeStatusEClass, MODEL_ELEMENT_CHANGE_STATUS__COMPILED_PARENT);
+		createEReference(modelElementChangeStatusEClass, MODEL_ELEMENT_CHANGE_STATUS__COMPILED_ELEMENT);
+		createEAttribute(modelElementChangeStatusEClass,
+				MODEL_ELEMENT_CHANGE_STATUS__WORKING_COPY_PARENT_URI_FRAGMENT);
+		createEAttribute(modelElementChangeStatusEClass,
+				MODEL_ELEMENT_CHANGE_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT);
+
+		structuralFeatureChangeStatusEClass = createEClass(STRUCTURAL_FEATURE_CHANGE_STATUS);
+		createEAttribute(structuralFeatureChangeStatusEClass, STRUCTURAL_FEATURE_CHANGE_STATUS__CHANGE_STATE);
+		createEAttribute(structuralFeatureChangeStatusEClass, STRUCTURAL_FEATURE_CHANGE_STATUS__FEATURE_NAME);
+		createEReference(structuralFeatureChangeStatusEClass,
+				STRUCTURAL_FEATURE_CHANGE_STATUS__COMPILED_ELEMENT);
+		createEAttribute(structuralFeatureChangeStatusEClass,
+				STRUCTURAL_FEATURE_CHANGE_STATUS__WORKING_COPY_ELEMENT_URI_FRAGMENT);
+
+		referenceChangeStatusEClass = createEClass(REFERENCE_CHANGE_STATUS);
+		createEReference(referenceChangeStatusEClass, REFERENCE_CHANGE_STATUS__COMPILED_TARGET);
+		createEAttribute(referenceChangeStatusEClass,
+				REFERENCE_CHANGE_STATUS__WORKING_COPY_TARGET_URI_FRAGMENT);
+
+		attributeChangeStatusEClass = createEClass(ATTRIBUTE_CHANGE_STATUS);
+
 		synchronizerCompilationStatusEClass = createEClass(SYNCHRONIZER_COMPILATION_STATUS);
-		createEAttribute(synchronizerCompilationStatusEClass,
-				SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI);
 		createEAttribute(synchronizerCompilationStatusEClass,
 				SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI);
 		createEAttribute(synchronizerCompilationStatusEClass,
-				SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_STATE);
-		createEAttribute(synchronizerCompilationStatusEClass,
-				SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_STATE);
+				SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI);
 
 		// Create enums
 		compilationStatusSeverityEEnum = createEEnum(COMPILATION_STATUS_SEVERITY);
 		compilationMessageTypeEEnum = createEEnum(COMPILATION_MESSAGE_TYPE);
 		synchronizerResourceStateEEnum = createEEnum(SYNCHRONIZER_RESOURCE_STATE);
+		synchronizerChangeStateEEnum = createEEnum(SYNCHRONIZER_CHANGE_STATE);
 	}
 
 	/**
@@ -946,6 +1251,11 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		resourceChangeStatusEClass.getESuperTypes().add(this.getSynchronizerCompilationStatus());
+		modelElementChangeStatusEClass.getESuperTypes().add(this.getSynchronizerCompilationStatus());
+		structuralFeatureChangeStatusEClass.getESuperTypes().add(this.getSynchronizerCompilationStatus());
+		referenceChangeStatusEClass.getESuperTypes().add(this.getStructuralFeatureChangeStatus());
+		attributeChangeStatusEClass.getESuperTypes().add(this.getStructuralFeatureChangeStatus());
 		synchronizerCompilationStatusEClass.getESuperTypes().add(this.getCompilationStatus());
 
 		// Initialize classes and features; add operations and parameters
@@ -1020,7 +1330,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 				null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCreatedElementToInstructionMapEntry_Value(),
-				theGenericUnitPackage.getUnitInstruction(), null, "value", null, 0, 1, Map.Entry.class,
+				theGenericUnitPackage.getUnitInstruction(), null, "value", null, 0, -1, Map.Entry.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1044,9 +1354,9 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		initEClass(compilationStatusEClass, CompilationStatus.class, "CompilationStatus", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCompilationStatus_Target(), theIntentDocumentPackage.getIntentGenericElement(),
-				null, "target", null, 1, 1, CompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
+				theIntentDocumentPackage.getIntentGenericElement_CompilationStatus(), "target", null, 1, 1,
+				CompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
+				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getCompilationStatus_Message(), ecorePackage.getEString(), "message", null, 1, 1,
 				CompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1067,6 +1377,9 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 				this.getModelingUnitToStatusList(), null, "modelingUnitToStatusList", null, 0, -1,
 				CompilationStatusManager.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCompilationStatusManager_ValidationTime(), ecorePackage.getEBigInteger(),
+				"validationTime", null, 0, 1, CompilationStatusManager.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compilationInformationHolderEClass, CompilationInformationHolder.class,
 				"CompilationInformationHolder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1138,27 +1451,100 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		initEReference(getCompiledElementToInstructionEntry_Key(), ecorePackage.getEObject(), null, "key",
 				null, 1, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCompiledElementToInstructionEntry_Value(),
-				theIntentDocumentPackage.getIntentGenericElement(), null, "value", null, 1, 1,
+		initEReference(getCompiledElementToInstructionEntry_Value(), this.getInstructionTraceabilityEntry(),
+				null, "value", null, 0, -1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(instructionTraceabilityEntryEClass, InstructionTraceabilityEntry.class,
+				"InstructionTraceabilityEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getInstructionTraceabilityEntry_Instruction(),
+				theIntentDocumentPackage.getIntentGenericElement(), null, "instruction", null, 1, 1,
+				InstructionTraceabilityEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInstructionTraceabilityEntry_Features(), this.getFeatureToAffectationEntry(), null,
+				"features", null, 0, -1, InstructionTraceabilityEntry.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+
+		initEClass(featureToAffectationEntryEClass, Map.Entry.class, "FeatureToAffectationEntry",
+				!IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getFeatureToAffectationEntry_Key(), ecorePackage.getEString(), "key", null, 0, 1,
+				Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFeatureToAffectationEntry_Value(),
+				theModelingUnitPackage.getValueForStructuralFeature(), null, "value", null, 1, -1,
 				Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(synchronizerCompilationStatusEClass, SynchronizerCompilationStatus.class,
-				"SynchronizerCompilationStatus", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getSynchronizerCompilationStatus_WorkingCopyResourceURI(), ecorePackage.getEString(),
-				"workingCopyResourceURI", null, 0, 1, SynchronizerCompilationStatus.class, !IS_TRANSIENT,
+		initEClass(resourceChangeStatusEClass, ResourceChangeStatus.class, "ResourceChangeStatus",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getResourceChangeStatus_WorkingCopyResourceState(),
+				this.getSynchronizerResourceState(), "workingCopyResourceState", null, 0, 1,
+				ResourceChangeStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getResourceChangeStatus_CompiledResourceState(), this.getSynchronizerResourceState(),
+				"compiledResourceState", "", 0, 1, ResourceChangeStatus.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(modelElementChangeStatusEClass, ModelElementChangeStatus.class,
+				"ModelElementChangeStatus", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getModelElementChangeStatus_ChangeState(), this.getSynchronizerChangeState(),
+				"changeState", null, 0, 1, ModelElementChangeStatus.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModelElementChangeStatus_CompiledParent(), ecorePackage.getEObject(), null,
+				"compiledParent", null, 0, 1, ModelElementChangeStatus.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEReference(getModelElementChangeStatus_CompiledElement(), ecorePackage.getEObject(), null,
+				"compiledElement", null, 0, 1, ModelElementChangeStatus.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getModelElementChangeStatus_WorkingCopyParentURIFragment(), ecorePackage.getEString(),
+				"workingCopyParentURIFragment", null, 0, 1, ModelElementChangeStatus.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModelElementChangeStatus_WorkingCopyElementURIFragment(),
+				ecorePackage.getEString(), "workingCopyElementURIFragment", null, 0, 1,
+				ModelElementChangeStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(structuralFeatureChangeStatusEClass, StructuralFeatureChangeStatus.class,
+				"StructuralFeatureChangeStatus", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getStructuralFeatureChangeStatus_ChangeState(), this.getSynchronizerChangeState(),
+				"changeState", null, 0, 1, StructuralFeatureChangeStatus.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStructuralFeatureChangeStatus_FeatureName(), ecorePackage.getEString(),
+				"featureName", null, 0, 1, StructuralFeatureChangeStatus.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getStructuralFeatureChangeStatus_CompiledElement(), ecorePackage.getEObject(), null,
+				"compiledElement", null, 0, 1, StructuralFeatureChangeStatus.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getStructuralFeatureChangeStatus_WorkingCopyElementURIFragment(),
+				ecorePackage.getEString(), "workingCopyElementURIFragment", null, 0, 1,
+				StructuralFeatureChangeStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(referenceChangeStatusEClass, ReferenceChangeStatus.class, "ReferenceChangeStatus",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getReferenceChangeStatus_CompiledTarget(), ecorePackage.getEObject(), null,
+				"compiledTarget", null, 0, 1, ReferenceChangeStatus.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
+		initEAttribute(getReferenceChangeStatus_WorkingCopyTargetURIFragment(), ecorePackage.getEString(),
+				"workingCopyTargetURIFragment", null, 0, 1, ReferenceChangeStatus.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(attributeChangeStatusEClass, AttributeChangeStatus.class, "AttributeChangeStatus",
+				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(synchronizerCompilationStatusEClass, SynchronizerCompilationStatus.class,
+				"SynchronizerCompilationStatus", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSynchronizerCompilationStatus_CompiledResourceURI(), ecorePackage.getEString(),
 				"compiledResourceURI", null, 0, 1, SynchronizerCompilationStatus.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSynchronizerCompilationStatus_WorkingCopyResourceState(),
-				this.getSynchronizerResourceState(), "workingCopyResourceState", null, 0, 1,
-				SynchronizerCompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getSynchronizerCompilationStatus_CompiledResourceState(),
-				this.getSynchronizerResourceState(), "compiledResourceState", "", 0, 1,
-				SynchronizerCompilationStatus.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSynchronizerCompilationStatus_WorkingCopyResourceURI(), ecorePackage.getEString(),
+				"workingCopyResourceURI", null, 0, 1, SynchronizerCompilationStatus.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compilationStatusSeverityEEnum, CompilationStatusSeverity.class,
@@ -1177,12 +1563,19 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.INVALID_VALUE_ERROR);
 		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.GENERAL_WARNING);
 		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.SYNCHRONIZER_WARNING);
+		addEEnumLiteral(compilationMessageTypeEEnum, CompilationMessageType.SYNCHRONIZER_INFO);
 
 		initEEnum(synchronizerResourceStateEEnum, SynchronizerResourceState.class,
 				"SynchronizerResourceState");
 		addEEnumLiteral(synchronizerResourceStateEEnum, SynchronizerResourceState.DEFAULT);
 		addEEnumLiteral(synchronizerResourceStateEEnum, SynchronizerResourceState.NULL);
 		addEEnumLiteral(synchronizerResourceStateEEnum, SynchronizerResourceState.EMPTY);
+
+		initEEnum(synchronizerChangeStateEEnum, SynchronizerChangeState.class, "SynchronizerChangeState");
+		addEEnumLiteral(synchronizerChangeStateEEnum, SynchronizerChangeState.UPDATE);
+		addEEnumLiteral(synchronizerChangeStateEEnum, SynchronizerChangeState.ORDER);
+		addEEnumLiteral(synchronizerChangeStateEEnum, SynchronizerChangeState.WORKING_COPY_TARGET);
+		addEEnumLiteral(synchronizerChangeStateEEnum, SynchronizerChangeState.COMPILED_TARGET);
 
 		// Create resource
 		createResource(eNS_URI);

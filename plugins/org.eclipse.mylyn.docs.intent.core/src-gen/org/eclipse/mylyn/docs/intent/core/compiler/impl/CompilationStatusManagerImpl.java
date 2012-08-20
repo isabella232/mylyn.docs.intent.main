@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
+import java.math.BigInteger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
@@ -27,6 +28,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl#getCompilationStatusList <em>Compilation Status List</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl#getModelingUnitToStatusList <em>Modeling Unit To Status List</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl#getValidationTime <em>Validation Time</em>}</li>
  * </ul>
  * </p>
  *
@@ -77,6 +79,24 @@ public class CompilationStatusManagerImpl extends CDOObjectImpl implements Compi
 	public EMap<ModelingUnit, EList<CompilationStatus>> getModelingUnitToStatusList() {
 		return (EMap<ModelingUnit, EList<CompilationStatus>>)eGet(
 				CompilerPackage.Literals.COMPILATION_STATUS_MANAGER__MODELING_UNIT_TO_STATUS_LIST, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BigInteger getValidationTime() {
+		return (BigInteger)eGet(CompilerPackage.Literals.COMPILATION_STATUS_MANAGER__VALIDATION_TIME, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setValidationTime(BigInteger newValidationTime) {
+		eSet(CompilerPackage.Literals.COMPILATION_STATUS_MANAGER__VALIDATION_TIME, newValidationTime);
 	}
 
 } // CompilationStatusManagerImpl

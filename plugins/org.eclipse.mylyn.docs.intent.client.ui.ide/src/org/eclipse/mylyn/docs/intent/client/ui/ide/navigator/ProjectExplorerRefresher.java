@@ -19,9 +19,13 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.CompilationStatusQuery;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IndexQuery;
+import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
@@ -71,9 +75,11 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 	 *             if cannot correctly connect to the given repository
 	 * @throws CoreException
 	 *             if needed the repository type cannot be found
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
 	public static ProjectExplorerRefresher createProjectExplorerRefresher(IProject project)
-			throws RepositoryConnectionException, CoreException {
+			throws RepositoryConnectionException, CoreException, ReadOnlyException {
 		// Step 1 : Create a Repository Adapter
 		Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
@@ -83,10 +89,9 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		// listening to the Intent Index
 		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 
-		listenedElements.addAll(repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH)
-				.getContents());
-		listenedElements.addAll(repositoryAdapter.getResource(IntentLocations.COMPILATION_STATUS_INDEX_PATH)
-				.getContents());
+		listenedElements.add(new IndexQuery(repositoryAdapter).getOrCreateIntentIndex());
+		listenedElements.add(new CompilationStatusQuery(repositoryAdapter)
+				.getOrCreateCompilationStatusManager());
 
 		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements,
 				repositoryAdapter);
@@ -112,6 +117,8 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 			res = new ProjectExplorerRefreshJob(project, null);
 		}
 		updateProblemView();
+		IntentLogger.getInstance().log(LogType.LIFECYCLE,
+				"[ProjectExplorer Refresher] Project explorer and Problem view refreshed");
 		return res;
 	}
 

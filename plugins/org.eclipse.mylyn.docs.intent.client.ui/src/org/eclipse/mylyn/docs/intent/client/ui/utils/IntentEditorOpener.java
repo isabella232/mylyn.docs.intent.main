@@ -18,7 +18,9 @@ import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -63,12 +65,10 @@ public final class IntentEditorOpener {
 	public static void openIntentEditor(final Repository repository, boolean readOnlyMode) {
 		try {
 			final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
-			Resource resource = repositoryAdapter.getOrCreateResource(IntentLocations.INTENT_INDEX);
-			if (!resource.getContents().isEmpty()
-					&& resource.getContents().iterator().next() instanceof IntentDocument) {
-				EObject elementToOpen = resource.getContents().iterator().next();
-				openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, false);
-			}
+			repositoryAdapter.openSaveContext();
+			IntentDocument elementToOpen = new IntentDocumentQuery(repositoryAdapter)
+					.getOrCreateIntentDocument();
+			openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, false);
 		} catch (PartInitException e) {
 			IntentUiLogger.logError(e);
 		} catch (ReadOnlyException e) {
@@ -126,20 +126,22 @@ public final class IntentEditorOpener {
 		IntentEditor openedEditor = null;
 		IStatus status = null;
 		// We get the element on which open this editor
-		if (readOnlyMode) {
-			repositoryAdapter.openReadOnlyContext();
-		} else {
-			repositoryAdapter.openSaveContext();
-		}
+		openContext(repositoryAdapter, readOnlyMode);
+
+		final EObject elementToOpenLoadedFromAdapter = repositoryAdapter.getElementWithID(repositoryAdapter
+				.getIDFromElement(elementToOpen));
+		final EObject elementToSelectRangeWithLoadedFromAdapter = repositoryAdapter
+				.getElementWithID(repositoryAdapter.getIDFromElement(elementToSelectRangeWith));
 
 		boolean foundInAlreadyExistingEditor = false;
 		if (!forceNewEditor) {
 			// Step 2 : if an editor containing this element is already opened
-			IntentEditor editor = getAlreadyOpenedEditor(elementToOpen);
+			IntentEditor editor = getAlreadyOpenedEditor(elementToOpenLoadedFromAdapter);
 			if (editor != null) {
 				editor.getEditorSite().getPage().activate(editor);
 				openedEditor = editor;
-				foundInAlreadyExistingEditor = editor.selectRange((IntentGenericElement)elementToOpen);
+				foundInAlreadyExistingEditor = editor
+						.selectRange((IntentGenericElement)elementToSelectRangeWithLoadedFromAdapter);
 			}
 		}
 
@@ -149,16 +151,17 @@ public final class IntentEditorOpener {
 			IWorkbenchPage page = null;
 			try {
 				page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				openedEditor = IntentEditorOpener.openEditor(repositoryAdapter, page, elementToOpen);
-				EObject container = elementToSelectRangeWith;
+				openedEditor = IntentEditorOpener.openEditor(repositoryAdapter, page,
+						elementToOpenLoadedFromAdapter);
+				EObject container = elementToSelectRangeWithLoadedFromAdapter;
 				while (container != null && !(container instanceof IntentGenericElement)) {
 					container = container.eContainer();
 				}
 				if (container instanceof IntentGenericElement) {
 					openedEditor.selectRange((IntentGenericElement)container);
 				} else {
-					if (elementToOpen instanceof IntentGenericElement) {
-						openedEditor.selectRange((IntentGenericElement)elementToOpen);
+					if (elementToOpenLoadedFromAdapter instanceof IntentGenericElement) {
+						openedEditor.selectRange((IntentGenericElement)elementToOpenLoadedFromAdapter);
 					}
 				}
 
@@ -170,6 +173,33 @@ public final class IntentEditorOpener {
 		}
 
 		return openedEditor;
+	}
+
+	/**
+	 * Opens a context through the {@link RepositoryAdapter}, read-only or not according to the given boolean.
+	 * 
+	 * @param repositoryAdapter
+	 *            the {@link RepositoryAdapter} to use
+	 * @param readOnlyMode
+	 *            indicates whether the context should be opened in read-only mode or node
+	 */
+	private static void openContext(RepositoryAdapter repositoryAdapter, boolean readOnlyMode) {
+		if (!readOnlyMode) {
+			try {
+				repositoryAdapter.openSaveContext();
+			} catch (ReadOnlyException e) {
+				IntentLogger
+						.getInstance()
+						.log(LogType.WARNING,
+								"The Intent Editor has insufficient rights (read-only) to save modifications on the repository. A read-only context will be used instead.");
+				readOnlyMode = true;
+			}
+		}
+
+		if (readOnlyMode) {
+			repositoryAdapter.openReadOnlyContext();
+		}
+
 	}
 
 	/**

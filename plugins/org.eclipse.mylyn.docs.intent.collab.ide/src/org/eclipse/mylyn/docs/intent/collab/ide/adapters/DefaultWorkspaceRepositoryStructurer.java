@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.ide.adapters;
 
-import com.google.common.collect.Sets;
-
-import java.util.Collection;
-
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
@@ -34,13 +30,12 @@ public class DefaultWorkspaceRepositoryStructurer implements RepositoryStructure
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer#structure(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter)
 	 */
-	public Collection<String> structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
+	public void structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
 		if (!(repositoryAdapter instanceof WorkspaceAdapter)) {
 			throw new IllegalArgumentException("Cannot Strucure the repository using a "
 					+ repositoryAdapter.getClass().getName() + " : must be "
 					+ WorkspaceAdapter.class.getName());
 		}
 		// the default implementation is to do nothing
-		return Sets.newLinkedHashSet();
 	}
 }

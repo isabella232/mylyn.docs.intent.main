@@ -293,6 +293,12 @@ Contributors:
              type="java.lang.Object">
        </propertyTester>
     </extension>
+    <extension
+          point="org.eclipse.mylyn.docs.intent.collab.common.repositorymanagercontribution">
+       <repositorymanagercontribution
+             class="org.eclipse.mylyn.docs.intent.client.ui.ide.repository.IntentProjectBasedRepositoryManagerContribution">
+       </repositorymanagercontribution>
+    </extension>
    
    
    

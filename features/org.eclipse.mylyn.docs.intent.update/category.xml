@@ -12,6 +12,12 @@
 	<feature id="org.eclipse.mylyn.docs.intent.retro.feature" version="0.0.0">
 		<category name="mylyn.intent"/>
 	</feature>
+    <feature id="org.eclipse.mylyn.docs.intent.workspace.feature" version="0.0.0">
+		<category name="mylyn.intent"/>
+	</feature>
+	<feature id="org.eclipse.mylyn.docs.intent.cdo.feature" version="0.0.0">
+		<category name="mylyn.intent"/>
+	</feature>
    <category-def name="mylyn.intent" label="Mylyn Intent (Incubation)">
       <description>
          Mylyn Intent (Incubation)

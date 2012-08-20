@@ -73,7 +73,7 @@ public class CompileTest extends AbstractDemoTest {
 		// Step 3 : ensure that the compilation error has been detected
 		assertTrue(TEST_COMPILER_NO_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, COMPILATION_ERROR_MESSAGE, true));
-
+		waitForCompiler(false);
 		// Step 4 : fix the error by resetting the content
 		document.set(initialContent);
 		repositoryListener.clearPreviousEntries();
@@ -84,6 +84,7 @@ public class CompileTest extends AbstractDemoTest {
 		// Step 5 : ensure that the compilation error no longer exists
 		assertFalse(TEST_COMPILER_INVALID_ERROR_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_ERROR, COMPILATION_ERROR_MESSAGE, true));
+		waitForCompiler(false);
 	}
 
 	/**
@@ -105,6 +106,7 @@ public class CompileTest extends AbstractDemoTest {
 		// Step 2 : ensure that the compilation info has been detected
 		assertTrue(TEST_COMPILER_NO_INFO_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_INFO, COMPILATION_INFO_MESSAGE, true));
+		waitForCompiler(false);
 
 		// Step 3 : fix the info by resetting the content
 		document.set(initialContent);
@@ -115,6 +117,7 @@ public class CompileTest extends AbstractDemoTest {
 		// Step 4 : ensure that the compilation info no longer exists
 		assertFalse(TEST_COMPILER_INVALID_INFO_MSG, AnnotationUtils.hasIntentAnnotation(editor,
 				IntentAnnotationMessageType.COMPILER_INFO, COMPILATION_INFO_MESSAGE, true));
+		waitForCompiler(false);
 	}
 
 }

@@ -31,7 +31,6 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionImpl#getVisibility <em>Visibility</em>}</li>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionImpl#getCompleteLevel <em>Complete Level</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionImpl#getModelingUnits <em>Modeling Units</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionImpl#getImportedHeaders <em>Imported Headers</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionImpl#getDeclaredHeaders <em>Declared Headers</em>}</li>
@@ -72,22 +71,6 @@ public class IntentSectionImpl extends IntentSubSectionContainerImpl implements 
 	 */
 	public void setVisibility(IntentSectionVisibility newVisibility) {
 		eSet(IntentDocumentPackage.Literals.INTENT_SECTION__VISIBILITY, newVisibility);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getCompleteLevel() {
-		return (String)eGet(IntentDocumentPackage.Literals.INTENT_SECTION__COMPLETE_LEVEL, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCompleteLevel(String newCompleteLevel) {
-		eSet(IntentDocumentPackage.Literals.INTENT_SECTION__COMPLETE_LEVEL, newCompleteLevel);
 	}
 
 	/**

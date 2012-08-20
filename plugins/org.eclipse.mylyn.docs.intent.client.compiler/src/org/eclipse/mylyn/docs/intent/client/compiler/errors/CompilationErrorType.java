@@ -32,7 +32,7 @@ public enum CompilationErrorType {
 	/**
 	 * Indicates an error that occurred when failing to resolve a reference to a created instance.
 	 */
-	INVALID_REFRENCE_ERROR,
+	INVALID_REFERENCE_ERROR,
 	/**
 	 * Indicates an error that occurred when failing to validate a generated element.
 	 */

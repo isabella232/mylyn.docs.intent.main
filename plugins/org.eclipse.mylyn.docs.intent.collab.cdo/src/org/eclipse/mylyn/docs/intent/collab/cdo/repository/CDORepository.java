@@ -13,9 +13,9 @@ package org.eclipse.mylyn.docs.intent.collab.cdo.repository;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.eclipse.emf.cdo.net4j.CDONet4jSession;
+import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
-import org.eclipse.emf.cdo.net4j.CDOSession;
-import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.mylyn.docs.intent.collab.cdo.adapters.CDOAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
@@ -51,12 +51,12 @@ public class CDORepository implements Repository {
 	/**
 	 * SessionConfiguration for the CDO repository (concrete notion).
 	 */
-	private static CDOSessionConfiguration cdoSessionConfiguration;
+	private static CDONet4jSessionConfiguration cdoSessionConfiguration;
 
 	/**
 	 * Current session connected to the repository.
 	 */
-	private static CDOSession session;
+	private static CDONet4jSession session;
 
 	/**
 	 * List of the active repositories (while not empty, we can't close the session).
@@ -127,7 +127,7 @@ public class CDORepository implements Repository {
 			connector = TCPUtil.getConnector(container, repositoryConfiguration.getServerAdress());
 
 			// Create configuration
-			cdoSessionConfiguration = CDONet4jUtil.createSessionConfiguration();
+			cdoSessionConfiguration = CDONet4jUtil.createNet4jSessionConfiguration();
 			cdoSessionConfiguration.setConnector(connector);
 			cdoSessionConfiguration.setRepositoryName(repositoryConfiguration.getRepositoryName());
 
@@ -137,8 +137,7 @@ public class CDORepository implements Repository {
 		if ((session == null) || session.isClosed()) {
 			// Open session
 			try {
-				session = cdoSessionConfiguration.openSession();
-
+				session = cdoSessionConfiguration.openNet4jSession();
 			} catch (TimeoutRuntimeException tre) {
 				throw new RepositoryConnectionException(tre.getMessage());
 			} catch (ChannelException ce) {
@@ -196,7 +195,7 @@ public class CDORepository implements Repository {
 	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#getPackageRegistry()
 	 */
 	public Registry getPackageRegistry() throws RepositoryConnectionException {
-		return ((CDOSession)getOrCreateSession()).getPackageRegistry();
+		return ((CDONet4jSession)getOrCreateSession()).getPackageRegistry();
 	}
 
 	/**
@@ -206,7 +205,7 @@ public class CDORepository implements Repository {
 	 */
 	public RepositoryAdapter createRepositoryAdapter() {
 		try {
-			return new CDOAdapter((CDOSession)getOrCreateSession());
+			return new CDOAdapter((CDONet4jSession)getOrCreateSession());
 		} catch (RepositoryConnectionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

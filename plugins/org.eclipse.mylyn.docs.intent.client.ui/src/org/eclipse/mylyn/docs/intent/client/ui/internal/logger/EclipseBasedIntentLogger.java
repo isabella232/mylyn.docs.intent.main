@@ -120,6 +120,15 @@ public class EclipseBasedIntentLogger implements IIntentLogger, IPreferenceChang
 	/**
 	 * {@inheritDoc}
 	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger#logError(java.lang.Throwable)
+	 */
+	public void logError(Throwable throwable) {
+		log(LogType.ERROR, throwable.getMessage(), throwable);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger#setDisplayLifecycleInformations(boolean)
 	 */
 	public void setDisplayLifecycleInformations(boolean shouldDisplayLifecycleInformations) {
@@ -148,5 +157,4 @@ public class EclipseBasedIntentLogger implements IIntentLogger, IPreferenceChang
 		}
 		return this.delegateLogger;
 	}
-
 }

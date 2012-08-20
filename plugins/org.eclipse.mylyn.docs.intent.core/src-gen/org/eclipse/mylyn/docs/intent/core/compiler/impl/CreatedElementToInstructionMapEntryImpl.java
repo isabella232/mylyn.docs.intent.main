@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.common.util.BasicEMap;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -31,7 +32,7 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
  *
  * @generated
  */
-public class CreatedElementToInstructionMapEntryImpl extends CDOObjectImpl implements BasicEMap.Entry<EObject, UnitInstruction> {
+public class CreatedElementToInstructionMapEntryImpl extends CDOObjectImpl implements BasicEMap.Entry<EObject, EList<UnitInstruction>> {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -78,17 +79,10 @@ public class CreatedElementToInstructionMapEntryImpl extends CDOObjectImpl imple
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UnitInstruction getTypedValue() {
-		return (UnitInstruction)eGet(
+	@SuppressWarnings("unchecked")
+	public EList<UnitInstruction> getTypedValue() {
+		return (EList<UnitInstruction>)eGet(
 				CompilerPackage.Literals.CREATED_ELEMENT_TO_INSTRUCTION_MAP_ENTRY__VALUE, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTypedValue(UnitInstruction newValue) {
-		eSet(CompilerPackage.Literals.CREATED_ELEMENT_TO_INSTRUCTION_MAP_ENTRY__VALUE, newValue);
 	}
 
 	/**
@@ -137,17 +131,19 @@ public class CreatedElementToInstructionMapEntryImpl extends CDOObjectImpl imple
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UnitInstruction getValue() {
+	public EList<UnitInstruction> getValue() {
 		return getTypedValue();
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UnitInstruction setValue(UnitInstruction value) {
-		UnitInstruction oldValue = getValue();
-		setTypedValue(value);
+	public EList<UnitInstruction> setValue(EList<UnitInstruction> value) {
+		EList<UnitInstruction> oldValue = getValue();
+		getTypedValue().clear();
+		getTypedValue().addAll(value);
 		return oldValue;
 	}
 
@@ -156,9 +152,9 @@ public class CreatedElementToInstructionMapEntryImpl extends CDOObjectImpl imple
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EMap<EObject, UnitInstruction> getEMap() {
+	public EMap<EObject, EList<UnitInstruction>> getEMap() {
 		EObject container = eContainer();
-		return container == null ? null : (EMap<EObject, UnitInstruction>)container
+		return container == null ? null : (EMap<EObject, EList<UnitInstruction>>)container
 				.eGet(eContainmentFeature());
 	}
 

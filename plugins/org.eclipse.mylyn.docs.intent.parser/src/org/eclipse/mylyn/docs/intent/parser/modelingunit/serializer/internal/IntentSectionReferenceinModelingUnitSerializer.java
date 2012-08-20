@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
@@ -52,8 +51,9 @@ public final class IntentSectionReferenceinModelingUnitSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		modelingUnitElementDispatcher.setPositionForInstruction(sectionReferenceinModelingUnit,
-				modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length());
+		modelingUnitElementDispatcher.getPositionManager().setPositionForInstruction(
+				sectionReferenceinModelingUnit, modelingUnitElementDispatcher.getCurrentOffset(),
+				renderedForm.length());
 		modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
 				+ renderedForm.length());
 		return renderedForm;

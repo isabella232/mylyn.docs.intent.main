@@ -14,6 +14,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.core.indexer.*;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
@@ -72,21 +73,22 @@ public class IntentIndexerAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IntentIndexerSwitch<Adapter> modelSwitch =
-		new IntentIndexerSwitch<Adapter>() {
-			@Override
-			public Adapter caseIntentIndex(IntentIndex object) {
-				return createIntentIndexAdapter();
-			}
-			@Override
-			public Adapter caseIntentIndexEntry(IntentIndexEntry object) {
-				return createIntentIndexEntryAdapter();
-			}
-			@Override
-			public Adapter defaultCase(EObject object) {
-				return createEObjectAdapter();
-			}
-		};
+	protected IntentIndexerSwitch<Adapter> modelSwitch = new IntentIndexerSwitch<Adapter>() {
+		@Override
+		public Adapter caseIntentIndex(IntentIndex object) {
+			return createIntentIndexAdapter();
+		}
+
+		@Override
+		public Adapter caseIntentIndexEntry(IntentIndexEntry object) {
+			return createIntentIndexEntryAdapter();
+		}
+
+		@Override
+		public Adapter defaultCase(EObject object) {
+			return createEObjectAdapter();
+		}
+	};
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
@@ -100,7 +102,6 @@ public class IntentIndexerAdapterFactory extends AdapterFactoryImpl {
 	public Adapter createAdapter(Notifier target) {
 		return modelSwitch.doSwitch((EObject)target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex <em>Intent Index</em>}'.

@@ -30,8 +30,10 @@ public class ReadWriteRepositoryObjectHandlerImpl extends AbstractRepositoryObje
 	 * 
 	 * @param repositoryAdapter
 	 *            Adapter used by this RepositoryObjectHandler to communicate with the concrete repository
+	 * @throws ReadOnlyException
+	 *             if the repository is in read-only mode
 	 */
-	public ReadWriteRepositoryObjectHandlerImpl(RepositoryAdapter repositoryAdapter) {
+	public ReadWriteRepositoryObjectHandlerImpl(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
 		super();
 		this.setRepositoryAdapter(repositoryAdapter);
 		this.getRepositoryAdapter().openSaveContext();

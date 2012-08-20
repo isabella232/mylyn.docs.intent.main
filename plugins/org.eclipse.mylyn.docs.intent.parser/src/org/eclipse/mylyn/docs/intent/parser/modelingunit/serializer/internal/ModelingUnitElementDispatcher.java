@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
@@ -124,7 +123,7 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 		}
 
 		this.setCurrentOffset(initialOffset + renderedForm.length());
-		this.setPositionForInstruction(object, initialOffset, renderedForm.length());
+		this.getPositionManager().setPositionForInstruction(object, initialOffset, renderedForm.length());
 
 		// Adding the suffix
 		return renderedForm + ModelingUnitParser.MODELING_UNIT_SUFFIX + IntentKeyWords.INTENT_LINEBREAK;
@@ -251,37 +250,6 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 	}
 
 	/**
-	 * Associates the given instruction to the given offset and length.
-	 * 
-	 * @param instruction
-	 *            the instruction to associate with the given position
-	 * @param offset
-	 *            the offset of the given instruction
-	 * @param length
-	 *            the lenght of the given instruction
-	 */
-	public void setPositionForInstruction(EObject instruction, int offset, int length) {
-		positionManager.setPositionForInstruction(instruction, offset, length);
-	}
-
-	/**
-	 * Associates the given instruction to the given offset and length, and also map the declaration length.
-	 * 
-	 * @param instruction
-	 *            the instruction to associate with the given position
-	 * @param offset
-	 *            the offset of the given instruction
-	 * @param length
-	 *            the length of the given instruction
-	 * @param declarationLength
-	 *            the length of the given instruction declaration
-	 */
-	public void setDeclarationPositionForInstruction(EObject instruction, int offset, int length,
-			int declarationLength) {
-		positionManager.setDeclarationPositionForInstruction(instruction, offset, length, declarationLength);
-	}
-
-	/**
 	 * Returns the positionManager associated to this ElementDispatcher.
 	 * 
 	 * @return the positionManager associated to this ElementDispatcher
@@ -290,15 +258,4 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 		return positionManager;
 	}
 
-	/**
-	 * Handles tabulations added at the given tabOffset.
-	 * 
-	 * @param tabOffset
-	 *            the offset where the tabulations are added
-	 * @param nbTabs
-	 *            number of tabulations added
-	 */
-	public void handleTabulations(int tabOffset, int nbTabs) {
-		positionManager.handleTabulations(tabOffset, nbTabs);
-	}
 }

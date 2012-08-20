@@ -18,6 +18,7 @@ import junit.framework.Assert;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.collab.test.assertioncontainer.NotificationAssertionContainer;
 import org.eclipse.mylyn.docs.intent.collab.test.ide.utils.IDETestUtils;
@@ -63,8 +64,11 @@ public class WorkspaceSessionAndFileEvents extends AbstractWorkspaceRepositoryTe
 	/**
 	 * Ensures that the listening client (listening a list of element) is correctly notified of modifications
 	 * made by replacing the a file (not using eAdapter).
+	 * 
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
-	public void testNotificationsWithFileModificationWithElementListListeners() {
+	public void testNotificationsWithFileModificationWithElementListListeners() throws ReadOnlyException {
 		// Initialization of the elements listener clients
 		createElementListeningClients();
 
@@ -99,8 +103,11 @@ public class WorkspaceSessionAndFileEvents extends AbstractWorkspaceRepositoryTe
 	/**
 	 * Ensures that the listening client (listening a list of types) is correctly notified of modifications
 	 * made by replacing the a file.
+	 * 
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
-	public void testNotificationsWithFileModificationWithTypeListeners() {
+	public void testNotificationsWithFileModificationWithTypeListeners() throws ReadOnlyException {
 		// Initialization of the type listeners clients
 		createTypeListeningClients();
 

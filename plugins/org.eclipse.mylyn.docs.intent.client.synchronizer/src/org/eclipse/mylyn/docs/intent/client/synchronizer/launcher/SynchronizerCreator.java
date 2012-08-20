@@ -10,20 +10,17 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.launcher;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.query.CompilationStatusQuery;
+import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
@@ -32,7 +29,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementLi
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 
@@ -60,68 +57,55 @@ public final class SynchronizerCreator {
 	 * @return the created Synchronizer client
 	 * @throws RepositoryConnectionException
 	 *             if a connection to the given repository cannot be established
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
 	public static SynchronizerRepositoryClient createSynchronizer(Repository repository,
-			GeneratedElementListener generatedElementListener) throws RepositoryConnectionException {
+			GeneratedElementListener generatedElementListener) throws RepositoryConnectionException,
+			ReadOnlyException {
 
 		// Step 1 : we initialize the listened elements
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 		Set<EObject> listenedElements = new LinkedHashSet<EObject>();
 
-		Collection<String> resourcesToIgnorePaths = new ArrayList<String>();
-		resourcesToIgnorePaths.add(IntentLocations.INTENT_FOLDER);
-		repositoryAdapter.setSendSessionWarningBeforeSaving(resourcesToIgnorePaths);
 		repositoryAdapter.openSaveContext();
-		try {
-			final Resource traceabilityResource = repositoryAdapter
-					.getOrCreateResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
-			if (traceabilityResource.getContents().isEmpty()) {
-				repositoryAdapter.execute(new IntentCommand() {
+		TraceabilityIndex traceabilityIndex = new TraceabilityInformationsQuery(repositoryAdapter)
+				.getOrCreateTraceabilityIndex();
+		CompilationStatusManager statusManager = new CompilationStatusQuery(repositoryAdapter)
+				.getOrCreateCompilationStatusManager();
 
-					public void execute() {
-						traceabilityResource.getContents().add(
-								CompilerFactory.eINSTANCE.createTraceabilityIndex());
+		listenedElements.add(traceabilityIndex);
+		// Step 2 : create the adapter and the handler for these types
 
-					}
-				});
-			}
-			EObject traceabilityIndex = traceabilityResource.getContents().get(0);
+		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 
-			listenedElements.add(traceabilityIndex);
-			// Step 2 : create the adapter and the handler for these types
+		ElementListAdapter adapter = new ElementListAdapter();
 
-			RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
+		Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements, adapter,
+				repositoryAdapter);
+		handler.addNotificator(listenedElementsNotificator);
 
-			ElementListAdapter adapter = new ElementListAdapter();
+		// Step 3 : create the synchronizer
+		SynchronizerRepositoryClient synchronizerClient = new SynchronizerRepositoryClient(traceabilityIndex,
+				statusManager);
+		synchronizerClient.addRepositoryObjectHandler(handler);
+		synchronizerClient.setGeneratedElementListener(generatedElementListener);
 
-			Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements, adapter,
-					repositoryAdapter);
-			handler.addNotificator(listenedElementsNotificator);
-
-			// Step 3 : create the synchronizer
-			SynchronizerRepositoryClient synchronizerClient = new SynchronizerRepositoryClient(
-					(TraceabilityIndex)traceabilityIndex);
-			synchronizerClient.addRepositoryObjectHandler(handler);
-			synchronizerClient.setGeneratedElementListener(generatedElementListener);
-
-			// Step 4 : we ask the generatedElementListener to listen to all generated resources
-			Iterator<TraceabilityIndexEntry> indexEntryIterator = ((TraceabilityIndex)traceabilityIndex)
-					.getEntries().iterator();
-			while (indexEntryIterator.hasNext()) {
-				TraceabilityIndexEntry indexEntry = indexEntryIterator.next();
-				if (indexEntry.getResourceDeclaration() != null
-						&& indexEntry.getResourceDeclaration().getUri() != null) {
-					String resourceURI = indexEntry.getResourceDeclaration().getUri().toString();
-					if (resourceURI != null) {
-						generatedElementListener.addElementToListen(URI.createURI(resourceURI));
-					}
+		// Step 4 : we ask the generatedElementListener to listen to all generated resources
+		Iterator<TraceabilityIndexEntry> indexEntryIterator = ((TraceabilityIndex)traceabilityIndex)
+				.getEntries().iterator();
+		while (indexEntryIterator.hasNext()) {
+			TraceabilityIndexEntry indexEntry = indexEntryIterator.next();
+			if (indexEntry.getResourceDeclaration() != null
+					&& indexEntry.getResourceDeclaration().getUri() != null) {
+				String resourceURI = indexEntry.getResourceDeclaration().getUri().toString();
+				if (resourceURI != null) {
+					generatedElementListener.addElementToListen(URI.createURI(resourceURI));
 				}
 			}
-			repositoryAdapter.closeContext();
-			return synchronizerClient;
-		} catch (ReadOnlyException e) {
-			throw new RepositoryConnectionException(e.getMessage());
 		}
+		repositoryAdapter.closeContext();
+		return synchronizerClient;
 
 	}
 }

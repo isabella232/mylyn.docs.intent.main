@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.launcher;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -19,8 +17,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection.CompilerRepositoryClient;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.ReadWriteRepositoryObjectHandlerImpl;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.typeListener.TypeNotificator;
@@ -53,11 +51,13 @@ public final class CompilerCreator {
 	 * @throws RepositoryConnectionException
 	 *             if a connection to the given repository cannot be established
 	 * @return the created CompilerRepositoryClient
+	 * @throws ReadOnlyException
+	 *             if no sufficient rights to write on the repository
 	 */
 	public static CompilerRepositoryClient createCompilerClient(Repository repository)
-			throws RepositoryConnectionException {
+			throws RepositoryConnectionException, ReadOnlyException {
 
-		// Step 1 : initialize the listened types
+		// Step 1: initialize the listened types
 		Set<EStructuralFeature> listenedTypes = new LinkedHashSet<EStructuralFeature>();
 
 		listenedTypes.add(IntentDocumentPackage.eINSTANCE.getIntentSection_ModelingUnits());
@@ -71,20 +71,16 @@ public final class CompilerCreator {
 		listenedTypes.remove(GenericUnitPackage.eINSTANCE.getGenericUnit_Instructions());
 		listenedTypes.remove(GenericUnitPackage.eINSTANCE.getGenericUnit_UnitName());
 
-		// Step 2 : defining all the resource that once been saved should not cause a session warning
-		Collection<String> resourcesToIgnorePaths = new ArrayList<String>();
-		resourcesToIgnorePaths.add(IntentLocations.INTENT_FOLDER);
-
-		// Step 3 : create the adapter and the handler for these types
+		// Step 2: create the adapter and the handler for these types
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 
-		repositoryAdapter.setSendSessionWarningBeforeSaving(resourcesToIgnorePaths);
-		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
+		RepositoryObjectHandler handler;
+		handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 
 		Notificator notificator = new TypeNotificator(listenedTypes);
 		handler.addNotificator(notificator);
 
-		// Step 4 : create the compiler
+		// Step 3: create the compiler
 		CompilerRepositoryClient compilerClient = new CompilerRepositoryClient();
 		compilerClient.setRepository(repository);
 		compilerClient.addRepositoryObjectHandler(handler);

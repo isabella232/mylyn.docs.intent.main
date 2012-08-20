@@ -53,7 +53,7 @@ public final class ContributionInstructionGenerator {
 
 			try {
 				// If this contribution can be resolved
-				EObject referencedElement = linkResolver.resolveReferenceinElementList(
+				EObject referencedElement = linkResolver.resolveReferenceInElementList(
 						contributionInstruction, null, instanceTextualReference);
 
 				// We contribute to the generated element.

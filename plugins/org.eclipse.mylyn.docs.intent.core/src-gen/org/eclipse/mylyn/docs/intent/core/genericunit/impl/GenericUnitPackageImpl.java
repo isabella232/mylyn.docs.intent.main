@@ -33,6 +33,8 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
+import org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
@@ -160,9 +162,9 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		MarkupPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		ModelingUnitPackageImpl theModelingUnitPackage = (ModelingUnitPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(ModelingUnitPackage.eNS_URI) instanceof ModelingUnitPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(ModelingUnitPackage.eNS_URI) : ModelingUnitPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		IntentDocumentPackageImpl theIntentDocumentPackage = (IntentDocumentPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) instanceof IntentDocumentPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) : IntentDocumentPackage.eINSTANCE);
@@ -172,20 +174,25 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		DescriptionUnitPackageImpl theDescriptionUnitPackage = (DescriptionUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) instanceof DescriptionUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) : DescriptionUnitPackage.eINSTANCE);
+		ModelingUnitPackageImpl theModelingUnitPackage = (ModelingUnitPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(ModelingUnitPackage.eNS_URI) instanceof ModelingUnitPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(ModelingUnitPackage.eNS_URI) : ModelingUnitPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theGenericUnitPackage.createPackageContents();
-		theModelingUnitPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 		theIntentDocumentPackage.createPackageContents();
 		theCompilerPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
+		theModelingUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theGenericUnitPackage.initializePackageContents();
-		theModelingUnitPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 		theIntentDocumentPackage.initializePackageContents();
 		theCompilerPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
+		theModelingUnitPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theGenericUnitPackage.freeze();

@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.collab.handlers.adapters;
 import java.util.Collection;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -31,7 +32,7 @@ public interface RepositoryAdapter {
 	 * 
 	 * @return a save context
 	 */
-	Object openSaveContext();
+	Object openSaveContext() throws ReadOnlyException;
 
 	/**
 	 * Open and returns a readOnly context (connection in read-only mode - GET).
@@ -79,6 +80,15 @@ public interface RepositoryAdapter {
 	 * @return the resource located at the given path, null if no element found
 	 */
 	Resource getResource(String repositoryRelativePath);
+
+	/**
+	 * Returns the repository path corresponding to the Resource located at the given URI.
+	 * 
+	 * @param resourceURI
+	 *            the resourceURI
+	 * @return the repository path corresponding to the Resource located at the given URI
+	 */
+	String getResourcePath(URI resourceURI);
 
 	/**
 	 * Creates the resource located at the given path ; if a resource already exists, returns it.

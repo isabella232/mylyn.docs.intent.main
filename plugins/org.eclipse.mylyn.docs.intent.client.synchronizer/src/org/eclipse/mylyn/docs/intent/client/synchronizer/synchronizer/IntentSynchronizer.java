@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.synchronizer;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -32,11 +35,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtensionRegistry;
-import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerMessageProvider;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerStatusFactory;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.DefaultSynchronizerStrategy;
@@ -45,6 +46,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -163,7 +165,7 @@ public class IntentSynchronizer {
 
 		while (statusIterator.hasNext()) {
 			CompilationStatus status = statusIterator.next();
-			if (status.getType().equals(CompilationMessageType.SYNCHRONIZER_WARNING)) {
+			if (isSyncStatus(status)) {
 				statusIterator.remove();
 			}
 		}
@@ -172,18 +174,39 @@ public class IntentSynchronizer {
 
 			// We must remove the synchronization statuses from the instruction that generated this
 			// element
-			IntentGenericElement instruction = indexEntry.getContainedElementToInstructions().get(
-					containedElement);
-			if (instruction != null) {
-				Iterator<CompilationStatus> iterator = instruction.getCompilationStatus().iterator();
-				while (iterator.hasNext()) {
-					CompilationStatus status = iterator.next();
-					if (status.getType().equals(CompilationMessageType.SYNCHRONIZER_WARNING)) {
-						iterator.remove();
+			EList<InstructionTraceabilityEntry> instructionEntries = indexEntry
+					.getContainedElementToInstructions().get(containedElement);
+			if (instructionEntries != null) {
+				for (InstructionTraceabilityEntry instructionTraceabilityEntry : instructionEntries) {
+					IntentGenericElement instruction = instructionTraceabilityEntry.getInstruction();
+					if (instruction != null) {
+						EList<CompilationStatus> compilationStatus = instruction.getCompilationStatus();
+						if (compilationStatus != null) {
+							Iterator<CompilationStatus> iterator = compilationStatus.iterator();
+							while (iterator.hasNext()) {
+								CompilationStatus status = iterator.next();
+								if (isSyncStatus(status)) {
+									iterator.remove();
+								}
+							}
+						}
 					}
 				}
 			}
 		}
+	}
+
+	/**
+	 * Returns true if the given status is related to a synchronization issue.
+	 * 
+	 * @param status
+	 *            the status to test
+	 * @return true if the given status is related to a synchronization issue
+	 */
+	private boolean isSyncStatus(CompilationStatus status) {
+		CompilationMessageType type = status.getType();
+		return type.equals(CompilationMessageType.SYNCHRONIZER_WARNING)
+				|| type.equals(CompilationMessageType.SYNCHRONIZER_INFO);
 	}
 
 	/**
@@ -378,7 +401,8 @@ public class IntentSynchronizer {
 	private List<CompilationStatus> createSynchronizerSatusListFromDiffModel(
 			TraceabilityIndexEntry indexEntry, List<DiffElement> differences, Monitor progressMonitor)
 			throws InterruptedException {
-		Map<IntentGenericElement, CompilationStatus> elementToSyncStatus = new HashMap<IntentGenericElement, CompilationStatus>();
+		Map<IntentGenericElement, Collection<CompilationStatus>> elementToSyncStatus = Maps
+				.newLinkedHashMap();
 		List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
 
 		for (DiffElement difference : differences) {
@@ -388,20 +412,11 @@ public class IntentSynchronizer {
 					indexEntry, difference)) {
 				stopIfCanceled(progressMonitor);
 
-				// If the target element has no defined synchronization satus
 				if (elementToSyncStatus.get(newStatus.getTarget()) == null) {
-					elementToSyncStatus.put(newStatus.getTarget(), newStatus);
-					statusList.add(newStatus);
-				} else {
-					// If the target element has already a synchronization status
-					// We construct a new status corresponding to the old
-					// one and the new one
-					CompilationStatus oldStatus = elementToSyncStatus.get(newStatus.getTarget());
-					statusList.remove(oldStatus);
-					oldStatus.setMessage(oldStatus.getMessage()
-							+ SynchronizerMessageProvider.getStatusSeparator() + newStatus.getMessage());
-					statusList.add(oldStatus);
+					elementToSyncStatus.put(newStatus.getTarget(), Lists.<CompilationStatus> newArrayList());
 				}
+				elementToSyncStatus.get(newStatus.getTarget()).add(newStatus);
+				statusList.add(newStatus);
 			}
 		}
 
@@ -472,10 +487,7 @@ public class IntentSynchronizer {
 			// TODO : treat differently models and meta-models : this match isn't efficient on
 			// simple meta-models instances
 			final HashMap<String, Object> options = new HashMap<String, Object>();
-			if ((leftResource instanceof XMIResource && !(rightResource instanceof XMIResource))
-					|| (rightResource instanceof XMIResource && !(leftResource instanceof XMIResource))) {
-				options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
-			}
+			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
 			MatchModel matchModel = MatchService.doResourceMatch(leftResource, rightResource, options);
 			DiffModel diff = DiffService.doDiff(matchModel, false);
 			return diff.getDifferences();

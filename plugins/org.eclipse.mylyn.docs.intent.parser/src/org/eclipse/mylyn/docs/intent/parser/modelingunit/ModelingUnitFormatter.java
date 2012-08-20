@@ -80,8 +80,11 @@ public final class ModelingUnitFormatter {
 		int currentOffset = 0;
 		int nbTabulate = initialIndentLevel;
 		for (int i = 0; i < lines.length; i++) {
-			if ((lines[i].contains(IntentKeyWords.INTENT_KEYWORD_CLOSE) && (!lines[i]
-					.contains(IntentKeyWords.INTENT_KEYWORD_OPEN))) || lines[i].contains("M@")) {
+			boolean isClosing = lines[i].contains(IntentKeyWords.INTENT_KEYWORD_CLOSE)
+					&& !lines[i].contains(IntentKeyWords.INTENT_KEYWORD_OPEN)
+					&& !(lines[i].substring(lines[i].indexOf(IntentKeyWords.INTENT_KEYWORD_CLOSE))
+							.contains("\""));
+			if (isClosing || lines[i].contains("M@")) {
 				nbTabulate--;
 			}
 			for (int j = 0; j < nbTabulate; j++) {

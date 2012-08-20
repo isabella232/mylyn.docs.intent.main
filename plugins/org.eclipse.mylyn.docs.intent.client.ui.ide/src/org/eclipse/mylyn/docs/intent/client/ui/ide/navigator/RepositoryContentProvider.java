@@ -14,13 +14,14 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.mylyn.docs.intent.collab.common.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IndexQuery;
+import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceConfig;
+import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceRepository;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
@@ -60,12 +61,7 @@ public class RepositoryContentProvider implements ITreeContentProvider {
 						.getProject().getName());
 				repository.getOrCreateSession();
 				RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
-				repositoryAdapter.openReadOnlyContext();
-				Resource resource = repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH);
-				if (resource.getContents().size() > 0) {
-					IntentIndex index = (IntentIndex)resource.getContents().get(0);
-					children = index.getEntries().toArray();
-				}
+				children = new IndexQuery(repositoryAdapter).getOrCreateIntentIndex().getEntries().toArray();
 
 			} catch (RepositoryConnectionException e) {
 				// We simply don't contribute to the project explorer
@@ -95,7 +91,8 @@ public class RepositoryContentProvider implements ITreeContentProvider {
 		IFolder repositoryFolder = project.getFolder(WorkspaceConfig.getRepositoryStandardName());
 		if (repositoryFolder.exists()) {
 			// If this repositoryFolder has an index
-			IFile file = repositoryFolder.getFile(IntentLocations.GENERAL_INDEX_PATH + ".xmi");
+			IFile file = repositoryFolder.getFile(IntentLocations.GENERAL_INDEX_PATH + '.'
+					+ WorkspaceRepository.getWorkspaceResourceExtension());
 			if (file.exists()) {
 				return file;
 			}

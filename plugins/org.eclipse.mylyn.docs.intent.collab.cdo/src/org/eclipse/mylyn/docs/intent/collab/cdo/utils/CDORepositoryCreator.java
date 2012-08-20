@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.cdo.utils;
 
+import org.eclipse.mylyn.docs.intent.collab.cdo.notification.CDORepositoryChangeNotificationFactory;
 import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDOConfig;
 import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDORepository;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
+import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotificationFactoryHolder;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryCreator;
@@ -42,6 +44,11 @@ public class CDORepositoryCreator implements RepositoryCreator {
 		if (!(configurationInformations instanceof CDOConfig)) {
 			throw new RepositoryConnectionException("The given configuration informations are invalid.");
 		}
+
+		if (RepositoryChangeNotificationFactoryHolder.getChangeNotificationFactory() == null) {
+			RepositoryChangeNotificationFactoryHolder
+					.setChangeNotificationFactory(new CDORepositoryChangeNotificationFactory());
+		}
 		Repository repository = new CDORepository((CDOConfig)configurationInformations);
 		repository.setRepositoryStructurer(structurer);
 		initialisePackageRegistry(repository);
@@ -56,39 +63,8 @@ public class CDORepositoryCreator implements RepositoryCreator {
 	 * @throws RepositoryConnectionException
 	 *             if the repository connection cannot be established
 	 */
-	private void initialisePackageRegistry(Repository repository) throws RepositoryConnectionException {
+	protected void initialisePackageRegistry(Repository repository) throws RepositoryConnectionException {
 
 	}
 
-	/**
-	 * Creates an handler notified of all changes made on any element of the resource at the given path.
-	 * 
-	 * @param repository
-	 *            the repository containing the listened objects
-	 * @param pathToListenedResource
-	 *            the path of the listened resource
-	 * @return a new handler that will be notified of all changes made on the element at the given path
-	 * @throws RepositoryConnectionException
-	 *             if the connection to the given repository is invalid
-	 */
-	// ------------- FOR EXAMPLE PURPOSE ONLY
-	// private RepositoryObjectHandler createHandler(String pathToListenedResource, Repository repository)
-	// throws RepositoryConnectionException {
-	// We first create an adapter to get the resource to listen
-	// RepositoryAdapter repositoryAdapter = this.createRepositoryAdapterForRepository(repository);
-	// repositoryAdapter.openSaveContext();
-	// Resource resourceFromPath = repositoryAdapter.getResource(pathToListenedResource);
-
-	// We get the contained elements
-	// Set<EObject> listenedElements = new LinkedHashSet<EObject>();
-	// listenedElements.addAll(resourceFromPath.getContents());
-	//
-	// // We create the handler
-	// RepositoryObjectHandler elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
-	// ElementListAdapter adapter = new ElementListAdapter();
-	// Notificator listenedElementsNotificator = new ElementListNotificator(listenedElements, adapter);
-	// elementHandler.setNotificator(listenedElementsNotificator);
-
-	// return elementHandler;
-	// }
 }

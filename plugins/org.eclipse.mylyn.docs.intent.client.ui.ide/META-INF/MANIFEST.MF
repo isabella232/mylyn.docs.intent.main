@@ -27,5 +27,5 @@ Import-Package: com.google.common.base,
  com.google.common.collect
 Export-Package: org.eclipse.mylyn.docs.intent.client.ui.ide.builder,
  org.eclipse.mylyn.docs.intent.client.ui.ide.generatedelementlistener,
- org.eclipse.mylyn.docs.intent.client.ui.ide.launcher,
+ org.eclipse.mylyn.docs.intent.client.ui.ide.projectmanager,
  org.eclipse.mylyn.docs.intent.client.ui.ide.repository

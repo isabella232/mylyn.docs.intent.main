@@ -1,0 +1,11 @@
+@M
+	Resource p1Res {
+		content += p1;
+	}
+	new EPackage p1 {
+		nsPrefix = "p1";
+		nsURI = "http://p1";
+		eClassifiers += c1;
+	}
+	new EClass c1 {}
+M@

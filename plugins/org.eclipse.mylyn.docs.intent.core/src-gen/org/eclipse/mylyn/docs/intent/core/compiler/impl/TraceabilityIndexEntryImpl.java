@@ -12,18 +12,18 @@ package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import java.math.BigInteger;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
-import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Traceability Index Entry</b></em>'.
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Traceability Index Entry</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -39,8 +39,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
  */
 public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements TraceabilityIndexEntry {
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected TraceabilityIndexEntryImpl() {
@@ -48,8 +47,7 @@ public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements Traceab
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -58,8 +56,7 @@ public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements Traceab
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -68,8 +65,7 @@ public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements Traceab
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getGeneratedResourcePath() {
@@ -77,8 +73,7 @@ public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements Traceab
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setGeneratedResourcePath(String newGeneratedResourcePath) {
@@ -87,8 +82,7 @@ public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements Traceab
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public BigInteger getCompilationTime() {
@@ -96,8 +90,7 @@ public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements Traceab
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setCompilationTime(BigInteger newCompilationTime) {
@@ -105,8 +98,7 @@ public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements Traceab
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public ResourceDeclaration getResourceDeclaration() {
@@ -115,8 +107,7 @@ public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements Traceab
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setResourceDeclaration(ResourceDeclaration newResourceDeclaration) {
@@ -124,14 +115,13 @@ public class TraceabilityIndexEntryImpl extends CDOObjectImpl implements Traceab
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EMap<EObject, IntentGenericElement> getContainedElementToInstructions() {
-		return (EMap<EObject, IntentGenericElement>)eGet(
+	public EMap<EObject, EList<InstructionTraceabilityEntry>> getContainedElementToInstructions() {
+		return (EMap<EObject, EList<InstructionTraceabilityEntry>>)eGet(
 				CompilerPackage.Literals.TRACEABILITY_INDEX_ENTRY__CONTAINED_ELEMENT_TO_INSTRUCTIONS, true);
 	}
 
-} //TraceabilityIndexEntryImpl
+} // TraceabilityIndexEntryImpl

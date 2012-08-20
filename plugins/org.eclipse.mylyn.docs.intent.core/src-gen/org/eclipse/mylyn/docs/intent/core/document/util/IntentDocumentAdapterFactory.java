@@ -16,6 +16,7 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.core.document.*;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
@@ -98,7 +99,7 @@ public class IntentDocumentAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseAnnotationMapping(Map.Entry<String, Object> object) {
+		public Adapter caseAnnotationMapping(Map.Entry<String, String> object) {
 			return createAnnotationMappingAdapter();
 		}
 

@@ -46,7 +46,7 @@ public interface ResourceDeclaration extends ModelingUnitInstruction {
 	 * @model dataType="org.eclipse.mylyn.docs.intent.core.document.URI"
 	 * @generated
 	 */
-	Object getUri();
+	String getUri();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration#getUri <em>Uri</em>}' attribute.
@@ -56,7 +56,7 @@ public interface ResourceDeclaration extends ModelingUnitInstruction {
 	 * @see #getUri()
 	 * @generated
 	 */
-	void setUri(Object value);
+	void setUri(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.

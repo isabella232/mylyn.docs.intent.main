@@ -50,6 +50,7 @@ public class RefresherTest extends AbstractIntentUITest {
 		assertTrue(getProblems()
 				.contains(
 						"The element modified_test cannot be resolved. This contribution instruction will be ignored."));
+		waitForCompiler(false);
 
 		// Step 4: check that the errors disappears
 		document.set("Document {\n\tChapter Title {\n\t\tSection Title {\n\t\t\tText\n\t\t}\n\t}\n}");
@@ -58,6 +59,7 @@ public class RefresherTest extends AbstractIntentUITest {
 		waitForAllOperationsInUIThread();
 		waitForCompiler();
 		assertTrue(getProblems().isEmpty());
+		waitForCompiler(false);
 	}
 
 	private List<String> getProblems() {

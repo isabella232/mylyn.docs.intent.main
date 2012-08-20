@@ -81,7 +81,7 @@ public final class IntentSectionSerializer {
 		renderedForm += serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE
 				+ IntentKeyWords.INTENT_LINEBREAK;
 		serializer.setCurrentOffset(initalOffset + renderedForm.length());
-		serializer.setDeclarationPositionForElement(section, initalOffset, renderedForm.length(),
+		serializer.setPositionForElement(section, initalOffset, renderedForm.length(),
 				initialLength);
 		return renderedForm;
 	}

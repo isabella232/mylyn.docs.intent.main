@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:p2Prefix="p2URI" xmlns:sub1Prefix="sub1URI">
+  <sub1Prefix:Type sub1attr="instance1"/>
+  <p2Prefix:Type p2attr="instance2"/>
+</xmi:XMI>

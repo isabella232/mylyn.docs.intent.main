@@ -19,7 +19,6 @@ import org.eclipse.jface.text.GapTextStore;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
@@ -143,7 +142,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * Sets the new value of the ast and refresh the document.
 	 */
 	public void reloadFromAST() {
-		Display.getDefault().syncExec(new Runnable() {
+		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
 				if (associatedEditor.getSelectionProvider() != null) {
@@ -171,7 +170,6 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * @return the position of the given element if the document contains it, null otherwise
 	 */
 	public ParsedElementPosition getIntentPosition(EObject element) {
-
 		ParsedElementPosition positionForElement = getPositionManager().getPositionForElement(element);
 		return positionForElement;
 	}
@@ -188,21 +186,10 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	}
 
 	/**
-	 * Returns the element corresponding to the given position.
-	 * 
-	 * @param offset
-	 *            the current offset
-	 * @return the element corresponding to the given position
-	 */
-	public EObject getElementAtPosition(int offset) {
-		return getPositionManager().getElementAtPosition(offset);
-	}
-
-	/**
 	 * Handle the fact that the content off this document has been deleted by other users.
 	 */
 	public void unsynchronize() {
-		Display.getDefault().syncExec(new Runnable() {
+		Display.getDefault().asyncExec(new Runnable() {
 
 			public void run() {
 
@@ -213,25 +200,11 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	}
 
 	/**
-	 * Returns the size of the decoration added by this document before the given Modeling Unit.
+	 * Returns the intent editor.
 	 * 
-	 * @param element
-	 *            the modelingUnit to inspect
-	 * @return the size of the decoration added by this document before the given Modeling Unit
+	 * @return the intent editor
 	 */
-	public int getModelingUnitPrefixDecorationSize(ModelingUnit element) {
-		return MODELING_PREFIX_DECORATION.length() + getPositionManager().getIndentationLevel(element);
+	public IntentEditor getIntentEditor() {
+		return associatedEditor;
 	}
-
-	/**
-	 * Returns the size of the decoration added by this document after the given Modeling Unit.
-	 * 
-	 * @param element
-	 *            the modelingUnit to inspect
-	 * @return the size of the decoration added by this document after the given Modeling Unit
-	 */
-	public int getModelingUnitSuffixDecorationSize(ModelingUnit element) {
-		return MODELING_SUFFIX_DECORATION.length();
-	}
-
 }

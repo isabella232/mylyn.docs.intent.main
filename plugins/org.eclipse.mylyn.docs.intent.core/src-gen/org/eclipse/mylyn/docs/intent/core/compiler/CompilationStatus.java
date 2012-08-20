@@ -34,25 +34,27 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
  */
 public interface CompilationStatus extends CDOObject {
 	/**
-	 * Returns the value of the '<em><b>Target</b></em>' reference.
+	 * Returns the value of the '<em><b>Target</b></em>' container reference.
+	 * It is bidirectional and its opposite is '{@link org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement#getCompilationStatus <em>Compilation Status</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Target</em>' reference isn't clear, there really should be more of a
 	 * description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Target</em>' reference.
+	 * @return the value of the '<em>Target</em>' container reference.
 	 * @see #setTarget(IntentGenericElement)
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage#getCompilationStatus_Target()
-	 * @model required="true"
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement#getCompilationStatus
+	 * @model opposite="compilationStatus" required="true" transient="false"
 	 * @generated
 	 */
 	IntentGenericElement getTarget();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getTarget <em>Target</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getTarget <em>Target</em>}' container reference.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Target</em>' reference.
+	 * @param value the new value of the '<em>Target</em>' container reference.
 	 * @see #getTarget()
 	 * @generated
 	 */

@@ -10,27 +10,35 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.saver;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.cdo.util.ObjectNotFoundException;
 import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.CompilationStatusQuery;
+import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
@@ -38,12 +46,18 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
+import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * Save all the compilation informations on the repository.
@@ -52,13 +66,17 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
  */
 public class CompilerInformationsSaver {
 
-	private Map<ResourceDeclaration, Map<EObject, IntentGenericElement>> resourceToTraceabilityElementIndexEntry;
+	private Map<ResourceDeclaration, Map<EObject, Collection<IntentGenericElement>>> resourceToTraceabilityElementIndexEntry;
 
 	/**
 	 * Progress monitor allowing to cancel a save operation if another notification has been received by the
 	 * CompilerRepositoryClient.
 	 */
 	private IProgressMonitor progressMonitor;
+
+	private TraceabilityInformationsQuery traceabilityInfoQuery;
+
+	private CompilationStatusQuery statusQuery;
 
 	/**
 	 * Default constructor.
@@ -81,7 +99,10 @@ public class CompilerInformationsSaver {
 	 */
 	public void saveOnRepository(IntentCompilerInformationHolder informationHolder,
 			RepositoryObjectHandler handler) {
-		resourceToTraceabilityElementIndexEntry = new HashMap<ResourceDeclaration, Map<EObject, IntentGenericElement>>();
+
+		this.traceabilityInfoQuery = new TraceabilityInformationsQuery(handler.getRepositoryAdapter());
+		this.statusQuery = new CompilationStatusQuery(handler.getRepositoryAdapter());
+		resourceToTraceabilityElementIndexEntry = Maps.newLinkedHashMap();
 		try {
 
 			// We first save the generated elements
@@ -163,16 +184,23 @@ public class CompilerInformationsSaver {
 		// For each element contained in the resource
 		for (EObject element : elementsToConsider) {
 			if (!progressMonitor.isCanceled()) {
-				// We get the instruction that defined this element
-				UnitInstruction instruction = informationHolder.getInstructionByCreatedElement(element);
+				// We add an entry to the traceability map
+				if (resourceToTraceabilityElementIndexEntry.get(resource) == null) {
+					resourceToTraceabilityElementIndexEntry.put(resource,
+							Maps.<EObject, Collection<IntentGenericElement>> newLinkedHashMap());
+				}
 
-				if (instruction != null) {
-					// We add an entry to the traceability map
-					if (resourceToTraceabilityElementIndexEntry.get(resource) == null) {
-						resourceToTraceabilityElementIndexEntry.put(resource,
-								new HashMap<EObject, IntentGenericElement>());
+				// We get the instructions that defined or contributed to this element
+				Collection<UnitInstruction> instructions = informationHolder
+						.getAllInstructionsByCreatedElement(element);
+
+				if (instructions != null && !instructions.isEmpty()) {
+
+					if (resourceToTraceabilityElementIndexEntry.get(resource).get(element) == null) {
+						resourceToTraceabilityElementIndexEntry.get(resource).put(element,
+								Sets.<IntentGenericElement> newLinkedHashSet());
 					}
-					resourceToTraceabilityElementIndexEntry.get(resource).put(element, instruction);
+					resourceToTraceabilityElementIndexEntry.get(resource).get(element).addAll(instructions);
 
 					// We do the same for each contained element
 					updateTraceabilityFromResourceContent(resource, informationHolder, element.eContents());
@@ -193,18 +221,9 @@ public class CompilerInformationsSaver {
 	 */
 	private void saveStatusInformations(IntentCompilerInformationHolder informationHolder,
 			RepositoryObjectHandler handler) throws ReadOnlyException {
-		Resource resourceForCompilationStatusList = handler.getRepositoryAdapter().getOrCreateResource(
-				IntentLocations.COMPILATION_STATUS_INDEX_PATH);
-
-		if (resourceForCompilationStatusList.getContents().isEmpty()) {
-			resourceForCompilationStatusList.getContents().add(
-					CompilerFactory.eINSTANCE.createCompilationStatusManager());
-		}
-		CompilationStatusManager manager = (CompilationStatusManager)resourceForCompilationStatusList
-				.getContents().get(0);
+		CompilationStatusManager manager = statusQuery.getOrCreateCompilationStatusManager();
 		if (!progressMonitor.isCanceled()) {
-			mergeCompilationStatusManager(informationHolder.getStatusManager(), manager,
-					resourceForCompilationStatusList);
+			mergeCompilationStatusManager(informationHolder.getStatusManager(), manager, manager.eResource());
 		}
 	}
 
@@ -225,35 +244,43 @@ public class CompilerInformationsSaver {
 			throws ReadOnlyException {
 
 		// We first get the Traceability index
-		final Resource traceabilityResource = handler.getRepositoryAdapter().getResource(
-				IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
-
-		if (traceabilityResource.getContents().isEmpty()) {
-			traceabilityResource.getContents().add(CompilerFactory.eINSTANCE.createTraceabilityIndex());
-		}
-		TraceabilityIndex traceIndex = (TraceabilityIndex)traceabilityResource.getContents().get(0);
+		TraceabilityIndex traceIndex = traceabilityInfoQuery.getOrCreateTraceabilityIndex();
 
 		List<TraceabilityIndexEntry> newTraceabilityEntries = new ArrayList<TraceabilityIndexEntry>();
 		Set<IntentGenericElement> handledInstructions = Sets.newLinkedHashSet();
+
 		// For each compiled resource
 		for (ResourceDeclaration resourceDeclaration : resourceToGeneratedPath.keySet()) {
+
 			// We create a traceability entry
 			TraceabilityIndexEntry entry = CompilerFactory.eINSTANCE.createTraceabilityIndexEntry();
 			entry.setCompilationTime(BigInteger.valueOf(System.currentTimeMillis()));
 			entry.setGeneratedResourcePath(resourceToGeneratedPath.get(resourceDeclaration));
 			entry.setResourceDeclaration(resourceDeclaration);
+			EMap<EObject, EList<InstructionTraceabilityEntry>> entryElementsMap = entry
+					.getContainedElementToInstructions();
 
 			// For each entry, we define a mapping between contained elements and instructions
 			if (resourceToTraceabilityElementIndexEntry.get(resourceDeclaration) != null) {
-				entry.getContainedElementToInstructions().putAll(
-						resourceToTraceabilityElementIndexEntry.get(resourceDeclaration));
-				handledInstructions.addAll(resourceToTraceabilityElementIndexEntry.get(resourceDeclaration)
-						.values());
+				for (Entry<EObject, Collection<IntentGenericElement>> traceabilityEntry : resourceToTraceabilityElementIndexEntry
+						.get(resourceDeclaration).entrySet()) {
+					entryElementsMap.put(traceabilityEntry.getKey(),
+							new BasicEList<InstructionTraceabilityEntry>());
+					for (IntentGenericElement intentGenericElement : traceabilityEntry.getValue()) {
+						InstructionTraceabilityEntry instructionEntry = CompilerFactory.eINSTANCE
+								.createInstructionTraceabilityEntry();
+						instructionEntry.setInstruction(intentGenericElement);
+						instructionEntry.getFeatures().putAll(getAffectations(intentGenericElement));
+						entryElementsMap.get(traceabilityEntry.getKey()).add(instructionEntry);
+					}
+
+					handledInstructions.addAll(traceabilityEntry.getValue());
+				}
 			}
 			newTraceabilityEntries.add(entry);
 		}
 
-		// We also define an entry for instanciation instructions that are not referenced inside
+		// We also define an entry for instantiation instructions that are not referenced inside
 		// a Resource Declaration (useful for completion for example)
 		SetView<UnitInstruction> instanciationsInstructionNotContainedInResource = Sets.difference(
 				informationHolder.getAllInstanciationsInstructions(), handledInstructions);
@@ -262,12 +289,63 @@ public class CompilerInformationsSaver {
 			entry.setCompilationTime(BigInteger.valueOf(System.currentTimeMillis()));
 
 			for (UnitInstruction instruction : instanciationsInstructionNotContainedInResource) {
-				entry.getContainedElementToInstructions().put(instruction, instruction);
+				entry.getContainedElementToInstructions().put(instruction,
+						new BasicEList<InstructionTraceabilityEntry>());
+				InstructionTraceabilityEntry instructionEntry = CompilerFactory.eINSTANCE
+						.createInstructionTraceabilityEntry();
+				instructionEntry.setInstruction(instruction);
+				instructionEntry.getFeatures().putAll(getAffectations(instruction));
+				entry.getContainedElementToInstructions().get(instruction).add(instructionEntry);
 			}
 			newTraceabilityEntries.add(entry);
 		}
 		traceIndex.getEntries().clear();
 		traceIndex.getEntries().addAll(newTraceabilityEntries);
+	}
+
+	/**
+	 * Returns the affectations declared by the given element.
+	 * 
+	 * @param intentGenericElement
+	 *            the element
+	 * @return the affectations declared by the given element
+	 */
+	private BasicEMap<String, EList<ValueForStructuralFeature>> getAffectations(
+			IntentGenericElement intentGenericElement) {
+		BasicEMap<String, EList<ValueForStructuralFeature>> affectations = new BasicEMap<String, EList<ValueForStructuralFeature>>();
+		if (intentGenericElement instanceof InstanciationInstruction) {
+			InstanciationInstruction instanciation = (InstanciationInstruction)intentGenericElement;
+			for (StructuralFeatureAffectation affectation : instanciation.getStructuralFeatures()) {
+				includeValues(affectations, affectation);
+			}
+
+		} else if (intentGenericElement instanceof ContributionInstruction) {
+			ContributionInstruction contribution = (ContributionInstruction)intentGenericElement;
+			for (ModelingUnitInstruction instruction : contribution.getContributions()) {
+				if (instruction instanceof StructuralFeatureAffectation) {
+					includeValues(affectations, (StructuralFeatureAffectation)instruction);
+				}
+			}
+		}
+		return affectations;
+	}
+
+	/**
+	 * Includes the affectation values into the map.
+	 * 
+	 * @param affectations
+	 *            the existing map
+	 * @param affectation
+	 *            the new affectation to include values from
+	 */
+	private void includeValues(BasicEMap<String, EList<ValueForStructuralFeature>> affectations,
+			StructuralFeatureAffectation affectation) {
+		EList<ValueForStructuralFeature> existing = affectations.get(affectation.getName());
+		if (existing == null) {
+			existing = new BasicEList<ValueForStructuralFeature>();
+		}
+		existing.addAll(affectation.getValues());
+		affectations.put(affectation.getName(), existing);
 	}
 
 	/**
@@ -364,17 +442,10 @@ public class CompilerInformationsSaver {
 	 */
 	private void mergeCompilationStatusManager(CompilationStatusManager localStatusManager,
 			CompilationStatusManager repositoryStatusManager, Resource statusManagerResource) {
-
 		// Step 1 : Cleaning repositoryRootModel
 		// Step 1.1 : removing dangling references
 		removeDanglingReferences(repositoryStatusManager, statusManagerResource);
 
-		List<IntentGenericElement> genEl = new ArrayList<IntentGenericElement>();
-		for (CompilationStatus compilationStatus : repositoryStatusManager.getCompilationStatusList()) {
-			genEl.add(compilationStatus.getTarget());
-		}
-
-		List<EObject> cleanTargets = new ArrayList<EObject>();
 		// Step 2 : adding all the new compilation status
 		for (ModelingUnit mu : localStatusManager.getModelingUnitToStatusList().keySet()) {
 			for (CompilationStatus status : localStatusManager.getModelingUnitToStatusList().get(mu)) {
@@ -383,36 +454,24 @@ public class CompilerInformationsSaver {
 							.get(mu), status)) {
 
 						if (!repositoryStatusManager.getCompilationStatusList().contains(status)) {
-							repositoryStatusManager.getCompilationStatusList().add(status);
-							if (!status.getTarget().getCompilationStatus().contains(status)) {
-								if (!cleanTargets.contains(status.getTarget())) {
-									cleanTargets.add(status.getTarget());
-									status.getTarget().getCompilationStatus().clear();
-								}
+							if (status.getTarget() != null
+									&& !status.getTarget().getCompilationStatus().contains(status)) {
 								status.getTarget().getCompilationStatus().add(status);
 							}
-						}
-						if (repositoryStatusManager.getModelingUnitToStatusList().get(mu) == null) {
-							repositoryStatusManager.getModelingUnitToStatusList().put(mu,
-									new BasicEList<CompilationStatus>());
-						}
-						try {
-							repositoryStatusManager.getModelingUnitToStatusList().get(mu).add(status);
-						} catch (NullPointerException e) {
-							// TODO remove this catch, only for test
-							e.printStackTrace();
-						}
+							repositoryStatusManager.getCompilationStatusList().add(status);
 
+							if (repositoryStatusManager.getModelingUnitToStatusList().get(mu) == null) {
+								repositoryStatusManager.getModelingUnitToStatusList().put(mu,
+										new BasicEList<CompilationStatus>());
+							}
+							repositoryStatusManager.getModelingUnitToStatusList().get(mu).add(status);
+						}
 					}
 				}
 			}
 		}
 
-		genEl = new ArrayList<IntentGenericElement>();
-		for (CompilationStatus compilationStatus : repositoryStatusManager.getCompilationStatusList()) {
-			genEl.add(compilationStatus.getTarget());
-
-		}
+		repositoryStatusManager.setValidationTime(BigInteger.valueOf(System.currentTimeMillis()));
 	}
 
 	/**
@@ -422,20 +481,31 @@ public class CompilerInformationsSaver {
 	 *            the compilationSatusManager from which remove the dangling references
 	 * @param statusManagerResource
 	 *            the resource containing the repositoryStatusManager
-	 * @return the modified CompilationStatusManager
 	 */
-	private CompilationStatusManager removeDanglingReferences(
-			CompilationStatusManager repositoryStatusManager, Resource statusManagerResource) {
+	private void removeDanglingReferences(CompilationStatusManager repositoryStatusManager,
+			Resource statusManagerResource) {
 		CompilationStatusManager manager = repositoryStatusManager;
-		try {
-			manager.getCompilationStatusList().clear();
-			manager.getModelingUnitToStatusList().clear();
-		} catch (ObjectNotFoundException notFoundException) {
-			statusManagerResource.getContents().clear();
-			manager = CompilerFactory.eINSTANCE.createCompilationStatusManager();
-			statusManagerResource.getContents().add(manager);
+		Collection<URI> changedModelingUnits = Sets.newLinkedHashSet();
+
+		ListIterator<Entry<ModelingUnit, EList<CompilationStatus>>> entries = manager
+				.getModelingUnitToStatusList().listIterator();
+		while (entries.hasNext()) {
+			Entry<ModelingUnit, EList<CompilationStatus>> entry = entries.next();
+			if (entry.getKey() == null || entry.getKey().eResource() == null) {
+				manager.getCompilationStatusList().removeAll(entry.getValue());
+				entries.remove();
+			} else {
+				ListIterator<CompilationStatus> statusList = entry.getValue().listIterator();
+				while (statusList.hasNext()) {
+					CompilationStatus status = statusList.next();
+					if (status.getTarget() != null && status.getTarget().eResource() != null) {
+						status.getTarget().getCompilationStatus().remove(status);
+					}
+					changedModelingUnits.add(entry.getKey().eResource().getURI());
+					statusList.remove();
+				}
+			}
 		}
-		return manager;
 	}
 
 }

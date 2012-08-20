@@ -10,15 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.annotation;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
 
 /**
  * Factory for creating Annotations used in the text editor.
@@ -26,26 +20,6 @@ import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public final class IntentAnnotationFactory {
-
-	/**
-	 * Annotation tag that symbolizes that the working copy resource is empty.
-	 */
-	public static final String EMPTY_WORKING_COPY_RESOURCE_TAG = "EMPTY_WORKING_COPY_RESOURCE";
-
-	/**
-	 * Annotation tag that symbolizes that the doument resource is empty.
-	 */
-	public static final String EMPTY_DOCUMENT_RESOURCE_TAG = "EMPTY_DOCUMENT_RESOURCE";
-
-	/**
-	 * Annotation tag that symbolizes that the working copy resource is null.
-	 */
-	public static final String NULL_RESOURCE_TAG = "NULL_RESOURCE";
-
-	/**
-	 * Annotation tag that symbolizes that the working copy resource and the document resource are different.
-	 */
-	public static final String DIFF_RESOURCE_TAG = "DIFF_RESOURCE";
 
 	/**
 	 * String that symbolizes the type of a compiler error.
@@ -82,18 +56,16 @@ public final class IntentAnnotationFactory {
 	/**
 	 * Creates an IntentAnnotation that can be used in a text Editor from the given CompilationStatus.
 	 * 
-	 * @param targetURI
-	 *            additional URI that locates the Repository resource containing the annotation's target (can
-	 *            be null)
 	 * @param compilationStatus
 	 *            the compilationStatus to use for creating the annotation
 	 * @return an IntentAnnotation created from the given CompilationStatus
 	 */
-	public static Annotation createAnnotationFromCompilationStatus(URI targetURI,
-			CompilationStatus compilationStatus) {
+	public static Annotation createAnnotationFromCompilationStatus(CompilationStatus compilationStatus) {
 		IntentAnnotation annotation = new IntentAnnotation(true);
+		annotation.setCompilationStatus(compilationStatus);
+		annotation.setText(compilationStatus.getMessage());
 
-		// We determine the MessageType of the IntentAnnotation
+		// We determine the type and the MessageType of the IntentAnnotation
 		IntentAnnotationMessageType annotationMessageType = null;
 		switch (compilationStatus.getSeverity()) {
 			case ERROR:
@@ -103,28 +75,6 @@ public final class IntentAnnotationFactory {
 			case WARNING:
 				if (compilationStatus.getType() == CompilationMessageType.SYNCHRONIZER_WARNING) {
 					annotation.setType(INTENT_ANNOT_SYNC_WARNING);
-					SynchronizerCompilationStatus syncStatus = (SynchronizerCompilationStatus)compilationStatus;
-					Set<String> additionalInformations = new LinkedHashSet<String>();
-
-					// Annotation type computation: quick fix helper
-					if (SynchronizerResourceState.EMPTY.equals(syncStatus.getCompiledResourceState())) {
-						additionalInformations.add(EMPTY_DOCUMENT_RESOURCE_TAG);
-					} else if (SynchronizerResourceState.EMPTY.equals(syncStatus
-							.getWorkingCopyResourceState())) {
-						additionalInformations.add(EMPTY_WORKING_COPY_RESOURCE_TAG);
-					} else if (SynchronizerResourceState.NULL
-							.equals(syncStatus.getWorkingCopyResourceState())) {
-						additionalInformations.add(NULL_RESOURCE_TAG);
-					} else {
-						additionalInformations.add(DIFF_RESOURCE_TAG);
-					}
-
-					additionalInformations.add(syncStatus.getWorkingCopyResourceURI());
-					if (targetURI != null) {
-						additionalInformations.add(targetURI.toString());
-					}
-
-					annotation.setAdditionalInformations(additionalInformations);
 					annotationMessageType = IntentAnnotationMessageType.SYNC_WARNING;
 				} else {
 					annotation.setType(INTENT_ANNOT_COMPILER_WARNING);
@@ -136,7 +86,6 @@ public final class IntentAnnotationFactory {
 				annotationMessageType = IntentAnnotationMessageType.COMPILER_INFO;
 				break;
 		}
-		annotation.setText(compilationStatus.getMessage());
 		annotation.setMessageType(annotationMessageType);
 		return annotation;
 	}
@@ -152,4 +101,5 @@ public final class IntentAnnotationFactory {
 		annotation.setMessageType(IntentAnnotationMessageType.PARSER_ERROR);
 		return annotation;
 	}
+
 }

@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.mylyn.docs.intent.core.document.*;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
@@ -146,7 +147,7 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<String, Object> createAnnotationMapping() {
+	public Map.Entry<String, String> createAnnotationMapping() {
 		AnnotationMappingImpl annotationMapping = new AnnotationMappingImpl();
 		return annotationMapping;
 	}
@@ -239,7 +240,7 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object createURIFromString(EDataType eDataType, String initialValue) {
+	public String createURIFromString(EDataType eDataType, String initialValue) {
 		return (String)super.createFromString(eDataType, initialValue);
 	}
 

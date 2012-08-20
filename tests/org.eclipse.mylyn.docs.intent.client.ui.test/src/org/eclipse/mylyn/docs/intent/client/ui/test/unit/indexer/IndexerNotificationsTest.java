@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
@@ -55,8 +55,8 @@ public class IndexerNotificationsTest extends AbstractIntentUITest {
 		waitForIndexer(false);
 
 		// Step 3: make a non structural modification
-		final TraceabilityIndex index = (TraceabilityIndex)repositoryAdapter
-				.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH).getContents().iterator().next();
+		final TraceabilityIndex index = new TraceabilityInformationsQuery(repositoryAdapter)
+				.getOrCreateTraceabilityIndex();
 		repositoryAdapter.execute(new IntentCommand() {
 			public void execute() {
 				index.getEntries().clear();

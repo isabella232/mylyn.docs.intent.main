@@ -12,7 +12,6 @@ package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
@@ -60,7 +59,7 @@ public final class ContributionInstructionSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		dispatcher.setDeclarationPositionForInstruction(contributionInstruction, initialOffset,
+		dispatcher.getPositionManager().setPositionForInstruction(contributionInstruction, initialOffset,
 				renderedForm.length(), declarationLength);
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 

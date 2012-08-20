@@ -10,10 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.test.structurer;
 
-import com.google.common.collect.Sets;
-
-import java.util.Collection;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -43,7 +39,7 @@ public class TestRepositoryStructurer implements RepositoryStructurer {
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer#structure(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter)
 	 */
-	public Collection<String> structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
+	public void structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
 		// We first get the Test Index
 		Resource indexResource = repositoryAdapter.getResource(TestCollabSettings.TEST_INDEX);
 		TestIndex testIndex = (TestIndex)indexResource.getContents().get(0);
@@ -53,7 +49,6 @@ public class TestRepositoryStructurer implements RepositoryStructurer {
 			// We structure (i.e place in the correct resource) the reference element
 			placeCorrectly(repositoryAdapter, entry);
 		}
-		return Sets.newLinkedHashSet();
 	}
 
 	/**

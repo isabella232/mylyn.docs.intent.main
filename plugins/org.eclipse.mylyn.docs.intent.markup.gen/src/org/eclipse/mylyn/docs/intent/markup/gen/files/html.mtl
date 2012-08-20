@@ -8,7 +8,7 @@
 [/comment]
 [comment encoding = UTF-8 /]
 [module html('http://www.eclipse.org/intent/markup/0.7')/]
-
+[import org::eclipse::mylyn::docs::intent::markup::gen::queries::htmlQueries/]
   
 [template public generate(e : Document)]
 	
@@ -268,8 +268,5 @@ th.specalt {
 <span>->[e.name.toHTML()/]</span>
 [/template]
 
-
-[query public eResourceName(cur : OclAny) : String =
-  invoke('org.eclipse.mylyn.docs.intent.markup.gen.services.ResourceService', 'eResourceName(org.eclipse.emf.ecore.EObject)', Sequence{}) /]
 
 
