@@ -152,16 +152,14 @@ public final class SynchronizerStatusFactory {
 				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
 				ModelElementChangeLeftTarget letTargetDiff = (ModelElementChangeLeftTarget)difference;
 				status.setCompiledElement(letTargetDiff.getLeftElement());
-				status.setWorkingCopyParentURIFragment(EcoreUtil.getURI(letTargetDiff.getRightParent())
-						.toString());
+				status.setWorkingCopyParentURIFragment(createURIFragment(letTargetDiff.getRightParent()));
 				status.setTarget(getInstructionFromCompiledElement(indexEntry, letTargetDiff.getLeftElement()));
 				break;
 
 			case DiffPackage.MODEL_ELEMENT_CHANGE_RIGHT_TARGET:
 				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
 				ModelElementChangeRightTarget rightTargetDiff = (ModelElementChangeRightTarget)difference;
-				status.setWorkingCopyElementURIFragment(EcoreUtil.getURI(rightTargetDiff.getRightElement())
-						.toString());
+				status.setWorkingCopyElementURIFragment(createURIFragment(rightTargetDiff.getRightElement()));
 				status.setCompiledParent(rightTargetDiff.getLeftParent());
 				status.setTarget(getInstructionFromCompiledElement(indexEntry,
 						rightTargetDiff.getLeftParent()));
@@ -176,21 +174,6 @@ public final class SynchronizerStatusFactory {
 				break;
 		}
 		return status;
-	}
-
-	/**
-	 * Creates a fragment if possible.
-	 * 
-	 * @param eo
-	 *            the object
-	 * @return the fragment or null
-	 */
-	private static String createURIFragment(EObject eo) {
-		if (eo != null) {
-			return EcoreUtil.getURI(eo).toString();
-		} else {
-			return null;
-		}
 	}
 
 	/**
@@ -209,7 +192,7 @@ public final class SynchronizerStatusFactory {
 		ReferenceChangeStatus status = CompilerFactory.eINSTANCE.createReferenceChangeStatus();
 		status.setCompiledElement(compiledElement);
 		status.setFeatureName(difference.getReference().getName());
-		status.setWorkingCopyElementURIFragment(EcoreUtil.getURI(difference.getRightElement()).toString());
+		status.setWorkingCopyElementURIFragment(createURIFragment(difference.getRightElement()));
 
 		switch (difference.eClass().getClassifierID()) {
 			case DiffPackage.REFERENCE_CHANGE_RIGHT_TARGET:
@@ -285,7 +268,7 @@ public final class SynchronizerStatusFactory {
 		AttributeChangeStatus status = CompilerFactory.eINSTANCE.createAttributeChangeStatus();
 		status.setCompiledElement(compiledElement);
 		status.setFeatureName(difference.getAttribute().getName());
-		status.setWorkingCopyElementURIFragment(EcoreUtil.getURI(difference.getRightElement()).toString());
+		status.setWorkingCopyElementURIFragment(createURIFragment(difference.getRightElement()));
 
 		switch (difference.eClass().getClassifierID()) {
 			case DiffPackage.ATTRIBUTE_CHANGE_RIGHT_TARGET:
@@ -448,4 +431,20 @@ public final class SynchronizerStatusFactory {
 		}
 		return null;
 	}
+
+	/**
+	 * Creates a fragment if possible.
+	 * 
+	 * @param eo
+	 *            the object
+	 * @return the fragment or null
+	 */
+	private static String createURIFragment(EObject eo) {
+		if (eo != null) {
+			return EcoreUtil.getURI(eo).toString();
+		} else {
+			return null;
+		}
+	}
+
 }

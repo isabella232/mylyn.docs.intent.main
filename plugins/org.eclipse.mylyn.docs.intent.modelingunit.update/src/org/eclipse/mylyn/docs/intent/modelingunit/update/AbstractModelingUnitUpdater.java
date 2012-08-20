@@ -164,7 +164,7 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 		while (tmp != null && !ids.contains(tmp.eClass().getClassifierID())) {
 			tmp = tmp.eContainer();
 		}
-		if (ids.contains(tmp.eClass().getClassifierID())) {
+		if (tmp != null && ids.contains(tmp.eClass().getClassifierID())) {
 			return (IntentGenericElement)tmp;
 		}
 		return null;
