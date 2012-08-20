@@ -13,16 +13,20 @@ package org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
+import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.InvalidReferenceException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.PackageNotFoundResolveException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.PackageRegistrationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.ResolveException;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
+import org.eclipse.mylyn.docs.intent.client.compiler.validator.GeneratedElementValidator;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
@@ -43,6 +47,11 @@ public class ModelingUnitLinkResolver {
 	private EPackage.Registry packageRegistry;
 
 	/**
+	 * The package registry to use for invalid elements.
+	 */
+	private EPackage.Registry invalidPackageRegistry;
+
+	/**
 	 * The information holder to use for register the generated elements.
 	 */
 	private IntentCompilerInformationHolder informationHolder;
@@ -59,6 +68,7 @@ public class ModelingUnitLinkResolver {
 			IntentCompilerInformationHolder informationHolder) {
 		this.packageRegistry = packageRegistry;
 		this.informationHolder = informationHolder;
+		this.invalidPackageRegistry = new EPackageRegistryImpl();
 	}
 
 	/**
@@ -116,7 +126,8 @@ public class ModelingUnitLinkResolver {
 		// For each package, we try to resolve the reference
 		for (EPackage ePackage : packageToInspect) {
 			try {
-				resolvedClassifier = resolveEClassifierUsingPackage(instruction, ePackage.getNsURI(), href);
+				resolvedClassifier = resolveEClassifierUsingPackage(this.packageRegistry, instruction,
+						ePackage.getNsURI(), href);
 			} catch (PackageNotFoundResolveException e) {
 				// As the nsURI is directly given by an registered ePackage, this exception cannot appen.
 			}
@@ -126,13 +137,13 @@ public class ModelingUnitLinkResolver {
 		}
 
 		if (resolvedClassifier == null) {
-			throw new ResolveException(instruction, "The Entity " + href + " cannot be resolved");
+			createResolveException(instruction, href);
 		}
 		return resolvedClassifier;
 	}
 
 	/**
-	 * * Returns the eClass described by the given textual reference, exploring each package associated to the
+	 * Returns the eClass described by the given textual reference, exploring each package associated to the
 	 * given list of nsURIs.
 	 * 
 	 * @param instruction
@@ -149,25 +160,64 @@ public class ModelingUnitLinkResolver {
 	 */
 	public EClassifier resolveEClassifierUsingPackage(UnitInstruction instruction, List<String> packageURIs,
 			String href) throws ResolveException, PackageNotFoundResolveException {
-
 		EClassifier resolvedClass = null;
 		for (String nsURI : packageURIs) {
-			resolvedClass = resolveEClassifierUsingPackage(instruction, nsURI, href);
+			resolvedClass = resolveEClassifierUsingPackage(this.packageRegistry, instruction, nsURI, href);
 			if (resolvedClass != null) {
 				break;
 			}
 		}
 		if (resolvedClass == null) {
-			throw new ResolveException(instruction, "The Entity " + href + " cannot be resolved");
-
+			createResolveException(instruction, href);
 		}
 		return resolvedClass;
+	}
+
+	/**
+	 * Throws a resolve exception with an accurate message if possible.
+	 * 
+	 * @param instruction
+	 *            the creation instruction
+	 * @param href
+	 *            the element name
+	 */
+	private void createResolveException(UnitInstruction instruction, String href) {
+		String message = "The Entity " + href + " cannot be resolved";
+
+		// We get all the packages to inspect from the package repository
+		List<EPackage> packageToInspect = new ArrayList<EPackage>();
+		for (String packageURI : this.invalidPackageRegistry.keySet()) {
+			packageToInspect.add(this.invalidPackageRegistry.getEPackage(packageURI));
+		}
+
+		EClassifier resolvedClassifier = null;
+		// For each package, we try to resolve the reference
+		for (EPackage ePackage : packageToInspect) {
+			try {
+				resolvedClassifier = resolveEClassifierUsingPackage(this.invalidPackageRegistry, instruction,
+						ePackage.getNsURI(), href);
+			} catch (PackageNotFoundResolveException e) {
+				// As the nsURI is directly given by an registered ePackage, this exception cannot appen.
+			}
+			if (resolvedClassifier != null) {
+				break;
+			}
+		}
+
+		if (resolvedClassifier != null) {
+			message = "The Entity " + href + " exists in the " + resolvedClassifier.getEPackage().getName()
+					+ " EPackage but its definition is invalid";
+		}
+
+		throw new ResolveException(instruction, message);
 	}
 
 	/**
 	 * * Returns the eClassifier described by the given textual reference, exploring the package with the
 	 * given nsURI.
 	 * 
+	 * @param packageRegistry
+	 *            the registry to inspect
 	 * @param instruction
 	 *            the instruction containing the eClassifier to resolve
 	 * @param nsURI
@@ -178,11 +228,11 @@ public class ModelingUnitLinkResolver {
 	 *             if the given nsURI doesn't match to any package of the packageRegistry
 	 * @return the eClass described by the given textual reference, exploring the package with the given nsURI
 	 */
-	private EClassifier resolveEClassifierUsingPackage(UnitInstruction instruction, String nsURI, String href)
-			throws PackageNotFoundResolveException {
-		
-		EPackage ePackage = this.packageRegistry.getEPackage(nsURI);
-		
+	private static EClassifier resolveEClassifierUsingPackage(EPackage.Registry packageRegistry,
+			UnitInstruction instruction, String nsURI, String href) throws PackageNotFoundResolveException {
+
+		EPackage ePackage = packageRegistry.getEPackage(nsURI);
+
 		if (ePackage == null) {
 			throw new PackageNotFoundResolveException(instruction, "The package with nsURI \"" + nsURI
 					+ "\" cannot be found. ");
@@ -206,7 +256,7 @@ public class ModelingUnitLinkResolver {
 				((ReferenceValueForStructuralFeature)instruction).setReferencedMetaType(resolvedClass);
 			}
 		}
-		
+
 		return resolvedClass;
 	}
 
@@ -217,7 +267,7 @@ public class ModelingUnitLinkResolver {
 	 *            the ePackage
 	 * @return the qualified name of the ePackage
 	 */
-	private String getQualifiedName(EPackage ePackage) {
+	private static String getQualifiedName(EPackage ePackage) {
 		String res = ePackage.getName();
 		EPackage tmp = (EPackage)ePackage.eContainer();
 		while (tmp != null) {
@@ -280,21 +330,30 @@ public class ModelingUnitLinkResolver {
 	 *            the ePackage to register
 	 */
 	public void registerInPackageRegistry(UnitInstruction instruction, EPackage generatedPackage) {
-
-		// We prepare a standard exception
-		PackageRegistrationException exception = new PackageRegistrationException(
-				instruction,
-				"the generated package \""
-						+ generatedPackage.getNsURI()
-						+ "\" cannot be registered (maybe because of an invalid connection to the repository)");
-
 		// If no package exception has been registered, we throw this exception
 		if (this.packageRegistry == null) {
-			throw exception;
+			throw new PackageRegistrationException(instruction, "the generated package \""
+					+ generatedPackage.getNsURI()
+					+ "\" cannot be registered (maybe because of an invalid connection to the repository)");
 		}
 
 		// We try to add the generated package to the packageRegistry
+		GeneratedElementValidator validator = new GeneratedElementValidator(
+				informationHolder.getInstanciationInstructionByCreatedElement(generatedPackage),
+				generatedPackage);
 
-		packageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
+		boolean hasErrors = false;
+		try {
+			Diagnostic diagnostic = validator.validate();
+			informationHolder.registerDiagnosticAsCompilationStatusList(generatedPackage, diagnostic);
+		} catch (CompilationException e) {
+			hasErrors = true;
+			informationHolder.registerCompilationExceptionAsCompilationStatus(e);
+		}
+		if (hasErrors) {
+			invalidPackageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
+		} else {
+			packageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
+		}
 	}
 }

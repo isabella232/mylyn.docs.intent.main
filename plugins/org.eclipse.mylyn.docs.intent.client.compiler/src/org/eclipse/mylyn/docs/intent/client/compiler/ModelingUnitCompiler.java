@@ -351,15 +351,18 @@ public class ModelingUnitCompiler {
 	 */
 	protected void validateGeneratedElement() {
 		for (EObject generatedElement : informationHolder.getCurrentCreatedElements()) {
-			GeneratedElementValidator validator = new GeneratedElementValidator(
-					informationHolder.getInstanciationInstructionByCreatedElement(generatedElement), generatedElement);
-			Diagnostic diagnostic;
-			try {
-				diagnostic = validator.validate();
+			if (!(generatedElement instanceof EPackage)) { // EPackages are already validated
+				GeneratedElementValidator validator = new GeneratedElementValidator(
+						informationHolder.getInstanciationInstructionByCreatedElement(generatedElement),
+						generatedElement);
+				Diagnostic diagnostic;
+				try {
+					diagnostic = validator.validate();
 
-				informationHolder.registerDiagnosticAsCompilationStatusList(generatedElement, diagnostic);
-			} catch (CompilationException e) {
-				informationHolder.registerCompilationExceptionAsCompilationStatus(e);
+					informationHolder.registerDiagnosticAsCompilationStatusList(generatedElement, diagnostic);
+				} catch (CompilationException e) {
+					informationHolder.registerCompilationExceptionAsCompilationStatus(e);
+				}
 			}
 		}
 	}

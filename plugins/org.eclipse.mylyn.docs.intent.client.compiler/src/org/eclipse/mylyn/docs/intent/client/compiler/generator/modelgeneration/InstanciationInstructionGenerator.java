@@ -104,16 +104,15 @@ public final class InstanciationInstructionGenerator {
 		}
 
 		// Step 3 : Registration of the generated element
-		// Step 3.1 : We register the generated element to the package registry (if it's an EPackage)
-		registerGeneratedElementsInPackageRegistry(instanciationInstruction, linkResolver, createdElement);
-
-		// Step 3.2 : we add the generated element in the current created Elements list
+		// Step 3.1 : we add the generated element in the current created Elements list
 		modelingUnitGenerator.getInformationHolder().addNameToCreatedElementEntry(
 				instanciationInstruction.getName(), createdElement, instanciationInstruction);
 
+		// We register the generated element to the package registry (if it's an EPackage)
+		registerGeneratedElementsInPackageRegistry(instanciationInstruction, linkResolver, createdElement);
+
 		// Step 3.3 : if any unresolved contribution instructions were contributed to this element
 		// We resolve these contributions
-
 		for (final UnresolvedContributionHolder contributionHolder : modelingUnitGenerator
 				.getInformationHolder().getContributionsAssociatedTo(instanciationInstruction.getName())) {
 			ContributionInstructionGenerator.generate(contributionHolder.getReferencedContribution(),
