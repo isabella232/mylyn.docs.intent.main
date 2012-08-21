@@ -36,6 +36,7 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 
 /**
  * An utility class allowing to query the {@link TraceabilityIndex} to get useful traceability informations.
@@ -156,6 +157,25 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 					if (instructionTraceabilityEntry.getInstruction().equals(instanciation)) {
 						return instructionsEntry.getKey();
 					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Return the ModelingUnitInstructionReference which refers to the given instanciation if present.
+	 * 
+	 * @param instanciation
+	 *            the instanciation
+	 * @return the ModelingUnitInstructionReference or null
+	 */
+	public ModelingUnitInstructionReference getModelingUnitInstructionReference(
+			InstanciationInstruction instanciation) {
+		for (TraceabilityIndexEntry entry : getOrCreateTraceabilityIndex().getEntries()) {
+			for (ModelingUnitInstructionReference reference : entry.getResourceDeclaration().getContent()) {
+				if (instanciation.equals(reference.getReferencedElement())) {
+					return reference;
 				}
 			}
 		}

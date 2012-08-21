@@ -34,6 +34,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
@@ -140,9 +141,20 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 				}
 				break;
 			case SynchronizerChangeState.COMPILED_TARGET_VALUE:
-				EObject affectation = getContainer(target, ModelingUnitPackage.STRUCTURAL_FEATURE_AFFECTATION);
-				if (affectation instanceof StructuralFeatureAffectation) {
-					removeAffectation((StructuralFeatureAffectation)affectation);
+				IntentGenericElement affectation = getContainer(target,
+						ModelingUnitPackage.STRUCTURAL_FEATURE_AFFECTATION);
+				if (affectation != null) {
+					removeFromContainer(affectation);
+				} else if (target instanceof InstanciationInstruction) {
+					// in this case, the instanciation is not contained by the affectation so we need to
+					// remove it separately
+					InstanciationInstruction instanciation = (InstanciationInstruction)target;
+					ModelingUnitInstructionReference reference = query
+							.getModelingUnitInstructionReference(instanciation);
+					if (reference != null) {
+						removeFromContainer(reference);
+					}
+					removeFromContainer(instanciation);
 				}
 				// TODO remove related contributions
 				// TODO remove related references
@@ -151,7 +163,7 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 				IntentLogger.getInstance().log(
 						LogType.INFO,
 						"UNSUPPORTED MODEL ELEMENT CHANGE: " + status.getMessage() + '('
-								+ ((ModelElementChangeStatus)status).getChangeState() + ')');
+								+ status.getChangeState() + ')');
 				break;
 		}
 	}
@@ -183,7 +195,7 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 						EObject affectation = getContainer(status.getTarget(),
 								ModelingUnitPackage.STRUCTURAL_FEATURE_AFFECTATION);
 						if (affectation instanceof StructuralFeatureAffectation) {
-							removeAffectation((StructuralFeatureAffectation)affectation);
+							removeFromContainer((StructuralFeatureAffectation)affectation);
 						}
 					} else {
 						setValue((ValueForStructuralFeature)status.getTarget(), newValue);
@@ -191,7 +203,7 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 				} else if (status.getTarget() instanceof InstanciationInstruction) {
 					StructuralFeatureAffectation newAffectation = generateAffectation(feature, newValue);
 					if (newAffectation != null) {
-						addAffectation((InstanciationInstruction)status.getTarget(), newAffectation);
+						addAffectation(status.getTarget(), newAffectation);
 					}
 				}
 				break;
@@ -200,7 +212,7 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 				EObject affectation = getContainer(status.getTarget(),
 						ModelingUnitPackage.STRUCTURAL_FEATURE_AFFECTATION);
 				if (affectation instanceof StructuralFeatureAffectation) {
-					removeAffectation((StructuralFeatureAffectation)affectation);
+					removeFromContainer((StructuralFeatureAffectation)affectation);
 				}
 				break;
 
@@ -213,10 +225,8 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 				break;
 
 			default:
-				IntentLogger.getInstance().log(
-						LogType.INFO,
-						"UNSUPPORTED CHANGE: " + status.getMessage() + " ("
-								+ ((StructuralFeatureChangeStatus)status).getChangeState() + ')');
+				IntentLogger.getInstance().log(LogType.INFO,
+						"UNSUPPORTED CHANGE: " + status.getMessage() + " (" + status.getChangeState() + ')');
 				break;
 		}
 	}
@@ -236,24 +246,6 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 		} else if (container instanceof InstanciationInstruction) {
 			InstanciationInstruction instanciation = (InstanciationInstruction)container;
 			instanciation.getStructuralFeatures().add(affectation);
-		}
-	}
-
-	/**
-	 * Removes the given affectation from its container.
-	 * 
-	 * @param affectation
-	 *            the affectation
-	 */
-	private void removeAffectation(StructuralFeatureAffectation affectation) {
-		IntentGenericElement container = getContainer((IntentGenericElement)affectation,
-				ModelingUnitPackage.CONTRIBUTION_INSTRUCTION, ModelingUnitPackage.INSTANCIATION_INSTRUCTION);
-		if (container instanceof ContributionInstruction) {
-			ContributionInstruction contribution = (ContributionInstruction)container;
-			contribution.getContributions().remove(affectation);
-		} else if (container instanceof InstanciationInstruction) {
-			InstanciationInstruction instanciation = (InstanciationInstruction)container;
-			instanciation.getStructuralFeatures().remove(affectation);
 		}
 	}
 

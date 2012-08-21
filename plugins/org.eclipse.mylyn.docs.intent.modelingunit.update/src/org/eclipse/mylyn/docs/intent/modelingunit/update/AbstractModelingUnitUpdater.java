@@ -24,6 +24,7 @@ import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -168,6 +169,20 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 			return (IntentGenericElement)tmp;
 		}
 		return null;
+	}
+
+	/**
+	 * Removes the given element from its container, deletes the container if empty.
+	 * 
+	 * @param element
+	 *            the element
+	 */
+	protected void removeFromContainer(EObject element) {
+		EObject container = element.eContainer();
+		EcoreUtil.delete(element);
+		if (container != null && container.eContents().isEmpty()) {
+			removeFromContainer(container);
+		}
 	}
 
 	/**
