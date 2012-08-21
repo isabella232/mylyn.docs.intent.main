@@ -13,20 +13,17 @@ package org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
-import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.InvalidReferenceException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.PackageNotFoundResolveException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.PackageRegistrationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.ResolveException;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
-import org.eclipse.mylyn.docs.intent.client.compiler.validator.GeneratedElementValidator;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
@@ -345,23 +342,26 @@ public class ModelingUnitLinkResolver {
 					+ "\" cannot be registered (maybe because of an invalid connection to the repository)");
 		}
 
-		// We try to add the generated package to the packageRegistry
-		GeneratedElementValidator validator = new GeneratedElementValidator(
-				informationHolder.getInstanciationInstructionByCreatedElement(generatedPackage),
-				generatedPackage);
+		// FIXME define clear compilation steps : the EPackage links are not resolved yet so it cannot be
+		// validated
 
-		boolean hasErrors = false;
-		try {
-			Diagnostic diagnostic = validator.validate();
-			informationHolder.registerDiagnosticAsCompilationStatusList(generatedPackage, diagnostic);
-		} catch (CompilationException e) {
-			hasErrors = true;
-			informationHolder.registerCompilationExceptionAsCompilationStatus(e);
-		}
-		if (hasErrors) {
-			invalidPackageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
-		} else {
-			packageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
-		}
+		// // We try to add the generated package to the packageRegistry
+		// GeneratedElementValidator validator = new GeneratedElementValidator(
+		// informationHolder.getInstanciationInstructionByCreatedElement(generatedPackage),
+		// generatedPackage);
+		//
+		// boolean hasErrors = false;
+		// try {
+		// Diagnostic diagnostic = validator.validate();
+		// informationHolder.registerDiagnosticAsCompilationStatusList(generatedPackage, diagnostic);
+		// } catch (CompilationException e) {
+		// hasErrors = true;
+		// informationHolder.registerCompilationExceptionAsCompilationStatus(e);
+		// }
+		// if (hasErrors) {
+		// invalidPackageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
+		// } else {
+		packageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
+		// }
 	}
 }

@@ -120,7 +120,7 @@ public final class StructuralFeatureGenerator {
 
 			} else {
 				CompilationStatus status = CompilerFactory.eINSTANCE.createCompilationStatus();
-				status.setMessage("The feature " + affectation.getName() + " undefined for type "
+				status.setMessage("The feature " + affectation.getName() + " is undefined for type "
 						+ eClass.eClass());
 				status.setTarget(affectation);
 				status.setSeverity(CompilationStatusSeverity.ERROR);
