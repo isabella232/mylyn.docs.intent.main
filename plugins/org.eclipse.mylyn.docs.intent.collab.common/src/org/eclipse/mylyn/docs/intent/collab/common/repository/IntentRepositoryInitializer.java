@@ -107,9 +107,11 @@ public final class IntentRepositoryInitializer {
 	 * @param repositoryAdapter
 	 *            the adapter
 	 * @throws ReadOnlyException
-	 * @throws ParseException
+	 *             if the repository is read only
 	 * @throws SaveException
+	 *             if the repository cannot be saved
 	 * @throws ParseException
+	 *             if the initial content parsing fails
 	 */
 	private static void initializeInRepository(final String initialContent,
 			final RepositoryAdapter repositoryAdapter) throws ReadOnlyException, SaveException,

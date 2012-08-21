@@ -14,7 +14,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.indexer.*;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;

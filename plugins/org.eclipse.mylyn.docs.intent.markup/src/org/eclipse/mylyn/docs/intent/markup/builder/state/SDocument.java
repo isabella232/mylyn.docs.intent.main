@@ -24,11 +24,6 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Document;
 public class SDocument extends AbstractSContainer {
 
 	/**
-	 * Current document.
-	 */
-	private Document doc;
-
-	/**
 	 * SDocument constructor.
 	 * 
 	 * @param previous
@@ -38,7 +33,6 @@ public class SDocument extends AbstractSContainer {
 	 */
 	public SDocument(BuilderState previous, Document doc) {
 		super(previous, doc);
-		this.doc = doc;
 	}
 
 	/**

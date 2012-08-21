@@ -44,9 +44,6 @@ public class EclipseBasedIntentLogger implements IIntentLogger, IPreferenceChang
 
 	/**
 	 * Default constructor.
-	 * 
-	 * @param delegateLogger
-	 *            the logger to delegate to
 	 */
 	public EclipseBasedIntentLogger() {
 		// Step 1: register a preference change listener so that if user decide to activate/deactive advanced
@@ -131,8 +128,8 @@ public class EclipseBasedIntentLogger implements IIntentLogger, IPreferenceChang
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger#setDisplayLifecycleInformations(boolean)
 	 */
-	public void setDisplayLifecycleInformations(boolean shouldDisplayLifecycleInformations) {
-		this.shouldDisplayLifecycleInformations = shouldDisplayLifecycleInformations;
+	public void setDisplayLifecycleInformations(boolean value) {
+		this.shouldDisplayLifecycleInformations = value;
 	}
 
 	/**
@@ -151,6 +148,11 @@ public class EclipseBasedIntentLogger implements IIntentLogger, IPreferenceChang
 		}
 	}
 
+	/**
+	 * Returns the bundle logger, initializes the field if necessary.
+	 * 
+	 * @return the bundle logger
+	 */
 	private ILog getBundleLogger() {
 		if (this.delegateLogger == null) {
 			this.delegateLogger = IntentEditorActivator.getDefault().getLog();

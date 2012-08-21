@@ -31,6 +31,8 @@ public interface RepositoryAdapter {
 	 * Open and return a save context (connection in read/write mode).
 	 * 
 	 * @return a save context
+	 * @throws ReadOnlyException
+	 *             if the repository is read-only
 	 */
 	Object openSaveContext() throws ReadOnlyException;
 

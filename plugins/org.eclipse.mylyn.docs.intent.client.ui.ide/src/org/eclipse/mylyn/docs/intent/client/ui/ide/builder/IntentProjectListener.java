@@ -166,6 +166,13 @@ public class IntentProjectListener implements IResourceChangeListener {
 		}
 	}
 
+	/**
+	 * Returns the project manager associated to the given project.
+	 * 
+	 * @param project
+	 *            the intent project
+	 * @return the project manager associated to the given project
+	 */
 	private IntentProjectManager getIntentProjectManager(IProject project) {
 		IntentProjectManager projectManager = projectManagers.get(project.getName());
 		if (projectManager == null) {

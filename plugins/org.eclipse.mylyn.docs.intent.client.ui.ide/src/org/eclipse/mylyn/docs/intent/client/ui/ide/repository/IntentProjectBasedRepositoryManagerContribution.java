@@ -79,7 +79,7 @@ public class IntentProjectBasedRepositoryManagerContribution implements IntentRe
 
 	private static String getRepositoryType(IProject project) throws CoreException {
 		for (ICommand command : project.getDescription().getBuildSpec()) {
-			if (command.getBuilderName().equals("org.eclipse.mylyn.docs.intent.client.ui.ide.intentBuilder")) {
+			if ("org.eclipse.mylyn.docs.intent.client.ui.ide.intentBuilder".equals(command.getBuilderName())) {
 				return command.getArguments().get("type");
 			}
 		}

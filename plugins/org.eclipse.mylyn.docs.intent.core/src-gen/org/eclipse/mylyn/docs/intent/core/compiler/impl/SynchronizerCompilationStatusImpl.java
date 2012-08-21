@@ -9,7 +9,6 @@ package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
 
 /**
  * <!-- begin-user-doc -->

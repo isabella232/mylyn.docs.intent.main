@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.markup.markup;
 
 import org.eclipse.emf.ecore.EFactory;
-import org.eclipse.mylyn.docs.intent.markup.markup.impl.MarkupFactoryImpl;
 
 /**
  * <!-- begin-user-doc -->

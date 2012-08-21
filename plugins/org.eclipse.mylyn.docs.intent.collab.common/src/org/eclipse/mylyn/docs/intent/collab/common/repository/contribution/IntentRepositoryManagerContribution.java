@@ -10,13 +10,14 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.common.repository.contribution;
 
-import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 
 /**
- * A contribution used by the {@link IntentRepositoryManager} to create repositories from an identifier (i.e.
- * create a repository from an IProject name, create a repository from a cdo Repository name...).
+ * A contribution used by the
+ * {@link org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager} to create
+ * repositories from an identifier (i.e. create a repository from an IProject name, create a repository from a
+ * cdo Repository name...).
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */

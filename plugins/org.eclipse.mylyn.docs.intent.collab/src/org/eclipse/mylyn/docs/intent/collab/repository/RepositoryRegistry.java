@@ -30,6 +30,7 @@ public interface RepositoryRegistry {
 	 *            the repository type
 	 * @return the repository creator
 	 * @throws CoreException
+	 *             if the creator cannot be initialized
 	 */
 	RepositoryCreator getRepositoryCreator(String repositoryType) throws CoreException;
 
@@ -40,6 +41,7 @@ public interface RepositoryRegistry {
 	 *            the repository type
 	 * @return the repository structurer
 	 * @throws CoreException
+	 *             if the structurer cannot be initialized
 	 */
 	RepositoryStructurer getRepositoryStructurer(String repositoryType) throws CoreException;
 

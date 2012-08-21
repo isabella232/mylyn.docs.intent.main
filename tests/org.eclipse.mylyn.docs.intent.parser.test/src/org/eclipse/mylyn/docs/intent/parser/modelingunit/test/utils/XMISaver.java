@@ -12,9 +12,7 @@ package org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -59,8 +57,8 @@ public final class XMISaver {
 
 		// Step 1 : Generation of resource containing the ECore files corresponding to the Packages.
 		ResourceSet rs = new ResourceSetImpl();
-		List<EPackage> packagesToSave = new ArrayList<EPackage>();
 		/*
+		 * List<EPackage> packagesToSave = new ArrayList<EPackage>();
 		 * packagesToSave.add(ModelingUnitPackage.eINSTANCE);
 		 * packagesToSave.add(ModelingUnitPackage.eINSTANCE);
 		 * packagesToSave.add(ModelingUnitPackage.eINSTANCE);

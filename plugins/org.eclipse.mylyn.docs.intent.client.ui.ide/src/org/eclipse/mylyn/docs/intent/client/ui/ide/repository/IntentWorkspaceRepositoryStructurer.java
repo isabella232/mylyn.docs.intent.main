@@ -152,8 +152,10 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	 * 
 	 * @param element
 	 *            the element to test
-	 * @param newResourcePath
-	 *            the expected resource location
+	 * @param workspaceAdapter
+	 *            the workspace adapter
+	 * @param expectedResourceLocation
+	 *            the element expected location
 	 * @return true if the element is stored at the expected resource path
 	 */
 	private boolean isStoredAtExpectedLocation(EObject element, WorkspaceAdapter workspaceAdapter,

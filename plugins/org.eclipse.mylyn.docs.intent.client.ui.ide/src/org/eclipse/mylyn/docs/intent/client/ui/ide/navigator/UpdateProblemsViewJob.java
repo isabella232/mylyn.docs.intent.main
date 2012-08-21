@@ -55,6 +55,8 @@ public class UpdateProblemsViewJob extends Job {
 	 * 
 	 * @param project
 	 *            the Intent project to update
+	 * @param adapter
+	 *            the current repository adapter
 	 */
 	public UpdateProblemsViewJob(IProject project, RepositoryAdapter adapter) {
 		super(UPDATE_PROBLEMS_VIEW_JOB_NAME);

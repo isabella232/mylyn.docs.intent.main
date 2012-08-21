@@ -51,6 +51,7 @@ public abstract class AbstractTestParserErrors {
 	 * @param expected
 	 *            the expected error
 	 * @throws AssertionFailedError
+	 *             if the file doesn't contain the given error
 	 */
 	protected void testErrorsOnFile(String fileName, ParseException expected) throws AssertionFailedError {
 		boolean errorFound = false;

@@ -11,9 +11,7 @@
 package org.eclipse.mylyn.docs.intent.markup.wikigen;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
-
 import org.eclipse.mylyn.docs.intent.markup.markup.Document;
 
 /**

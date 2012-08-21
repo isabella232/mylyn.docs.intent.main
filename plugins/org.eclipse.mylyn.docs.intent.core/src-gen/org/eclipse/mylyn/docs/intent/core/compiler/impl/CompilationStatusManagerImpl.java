@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import java.math.BigInteger;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;

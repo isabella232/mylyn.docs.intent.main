@@ -62,12 +62,12 @@ public class RemoveDanglingReferences extends RecordingCommand {
 	/**
 	 * Remove all dangling references of all objects that are contained by the root element.
 	 * 
-	 * @param root
+	 * @param element
 	 *            the root element
 	 */
-	public void removeDanglingReferences(final EObject root) {
-		if (root.eResource() != null && root.eResource().getResourceSet() != null) {
-			removeDanglingReferences(new DanglingReferencesDetector(root.eResource()));
+	public void removeDanglingReferences(final EObject element) {
+		if (element.eResource() != null && element.eResource().getResourceSet() != null) {
+			removeDanglingReferences(new DanglingReferencesDetector(element.eResource()));
 		}
 	}
 
@@ -81,6 +81,12 @@ public class RemoveDanglingReferences extends RecordingCommand {
 		removeDanglingReferences(new DanglingReferencesDetector(resourceSet));
 	}
 
+	/**
+	 * Removes the dangling references of the given cross referencer.
+	 * 
+	 * @param referencer
+	 *            the referencer
+	 */
 	private void removeDanglingReferences(CrossReferencer referencer) {
 		for (Map.Entry<EObject, Collection<Setting>> entry : referencer.entrySet()) {
 			for (EStructuralFeature.Setting value : entry.getValue()) {
@@ -110,8 +116,8 @@ public class RemoveDanglingReferences extends RecordingCommand {
 		 * @param resource
 		 *            the resource to cross reference.
 		 */
-		public DanglingReferencesDetector(Resource eResource) {
-			super(eResource);
+		public DanglingReferencesDetector(Resource resource) {
+			super(resource);
 			crossReference();
 			done();
 		}

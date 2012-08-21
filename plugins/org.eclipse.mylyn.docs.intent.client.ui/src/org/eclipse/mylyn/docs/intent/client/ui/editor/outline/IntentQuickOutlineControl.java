@@ -37,6 +37,8 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.query.IndexQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
@@ -131,7 +133,8 @@ public class IntentQuickOutlineControl extends PopupDialog implements IInformati
 		if (!(editorScopedOutlineRoot instanceof IntentDocument)) {
 			setInfoText("Press 'Ctrl+O' to search in the whole document");
 		} else {
-			System.err.println(editorScopedOutlineRoot + "/" + wholeScopedOutlineRoot);
+			IntentLogger.getInstance().log(LogType.WARNING,
+					editorScopedOutlineRoot + "/" + wholeScopedOutlineRoot);
 			setInfoText("Searching in the whole document");
 		}
 		create();

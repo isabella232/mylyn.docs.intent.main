@@ -44,14 +44,28 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
  */
 public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionProcessor {
 
-	private RepositoryAdapter repositoryAdapter;
+	private static final String NEW_ENTITY_KEYWORD = "new";
 
-	private TraceabilityInformationsQuery traceabilityInfoQuery;
+	private static final String RESOURCE_DECLARATION_KEYWORD = "Resource";
+
+	private static final String MODELINGUNIT_NEW_ELEMENT_ICON = "icon/outline/modelingunit_new_element.png";
+
+	private static final String MODELINGUNIT_RESOURCE_ICON = "icon/outline/modelingunit_resource.gif";
 
 	private static final String IDENTIFIER_REGEXP = "([a-zA-z0-9_-]+)";
 
 	private static final String QUALIFIED_NAME_DELIMITER = "\\.";
 
+	private RepositoryAdapter repositoryAdapter;
+
+	private TraceabilityInformationsQuery traceabilityInfoQuery;
+
+	/**
+	 * Creates the completion processor.
+	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter
+	 */
 	public ModelingUnitCompletionProcessor(RepositoryAdapter repositoryAdapter) {
 		this.repositoryAdapter = repositoryAdapter;
 		this.traceabilityInfoQuery = new TraceabilityInformationsQuery(repositoryAdapter);
@@ -90,7 +104,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			} else {
 				if ("".equals(lastRelevantKeyWord)) {
 					proposals.addAll(getProposalsForEmptyModelingUnit(false, text));
-				} else if ("new".equals(lastRelevantKeyWord)) {
+				} else if (NEW_ENTITY_KEYWORD.equals(lastRelevantKeyWord)) {
 					proposals.addAll(getProposalsForNewInstruction(text));
 				} else if ("{".equals(lastRelevantKeyWord)) {
 					proposals.addAll(getProposalsForStructuralFeatureAffectation(text));
@@ -120,15 +134,15 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			prefix = "@M" + prefix;
 		}
 		// First proposal : new Resource Declaration
-		if (text.trim().length() == 0 || "Resource".startsWith(text.trim())) {
-			proposals.add(createTemplateProposal("Resource", "Declaration of a new Resource", prefix
-					+ "Resource myResource {\n\t\tURI = \"${}\";\n\t}",
-					"icon/outline/modelingunit_resource.gif"));
+		if (text.trim().length() == 0 || RESOURCE_DECLARATION_KEYWORD.startsWith(text.trim())) {
+			proposals.add(createTemplateProposal(RESOURCE_DECLARATION_KEYWORD,
+					"Declaration of a new Resource", prefix
+							+ "Resource myResource {\n\t\tURI = \"${}\";\n\t}", MODELINGUNIT_RESOURCE_ICON));
 		}
 		// Second proposal : new entity
-		if (text.trim().length() == 0 || "new".startsWith(text.trim())) {
-			proposals.add(createTemplateProposal("new", "Declaration of a new entity", prefix
-					+ "new ${Type} {}", "icon/outline/modelingunit_new_element.png"));
+		if (text.trim().length() == 0 || NEW_ENTITY_KEYWORD.startsWith(text.trim())) {
+			proposals.add(createTemplateProposal(NEW_ENTITY_KEYWORD, "Declaration of a new entity", prefix
+					+ "new ${Type} {}", MODELINGUNIT_NEW_ELEMENT_ICON));
 		}
 
 		// Third proposal : contribute to an existing entity
@@ -158,7 +172,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private Collection<? extends ICompletionProposal> getProposalsForNewInstruction(String text)
 			throws ReadOnlyException {
-		String classNameBeginning = text.substring(text.lastIndexOf("new")).replace("new", "").trim();
+		String classNameBeginning = text.substring(text.lastIndexOf(NEW_ENTITY_KEYWORD))
+				.replace(NEW_ENTITY_KEYWORD, "").trim();
 		return getProposalsForEClassifier(classNameBeginning);
 	}
 
@@ -174,15 +189,16 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			contributionName = text.substring(0, text.lastIndexOf("{")).trim();
 			featureNameBeginning = text.substring(text.lastIndexOf("{")).replace("{", "").trim();
 
-			if (contributionName.contains("new")) {
+			if (contributionName.contains(NEW_ENTITY_KEYWORD)) {
 				isContribution = false;
-				contributionName = contributionName.substring(contributionName.lastIndexOf("new")).trim();
+				contributionName = contributionName.substring(
+						contributionName.lastIndexOf(NEW_ENTITY_KEYWORD)).trim();
 				contributionName = contributionName.substring(contributionName.indexOf(" ")).trim();
 				if (contributionName.contains(" ")) {
 					contributionName = contributionName.substring(0, contributionName.indexOf(" ")).trim();
 				}
 			}
-			if (contributionName.contains("Resource")) {
+			if (contributionName.contains(RESOURCE_DECLARATION_KEYWORD)) {
 				isResourceDeclaration = true;
 				isContribution = false;
 			}
@@ -195,9 +211,9 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			if (isResourceDeclaration) {
 				getProposalsForResourceDeclaration(proposals);
 			} else {
-				// If the structural feature affectation is inside an Instranciation instruction
+				// If the structural feature affectation is inside an Instanciation instruction
 				EClassifier classifierToConsider = getEClassifier(contributionName);
-				if (classifierToConsider != null && classifierToConsider instanceof EClass) {
+				if (classifierToConsider instanceof EClass) {
 					for (EStructuralFeature feature : ((EClass)classifierToConsider)
 							.getEAllStructuralFeatures()) {
 						if (featureNameBeginning.length() == 0
@@ -214,9 +230,9 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private void getProposalsForResourceDeclaration(Collection<ICompletionProposal> proposals) {
 		proposals.add(createTemplateProposal("Resource URI", "URI indicating the Resource location",
-				"URI = \"${}\";", "icon/outline/modelingunit_resource.gif"));
+				"URI = \"${}\";", MODELINGUNIT_RESOURCE_ICON));
 		proposals.add(createTemplateProposal("Resource Content", "Add content to the Resource",
-				"content += ${};", "icon/outline/modelingunit_resource.gif"));
+				"content += ${};", MODELINGUNIT_RESOURCE_ICON));
 	}
 
 	private void getProposalsForContribution(Collection<ICompletionProposal> proposals,
@@ -265,15 +281,16 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				featureName = featureName.substring(0, featureName.indexOf("=")).trim();
 			}
 
-			if (classifierName.contains("new")) {
+			if (classifierName.contains(NEW_ENTITY_KEYWORD)) {
 				isContribution = false;
-				classifierName = classifierName.substring(classifierName.lastIndexOf("new")).trim();
+				classifierName = classifierName.substring(classifierName.lastIndexOf(NEW_ENTITY_KEYWORD))
+						.trim();
 				classifierName = classifierName.substring(classifierName.indexOf(" ")).trim();
 				if (classifierName.contains(" ")) {
 					classifierName = classifierName.substring(0, classifierName.indexOf(" ")).trim();
 				}
 			}
-			if (classifierName.contains("Resource")) {
+			if (classifierName.contains(RESOURCE_DECLARATION_KEYWORD)) {
 				isContribution = false;
 				isResourceContribution = true;
 				featureName = "Resource Content";
@@ -301,8 +318,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		}
 
 		// Step 2: get the feature type
-		if (isResourceContribution
-				|| (classifierToConsider != null && classifierToConsider instanceof EClass)) {
+		if (isResourceContribution || classifierToConsider instanceof EClass) {
 			EStructuralFeature featureToConsider = null;
 			if (!isResourceContribution) {
 				featureToConsider = ((EClass)classifierToConsider).getEStructuralFeature(featureName);
@@ -329,7 +345,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 								+ featureToConsider.getEType().getName() + ")",
 								"Set this new Element as value for " + featureToConsider.getName(), "new "
 										+ featureToConsider.getEType().getName() + "{\n\t${}\n};",
-								"icon/outline/modelingunit_new_element.png"));
+								MODELINGUNIT_NEW_ELEMENT_ICON));
 					}
 
 					// Propose to reference an already defined element
@@ -385,7 +401,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 								classNameBeginning))) {
 					proposals.add(createTemplateProposal(availableClass.getName(), availableClass
 							.getEPackage().getNsURI(), availableClass.getName(),
-							"icon/outline/modelingunit_new_element.png"));
+							MODELINGUNIT_NEW_ELEMENT_ICON));
 					i++;
 				}
 			}
@@ -409,7 +425,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	 */
 	private String getLastRelevantKeyWord(String text) {
 
-		int lastNew = getLastIndexOf(text, Pattern.compile("new"));
+		int lastNew = getLastIndexOf(text, Pattern.compile(NEW_ENTITY_KEYWORD));
 		int lastOpeningBracket = text.lastIndexOf("{");
 		int lastStructuralFeatureAffectation = text.lastIndexOf("=");
 		int lastMultiValuedStructuralFeatureAffectation = text.lastIndexOf("+=");
@@ -418,7 +434,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				Math.max(lastNew, lastOpeningBracket));
 		if (lastKWIndex != -1) {
 			if (lastKWIndex == lastNew) {
-				return "new";
+				return NEW_ENTITY_KEYWORD;
 			} else if (lastKWIndex == lastOpeningBracket) {
 				return "{";
 			} else if (lastKWIndex == lastStructuralFeatureAffectation) {

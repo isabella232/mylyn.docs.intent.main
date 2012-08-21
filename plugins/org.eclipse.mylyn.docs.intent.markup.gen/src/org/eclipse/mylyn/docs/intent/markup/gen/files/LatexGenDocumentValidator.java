@@ -12,12 +12,7 @@ package org.eclipse.mylyn.docs.intent.markup.gen.files;
 
 public class LatexGenDocumentValidator {
 
-	private LatexGenDocument doc;
-
 	public LatexGenDocumentValidator(LatexGenDocument doc) {
-		this.doc = doc;
 	}
-	
-	
-	
+
 }

@@ -11,11 +11,11 @@
 package org.eclipse.mylyn.docs.intent.collab.common.logger;
 
 import org.eclipse.mylyn.docs.intent.collab.common.internal.logger.IntentLoggerRegistry;
-import org.eclipse.mylyn.docs.intent.collab.common.internal.logger.IntentLoggerRegistryListener;
 
 /**
  * The Intent logger, that delegates log to all loggers contributed through the
- * {@link IntentLoggerRegistryListener#INTENT_LOGGER_EXTENSION_POINT} extension point.
+ * {@link org.eclipse.mylyn.docs.intent.collab.common.internal.logger.IntentLoggerRegistryListener #INTENT_LOGGER_EXTENSION_POINT}
+ * extension point.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */

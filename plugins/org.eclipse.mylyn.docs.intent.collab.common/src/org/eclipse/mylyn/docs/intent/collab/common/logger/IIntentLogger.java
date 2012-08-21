@@ -57,6 +57,9 @@ public interface IIntentLogger {
 	 */
 	void setDisplayLifecycleInformations(boolean shouldDisplayLifecycleInformations);
 
+	/**
+	 * Intent logger types.
+	 */
 	public enum LogType {
 		/**
 		 * Indicates that a critical error occurred (should be displayed in both error log and pop-up).

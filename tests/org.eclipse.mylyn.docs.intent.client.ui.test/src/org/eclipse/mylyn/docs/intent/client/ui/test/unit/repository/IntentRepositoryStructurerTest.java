@@ -125,11 +125,11 @@ public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 
 			IFolder chapterFolder = documentFolder.getFolder("IntentChapter");
 			IFolder sectionFolder = documentFolder.getFolder("IntentSection");
-			IFolder MUFolder = documentFolder.getFolder("ModelingUnit");
+			IFolder muFolder = documentFolder.getFolder("ModelingUnit");
 
 			checkFolderStructure(chapterFolder, Sets.newLinkedHashSet(expectedChapterNames));
 			checkFolderStructure(sectionFolder, Sets.newLinkedHashSet(expectedSectionNames));
-			checkFolderStructure(MUFolder, Sets.newLinkedHashSet(expectedMUNames));
+			checkFolderStructure(muFolder, Sets.newLinkedHashSet(expectedMUNames));
 		} catch (CoreException e) {
 			fail(e.getMessage());
 		}

@@ -13,6 +13,8 @@ package org.eclipse.mylyn.docs.intent.client.ui.cdo.handlers;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryInitializer;
 
 /**
@@ -36,7 +38,7 @@ public class InitializeContent extends AbstractHandler {
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IntentRepositoryInitializer.initializeContent("cdo:/intent-server", "Document {}");
-		System.out.println("Content correctly initialized.");
+		IntentLogger.getInstance().log(LogType.INFO, "Content correctly initialized.");
 		return null;
 	}
 }

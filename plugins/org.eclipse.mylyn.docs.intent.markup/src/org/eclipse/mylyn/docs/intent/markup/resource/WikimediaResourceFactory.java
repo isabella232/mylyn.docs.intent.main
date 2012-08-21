@@ -21,10 +21,14 @@ import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
  * A ResourceFactory able to retrieve resources from a wikimedia server.
  * 
  * @author <a href="mailto:cedric.brun@obeo.fr">Cedric Brun</a>
- * 
  */
 public class WikimediaResourceFactory extends ResourceFactoryImpl {
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl#createResource(org.eclipse.emf.common.util.URI)
+	 */
 	@Override
 	public Resource createResource(URI uri) {
 		return new WikimediaResource(uri);

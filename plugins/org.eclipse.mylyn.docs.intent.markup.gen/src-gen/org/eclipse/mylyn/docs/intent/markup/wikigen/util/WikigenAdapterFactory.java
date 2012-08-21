@@ -12,12 +12,13 @@ package org.eclipse.mylyn.docs.intent.markup.wikigen.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.mylyn.docs.intent.markup.wikigen.*;
+import org.eclipse.mylyn.docs.intent.markup.wikigen.Article;
+import org.eclipse.mylyn.docs.intent.markup.wikigen.GenHtmlDocument;
+import org.eclipse.mylyn.docs.intent.markup.wikigen.GenLatexDocument;
+import org.eclipse.mylyn.docs.intent.markup.wikigen.HtmlProfile;
+import org.eclipse.mylyn.docs.intent.markup.wikigen.WikigenPackage;
 
 /**
  * <!-- begin-user-doc -->

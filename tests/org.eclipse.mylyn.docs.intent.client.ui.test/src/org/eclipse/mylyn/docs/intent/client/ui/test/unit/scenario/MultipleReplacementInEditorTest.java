@@ -24,7 +24,7 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToString
  * <p>
  * Relevant issues : Errors when pasting a big document into a small one
  * </p>
- * <li>https://bugs.eclipse.org/bugs/show_bug.cgi?id=379390 : </p>
+ * https://bugs.eclipse.org/bugs/show_bug.cgi?id=379390
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */

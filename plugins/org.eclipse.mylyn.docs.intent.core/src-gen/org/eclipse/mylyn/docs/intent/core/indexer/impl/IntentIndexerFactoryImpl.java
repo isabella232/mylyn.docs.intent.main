@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.mylyn.docs.intent.core.indexer.*;
 import org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;

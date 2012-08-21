@@ -4,16 +4,11 @@ package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
-
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
-
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**

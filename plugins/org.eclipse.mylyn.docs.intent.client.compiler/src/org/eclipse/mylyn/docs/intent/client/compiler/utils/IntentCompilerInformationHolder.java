@@ -120,7 +120,7 @@ public final class IntentCompilerInformationHolder {
 		}
 	}
 
-	private void referenceContributionInstruction(String name, ContributionInstruction contributionInstruction) {
+	private void referenceContributionInstruction(ContributionInstruction contributionInstruction) {
 		if (contributionInstruction.getReferencedElement() != null
 				&& contributionInstruction.getReferencedElement().getReferencedElement() != null) {
 
@@ -151,6 +151,13 @@ public final class IntentCompilerInformationHolder {
 				.next();
 	}
 
+	/**
+	 * Returns the instruction related to the given element.
+	 * 
+	 * @param createdElement
+	 *            the created element
+	 * @return the related instructions
+	 */
 	public Collection<UnitInstruction> getAllInstructionsByCreatedElement(EObject createdElement) {
 		return this.informationHolder.getCreatedElementsToInstructions().get(createdElement);
 	}
@@ -353,6 +360,13 @@ public final class IntentCompilerInformationHolder {
 		return isUnresolved;
 	}
 
+	/**
+	 * Returns the unresolved contributions associated to the contributed element matching the given name.
+	 * 
+	 * @param contributedElementName
+	 *            the element name
+	 * @return the unresolved contributions
+	 */
 	public EList<UnresolvedContributionHolder> getContributionsAssociatedTo(String contributedElementName) {
 		if (this.informationHolder.getUnresolvedContributions().get(contributedElementName) != null) {
 			return new BasicEList<UnresolvedContributionHolder>(this.informationHolder
@@ -529,6 +543,13 @@ public final class IntentCompilerInformationHolder {
 		}
 	}
 
+	/**
+	 * Checks whether a contribution is registered or not.
+	 * 
+	 * @param contributionInstruction
+	 *            the contribution
+	 * @return true if the contribution is already registered as unresolved
+	 */
 	public boolean isRegisteredUnresolvedContribution(ContributionInstruction contributionInstruction) {
 		boolean isRegistered = false;
 		for (UnresolvedContributionHolder holder : this.informationHolder.getUnresolvedContributions().get(
@@ -555,8 +576,7 @@ public final class IntentCompilerInformationHolder {
 				holder.setResolved(true);
 			}
 		}
-		referenceContributionInstruction(((InstanciationInstruction)contributionInstruction
-				.getReferencedElement().getReferencedElement()).getName(), contributionInstruction);
+		referenceContributionInstruction(contributionInstruction);
 	}
 
 }

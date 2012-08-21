@@ -8,6 +8,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.markup.gen.files;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.Authenticator;
@@ -26,36 +29,28 @@ import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 import org.eclipse.mylyn.docs.intent.markup.resource.WikimediaResourceFactory;
 import org.eclipse.mylyn.docs.intent.markup.wikigen.WikigenPackage;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 /**
  * A java standalone program to generate document from a wikimedia URL
+ * 
  * @author <a href="mailto:cedric.brun@obeo.fr">Cedric Brun</a>
- *
  */
 public class WikiGen {
 
 	public static void main(String[] args) {
 		try {
 			if (args.length < 2) {
-				System.out
-						.println("Arguments not valid : {folder, uri1 uri2 ...}.");
+				System.out.println("Arguments not valid : {folder, uri1 uri2 ...}.");
 			} else if (args.length >= 2) {
-				
+
 				Authenticator.setDefault(new Authenticator() {
-					 protected PasswordAuthentication getPasswordAuthentication()
-                     {
-                         return new PasswordAuthentication( "login",
-                                                            "password".toCharArray() );
-                     }
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication("login", "password".toCharArray());
+					}
 				});
-				
-				
+
 				ResourceSet set = new ResourceSetImpl();
-				set.getResourceFactoryRegistry()
-						.getExtensionToFactoryMap()
-						.put(set.getResourceFactoryRegistry().DEFAULT_EXTENSION,
-								new WikimediaResourceFactory());
+				set.getResourceFactoryRegistry().getExtensionToFactoryMap()
+						.put(Resource.Factory.Registry.DEFAULT_EXTENSION, new WikimediaResourceFactory());
 
 				List<Document> docPassedByArg = getDocsToGenerate(args, set);
 				Document docToGenerate = null;
@@ -63,11 +58,9 @@ public class WikiGen {
 					/*
 					 * we need to aggregate the documents
 					 */
-					DocumentAggregator merger = new DocumentAggregator(
-							docPassedByArg);
+					DocumentAggregator merger = new DocumentAggregator(docPassedByArg);
 					docToGenerate = merger.merge();
-					Resource newRes = set.createResource(URI
-							.createURI("http://wiki.eclipse.org/index"));
+					Resource newRes = set.createResource(URI.createURI("http://wiki.eclipse.org/index"));
 					newRes.getContents().add(docToGenerate);
 				} else {
 					docToGenerate = docPassedByArg.get(0);
@@ -82,23 +75,20 @@ public class WikiGen {
 					@Override
 					public void registerResourceFactories(ResourceSet set) {
 						super.registerResourceFactories(set);
-						Resource.Factory.Registry.INSTANCE
-								.getExtensionToFactoryMap()
-								.put(set.getResourceFactoryRegistry().DEFAULT_EXTENSION,
-										new WikimediaResourceFactory());
+						Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
+								Resource.Factory.Registry.DEFAULT_EXTENSION, new WikimediaResourceFactory());
 						set.getResourceFactoryRegistry()
 								.getExtensionToFactoryMap()
-								.put(set.getResourceFactoryRegistry().DEFAULT_EXTENSION,
+								.put(Resource.Factory.Registry.DEFAULT_EXTENSION,
 										new WikimediaResourceFactory());
 					}
 
 					@Override
 					public void registerPackages(ResourceSet resourceSet) {
 						super.registerPackages(resourceSet);
-						resourceSet.getPackageRegistry().put(
-								MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
-						resourceSet.getPackageRegistry().put(
-								WikigenPackage.eNS_URI, WikigenPackage.eINSTANCE);
+						resourceSet.getPackageRegistry().put(MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
+						resourceSet.getPackageRegistry()
+								.put(WikigenPackage.eNS_URI, WikigenPackage.eINSTANCE);
 					}
 				};
 				generator.doGenerate(new BasicMonitor.Printing(System.out));
@@ -108,15 +98,13 @@ public class WikiGen {
 		}
 	}
 
-	private static List<Document> getDocsToGenerate(String[] args,
-			ResourceSet set) {
+	private static List<Document> getDocsToGenerate(String[] args, ResourceSet set) {
 		List<Document> result = Lists.newArrayList();
 		for (int i = 1; i < args.length; i++) {
 			URI uri = URI.createURI(args[i]);
 			System.out.println("Getting:" + uri);
 			Resource res = set.getResource(uri, true);
-			result.addAll(Lists.newArrayList(Iterables.filter(
-					res.getContents(), Document.class)));
+			result.addAll(Lists.newArrayList(Iterables.filter(res.getContents(), Document.class)));
 
 		}
 		return result;

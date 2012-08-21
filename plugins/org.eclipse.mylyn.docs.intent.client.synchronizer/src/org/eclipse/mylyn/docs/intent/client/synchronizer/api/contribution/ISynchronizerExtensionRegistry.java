@@ -49,7 +49,6 @@ public final class ISynchronizerExtensionRegistry {
 	 *            The extension that is to be added to the registry
 	 */
 	public static void addExtension(ISynchronizerExtensionDescriptor extension) {
-
 		ISynchronizerExtension synchronizerExtension = extension.getSynchronizerExtension();
 		if (EXTENSIONS.get(synchronizerExtension) == null) {
 			EXTENSIONS.put(synchronizerExtension, new HashSet<ISynchronizerExtensionDescriptor>());

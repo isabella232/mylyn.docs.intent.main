@@ -66,6 +66,14 @@ public class IntentBuilder extends IncrementalProjectBuilder {
 		return null;
 	}
 
+	/**
+	 * Performs a full build of the project.
+	 * 
+	 * @param monitor
+	 *            the progress monitor
+	 * @throws CoreException
+	 *             if this build fails.
+	 */
 	protected void fullBuild(final IProgressMonitor monitor) throws CoreException {
 		try {
 			getProject().accept(new IntentResourceVisitor());
@@ -76,6 +84,16 @@ public class IntentBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
+	/**
+	 * Performs an incremental build of the project according to the resource delta.
+	 * 
+	 * @param delta
+	 *            the resource delta
+	 * @param monitor
+	 *            the progress monitor
+	 * @throws CoreException
+	 *             if this build fails.
+	 */
 	protected void incrementalBuild(IResourceDelta delta, IProgressMonitor monitor) throws CoreException {
 		// the visitor does the work.
 		delta.accept(new IntentBuilderDeltaVisitor());

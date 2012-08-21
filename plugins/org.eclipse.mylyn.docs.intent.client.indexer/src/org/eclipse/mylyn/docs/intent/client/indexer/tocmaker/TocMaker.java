@@ -45,8 +45,8 @@ public class TocMaker {
 	public void computeIndex(IntentIndex index, IntentDocument document) {
 		// Purge Index
 		List<EObject> toRemove = new ArrayList<EObject>();
-		for (Iterator iterator = index.eAllContents(); iterator.hasNext();) {
-			EObject eo = (EObject)iterator.next();
+		for (Iterator<EObject> iterator = index.eAllContents(); iterator.hasNext();) {
+			EObject eo = iterator.next();
 			if (eo instanceof IntentIndexEntry) {
 				IntentIndexEntry iie = (IntentIndexEntry)eo;
 				if (iie.getReferencedElement() == null || iie.getReferencedElement().eResource() == null) {
@@ -151,8 +151,6 @@ public class TocMaker {
 	 *            the {@link IntentIndexEntry} of the element containing the given section
 	 * @param candidateSectionEntry
 	 *            the candidate {@link IntentIndexEntry} to use for building this entry (can be null)
-	 * @param chapterIndex
-	 *            index of the chapter containing this section
 	 * @param section
 	 *            the section to consider
 	 * @return the entry corresponding to the given chapter's toc

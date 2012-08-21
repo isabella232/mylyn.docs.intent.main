@@ -11,9 +11,7 @@
 package org.eclipse.mylyn.docs.intent.markup.wikigen.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.mylyn.docs.intent.markup.wikigen.HtmlProfile;
 import org.eclipse.mylyn.docs.intent.markup.wikigen.WikigenPackage;
 

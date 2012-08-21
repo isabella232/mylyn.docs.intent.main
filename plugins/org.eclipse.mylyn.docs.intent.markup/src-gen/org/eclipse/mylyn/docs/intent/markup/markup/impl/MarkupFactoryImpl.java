@@ -16,7 +16,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.mylyn.docs.intent.markup.markup.*;
 import org.eclipse.mylyn.docs.intent.markup.markup.Annotations;
 import org.eclipse.mylyn.docs.intent.markup.markup.Block;
 import org.eclipse.mylyn.docs.intent.markup.markup.Code;
@@ -48,35 +47,32 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Tip;
 import org.eclipse.mylyn.docs.intent.markup.markup.Warning;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates the default factory implementation. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static MarkupFactory init() {
 		try {
-			MarkupFactory theMarkupFactory = (MarkupFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/intent/markup/0.7"); 
+			MarkupFactory theMarkupFactory = (MarkupFactory)EPackage.Registry.INSTANCE
+					.getEFactory("http://www.eclipse.org/intent/markup/0.7");
 			if (theMarkupFactory != null) {
 				return theMarkupFactory;
 			}
-		}
-		catch (Exception exception) {
+		} catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
 		return new MarkupFactoryImpl();
 	}
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public MarkupFactoryImpl() {
@@ -84,46 +80,72 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case MarkupPackage.DOCUMENT: return (EObject)createDocument();
-			case MarkupPackage.SIMPLE_CONTAINER: return (EObject)createSimpleContainer();
-			case MarkupPackage.SECTION: return (EObject)createSection();
-			case MarkupPackage.IMAGE: return (EObject)createImage();
-			case MarkupPackage.ENTITY: return (EObject)createEntity();
-			case MarkupPackage.TEXT: return (EObject)createText();
-			case MarkupPackage.LINK: return (EObject)createLink();
-			case MarkupPackage.BLOCK: return (EObject)createBlock();
-			case MarkupPackage.ANNOTATIONS: return (EObject)createAnnotations();
-			case MarkupPackage.PARAGRAPH: return (EObject)createParagraph();
-			case MarkupPackage.TIP: return (EObject)createTip();
-			case MarkupPackage.WARNING: return (EObject)createWarning();
-			case MarkupPackage.INFORMATION: return (EObject)createInformation();
-			case MarkupPackage.NOTE: return (EObject)createNote();
-			case MarkupPackage.PANEL: return (EObject)createPanel();
-			case MarkupPackage.DIV: return (EObject)createDiv();
-			case MarkupPackage.FOOT_NOTE: return (EObject)createFootNote();
-			case MarkupPackage.QUOTE: return (EObject)createQuote();
-			case MarkupPackage.PREFORMATTED: return (EObject)createPreformatted();
-			case MarkupPackage.CODE: return (EObject)createCode();
-			case MarkupPackage.LIST: return (EObject)createList();
-			case MarkupPackage.LIST_ITEM: return (EObject)createListItem();
-			case MarkupPackage.TABLE: return (EObject)createTable();
-			case MarkupPackage.TABLE_ROW: return (EObject)createTableRow();
-			case MarkupPackage.TABLE_CELL: return (EObject)createTableCell();
+			case MarkupPackage.DOCUMENT:
+				return (EObject)createDocument();
+			case MarkupPackage.SIMPLE_CONTAINER:
+				return (EObject)createSimpleContainer();
+			case MarkupPackage.SECTION:
+				return (EObject)createSection();
+			case MarkupPackage.IMAGE:
+				return (EObject)createImage();
+			case MarkupPackage.ENTITY:
+				return (EObject)createEntity();
+			case MarkupPackage.TEXT:
+				return (EObject)createText();
+			case MarkupPackage.LINK:
+				return (EObject)createLink();
+			case MarkupPackage.BLOCK:
+				return (EObject)createBlock();
+			case MarkupPackage.ANNOTATIONS:
+				return (EObject)createAnnotations();
+			case MarkupPackage.PARAGRAPH:
+				return (EObject)createParagraph();
+			case MarkupPackage.TIP:
+				return (EObject)createTip();
+			case MarkupPackage.WARNING:
+				return (EObject)createWarning();
+			case MarkupPackage.INFORMATION:
+				return (EObject)createInformation();
+			case MarkupPackage.NOTE:
+				return (EObject)createNote();
+			case MarkupPackage.PANEL:
+				return (EObject)createPanel();
+			case MarkupPackage.DIV:
+				return (EObject)createDiv();
+			case MarkupPackage.FOOT_NOTE:
+				return (EObject)createFootNote();
+			case MarkupPackage.QUOTE:
+				return (EObject)createQuote();
+			case MarkupPackage.PREFORMATTED:
+				return (EObject)createPreformatted();
+			case MarkupPackage.CODE:
+				return (EObject)createCode();
+			case MarkupPackage.LIST:
+				return (EObject)createList();
+			case MarkupPackage.LIST_ITEM:
+				return (EObject)createListItem();
+			case MarkupPackage.TABLE:
+				return (EObject)createTable();
+			case MarkupPackage.TABLE_ROW:
+				return (EObject)createTableRow();
+			case MarkupPackage.TABLE_CELL:
+				return (EObject)createTableCell();
 			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The class '" + eClass.getName()
+						+ "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -134,13 +156,14 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 			case MarkupPackage.LIST_TYPE:
 				return createListTypeFromString(eDataType, initialValue);
 			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName()
+						+ "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -151,13 +174,14 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 			case MarkupPackage.LIST_TYPE:
 				return convertListTypeToString(eDataType, instanceValue);
 			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName()
+						+ "' is not a valid classifier");
 		}
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Document createDocument() {
@@ -166,8 +190,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public SimpleContainer createSimpleContainer() {
@@ -176,8 +200,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Section createSection() {
@@ -186,8 +210,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Image createImage() {
@@ -196,8 +220,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Entity createEntity() {
@@ -206,8 +230,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Text createText() {
@@ -216,8 +240,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Link createLink() {
@@ -226,8 +250,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Block createBlock() {
@@ -236,8 +260,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Annotations createAnnotations() {
@@ -246,8 +270,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Paragraph createParagraph() {
@@ -256,8 +280,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Tip createTip() {
@@ -266,8 +290,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Warning createWarning() {
@@ -276,8 +300,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Information createInformation() {
@@ -286,8 +310,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Note createNote() {
@@ -296,8 +320,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Panel createPanel() {
@@ -306,8 +330,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Div createDiv() {
@@ -316,8 +340,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public FootNote createFootNote() {
@@ -326,8 +350,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Quote createQuote() {
@@ -336,8 +360,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Preformatted createPreformatted() {
@@ -346,8 +370,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Code createCode() {
@@ -356,8 +380,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public List createList() {
@@ -366,8 +390,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ListItem createListItem() {
@@ -376,8 +400,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Table createTable() {
@@ -386,8 +410,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TableRow createTableRow() {
@@ -396,8 +420,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public TableCell createTableCell() {
@@ -406,19 +430,21 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Formatting createFormattingFromString(EDataType eDataType, String initialValue) {
 		Formatting result = Formatting.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		if (result == null)
+			throw new IllegalArgumentException("The value '" + initialValue
+					+ "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String convertFormattingToString(EDataType eDataType, Object instanceValue) {
@@ -426,19 +452,21 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ListType createListTypeFromString(EDataType eDataType, String initialValue) {
 		ListType result = ListType.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		if (result == null)
+			throw new IllegalArgumentException("The value '" + initialValue
+					+ "' is not a valid enumerator of '" + eDataType.getName() + "'");
 		return result;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public String convertListTypeToString(EDataType eDataType, Object instanceValue) {
@@ -446,8 +474,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public MarkupPackage getMarkupPackage() {
@@ -455,8 +483,8 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @deprecated
 	 * @generated
 	 */
@@ -465,4 +493,4 @@ public class MarkupFactoryImpl extends EFactoryImpl implements MarkupFactory {
 		return MarkupPackage.eINSTANCE;
 	}
 
-} //MarkupFactoryImpl
+} // MarkupFactoryImpl

@@ -3,12 +3,9 @@
 package org.eclipse.mylyn.docs.intent.core.compiler;
 
 import org.eclipse.emf.cdo.CDOObject;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
-
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**

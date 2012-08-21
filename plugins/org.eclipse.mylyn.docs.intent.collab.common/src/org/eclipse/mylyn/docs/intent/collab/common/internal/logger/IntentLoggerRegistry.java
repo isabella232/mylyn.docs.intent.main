@@ -19,32 +19,36 @@ import java.util.Map.Entry;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger;
 
 /**
+ * Stores the Intent loggers.
+ * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class IntentLoggerRegistry {
+public final class IntentLoggerRegistry {
 
 	/**
 	 * All the registered loggers.
 	 */
-	private static final Map<IntentLoggerDescriptor, IIntentLogger> declaredLoggers = Maps.newLinkedHashMap();
+	private static final Map<IntentLoggerDescriptor, IIntentLogger> DECLARED_LOGGERS = Maps
+			.newLinkedHashMap();
 
 	/**
 	 * Utility classes don't need a default constructor.
 	 */
 	private IntentLoggerRegistry() {
-
 	}
 
 	/**
 	 * Returns all declared loggers (instanciate the logger if needed).
+	 * 
+	 * @return the declared loggers
 	 */
 	public static Collection<IIntentLogger> getDeclaredLoggers() {
-		for (Entry<IntentLoggerDescriptor, IIntentLogger> descriptorToLogger : declaredLoggers.entrySet()) {
+		for (Entry<IntentLoggerDescriptor, IIntentLogger> descriptorToLogger : DECLARED_LOGGERS.entrySet()) {
 			if (descriptorToLogger.getValue() == null) {
 				descriptorToLogger.setValue(descriptorToLogger.getKey().createLogger());
 			}
 		}
-		return declaredLoggers.values();
+		return DECLARED_LOGGERS.values();
 	}
 
 	/**
@@ -54,7 +58,7 @@ public class IntentLoggerRegistry {
 	 *            the logger descriptor to registor
 	 */
 	public static void addLogger(IntentLoggerDescriptor intentLoggerDescriptor) {
-		declaredLoggers.put(intentLoggerDescriptor, null);
+		DECLARED_LOGGERS.put(intentLoggerDescriptor, null);
 	}
 
 	/**
@@ -65,9 +69,9 @@ public class IntentLoggerRegistry {
 	 *            the registry.
 	 */
 	public static void removeExtension(String extensionClassName) {
-		for (IntentLoggerDescriptor extension : declaredLoggers.keySet()) {
+		for (IntentLoggerDescriptor extension : DECLARED_LOGGERS.keySet()) {
 			if (extension.getExtensionClassName().equals(extensionClassName)) {
-				declaredLoggers.remove(extension);
+				DECLARED_LOGGERS.remove(extension);
 			}
 		}
 	}
@@ -76,7 +80,7 @@ public class IntentLoggerRegistry {
 	 * Clears all registered loggers.
 	 */
 	public static void clearContributedLoggers() {
-		declaredLoggers.clear();
+		DECLARED_LOGGERS.clear();
 
 	}
 }

@@ -239,7 +239,6 @@ public class EMFCompareFix extends AbstractIntentFix {
 
 		}
 
-		//
 		/**
 		 * {@inheritDoc}
 		 * 

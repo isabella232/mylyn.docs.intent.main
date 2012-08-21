@@ -56,11 +56,6 @@ public final class IntentEditorOpener {
 	 *            The repository to use for this editor
 	 * @param readOnlyMode
 	 *            indicates if the editor should be opened in readOnly mode.
-	 * @param elementToSelectRangeWith
-	 *            the element on which the created editor should select its range (can be null).
-	 * @param forceNewEditor
-	 *            if true, will open in a new editor anyway. If false, will open in a new editor or select
-	 *            inside of an already opened editor
 	 */
 	public static void openIntentEditor(final Repository repository, boolean readOnlyMode) {
 		try {

@@ -12,15 +12,11 @@ package org.eclipse.mylyn.docs.intent.parser.test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
-import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
@@ -106,10 +102,10 @@ public class IntentParserTest {
 
 			String section = FileToStringConverter.getFileAsString(file);
 			EObject generated = parser.parse(section);
-			ArrayList arrayList = new ArrayList(
-					((Paragraph)((DescriptionBloc)((IntentDocument)generated).getChapters().iterator().next()
-							.getDescriptionUnits().iterator().next().getInstructions().iterator().next())
-							.getDescriptionBloc().getContent().iterator().next()).getContent());
+			// ArrayList<?> arrayList = new ArrayList<Object>(
+			// ((Paragraph)((DescriptionBloc)((IntentDocument)generated).getChapters().iterator().next()
+			// .getDescriptionUnits().iterator().next().getInstructions().iterator().next())
+			// .getDescriptionBloc().getContent().iterator().next()).getContent());
 
 			Assert.assertEquals(section, serializer.serialize(generated));
 		} catch (IOException e) {

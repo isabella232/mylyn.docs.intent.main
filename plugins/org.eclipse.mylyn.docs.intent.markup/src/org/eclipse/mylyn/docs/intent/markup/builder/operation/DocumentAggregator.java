@@ -12,6 +12,7 @@
 package org.eclipse.mylyn.docs.intent.markup.builder.operation;
 
 import com.google.common.collect.Iterators;
+
 import java.util.Iterator;
 import java.util.List;
 

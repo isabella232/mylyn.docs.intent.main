@@ -58,6 +58,12 @@ public class ISynchronizerExtensionRegistryListener implements IRegistryChangeLi
 		}
 	}
 
+	/**
+	 * Parse the given extension points.
+	 * 
+	 * @param extensionPoints
+	 *            the extension points to parse
+	 */
 	public void added(IExtensionPoint[] extensionPoints) {
 		for (IExtensionPoint extensionPoint : extensionPoints) {
 			for (IExtension extension : extensionPoint.getExtensions()) {
@@ -103,6 +109,12 @@ public class ISynchronizerExtensionRegistryListener implements IRegistryChangeLi
 		}
 	}
 
+	/**
+	 * Unregisters the given extensions.
+	 * 
+	 * @param extensions
+	 *            the extension points to parse
+	 */
 	public void removed(IExtension[] extensions) {
 		for (IExtension extension : extensions) {
 			final IConfigurationElement[] configElements = extension.getConfigurationElements();

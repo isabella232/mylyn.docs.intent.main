@@ -14,6 +14,7 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.mylyn.docs.intent.client.ui.cdo.launcher.IntentCDOManager;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 
@@ -40,11 +41,9 @@ public class LaunchAllClients extends AbstractHandler {
 		try {
 			IntentCDOManager.getCDOManager("cdo:/intent-server").initializeClients();
 		} catch (RepositoryConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			IntentLogger.getInstance().logError(e);
 		} catch (ReadOnlyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			IntentLogger.getInstance().logError(e);
 		}
 		return null;
 	}

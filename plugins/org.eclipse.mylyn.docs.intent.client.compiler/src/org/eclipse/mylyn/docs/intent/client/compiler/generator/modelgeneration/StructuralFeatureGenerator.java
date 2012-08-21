@@ -67,16 +67,16 @@ public final class StructuralFeatureGenerator {
 	 */
 	public static void generateFeatureAndAddToClass(StructuralFeatureAffectation affectation, EObject eClass,
 			ModelingUnitLinkResolver linkResolver, ModelingUnitGenerator modelingUnitGenerator) {
-
 		ModelingUnitGenerator.clearCompilationStatus(affectation);
-		// Step 1 : resolve the feature reference
 
+		// Step 1 : resolve the feature reference
 		try {
 			EStructuralFeature feature = linkResolver.resolveEStructuralFeature(affectation, eClass.eClass());
 			if (feature == null || feature.getEType() == null) {
 				modelingUnitGenerator.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
 						new CompilationException(affectation, CompilationErrorType.INVALID_REFERENCE_ERROR,
 								"The feature " + feature.getName() + " is derived and cannot be set."));
+				// TODO externalize message
 				feature.setEType(EcorePackage.eINSTANCE.getEString());
 			}
 			TypeReference resolvedMetaType = ModelingUnitFactory.eINSTANCE.createTypeReference();
@@ -85,8 +85,7 @@ public final class StructuralFeatureGenerator {
 			if (!feature.isDerived()) {
 
 				// Step 2 : we get the values to generate and assign to this structural feature thanks to
-				// the
-				// modelingUnit generator.
+				// the modelingUnit generator.
 				List<Object> generatedValues = new ArrayList<Object>();
 				for (ValueForStructuralFeature value : affectation.getValues()) {
 					for (Object generatedValue : modelingUnitGenerator.doSwitch(value)) {

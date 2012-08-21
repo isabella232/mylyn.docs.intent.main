@@ -53,6 +53,9 @@ public final class IntentCDOManager {
 
 	/**
 	 * CDOApplicationLauncher constructor.
+	 * 
+	 * @param repositoryLocation
+	 *            the repository location
 	 */
 	private IntentCDOManager(String repositoryLocation) {
 		this.repositoryLocation = repositoryLocation;
@@ -88,7 +91,9 @@ public final class IntentCDOManager {
 	 * Launch all the clients needed by the ui application (Compiler, Synchronizer...).
 	 * 
 	 * @throws ReadOnlyException
+	 *             if the repository is read only
 	 * @throws RepositoryConnectionException
+	 *             if the repository cannot be reached
 	 */
 	public void initializeClients() throws RepositoryConnectionException, ReadOnlyException {
 		connect();
@@ -107,33 +112,21 @@ public final class IntentCDOManager {
 					new GeneratedElementListener() {
 
 						public void setSynchronizer(SynchronizerRepositoryClient synchronizer) {
-							// TODO Auto-generated method stub
-
 						}
 
 						public void removeElementToListen(URI uri) {
-							// TODO Auto-generated method stub
-
 						}
 
 						public void notifySynchronizer(URI uriOfChangedElement) {
-							// TODO Auto-generated method stub
-
 						}
 
 						public void dispose() {
-							// TODO Auto-generated method stub
-
 						}
 
 						public void clearElementToListen() {
-							// TODO Auto-generated method stub
-
 						}
 
 						public void addElementToListen(URI uri) {
-							// TODO Auto-generated method stub
-
 						}
 					});
 		}
@@ -153,6 +146,13 @@ public final class IntentCDOManager {
 
 	}
 
+	/**
+	 * Returns the manager associated to the given repository location.
+	 * 
+	 * @param repositoryLocation
+	 *            the location
+	 * @return the Intent CDO manager
+	 */
 	public static IntentCDOManager getCDOManager(String repositoryLocation) {
 		IntentCDOManager projectManager = cdoManagers.get(repositoryLocation);
 		if (projectManager == null) {

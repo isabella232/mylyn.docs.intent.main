@@ -15,23 +15,20 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.*;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitPackage;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
+ * 
  * @generated
  */
 public class DescriptionUnitFactoryImpl extends EFactoryImpl implements DescriptionUnitFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates the default factory implementation. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static DescriptionUnitFactory init() {
@@ -48,9 +45,8 @@ public class DescriptionUnitFactoryImpl extends EFactoryImpl implements Descript
 	}
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public DescriptionUnitFactoryImpl() {
@@ -58,8 +54,8 @@ public class DescriptionUnitFactoryImpl extends EFactoryImpl implements Descript
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -76,8 +72,8 @@ public class DescriptionUnitFactoryImpl extends EFactoryImpl implements Descript
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public DescriptionUnit createDescriptionUnit() {
@@ -86,8 +82,8 @@ public class DescriptionUnitFactoryImpl extends EFactoryImpl implements Descript
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public DescriptionBloc createDescriptionBloc() {
@@ -96,8 +92,8 @@ public class DescriptionUnitFactoryImpl extends EFactoryImpl implements Descript
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public DescriptionUnitPackage getDescriptionUnitPackage() {
@@ -105,8 +101,8 @@ public class DescriptionUnitFactoryImpl extends EFactoryImpl implements Descript
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @deprecated
 	 * @generated
 	 */
@@ -115,4 +111,4 @@ public class DescriptionUnitFactoryImpl extends EFactoryImpl implements Descript
 		return DescriptionUnitPackage.eINSTANCE;
 	}
 
-} //DescriptionUnitFactoryImpl
+} // DescriptionUnitFactoryImpl

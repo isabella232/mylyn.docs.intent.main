@@ -15,6 +15,7 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 
@@ -42,11 +43,9 @@ public class ShowIndexHandler extends AbstractHandler {
 			IntentEditorOpener.openIntentEditor(
 					IntentRepositoryManager.INSTANCE.getRepository("cdo:/intent-server"), false);
 		} catch (RepositoryConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			IntentLogger.getInstance().logError(e);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			IntentLogger.getInstance().logError(e);
 		}
 		return null;
 	}

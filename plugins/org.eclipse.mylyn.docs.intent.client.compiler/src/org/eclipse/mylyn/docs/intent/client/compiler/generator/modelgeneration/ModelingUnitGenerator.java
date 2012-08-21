@@ -290,6 +290,8 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	/**
 	 * Sample method for stubbing package declaration.
 	 * 
+	 * @param mu
+	 *            unused parameter
 	 * @return the list of imported packages names
 	 */
 	@Deprecated

@@ -19,14 +19,16 @@ import java.util.Map.Entry;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution;
 
 /**
+ * Stores the repository manager contributions.
+ * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class IntentRepositoryManagerContributionRegistry {
+public final class IntentRepositoryManagerContributionRegistry {
 
 	/**
 	 * All the registered IntentRepositoryManagerContributions.
 	 */
-	private static final Map<IntentRepositoryManagerContributionDescriptor, IntentRepositoryManagerContribution> declaredRepositoryManagerContributions = Maps
+	private static final Map<IntentRepositoryManagerContributionDescriptor, IntentRepositoryManagerContribution> DECLARED_CONTRIBUTIONS = Maps
 			.newLinkedHashMap();
 
 	/**
@@ -38,27 +40,29 @@ public class IntentRepositoryManagerContributionRegistry {
 
 	/**
 	 * Returns all declared Repository Manager Contributions (instanciates it if needed).
+	 * 
+	 * @return all the declared contributions
 	 */
 	public static Collection<IntentRepositoryManagerContribution> getRepositoryManagerContributions() {
-		for (Entry<IntentRepositoryManagerContributionDescriptor, IntentRepositoryManagerContribution> descriptorToContribution : declaredRepositoryManagerContributions
+		for (Entry<IntentRepositoryManagerContributionDescriptor, IntentRepositoryManagerContribution> descriptorToContribution : DECLARED_CONTRIBUTIONS
 				.entrySet()) {
 			if (descriptorToContribution.getValue() == null) {
 				descriptorToContribution.setValue(descriptorToContribution.getKey()
 						.createRepositoryManagerContribution());
 			}
 		}
-		return declaredRepositoryManagerContributions.values();
+		return DECLARED_CONTRIBUTIONS.values();
 	}
 
 	/**
 	 * Registers the given repository manager contribution descriptor.
 	 * 
-	 * @param IntentRepositoryManagerContributionDescriptor
-	 *            the repository manager contribution descriptor to registor
+	 * @param descriptor
+	 *            the repository manager contribution descriptor to register
 	 */
 	public static void addRepositoryManagerContribution(
-			IntentRepositoryManagerContributionDescriptor IntentRepositoryManagerContributionDescriptor) {
-		declaredRepositoryManagerContributions.put(IntentRepositoryManagerContributionDescriptor, null);
+			IntentRepositoryManagerContributionDescriptor descriptor) {
+		DECLARED_CONTRIBUTIONS.put(descriptor, null);
 	}
 
 	/**
@@ -69,10 +73,9 @@ public class IntentRepositoryManagerContributionRegistry {
 	 *            the registry.
 	 */
 	public static void removeExtension(String extensionClassName) {
-		for (IntentRepositoryManagerContributionDescriptor extension : declaredRepositoryManagerContributions
-				.keySet()) {
+		for (IntentRepositoryManagerContributionDescriptor extension : DECLARED_CONTRIBUTIONS.keySet()) {
 			if (extension.getExtensionClassName().equals(extensionClassName)) {
-				declaredRepositoryManagerContributions.remove(extension);
+				DECLARED_CONTRIBUTIONS.remove(extension);
 			}
 		}
 	}
@@ -81,7 +84,7 @@ public class IntentRepositoryManagerContributionRegistry {
 	 * Clears all registered IntentRepositoryManagerContributions.
 	 */
 	public static void clearContributedRepositoryManagerContributions() {
-		declaredRepositoryManagerContributions.clear();
+		DECLARED_CONTRIBUTIONS.clear();
 
 	}
 }

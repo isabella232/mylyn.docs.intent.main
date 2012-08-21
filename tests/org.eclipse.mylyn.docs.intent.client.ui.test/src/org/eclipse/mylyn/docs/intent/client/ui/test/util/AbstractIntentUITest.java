@@ -62,10 +62,11 @@ import org.eclipse.ui.PlatformUI;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public abstract class AbstractIntentUITest extends TestCase implements ILogListener {
-
 	public static final String INTENT_NEW_PROJECT_WIZARD_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.wizards.NewIntentProjectWizard";
 
 	protected static final String INTENT_EMPTY_DOC_PATH = "data/unit/documents/empty.intent";
+
+	private static final int WAITING_DELAY_MILLIS = 500;
 
 	protected IProject intentProject;
 
@@ -413,22 +414,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	}
 
 	/**
-	 * Reopens the given Intent project.
-	 */
-	protected void reopenIntentProject(IProject intentProject) {
-		try {
-			intentProject.close(new NullProgressMonitor());
-			intentDocument = null;
-			intentProject.open(new NullProgressMonitor());
-			waitForAllOperationsInUIThread();
-		} catch (Exception e) {
-			AssertionFailedError fail = new AssertionFailedError(e.getMessage());
-			fail.setStackTrace(e.getStackTrace());
-			throw fail;
-		}
-	}
-
-	/**
 	 * Wait for synchronizer to complete work.
 	 */
 	protected void waitForSynchronizer() {
@@ -459,7 +444,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	/**
 	 * Ensures that the synchronizer has been launched or not, according to the given boolean.
 	 * 
-	 * @param compilerShouldBeNotified
+	 * @param synchronizerShouldBeNotified
 	 *            indicates whether the synchronizer should be notified or not
 	 */
 	protected void waitForSynchronizer(boolean synchronizerShouldBeNotified) {
@@ -475,9 +460,9 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 					repositoryListener.waitForModificationOn("Synchronizer"));
 		}
 		try {
-			Thread.sleep(500);
+			Thread.sleep(WAITING_DELAY_MILLIS);
 		} catch (InterruptedException e) {
-
+			// fail silently
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -485,7 +470,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	/**
 	 * Ensures that the indexer has been launched or not, according to the given boolean.
 	 * 
-	 * @param compilerShouldBeNotified
+	 * @param indexerShouldBeNotified
 	 *            indicates whether the indexer should be notified or not
 	 */
 	protected void waitForIndexer(boolean indexerShouldBeNotified) {
@@ -543,9 +528,9 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 					repositoryListener.waitForModificationOn("Compiler"));
 		}
 		try {
-			Thread.sleep(500);
+			Thread.sleep(WAITING_DELAY_MILLIS);
 		} catch (InterruptedException e) {
-
+			// fail silently
 		}
 		waitForAllOperationsInUIThread();
 	}

@@ -31,10 +31,6 @@ import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
  */
 public abstract class AbstractZipBasedTest extends AbstractIntentUITest {
 
-	private String location;
-
-	private String projectName;
-
 	private static final String BUNDLE_NAME = "org.eclipse.mylyn.docs.intent.client.ui.test";
 
 	private static final int TIME_TO_WAIT = 300;
@@ -42,6 +38,10 @@ public abstract class AbstractZipBasedTest extends AbstractIntentUITest {
 	private static final int RECENT_COMPILATION_DELAY = 60000;
 
 	private static final long TIME_OUT_DELAY = 10000;
+
+	private String location;
+
+	private String projectName;
 
 	/**
 	 * Constructor.

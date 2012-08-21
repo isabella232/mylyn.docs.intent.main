@@ -180,17 +180,27 @@ public class IntentSynchronizer {
 				for (InstructionTraceabilityEntry instructionTraceabilityEntry : instructionEntries) {
 					IntentGenericElement instruction = instructionTraceabilityEntry.getInstruction();
 					if (instruction != null) {
-						EList<CompilationStatus> compilationStatus = instruction.getCompilationStatus();
-						if (compilationStatus != null) {
-							Iterator<CompilationStatus> iterator = compilationStatus.iterator();
-							while (iterator.hasNext()) {
-								CompilationStatus status = iterator.next();
-								if (isSyncStatus(status)) {
-									iterator.remove();
-								}
-							}
-						}
+						clearSyncStatusesFromInstruction(instruction);
 					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Clears the synchronization statues associated to the given instruction.
+	 * 
+	 * @param instruction
+	 *            the instruction to clear
+	 */
+	private void clearSyncStatusesFromInstruction(IntentGenericElement instruction) {
+		EList<CompilationStatus> compilationStatus = instruction.getCompilationStatus();
+		if (compilationStatus != null) {
+			Iterator<CompilationStatus> iterator = compilationStatus.iterator();
+			while (iterator.hasNext()) {
+				CompilationStatus status = iterator.next();
+				if (isSyncStatus(status)) {
+					iterator.remove();
 				}
 			}
 		}

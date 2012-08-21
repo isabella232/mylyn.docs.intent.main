@@ -263,8 +263,8 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	/**
 	 * Returns true if the resource will get a different serialization than the one on the disk.
 	 * 
-	 * @param options
-	 *            save options.
+	 * @param resourcetoSave
+	 *            the resource to serialize
 	 * @return true if the resource will get a different serialization than the one on the disk.
 	 * @throws IOException
 	 *             on error while saving.
@@ -396,17 +396,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	public void setUnloadableResourcePredicate(Predicate<Resource> unloadableResourcePredicate) {
 		this.unloadableResourcePredicate = unloadableResourcePredicate;
-	}
-
-	/**
-	 * Indicates whether the given Resource should not be unloaded when undoing any operation.
-	 * 
-	 * @param resource
-	 *            the resource to test
-	 * @return false if the Resource should be unloaded when undoing changes, true otherwise
-	 */
-	private boolean isUnloadableResource(Resource resource) {
-		return unloadableResourcePredicate.apply(resource);
 	}
 
 	/**

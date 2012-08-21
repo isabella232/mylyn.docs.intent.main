@@ -22,7 +22,6 @@ import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
@@ -85,9 +84,11 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 	}
 
 	/**
-	 * Returns all the {@link IntentReference}s contained in the queried {@link IntentDocument}.
+	 * Returns all the {@link org.eclipse.mylyn.docs.intent.core.document.IntentReference}s contained in the
+	 * queried {@link IntentDocument}.
 	 * 
-	 * @return all the {@link IntentReference}s contained in the queried {@link IntentDocument}
+	 * @return all the {@link org.eclipse.mylyn.docs.intent.core.document.IntentReference}s contained in the
+	 *         queried {@link IntentDocument}
 	 */
 	public Collection<IntentSectionReferenceInstruction> getAllIntentReferenceInstructions() {
 		Collection<IntentSectionReferenceInstruction> intentReferences = Sets.newLinkedHashSet();

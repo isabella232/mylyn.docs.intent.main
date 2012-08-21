@@ -3,7 +3,6 @@
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
