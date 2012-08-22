@@ -341,27 +341,30 @@ public class ModelingUnitLinkResolver {
 					+ generatedPackage.getNsURI()
 					+ "\" cannot be registered (maybe because of an invalid connection to the repository)");
 		}
-
-		// FIXME define clear compilation steps : the EPackage links are not resolved yet so it cannot be
-		// validated
-
-		// // We try to add the generated package to the packageRegistry
-		// GeneratedElementValidator validator = new GeneratedElementValidator(
-		// informationHolder.getInstanciationInstructionByCreatedElement(generatedPackage),
-		// generatedPackage);
-		//
-		// boolean hasErrors = false;
-		// try {
-		// Diagnostic diagnostic = validator.validate();
-		// informationHolder.registerDiagnosticAsCompilationStatusList(generatedPackage, diagnostic);
-		// } catch (CompilationException e) {
-		// hasErrors = true;
-		// informationHolder.registerCompilationExceptionAsCompilationStatus(e);
-		// }
-		// if (hasErrors) {
-		// invalidPackageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
-		// } else {
 		packageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
-		// }
+	}
+
+	/**
+	 * Register the given ePackage in the package registry.
+	 * 
+	 * @param instruction
+	 *            the instruction that makes this reference (used to construct error message)
+	 * @param generatedPackage
+	 *            the ePackage to register
+	 */
+	public void registerAsInvalidPackage(UnitInstruction instruction, EPackage generatedPackage) {
+		invalidPackageRegistry.put(generatedPackage.getNsURI(), generatedPackage);
+	}
+
+	/**
+	 * Erases old entries if necessary.
+	 * 
+	 * @param ePackage
+	 *            the ePackage to unregister
+	 */
+	public void unregisterEPackage(EPackage ePackage) {
+		packageRegistry.remove(ePackage.getNsURI());
+		invalidPackageRegistry.remove(ePackage.getNsURI());
+		informationHolder.getCurrentImportedPackages().remove(ePackage.getNsURI());
 	}
 }

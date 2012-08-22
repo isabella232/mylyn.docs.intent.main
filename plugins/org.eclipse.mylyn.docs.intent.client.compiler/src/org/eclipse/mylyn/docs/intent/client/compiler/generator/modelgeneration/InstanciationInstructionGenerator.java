@@ -22,7 +22,6 @@ import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationException
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.ResolveException;
 import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.ModelingUnitLinkResolver;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 
@@ -108,10 +107,11 @@ public final class InstanciationInstructionGenerator {
 		modelingUnitGenerator.getInformationHolder().addNameToCreatedElementEntry(
 				instanciationInstruction.getName(), createdElement, instanciationInstruction);
 
-		// We register the generated element to the package registry (if it's an EPackage)
-		registerGeneratedElementsInPackageRegistry(instanciationInstruction, linkResolver, createdElement);
+		if (createdElement instanceof EPackage) {
+			linkResolver.unregisterEPackage((EPackage)createdElement);
+		}
 
-		// Step 3.3 : if any unresolved contribution instructions were contributed to this element
+		// Step 3.2 : if any unresolved contribution instructions were contributed to this element
 		// We resolve these contributions
 		for (final UnresolvedContributionHolder contributionHolder : modelingUnitGenerator
 				.getInformationHolder().getContributionsAssociatedTo(instanciationInstruction.getName())) {
@@ -120,23 +120,6 @@ public final class InstanciationInstructionGenerator {
 		}
 
 		return createdElement;
-	}
-
-	/**
-	 * Register the generated element if it's necessary (typically if it's an ePackage).
-	 * 
-	 * @param linkResolver
-	 *            the entity used in order to resolve links
-	 * @param generatedElement
-	 *            the generated element to register (if necessary)
-	 * @param instruction
-	 *            the instruction that need to register the generated element
-	 */
-	private static void registerGeneratedElementsInPackageRegistry(UnitInstruction instruction,
-			ModelingUnitLinkResolver linkResolver, EObject generatedElement) {
-		if (generatedElement instanceof EPackage) {
-			linkResolver.registerInPackageRegistry(instruction, (EPackage)generatedElement);
-		}
 	}
 
 	/**

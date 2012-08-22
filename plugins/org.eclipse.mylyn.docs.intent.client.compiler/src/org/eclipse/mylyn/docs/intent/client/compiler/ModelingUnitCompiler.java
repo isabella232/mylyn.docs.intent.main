@@ -34,6 +34,7 @@ import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInforma
 import org.eclipse.mylyn.docs.intent.client.compiler.validator.GeneratedElementValidator;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
+import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
@@ -164,8 +165,7 @@ public class ModelingUnitCompiler {
 		modelingUnitGenerator.clearResourceDeclarations();
 
 		// Step 2.1 : Compilation of each org.eclipse.mylyn.docs.intent.core.modelingunit contained in the
-		// list
-		// (without resolving links)
+		// list (without resolving links)
 		for (ModelingUnit modelingUnitToCompile : modelingUnits) {
 			if (!progressMonitor.isCanceled()) {
 				this.compileModelingUnit(modelingUnitToCompile, generateOnlyEPackages);
@@ -185,10 +185,7 @@ public class ModelingUnitCompiler {
 		}
 		// Step 2.5 : Validation
 		if (!progressMonitor.isCanceled()) {
-			// We only validate content when not considering epackage (validation will only be launched once)
-			if (!generateOnlyEPackages) {
-				validateGeneratedElement();
-			}
+			validateGeneratedElements(generateOnlyEPackages);
 		}
 		// TODO Handle compilation Time.
 
@@ -348,23 +345,48 @@ public class ModelingUnitCompiler {
 
 	/**
 	 * Validate the generated Elements and create a Compilation Status if the generation Failed.
+	 * 
+	 * @param validateOnlyEPackages
+	 *            if true, only EPackages are validated / registered. Otherwise EPackages are ignored
 	 */
-	protected void validateGeneratedElement() {
+	private void validateGeneratedElements(boolean validateOnlyEPackages) {
 		for (EObject generatedElement : informationHolder.getCurrentCreatedElements()) {
-			// if (!(generatedElement instanceof EPackage)) { // EPackages are already validated
-			GeneratedElementValidator validator = new GeneratedElementValidator(
-					informationHolder.getInstanciationInstructionByCreatedElement(generatedElement),
-					generatedElement);
-			Diagnostic diagnostic;
-			try {
-				diagnostic = validator.validate();
-
-				informationHolder.registerDiagnosticAsCompilationStatusList(generatedElement, diagnostic);
-			} catch (CompilationException e) {
-				informationHolder.registerCompilationExceptionAsCompilationStatus(e);
+			if (validateOnlyEPackages && generatedElement instanceof EPackage) {
+				EPackage ePackage = (EPackage)generatedElement;
+				UnitInstruction instanciation = informationHolder
+						.getInstanciationInstructionByCreatedElement(generatedElement);
+				if (!validateGeneratedElement(generatedElement)) {
+					linkResolver.registerAsInvalidPackage(instanciation, ePackage);
+				} else {
+					linkResolver.registerInPackageRegistry(instanciation, ePackage);
+				}
+			} else if (!(generatedElement instanceof EPackage)) {
+				validateGeneratedElement(generatedElement);
 			}
-			// }
 		}
+	}
+
+	/**
+	 * Validate the generated Elements and create a Compilation Status if the generation Failed.
+	 * 
+	 * @param generatedElement
+	 *            the element to validate
+	 * @return true if the element is valid
+	 */
+	private boolean validateGeneratedElement(EObject generatedElement) {
+		UnitInstruction instanciation = informationHolder
+				.getInstanciationInstructionByCreatedElement(generatedElement);
+		GeneratedElementValidator validator = new GeneratedElementValidator(instanciation, generatedElement);
+		Diagnostic diagnostic;
+		boolean hasErrors = false;
+		try {
+			diagnostic = validator.validate();
+			informationHolder.registerDiagnosticAsCompilationStatusList(generatedElement, diagnostic);
+		} catch (CompilationException e) {
+			informationHolder.registerCompilationExceptionAsCompilationStatus(e);
+			hasErrors = true;
+		}
+		return !hasErrors;
 	}
 
 }
