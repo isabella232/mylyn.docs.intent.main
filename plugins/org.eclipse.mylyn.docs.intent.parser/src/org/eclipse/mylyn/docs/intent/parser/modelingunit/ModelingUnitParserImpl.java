@@ -650,6 +650,9 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			switch (charArray[i]) {
 				case '"':
 					i = string.indexOf('"', i + 1);
+					if (i < 0) {
+						throw new IndexOutOfBoundsException();
+					}
 					break;
 
 				case '{':
