@@ -4,12 +4,13 @@
 <target name="juno-sdk" sequenceNumber="28">
 <locations>
 <location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.7.0.I20120509-1226"/>
-<unit id="org.eclipse.acceleo.sdk.feature.group" version="3.3.0.v20120504-0423"/>
-<unit id="org.eclipse.emf.cdo.sdk.feature.group" version="4.1.0.v20120508-1802"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.8.0.v20120507-0712"/>
-<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.5.0.v20110502-1600-777T-9AZP-F1cMhjSqjhYl0eU20D"/>
-<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.5.0.v20110502-1600-67O-96SGR55YJeZPedcQnghI6uFA"/>
+<unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.7.0.v20120612-0600"/>
+<unit id="org.eclipse.acceleo.sdk.feature.group" version="3.3.0.v20120529-1042"/>
+<unit id="org.eclipse.emf.cdo.sdk.feature.group" version="4.1.0.v20120612-1844"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.8.0.v20120608-0554"/>
+<unit id="org.eclipse.emf.compare.sdk.feature.group" version="1.3.1.v20120605-0748"/>
+<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.6.0.v20120328-0001-777Z-9A_WsZmcPluNecyPkvrPKlH"/>
+<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.6.0.v20120328-0001-67T-96SGR75UNqZNTdeQnghI6uFA"/>
 <repository location="http://download.eclipse.org/releases/juno"/>
 </location>
 <location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -18,12 +19,8 @@
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/updateSite"/>
 </location>
 <location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.platform.sdk" version="4.2.0.I20120518-2145"/>
-<repository location="http://download.eclipse.org/eclipse/updates/4.2milestones"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.compare.sdk.feature.group" version="1.3.1.v20120522-1149"/>
-<repository location="http://download.eclipse.org/modeling/emf/compare/updates/milestones/1.3/"/>
+<unit id="org.eclipse.platform.sdk" version="4.2.0.I20120608-1400"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.2"/>
 </location>
 </locations>
 </target>
