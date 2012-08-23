@@ -131,7 +131,7 @@
 			[for (reference : ModelingUnitInstructionReference | resourceDeclaration.content)]
 				<a href="#"												
 			rel="popover" title="Reference to [reference.IntentHref/] [if reference.referencedElement.oclAsType(InstanciationInstruction).metaType.oclIsInvalid()._not()](of type [reference.referencedElement.oclAsType(InstanciationInstruction).metaType.IntentHref/])[/if]"
-			[reference.referencedElement.oclAsType(InstanciationInstructionReference).referencedElement.generatePopoverLinks()/]
+			[reference.referencedElement.oclAsType(InstanciationInstruction).generatePopoverLinks()/]
 			>[reference.IntentHref/]</a>
 			[/for]
 			</ul>
