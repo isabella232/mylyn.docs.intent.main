@@ -120,6 +120,12 @@ public final class IntentCompilerInformationHolder {
 		}
 	}
 
+	/**
+	 * Resolves the contributed instanciation instruction.
+	 * 
+	 * @param contributionInstruction
+	 *            the contribution instruction
+	 */
 	private void referenceContributionInstruction(ContributionInstruction contributionInstruction) {
 		if (contributionInstruction.getReferencedElement() != null
 				&& contributionInstruction.getReferencedElement().getReferencedElement() != null) {
@@ -345,6 +351,13 @@ public final class IntentCompilerInformationHolder {
 		this.addCreatedElementsToCurrentList(instruction, createdElement);
 	}
 
+	/**
+	 * Checks if a contribution is unresolved.
+	 * 
+	 * @param contributionInstruction
+	 *            the contribution instruction
+	 * @return true if the contribution can be resolved
+	 */
 	public boolean isUnresolvedContribution(ContributionInstruction contributionInstruction) {
 		boolean isUnresolved = this.informationHolder.getUnresolvedContributions().get(
 				contributionInstruction.getReferencedElement().getIntentHref()) == null;
