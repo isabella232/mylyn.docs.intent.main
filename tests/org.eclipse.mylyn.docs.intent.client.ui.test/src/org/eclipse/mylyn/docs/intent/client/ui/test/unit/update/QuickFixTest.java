@@ -47,6 +47,7 @@ public class QuickFixTest extends AbstractUpdateTest {
 	 */
 	public void testModelElementChanges() throws IOException {
 		// apply all fixes (also acts as initialization for further tests)
+		fixIssue("The EPackage toDelete is defined in the <b>Current Document</b> model<br/>but not in the <b>Working Copy</b> model.");
 		fixIssue("The EClass A is defined in the <b>Working Copy</b> model<br/>but not in the <b>Current Document</b> model.");
 		fixIssue("The EClass E is defined in the <b>Current Document</b> model<br/>but not in the <b>Working Copy</b> model.");
 		fixIssue("The EPackage sub is defined in the <b>Working Copy</b> model<br/>but not in the <b>Current Document</b> model.");
