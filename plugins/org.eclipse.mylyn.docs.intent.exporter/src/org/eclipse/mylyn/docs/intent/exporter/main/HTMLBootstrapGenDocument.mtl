@@ -122,19 +122,28 @@
 			$("#toc").jstree("set_focus");
 			$.jstree._focused().select_node(id);
 		}
+	
+	$('html').click(function(e) {
+    	$("a['['/]rel=popover]").popover('hide');
+	});
+	
 	$(function () {
 		$("a['['/]rel=popover]")
-		.popover({
+        .popover({
 			animation:true,
-			offset: 10,
-			html:true,
-			trigger:"hover",
-			delay: { show: 0, hide: 100000 }
-			})
+            offset:10,
+            html:true,
+	        trigger:"manual",
+            template:'<div class="popover" onClick="javascript:style.display =\'none\'" onmouseover="$(this).mouseleave(function() {$(this).hide(); });"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>'
+        })
 		.click(function(e) {
-		  e.preventDefault()
-		})
+		   	e.preventDefault()
+        })
+		.mouseenter(function(e) {
+            $(this).popover('show')
+        })
 	})
+
 </script>
 </body>	
 </html>
