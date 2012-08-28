@@ -96,7 +96,7 @@ public class IntentDocumentParser {
 				// the beginning to the calculated offset
 				currentlyParsedSentence = remainingContentToParse.substring(0, cursor);
 				// Step 2.2 : We send the appropriate signal to the builder
-				sendSignal(offset, currentlyParsedSentence.trim());
+				sendSignal(offset - currentlyParsedSentence.length(), currentlyParsedSentence.trim());
 
 				// Step 2.3 (optional - if the current parsedSentence is a ModelingUnit declaration)
 				if (currentlyParsedSentence.contains(ModelingUnitParser.MODELING_UNIT_PREFIX)) {
@@ -148,10 +148,11 @@ public class IntentDocumentParser {
 				parsedSentence);
 
 		if (parsedSentenceWithoutDescriptionUnit.contains(IntentKeyWords.INTENT_KEYWORD_CLOSE)) {
-			builder.endStructuredElement(offset);
+			builder.endStructuredElement(offset
+					+ parsedSentenceWithoutDescriptionUnit.indexOf(IntentKeyWords.INTENT_KEYWORD_CLOSE));
 		}
 		if (parsedSentenceWithoutDescriptionUnit.contains(IntentKeyWords.INTENT_KEYWORD_DOCUMENT)) {
-			builder.beginDocument(offset - parsedSentence.length(), parsedSentence.trim().length());
+			builder.beginDocument(offset, parsedSentence.trim().length());
 		}
 		if (parsedSentenceWithoutDescriptionUnit.contains(IntentKeyWords.INTENT_KEYWORD_CHAPTER)) {
 			String title = "";
@@ -159,7 +160,7 @@ public class IntentDocumentParser {
 			if (m.matches()) {
 				title = m.group(1);
 			}
-			builder.beginChapter(offset - parsedSentence.length(), parsedSentence.trim().length(), title);
+			builder.beginChapter(offset, parsedSentence.trim().length(), title);
 		}
 		if (parsedSentenceWithoutDescriptionUnit.contains(IntentKeyWords.INTENT_KEYWORD_SECTION)) {
 			String title = "";
@@ -168,8 +169,7 @@ public class IntentDocumentParser {
 			if (m.matches()) {
 				title = m.group(1);
 			}
-			builder.beginSection(offset - parsedSentenceWithoutDescriptionUnit.trim().length(),
-					parsedSentenceWithoutDescriptionUnit.trim().length(), title);
+			builder.beginSection(offset, parsedSentenceWithoutDescriptionUnit.trim().length(), title);
 		}
 	}
 
@@ -196,7 +196,6 @@ public class IntentDocumentParser {
 			Matcher matcher = ptr.matcher(descriptionUnitContent);
 			// If the parsed Sentence contains this keyWord (i.e. ends a description unit), we remove it
 			if (matcher.find()) {
-				// TODO TRIM du INPACT
 				descriptionUnitContent = descriptionUnitContent.substring(0, matcher.start()).trim();
 			}
 		}
@@ -206,7 +205,7 @@ public class IntentDocumentParser {
 			parsedSentenceWithoutDescriptionUnit = parsedSentenceWithoutDescriptionUnit.replace(
 					descriptionUnitContent, "");
 
-			builder.descriptionUnitContent(offset - parsedSentence.length(), descriptionUnitContent);
+			builder.descriptionUnitContent(offset, descriptionUnitContent);
 		}
 
 		return parsedSentenceWithoutDescriptionUnit;

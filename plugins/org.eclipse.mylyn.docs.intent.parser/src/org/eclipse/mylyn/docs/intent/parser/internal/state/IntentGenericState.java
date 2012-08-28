@@ -169,7 +169,7 @@ public class IntentGenericState {
 	 */
 	public IntentGenericState modelingUnitContent(int offset, int length, String modelingUnitContent)
 			throws ParseException {
-		throw new ParseException("Can't open any modeling unit here : only in sections.", offset, length);
+		throw new ParseException("Cannot handle any modeling unit here : only in sections.", offset, length);
 	}
 
 	/**
@@ -187,7 +187,8 @@ public class IntentGenericState {
 	 */
 	public IntentGenericState descriptionUnitContent(int offset, int length, String descriptionUnitContent)
 			throws ParseException {
-		return this;
+		throw new ParseException("Cannot handle any description unit here : only in sections or chapters.",
+				offset, length);
 	}
 
 	public EObject getCurrentElement() {

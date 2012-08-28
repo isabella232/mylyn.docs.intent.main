@@ -19,13 +19,22 @@ import org.junit.Test;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class TestParserErrors extends AbstractTestParserErrors {
-	// CHECKSTYLE:OFF
 
 	@Test
 	public void testMissingBracket() {
 		testErrorsOnFile("dataTests/intentDocuments/errors/missing_bracket.intent", new ParseException(
-				"There is no element to close.", 38, 1));
+				"Cannot handle any description unit here : only in sections or chapters.", 10, 22));
 	}
 
-	// CHECKSTYLE:ON
+	@Test
+	public void testNewLines() {
+		testErrorsOnFile("dataTests/intentDocuments/errors/newlines.intent", new ParseException(
+				"Cannot handle any description unit here : only in sections or chapters.", 10, 21));
+	}
+
+	@Test
+	public void testMisplacedModelingUnit() {
+		testErrorsOnFile("dataTests/intentDocuments/errors/misplacedModelingUnit.intent", new ParseException(
+				"Cannot handle any modeling unit here : only in sections.", 40, 7));
+	}
 }
