@@ -214,7 +214,6 @@ public class IntentBuilder {
 	 *            the message of the status to add
 	 */
 	public void addStatusOnElement(EObject element, String statusMessage) {
-
 		if (element instanceof IntentGenericElement) {
 			CompilationStatus compilationStatus = CompilerFactory.eINSTANCE.createCompilationStatus();
 			compilationStatus.setMessage(statusMessage);
@@ -223,17 +222,6 @@ public class IntentBuilder {
 			compilationStatus.setType(CompilationMessageType.INVALID_REFERENCE_ERROR);
 			((IntentGenericElement)element).getCompilationStatus().add(compilationStatus);
 		}
-
-	}
-
-	/**
-	 * Indicates the detection of section options (visibility and header References).
-	 * 
-	 * @param visibility
-	 *            the visibility of the section ("hidden", "internal" or null)
-	 */
-	public void sectionOptions(String visibility) {
-		currentState = currentState.sectionOptions(visibility);
 	}
 
 	/**
