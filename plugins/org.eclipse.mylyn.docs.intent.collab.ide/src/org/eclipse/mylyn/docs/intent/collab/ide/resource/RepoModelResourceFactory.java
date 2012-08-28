@@ -21,6 +21,9 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
  */
 public class RepoModelResourceFactory extends XMIResourceFactoryImpl {
 
+	/**
+	 * Constructor.
+	 */
 	public RepoModelResourceFactory() {
 		super();
 	}

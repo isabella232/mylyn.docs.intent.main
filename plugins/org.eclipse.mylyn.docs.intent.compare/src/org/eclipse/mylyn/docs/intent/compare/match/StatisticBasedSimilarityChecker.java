@@ -308,7 +308,7 @@ public class StatisticBasedSimilarityChecker extends AbstractSimilarityChecker {
 			if (!feature.isDerived()) {
 				final Object value = eobj.eGet(feature);
 				if (feature.isMany()) {
-					if (((Collection)value).size() > 0) {
+					if (((Collection<?>)value).size() > 0) {
 						count++;
 					}
 				} else {

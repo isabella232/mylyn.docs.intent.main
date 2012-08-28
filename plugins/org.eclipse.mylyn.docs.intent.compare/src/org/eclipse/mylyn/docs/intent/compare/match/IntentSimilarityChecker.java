@@ -204,6 +204,12 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 		return areSimilarStructuredElements;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.compare.match.StatisticBasedSimilarityChecker#contentSimilarity(org.eclipse.emf.ecore.EObject,
+	 *      org.eclipse.emf.ecore.EObject)
+	 */
 	@Override
 	protected double contentSimilarity(EObject obj1, EObject obj2) throws FactoryException {
 		if (obj1 instanceof IntentSubSectionContainer && obj2 instanceof IntentSubSectionContainer) {
@@ -212,6 +218,12 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 		return super.contentSimilarity(obj1, obj2);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.compare.match.StatisticBasedSimilarityChecker#relationsSimilarity(org.eclipse.emf.ecore.EObject,
+	 *      org.eclipse.emf.ecore.EObject)
+	 */
 	@Override
 	protected double relationsSimilarity(EObject obj1, EObject obj2) throws FactoryException {
 		if (obj1 instanceof IntentSubSectionContainer && obj2 instanceof IntentSubSectionContainer) {
@@ -229,6 +241,17 @@ public class IntentSimilarityChecker extends StatisticBasedSimilarityChecker {
 		return super.relationsSimilarity(obj1, obj2);
 	}
 
+	/**
+	 * Returns the similarity between intent structured elements.
+	 * 
+	 * @param obj1
+	 *            the first element
+	 * @param obj2
+	 *            the second element
+	 * @return the similarity value
+	 * @throws FactoryException
+	 *             if an error occurs accessing elements
+	 */
 	private double getIntentStructuredElementsSimilarity(IntentSubSectionContainer obj1,
 			IntentSubSectionContainer obj2) throws FactoryException {
 		double numberOfTotalElements = obj1.getIntentContent().size();

@@ -20,10 +20,19 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
  */
 public class RepoModelResource extends XMIResourceImpl {
 
+	/**
+	 * Constructor.
+	 */
 	public RepoModelResource() {
 		super();
 	}
 
+	/**
+	 * Creates a resource from the given URI.
+	 * 
+	 * @param uri
+	 *            the resource uri
+	 */
 	public RepoModelResource(URI uri) {
 		super(uri);
 	}
