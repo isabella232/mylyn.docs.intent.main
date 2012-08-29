@@ -50,7 +50,7 @@ public class LinkResolver {
 	 * @param monitor
 	 *            the progress monitor (can be cancelled at any time)
 	 * @param repositoryAdapter
-	 *            thj
+	 *            the repository adapter
 	 */
 	public void resolve(IProgressMonitor monitor) {
 		Collection<IntentSectionReferenceInstruction> allIntentReferenceInstructions = new IntentDocumentQuery(
@@ -74,11 +74,16 @@ public class LinkResolver {
 			String href = reference.getIntentHref();
 			if (href != null && href.length() > 0) {
 				try {
-					IntentStructuredElement elementAtLevel = documentQuery.getElementAtLevel(href);
+					// TODO resolve other references (currently only sections)
+					IntentStructuredElement elementAtLevel = documentQuery.getAllIdentifiedSections().get(
+							href);
+					// desactivated: attempts to resolve titles
+					// IntentStructuredElement elementAtLevel = documentQuery.getElementAtLevel(href);
 					if (elementAtLevel != null) {
 						reference.setReferencedObject(elementAtLevel);
 					} else {
 						// TODO : we should place a new Status on this reference instruction
+						System.err.println("Unresolved " + href);
 					}
 				} catch (NumberFormatException e) {
 					// TODO : we should place a new Status on this reference instruction

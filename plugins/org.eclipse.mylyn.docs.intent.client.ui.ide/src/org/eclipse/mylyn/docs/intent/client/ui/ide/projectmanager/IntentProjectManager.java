@@ -17,6 +17,8 @@ import org.eclipse.mylyn.docs.intent.client.compiler.launcher.CompilerCreator;
 import org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection.CompilerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.indexer.launcher.IndexerCreator;
+import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverClient;
+import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.launcher.SynchronizerCreator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
@@ -55,6 +57,8 @@ public final class IntentProjectManager {
 	private IndexerRepositoryClient indexerClient;
 
 	private ProjectExplorerRefresher refresher;
+
+	private LinkResolverClient linkResolverClient;
 
 	/**
 	 * The project associated to this IntentProjectManager (must be associated to the Intent nature).
@@ -103,6 +107,11 @@ public final class IntentProjectManager {
 					compilerClient = CompilerCreator.createCompilerClient(repository);
 				}
 
+				// Link resolver
+				if (linkResolverClient == null) {
+					linkResolverClient = LinkResolverCreator.createLinkResolverClient(repository);
+				}
+
 				// Synchronizer
 				if (synchronizerClient == null) {
 					synchronizerClient = SynchronizerCreator.createSynchronizer(repository,
@@ -126,6 +135,9 @@ public final class IntentProjectManager {
 
 				// launch the compiler to detect eventual existing issues
 				compilerClient.handleChangeNotification(null);
+
+				// launch the link resolver to detect eventual existing issues
+				linkResolverClient.handleChangeNotification(null);
 
 			} else {
 				throw new RepositoryConnectionException("Cannot create Repository on project "
@@ -152,6 +164,10 @@ public final class IntentProjectManager {
 			if (compilerClient != null) {
 				compilerClient.dispose();
 				compilerClient = null;
+			}
+			if (linkResolverClient != null) {
+				linkResolverClient.dispose();
+				linkResolverClient = null;
 			}
 			if (synchronizerClient != null) {
 				synchronizerClient.dispose();

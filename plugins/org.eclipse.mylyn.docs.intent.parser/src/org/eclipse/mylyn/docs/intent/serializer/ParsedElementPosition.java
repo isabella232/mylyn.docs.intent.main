@@ -15,7 +15,7 @@ package org.eclipse.mylyn.docs.intent.serializer;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class ParsedElementPosition {
+public class ParsedElementPosition implements Comparable<ParsedElementPosition> {
 
 	/**
 	 * The offset (indice of the first character).
@@ -90,6 +90,19 @@ public class ParsedElementPosition {
 
 	public void setLength(int length) {
 		this.length = length;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	public int compareTo(ParsedElementPosition arg0) {
+		int res = Integer.valueOf(offset).compareTo(arg0.offset);
+		if (res == 0) {
+			res = Integer.valueOf(length).compareTo(arg0.length);
+		}
+		return res;
 	}
 
 }

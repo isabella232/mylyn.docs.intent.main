@@ -14,6 +14,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
@@ -27,6 +29,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
+import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
 /**
  * An utility class allowing to query the {@link IntentDocument}.
@@ -75,7 +78,6 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 	 */
 	public IntentStructuredElement getElementAtLevel(String level) throws NumberFormatException {
 		IntentStructuredElement elementAtLevel = null;
-
 		IntentIndexEntry indexEntry = new IndexQuery(repositoryAdapter).getIndexEntryAtLevel(level);
 		if (indexEntry != null && indexEntry.getReferencedElement() instanceof IntentStructuredElement) {
 			elementAtLevel = (IntentStructuredElement)indexEntry.getReferencedElement();
@@ -129,4 +131,51 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 		return descriptionUnits;
 	}
 
+	/**
+	 * Returns the map of all the sections per IDs.
+	 * 
+	 * @return the map of all the sections
+	 */
+	public Map<String, IntentSection> getAllIdentifiedSections() {
+		Map<String, IntentSection> res = new HashMap<String, IntentSection>();
+		for (IntentChapter chapter : getOrCreateIntentDocument().getChapters()) {
+			res.putAll(getAllIdentifiedSections(chapter));
+		}
+		return res;
+	}
+
+	/**
+	 * Returns the map of all the sections per IDs.
+	 * 
+	 * @param root
+	 *            the root container
+	 * @return the map of all the sections
+	 */
+	private Map<String, IntentSection> getAllIdentifiedSections(IntentSubSectionContainer root) {
+		Map<String, IntentSection> res = new HashMap<String, IntentSection>();
+		for (IntentSection section : root.getSubSections()) {
+			String sectionID = getSectionID(section);
+			if (sectionID != null) {
+				res.put(sectionID, section);
+				res.putAll(getAllIdentifiedSections(section));
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * Returns the given section id.
+	 * 
+	 * @param section
+	 *            the section
+	 * @return the given section id
+	 */
+	private String getSectionID(IntentSection section) {
+		if (!section.getTitle().getContent().isEmpty()) {
+			// TODO improve id computation
+			// TODO manage duplicates titles
+			return ((Text)section.getTitle().getContent().get(0)).getData().replaceAll(" ", "");
+		}
+		return null;
+	}
 }

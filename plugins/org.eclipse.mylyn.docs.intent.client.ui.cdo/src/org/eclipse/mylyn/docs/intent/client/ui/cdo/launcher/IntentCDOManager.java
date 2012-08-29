@@ -20,6 +20,8 @@ import org.eclipse.mylyn.docs.intent.client.compiler.launcher.CompilerCreator;
 import org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection.CompilerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.indexer.launcher.IndexerCreator;
+import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverClient;
+import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.launcher.SynchronizerCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
@@ -46,6 +48,8 @@ public final class IntentCDOManager {
 	private SynchronizerRepositoryClient synchronizerClient;
 
 	private IndexerRepositoryClient indexerClient;
+
+	private LinkResolverClient linkResolverClient;
 
 	private String repositoryLocation;
 
@@ -105,6 +109,11 @@ public final class IntentCDOManager {
 			compilerClient = CompilerCreator.createCompilerClient(repository);
 		}
 
+		// Link resolver
+		if (linkResolverClient == null) {
+			linkResolverClient = LinkResolverCreator.createLinkResolverClient(repository);
+		}
+
 		// Synchronizer
 		if (synchronizerClient == null) {
 			// TODO
@@ -143,6 +152,9 @@ public final class IntentCDOManager {
 
 		// launch the compiler to detect eventual existing issues
 		compilerClient.handleChangeNotification(null);
+
+		// launch the link resolver to detect eventual existing issues
+		linkResolverClient.handleChangeNotification(null);
 
 	}
 

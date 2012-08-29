@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.serializer;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
@@ -34,14 +33,14 @@ public class IntentPositionManager {
 	/**
 	 * Maps an offset with an instruction.
 	 */
-	private SortedMap<Integer, EObject> positionToInstruction;
+	private SortedMap<ParsedElementPosition, EObject> positionToInstruction;
 
 	/**
 	 * IntentPositionManager constructor.
 	 */
 	public IntentPositionManager() {
 		instructionToPosition = new HashMap<EObject, ParsedElementPosition>();
-		positionToInstruction = new TreeMap<Integer, EObject>();
+		positionToInstruction = new TreeMap<ParsedElementPosition, EObject>();
 	}
 
 	/**
@@ -71,15 +70,21 @@ public class IntentPositionManager {
 	 * @return the element corresponding to the given position
 	 */
 	public EObject getElementAtPosition(int offset) {
-		EObject foundElement = null;
-		Iterator<Integer> offsetIterator = positionToInstruction.keySet().iterator();
-		Integer currentOffsetValue = 0;
-
-		while ((currentOffsetValue < offset) && offsetIterator.hasNext()) {
-			currentOffsetValue = offsetIterator.next();
-			foundElement = positionToInstruction.get(currentOffsetValue);
+		EObject found = null;
+		ParsedElementPosition smallerPosition = null;
+		for (Entry<ParsedElementPosition, EObject> entry : positionToInstruction.entrySet()) {
+			ParsedElementPosition position = entry.getKey();
+			if (offset > position.getOffset() && offset < (position.getOffset() + position.getLength())) {
+				if (smallerPosition == null) {
+					found = entry.getValue();
+					smallerPosition = position;
+				} else if (smallerPosition.getLength() > position.getLength()) {
+					found = entry.getValue();
+					smallerPosition = position;
+				}
+			}
 		}
-		return foundElement;
+		return found;
 	}
 
 	/**
@@ -104,8 +109,9 @@ public class IntentPositionManager {
 	 *            the length of the given instruction
 	 */
 	public void setPositionForInstruction(EObject instruction, int offset, int length) {
-		instructionToPosition.put(instruction, new ParsedElementPosition(offset, length));
-		positionToInstruction.put(offset, instruction);
+		ParsedElementPosition parsedElementPosition = new ParsedElementPosition(offset, length);
+		instructionToPosition.put(instruction, parsedElementPosition);
+		positionToInstruction.put(parsedElementPosition, instruction);
 	}
 
 	/**
@@ -121,8 +127,10 @@ public class IntentPositionManager {
 	 *            the length of the given instruction declaration
 	 */
 	public void setPositionForInstruction(EObject instruction, int offset, int length, int declarationLength) {
-		instructionToPosition.put(instruction, new ParsedElementPosition(offset, length, declarationLength));
-		positionToInstruction.put(offset, instruction);
+		ParsedElementPosition parsedElementPosition = new ParsedElementPosition(offset, length,
+				declarationLength);
+		instructionToPosition.put(instruction, parsedElementPosition);
+		positionToInstruction.put(parsedElementPosition, instruction);
 	}
 
 	/**
@@ -147,7 +155,7 @@ public class IntentPositionManager {
 			}
 			position.setOffset(offset);
 			position.setLength(length);
-			positionToInstruction.put(offset, entry.getKey());
+			positionToInstruction.put(position, entry.getKey());
 		}
 	}
 

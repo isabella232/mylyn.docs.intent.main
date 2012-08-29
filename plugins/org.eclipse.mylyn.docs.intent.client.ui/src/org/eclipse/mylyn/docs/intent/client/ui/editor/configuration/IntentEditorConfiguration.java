@@ -12,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
@@ -165,5 +166,17 @@ public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
 
 		ca.setInformationControlCreator(getInformationControlCreator(sourceViewer));
 		return ca;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.editors.text.TextSourceViewerConfiguration#getHyperlinkDetectorTargets(org.eclipse.jface.text.source.ISourceViewer)
+	 */
+	@Override
+	protected Map getHyperlinkDetectorTargets(ISourceViewer sourceViewer) {
+		Map targets = super.getHyperlinkDetectorTargets(sourceViewer);
+		targets.put("org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorSource", editor); //$NON-NLS-1$
+		return targets;
 	}
 }
