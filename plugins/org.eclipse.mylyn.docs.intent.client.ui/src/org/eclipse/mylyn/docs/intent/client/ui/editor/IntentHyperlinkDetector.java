@@ -37,23 +37,24 @@ public class IntentHyperlinkDetector extends AbstractHyperlinkDetector {
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region,
 			boolean canShowMultipleHyperlinks) {
 		ITextEditor textEditor = (ITextEditor)getAdapter(ITextEditor.class);
-		if (region != null && textEditor instanceof IntentEditor && textEditor.getEditorInput() != null) {
-			IntentEditorDocument document = (IntentEditorDocument)((IntentDocumentProvider)textEditor
-					.getDocumentProvider()).getDocument(textEditor.getEditorInput());
-			EObject element = document.getElementAtOffset(region.getOffset());
-			// TODO FIXME the hovered element should not be computed using the position manager as it doesn't
-			// reflects the latest changes made by the user (dirty mode)
-			EObject target = getTarget(element);
-			if (target != null) {
-				// a link can be set to a target
-				ParsedElementPosition actualPosition = document.getIntentPosition(element);
-				Region hyperlinkRegion = new Region(actualPosition.getOffset(),
-						actualPosition.getDeclarationLength());
-				// TODO FIXME the actual region should not be computed using the position manager as it
-				// doesn't reflects the latest changes made by the user (dirty mode)
-				return new IHyperlink[] {new IntentHyperlink((IntentEditor)textEditor, hyperlinkRegion,
-						target),
-				};
+		if (!textEditor.isDirty()) {
+			// NOTE: the hovered element should not be computed using the position manager as it doesn't
+			// reflects the latest changes made by the user.
+			// WORKAROUND: hyperlinks are desactivated when the editor is dirty
+			if (region != null && textEditor instanceof IntentEditor && textEditor.getEditorInput() != null) {
+				IntentEditorDocument document = (IntentEditorDocument)((IntentDocumentProvider)textEditor
+						.getDocumentProvider()).getDocument(textEditor.getEditorInput());
+				EObject element = document.getElementAtOffset(region.getOffset());
+				EObject target = getTarget(element);
+				if (target != null) {
+					// a link can be set to a target
+					ParsedElementPosition actualPosition = document.getIntentPosition(element);
+					Region hyperlinkRegion = new Region(actualPosition.getOffset(),
+							actualPosition.getDeclarationLength());
+					return new IHyperlink[] {new IntentHyperlink((IntentEditor)textEditor, hyperlinkRegion,
+							target),
+					};
+				}
 			}
 		}
 		return null;
