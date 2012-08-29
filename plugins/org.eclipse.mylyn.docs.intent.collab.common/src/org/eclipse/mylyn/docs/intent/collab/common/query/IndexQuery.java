@@ -59,7 +59,7 @@ public class IndexQuery extends AbstractIntentQuery {
 	 * @param level
 	 *            the level of the searched {@link IntentIndexEntry} (e.g. "3.2.1")
 	 * @throws NumberFormatException
-	 *             if the given level is not syntaxically correct
+	 *             if the given level is not syntactically correct
 	 * @return the {@link IntentIndexEntry} located at the given level, or null if none found
 	 */
 	public IntentIndexEntry getIndexEntryAtLevel(String level) throws NumberFormatException {
