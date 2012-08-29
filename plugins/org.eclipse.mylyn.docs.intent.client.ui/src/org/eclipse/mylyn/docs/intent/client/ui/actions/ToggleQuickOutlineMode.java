@@ -15,6 +15,8 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentQuickOutlineControl;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
@@ -61,7 +63,7 @@ public class ToggleQuickOutlineMode extends Action implements IWorkbenchWindowAc
 	 */
 	public void run(IAction action) {
 		super.run();
-		System.err.println("QuickOutline Toggling");
+		IntentLogger.getInstance().log(LogType.INFO, "QuickOutline Toggling");
 		IntentEditor currentEditor = getCurrentEditor();
 		IntentQuickOutlineControl currentQuickOutline = currentEditor.getCurrentQuickOutline();
 		if (currentQuickOutline != null) {

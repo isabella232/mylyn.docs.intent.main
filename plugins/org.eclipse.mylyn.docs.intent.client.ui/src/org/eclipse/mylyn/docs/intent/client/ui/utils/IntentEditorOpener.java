@@ -179,6 +179,7 @@ public final class IntentEditorOpener {
 	 *            indicates whether the context should be opened in read-only mode or node
 	 */
 	private static void openContext(RepositoryAdapter repositoryAdapter, boolean readOnlyMode) {
+		boolean isReadOnly = readOnlyMode;
 		if (!readOnlyMode) {
 			try {
 				repositoryAdapter.openSaveContext();
@@ -187,11 +188,11 @@ public final class IntentEditorOpener {
 						.getInstance()
 						.log(LogType.WARNING,
 								"The Intent Editor has insufficient rights (read-only) to save modifications on the repository. A read-only context will be used instead.");
-				readOnlyMode = true;
+				isReadOnly = true;
 			}
 		}
 
-		if (readOnlyMode) {
+		if (isReadOnly) {
 			repositoryAdapter.openReadOnlyContext();
 		}
 

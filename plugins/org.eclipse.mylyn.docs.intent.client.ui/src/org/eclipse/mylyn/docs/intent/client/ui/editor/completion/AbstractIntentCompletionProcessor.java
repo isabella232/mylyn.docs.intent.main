@@ -90,6 +90,12 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 		}
 	}
 
+	/**
+	 * Computes the indentation of the current offset.
+	 * 
+	 * @throws BadLocationException
+	 *             if the current offset is incorrect
+	 */
 	private void computeIndentation() throws BadLocationException {
 		int lineOffset = document.getLineOffset(document.getLineOfOffset(offset));
 		String text = document.get(lineOffset, offset - lineOffset);
@@ -102,6 +108,9 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 		}
 	}
 
+	/**
+	 * Rewind characters to reach the start of the current word.
+	 */
 	private void computeStart() {
 		// get the currently typed word
 		int index = offset;
@@ -112,6 +121,13 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 		start = text.substring(index, offset);
 	}
 
+	/**
+	 * Returns true if the given character is part of an intent identifier.
+	 * 
+	 * @param c
+	 *            the character
+	 * @return true if the given character is part of an intent identifier
+	 */
 	private boolean isIntentIdentifierPart(char c) {
 		return c == '@' || Character.isJavaIdentifierPart(c);
 	}

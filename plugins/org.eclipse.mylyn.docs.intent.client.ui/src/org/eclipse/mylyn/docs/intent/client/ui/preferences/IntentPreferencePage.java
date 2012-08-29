@@ -48,6 +48,12 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 
 	}
 
+	/**
+	 * Configure UI fields in the given parent composite.
+	 * 
+	 * @param parent
+	 *            the parent composite
+	 */
 	private void addUIFieds(Composite parent) {
 		// All preferences relative to UI
 		Composite uiGroup = createGroup(parent, "Intent editor");
@@ -57,12 +63,17 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 				"Matching brackets color", new Composite(uiGroup, SWT.NONE)));
 	}
 
+	/**
+	 * Configure intent logger fields in the given parent composite.
+	 * 
+	 * @param parent
+	 *            the parent composite
+	 */
 	private void addLogFields(Composite parent) {
 		// All preferences relative to logging
 		Composite logGroup = createGroup(parent, "Logging");
 		addField(new BooleanFieldEditor(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING,
 				"Activate advanced logging", logGroup));
-
 	}
 
 	/**

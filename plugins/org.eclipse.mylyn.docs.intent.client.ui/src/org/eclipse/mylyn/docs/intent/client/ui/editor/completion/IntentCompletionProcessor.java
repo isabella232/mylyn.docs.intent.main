@@ -78,6 +78,12 @@ public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor
 		this.blockMatcher = matcher;
 	}
 
+	/**
+	 * Computes the context at the current offset.
+	 * 
+	 * @throws BadLocationException
+	 *             if the current offset is incorrect
+	 */
 	private void computeAccurateContext() throws BadLocationException {
 		int[] offsetsByContextType = new int[3];
 		final String startText = document.get(0, offset);

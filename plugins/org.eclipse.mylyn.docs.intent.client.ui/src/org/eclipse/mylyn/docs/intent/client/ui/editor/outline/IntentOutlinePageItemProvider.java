@@ -124,6 +124,13 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 		return returnedImage;
 	}
 
+	/**
+	 * Returns the image name for the given description unit element.
+	 * 
+	 * @param object
+	 *            a description unit element
+	 * @return the image name
+	 */
 	private String getImageForDescriptionUnitElement(Object object) {
 		String imagePath = null;
 		if (object instanceof DescriptionUnit) {
@@ -145,6 +152,13 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 		return imagePath;
 	}
 
+	/**
+	 * Returns the image name for the given modeling unit element.
+	 * 
+	 * @param object
+	 *            a modeling unit element
+	 * @return the image name
+	 */
 	private String getImageForModelingUnitElement(Object object) {
 		String imagePath = null;
 		if (object instanceof ModelingUnit) {
@@ -181,6 +195,13 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 		return imagePath;
 	}
 
+	/**
+	 * Returns the image name for the given structure element.
+	 * 
+	 * @param object
+	 *            a structure element
+	 * @return the image name
+	 */
 	private String getImageForStructureElement(Object object) {
 		String imagePath = null;
 		if (object instanceof IntentDocument) {
@@ -282,6 +303,16 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 		return text.toString().trim();
 	}
 
+	/**
+	 * Sets the text for the given description unit element.
+	 * 
+	 * @param object
+	 *            the description unit element
+	 * @param text
+	 *            the string buffer to fill
+	 * @param eClass
+	 *            the element type
+	 */
 	private void getTextForDescriptionUnitElement(Object object, StringBuffer text, EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case DescriptionUnitPackage.DESCRIPTION_UNIT:
@@ -303,6 +334,16 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 		}
 	}
 
+	/**
+	 * Sets the text for the given generic unit element.
+	 * 
+	 * @param object
+	 *            the generic unit element
+	 * @param text
+	 *            the string buffer to fill
+	 * @param eClass
+	 *            the element type
+	 */
 	private void getTextForGenericUnitElement(Object object, StringBuffer text, EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case GenericUnitPackage.LABEL_DECLARATION:
@@ -325,6 +366,16 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 		}
 	}
 
+	/**
+	 * Sets the text for the given structure unit element.
+	 * 
+	 * @param object
+	 *            the structure unit element
+	 * @param text
+	 *            the string buffer to fill
+	 * @param eClass
+	 *            the element type
+	 */
 	private void getTextForStructureElement(Object object, StringBuffer text, EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case IntentDocumentPackage.INTENT_CHAPTER:
@@ -346,6 +397,16 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 		}
 	}
 
+	/**
+	 * Sets the text for the given modeling unit element.
+	 * 
+	 * @param text
+	 *            the string buffer to fill
+	 * @param eObject
+	 *            the modeling unit element
+	 * @param eClass
+	 *            the element type
+	 */
 	private void getTextForModelingUnitElement(StringBuffer text, EObject eObject, EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ModelingUnitPackage.MODELING_UNIT:
