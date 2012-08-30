@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Region;
@@ -48,9 +49,7 @@ public class IntentHyperlinkDetector extends AbstractHyperlinkDetector {
 				EObject target = getTarget(element);
 				if (target != null) {
 					// a link can be set to a target
-					ParsedElementPosition actualPosition = document.getIntentPosition(element);
-					Region hyperlinkRegion = new Region(actualPosition.getOffset(),
-							actualPosition.getDeclarationLength());
+					Region hyperlinkRegion = getHyperlinkRegion(document, element);
 					return new IHyperlink[] {new IntentHyperlink((IntentEditor)textEditor, hyperlinkRegion,
 							target),
 					};
@@ -58,6 +57,34 @@ public class IntentHyperlinkDetector extends AbstractHyperlinkDetector {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Returns the adapted region for the hyperlink, according to the element type.
+	 * 
+	 * @param document
+	 *            the document
+	 * @param element
+	 *            the element to link
+	 * @return the hyperlink region
+	 */
+	private Region getHyperlinkRegion(IntentEditorDocument document, EObject element) {
+		ParsedElementPosition actualPosition = document.getIntentPosition(element);
+		int offset = actualPosition.getOffset();
+		int length = actualPosition.getLength();
+		if (element instanceof IntentSectionReferenceInstruction) {
+			try {
+				String text = document.get(offset, length);
+				int refStart = text.indexOf("\"");
+				offset += refStart;
+				length = text.indexOf("\"", refStart);
+			} catch (BadLocationException e) {
+				// fail silently
+			}
+		}
+		// TODO manage other types
+		Region hyperlinkRegion = new Region(Math.max(0, offset), Math.max(0, length));
+		return hyperlinkRegion;
 	}
 
 	/**
