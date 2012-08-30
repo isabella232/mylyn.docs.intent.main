@@ -42,8 +42,6 @@ public final class LinkResolverCreator {
 	 * 
 	 * @param repository
 	 *            the repository containing the document in which links should be resolved
-	 * @param generatedElementListener
-	 *            a listener on the generated elements
 	 * @return the created {@link LinkResolverClient}
 	 * @throws RepositoryConnectionException
 	 *             if a connection to the given repository cannot be established

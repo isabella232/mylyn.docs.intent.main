@@ -13,6 +13,8 @@ package org.eclipse.mylyn.docs.intent.client.linkresolver.resolver;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference;
@@ -45,12 +47,10 @@ public class LinkResolver {
 	}
 
 	/**
-	 * Resolves all the links
+	 * Resolves all the links.
 	 * 
 	 * @param monitor
 	 *            the progress monitor (can be cancelled at any time)
-	 * @param repositoryAdapter
-	 *            the repository adapter
 	 */
 	public void resolve(IProgressMonitor monitor) {
 		Collection<IntentSectionReferenceInstruction> allIntentReferenceInstructions = new IntentDocumentQuery(
@@ -83,7 +83,7 @@ public class LinkResolver {
 						reference.setReferencedObject(elementAtLevel);
 					} else {
 						// TODO : we should place a new Status on this reference instruction
-						System.err.println("Unresolved " + href);
+						IntentLogger.getInstance().log(LogType.WARNING, "Unresolved " + href);
 					}
 				} catch (NumberFormatException e) {
 					// TODO : we should place a new Status on this reference instruction
