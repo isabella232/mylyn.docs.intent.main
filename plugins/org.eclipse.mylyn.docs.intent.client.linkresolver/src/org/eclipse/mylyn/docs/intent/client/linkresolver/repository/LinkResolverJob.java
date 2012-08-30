@@ -64,22 +64,21 @@ public class LinkResolverJob extends Job {
 		repositoryAdapter.execute(new IntentCommand() {
 
 			public void execute() {
-				linkResolver.resolve(monitor);
+				try {
+					repositoryAdapter.openSaveContext();
+					linkResolver.resolve(monitor);
+					repositoryAdapter.setSendSessionWarningBeforeSaving(Lists
+							.newArrayList(IntentLocations.INTENT_FOLDER));
+					repositoryAdapter.save();
+				} catch (ReadOnlyException e) {
+					IntentLogger.getInstance().log(LogType.ERROR,
+							"Failed to resolve links inside the Intent Document: insufficiant rights");
+				} catch (SaveException e) {
+					IntentLogger.getInstance().log(LogType.ERROR,
+							"Failed to resolve links inside the Intent Document:" + e.getMessage());
+				}
 			}
 		});
-		if (!monitor.isCanceled()) {
-			try {
-				repositoryAdapter.setSendSessionWarningBeforeSaving(Lists
-						.newArrayList(IntentLocations.INTENT_FOLDER));
-				repositoryAdapter.save();
-			} catch (ReadOnlyException e) {
-				IntentLogger.getInstance().log(LogType.ERROR,
-						"Failed to resolve links inside the Intent Document: insufficiant rights");
-			} catch (SaveException e) {
-				IntentLogger.getInstance().log(LogType.ERROR,
-						"Failed to resolve links inside the Intent Document:" + e.getMessage());
-			}
-		}
 		return Status.OK_STATUS;
 	}
 
