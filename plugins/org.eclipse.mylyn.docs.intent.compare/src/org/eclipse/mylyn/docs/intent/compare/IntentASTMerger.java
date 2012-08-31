@@ -10,25 +10,14 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.merge.service.MergeService;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.engine.IMatchScopeProvider;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
+import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.mylyn.docs.intent.compare.match.IntentMatchEngine;
-import org.eclipse.mylyn.docs.intent.compare.match.IntentScopeProvider;
 
 /**
  * Merges local and repository asts using EMF Compare.
@@ -56,8 +45,9 @@ public class IntentASTMerger {
 				repositoryRoot.eSet(feature, localRoot.eGet(feature));
 			}
 		} else {
-			List<DiffElement> differences = getDifferences(localRoot, repositoryRoot);
-			MergeService.merge(differences, true);
+			List<Diff> differences = getDifferences(localRoot, repositoryRoot);
+			// TODO [COMPARE2] find how to merge
+			// MergeService.merge(differences, true);
 		}
 	}
 
@@ -77,28 +67,31 @@ public class IntentASTMerger {
 	 *            the repository element to update
 	 * @return the differences between a given local object and the corresponding repository element
 	 */
-	public static List<DiffElement> getDifferences(EObject localRoot, EObject repositoryRoot) {
+	public static List<Diff> getDifferences(EObject localRoot, EObject repositoryRoot) {
 		// Step 0 : match preparation
 		// Step 0.1 : we create a sample resource and add the localRoot to
 		// its content.
 		Resource sampleResource = new ResourceImpl(URI.createURI("http://mysampleuri.com"));
 		sampleResource.getContents().add(localRoot);
 
-		// Step 0.2 Defining a scope provider
-		MatchModel match = null;
-		IMatchScopeProvider scopeProvider = new IntentScopeProvider(localRoot, repositoryRoot);
-		Map<String, Object> optionsMap = new HashMap<String, Object>();
-		optionsMap.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, scopeProvider);
+		// TODO [COMPARE2] adapt to new APIs
+		// // Step 0.2 Defining a scope provider
+		// MatchModel match = null;
+		// IMatchScopeProvider scopeProvider = new IntentScopeProvider(localRoot, repositoryRoot);
+		// Map<String, Object> optionsMap = new HashMap<String, Object>();
+		// optionsMap.put(MatchOptions.OPTION_MATCH_SCOPE_PROVIDER, scopeProvider);
+		//
+		// // Step 1 : matching the local and the repository root using a custom
+		// // MatcheEngine.
+		// match = new IntentMatchEngine(localRoot, repositoryRoot).contentMatch(localRoot, repositoryRoot,
+		// optionsMap);
+		//
+		// Comparison diff = DiffService.doDiff(match, false);
+		// // Step 3 : Merges all differences from local to repository
+		// List<Diff> differences = new ArrayList<Diff>(diff.getOwnedElements());
+		//
+		// return differences;
 
-		// Step 1 : matching the local and the repository root using a custom
-		// MatcheEngine.
-		match = new IntentMatchEngine(localRoot, repositoryRoot).contentMatch(localRoot, repositoryRoot,
-				optionsMap);
-
-		DiffModel diff = DiffService.doDiff(match, false);
-		// Step 3 : Merges all differences from local to repository
-		List<DiffElement> differences = new ArrayList<DiffElement>(diff.getOwnedElements());
-
-		return differences;
+		return null;
 	}
 }

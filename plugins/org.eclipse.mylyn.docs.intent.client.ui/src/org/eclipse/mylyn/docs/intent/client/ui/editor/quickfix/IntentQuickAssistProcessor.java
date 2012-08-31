@@ -119,7 +119,8 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 				proposals.add(new CreateResourceFix(annotation));
 			}
 		} else {
-			proposals.add(new EMFCompareFix(annotation));
+			// TODO [COMPARE2] activate fix
+			// proposals.add(new EMFCompareFix(annotation));
 			proposals.add(new UpdateModelingUnitFix(annotation));
 		}
 		return proposals;

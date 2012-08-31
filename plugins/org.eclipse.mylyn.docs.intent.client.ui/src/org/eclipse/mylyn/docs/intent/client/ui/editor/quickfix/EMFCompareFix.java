@@ -12,11 +12,7 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
 import java.util.Collection;
-import java.util.HashMap;
 
-import org.eclipse.compare.CompareConfiguration;
-import org.eclipse.compare.CompareUI;
-import org.eclipse.compare.internal.Utilities;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -27,31 +23,17 @@ import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.core.commands.common.NotDefinedException;
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.expressions.IEvaluationContext;
-import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSnapshot;
-import org.eclipse.emf.compare.diff.metamodel.ComparisonSnapshot;
-import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
-import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.text.source.Annotation;
-import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.ISourceProvider;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerActivation;
 import org.eclipse.ui.handlers.IHandlerService;
-import org.eclipse.ui.services.IServiceLocator;
 
 /**
  * Proposal used to fix a Synchronization issue by opening the compare Editor.
@@ -91,30 +73,31 @@ public class EMFCompareFix extends AbstractIntentFix {
 		ResourceSetImpl rs = new ResourceSetImpl();
 		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
 
-		// Step 3 : opening a new Compare Editor on these two resources
-		try {
-			// Step 3.1 : making match and diff
-			final HashMap<String, Object> options = new HashMap<String, Object>();
-			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
-			MatchModel match = MatchService.doResourceMatch(generatedResource, workingCopyResource, options);
-			DiffModel diff = DiffService.doDiff(match, false);
-
-			// Step 3.2 : creating a comparaison snapshot from this diff
-			ComparisonResourceSnapshot snapshot = DiffFactory.eINSTANCE.createComparisonResourceSnapshot();
-			snapshot.setDiff(diff);
-			snapshot.setMatch(match);
-
-			// Step 3.3 : open a compare dialog
-			final CompareConfiguration compareConfig = new IntentCompareConfiguration(generatedResource,
-					workingCopyResource);
-			ModelCompareEditorInput input = new IntentCompareEditorInput(snapshot, compareConfig);
-			compareConfig.setContainer(input);
-			input.setTitle(COMPARE_EDITOR_TITLE + " (" + workingCopyResourceURI + ")");
-			CompareUI.openCompareDialog(input);
-
-		} catch (InterruptedException e) {
-			// Editor will not be opened
-		}
+		// TODO [COMPARE2] adapt to emf compare 2 APIs
+		// // Step 3 : opening a new Compare Editor on these two resources
+		// try {
+		// // Step 3.1 : making match and diff
+		// final HashMap<String, Object> options = new HashMap<String, Object>();
+		// options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
+		// MatchModel match = MatchService.doResourceMatch(generatedResource, workingCopyResource, options);
+		// Comparison diff = DiffService.doDiff(match, false);
+		//
+		// // Step 3.2 : creating a comparaison snapshot from this diff
+		// ComparisonResourceSnapshot snapshot = DiffFactory.eINSTANCE.createComparisonResourceSnapshot();
+		// snapshot.setDiff(diff);
+		// snapshot.setMatch(match);
+		//
+		// // Step 3.3 : open a compare dialog
+		// final CompareConfiguration compareConfig = new IntentCompareConfiguration(generatedResource,
+		// workingCopyResource);
+		// ModelCompareEditorInput input = new IntentCompareEditorInput(snapshot, compareConfig);
+		// compareConfig.setContainer(input);
+		// input.setTitle(COMPARE_EDITOR_TITLE + " (" + workingCopyResourceURI + ")");
+		// CompareUI.openCompareDialog(input);
+		//
+		// } catch (InterruptedException e) {
+		// // Editor will not be opened
+		// }
 	}
 
 	/**
@@ -126,130 +109,133 @@ public class EMFCompareFix extends AbstractIntentFix {
 		return "See differences in Compare Editor";
 	}
 
-	/**
-	 * A custom CompareEditorInput for Intent.
-	 * 
-	 * @author alagarde
-	 */
-	private class IntentCompareEditorInput extends ModelCompareEditorInput {
-
-		private CompareConfiguration compareConfig;
-
-		private ListenerList listenerList = new ListenerList();
-
-		private boolean isDirty;
-
-		/**
-		 * This constructor takes a {@link ComparisonSnapshot} as input.
-		 * 
-		 * @param snapshot
-		 *            The ComparisonSnapshot loaded from an emfdiff.
-		 * @param compareConfig
-		 *            the compare config
-		 */
-		public IntentCompareEditorInput(ComparisonSnapshot snapshot, CompareConfiguration compareConfig) {
-			super(snapshot);
-			this.compareConfig = compareConfig;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#getCompareConfiguration()
-		 */
-		@Override
-		public CompareConfiguration getCompareConfiguration() {
-			return compareConfig;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#getWorkbenchPart()
-		 */
-		@Override
-		public IWorkbenchPart getWorkbenchPart() {
-			return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#getServiceLocator()
-		 */
-		@Override
-		public IServiceLocator getServiceLocator() {
-			return new IServiceLocator() {
-
-				public boolean hasService(Class api) {
-					if (api.equals(IHandlerService.class)) {
-						return true;
-					}
-					return false;
-				}
-
-				public Object getService(Class api) {
-					if (api.equals(IHandlerService.class)) {
-						return new IntentCompareHandlerService();
-					}
-					return null;
-				}
-			};
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#addPropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
-		 */
-		@Override
-		public void addPropertyChangeListener(IPropertyChangeListener listener) {
-			if (listener != null) {
-				listenerList.add(listener);
-			}
-			super.addPropertyChangeListener(listener);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#removePropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
-		 */
-		@Override
-		public void removePropertyChangeListener(IPropertyChangeListener listener) {
-			if (listenerList != null) {
-				listenerList.remove(listener);
-			}
-			super.removePropertyChangeListener(listener);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#setDirty(boolean)
-		 */
-		@Override
-		public void setDirty(boolean dirty) {
-			boolean oldDirty = isDirty;
-			isDirty = dirty;
-			if (oldDirty != isDirty) {
-				Utilities.firePropertyChange(listenerList, this, DIRTY_STATE, Boolean.valueOf(oldDirty),
-						Boolean.valueOf(isSaveNeeded()));
-			}
-
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#isDirty()
-		 */
-		@Override
-		public boolean isDirty() {
-			return this.isDirty;
-		}
-
-	}
+	// TODO [COMPARE2] adapt to emf compare 2 APIs
+	// /**
+	// * A custom CompareEditorInput for Intent.
+	// *
+	// * @author alagarde
+	// */
+	// private class IntentCompareEditorInput extends ModelCompareEditorInput {
+	//
+	// private CompareConfiguration compareConfig;
+	//
+	// private ListenerList listenerList = new ListenerList();
+	//
+	// private boolean isDirty;
+	//
+	// /**
+	// * This constructor takes a {@link ComparisonSnapshot} as input.
+	// *
+	// * @param snapshot
+	// * The ComparisonSnapshot loaded from an emfdiff.
+	// * @param compareConfig
+	// * the compare config
+	// */
+	// public IntentCompareEditorInput(ComparisonSnapshot snapshot, CompareConfiguration compareConfig) {
+	// super(snapshot);
+	// this.compareConfig = compareConfig;
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.compare.CompareEditorInput#getCompareConfiguration()
+	// */
+	// @Override
+	// public CompareConfiguration getCompareConfiguration() {
+	// return compareConfig;
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.compare.CompareEditorInput#getWorkbenchPart()
+	// */
+	// @Override
+	// public IWorkbenchPart getWorkbenchPart() {
+	// return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.compare.CompareEditorInput#getServiceLocator()
+	// */
+	// @Override
+	// public IServiceLocator getServiceLocator() {
+	// return new IServiceLocator() {
+	//
+	// public boolean hasService(Class api) {
+	// if (api.equals(IHandlerService.class)) {
+	// return true;
+	// }
+	// return false;
+	// }
+	//
+	// public Object getService(Class api) {
+	// if (api.equals(IHandlerService.class)) {
+	// return new IntentCompareHandlerService();
+	// }
+	// return null;
+	// }
+	// };
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see
+	// org.eclipse.compare.CompareEditorInput#addPropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
+	// */
+	// @Override
+	// public void addPropertyChangeListener(IPropertyChangeListener listener) {
+	// if (listener != null) {
+	// listenerList.add(listener);
+	// }
+	// super.addPropertyChangeListener(listener);
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see
+	// org.eclipse.compare.CompareEditorInput#removePropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
+	// */
+	// @Override
+	// public void removePropertyChangeListener(IPropertyChangeListener listener) {
+	// if (listenerList != null) {
+	// listenerList.remove(listener);
+	// }
+	// super.removePropertyChangeListener(listener);
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.compare.CompareEditorInput#setDirty(boolean)
+	// */
+	// @Override
+	// public void setDirty(boolean dirty) {
+	// boolean oldDirty = isDirty;
+	// isDirty = dirty;
+	// if (oldDirty != isDirty) {
+	// Utilities.firePropertyChange(listenerList, this, DIRTY_STATE, Boolean.valueOf(oldDirty),
+	// Boolean.valueOf(isSaveNeeded()));
+	// }
+	//
+	// }
+	//
+	// /**
+	// * {@inheritDoc}
+	// *
+	// * @see org.eclipse.compare.CompareEditorInput#isDirty()
+	// */
+	// @Override
+	// public boolean isDirty() {
+	// return this.isDirty;
+	// }
+	//
+	// }
 
 	/**
 	 * A IHandlerService for Intent.

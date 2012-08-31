@@ -10,13 +10,21 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.handlers.notification;
 
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import java.util.List;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * Notification sent by the repository to the clients containing the changing objects.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public interface RepositoryChangeNotification extends DiffModel {
+public interface RepositoryChangeNotification {
 
+	/**
+	 * Returns the list of the impacted elements.
+	 * 
+	 * @return the list of the impacted elements
+	 */
+	List<EObject> getImpactedElements();
 }

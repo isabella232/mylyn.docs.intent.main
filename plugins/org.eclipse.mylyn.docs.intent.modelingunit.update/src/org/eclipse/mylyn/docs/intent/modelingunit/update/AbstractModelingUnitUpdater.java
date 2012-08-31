@@ -17,11 +17,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.Match2Elements;
-import org.eclipse.emf.compare.match.metamodel.MatchElement;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.EMFCompareConfiguration;
+import org.eclipse.emf.compare.EMFCompareConfiguration.Builder;
+import org.eclipse.emf.compare.EMFCompareConfiguration.USE_IDS;
+import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -73,11 +74,13 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 	 */
 	protected void includeMatch(Resource compiledResource, Resource workingCopyResource) {
 		try {
-			final HashMap<String, Object> options = new HashMap<String, Object>();
-			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
-			MatchModel matchModel = MatchService.doResourceMatch(compiledResource, workingCopyResource,
-					options);
-			for (MatchElement matchElement : matchModel.getMatchedElements()) {
+			// TODO [COMPARE2] factorize
+			Builder builder = EMFCompareConfiguration.builder();
+			builder.shouldUseID(USE_IDS.NEVER);
+			EMFCompareConfiguration configuration = builder.build();
+			Comparison comparison = EMFCompare.compare(compiledResource, workingCopyResource, configuration);
+
+			for (Match matchElement : comparison.getMatches()) {
 				collectAllMatches(matchElement);
 			}
 			// CHECKSTYLE:OFF we ignore comparison errors
@@ -93,15 +96,14 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 	 * @param matchElement
 	 *            the match element
 	 */
-	private void collectAllMatches(MatchElement matchElement) {
-		if (matchElement instanceof Match2Elements) {
-			Match2Elements match2Elements = (Match2Elements)matchElement;
-			EObject workingCopyObject = match2Elements.getRightElement();
-			EObject compiledObject = match2Elements.getLeftElement();
-			match.put(workingCopyObject, compiledObject);
-		}
-		for (MatchElement subMatchElement : matchElement.getSubMatchElements()) {
-			collectAllMatches(subMatchElement);
+	private void collectAllMatches(Match matchElement) {
+		EObject workingCopyObject = matchElement.getRight();
+		EObject compiledObject = matchElement.getLeft();
+		match.put(workingCopyObject, compiledObject);
+		for (Match subMatchElement : matchElement.getAllSubmatches()) {
+			EObject subWorkingCopyObject = subMatchElement.getRight();
+			EObject subCompiledObject = subMatchElement.getLeft();
+			match.put(subWorkingCopyObject, subCompiledObject);
 		}
 	}
 

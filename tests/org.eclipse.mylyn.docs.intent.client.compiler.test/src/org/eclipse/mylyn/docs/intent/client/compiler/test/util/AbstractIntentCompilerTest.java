@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -26,11 +25,11 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.EMFCompareConfiguration;
+import org.eclipse.emf.compare.EMFCompareConfiguration.Builder;
+import org.eclipse.emf.compare.EMFCompareConfiguration.USE_IDS;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -176,17 +175,14 @@ public abstract class AbstractIntentCompilerTest implements ILogListener {
 				}
 			} else {
 				Resource expected = resourceSet.getResource(expectedURI, true);
-				try {
-					final HashMap<String, Object> options = new HashMap<String, Object>();
-					options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
-					MatchModel matchModel = MatchService
-							.doResourceMatch(expected, generatedResource, options);
-					DiffModel diff = DiffService.doDiff(matchModel, false);
-					Assert.assertTrue("There are differences between expected and actual", diff
-							.getDifferences().isEmpty());
-				} catch (InterruptedException e) {
-					throw new AssertionFailedError(e.getMessage());
-				}
+
+				// TODO [COMPARE2] factorize
+				Builder builder = EMFCompareConfiguration.builder();
+				builder.shouldUseID(USE_IDS.NEVER);
+				EMFCompareConfiguration configuration = builder.build();
+				Comparison diff = EMFCompare.compare(expected, generatedResource, configuration);
+				Assert.assertTrue("There are differences between expected and actual", diff.getDifferences()
+						.isEmpty());
 			}
 		}
 

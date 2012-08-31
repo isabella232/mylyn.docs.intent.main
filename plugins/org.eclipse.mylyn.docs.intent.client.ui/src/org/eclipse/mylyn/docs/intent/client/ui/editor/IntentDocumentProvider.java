@@ -463,7 +463,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		}
 
 		// For each object modified indicated by this notification
-		for (EObject modifiedObject : notification.getRightRoots()) {
+		for (EObject modifiedObject : notification.getImpactedElements()) {
 			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
 					.getIDFromElement(modifiedObject);
 
@@ -652,7 +652,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 * @return true if a root has been deleted
 	 */
 	private boolean handleRootHasBeenDeleted(RepositoryChangeNotification notification) {
-		if (notification.getRightRoots().size() < 1) {
+		if (notification.getImpactedElements().size() < 1) {
 			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
 					.getIDFromElement(documentRoot);
 			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
