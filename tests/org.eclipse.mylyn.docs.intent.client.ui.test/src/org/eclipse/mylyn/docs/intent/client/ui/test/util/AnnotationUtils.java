@@ -158,7 +158,7 @@ public final class AnnotationUtils {
 		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
 
 		// Step 3.1 : making match and diff
-		// TODO [COMPARE2] factorize
+		// TODO [COMPARE2] [COMPARISON] factorize comparison launch
 		Builder builder = EMFCompareConfiguration.builder();
 		builder.shouldUseID(USE_IDS.NEVER);
 		EMFCompareConfiguration configuration = builder.build();
@@ -166,7 +166,7 @@ public final class AnnotationUtils {
 
 		// Step 3.2 : Merges all differences from local to repository
 		List<Diff> differences = new ArrayList<Diff>(diff.getDifferences());
-		// TODO [COMPARE2] find how to merge
+		// TODO [COMPARE2] [MERGE] find how to merge
 		// MergeService.merge(differences, true);
 
 		// Step 3.3 : Save model

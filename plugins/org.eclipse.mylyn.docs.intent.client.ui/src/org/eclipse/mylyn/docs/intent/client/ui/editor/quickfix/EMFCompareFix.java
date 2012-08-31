@@ -73,7 +73,7 @@ public class EMFCompareFix extends AbstractIntentFix {
 		ResourceSetImpl rs = new ResourceSetImpl();
 		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
 
-		// TODO [COMPARE2] adapt to emf compare 2 APIs
+		// TODO [COMPARE2] [UI] find how to launch a compare dialog
 		// // Step 3 : opening a new Compare Editor on these two resources
 		// try {
 		// // Step 3.1 : making match and diff
@@ -109,7 +109,6 @@ public class EMFCompareFix extends AbstractIntentFix {
 		return "See differences in Compare Editor";
 	}
 
-	// TODO [COMPARE2] adapt to emf compare 2 APIs
 	// /**
 	// * A custom CompareEditorInput for Intent.
 	// *

@@ -24,7 +24,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
  */
 public final class SynchronizerMessageProvider {
 
-	// TODO [COMPARE2] accurate messages
+	// TODO [COMPARE2] [SYNC] accurate sync status messages
 	/**
 	 * Represents a whitespace in a status message.
 	 */

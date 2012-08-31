@@ -125,7 +125,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 					Diff diff = assertDiffIsAsExpected(message, differences, 2);
 					assertEquals(message + '\n' + getDiffAsString(differences), DifferenceKind.ADD,
 							diff.getKind());
-					// TODO [COMPARE2] refactor
+					// TODO [COMPARE2] [TESTS] refactor
 					// assertEquals(message + getDiffAsString(differences), newChapter,
 					// ((ModelElementChangeLeftTarget)diff).getLeftElement());
 					// assertEquals(message + getDiffAsString(differences), getIntentDocument(),
@@ -158,7 +158,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 				Diff diff = assertDiffIsAsExpected(message, differences, 2);
 				assertEquals(message + '\n' + getDiffAsString(differences), DifferenceKind.DELETE,
 						diff.getKind());
-				// TODO [COMPARE2] refactor
+				// TODO [COMPARE2] [TESTS] refactor
 				// assertEquals(message + '\n' + getDiffAsString(differences), chapterToRemoveInOriginal,
 				// ((ModelElementChangeRightTarget)diff).getRightElement());
 				// assertEquals(message + '\n' + getDiffAsString(differences), copy,
@@ -205,7 +205,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 					Diff diff = assertDiffIsAsExpected(message, differences, containerLevel);
 					assertEquals(message + '\n' + getDiffAsString(differences), DifferenceKind.ADD,
 							diff.getKind());
-					// TODO [COMPARE2] refactor
+					// TODO [COMPARE2] [TESTS] refactor
 					// assertEquals(message + '\n' + getDiffAsString(differences), newSection,
 					// ((ModelElementChangeLeftTarget)diff).getLeftElement());
 					// assertEquals(message + '\n' + getDiffAsString(differences), container,
@@ -262,7 +262,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 				Diff diff = assertDiffIsAsExpected(message, differences, containerLevel);
 				assertEquals(message + '\n' + getDiffAsString(differences), DifferenceKind.DELETE,
 						diff.getKind());
-				// TODO [COMPARE2] refactor
+				// TODO [COMPARE2] [TESTS] refactor
 				// assertEquals(message + '\n' + getDiffAsString(differences),
 				// container.getIntentContent().get(trueIndex),
 				// ((ModelElementChangeRightTarget)diff).getRightElement());
@@ -303,14 +303,15 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 		int currentLevel = 0;
 		while (childDiff != null && currentLevel < expectedLevel) {
 			// assertEquals(message + '\n' + getDiffAsString(differences), 1, childDiff.getSubDiffs().size());
-			// // TODO [COMPARE2] check if valid
+			// // TODO [COMPARE2] [TESTS] refactor
 			currentLevel++;
-			// childDiff = childDiff.getSubDiffs().iterator().next(); // TODO [COMPARE2] check if valid
+			// childDiff = childDiff.getSubDiffs().iterator().next();
+			// TODO [COMPARE2] [TESTS] refactor
 		}
 
 		// This difference should not have any sub difference elements
 		// assertEquals(message + '\n' + getDiffAsString(differences), 0, childDiff.getSubDiffs().size()); //
-		// TODO [COMPARE2] check if valid
+		// TODO [COMPARE2] [TESTS] refactor
 		return childDiff;
 	}
 
@@ -318,7 +319,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 		String diff = "";
 		for (Diff element : differences) {
 			diff += element.toString() + '\n';
-			// diff += getDiffAsString(element.getSubDiffs()); // TODO [COMPARE2] check if valid
+			// diff += getDiffAsString(element.getSubDiffs()); // TODO [COMPARE2] [TESTS] refactor
 		}
 		return diff;
 	}

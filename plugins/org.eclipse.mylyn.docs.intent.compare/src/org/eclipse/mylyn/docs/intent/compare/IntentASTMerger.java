@@ -46,7 +46,7 @@ public class IntentASTMerger {
 			}
 		} else {
 			List<Diff> differences = getDifferences(localRoot, repositoryRoot);
-			// TODO [COMPARE2] find how to merge
+			// TODO [COMPARE2] [MERGE] find how to merge
 			// MergeService.merge(differences, true);
 		}
 	}
@@ -55,7 +55,6 @@ public class IntentASTMerger {
 	 * For now on, does nothing.
 	 */
 	public void mergeFromRepositoryToLocal() {
-
 	}
 
 	/**
@@ -74,7 +73,7 @@ public class IntentASTMerger {
 		Resource sampleResource = new ResourceImpl(URI.createURI("http://mysampleuri.com"));
 		sampleResource.getContents().add(localRoot);
 
-		// TODO [COMPARE2] adapt to new APIs
+		// TODO [COMPARE2] [COMPARISON] adapt to new scope limitation API
 		// // Step 0.2 Defining a scope provider
 		// MatchModel match = null;
 		// IMatchScopeProvider scopeProvider = new IntentScopeProvider(localRoot, repositoryRoot);

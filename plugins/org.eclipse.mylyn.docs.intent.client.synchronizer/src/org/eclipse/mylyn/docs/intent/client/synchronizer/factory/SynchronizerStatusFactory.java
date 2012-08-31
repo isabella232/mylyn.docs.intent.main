@@ -80,12 +80,12 @@ public final class SynchronizerStatusFactory {
 		} else if (difference instanceof ReferenceChange) {
 			status = createStatusFromReferenceChange(indexEntry, (ReferenceChange)difference);
 		} else if (difference instanceof ResourceAttachmentChange) {
-			// TODO [COMPARE2] check diff semantics
+			// TODO [COMPARE2] [SYNC] check for resource diff semantics equivalence
 			status = CompilerFactory.eINSTANCE.createResourceChangeStatus();
 		}
 
 		if (status != null) {
-			// TODO [COMPARE2] filter order change diffs if necessary
+			// TODO [COMPARE2] [SYNC] classify order diffs as INFO instead of WARNING
 			status.setSeverity(CompilationStatusSeverity.WARNING);
 			status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
 
@@ -171,24 +171,24 @@ public final class SynchronizerStatusFactory {
 		status.setWorkingCopyElementURIFragment(createURIFragment(difference.getMatch().getRight()));
 
 		switch (difference.getKind().getValue()) {
-			case DifferenceKind.ADD_VALUE: // TODO [COMPARE2] check semantics
+			case DifferenceKind.ADD_VALUE: // TODO [COMPARE2] [SYNC] check semantics
 				// case ComparePackage.REFERENCE_CHANGE_RIGHT_TARGET:
 				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
-				// TODO [COMPARE2] refactor
+				// TODO [COMPARE2] [SYNC] get reference diff targets
 				// status.setCompiledTarget(((ReferenceChangeRightTarget)difference).getLeftTarget());
 				// status.setWorkingCopyTargetURIFragment(createURIFragment(((ReferenceChangeRightTarget)difference)
 				// .getRightTarget()));
 				break;
 
-			case DifferenceKind.MOVE_VALUE: // TODO [COMPARE2] check semantics
+			case DifferenceKind.MOVE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
 				// case ComparePackage.REFERENCE_ORDER_CHANGE:
 				status.setChangeState(SynchronizerChangeState.ORDER);
 				break;
 
-			case DifferenceKind.DELETE_VALUE: // TODO [COMPARE2] check semantics
+			case DifferenceKind.DELETE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
 				// case ComparePackage.REFERENCE_CHANGE_LEFT_TARGET:
 				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
-				// TODO [COMPARE2] refactor
+				// TODO [COMPARE2] [SYNC] get reference diff targets
 				// target = getInstructionFromAffectation(indexEntry, compiledElement,
 				// difference.getReference(), ((ReferenceChangeLeftTarget)difference).getLeftTarget());
 				// status.setCompiledTarget(((ReferenceChangeLeftTarget)difference).getLeftTarget());
@@ -196,14 +196,14 @@ public final class SynchronizerStatusFactory {
 				// .getRightTarget()));
 				break;
 
-			case DifferenceKind.CHANGE_VALUE: // TODO [COMPARE2] check semantics
+			case DifferenceKind.CHANGE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
 				// case ComparePackage.UPDATE_REFERENCE:
 				status.setChangeState(SynchronizerChangeState.UPDATE);
 				target = getInstructionFromAffectation(indexEntry, compiledElement,
 						difference.getReference(),
 						difference.getMatch().getLeft().eGet(difference.getReference()));
 
-				// TODO [COMPARE2] should not be necessary anymore
+				// TODO [COMPARE2] [SYNC] compare1 workaround, should not be necessary anymore
 				// // Workaround EMF compare 1 issue :
 				// // Actual targets are in fact merging utilities and may not be relevant.
 				// EObject leftTarget = (EObject)updateDifference.getLeftElement().eGet(
@@ -211,7 +211,7 @@ public final class SynchronizerStatusFactory {
 				// EObject rightTarget = (EObject)updateDifference.getRightElement().eGet(
 				// updateDifference.getReference());
 
-				// TODO [COMPARE2] refactor
+				// TODO [COMPARE2] [SYNC] get reference diff targets
 				// status.setCompiledTarget(leftTarget);
 				// if (rightTarget != null) {
 				// status.setWorkingCopyTargetURIFragment(createURIFragment(rightTarget));
@@ -254,26 +254,27 @@ public final class SynchronizerStatusFactory {
 		status.setWorkingCopyElementURIFragment(createURIFragment(difference.getMatch().getRight()));
 
 		switch (difference.getKind().getValue()) {
-			case DifferenceKind.ADD_VALUE: // TODO [COMPARE2] check semantics
+			case DifferenceKind.ADD_VALUE: // TODO [COMPARE2] [SYNC] check semantics
 				// case ComparePackage.ATTRIBUTE_CHANGE_RIGHT_TARGET:
 				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
 				break;
 
-			case DifferenceKind.MOVE_VALUE: // TODO [COMPARE2] check semantics
+			case DifferenceKind.MOVE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
 				// case ComparePackage.ATTRIBUTE_ORDER_CHANGE:
 				status.setChangeState(SynchronizerChangeState.ORDER);
 				break;
 
-			case DifferenceKind.DELETE_VALUE: // TODO [COMPARE2] check semantics
+			case DifferenceKind.DELETE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
 				// case ComparePackage.ATTRIBUTE_CHANGE_LEFT_TARGET:
 				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
 				// target = getInstructionFromAffectation(indexEntry, difference.getMatch().getLeft(),
 				// difference.getAttribute(), ((AttributeChangeLeftTarget)difference).getLeftTarget());
 				target = getInstructionFromAffectation(indexEntry, difference.getMatch().getLeft(),
-						difference.getAttribute(), difference.getValue()); // TODO [COMPARE2] check semantics
+						difference.getAttribute(), difference.getValue());
+				// TODO [COMPARE2] [SYNC] check semantics
 				break;
 
-			case DifferenceKind.CHANGE_VALUE: // TODO [COMPARE2] check semantics
+			case DifferenceKind.CHANGE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
 				// case ComparePackage.UPDATE_ATTRIBUTE:
 				status.setChangeState(SynchronizerChangeState.UPDATE);
 				target = getInstructionFromAffectation(indexEntry, compiledElement,

@@ -491,7 +491,7 @@ public class IntentSynchronizer {
 			throws InterruptedException {
 
 		try {
-			// TODO [COMPARE2] factorize
+			// TODO [COMPARE2] [COMPARISON] factorize comparison launch
 			Builder builder = EMFCompareConfiguration.builder();
 			builder.shouldUseID(USE_IDS.NEVER);
 			EMFCompareConfiguration configuration = builder.build();

@@ -176,7 +176,7 @@ public abstract class AbstractIntentCompilerTest implements ILogListener {
 			} else {
 				Resource expected = resourceSet.getResource(expectedURI, true);
 
-				// TODO [COMPARE2] factorize
+				// TODO [COMPARE2] [COMPARISON] factorize comparison launch
 				Builder builder = EMFCompareConfiguration.builder();
 				builder.shouldUseID(USE_IDS.NEVER);
 				EMFCompareConfiguration configuration = builder.build();

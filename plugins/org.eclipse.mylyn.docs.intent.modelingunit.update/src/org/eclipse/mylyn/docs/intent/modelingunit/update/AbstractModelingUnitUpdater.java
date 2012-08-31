@@ -74,7 +74,7 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 	 */
 	protected void includeMatch(Resource compiledResource, Resource workingCopyResource) {
 		try {
-			// TODO [COMPARE2] factorize
+			// TODO [COMPARE2] [COMPARISON] factorize comparison launch
 			Builder builder = EMFCompareConfiguration.builder();
 			builder.shouldUseID(USE_IDS.NEVER);
 			EMFCompareConfiguration configuration = builder.build();
