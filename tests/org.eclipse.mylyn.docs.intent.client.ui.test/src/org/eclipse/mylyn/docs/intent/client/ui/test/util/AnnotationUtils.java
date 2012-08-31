@@ -16,12 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
-import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.EMFCompareConfiguration;
-import org.eclipse.emf.compare.EMFCompareConfiguration.Builder;
-import org.eclipse.emf.compare.EMFCompareConfiguration.USE_IDS;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -32,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.compare.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.SyncStatusUpdater;
@@ -158,17 +154,11 @@ public final class AnnotationUtils {
 		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
 
 		// Step 3.1 : making match and diff
-		// TODO [COMPARE2] [COMPARISON] factorize comparison launch
-		Builder builder = EMFCompareConfiguration.builder();
-		builder.shouldUseID(USE_IDS.NEVER);
-		EMFCompareConfiguration configuration = builder.build();
-		Comparison diff = EMFCompare.compare(generatedResource, workingCopyResource, configuration);
+		for (Diff diff : EMFCompareUtils.compare(workingCopyResource, generatedResource).getDifferences()) {
+			// TODO [COMPARE2] [TESTS] check merge direction
+			diff.copyLeftToRight();
+		}
 
-		// Step 3.2 : Merges all differences from local to repository
-		List<Diff> differences = new ArrayList<Diff>(diff.getDifferences());
-		// TODO [COMPARE2] [MERGE] find how to merge
-		// MergeService.merge(differences, true);
-		//
 		// Step 3.3 : Save model
 		workingCopyResource.save(null);
 	}

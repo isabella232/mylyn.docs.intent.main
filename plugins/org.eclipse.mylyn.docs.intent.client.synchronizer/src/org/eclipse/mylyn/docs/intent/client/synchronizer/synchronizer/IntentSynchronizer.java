@@ -25,10 +25,6 @@ import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.compare.Diff;
-import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.EMFCompareConfiguration;
-import org.eclipse.emf.compare.EMFCompareConfiguration.Builder;
-import org.eclipse.emf.compare.EMFCompareConfiguration.USE_IDS;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -42,6 +38,7 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.DefaultSynchro
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.compare.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
@@ -489,13 +486,8 @@ public class IntentSynchronizer {
 	 */
 	private List<Diff> compareResource(Resource leftResource, Resource rightResource)
 			throws InterruptedException {
-
 		try {
-			// TODO [COMPARE2] [COMPARISON] factorize comparison launch
-			Builder builder = EMFCompareConfiguration.builder();
-			builder.shouldUseID(USE_IDS.NEVER);
-			EMFCompareConfiguration configuration = builder.build();
-			return EMFCompare.compare(leftResource, rightResource, configuration).getDifferences();
+			return EMFCompareUtils.compare(leftResource, rightResource).getDifferences();
 			// CHECKSTYLE:OFF
 		} catch (Exception e) {
 			// CHECKSTYLE :ON

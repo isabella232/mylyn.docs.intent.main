@@ -25,11 +25,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.Comparison;
-import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.EMFCompareConfiguration;
-import org.eclipse.emf.compare.EMFCompareConfiguration.Builder;
-import org.eclipse.emf.compare.EMFCompareConfiguration.USE_IDS;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -39,6 +34,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.mylyn.docs.intent.client.compiler.ModelingUnitCompiler;
 import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.ModelingUnitLinkResolver;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
+import org.eclipse.mylyn.docs.intent.compare.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
@@ -175,14 +171,8 @@ public abstract class AbstractIntentCompilerTest implements ILogListener {
 				}
 			} else {
 				Resource expected = resourceSet.getResource(expectedURI, true);
-
-				// TODO [COMPARE2] [COMPARISON] factorize comparison launch
-				Builder builder = EMFCompareConfiguration.builder();
-				builder.shouldUseID(USE_IDS.NEVER);
-				EMFCompareConfiguration configuration = builder.build();
-				Comparison diff = EMFCompare.compare(expected, generatedResource, configuration);
-				Assert.assertTrue("There are differences between expected and actual", diff.getDifferences()
-						.isEmpty());
+				Assert.assertTrue("There are differences between expected and actual", EMFCompareUtils
+						.compare(expected, generatedResource).getDifferences().isEmpty());
 			}
 		}
 

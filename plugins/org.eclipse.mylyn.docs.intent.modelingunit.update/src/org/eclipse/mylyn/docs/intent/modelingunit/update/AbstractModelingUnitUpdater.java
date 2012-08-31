@@ -17,17 +17,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.Comparison;
-import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.EMFCompareConfiguration;
-import org.eclipse.emf.compare.EMFCompareConfiguration.Builder;
-import org.eclipse.emf.compare.EMFCompareConfiguration.USE_IDS;
 import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.compare.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.modelingunit.gen.AbstractModelingUnitGenerator;
@@ -74,13 +70,8 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 	 */
 	protected void includeMatch(Resource compiledResource, Resource workingCopyResource) {
 		try {
-			// TODO [COMPARE2] [COMPARISON] factorize comparison launch
-			Builder builder = EMFCompareConfiguration.builder();
-			builder.shouldUseID(USE_IDS.NEVER);
-			EMFCompareConfiguration configuration = builder.build();
-			Comparison comparison = EMFCompare.compare(compiledResource, workingCopyResource, configuration);
-
-			for (Match matchElement : comparison.getMatches()) {
+			for (Match matchElement : EMFCompareUtils.compare(compiledResource, workingCopyResource)
+					.getMatches()) {
 				collectAllMatches(matchElement);
 			}
 			// CHECKSTYLE:OFF we ignore comparison errors

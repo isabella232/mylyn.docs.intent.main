@@ -80,7 +80,7 @@ public final class SynchronizerStatusFactory {
 		} else if (difference instanceof ReferenceChange) {
 			status = createStatusFromReferenceChange(indexEntry, (ReferenceChange)difference);
 		} else if (difference instanceof ResourceAttachmentChange) {
-			// TODO [COMPARE2] [SYNC] check for resource diff semantics equivalence
+			// TODO [COMPARE2] [SYNC] investigate resource diff semantics equivalence
 			status = CompilerFactory.eINSTANCE.createResourceChangeStatus();
 		}
 
@@ -202,14 +202,6 @@ public final class SynchronizerStatusFactory {
 				target = getInstructionFromAffectation(indexEntry, compiledElement,
 						difference.getReference(),
 						difference.getMatch().getLeft().eGet(difference.getReference()));
-
-				// TODO [COMPARE2] [SYNC] compare1 workaround, should not be necessary anymore
-				// // Workaround EMF compare 1 issue :
-				// // Actual targets are in fact merging utilities and may not be relevant.
-				// EObject leftTarget = (EObject)updateDifference.getLeftElement().eGet(
-				// updateDifference.getReference());
-				// EObject rightTarget = (EObject)updateDifference.getRightElement().eGet(
-				// updateDifference.getReference());
 
 				// TODO [COMPARE2] [SYNC] get reference diff targets
 				// status.setCompiledTarget(leftTarget);
