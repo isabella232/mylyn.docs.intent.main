@@ -168,7 +168,7 @@ public final class AnnotationUtils {
 		List<Diff> differences = new ArrayList<Diff>(diff.getDifferences());
 		// TODO [COMPARE2] [MERGE] find how to merge
 		// MergeService.merge(differences, true);
-
+		//
 		// Step 3.3 : Save model
 		workingCopyResource.save(null);
 	}
