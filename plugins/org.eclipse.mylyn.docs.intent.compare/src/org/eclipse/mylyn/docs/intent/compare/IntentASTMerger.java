@@ -14,13 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.compare.AttributeChange;
+import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
+import org.eclipse.mylyn.docs.intent.compare.utils.IntentEqualityHelper;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
+import org.eclipse.mylyn.docs.intent.markup.markup.Annotations;
+import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
 /**
  * Merges local and repository asts using EMF Compare.
@@ -68,26 +73,61 @@ public class IntentASTMerger {
 				repositoryRoot.eSet(feature, localRoot.eGet(feature));
 			}
 		} else {
-			for (Diff diff : getDifferences(localRoot, repositoryRoot)) {
+			boolean displayAllDiffs = false;
+			Comparison comparison = EMFCompareUtils.compareDocuments(localRoot, repositoryRoot);
+			System.err.println("LOCAL <=> REPOSITORY");
+			displayMatchModel(comparison);
+			System.err.println("=====================");
+			for (Diff diff : comparison.getDifferences()) {
+				if (displayAllDiffs) {
+					System.err.println("diff " + diff.getKind() + " " + diff);
+				}
 				if (!filter(diff)) {
 					System.err.println("applying " + diff.getKind() + " " + diff);
-					diff.copyLeftToRight();
+					try {
+						diff.copyLeftToRight();
+					} catch (Exception e) {
+						System.err.println(e.getClass().getName() + ": " + e.getMessage());
+					}
 				}
 			}
 		}
 	}
 
-	/**
-	 * Returns the differences between a given local object and the corresponding repository element.
-	 * 
-	 * @param localRoot
-	 *            the local element to commit
-	 * @param repositoryRoot
-	 *            the repository element to update
-	 * @return the differences between a given local object and the corresponding repository element
-	 */
-	public static List<Diff> getDifferences(EObject localRoot, EObject repositoryRoot) {
-		return EMFCompareUtils.compareDocuments(localRoot, repositoryRoot).getDifferences();
+	private void displayMatchModel(Comparison comparison) {
+		for (Match root : comparison.getMatches()) {
+			displayMatchModel(root, "");
+		}
+	}
+
+	private void displayMatchModel(Match root, String tab) {
+		String left = serializeMatchedElement(root.getLeft());
+		String right = serializeMatchedElement(root.getRight());
+		if (left != null && right != null) {
+			System.err.println(tab + left + " <=> " + right);
+		}
+		for (Match match : root.getSubmatches()) {
+			displayMatchModel(match, tab + "\t");
+		}
+	}
+
+	private String serializeMatchedElement(EObject element) {
+		String res = null;
+		if (element == null) {
+			res = "UNMATCHED";
+		} else {
+			res = element.eClass().getName();
+			String fragment = new IntentEqualityHelper().getURI(element).fragment();
+			if (fragment != null) {
+				res += "[" + fragment + "]";
+			}
+		}
+		if (element instanceof Text) {
+			res += "\"" + ((Text)element).getData() + "\"";
+		} else if (element instanceof Annotations) {
+			res = null;
+		}
+		return res;
 	}
 
 	/**

@@ -28,7 +28,28 @@ public class IntentEqualityHelper extends EqualityHelper {
 	 */
 	@Override
 	public URI getURI(EObject object) {
-		// TODO redefine accurate URIs
-		return super.getURI(object);
+		URI uri = super.getURI(object);
+		String level = computeLevel(object);
+		if (level != null) {
+			uri = uri.trimFragment().appendFragment(level);
+		}
+		return uri;
 	}
+
+	private static String computeLevel(EObject object) {
+		String level = null;
+		EObject container = object.eContainer();
+		if (container != null) {
+			int index = container.eContents().indexOf(object);
+			String containerLevel = computeLevel(container);
+			if (containerLevel != null) {
+				level = containerLevel + "_";
+			} else {
+				level = "";
+			}
+			level += index;
+		}
+		return level;
+	}
+
 }

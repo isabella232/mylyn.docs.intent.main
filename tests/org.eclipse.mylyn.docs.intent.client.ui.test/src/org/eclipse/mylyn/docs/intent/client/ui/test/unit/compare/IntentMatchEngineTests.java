@@ -21,7 +21,7 @@ import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
-import org.eclipse.mylyn.docs.intent.compare.IntentASTMerger;
+import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -96,7 +96,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 		IntentStructuredElement copy = EcoreUtil.copy(getIntentDocument());
 
 		// Check that copy is equal to original
-		List<Diff> differences = IntentASTMerger.getDifferences(copy, getIntentDocument());
+		List<Diff> differences = EMFCompareUtils.compareDocuments(copy, getIntentDocument()).getDifferences();
 		String message = "No difference should be detected between an Intent document and its copy";
 		try {
 			assertDiffIsAsExpected(message, differences, 0);
@@ -119,7 +119,8 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 			// according to where the chapter is added, we should have the following results :
 			for (int position = 0; position <= getIntentDocument().getChapters().size(); position++) {
 				copy.getChapters().add(position, newChapter);
-				List<Diff> differences = IntentASTMerger.getDifferences(copy, getIntentDocument());
+				List<Diff> differences = EMFCompareUtils.compareDocuments(copy, getIntentDocument())
+						.getDifferences();
 				String message = "One new chapter should be detected at position " + position;
 				try {
 					Diff diff = assertDiffIsAsExpected(message, differences, 2);
@@ -154,7 +155,8 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 			copy.getChapters().remove(chapterToRemoveinCopy);
 			String message = "A Chapter deletion should be detected at " + position;
 			try {
-				List<Diff> differences = IntentASTMerger.getDifferences(copy, getIntentDocument());
+				List<Diff> differences = EMFCompareUtils.compareDocuments(copy, getIntentDocument())
+						.getDifferences();
 				Diff diff = assertDiffIsAsExpected(message, differences, 2);
 				assertEquals(message + '\n' + getDiffAsString(differences), DifferenceKind.DELETE,
 						diff.getKind());
@@ -198,7 +200,8 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 			// according to where the section is added, we should have the following results :
 			for (int sectionID = 0; sectionID <= container.getSubSections().size(); sectionID++) {
 				containerCopy.getIntentContent().add(sectionID, newSection);
-				List<Diff> differences = IntentASTMerger.getDifferences(copy, getIntentDocument());
+				List<Diff> differences = EMFCompareUtils.compareDocuments(copy, getIntentDocument())
+						.getDifferences();
 				String message = "One new section should be detected at position " + containerLevel + "."
 						+ sectionID;
 				try {
@@ -254,7 +257,8 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 			IntentSection removedSection = (IntentSection)containerCopy.getSubSections().get(sectionID);
 			int trueIndex = containerCopy.getIntentContent().indexOf(removedSection);
 			containerCopy.getIntentContent().remove(removedSection);
-			List<Diff> differences = IntentASTMerger.getDifferences(copy, getIntentDocument());
+			List<Diff> differences = EMFCompareUtils.compareDocuments(copy, getIntentDocument())
+					.getDifferences();
 			String message = "A Section deletion should be detected at position" + containerLevel + "."
 					+ sectionID;
 

@@ -85,7 +85,7 @@ public final class AnnotationUtils {
 	 */
 	public static IntentAnnotation getIntentAnnotation(IntentEditor intentEditor,
 			IntentAnnotationMessageType messageType, String expectedMessage, boolean exactMessage) {
-		Iterator annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
+		Iterator<?> annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
 				.getAnnotationModel(null).getAnnotationIterator();
 		while (annotationIterator.hasNext()) {
 			Object annotation = annotationIterator.next();
@@ -208,7 +208,7 @@ public final class AnnotationUtils {
 	 */
 	public static void displayAnnotations(IntentEditor intentEditor) {
 		System.err.println("Annotations in \"" + intentEditor.getPartName() + "\":");
-		Iterator annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
+		Iterator<?> annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
 				.getAnnotationModel(null).getAnnotationIterator();
 		while (annotationIterator.hasNext()) {
 			Object o = annotationIterator.next();
