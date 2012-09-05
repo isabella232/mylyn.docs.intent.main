@@ -10,20 +10,15 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.match;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
-
-import java.util.LinkedHashSet;
-
-import org.eclipse.emf.compare.match.eobject.PairCharDistance;
+import org.eclipse.emf.compare.utils.DiffUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.compare.debug.DebugUtils;
 import org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.CountingDiffEngine;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
-import org.eclipse.mylyn.docs.intent.markup.markup.Text;
+import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
+import org.eclipse.mylyn.docs.intent.markup.serializer.WikiTextSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 /**
@@ -32,6 +27,11 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentCountingDiffEngine extends CountingDiffEngine {
+
+	/**
+	 * We set a default distance here because if maxDistance is 0 results are invalid.
+	 */
+	private static final int DEFAULT_DISTANCE = 500;
 
 	/**
 	 * Constructor.
@@ -59,26 +59,11 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		if (a instanceof ModelingUnit || a instanceof DescriptionUnit || a instanceof IntentStructuredElement) {
 			String serializedA = new IntentSerializer().serialize(a);
 			String serializedB = new IntentSerializer().serialize(b);
-			distance = new PairCharDistance().distance(serializedA, serializedB);
-		} else if (a instanceof Text) {
-			Text textA = (Text)a;
-			Text textB = (Text)b;
-			distance = new PairCharDistance().distance(textA.getData(), textB.getData());
-		} else if (a instanceof Paragraph) {
-			LinkedHashSet<Text> obj1Texts = Sets.newLinkedHashSet(Iterables.filter(
-					((Paragraph)a).getContent(), Text.class));
-			LinkedHashSet<Text> obj2Texts = Sets.newLinkedHashSet(Iterables.filter(
-					((Paragraph)b).getContent(), Text.class));
-			String obj1AsString = "";
-			for (Text t : obj1Texts) {
-				obj1AsString += t.getData();
-			}
-
-			String obj2AsString = "";
-			for (Text t : obj2Texts) {
-				obj2AsString += t.getData();
-			}
-			distance = new PairCharDistance().distance(obj1AsString, obj2AsString);
+			distance = getStringDistance(serializedA, serializedB);
+		} else if (a.eClass().getEPackage().equals(MarkupPackage.eINSTANCE)) {
+			String serializedA = new WikiTextSerializer().serialize(a);
+			String serializedB = new WikiTextSerializer().serialize(b);
+			distance = getStringDistance(serializedA, serializedB);
 		} else {
 			System.err.println("DEFAULT for " + a.eClass().getName());
 			distance = super.measureDifferences(a, b);
@@ -91,6 +76,23 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 			System.err.println(distance + "\t" + aString + " <=> " + bString);
 		}
 		return distance;
+	}
+
+	/**
+	 * Returns the distance between two strings.
+	 * 
+	 * @param a
+	 *            the first string
+	 * @param b
+	 *            the second string
+	 * @return the distance between two strings
+	 */
+	private int getStringDistance(String a, String b) {
+		int res = DEFAULT_DISTANCE;
+		if (a != null && b != null) {
+			return (int)((1 - DiffUtil.diceCoefficient(a, b)) * DEFAULT_DISTANCE);
+		}
+		return res;
 	}
 
 }

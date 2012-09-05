@@ -72,28 +72,30 @@ public class IntentASTMerger {
 			}
 		} else {
 			// TODO remove debug instructions when ready
-			// System.err.println("===================================================");
-			// System.err.println("--------------------- LOCAL -----------------------");
-			// System.err.println();
-			// DebugUtils.displayModel(localRoot);
-			// System.err.println();
-			//
-			// System.err.println("--------------------- REPO ------------------------");
-			// System.err.println();
-			// DebugUtils.displayModel(repositoryRoot);
+			System.err.println(" ------------------------ LOCAL -----------------------");
+			System.err.println();
+			DebugUtils.displayModel(localRoot);
+			System.err.println();
+
+			System.err.println(" ------------------------ REPO ------------------------");
+			System.err.println();
+			DebugUtils.displayModel(repositoryRoot);
 
 			if (CustomizationOptions.USE_CUSTOM_DIFF_ENGINE) {
 				System.err.println();
-				System.err.println("-------------- RELEVANT DISTANCES -----------------");
+				System.err.println(" ---------------------- DISTANCES ---------------------");
 				System.err.println();
 			}
 			Comparison comparison = EMFCompareUtils.compareDocuments(localRoot, repositoryRoot);
-			// System.err.println();
-			System.err.println("-------------------- MATCHES ----------------------");
+			System.err.println();
+
+			System.err.println(" ----------------------- MATCHES ----------------------");
 			System.err.println();
 			DebugUtils.displayMatchModel(comparison);
 			System.err.println();
 
+			System.err.println(" ------------------------ DIFFS -----------------------");
+			System.err.println();
 			boolean failed = false;
 			for (Diff diff : comparison.getDifferences()) {
 				if (!filter(diff)) {
