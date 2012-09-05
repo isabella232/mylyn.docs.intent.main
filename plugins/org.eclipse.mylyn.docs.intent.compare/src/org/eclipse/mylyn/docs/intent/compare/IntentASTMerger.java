@@ -16,16 +16,14 @@ import java.util.List;
 import org.eclipse.emf.compare.AttributeChange;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
-import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.mylyn.docs.intent.compare.debug.CustomizationOptions;
+import org.eclipse.mylyn.docs.intent.compare.debug.DebugUtils;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
-import org.eclipse.mylyn.docs.intent.compare.utils.IntentEqualityHelper;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
-import org.eclipse.mylyn.docs.intent.markup.markup.Annotations;
-import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
 /**
  * Merges local and repository asts using EMF Compare.
@@ -73,61 +71,55 @@ public class IntentASTMerger {
 				repositoryRoot.eSet(feature, localRoot.eGet(feature));
 			}
 		} else {
-			boolean displayAllDiffs = false;
+			// TODO remove debug instructions when ready
+			// System.err.println("===================================================");
+			// System.err.println("--------------------- LOCAL -----------------------");
+			// System.err.println();
+			// DebugUtils.displayModel(localRoot);
+			// System.err.println();
+			//
+			// System.err.println("--------------------- REPO ------------------------");
+			// System.err.println();
+			// DebugUtils.displayModel(repositoryRoot);
+
+			if (CustomizationOptions.USE_CUSTOM_DIFF_ENGINE) {
+				System.err.println();
+				System.err.println("-------------- RELEVANT DISTANCES -----------------");
+				System.err.println();
+			}
 			Comparison comparison = EMFCompareUtils.compareDocuments(localRoot, repositoryRoot);
-			System.err.println("LOCAL <=> REPOSITORY");
-			displayMatchModel(comparison);
-			System.err.println("=====================");
+			// System.err.println();
+			System.err.println("-------------------- MATCHES ----------------------");
+			System.err.println();
+			DebugUtils.displayMatchModel(comparison);
+			System.err.println();
+
+			boolean failed = false;
 			for (Diff diff : comparison.getDifferences()) {
-				if (displayAllDiffs) {
-					System.err.println("diff " + diff.getKind() + " " + diff);
-				}
 				if (!filter(diff)) {
-					System.err.println("applying " + diff.getKind() + " " + diff);
-					try {
-						diff.copyLeftToRight();
-					} catch (Exception e) {
-						System.err.println(e.getClass().getName() + ": " + e.getMessage());
+					if (failed) {
+						System.err.println("ignoring " + diff.getKind() + " " + diff);
+						System.err
+								.println("\tbased on: " + DebugUtils.matchToReadableString(diff.getMatch()));
+					} else {
+						System.err.println("applying " + diff.getKind() + " " + diff);
+						System.err
+								.println("\tbased on: " + DebugUtils.matchToReadableString(diff.getMatch()));
+						try {
+							diff.copyLeftToRight();
+							// CHECKSTYLE:OFF
+						} catch (Throwable e) { // DEBUG - workaround noisy merge errors
+							// CHECKSTYLE:ON
+							System.err.println(e.getClass().getName());
+							failed = true;
+						}
 					}
 				}
 			}
-		}
-	}
-
-	private void displayMatchModel(Comparison comparison) {
-		for (Match root : comparison.getMatches()) {
-			displayMatchModel(root, "");
-		}
-	}
-
-	private void displayMatchModel(Match root, String tab) {
-		String left = serializeMatchedElement(root.getLeft());
-		String right = serializeMatchedElement(root.getRight());
-		if (left != null && right != null) {
-			System.err.println(tab + left + " <=> " + right);
-		}
-		for (Match match : root.getSubmatches()) {
-			displayMatchModel(match, tab + "\t");
-		}
-	}
-
-	private String serializeMatchedElement(EObject element) {
-		String res = null;
-		if (element == null) {
-			res = "UNMATCHED";
-		} else {
-			res = element.eClass().getName();
-			String fragment = new IntentEqualityHelper().getURI(element).fragment();
-			if (fragment != null) {
-				res += "[" + fragment + "]";
+			if (failed) {
+				throw new MergingException("An error occured when merging.");
 			}
 		}
-		if (element instanceof Text) {
-			res += "\"" + ((Text)element).getData() + "\"";
-		} else if (element instanceof Annotations) {
-			res = null;
-		}
-		return res;
 	}
 
 	/**

@@ -30,9 +30,15 @@ import org.eclipse.emf.compare.match.eobject.IEObjectMatcher;
 import org.eclipse.emf.compare.match.eobject.ProximityEObjectMatcher;
 import org.eclipse.emf.compare.req.DefaultReqEngine;
 import org.eclipse.emf.compare.req.IReqEngine;
+import org.eclipse.mylyn.docs.intent.compare.debug.CustomizationOptions;
 import org.eclipse.mylyn.docs.intent.compare.scope.IntentComparisonScope;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
+import org.eclipse.mylyn.docs.intent.markup.markup.Annotations;
+import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
+import org.eclipse.mylyn.docs.intent.markup.markup.SimpleContainer;
+import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
 import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.base.Predicates.not;
@@ -84,9 +90,22 @@ public final class EMFCompareUtils {
 		EMFCompareConfiguration configuration = builder.build();
 		IntentComparisonScope scope = new IntentComparisonScope(left, right);
 
-		Predicate<Object> filter = not(or(instanceOf(CompilationStatus.class),
-				instanceOf(SynchronizerCompilationStatus.class)));
-		scope.setEObjectContentFilter(filter);
+		// TODO remove debug fork when ready
+		if (CustomizationOptions.USE_REDUCED_SCOPE) {
+			Predicate<Object> filter = not(or(
+					instanceOf(CompilationStatus.class),
+					instanceOf(SynchronizerCompilationStatus.class)
+					//
+					, instanceOf(SimpleContainer.class), instanceOf(Paragraph.class), instanceOf(Text.class),
+					instanceOf(DescriptionBloc.class), instanceOf(Annotations.class)
+			//
+			));
+			scope.setEObjectContentFilter(filter);
+		} else {
+			Predicate<Object> filter = not(or(instanceOf(CompilationStatus.class),
+					instanceOf(SynchronizerCompilationStatus.class)));
+			scope.setEObjectContentFilter(filter);
+		}
 
 		final IMatchEngine matchEngine = new DefaultMatchEngine() {
 

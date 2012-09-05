@@ -35,14 +35,12 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.mylyn.docs.intent.compare.debug.CustomizationOptions;
 
 /**
- * This distance function implementation will actually compare the given EObject. FORK to match intent
- * specifics.
+ * This distance function implementation will actually compare the given EObject.
  * 
- * @see org.eclipse.emf.compare.match.eobject.EditionDistance
- * @author <a href="mailto:lcedric.brun@obeo.fr">Cedric Brun</a>
- * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
+ * @author <a href="mailto:cedric.brun@obeo.fr">Cedric Brun</a>
  */
 public class EditionDistance implements DistanceFunction {
 	/**
@@ -97,7 +95,12 @@ public class EditionDistance implements DistanceFunction {
 	 * {@inheritDoc}
 	 */
 	public int distance(EObject a, EObject b, int maxDistance) {
-		return new IntentCountingDiffEngine(this, maxDistance).measureDifferences(a, b); // FORK
+		// TODO remove debug fork when ready
+		if (CustomizationOptions.USE_CUSTOM_DIFF_ENGINE) {
+			return new IntentCountingDiffEngine(this, maxDistance).measureDifferences(a, b);
+		} else {
+			return new CountingDiffEngine(maxDistance).measureDifferences(a, b);
+		}
 	}
 
 	/**
@@ -264,7 +267,18 @@ public class EditionDistance implements DistanceFunction {
 				default:
 					break;
 			}
+		}
 
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.emf.compare.diff.IDiffProcessor#resourceAttachmentChange(org.eclipse.emf.compare.Match,
+		 *      java.lang.String, org.eclipse.emf.compare.DifferenceKind,
+		 *      org.eclipse.emf.compare.DifferenceSource)
+		 */
+		public void resourceAttachmentChange(Match match, String uri, DifferenceKind kind,
+				DifferenceSource source) {
+			// Not important for the distance computation
 		}
 
 		/**
