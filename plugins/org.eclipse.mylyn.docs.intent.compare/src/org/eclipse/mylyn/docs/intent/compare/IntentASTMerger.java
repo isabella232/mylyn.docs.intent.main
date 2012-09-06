@@ -72,40 +72,40 @@ public class IntentASTMerger {
 			}
 		} else {
 			// TODO remove debug instructions when ready
-			System.err.println(" ------------------------ LOCAL -----------------------");
-			System.err.println();
+			System.out.println(" ------------------------ LOCAL -----------------------");
+			System.out.println();
 			DebugUtils.displayModel(localRoot);
-			System.err.println();
+			System.out.println();
 
-			System.err.println(" ------------------------ REPO ------------------------");
-			System.err.println();
+			System.out.println(" ------------------------ REPO ------------------------");
+			System.out.println();
 			DebugUtils.displayModel(repositoryRoot);
 
 			if (CustomizationOptions.USE_CUSTOM_DIFF_ENGINE) {
-				System.err.println();
-				System.err.println(" ---------------------- DISTANCES ---------------------");
-				System.err.println();
+				System.out.println();
+				System.out.println(" ---------------------- DISTANCES ---------------------");
+				System.out.println();
 			}
 			Comparison comparison = EMFCompareUtils.compareDocuments(localRoot, repositoryRoot);
-			System.err.println();
+			System.out.println();
 
-			System.err.println(" ----------------------- MATCHES ----------------------");
-			System.err.println();
+			System.out.println(" ----------------------- MATCHES ----------------------");
+			System.out.println();
 			DebugUtils.displayMatchModel(comparison);
-			System.err.println();
+			System.out.println();
 
-			System.err.println(" ------------------------ DIFFS -----------------------");
-			System.err.println();
+			System.out.println(" ------------------------ DIFFS -----------------------");
+			System.out.println();
 			boolean failed = false;
 			for (Diff diff : comparison.getDifferences()) {
 				if (!filter(diff)) {
 					if (failed) {
-						System.err.println("ignoring " + diff.getKind() + " " + diff);
-						System.err
+						System.out.println("ignoring " + diff.getKind() + " " + diff);
+						System.out
 								.println("\tbased on: " + DebugUtils.matchToReadableString(diff.getMatch()));
 					} else {
-						System.err.println("applying " + diff.getKind() + " " + diff);
-						System.err
+						System.out.println("applying " + diff.getKind() + " " + diff);
+						System.out
 								.println("\tbased on: " + DebugUtils.matchToReadableString(diff.getMatch()));
 						try {
 							diff.copyLeftToRight();

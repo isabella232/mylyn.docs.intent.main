@@ -130,6 +130,6 @@ public final class EMFCompareUtils {
 		final IEquiEngine equiEngine = new DefaultEquiEngine();
 		equiEngine.computeEquivalences(comparison);
 
-		return EMFCompare.compare(scope, configuration);
+		return comparison;
 	}
 }

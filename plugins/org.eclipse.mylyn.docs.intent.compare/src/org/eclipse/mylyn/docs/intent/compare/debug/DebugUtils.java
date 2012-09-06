@@ -21,7 +21,7 @@ public final class DebugUtils {
 	public static void displayModel(EObject root, String tab) {
 		String s = elementToReadableString(root);
 		if (s != null) {
-			System.err.println(tab + s);
+			System.out.println(tab + s);
 		}
 		for (EObject content : root.eContents()) {
 			if (root instanceof IntentDocument) {
@@ -41,7 +41,7 @@ public final class DebugUtils {
 	private static void displayMatchModel(Match root, String tab) {
 		String matchString = matchToReadableString(root, tab);
 		if (matchString != null) {
-			System.err.println(matchString);
+			System.out.println(matchString);
 		}
 		for (Match match : root.getSubmatches()) {
 			if (root.getLeft() instanceof IntentDocument) {

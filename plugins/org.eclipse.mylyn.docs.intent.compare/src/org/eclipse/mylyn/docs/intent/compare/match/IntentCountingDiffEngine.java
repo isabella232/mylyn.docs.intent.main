@@ -65,7 +65,7 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 			String serializedB = new WikiTextSerializer().serialize(b);
 			distance = getStringDistance(serializedA, serializedB);
 		} else {
-			System.err.println("DEFAULT for " + a.eClass().getName());
+			System.out.println("DEFAULT for " + a.eClass().getName());
 			distance = super.measureDifferences(a, b);
 		}
 
@@ -73,7 +73,7 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		String aString = DebugUtils.elementToReadableString(a);
 		String bString = DebugUtils.elementToReadableString(b);
 		if (aString != null && bString != null) {
-			System.err.println(distance + "\t" + aString + " <=> " + bString);
+			System.out.println(distance + "\t" + aString + " <=> " + bString);
 		}
 		return distance;
 	}
