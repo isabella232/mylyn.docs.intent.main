@@ -70,11 +70,13 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 				* DISTANCE_SERIALIZATION_IMPACT);
 
 		// TODO remove debug instructions when ready
-		String aString = DebugUtils.elementToReadableString(a);
-		String bString = DebugUtils.elementToReadableString(b);
-		if (aString != null && bString != null) {
-			if (a instanceof Text) {
-				System.out.println(distance + "\t" + aString + " <=> " + bString);
+		if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+			String aString = DebugUtils.elementToReadableString(a);
+			String bString = DebugUtils.elementToReadableString(b);
+			if (aString != null && bString != null) {
+				if (a instanceof Text) {
+					System.out.println(distance + "\t" + aString + " <=> " + bString);
+				}
 			}
 		}
 		return distance;
@@ -104,7 +106,9 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 			res = getSerializationDistance(((DescriptionBloc)eObjA).getDescriptionBloc(),
 					((DescriptionBloc)eObjB).getDescriptionBloc());
 		} else {
-			System.out.println("UNABLE TO SERIALIZE " + eObjA.eClass().getName());
+			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+				System.out.println("UNABLE TO SERIALIZE " + eObjA.eClass().getName());
+			}
 		}
 		return res;
 	}

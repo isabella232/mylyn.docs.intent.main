@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import org.eclipse.mylyn.docs.intent.compare.debug.DebugUtils;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
+import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 /**
  * Merges local and repository asts using EMF Compare.
@@ -65,59 +67,80 @@ public class IntentASTMerger {
 	 *             if the mergin has encountered a problem.
 	 */
 	public void mergeFromLocalToRepository(EObject localRoot, EObject repositoryRoot) throws MergingException {
+		String initialContent = new IntentSerializer().serialize(repositoryRoot);
+		String modifiedContent = new IntentSerializer().serialize(localRoot);
+
 		if (OVERRIDE) {
 			for (EStructuralFeature feature : repositoryRoot.eClass().getEAllStructuralFeatures()) {
 				repositoryRoot.eSet(feature, localRoot.eGet(feature));
 			}
 		} else {
 			// TODO remove debug instructions when ready
+			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+				System.out.println(" ------------------------ REPO ------------------------");
+				System.out.println();
+				DebugUtils.displayModel(repositoryRoot);
+				System.out.println();
+				System.out.println(" ------------------------ LOCAL -----------------------");
+				System.out.println();
+				DebugUtils.displayModel(localRoot);
+			}
 
-			System.out.println(" ------------------------ REPO ------------------------");
-			System.out.println();
-			DebugUtils.displayModel(repositoryRoot);
-			System.out.println();
-
-			System.out.println(" ------------------------ LOCAL -----------------------");
-			System.out.println();
-			DebugUtils.displayModel(localRoot);
-
-			System.out.println();
-			System.out.println(" ---------------------- DISTANCES ---------------------");
-			System.out.println();
+			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+				System.out.println();
+				System.out.println(" ---------------------- DISTANCES ---------------------");
+				System.out.println();
+			}
 			Comparison comparison = EMFCompareUtils.compareDocuments(localRoot, repositoryRoot);
-			System.out.println();
+			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+				System.out.println();
+			}
 
-			System.out.println(" ----------------------- MATCHES ----------------------");
-			System.out.println();
-			DebugUtils.displayMatchModel(comparison);
-			System.out.println();
+			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+				System.out.println(" ----------------------- MATCHES ----------------------");
+				System.out.println();
+				DebugUtils.displayMatchModel(comparison);
+				System.out.println();
+			}
 
-			System.out.println(" ------------------------ DIFFS -----------------------");
-			System.out.println();
-			boolean failed = false;
+			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+				System.out.println(" ------------------------ DIFFS -----------------------");
+				System.out.println();
+			}
+
+			Throwable exception = null;
 			for (Diff diff : comparison.getDifferences()) {
 				if (!filter(diff)) {
-					if (failed) {
-						System.out.println("ignoring " + diff.getKind() + " " + diff);
-						System.out
-								.println("\tbased on: " + DebugUtils.matchToReadableString(diff.getMatch()));
+					if (exception != null) {
+						if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+							System.out.println("ignoring " + diff.getKind() + " " + diff);
+							System.out.println("\tbased on: "
+									+ DebugUtils.matchToReadableString(diff.getMatch()));
+						}
 					} else {
-						System.out.println("applying " + diff.getKind() + " " + diff);
-						System.out
-								.println("\tbased on: " + DebugUtils.matchToReadableString(diff.getMatch()));
+						if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+							System.out.println("applying " + diff.getKind() + " " + diff);
+							System.out.println("\tbased on: "
+									+ DebugUtils.matchToReadableString(diff.getMatch()));
+						}
 						try {
 							diff.copyLeftToRight();
-							// CHECKSTYLE:OFF
 						} catch (Throwable e) { // DEBUG - workaround noisy merge errors
-							// CHECKSTYLE:ON
-							System.err.println(e.getClass().getName());
-							failed = true;
+							exception = e;
 						}
 					}
 				}
 			}
-			if (failed) {
-				throw new MergingException("An error occured when merging.");
+			if (exception != null) {
+				if (DebugUtils.SAVE_TESTS) {
+					String base = "D:\\dev\\git\\intent\\org.eclipse.mylyn.docs.intent.main\\plugins\\org.eclipse.mylyn.docs.intent.compare.test\\data";
+					String directory = base + "\\test" + System.currentTimeMillis();
+					new File(directory).mkdir();
+					DebugUtils.saveToFile(directory + "\\IntentDocument.text", initialContent);
+					DebugUtils.saveToFile(directory + "\\IntentDocument.text.modifications", modifiedContent);
+				}
+				throw new MergingException("An error occured when merging: " + exception.getClass().getName());
+
 			}
 		}
 	}

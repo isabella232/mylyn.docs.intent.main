@@ -1,5 +1,11 @@
 package org.eclipse.mylyn.docs.intent.compare.debug;
 
+import com.google.common.io.Files;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.ecore.EObject;
@@ -10,6 +16,10 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
 // TODO remove this class/package when ready
 public final class DebugUtils {
+
+	public static final boolean LOG_DEBUG_INFORMATIONS = false;
+
+	public static final boolean SAVE_TESTS = false;
 
 	private DebugUtils() {
 	}
@@ -86,5 +96,15 @@ public final class DebugUtils {
 		// res += "[Repo]";
 		// }
 		return res;
+	}
+
+	public static void saveToFile(String file, String content) {
+		File destination = new File(file);
+		try {
+			Files.write(content, destination, Charset.forName("UTF-8"));
+		} catch (IOException e) {
+			System.err.println(destination.getAbsolutePath());
+			e.printStackTrace();
+		}
 	}
 }

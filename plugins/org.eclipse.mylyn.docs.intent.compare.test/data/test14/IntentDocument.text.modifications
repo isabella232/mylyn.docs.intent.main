@@ -1,0 +1,33 @@
+Document {
+	Chapter A {
+		Text
+
+		Section A {
+			Text
+
+			Section A {
+				Text
+
+				Section A {
+					Text
+
+					Section A {
+						Text
+
+						Section A {
+							Text
+
+							Section A {
+								Text
+								@M
+									truc {
+									}
+								M@
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

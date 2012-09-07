@@ -1,0 +1,13 @@
+Document {
+	Chapter c {
+		Section new {
+			Text
+		}
+
+		Text
+
+		Section s {
+			Text
+		}
+	}
+}
