@@ -1,3 +1,4 @@
+Document {
 Chapter {
 	The first chapter is the best.
 
@@ -35,4 +36,5 @@ Chapter {
 		@see "TheUnmatchElementConcept" ). To differenciate
 		added element from deleted element, we define the @EEnum@ *Side* :
 	}
+}
 }

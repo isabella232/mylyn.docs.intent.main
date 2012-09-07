@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.mylyn.docs.intent.compare.test.utils.AbstractEMFCompareTest;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
@@ -84,8 +84,8 @@ public class MergingIssues extends AbstractEMFCompareTest {
 		passed.add(testName);
 		String repository = getFileAsString(new File("data/" + testName + "/IntentDocument.text"));
 		String modified = getFileAsString(new File("data/" + testName + "/IntentDocument.text.modifications"));
-		IntentDocument left = parseIntentDocument(modified);
-		IntentDocument right = parseIntentDocument(repository);
+		IntentStructuredElement left = parseIntentDocument(modified);
+		IntentStructuredElement right = parseIntentDocument(repository);
 		compareAndMergeDiffs(left, right);
 		assertEquals(modified, new IntentSerializer().serialize(right));
 	}

@@ -1,3 +1,5 @@
+Document {
+Chapter {
 Section Differencing the left model from right model when comparaison fails {
 	During the Match process, deleted or added elements are considered as unmatched.
 
@@ -38,4 +40,5 @@ Section Differencing the left model from right model when comparaison fails {
 
 	o differenciate
 	added element from deleted element, we define the @EEnum@ *Side* :
+}
 }

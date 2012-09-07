@@ -1,11 +1,13 @@
-Chapter {
-	Section Section 2.1 {
-		The 2.1 Section.
-	}
+Document {
+	Chapter {
+		Section Section 2.1 {
+			The 2.1 Section.
+		}
 
-	Section Section 2.2 {
-		The 2.2 Section.
-	}
+		Section Section 2.2 {
+			The 2.2 Section.
+		}
 
-	A new description Unit
+		A new description Unit
+	}
 }

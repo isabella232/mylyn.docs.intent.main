@@ -11,13 +11,13 @@ import junit.framework.TestCase;
 
 import org.eclipse.mylyn.docs.intent.compare.IntentASTMerger;
 import org.eclipse.mylyn.docs.intent.compare.MergingException;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 
 public class AbstractEMFCompareTest extends TestCase {
 
-	protected void compareAndMergeDiffs(IntentDocument left, IntentDocument right) {
+	protected void compareAndMergeDiffs(IntentStructuredElement left, IntentStructuredElement right) {
 		try {
 			new IntentASTMerger().mergeFromLocalToRepository(left, right);
 		} catch (MergingException e) {
@@ -25,8 +25,8 @@ public class AbstractEMFCompareTest extends TestCase {
 		}
 	}
 
-	protected IntentDocument parseIntentDocument(String content) throws ParseException {
-		return (IntentDocument)new IntentParser().parse(content);
+	protected IntentStructuredElement parseIntentDocument(String content) throws ParseException {
+		return (IntentStructuredElement)new IntentParser().parse(content);
 	}
 
 	/**

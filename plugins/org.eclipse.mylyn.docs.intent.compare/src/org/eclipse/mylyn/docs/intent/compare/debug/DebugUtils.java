@@ -21,6 +21,8 @@ public final class DebugUtils {
 
 	public static final boolean SAVE_TESTS = false;
 
+	public static final boolean USE_DEFAULT_COMPARE = false;
+
 	private DebugUtils() {
 	}
 

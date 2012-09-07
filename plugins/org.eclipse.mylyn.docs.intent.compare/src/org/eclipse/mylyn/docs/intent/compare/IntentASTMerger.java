@@ -75,6 +75,10 @@ public class IntentASTMerger {
 				repositoryRoot.eSet(feature, localRoot.eGet(feature));
 			}
 		} else {
+			if (DebugUtils.USE_DEFAULT_COMPARE) {
+				System.err.println("WARNING !!! default comparison activated");
+			}
+
 			// TODO remove debug instructions when ready
 			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
 				System.out.println(" ------------------------ REPO ------------------------");
@@ -91,7 +95,12 @@ public class IntentASTMerger {
 				System.out.println(" ---------------------- DISTANCES ---------------------");
 				System.out.println();
 			}
-			Comparison comparison = EMFCompareUtils.compareDocuments(localRoot, repositoryRoot);
+			Comparison comparison = null;
+			if (DebugUtils.USE_DEFAULT_COMPARE) {
+				comparison = EMFCompareUtils.compare(localRoot, repositoryRoot);
+			} else {
+				comparison = EMFCompareUtils.compareDocuments(localRoot, repositoryRoot);
+			}
 			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
 				System.out.println();
 			}

@@ -19,10 +19,6 @@ Document {
 
 							Section A {
 								Text
-								@M
-									truc {
-									}
-								M@
 							}
 						}
 					}

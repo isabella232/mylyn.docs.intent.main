@@ -19,10 +19,6 @@ Document {
 
 							Section Title {
 								Text
-								@M
-									 {
-									}
-								M@
 							}
 						}
 					}
