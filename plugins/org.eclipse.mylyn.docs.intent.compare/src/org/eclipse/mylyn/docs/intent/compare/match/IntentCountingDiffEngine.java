@@ -30,10 +30,18 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  */
 public class IntentCountingDiffEngine extends CountingDiffEngine {
 
+	private static final double DISTANCE_SERIALIZATION_IMPACT = 0.5;
+
+	private static final double DISTANCE_URI_IMPACT = 0.5;
+
+	private static final double STRING_DISTANCE_SIZE_IMPACT = 0.7;
+
+	private static final double STRING_DISTANCE_DICE_IMPACT = 0.3;
+
 	/**
 	 * We set a default distance here because if maxDistance is 0 results are invalid.
 	 */
-	private static final int DEFAULT_DISTANCE = 200;
+	private static final int STRING_MAX_DEFAULT_DISTANCE = 200;
 
 	/**
 	 * Constructor.
@@ -56,14 +64,12 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 */
 	@Override
 	public int measureDifferences(EObject a, EObject b) {
-		// TODO remove debug instructions when ready
-
 		int serializationDistance = getSerializationDistance(a, b);
 		int uriDistance = getStringDistance(helper.getURI(a).fragment(), helper.getURI(b).fragment());
+		int distance = (int)(uriDistance * DISTANCE_URI_IMPACT + serializationDistance
+				* DISTANCE_SERIALIZATION_IMPACT);
 
-		int distance = (int)((uriDistance + serializationDistance) / 2);
-
-		// DEBUG
+		// TODO remove debug instructions when ready
 		String aString = DebugUtils.elementToReadableString(a);
 		String bString = DebugUtils.elementToReadableString(b);
 		if (aString != null && bString != null) {
@@ -84,7 +90,7 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 * @return the distance between two strings
 	 */
 	private static int getSerializationDistance(EObject eObjA, EObject eObjB) {
-		int res = DEFAULT_DISTANCE;
+		int res = STRING_MAX_DEFAULT_DISTANCE;
 		if (eObjA instanceof ModelingUnit || eObjA instanceof DescriptionUnit
 				|| eObjA instanceof IntentStructuredElement) {
 			String serializedA = new IntentSerializer().serialize(eObjA);
@@ -113,12 +119,13 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 * @return the distance between two strings
 	 */
 	private static int getStringDistance(String a, String b) {
-		int res = DEFAULT_DISTANCE;
+		int res = STRING_MAX_DEFAULT_DISTANCE;
 		if (a != null && b != null) {
 			double sizeCoeff = 1 - (2d * Math.abs(a.length() - b.length())) / (a.length() + b.length());
 			double diceCoefficient = DiffUtil.diceCoefficient(a, b);
-			double average = (diceCoefficient + sizeCoeff) / 2;
-			res = (int)((1 - average) * DEFAULT_DISTANCE);
+			double average = diceCoefficient * STRING_DISTANCE_DICE_IMPACT + sizeCoeff
+					* STRING_DISTANCE_SIZE_IMPACT;
+			res = (int)((1 - average) * STRING_MAX_DEFAULT_DISTANCE);
 		} else {
 			if (a == null && b == null) {
 				res = 0;
