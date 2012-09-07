@@ -11,13 +11,13 @@ import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.compare.utils.IntentEqualityHelper;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
-import org.eclipse.mylyn.docs.intent.markup.markup.Annotations;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
 // TODO remove this class/package when ready
 public final class DebugUtils {
 
-	public static final boolean LOG_DEBUG_INFORMATIONS = false;
+	public static final boolean LOG_DEBUG_INFORMATIONS = true;
 
 	public static final boolean SAVE_TESTS = false;
 
@@ -91,7 +91,12 @@ public final class DebugUtils {
 		}
 		if (element instanceof Text) {
 			res += "\"" + ((Text)element).getData() + "\"";
-		} else if (element instanceof Annotations || element instanceof IntentDocument) {
+		} else if (element instanceof IntentStructuredElement) {
+			String title = ((IntentStructuredElement)element).getFormattedTitle();
+			if (title != null) {
+				res += "\"" + title + "\"";
+			}
+		} else if (element instanceof IntentDocument) {
 			res = null;
 		}
 		// if (element != null && element.eResource() != null) {

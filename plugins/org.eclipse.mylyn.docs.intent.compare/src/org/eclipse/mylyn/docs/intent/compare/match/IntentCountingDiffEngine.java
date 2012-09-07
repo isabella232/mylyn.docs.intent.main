@@ -19,7 +19,6 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
-import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 import org.eclipse.mylyn.docs.intent.markup.serializer.WikiTextSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
@@ -65,9 +64,9 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		}
 
 		if (titleDistance != null && uriDistance != null && serializationDistance != null) {
-			distance = (int)(titleDistance * 0.4 + uriDistance * 0.3 + serializationDistance * 0.3);
+			distance = (int)(titleDistance * 0.6 + uriDistance * 0.1 + serializationDistance * 0.3);
 		} else if (uriDistance != null && serializationDistance != null) {
-			distance = (int)(uriDistance * 0.5 + serializationDistance * 0.5);
+			distance = (int)(uriDistance * 0.2 + serializationDistance * 0.8);
 		} else if (uriDistance != null) {
 			distance = uriDistance;
 		} else if (serializationDistance != null) {
@@ -84,7 +83,7 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 			String aString = DebugUtils.elementToReadableString(a);
 			String bString = DebugUtils.elementToReadableString(b);
 			if (aString != null && bString != null) {
-				if (a instanceof Text) {
+				if (a instanceof DescriptionUnit) {
 					System.out.println(distance + "\t" + aString + " <=> " + bString);
 				}
 			}
@@ -126,6 +125,8 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		String fragmentB = helper.getURI(b).fragment();
 		if (fragmentA != null && fragmentB != null) {
 			distance = StringDistanceUtils.getStringDistance(fragmentA, fragmentB);
+			// } else {
+			// System.err.println("UNABLE TO COMPARE URI FOR " + a);
 		}
 		return distance;
 	}
@@ -145,6 +146,8 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		String serializedB = serialize(b);
 		if (serializedA != null && serializedB != null) {
 			distance = StringDistanceUtils.getStringDistance(serializedA, serializedB);
+			// } else {
+			// System.err.println("UNABLE TO COMPARE SERIALIZATION FOR " + a);
 		}
 		return distance;
 	}
