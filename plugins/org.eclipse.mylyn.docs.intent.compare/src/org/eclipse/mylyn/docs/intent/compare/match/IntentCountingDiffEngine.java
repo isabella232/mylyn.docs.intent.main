@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.match;
 
-import org.eclipse.emf.compare.utils.DiffUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.compare.debug.DebugUtils;
 import org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.CountingDiffEngine;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
+import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
+import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
@@ -29,19 +29,7 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentCountingDiffEngine extends CountingDiffEngine {
-
-	private static final double DISTANCE_SERIALIZATION_IMPACT = 0.5;
-
-	private static final double DISTANCE_URI_IMPACT = 0.5;
-
-	private static final double STRING_DISTANCE_SIZE_IMPACT = 0.7;
-
-	private static final double STRING_DISTANCE_DICE_IMPACT = 0.3;
-
-	/**
-	 * We set a default distance here because if maxDistance is 0 results are invalid.
-	 */
-	private static final int STRING_MAX_DEFAULT_DISTANCE = 200;
+	private static final int DEFAULT_MAX_DISTANCE = 200;
 
 	/**
 	 * Constructor.
@@ -64,10 +52,32 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 */
 	@Override
 	public int measureDifferences(EObject a, EObject b) {
-		int serializationDistance = getSerializationDistance(a, b);
-		int uriDistance = getStringDistance(helper.getURI(a).fragment(), helper.getURI(b).fragment());
-		int distance = (int)(uriDistance * DISTANCE_URI_IMPACT + serializationDistance
-				* DISTANCE_SERIALIZATION_IMPACT);
+		Integer distance = null;
+
+		// TODO refactor to only compute possible distances
+
+		Integer titleDistance = null;
+		Integer serializationDistance = getSerializationDistance(a, b);
+		Integer uriDistance = getURIDistance(a, b);
+
+		if (a instanceof IntentChapter || a instanceof IntentSection) {
+			titleDistance = getTitleDistance((IntentStructuredElement)a, (IntentStructuredElement)b);
+		}
+
+		if (titleDistance != null && uriDistance != null && serializationDistance != null) {
+			distance = (int)(titleDistance * 0.4 + uriDistance * 0.3 + serializationDistance * 0.3);
+		} else if (uriDistance != null && serializationDistance != null) {
+			distance = (int)(uriDistance * 0.5 + serializationDistance * 0.5);
+		} else if (uriDistance != null) {
+			distance = uriDistance;
+		} else if (serializationDistance != null) {
+			distance = serializationDistance;
+		}
+
+		if (distance == null) {
+			System.err.println("UNABLE TO MEASURE DIFFERENCES FOR " + a.eClass().getName());
+			distance = DEFAULT_MAX_DISTANCE;
+		}
 
 		// TODO remove debug instructions when ready
 		if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
@@ -83,57 +93,76 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	}
 
 	/**
-	 * Returns the distance between document elements by comparing their serialization.
+	 * Returns the distance between document elements by comparing their titles.
 	 * 
-	 * @param eObjA
+	 * @param a
 	 *            the first element
-	 * @param eObjB
+	 * @param b
 	 *            the second element
 	 * @return the distance between two strings
 	 */
-	private static int getSerializationDistance(EObject eObjA, EObject eObjB) {
-		int res = STRING_MAX_DEFAULT_DISTANCE;
-		if (eObjA instanceof ModelingUnit || eObjA instanceof DescriptionUnit
-				|| eObjA instanceof IntentStructuredElement) {
-			String serializedA = new IntentSerializer().serialize(eObjA);
-			String serializedB = new IntentSerializer().serialize(eObjB);
-			res = getStringDistance(serializedA, serializedB);
-		} else if (eObjA.eClass().getEPackage().equals(MarkupPackage.eINSTANCE)) {
-			String serializedA = new WikiTextSerializer().serialize(eObjA);
-			String serializedB = new WikiTextSerializer().serialize(eObjB);
-			res = getStringDistance(serializedA, serializedB);
-		} else if (eObjA instanceof DescriptionBloc) {
-			res = getSerializationDistance(((DescriptionBloc)eObjA).getDescriptionBloc(),
-					((DescriptionBloc)eObjB).getDescriptionBloc());
-		} else {
-			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
-				System.out.println("UNABLE TO SERIALIZE " + eObjA.eClass().getName());
-			}
+	private Integer getTitleDistance(IntentStructuredElement a, IntentStructuredElement b) {
+		Integer distance = null;
+		String titleA = a.getFormattedTitle();
+		String titleB = b.getFormattedTitle();
+		if (titleA != null && titleB != null) {
+			distance = StringDistanceUtils.getStringDistance(titleA, titleB);
 		}
-		return res;
+		return distance;
 	}
 
 	/**
-	 * Returns the distance between two strings.
+	 * Returns the distance between document elements by comparing their uris.
 	 * 
 	 * @param a
-	 *            the first string
+	 *            the first element
 	 * @param b
-	 *            the second string
+	 *            the second element
 	 * @return the distance between two strings
 	 */
-	private static int getStringDistance(String a, String b) {
-		int res = STRING_MAX_DEFAULT_DISTANCE;
-		if (a != null && b != null) {
-			double sizeCoeff = 1 - (2d * Math.abs(a.length() - b.length())) / (a.length() + b.length());
-			double diceCoefficient = DiffUtil.diceCoefficient(a, b);
-			double average = diceCoefficient * STRING_DISTANCE_DICE_IMPACT + sizeCoeff
-					* STRING_DISTANCE_SIZE_IMPACT;
-			res = (int)((1 - average) * STRING_MAX_DEFAULT_DISTANCE);
-		} else {
-			if (a == null && b == null) {
-				res = 0;
-			}
+	private Integer getURIDistance(EObject a, EObject b) {
+		Integer distance = null;
+		String fragmentA = helper.getURI(a).fragment();
+		String fragmentB = helper.getURI(b).fragment();
+		if (fragmentA != null && fragmentB != null) {
+			distance = StringDistanceUtils.getStringDistance(fragmentA, fragmentB);
+		}
+		return distance;
+	}
+
+	/**
+	 * Returns the distance between document elements by comparing their serialization.
+	 * 
+	 * @param a
+	 *            the first element
+	 * @param b
+	 *            the second element
+	 * @return the distance between two strings
+	 */
+	private Integer getSerializationDistance(EObject a, EObject b) {
+		Integer distance = null;
+		String serializedA = serialize(a);
+		String serializedB = serialize(b);
+		if (serializedA != null && serializedB != null) {
+			distance = StringDistanceUtils.getStringDistance(serializedA, serializedB);
+		}
+		return distance;
+	}
+
+	/**
+	 * Serializes the given element.
+	 * 
+	 * @param root
+	 *            the element to serialize
+	 * @return the serialized version
+	 */
+	private static String serialize(EObject root) {
+		String res = null;
+		if (root.eClass().getEPackage().equals(MarkupPackage.eINSTANCE)) {
+			res = new WikiTextSerializer().serialize(root);
+		} else if (root instanceof ModelingUnit || root instanceof DescriptionUnit
+				|| root instanceof IntentStructuredElement) {
+			res = new IntentSerializer().serialize(root);
 		}
 		return res;
 	}

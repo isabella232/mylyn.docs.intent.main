@@ -122,8 +122,8 @@ public class IntentASTMerger {
 				if (!filter(diff)) {
 					if (exception != null) {
 						if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
-							System.out.println("ignoring " + diff.getKind() + " " + diff);
-							System.out.println("\tbased on: "
+							System.err.println("ignoring " + diff.getKind() + " " + diff);
+							System.err.println("\tbased on: "
 									+ DebugUtils.matchToReadableString(diff.getMatch()));
 						}
 					} else {
