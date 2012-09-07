@@ -1,7 +1,9 @@
 Document {
 	Chapter a {
 		Section b {		}
-toto
+
+		toto
+
 		Section c {		}
 	}
 }

@@ -13,7 +13,6 @@ package org.eclipse.mylyn.docs.intent.compare.utils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.utils.EqualityHelper;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.compare.debug.CustomizationOptions;
 
 /**
  * An {@link EqualityHelper} redefinition used to define accurate URIs.
@@ -30,13 +29,9 @@ public class IntentEqualityHelper extends EqualityHelper {
 	@Override
 	public URI getURI(EObject object) {
 		URI uri = super.getURI(object);
-
-		// TODO remove debug fork when ready
-		if (CustomizationOptions.USE_CUSTOM_URIS) {
-			String level = computeLevel(object);
-			if (level != null) {
-				uri = uri.trimFragment().appendFragment(level);
-			}
+		String level = computeLevel(object);
+		if (level != null) {
+			uri = uri.trimFragment().appendFragment(level);
 		}
 		return uri;
 	}
@@ -50,6 +45,8 @@ public class IntentEqualityHelper extends EqualityHelper {
 	 */
 	private static String computeLevel(EObject object) {
 		String level = null;
+		// TODO FIXME we should use the completeLevel attribute when possible in order to avoid the loading of
+		// all the document
 		EObject container = object.eContainer();
 		if (container != null) {
 			int index = container.eContents().indexOf(object);

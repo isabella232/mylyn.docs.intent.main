@@ -35,7 +35,6 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.mylyn.docs.intent.compare.debug.CustomizationOptions;
 
 /**
  * This distance function implementation will actually compare the given EObject.
@@ -95,12 +94,7 @@ public class EditionDistance implements DistanceFunction {
 	 * {@inheritDoc}
 	 */
 	public int distance(EObject a, EObject b, int maxDistance) {
-		// TODO remove debug fork when ready
-		if (CustomizationOptions.USE_CUSTOM_DIFF_ENGINE) {
-			return new IntentCountingDiffEngine(this, maxDistance).measureDifferences(a, b);
-		} else {
-			return new CountingDiffEngine(maxDistance).measureDifferences(a, b);
-		}
+		return new IntentCountingDiffEngine(this, maxDistance).measureDifferences(a, b);
 	}
 
 	/**
@@ -231,11 +225,6 @@ public class EditionDistance implements DistanceFunction {
 		private int distance;
 
 		/**
-		 * The class used to compare strings. We want to be more fine grain for those.
-		 */
-		private PairCharDistance stringMeter = new PairCharDistance();
-
-		/**
 		 * {@inheritDoc}
 		 */
 		public void referenceChange(Match match, EReference reference, EObject value, DifferenceKind kind,
@@ -259,7 +248,7 @@ public class EditionDistance implements DistanceFunction {
 				case CHANGE:
 					if (aValue instanceof String && bValue instanceof String) {
 						distance += getWeight(attribute)
-								* stringMeter.distance((String)aValue, (String)bValue);
+								* new PairCharDistance().distance((String)aValue, (String)bValue);
 					} else {
 						distance += getWeight(attribute) * attributeChangeCoef;
 					}

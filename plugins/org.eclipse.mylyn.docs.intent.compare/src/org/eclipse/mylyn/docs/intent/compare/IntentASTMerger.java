@@ -19,7 +19,6 @@ import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.mylyn.docs.intent.compare.debug.CustomizationOptions;
 import org.eclipse.mylyn.docs.intent.compare.debug.DebugUtils;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
@@ -72,20 +71,19 @@ public class IntentASTMerger {
 			}
 		} else {
 			// TODO remove debug instructions when ready
-			System.out.println(" ------------------------ LOCAL -----------------------");
-			System.out.println();
-			DebugUtils.displayModel(localRoot);
-			System.out.println();
 
 			System.out.println(" ------------------------ REPO ------------------------");
 			System.out.println();
 			DebugUtils.displayModel(repositoryRoot);
+			System.out.println();
 
-			if (CustomizationOptions.USE_CUSTOM_DIFF_ENGINE) {
-				System.out.println();
-				System.out.println(" ---------------------- DISTANCES ---------------------");
-				System.out.println();
-			}
+			System.out.println(" ------------------------ LOCAL -----------------------");
+			System.out.println();
+			DebugUtils.displayModel(localRoot);
+
+			System.out.println();
+			System.out.println(" ---------------------- DISTANCES ---------------------");
+			System.out.println();
 			Comparison comparison = EMFCompareUtils.compareDocuments(localRoot, repositoryRoot);
 			System.out.println();
 
