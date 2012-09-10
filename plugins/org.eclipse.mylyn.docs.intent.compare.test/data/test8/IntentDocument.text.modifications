@@ -12,6 +12,12 @@ Document {
 			
 
 			
+
+			Section {
+				SubSection1
+
+				MySubSection
+			}
 			@M SidedataTypeDefinition 
 				match {
 					eClassifiers += new EEnum Side {
@@ -32,16 +38,40 @@ Document {
 			If the feature @side@ of an UnmatchElement is _Right_, then it must be considered as an added element. 
 			Otherwise, it is a deleted element.
 
+			Section {
+				SubSection2
+
+				MySubSection
+			}
+
 			The MatchModel store suchs an element using @UnmatchElement@s (
-			@see "TheUnmatchElementConcept" ). T
-			@M
+			@see "TheUnmatchElementConcept" ). To differenciate
+			added element from deleted element, we define the @EEnum@ *Side* :
+		}
+	}
+	Chapter {
+		Section Section 2.1 {
+			The 2.1 Section.
+		}
+
+		Section Section 2.2 {
+			The 2.2 Section.
+		}
+	}
+	Chapter {
+		Section {
+			Section Section 3.1.1 {
+				Such a good section.
+			}
+			@M myModelingUnit 
 				Side {
 					serializable = "true";
 				}
 			M@
 
-			o differenciate
-			added element from deleted element, we define the @EEnum@ *Side* :
+			Section Section 3.2.1 {
+				The last Section.
+			}
 		}
 	}
 }

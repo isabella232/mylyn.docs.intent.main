@@ -1,40 +1,65 @@
 Document {
-Chapter {
-	The first chapter is the best.
+	Chapter {
+		The first chapter is the best.
 
-	Section Differencing the left model from right model when comparaison fails {
-		During the Match process, deleted or added elements are considered as unmatched.
+		Section Differencing the left model from right model when comparaison fails {
+			During the Match process, deleted or added elements are considered as unmatched.
 
-		Two different situations can occur : 
+			Two different situations can occur : 
 
-		* an element defined in the left model is not matching any element in the right model (deleted element)
-		* an element defined in the right model is not matching any element in the left model (added element)
-		
+			* an element defined in the left model is not matching any element in the right model (deleted element)
+			* an element defined in the right model is not matching any element in the left model (added element)
+			
 
-		
-		@M SidedataTypeDefinition 
-			match {
-				eClassifiers += new EEnum Side {
-					eLiterals += new EEnumLiteral {
-						name = "Left";
-						literal = "Left";
-						value = "0";
+			
+			@M SidedataTypeDefinition 
+				match {
+					eClassifiers += new EEnum Side {
+						eLiterals += new EEnumLiteral {
+							name = "Left";
+							literal = "Left";
+							value = "0";
+						};
+						eLiterals += new EEnumLiteral {
+							name = "Right";
+							literal = "Right";
+							value = "1";
+						};
 					};
-					eLiterals += new EEnumLiteral {
-						name = "Right";
-						literal = "Right";
-						value = "1";
-					};
-				};
-			}
-		M@
+				}
+			M@
 
-		If the feature @side@ of an UnmatchElement is _Right_, then it must be considered as an added element. 
-		Otherwise, it is a deleted element.
+			If the feature @side@ of an UnmatchElement is _Right_, then it must be considered as an added element. 
+			Otherwise, it is a deleted element.
 
-		The MatchModel store suchs an element using @UnmatchElement@s (
-		@see "TheUnmatchElementConcept" ). To differenciate
-		added element from deleted element, we define the @EEnum@ *Side* :
+			The MatchModel store suchs an element using @UnmatchElement@s (
+			@see "TheUnmatchElementConcept" ). To differenciate
+			added element from deleted element, we define the @EEnum@ *Side* :
+		}
 	}
-}
+	Chapter {
+		Section Section 2.1 {
+			The 2.1 Section.
+		}
+
+		Section Section 2.2 {
+			The 2.2 Section.
+		}
+	}
+	Chapter {
+		Section {
+			Section Section 3.1.1 {
+				Such a good section.
+			}
+			@M myModelingUnit 
+				Side {
+					serializable = "true";
+				}
+			M@
+
+			Section Section 3.2.1 {
+				The last Section.
+			}
+		}
+	}
 }

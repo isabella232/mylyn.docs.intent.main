@@ -1,9 +1,29 @@
 Document {
-	Chapter c {
+	Chapter Title {
 		Text
 
-		Section s {
+		Section Title {
 			Text
+
+			Section Title {
+				Text
+
+				Section Title {
+					Text
+
+					Section Title {
+						Text
+
+						Section Title {
+							Text
+
+							Section Title {
+								Text
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

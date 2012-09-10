@@ -62,14 +62,6 @@ public class MergingIssues extends AbstractEMFCompareTest {
 		compareAndMerge("test12");
 	}
 
-	public void test13() throws IOException, ParseException {
-		compareAndMerge("test13");
-	}
-
-	public void test14() throws IOException, ParseException {
-		compareAndMerge("test14");
-	}
-
 	// checks that no tests have been missed
 	public void testMissing() throws IOException, ParseException {
 		for (String testName : new File("data").list()) {

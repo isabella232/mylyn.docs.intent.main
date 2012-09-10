@@ -1,13 +1,29 @@
 Document {
-	Chapter c {
-		Section new {
-			Text
-		}
-
+	Chapter A {
 		Text
 
-		Section s {
+		Section A {
 			Text
+
+			Section A {
+				Text
+
+				Section A {
+					Text
+
+					Section A {
+						Text
+
+						Section A {
+							Text
+
+							Section A {
+								Text
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

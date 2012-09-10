@@ -11,19 +11,13 @@
 package org.eclipse.mylyn.docs.intent.compare;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.eclipse.emf.compare.AttributeChange;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
-import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.mylyn.docs.intent.compare.debug.DebugUtils;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 /**
@@ -33,7 +27,6 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentASTMerger {
-	private static List<EStructuralFeature> featuresToIgnore;
 
 	private static final boolean OVERRIDE = false;
 
@@ -41,18 +34,6 @@ public class IntentASTMerger {
 	 * Constructor.
 	 */
 	public IntentASTMerger() {
-		featuresToIgnore = new ArrayList<EStructuralFeature>();
-		featuresToIgnore.add(IntentDocumentPackage.eINSTANCE
-				.getIntentSectionOrParagraphReference_ReferencedObject());
-		featuresToIgnore.add(IntentDocumentPackage.eINSTANCE.getIntentSectionReference_ReferencedElement());
-		featuresToIgnore.add(ModelingUnitPackage.eINSTANCE.getContributionInstruction_ReferencedElement());
-		featuresToIgnore.add(ModelingUnitPackage.eINSTANCE
-				.getModelingUnitInstructionReference_ReferencedElement());
-		featuresToIgnore.add(ModelingUnitPackage.eINSTANCE.getResourceReference_ReferencedElement());
-		featuresToIgnore.add(IntentDocumentPackage.eINSTANCE.getIntentGenericElement_CompilationStatus());
-		featuresToIgnore.add(IntentDocumentPackage.eINSTANCE.getIntentStructuredElement_FormattedTitle());
-		featuresToIgnore.add(IntentDocumentPackage.eINSTANCE.getIntentStructuredElement_CompleteLevel());
-		featuresToIgnore.add(IntentDocumentPackage.eINSTANCE.getIntentGenericElement_IndexEntry());
 	}
 
 	/**
@@ -119,24 +100,22 @@ public class IntentASTMerger {
 
 			Throwable exception = null;
 			for (Diff diff : comparison.getDifferences()) {
-				if (!filter(diff)) {
-					if (exception != null) {
-						if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
-							System.err.println("ignoring " + diff.getKind() + " " + diff);
-							System.err.println("\tbased on: "
-									+ DebugUtils.matchToReadableString(diff.getMatch()));
-						}
-					} else {
-						if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
-							System.out.println("applying " + diff.getKind() + " " + diff);
-							System.out.println("\tbased on: "
-									+ DebugUtils.matchToReadableString(diff.getMatch()));
-						}
-						try {
-							diff.copyLeftToRight();
-						} catch (Throwable e) { // DEBUG - workaround noisy merge errors
-							exception = e;
-						}
+				if (exception != null) {
+					if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+						System.err.println("ignoring " + diff.getKind() + " " + diff);
+						System.err
+								.println("\tbased on: " + DebugUtils.matchToReadableString(diff.getMatch()));
+					}
+				} else {
+					if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+						System.out.println("applying " + diff.getKind() + " " + diff);
+						System.out
+								.println("\tbased on: " + DebugUtils.matchToReadableString(diff.getMatch()));
+					}
+					try {
+						diff.copyLeftToRight();
+					} catch (Throwable e) { // DEBUG - workaround noisy merge errors
+						exception = e;
 					}
 				}
 			}
@@ -154,17 +133,4 @@ public class IntentASTMerger {
 		}
 	}
 
-	/**
-	 * Filters the diffs to ignore.
-	 * 
-	 * @param diff
-	 *            the diff to filter or not
-	 * @return true if the diff has to be ignored
-	 */
-	private boolean filter(Diff diff) {
-		return (diff instanceof ReferenceChange && featuresToIgnore.contains(((ReferenceChange)diff)
-				.getReference()))
-				|| (diff instanceof AttributeChange && featuresToIgnore.contains(((AttributeChange)diff)
-						.getAttribute()));
-	}
 }
