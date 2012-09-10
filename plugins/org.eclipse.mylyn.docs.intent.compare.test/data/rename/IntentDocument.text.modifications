@@ -1,0 +1,9 @@
+Document {
+	Chapter A {
+		Text
+
+		Section A {
+			Text
+		}
+	}
+}

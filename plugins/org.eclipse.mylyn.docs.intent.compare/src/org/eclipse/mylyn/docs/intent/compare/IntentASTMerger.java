@@ -71,19 +71,11 @@ public class IntentASTMerger {
 				DebugUtils.displayModel(localRoot);
 			}
 
-			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
-				System.out.println();
-				System.out.println(" ---------------------- DISTANCES ---------------------");
-				System.out.println();
-			}
 			Comparison comparison = null;
 			if (DebugUtils.USE_DEFAULT_COMPARE) {
 				comparison = EMFCompareUtils.compare(localRoot, repositoryRoot);
 			} else {
 				comparison = EMFCompareUtils.compareDocuments(localRoot, repositoryRoot);
-			}
-			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
-				System.out.println();
 			}
 
 			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {

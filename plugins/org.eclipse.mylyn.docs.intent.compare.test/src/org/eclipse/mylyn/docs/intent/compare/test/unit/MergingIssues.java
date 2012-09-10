@@ -62,19 +62,12 @@ public class MergingIssues extends AbstractEMFCompareTest {
 		compareAndMerge("topTextAddition");
 	}
 
-	// checks that no tests have been missed
-	public void testMissing() throws IOException, ParseException {
-		for (String testName : new File("data").list()) {
-			if (!passed.contains(testName)) {
-				System.err.println("//WARNING: no specific tests method for " + testName + ". Template:");
-				System.err.println("public void test" + String.valueOf(testName.charAt(0)).toUpperCase()
-						+ testName.substring(1) + "() throws IOException, ParseException {");
-				System.err.println("	compareAndMerge(\"" + testName + "\");");
-				System.err.println("}");
-				System.err.println();
-				compareAndMerge(testName);
-			}
-		}
+	public void testRename() throws IOException, ParseException {
+		compareAndMerge("rename");
+	}
+
+	public void testReverseRename() throws IOException, ParseException {
+		compareAndMerge("reverseRename");
 	}
 
 	private void compareAndMerge(String testName) throws IOException, ParseException {

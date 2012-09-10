@@ -19,7 +19,7 @@ import org.eclipse.emf.compare.utils.DiffUtil;
  */
 public final class StringDistanceUtils {
 
-	private static final int DEFAULT_MAX_STRING_DISTANCE = 200;
+	private static final int DEFAULT_MAX_STRING_DISTANCE = 500;
 
 	private static final double DEFAULT_STRING_SIZE_DISTANCE_IMPACT = 0.7;
 
@@ -75,5 +75,4 @@ public final class StringDistanceUtils {
 		}
 		return res;
 	}
-
 }

@@ -17,7 +17,7 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 // TODO remove this class/package when ready
 public final class DebugUtils {
 
-	public static final boolean LOG_DEBUG_INFORMATIONS = false;
+	public static final boolean LOG_DEBUG_INFORMATIONS = true;
 
 	public static final boolean SAVE_TESTS = false;
 
@@ -99,9 +99,6 @@ public final class DebugUtils {
 		} else if (element instanceof IntentDocument) {
 			res = null;
 		}
-		// if (element != null && element.eResource() != null) {
-		// res += "[Repo]";
-		// }
 		return res;
 	}
 

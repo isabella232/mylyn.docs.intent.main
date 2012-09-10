@@ -28,7 +28,10 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentCountingDiffEngine extends CountingDiffEngine {
-	private static final int DEFAULT_MAX_DISTANCE = 200;
+
+	private static final double TITLE_RELEVANCE_COEFF = 0.8;
+
+	private static final double SERIALIZATION_VS_URI_RELEVANCE_RATIO = 0.8;
 
 	/**
 	 * Constructor.
@@ -54,6 +57,7 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		Integer distance = null;
 
 		// TODO refactor to only compute possible distances
+		// TODO refactor to limit serializations
 
 		Integer titleDistance = null;
 		Integer serializationDistance = getSerializationDistance(a, b);
@@ -62,32 +66,22 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		if (a instanceof IntentChapter || a instanceof IntentSection) {
 			titleDistance = getTitleDistance((IntentStructuredElement)a, (IntentStructuredElement)b);
 		}
-
+		double temp = 1;
 		if (titleDistance != null && uriDistance != null && serializationDistance != null) {
-			distance = (int)(titleDistance * 0.6 + uriDistance * 0.1 + serializationDistance * 0.3);
+			temp -= TITLE_RELEVANCE_COEFF;
+			double serializationCoeff = temp * SERIALIZATION_VS_URI_RELEVANCE_RATIO;
+			double uriCoeff = temp - serializationCoeff;
+			distance = (int)(titleDistance * TITLE_RELEVANCE_COEFF + uriDistance * uriCoeff + serializationDistance
+					* serializationCoeff);
 		} else if (uriDistance != null && serializationDistance != null) {
-			distance = (int)(uriDistance * 0.2 + serializationDistance * 0.8);
+			double serializationCoeff = temp * SERIALIZATION_VS_URI_RELEVANCE_RATIO;
+			double uriCoeff = temp - serializationCoeff;
+			distance = (int)(uriDistance * uriCoeff + serializationDistance * serializationCoeff);
 		} else if (uriDistance != null) {
 			distance = uriDistance;
 		} else if (serializationDistance != null) {
 			distance = serializationDistance;
 		}
-
-		if (distance == null) {
-			System.err.println("UNABLE TO MEASURE DIFFERENCES FOR " + a.eClass().getName());
-			distance = DEFAULT_MAX_DISTANCE;
-		}
-
-		// TODO remove debug instructions when ready
-		// if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
-		// String aString = DebugUtils.elementToReadableString(a);
-		// String bString = DebugUtils.elementToReadableString(b);
-		// if (aString != null && bString != null) {
-		// if (a instanceof DescriptionUnit) {
-		// System.out.println(distance + "\t" + aString + " <=> " + bString);
-		// }
-		// }
-		// }
 		return distance;
 	}
 
@@ -125,8 +119,6 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		String fragmentB = helper.getURI(b).fragment();
 		if (fragmentA != null && fragmentB != null) {
 			distance = StringDistanceUtils.getStringDistance(fragmentA, fragmentB);
-			// } else {
-			// System.err.println("UNABLE TO COMPARE URI FOR " + a);
 		}
 		return distance;
 	}
@@ -146,8 +138,6 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		String serializedB = serialize(b);
 		if (serializedA != null && serializedB != null) {
 			distance = StringDistanceUtils.getStringDistance(serializedA, serializedB);
-			// } else {
-			// System.err.println("UNABLE TO COMPARE SERIALIZATION FOR " + a);
 		}
 		return distance;
 	}
