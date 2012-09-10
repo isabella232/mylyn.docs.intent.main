@@ -1,10 +1,8 @@
 Document {
 	Chapter Title {
 		Text
-
+		
 		Section Title {
-			Text
-
 		}
 	}
 }

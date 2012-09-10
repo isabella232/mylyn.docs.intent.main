@@ -6,8 +6,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import org.eclipse.emf.compare.AttributeChange;
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.Match;
+import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.compare.utils.IntentEqualityHelper;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
@@ -19,9 +22,9 @@ public final class DebugUtils {
 
 	public static final boolean LOG_DEBUG_INFORMATIONS = true;
 
-	public static final boolean SAVE_TESTS = false;
-
 	public static final boolean USE_DEFAULT_COMPARE = false;
+
+	public static final boolean USE_DEFAULT_URI_HELPER = false;
 
 	private DebugUtils() {
 	}
@@ -62,6 +65,22 @@ public final class DebugUtils {
 				displayMatchModel(match, tab + "\t");
 			}
 		}
+	}
+
+	public static String diffToReadableString(Diff diff) {
+		String res = diff.getKind() + " ";
+		if (diff instanceof AttributeChange) {
+			AttributeChange change = (AttributeChange)diff;
+			res += change.getAttribute().getEContainingClass().getName() + "."
+					+ change.getAttribute().getName() + " ";
+		} else if (diff instanceof ReferenceChange) {
+			ReferenceChange change = (ReferenceChange)diff;
+			res += change.getReference().getEContainingClass().getName() + "."
+					+ change.getReference().getName() + " ";
+		}
+		res += "\n" + diff + "\n";
+		res += "based on " + DebugUtils.matchToReadableString(diff.getMatch());
+		return res;
 	}
 
 	public static String matchToReadableString(Match match) {

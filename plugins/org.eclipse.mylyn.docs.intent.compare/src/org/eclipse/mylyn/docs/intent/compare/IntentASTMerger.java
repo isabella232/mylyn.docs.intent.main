@@ -10,15 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare;
 
-import java.io.File;
-
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.mylyn.docs.intent.compare.debug.DebugUtils;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
-import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 /**
  * Merges local and repository asts using EMF Compare.
@@ -48,9 +45,6 @@ public class IntentASTMerger {
 	 *             if the mergin has encountered a problem.
 	 */
 	public void mergeFromLocalToRepository(EObject localRoot, EObject repositoryRoot) throws MergingException {
-		String initialContent = new IntentSerializer().serialize(repositoryRoot);
-		String modifiedContent = new IntentSerializer().serialize(localRoot);
-
 		if (OVERRIDE) {
 			for (EStructuralFeature feature : repositoryRoot.eClass().getEAllStructuralFeatures()) {
 				repositoryRoot.eSet(feature, localRoot.eGet(feature));
@@ -58,6 +52,7 @@ public class IntentASTMerger {
 		} else {
 			if (DebugUtils.USE_DEFAULT_COMPARE) {
 				System.err.println("WARNING !!! default comparison activated");
+				System.err.println();
 			}
 
 			// TODO remove debug instructions when ready
@@ -69,6 +64,7 @@ public class IntentASTMerger {
 				System.out.println(" ------------------------ LOCAL -----------------------");
 				System.out.println();
 				DebugUtils.displayModel(localRoot);
+				System.out.println();
 			}
 
 			Comparison comparison = null;
@@ -83,9 +79,6 @@ public class IntentASTMerger {
 				System.out.println();
 				DebugUtils.displayMatchModel(comparison);
 				System.out.println();
-			}
-
-			if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
 				System.out.println(" ------------------------ DIFFS -----------------------");
 				System.out.println();
 			}
@@ -94,15 +87,13 @@ public class IntentASTMerger {
 			for (Diff diff : comparison.getDifferences()) {
 				if (exception != null) {
 					if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
-						System.err.println("ignoring " + diff.getKind() + " " + diff);
-						System.err
-								.println("\tbased on: " + DebugUtils.matchToReadableString(diff.getMatch()));
+						System.err.println("ignoring " + DebugUtils.diffToReadableString(diff));
+						System.err.println();
 					}
 				} else {
 					if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
-						System.out.println("applying " + diff.getKind() + " " + diff);
-						System.out
-								.println("\tbased on: " + DebugUtils.matchToReadableString(diff.getMatch()));
+						System.err.println("applying " + DebugUtils.diffToReadableString(diff));
+						System.err.println();
 					}
 					try {
 						diff.copyLeftToRight();
@@ -112,15 +103,7 @@ public class IntentASTMerger {
 				}
 			}
 			if (exception != null) {
-				if (DebugUtils.SAVE_TESTS) {
-					String base = "D:\\dev\\git\\intent\\org.eclipse.mylyn.docs.intent.main\\plugins\\org.eclipse.mylyn.docs.intent.compare.test\\data";
-					String directory = base + "\\test" + System.currentTimeMillis();
-					new File(directory).mkdir();
-					DebugUtils.saveToFile(directory + "\\IntentDocument.text", initialContent);
-					DebugUtils.saveToFile(directory + "\\IntentDocument.text.modifications", modifiedContent);
-				}
 				throw new MergingException("An error occured when merging: " + exception.getClass().getName());
-
 			}
 		}
 	}

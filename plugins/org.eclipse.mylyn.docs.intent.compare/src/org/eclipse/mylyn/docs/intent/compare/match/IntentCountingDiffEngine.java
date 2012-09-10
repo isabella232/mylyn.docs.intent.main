@@ -31,7 +31,7 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 
 	private static final double TITLE_RELEVANCE_COEFF = 0.8;
 
-	private static final double SERIALIZATION_VS_URI_RELEVANCE_RATIO = 0.8;
+	private static final double SERIALIZATION_RELEVANCE_COEFF = 0.2;
 
 	/**
 	 * Constructor.
@@ -61,26 +61,18 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 
 		Integer titleDistance = null;
 		Integer serializationDistance = getSerializationDistance(a, b);
-		Integer uriDistance = getURIDistance(a, b);
 
 		if (a instanceof IntentChapter || a instanceof IntentSection) {
 			titleDistance = getTitleDistance((IntentStructuredElement)a, (IntentStructuredElement)b);
 		}
-		double temp = 1;
-		if (titleDistance != null && uriDistance != null && serializationDistance != null) {
-			temp -= TITLE_RELEVANCE_COEFF;
-			double serializationCoeff = temp * SERIALIZATION_VS_URI_RELEVANCE_RATIO;
-			double uriCoeff = temp - serializationCoeff;
-			distance = (int)(titleDistance * TITLE_RELEVANCE_COEFF + uriDistance * uriCoeff + serializationDistance
-					* serializationCoeff);
-		} else if (uriDistance != null && serializationDistance != null) {
-			double serializationCoeff = temp * SERIALIZATION_VS_URI_RELEVANCE_RATIO;
-			double uriCoeff = temp - serializationCoeff;
-			distance = (int)(uriDistance * uriCoeff + serializationDistance * serializationCoeff);
-		} else if (uriDistance != null) {
-			distance = uriDistance;
+
+		if (titleDistance != null && serializationDistance != null) {
+			distance = (int)(titleDistance * TITLE_RELEVANCE_COEFF + serializationDistance
+					* SERIALIZATION_RELEVANCE_COEFF);
 		} else if (serializationDistance != null) {
 			distance = serializationDistance;
+		} else {
+			distance = super.measureDifferences(a, b);
 		}
 		return distance;
 	}
@@ -100,25 +92,6 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		String titleB = b.getFormattedTitle();
 		if (titleA != null && titleB != null) {
 			distance = StringDistanceUtils.getStringDistance(titleA, titleB);
-		}
-		return distance;
-	}
-
-	/**
-	 * Returns the distance between document elements by comparing their uris.
-	 * 
-	 * @param a
-	 *            the first element
-	 * @param b
-	 *            the second element
-	 * @return the distance between two strings
-	 */
-	private Integer getURIDistance(EObject a, EObject b) {
-		Integer distance = null;
-		String fragmentA = helper.getURI(a).fragment();
-		String fragmentB = helper.getURI(b).fragment();
-		if (fragmentA != null && fragmentB != null) {
-			distance = StringDistanceUtils.getStringDistance(fragmentA, fragmentB);
 		}
 		return distance;
 	}
