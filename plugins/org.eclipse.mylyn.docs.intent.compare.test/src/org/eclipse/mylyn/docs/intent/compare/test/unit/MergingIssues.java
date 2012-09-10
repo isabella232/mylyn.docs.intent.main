@@ -14,59 +14,64 @@ public class MergingIssues extends AbstractEMFCompareTest {
 
 	private static List<String> passed = new ArrayList<String>();
 
-	public void test1() throws IOException, ParseException {
-		compareAndMerge("test1");
+	public void testDoubleSectionInsertion() throws IOException, ParseException {
+		compareAndMerge("doubleSectionInsertion");
 	}
 
-	public void test2() throws IOException, ParseException {
-		compareAndMerge("test2");
+	public void testDoubleTopTextAddition() throws IOException, ParseException {
+		compareAndMerge("doubleTopTextAddition");
 	}
 
-	public void test3() throws IOException, ParseException {
-		compareAndMerge("test3");
+	public void testEndTextAddition() throws IOException, ParseException {
+		compareAndMerge("endTextAddition");
 	}
 
-	public void test4() throws IOException, ParseException {
-		compareAndMerge("test4");
+	public void testMuAddition() throws IOException, ParseException {
+		compareAndMerge("muAddition");
 	}
 
-	public void test5() throws IOException, ParseException {
-		compareAndMerge("test5");
+	public void testNewInstruction() throws IOException, ParseException {
+		compareAndMerge("newInstruction");
 	}
 
-	public void test6() throws IOException, ParseException {
-		compareAndMerge("test6");
+	public void testNewTopSection() throws IOException, ParseException {
+		compareAndMerge("newTopSection");
 	}
 
-	public void test7() throws IOException, ParseException {
-		compareAndMerge("test7");
+	public void testRenameAll() throws IOException, ParseException {
+		compareAndMerge("renameAll");
 	}
 
-	public void test8() throws IOException, ParseException {
-		compareAndMerge("test8");
+	public void testSectionInsertion() throws IOException, ParseException {
+		compareAndMerge("sectionInsertion");
 	}
 
-	public void test9() throws IOException, ParseException {
-		compareAndMerge("test9");
+	public void testTextDeletion() throws IOException, ParseException {
+		compareAndMerge("textDeletion");
 	}
 
-	public void test10() throws IOException, ParseException {
-		compareAndMerge("test10");
+	public void testTextInsertion() throws IOException, ParseException {
+		compareAndMerge("textInsertion");
 	}
 
-	public void test11() throws IOException, ParseException {
-		compareAndMerge("test11");
+	public void testTopChapterAddition() throws IOException, ParseException {
+		compareAndMerge("topChapterAddition");
 	}
 
-	public void test12() throws IOException, ParseException {
-		compareAndMerge("test12");
+	public void testTopTextAddition() throws IOException, ParseException {
+		compareAndMerge("topTextAddition");
 	}
 
 	// checks that no tests have been missed
 	public void testMissing() throws IOException, ParseException {
 		for (String testName : new File("data").list()) {
 			if (!passed.contains(testName)) {
-				System.err.println("WARNING: no specific tests method for " + testName);
+				System.err.println("//WARNING: no specific tests method for " + testName + ". Template:");
+				System.err.println("public void test" + String.valueOf(testName.charAt(0)).toUpperCase()
+						+ testName.substring(1) + "() throws IOException, ParseException {");
+				System.err.println("	compareAndMerge(\"" + testName + "\");");
+				System.err.println("}");
+				System.err.println();
 				compareAndMerge(testName);
 			}
 		}

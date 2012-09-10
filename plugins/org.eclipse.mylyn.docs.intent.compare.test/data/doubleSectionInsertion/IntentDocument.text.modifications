@@ -1,0 +1,24 @@
+Document {
+	Chapter {
+		Section Differencing the left model from right model when comparaison fails {
+			During the Match process, deleted or added elements are considered as unmatched.
+
+			Section {
+				SubSection1
+
+				MySubSection
+			}
+
+			If the feature of an UnmatchElement is, then it must be considered as an added element. 
+			Otherwise, it is a deleted element.
+
+			Section {
+				SubSection2
+
+				MySubSection
+			}
+
+			The MatchModel store suchs an element using
+		}
+	}
+}

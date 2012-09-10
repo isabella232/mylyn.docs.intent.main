@@ -11,8 +11,8 @@
 package org.eclipse.mylyn.docs.intent.compare.match;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.compare.debug.DebugUtils;
 import org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.CountingDiffEngine;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -79,15 +79,15 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		}
 
 		// TODO remove debug instructions when ready
-		if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
-			String aString = DebugUtils.elementToReadableString(a);
-			String bString = DebugUtils.elementToReadableString(b);
-			if (aString != null && bString != null) {
-				if (a instanceof DescriptionUnit) {
-					System.out.println(distance + "\t" + aString + " <=> " + bString);
-				}
-			}
-		}
+		// if (DebugUtils.LOG_DEBUG_INFORMATIONS) {
+		// String aString = DebugUtils.elementToReadableString(a);
+		// String bString = DebugUtils.elementToReadableString(b);
+		// if (aString != null && bString != null) {
+		// if (a instanceof DescriptionUnit) {
+		// System.out.println(distance + "\t" + aString + " <=> " + bString);
+		// }
+		// }
+		// }
 		return distance;
 	}
 
@@ -166,6 +166,9 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		} else if (root instanceof ModelingUnit || root instanceof DescriptionUnit
 				|| root instanceof IntentStructuredElement) {
 			res = new IntentSerializer().serialize(root);
+		} else if (root instanceof DescriptionBloc) {
+			DescriptionBloc bloc = (DescriptionBloc)root;
+			res = serialize(bloc.getDescriptionBloc());
 		}
 		return res;
 	}
