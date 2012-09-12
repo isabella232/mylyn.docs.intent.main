@@ -274,8 +274,9 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	private static RepositoryObjectHandler createElementHandler(RepositoryAdapter repositoryAdapter,
 			boolean readOnlyMode) {
+		boolean isReadOnly = readOnlyMode;
 		RepositoryObjectHandler elementHandler = null;
-		if (!readOnlyMode) {
+		if (!isReadOnly) {
 			try {
 				elementHandler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 			} catch (ReadOnlyException e) {
@@ -283,11 +284,11 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 						.getInstance()
 						.log(LogType.WARNING,
 								"The Intent Editor has insufficient rights (read-only) to save modifications on the repository. A read-only context will be used instead.");
-				readOnlyMode = true;
+				isReadOnly = true;
 			}
 		}
 
-		if (readOnlyMode) {
+		if (isReadOnly) {
 			elementHandler = new ReadOnlyRepositoryObjectHandlerImpl();
 			elementHandler.setRepositoryAdapter(repositoryAdapter);
 		}
@@ -354,6 +355,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 					public void execute() {
 						try {
 							merge((IntentEditorDocument)document, localAST);
+							((IntentEditorDocument)document).reloadFromAST(true);
 							repositoryAdapter.save();
 						} catch (ReadOnlyException e) {
 							IntentUiLogger.logError(e);
@@ -364,7 +366,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 
 				});
 
-				((IntentEditorDocument)document).reloadFromAST();
 			} catch (ParseException e) {
 				this.createSyntaxErrorAnnotation(e.getMessage(), e.getErrorOffset(), e.getErrorLength());
 				hasSyntaxErrors = true;
@@ -643,9 +644,15 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		listenedElementsHandler = null;
 	}
 
+	/**
+	 * Handles the fact that a root has been deleted.
+	 * 
+	 * @param notification
+	 *            the root deletion notification
+	 * @return true if a root has been deleted
+	 */
 	private boolean handleRootHasBeenDeleted(RepositoryChangeNotification notification) {
 		if (notification.getRightRoots().size() < 1) {
-
 			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
 					.getIDFromElement(documentRoot);
 			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
@@ -658,6 +665,12 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		return false;
 	}
 
+	/**
+	 * Handles the fact that a compilation status has changed.
+	 * 
+	 * @param modifiedObject
+	 *            the compilation status manager
+	 */
 	private void handleCompilationStatusHasChanged(EObject modifiedObject) {
 		if (modifiedObject instanceof CompilationStatusManager) {
 			if (elementsToDocuments.values().iterator().hasNext()
@@ -669,6 +682,14 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		}
 	}
 
+	/**
+	 * Handles the fact that the content has changed.
+	 * 
+	 * @param modifiedObject
+	 *            the modified object
+	 * @param modifiedObjectIdentifier
+	 *            the modified object identifier inside of the repository
+	 */
 	private void handleContentHasChanged(EObject modifiedObject, Object modifiedObjectIdentifier) {
 		if (modifiedObject instanceof IntentStructuredElement || modifiedObject instanceof UnitInstruction) {
 			if (listenedElementsHandler.getRepositoryAdapter().getIDFromElement(documentRoot)
