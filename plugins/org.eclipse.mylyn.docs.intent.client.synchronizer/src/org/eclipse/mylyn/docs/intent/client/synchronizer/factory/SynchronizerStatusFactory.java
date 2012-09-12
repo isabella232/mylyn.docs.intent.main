@@ -389,7 +389,7 @@ public final class SynchronizerStatusFactory {
 				break;
 			case ModelingUnitPackage.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE:
 				InstanciationInstruction referencedInstanciation = ((ReferenceValueForStructuralFeature)value)
-						.getReferencedElement().getReferencedElement();
+						.getInstanciationReference().getInstanciation();
 				if (referencedInstanciation != null) {
 					res = getCompiledElement(indexEntry, referencedInstanciation);
 				} else {

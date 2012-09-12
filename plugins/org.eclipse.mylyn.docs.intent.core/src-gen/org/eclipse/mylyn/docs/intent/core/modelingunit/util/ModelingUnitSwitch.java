@@ -16,9 +16,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
@@ -26,7 +26,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanceLevelInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
@@ -132,17 +132,6 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 				ResourceReference resourceReference = (ResourceReference)theEObject;
 				T result = caseResourceReference(resourceReference);
 				if (result == null)
-					result = caseIntentReference(resourceReference);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE: {
-				ModelingUnitInstructionReference modelingUnitInstructionReference = (ModelingUnitInstructionReference)theEObject;
-				T result = caseModelingUnitInstructionReference(modelingUnitInstructionReference);
-				if (result == null)
-					result = caseIntentReference(modelingUnitInstructionReference);
-				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
 			}
@@ -150,7 +139,12 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 				InstanciationInstructionReference instanciationInstructionReference = (InstanciationInstructionReference)theEObject;
 				T result = caseInstanciationInstructionReference(instanciationInstructionReference);
 				if (result == null)
-					result = caseIntentReference(instanciationInstructionReference);
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE: {
+				ModelingUnitInstructionReference modelingUnitInstructionReference = (ModelingUnitInstructionReference)theEObject;
+				T result = caseModelingUnitInstructionReference(modelingUnitInstructionReference);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -168,21 +162,19 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelingUnitPackage.INTENT_SECTION_REFERENCEIN_MODELING_UNIT: {
-				IntentSectionReferenceinModelingUnit intentSectionReferenceinModelingUnit = (IntentSectionReferenceinModelingUnit)theEObject;
-				T result = caseIntentSectionReferenceinModelingUnit(intentSectionReferenceinModelingUnit);
+			case ModelingUnitPackage.INTENT_REFERENCEIN_MODELING_UNIT: {
+				IntentReferenceinModelingUnit intentReferenceinModelingUnit = (IntentReferenceinModelingUnit)theEObject;
+				T result = caseIntentReferenceinModelingUnit(intentReferenceinModelingUnit);
 				if (result == null)
-					result = caseIntentSectionReferenceInstruction(intentSectionReferenceinModelingUnit);
+					result = caseIntentReferenceInstruction(intentReferenceinModelingUnit);
 				if (result == null)
-					result = caseModelingUnitInstruction(intentSectionReferenceinModelingUnit);
+					result = caseModelingUnitInstruction(intentReferenceinModelingUnit);
 				if (result == null)
-					result = caseModelingUnitInstructionReference(intentSectionReferenceinModelingUnit);
+					result = caseUnitInstruction(intentReferenceinModelingUnit);
 				if (result == null)
-					result = caseUnitInstruction(intentSectionReferenceinModelingUnit);
+					result = caseIntentReference(intentReferenceinModelingUnit);
 				if (result == null)
-					result = caseIntentReference(intentSectionReferenceinModelingUnit);
-				if (result == null)
-					result = caseIntentGenericElement(intentSectionReferenceinModelingUnit);
+					result = caseIntentGenericElement(intentReferenceinModelingUnit);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -195,11 +187,9 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 				if (result == null)
 					result = caseModelingUnitInstruction(labelinModelingUnit);
 				if (result == null)
-					result = caseModelingUnitInstructionReference(labelinModelingUnit);
+					result = caseIntentReference(labelinModelingUnit);
 				if (result == null)
 					result = caseUnitInstruction(labelinModelingUnit);
-				if (result == null)
-					result = caseIntentReference(labelinModelingUnit);
 				if (result == null)
 					result = caseIntentGenericElement(labelinModelingUnit);
 				if (result == null)
@@ -212,11 +202,9 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 				if (result == null)
 					result = caseModelingUnitInstruction(annotationDeclaration);
 				if (result == null)
-					result = caseModelingUnitInstructionReference(annotationDeclaration);
+					result = caseIntentReference(annotationDeclaration);
 				if (result == null)
 					result = caseUnitInstruction(annotationDeclaration);
-				if (result == null)
-					result = caseIntentReference(annotationDeclaration);
 				if (result == null)
 					result = caseIntentGenericElement(annotationDeclaration);
 				if (result == null)
@@ -226,8 +214,6 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 			case ModelingUnitPackage.TYPE_REFERENCE: {
 				TypeReference typeReference = (TypeReference)theEObject;
 				T result = caseTypeReference(typeReference);
-				if (result == null)
-					result = caseIntentReference(typeReference);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -457,17 +443,17 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Section Referencein Modeling Unit</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Intent Referencein Modeling Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Section Referencein Modeling Unit</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Intent Referencein Modeling Unit</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseIntentSectionReferenceinModelingUnit(IntentSectionReferenceinModelingUnit object) {
+	public T caseIntentReferenceinModelingUnit(IntentReferenceinModelingUnit object) {
 		return null;
 	}
 
@@ -697,17 +683,17 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Section Reference Instruction</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Intent Reference Instruction</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Section Reference Instruction</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Intent Reference Instruction</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseIntentSectionReferenceInstruction(IntentSectionReferenceInstruction object) {
+	public T caseIntentReferenceInstruction(IntentReferenceInstruction object) {
 		return null;
 	}
 

@@ -46,7 +46,7 @@ public final class ContributionInstructionGenerator {
 
 		ModelingUnitGenerator.clearCompilationStatus(contributionInstruction);
 
-		String instanceTextualReference = contributionInstruction.getReferencedElement().getIntentHref();
+		String instanceTextualReference = contributionInstruction.getContributionReference().getIntentHref();
 
 		// If this contribution has already been generated during previous step, we do nothing
 		if (modelingUnitGenerator.getInformationHolder().isUnresolvedContribution(contributionInstruction)) {

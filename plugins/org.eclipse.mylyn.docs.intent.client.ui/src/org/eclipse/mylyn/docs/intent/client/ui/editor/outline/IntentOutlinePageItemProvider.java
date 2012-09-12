@@ -32,15 +32,14 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
@@ -141,8 +140,7 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 			imagePath = "descriptionBloc.gif"; //$NON-NLS-1$
 		}
 
-		if ((object instanceof LabelReferenceInstruction)
-				|| (object instanceof IntentSectionReferenceInstruction)) {
+		if ((object instanceof LabelReferenceInstruction) || (object instanceof IntentReferenceInstruction)) {
 			imagePath = "labelorreference.gif"; //$NON-NLS-1$
 		}
 
@@ -352,11 +350,11 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 				break;
 			case GenericUnitPackage.LABEL_REFERENCE_INSTRUCTION:
 				LabelReferenceInstruction labelRef = (LabelReferenceInstruction)object;
-				text.append("reference to " + labelRef.getReferencedLabel().getIntentHref());
+				text.append("reference to " + labelRef.getIntentHref());
 				break;
-			case GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION:
-				IntentSectionReferenceInstruction sectionRef = (IntentSectionReferenceInstruction)object;
-				text.append("reference to " + sectionRef.getReferencedObject().getIntentHref());
+			case GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION:
+				IntentReferenceInstruction ref = (IntentReferenceInstruction)object;
+				text.append("reference to " + ref.getIntentHref());
 				break;
 
 			default:
@@ -437,23 +435,23 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 				text.append(textValue);
 				break;
 			case ModelingUnitPackage.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE:
-				text.append(((ReferenceValueForStructuralFeature)eObject).getReferencedElement()
-						.getIntentHref() + " (Reference to)");
+				text.append(((ReferenceValueForStructuralFeature)eObject).getInstanciationReference()
+						.getInstanceName() + " (Reference to)");
 				break;
 
 			case ModelingUnitPackage.INSTANCIATION_INSTRUCTION:
 				InstanciationInstruction instruction = (InstanciationInstruction)eObject;
 				String instanceName = instruction.getName();
 				if (instanceName != null && instanceName.length() > 0) {
-					text.append(instanceName + " : " + instruction.getMetaType().getIntentHref());
+					text.append(instanceName + " : " + instruction.getMetaType().getTypeName());
 				} else {
-					text.append("? : " + instruction.getMetaType().getIntentHref());
+					text.append("? : " + instruction.getMetaType().getTypeName());
 				}
 
 				break;
 
 			case ModelingUnitPackage.CONTRIBUTION_INSTRUCTION:
-				text.append(((ContributionInstruction)eObject).getReferencedElement().getIntentHref());
+				text.append(((ContributionInstruction)eObject).getContributionReference().getIntentHref());
 				break;
 
 			case ModelingUnitPackage.RESOURCE_DECLARATION:
@@ -465,12 +463,11 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 				}
 				break;
 
-			case ModelingUnitPackage.INTENT_SECTION_REFERENCEIN_MODELING_UNIT:
-				IntentSectionOrParagraphReference referencedObject = ((IntentSectionReferenceinModelingUnit)eObject)
-						.getReferencedObject();
-				text.append("Reference to Section " + referencedObject.getIntentHref());
-				if (referencedObject != null && referencedObject.getReferencedObject() != null) {
-					text.append(getText(referencedObject.getReferencedObject()));
+			case ModelingUnitPackage.INTENT_REFERENCEIN_MODELING_UNIT:
+				IntentReferenceinModelingUnit reference = (IntentReferenceinModelingUnit)eObject;
+				text.append("Reference to Section " + reference.getIntentHref());
+				if (reference.getReferencedElement() != null) {
+					text.append(getText(reference.getReferencedElement()));
 				}
 				break;
 			default:

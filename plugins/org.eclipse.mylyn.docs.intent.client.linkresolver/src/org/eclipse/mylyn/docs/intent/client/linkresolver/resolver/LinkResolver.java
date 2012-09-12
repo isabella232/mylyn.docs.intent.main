@@ -17,9 +17,8 @@ import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 
 /**
  * Resolves all the references to Intent Structured Element (sections, chapters...).
@@ -53,25 +52,24 @@ public class LinkResolver {
 	 *            the progress monitor (can be cancelled at any time)
 	 */
 	public void resolve(IProgressMonitor monitor) {
-		Collection<IntentSectionReferenceInstruction> allIntentReferenceInstructions = new IntentDocumentQuery(
+		Collection<IntentReferenceInstruction> allIntentReferenceInstructions = new IntentDocumentQuery(
 				repositoryAdapter).getAllIntentReferenceInstructions();
-		for (IntentSectionReferenceInstruction referenceInstruction : allIntentReferenceInstructions) {
+		for (IntentReferenceInstruction referenceInstruction : allIntentReferenceInstructions) {
 			resolveReference(referenceInstruction);
 		}
 	}
 
 	/**
-	 * Resolves the given {@link IntentSectionReferenceInstruction}.
+	 * Resolves the given {@link IntentReferenceInstruction}.
 	 * 
 	 * @param referenceInstruction
-	 *            the {@link IntentSectionReferenceInstruction} to resolve
+	 *            the {@link IntentReferenceInstruction} to resolve
 	 */
-	private void resolveReference(IntentSectionReferenceInstruction referenceInstruction) {
-		if (referenceInstruction.getReferencedObject() != null) {
-			IntentSectionOrParagraphReference reference = referenceInstruction.getReferencedObject();
+	private void resolveReference(IntentReferenceInstruction referenceInstruction) {
+		if (referenceInstruction.getReferencedElement() != null) {
 
 			// We should be smarter and only resolve the link when needed
-			String href = reference.getIntentHref();
+			String href = referenceInstruction.getIntentHref();
 			if (href != null && href.length() > 0) {
 				try {
 					// TODO resolve other references (currently only sections)
@@ -80,7 +78,7 @@ public class LinkResolver {
 					// desactivated: attempts to resolve titles
 					// IntentStructuredElement elementAtLevel = documentQuery.getElementAtLevel(href);
 					if (elementAtLevel != null) {
-						reference.setReferencedObject(elementAtLevel);
+						referenceInstruction.setReferencedElement(elementAtLevel);
 					} else {
 						// TODO : we should place a new Status on this reference instruction
 						IntentLogger.getInstance().log(LogType.WARNING, "Unresolved " + href);

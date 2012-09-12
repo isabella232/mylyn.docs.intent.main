@@ -49,7 +49,8 @@ public final class ReferenceValueForStructuralFeatureGenerator {
 		// will be resolved during the linking step
 		UnresolvedReferenceHolder referenceHolder = CompilerFactory.eINSTANCE
 				.createUnresolvedReferenceHolder();
-		referenceHolder.setTextualReference(referenceValueInstruction.getReferencedElement().getIntentHref());
+		referenceHolder.setTextualReference(referenceValueInstruction.getInstanciationReference()
+				.getInstanceName());
 		referenceHolder.setInstructionContainer(referenceValueInstruction);
 
 		return referenceHolder;

@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 
 /**
@@ -58,16 +59,12 @@ public class IntentMatchEngine extends GenericMatchEngine {
 
 		// We define the list of features to ignore : basically all the resolved References.
 		List<EStructuralFeature> featuresToIgnoreList = new ArrayList<EStructuralFeature>();
-		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE
-				.getIntentSectionOrParagraphReference_ReferencedObject());
-		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE
-				.getIntentSectionReference_ReferencedElement());
-		featuresToIgnoreList
-				.add(ModelingUnitPackage.eINSTANCE.getContributionInstruction_ReferencedElement());
-
+		featuresToIgnoreList.add(GenericUnitPackage.eINSTANCE.getIntentReference_ReferencedElement());
 		featuresToIgnoreList.add(ModelingUnitPackage.eINSTANCE
-				.getModelingUnitInstructionReference_ReferencedElement());
-		featuresToIgnoreList.add(ModelingUnitPackage.eINSTANCE.getResourceReference_ReferencedElement());
+				.getContributionInstruction_ContributionReference());
+		featuresToIgnoreList.add(ModelingUnitPackage.eINSTANCE
+				.getModelingUnitInstructionReference_ReferencedInstruction());
+		featuresToIgnoreList.add(ModelingUnitPackage.eINSTANCE.getResourceReference_Declaration());
 		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentGenericElement_CompilationStatus());
 		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentStructuredElement_FormattedTitle());
 		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentStructuredElement_CompleteLevel());

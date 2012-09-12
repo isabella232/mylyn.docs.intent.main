@@ -34,7 +34,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanceLevelInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
@@ -112,7 +112,7 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass intentSectionReferenceinModelingUnitEClass = null;
+	private EClass intentReferenceinModelingUnitEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -377,8 +377,17 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getResourceReference_ReferencedElement() {
-		return (EReference)resourceReferenceEClass.getEStructuralFeatures().get(0);
+	public EAttribute getResourceReference_ResourceName() {
+		return (EAttribute)resourceReferenceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getResourceReference_Declaration() {
+		return (EReference)resourceReferenceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -387,7 +396,7 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * @generated
 	 */
 	public EAttribute getResourceReference_LineBreak() {
-		return (EAttribute)resourceReferenceEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)resourceReferenceEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -404,8 +413,17 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModelingUnitInstructionReference_ReferencedElement() {
-		return (EReference)modelingUnitInstructionReferenceEClass.getEStructuralFeatures().get(0);
+	public EAttribute getModelingUnitInstructionReference_IntentHref() {
+		return (EAttribute)modelingUnitInstructionReferenceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getModelingUnitInstructionReference_ReferencedInstruction() {
+		return (EReference)modelingUnitInstructionReferenceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -422,8 +440,17 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getInstanciationInstructionReference_ReferencedElement() {
-		return (EReference)instanciationInstructionReferenceEClass.getEStructuralFeatures().get(0);
+	public EAttribute getInstanciationInstructionReference_InstanceName() {
+		return (EAttribute)instanciationInstructionReferenceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInstanciationInstructionReference_Instanciation() {
+		return (EReference)instanciationInstructionReferenceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -476,8 +503,8 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getIntentSectionReferenceinModelingUnit() {
-		return intentSectionReferenceinModelingUnitEClass;
+	public EClass getIntentReferenceinModelingUnit() {
+		return intentReferenceinModelingUnitEClass;
 	}
 
 	/**
@@ -530,8 +557,17 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getTypeReference_TypeName() {
+		return (EAttribute)typeReferenceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getTypeReference_ResolvedType() {
-		return (EReference)typeReferenceEClass.getEStructuralFeatures().get(0);
+		return (EReference)typeReferenceEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -674,7 +710,7 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getReferenceValueForStructuralFeature_ReferencedElement() {
+	public EReference getReferenceValueForStructuralFeature_InstanciationReference() {
 		return (EReference)referenceValueForStructuralFeatureEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -701,7 +737,7 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getContributionInstruction_ReferencedElement() {
+	public EReference getContributionInstruction_ContributionReference() {
 		return (EReference)contributionInstructionEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -764,16 +800,21 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 		modelingUnitInstructionEClass = createEClass(MODELING_UNIT_INSTRUCTION);
 
 		resourceReferenceEClass = createEClass(RESOURCE_REFERENCE);
-		createEReference(resourceReferenceEClass, RESOURCE_REFERENCE__REFERENCED_ELEMENT);
+		createEAttribute(resourceReferenceEClass, RESOURCE_REFERENCE__RESOURCE_NAME);
+		createEReference(resourceReferenceEClass, RESOURCE_REFERENCE__DECLARATION);
 		createEAttribute(resourceReferenceEClass, RESOURCE_REFERENCE__LINE_BREAK);
 
-		modelingUnitInstructionReferenceEClass = createEClass(MODELING_UNIT_INSTRUCTION_REFERENCE);
-		createEReference(modelingUnitInstructionReferenceEClass,
-				MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT);
-
 		instanciationInstructionReferenceEClass = createEClass(INSTANCIATION_INSTRUCTION_REFERENCE);
+		createEAttribute(instanciationInstructionReferenceEClass,
+				INSTANCIATION_INSTRUCTION_REFERENCE__INSTANCE_NAME);
 		createEReference(instanciationInstructionReferenceEClass,
-				INSTANCIATION_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT);
+				INSTANCIATION_INSTRUCTION_REFERENCE__INSTANCIATION);
+
+		modelingUnitInstructionReferenceEClass = createEClass(MODELING_UNIT_INSTRUCTION_REFERENCE);
+		createEAttribute(modelingUnitInstructionReferenceEClass,
+				MODELING_UNIT_INSTRUCTION_REFERENCE__INTENT_HREF);
+		createEReference(modelingUnitInstructionReferenceEClass,
+				MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_INSTRUCTION);
 
 		resourceDeclarationEClass = createEClass(RESOURCE_DECLARATION);
 		createEAttribute(resourceDeclarationEClass, RESOURCE_DECLARATION__URI);
@@ -781,7 +822,7 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 		createEAttribute(resourceDeclarationEClass, RESOURCE_DECLARATION__CONTENT_TYPE);
 		createEReference(resourceDeclarationEClass, RESOURCE_DECLARATION__CONTENT);
 
-		intentSectionReferenceinModelingUnitEClass = createEClass(INTENT_SECTION_REFERENCEIN_MODELING_UNIT);
+		intentReferenceinModelingUnitEClass = createEClass(INTENT_REFERENCEIN_MODELING_UNIT);
 
 		labelinModelingUnitEClass = createEClass(LABELIN_MODELING_UNIT);
 
@@ -790,6 +831,7 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 		createEReference(annotationDeclarationEClass, ANNOTATION_DECLARATION__MAP);
 
 		typeReferenceEClass = createEClass(TYPE_REFERENCE);
+		createEAttribute(typeReferenceEClass, TYPE_REFERENCE__TYPE_NAME);
 		createEReference(typeReferenceEClass, TYPE_REFERENCE__RESOLVED_TYPE);
 
 		instanceLevelInstructionEClass = createEClass(INSTANCE_LEVEL_INSTRUCTION);
@@ -815,12 +857,12 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 		referenceValueForStructuralFeatureEClass = createEClass(REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE);
 		createEReference(referenceValueForStructuralFeatureEClass,
-				REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_ELEMENT);
+				REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__INSTANCIATION_REFERENCE);
 		createEReference(referenceValueForStructuralFeatureEClass,
 				REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_META_TYPE);
 
 		contributionInstructionEClass = createEClass(CONTRIBUTION_INSTRUCTION);
-		createEReference(contributionInstructionEClass, CONTRIBUTION_INSTRUCTION__REFERENCED_ELEMENT);
+		createEReference(contributionInstructionEClass, CONTRIBUTION_INSTRUCTION__CONTRIBUTION_REFERENCE);
 		createEReference(contributionInstructionEClass, CONTRIBUTION_INSTRUCTION__CONTRIBUTIONS);
 
 		// Create enums
@@ -864,23 +906,15 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 		// Add supertypes to classes
 		modelingUnitEClass.getESuperTypes().add(theGenericUnitPackage.getGenericUnit());
 		modelingUnitInstructionEClass.getESuperTypes().add(theGenericUnitPackage.getUnitInstruction());
-		resourceReferenceEClass.getESuperTypes().add(theIntentDocumentPackage.getIntentReference());
-		modelingUnitInstructionReferenceEClass.getESuperTypes().add(
-				theIntentDocumentPackage.getIntentReference());
-		instanciationInstructionReferenceEClass.getESuperTypes().add(
-				theIntentDocumentPackage.getIntentReference());
 		resourceDeclarationEClass.getESuperTypes().add(this.getModelingUnitInstruction());
-		intentSectionReferenceinModelingUnitEClass.getESuperTypes().add(
-				theGenericUnitPackage.getIntentSectionReferenceInstruction());
-		intentSectionReferenceinModelingUnitEClass.getESuperTypes().add(this.getModelingUnitInstruction());
-		intentSectionReferenceinModelingUnitEClass.getESuperTypes().add(
-				this.getModelingUnitInstructionReference());
+		intentReferenceinModelingUnitEClass.getESuperTypes().add(
+				theGenericUnitPackage.getIntentReferenceInstruction());
+		intentReferenceinModelingUnitEClass.getESuperTypes().add(this.getModelingUnitInstruction());
 		labelinModelingUnitEClass.getESuperTypes().add(theGenericUnitPackage.getLabelDeclaration());
 		labelinModelingUnitEClass.getESuperTypes().add(this.getModelingUnitInstruction());
-		labelinModelingUnitEClass.getESuperTypes().add(this.getModelingUnitInstructionReference());
+		labelinModelingUnitEClass.getESuperTypes().add(theGenericUnitPackage.getIntentReference());
 		annotationDeclarationEClass.getESuperTypes().add(this.getModelingUnitInstruction());
-		annotationDeclarationEClass.getESuperTypes().add(this.getModelingUnitInstructionReference());
-		typeReferenceEClass.getESuperTypes().add(theIntentDocumentPackage.getIntentReference());
+		annotationDeclarationEClass.getESuperTypes().add(theGenericUnitPackage.getIntentReference());
 		instanceLevelInstructionEClass.getESuperTypes().add(this.getModelingUnitInstruction());
 		instanciationInstructionEClass.getESuperTypes().add(this.getInstanceLevelInstruction());
 		structuralFeatureAffectationEClass.getESuperTypes().add(this.getInstanceLevelInstruction());
@@ -917,26 +951,35 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 		initEClass(resourceReferenceEClass, ResourceReference.class, "ResourceReference", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getResourceReference_ReferencedElement(), this.getResourceDeclaration(), null,
-				"referencedElement", null, 0, 1, ResourceReference.class, !IS_TRANSIENT, !IS_VOLATILE,
+		initEAttribute(getResourceReference_ResourceName(), ecorePackage.getEString(), "resourceName", null,
+				0, 1, ResourceReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
+				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getResourceReference_Declaration(), this.getResourceDeclaration(), null,
+				"declaration", null, 0, 1, ResourceReference.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 		initEAttribute(getResourceReference_LineBreak(), ecorePackage.getEBoolean(), "lineBreak", null, 1, 1,
 				ResourceReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(modelingUnitInstructionReferenceEClass, ModelingUnitInstructionReference.class,
-				"ModelingUnitInstructionReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getModelingUnitInstructionReference_ReferencedElement(),
-				this.getModelingUnitInstruction(), null, "referencedElement", null, 0, 1,
-				ModelingUnitInstructionReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
 		initEClass(instanciationInstructionReferenceEClass, InstanciationInstructionReference.class,
 				"InstanciationInstructionReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInstanciationInstructionReference_ReferencedElement(),
-				this.getInstanciationInstruction(), null, "referencedElement", null, 0, 1,
+		initEAttribute(getInstanciationInstructionReference_InstanceName(), ecorePackage.getEString(),
+				"instanceName", null, 0, 1, InstanciationInstructionReference.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getInstanciationInstructionReference_Instanciation(),
+				this.getInstanciationInstruction(), null, "instanciation", null, 0, 1,
 				InstanciationInstructionReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(modelingUnitInstructionReferenceEClass, ModelingUnitInstructionReference.class,
+				"ModelingUnitInstructionReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getModelingUnitInstructionReference_IntentHref(), ecorePackage.getEString(),
+				"intentHref", null, 0, 1, ModelingUnitInstructionReference.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModelingUnitInstructionReference_ReferencedInstruction(),
+				this.getModelingUnitInstruction(), null, "referencedInstruction", null, 0, 1,
+				ModelingUnitInstructionReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
 				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resourceDeclarationEClass, ResourceDeclaration.class, "ResourceDeclaration", !IS_ABSTRACT,
@@ -955,9 +998,8 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 				IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
 
-		initEClass(intentSectionReferenceinModelingUnitEClass, IntentSectionReferenceinModelingUnit.class,
-				"IntentSectionReferenceinModelingUnit", !IS_ABSTRACT, !IS_INTERFACE,
-				IS_GENERATED_INSTANCE_CLASS);
+		initEClass(intentReferenceinModelingUnitEClass, IntentReferenceinModelingUnit.class,
+				"IntentReferenceinModelingUnit", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(labelinModelingUnitEClass, LabelinModelingUnit.class, "LabelinModelingUnit", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -973,6 +1015,9 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 		initEClass(typeReferenceEClass, TypeReference.class, "TypeReference", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTypeReference_TypeName(), ecorePackage.getEString(), "typeName", null, 0, 1,
+				TypeReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTypeReference_ResolvedType(), ecorePackage.getEClass(), null, "resolvedType", null,
 				0, 1, TypeReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1027,8 +1072,8 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 		initEClass(referenceValueForStructuralFeatureEClass, ReferenceValueForStructuralFeature.class,
 				"ReferenceValueForStructuralFeature", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getReferenceValueForStructuralFeature_ReferencedElement(),
-				this.getInstanciationInstructionReference(), null, "referencedElement", null, 1, 1,
+		initEReference(getReferenceValueForStructuralFeature_InstanciationReference(),
+				this.getInstanciationInstructionReference(), null, "instanciationReference", null, 1, 1,
 				ReferenceValueForStructuralFeature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
 				IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getReferenceValueForStructuralFeature_ReferencedMetaType(), ecorePackage.getEObject(),
@@ -1038,8 +1083,8 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 		initEClass(contributionInstructionEClass, ContributionInstruction.class, "ContributionInstruction",
 				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getContributionInstruction_ReferencedElement(),
-				this.getModelingUnitInstructionReference(), null, "referencedElement", null, 1, 1,
+		initEReference(getContributionInstruction_ContributionReference(),
+				this.getModelingUnitInstructionReference(), null, "contributionReference", null, 1, 1,
 				ContributionInstruction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getContributionInstruction_Contributions(), this.getModelingUnitInstruction(), null,

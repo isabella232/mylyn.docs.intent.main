@@ -88,8 +88,8 @@ public class IntentHeaderDeclarationImpl extends CDOObjectImpl implements Intent
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EList<String> getImports() {
-		return (EList<String>)eGet(IntentDocumentPackage.Literals.INTENT_HEADER_DECLARATION__IMPORTS, true);
+	public EList<Object> getImports() {
+		return (EList<Object>)eGet(IntentDocumentPackage.Literals.INTENT_HEADER_DECLARATION__IMPORTS, true);
 	}
 
 	/**
@@ -98,8 +98,8 @@ public class IntentHeaderDeclarationImpl extends CDOObjectImpl implements Intent
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EMap<String, String> getAnnotationMappings() {
-		return (EMap<String, String>)eGet(
+	public EMap<String, Object> getAnnotationMappings() {
+		return (EMap<String, Object>)eGet(
 				IntentDocumentPackage.Literals.INTENT_HEADER_DECLARATION__ANNOTATION_MAPPINGS, true);
 	}
 

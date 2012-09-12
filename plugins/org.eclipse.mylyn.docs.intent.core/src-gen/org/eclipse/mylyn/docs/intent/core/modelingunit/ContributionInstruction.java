@@ -20,7 +20,7 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction#getReferencedElement <em>Referenced Element</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction#getContributionReference <em>Contribution Reference</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction#getContributions <em>Contributions</em>}</li>
  * </ul>
  * </p>
@@ -31,30 +31,30 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface ContributionInstruction extends ModelingUnitInstruction {
 	/**
-	 * Returns the value of the '<em><b>Referenced Element</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Contribution Reference</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Referenced Element</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Contribution Reference</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Referenced Element</em>' containment reference.
-	 * @see #setReferencedElement(ModelingUnitInstructionReference)
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#getContributionInstruction_ReferencedElement()
+	 * @return the value of the '<em>Contribution Reference</em>' containment reference.
+	 * @see #setContributionReference(ModelingUnitInstructionReference)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#getContributionInstruction_ContributionReference()
 	 * @model containment="true" resolveProxies="true" required="true"
 	 * @generated
 	 */
-	ModelingUnitInstructionReference getReferencedElement();
+	ModelingUnitInstructionReference getContributionReference();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction#getReferencedElement <em>Referenced Element</em>}' containment reference.
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction#getContributionReference <em>Contribution Reference</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Referenced Element</em>' containment reference.
-	 * @see #getReferencedElement()
+	 * @param value the new value of the '<em>Contribution Reference</em>' containment reference.
+	 * @see #getContributionReference()
 	 * @generated
 	 */
-	void setReferencedElement(ModelingUnitInstructionReference value);
+	void setContributionReference(ModelingUnitInstructionReference value);
 
 	/**
 	 * Returns the value of the '<em><b>Contributions</b></em>' containment reference list.

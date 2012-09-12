@@ -80,7 +80,7 @@ public final class StructuralFeatureGenerator {
 				feature.setEType(EcorePackage.eINSTANCE.getEString());
 			}
 			TypeReference resolvedMetaType = ModelingUnitFactory.eINSTANCE.createTypeReference();
-			resolvedMetaType.setIntentHref(feature.getEType().getName());
+			resolvedMetaType.setTypeName(feature.getEType().getName());
 			affectation.setMetaType(resolvedMetaType);
 			if (!feature.isDerived()) {
 

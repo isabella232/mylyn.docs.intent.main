@@ -31,31 +31,13 @@ public interface GenericUnitFactory extends EFactory {
 			.init();
 
 	/**
-	 * Returns a new object of class '<em>Unit Instruction Reference</em>'.
+	 * Returns a new object of class '<em>Intent Reference Instruction</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Unit Instruction Reference</em>'.
+	 * @return a new object of class '<em>Intent Reference Instruction</em>'.
 	 * @generated
 	 */
-	UnitInstructionReference createUnitInstructionReference();
-
-	/**
-	 * Returns a new object of class '<em>Label Declaration Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Label Declaration Reference</em>'.
-	 * @generated
-	 */
-	LabelDeclarationReference createLabelDeclarationReference();
-
-	/**
-	 * Returns a new object of class '<em>Intent Section Reference Instruction</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Intent Section Reference Instruction</em>'.
-	 * @generated
-	 */
-	IntentSectionReferenceInstruction createIntentSectionReferenceInstruction();
+	IntentReferenceInstruction createIntentReferenceInstruction();
 
 	/**
 	 * Returns a new object of class '<em>Label Declaration</em>'.

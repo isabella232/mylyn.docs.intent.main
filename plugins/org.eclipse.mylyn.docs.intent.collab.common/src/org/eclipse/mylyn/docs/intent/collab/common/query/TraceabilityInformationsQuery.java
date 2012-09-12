@@ -174,7 +174,7 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 			InstanciationInstruction instanciation) {
 		for (TraceabilityIndexEntry entry : getOrCreateTraceabilityIndex().getEntries()) {
 			for (ModelingUnitInstructionReference reference : entry.getResourceDeclaration().getContent()) {
-				if (instanciation.equals(reference.getReferencedElement())) {
+				if (instanciation.equals(reference.getReferencedInstruction())) {
 					return reference;
 				}
 			}

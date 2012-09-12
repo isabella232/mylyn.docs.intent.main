@@ -15,16 +15,14 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.AdressedAnnotation;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -92,18 +90,8 @@ public class GenericUnitAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseUnitInstructionReference(UnitInstructionReference object) {
-			return createUnitInstructionReferenceAdapter();
-		}
-
-		@Override
-		public Adapter caseLabelDeclarationReference(LabelDeclarationReference object) {
-			return createLabelDeclarationReferenceAdapter();
-		}
-
-		@Override
-		public Adapter caseIntentSectionReferenceInstruction(IntentSectionReferenceInstruction object) {
-			return createIntentSectionReferenceInstructionAdapter();
+		public Adapter caseIntentReferenceInstruction(IntentReferenceInstruction object) {
+			return createIntentReferenceInstructionAdapter();
 		}
 
 		@Override
@@ -122,13 +110,13 @@ public class GenericUnitAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseIntentGenericElement(IntentGenericElement object) {
-			return createIntentGenericElementAdapter();
+		public Adapter caseIntentReference(IntentReference object) {
+			return createIntentReferenceAdapter();
 		}
 
 		@Override
-		public Adapter caseIntentReference(IntentReference object) {
-			return createIntentReferenceAdapter();
+		public Adapter caseIntentGenericElement(IntentGenericElement object) {
+			return createIntentGenericElementAdapter();
 		}
 
 		@Override
@@ -179,44 +167,16 @@ public class GenericUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference <em>Unit Instruction Reference</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction <em>Intent Reference Instruction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction
 	 * @generated
 	 */
-	public Adapter createUnitInstructionReferenceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference <em>Label Declaration Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference
-	 * @generated
-	 */
-	public Adapter createLabelDeclarationReferenceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction <em>Intent Section Reference Instruction</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction
-	 * @generated
-	 */
-	public Adapter createIntentSectionReferenceInstructionAdapter() {
+	public Adapter createIntentReferenceInstructionAdapter() {
 		return null;
 	}
 
@@ -277,13 +237,13 @@ public class GenericUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference <em>Intent Reference</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference <em>Intent Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReference
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference
 	 * @generated
 	 */
 	public Adapter createIntentReferenceAdapter() {

@@ -12,11 +12,10 @@ package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 
 /**
@@ -61,7 +60,7 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 	 * @generated
 	 */
 	public String getIntentHref() {
-		return (String)eGet(IntentDocumentPackage.Literals.INTENT_REFERENCE__INTENT_HREF, true);
+		return (String)eGet(GenericUnitPackage.Literals.INTENT_REFERENCE__INTENT_HREF, true);
 	}
 
 	/**
@@ -70,7 +69,7 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 	 * @generated
 	 */
 	public void setIntentHref(String newIntentHref) {
-		eSet(IntentDocumentPackage.Literals.INTENT_REFERENCE__INTENT_HREF, newIntentHref);
+		eSet(GenericUnitPackage.Literals.INTENT_REFERENCE__INTENT_HREF, newIntentHref);
 	}
 
 	/**
@@ -78,9 +77,8 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ModelingUnitInstruction getReferencedElement() {
-		return (ModelingUnitInstruction)eGet(
-				ModelingUnitPackage.Literals.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT, true);
+	public EObject getReferencedElement() {
+		return (EObject)eGet(GenericUnitPackage.Literals.INTENT_REFERENCE__REFERENCED_ELEMENT, true);
 	}
 
 	/**
@@ -88,9 +86,8 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReferencedElement(ModelingUnitInstruction newReferencedElement) {
-		eSet(ModelingUnitPackage.Literals.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT,
-				newReferencedElement);
+	public void setReferencedElement(EObject newReferencedElement) {
+		eSet(GenericUnitPackage.Literals.INTENT_REFERENCE__REFERENCED_ELEMENT, newReferencedElement);
 	}
 
 	/**
@@ -131,15 +128,9 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 		if (baseClass == IntentReference.class) {
 			switch (derivedFeatureID) {
 				case ModelingUnitPackage.ANNOTATION_DECLARATION__INTENT_HREF:
-					return IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF;
-				default:
-					return -1;
-			}
-		}
-		if (baseClass == ModelingUnitInstructionReference.class) {
-			switch (derivedFeatureID) {
+					return GenericUnitPackage.INTENT_REFERENCE__INTENT_HREF;
 				case ModelingUnitPackage.ANNOTATION_DECLARATION__REFERENCED_ELEMENT:
-					return ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT;
+					return GenericUnitPackage.INTENT_REFERENCE__REFERENCED_ELEMENT;
 				default:
 					return -1;
 			}
@@ -156,15 +147,9 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == IntentReference.class) {
 			switch (baseFeatureID) {
-				case IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF:
+				case GenericUnitPackage.INTENT_REFERENCE__INTENT_HREF:
 					return ModelingUnitPackage.ANNOTATION_DECLARATION__INTENT_HREF;
-				default:
-					return -1;
-			}
-		}
-		if (baseClass == ModelingUnitInstructionReference.class) {
-			switch (baseFeatureID) {
-				case ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT:
+				case GenericUnitPackage.INTENT_REFERENCE__REFERENCED_ELEMENT:
 					return ModelingUnitPackage.ANNOTATION_DECLARATION__REFERENCED_ELEMENT;
 				default:
 					return -1;

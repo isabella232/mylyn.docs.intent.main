@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intentMU:ModelingUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.7">
+  <instructions xmi:type="intentMU:LabelinModelingUnit" lineBreak="true" labelValue="&quot;labelValue&quot;" type="EXPLICIT"/>
+  <instructions xmi:type="intentMU:InstanciationInstruction" lineBreak="true" name="MyA">
+    <metaType typeName="A"/>
+  </instructions>
+  <instructions xmi:type="intentMU:LabelinModelingUnit" lineBreak="true" labelValue="&quot;labelValue&quot;" textToPrint="&quot;textToPrint&quot;"/>
+</intentMU:ModelingUnit>

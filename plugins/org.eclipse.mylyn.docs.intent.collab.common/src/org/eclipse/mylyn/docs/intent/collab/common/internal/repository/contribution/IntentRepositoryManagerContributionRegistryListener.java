@@ -27,7 +27,7 @@ import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 
 /**
  * This listener allows to be aware of contribution changes against the
- * {@link IntentRepositoryManagerRegistryListener#INTENT_REPOSITORY_MANAGER_CONTRIBUTION_EXTENSION_POINT}
+ * {@link IntentRepositoryManagerContributionRegistryListener#INTENT_REPOSITORY_MANAGER_CONTRIBUTION_EXTENSION_POINT}
  * extension point.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>

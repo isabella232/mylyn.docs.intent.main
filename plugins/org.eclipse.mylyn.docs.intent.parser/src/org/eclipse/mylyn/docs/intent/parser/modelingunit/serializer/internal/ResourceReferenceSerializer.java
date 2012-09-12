@@ -37,7 +37,7 @@ public final class ResourceReferenceSerializer {
 	 */
 	public static String render(ResourceReference resourceReference,
 			ModelingUnitElementDispatcher modelingUnitElementDispatcher) {
-		String renderedForm = "[" + resourceReference.getIntentHref() + "]";
+		String renderedForm = "[" + resourceReference.getResourceName() + "]";
 
 		// if (resourceReference.isLineBreak()) {
 		// renderedForm += ModelingUnitSerializer.LINE_BREAK;

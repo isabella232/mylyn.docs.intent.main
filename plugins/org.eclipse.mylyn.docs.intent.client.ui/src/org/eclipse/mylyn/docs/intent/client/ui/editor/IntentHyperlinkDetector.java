@@ -18,7 +18,7 @@ import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
 import org.eclipse.ui.texteditor.ITextEditor;
 
@@ -72,7 +72,7 @@ public class IntentHyperlinkDetector extends AbstractHyperlinkDetector {
 		ParsedElementPosition actualPosition = document.getIntentPosition(element);
 		int offset = actualPosition.getOffset();
 		int length = actualPosition.getLength();
-		if (element instanceof IntentSectionReferenceInstruction) {
+		if (element instanceof IntentReferenceInstruction) {
 			try {
 				String text = document.get(offset, length);
 				int refStart = text.indexOf("\"");
@@ -96,10 +96,9 @@ public class IntentHyperlinkDetector extends AbstractHyperlinkDetector {
 	 */
 	private EObject getTarget(EObject element) {
 		EObject target = null;
-		if (element instanceof IntentSectionReferenceInstruction) {
-			IntentSectionReferenceInstruction ref = (IntentSectionReferenceInstruction)element;
-			// TODO check metamodel consistency
-			target = ref.getReferencedObject().getReferencedObject();
+		if (element instanceof IntentReferenceInstruction) {
+			IntentReferenceInstruction ref = (IntentReferenceInstruction)element;
+			target = ref.getReferencedElement();
 		}
 		return target;
 	}

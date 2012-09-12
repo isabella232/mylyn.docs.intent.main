@@ -15,7 +15,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
@@ -193,11 +193,11 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseIntentSectionReferenceinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseIntentReferenceinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit)
 	 */
 	@Override
-	public String caseIntentSectionReferenceinModelingUnit(IntentSectionReferenceinModelingUnit object) {
-		return IntentSectionReferenceinModelingUnitSerializer.render(object, this);
+	public String caseIntentReferenceinModelingUnit(IntentReferenceinModelingUnit object) {
+		return IntentReferenceinModelingUnitSerializer.render(object, this);
 	}
 
 	/**
@@ -217,7 +217,7 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 	 */
 	@Override
 	public String caseTypeReference(TypeReference object) {
-		return object.getIntentHref();
+		return object.getTypeName();
 	}
 
 	/**
@@ -227,7 +227,7 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 	 */
 	@Override
 	public String caseInstanciationInstructionReference(InstanciationInstructionReference object) {
-		return object.getIntentHref();
+		return object.getInstanceName();
 	}
 
 	/**

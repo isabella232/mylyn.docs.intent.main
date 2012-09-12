@@ -27,7 +27,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
 import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
@@ -92,12 +92,12 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 	 * @return all the {@link org.eclipse.mylyn.docs.intent.core.document.IntentReference}s contained in the
 	 *         queried {@link IntentDocument}
 	 */
-	public Collection<IntentSectionReferenceInstruction> getAllIntentReferenceInstructions() {
-		Collection<IntentSectionReferenceInstruction> intentReferences = Sets.newLinkedHashSet();
+	public Collection<IntentReferenceInstruction> getAllIntentReferenceInstructions() {
+		Collection<IntentReferenceInstruction> intentReferences = Sets.newLinkedHashSet();
 		// Step 1: get all descriptions units
 		for (DescriptionUnit unit : getAllDescriptionUnits()) {
 			intentReferences.addAll(Sets.newLinkedHashSet(Iterables.filter(unit.getInstructions(),
-					IntentSectionReferenceInstruction.class)));
+					IntentReferenceInstruction.class)));
 		}
 		return intentReferences;
 	}

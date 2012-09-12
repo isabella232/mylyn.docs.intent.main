@@ -25,8 +25,6 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility;
 
 /**
@@ -77,10 +75,6 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 				return (EObject)createIntentGenericElement();
 			case IntentDocumentPackage.ANNOTATION_MAPPING:
 				return (EObject)createAnnotationMapping();
-			case IntentDocumentPackage.INTENT_SECTION_REFERENCE:
-				return (EObject)createIntentSectionReference();
-			case IntentDocumentPackage.INTENT_SECTION_OR_PARAGRAPH_REFERENCE:
-				return (EObject)createIntentSectionOrParagraphReference();
 			case IntentDocumentPackage.INTENT_DOCUMENT:
 				return (EObject)createIntentDocument();
 			case IntentDocumentPackage.INTENT_CHAPTER:
@@ -146,29 +140,9 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<String, String> createAnnotationMapping() {
+	public Map.Entry<String, Object> createAnnotationMapping() {
 		AnnotationMappingImpl annotationMapping = new AnnotationMappingImpl();
 		return annotationMapping;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IntentSectionReference createIntentSectionReference() {
-		IntentSectionReferenceImpl intentSectionReference = new IntentSectionReferenceImpl();
-		return intentSectionReference;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IntentSectionOrParagraphReference createIntentSectionOrParagraphReference() {
-		IntentSectionOrParagraphReferenceImpl intentSectionOrParagraphReference = new IntentSectionOrParagraphReferenceImpl();
-		return intentSectionOrParagraphReference;
 	}
 
 	/**
@@ -239,7 +213,7 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String createURIFromString(EDataType eDataType, String initialValue) {
+	public Object createURIFromString(EDataType eDataType, String initialValue) {
 		return (String)super.createFromString(eDataType, initialValue);
 	}
 

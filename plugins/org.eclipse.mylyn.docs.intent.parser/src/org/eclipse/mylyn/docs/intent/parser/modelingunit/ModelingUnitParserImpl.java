@@ -22,8 +22,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
@@ -32,7 +30,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
@@ -135,7 +133,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 		if (matcher.group(4) != null) {
 			ResourceReference ref = ModelingUnitFactory.eINSTANCE.createResourceReference();
 			ref.setLineBreak(true);
-			ref.setIntentHref(matcher.group(4));
+			ref.setResourceName(matcher.group(4));
 			modelingUnit.setResource(ref);
 		}
 
@@ -188,7 +186,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			ModelingUnitInstructionReference ref = ModelingUnitFactory.eINSTANCE
 					.createModelingUnitInstructionReference();
 			ref.setIntentHref(matcher.group(1));
-			instance.setReferencedElement(ref);
+			instance.setContributionReference(ref);
 
 			// Content detection
 			index = matcher.group().length() + matcher.start();
@@ -253,7 +251,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			if (matcher.group(3) != null) {
 				instance.setName(matcher.group(3));
 			}
-			typeReference.setIntentHref(matcher.group(1));
+			typeReference.setTypeName(matcher.group(1));
 			instance.setMetaType(typeReference);
 
 			// Content detection
@@ -340,7 +338,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	}
 
 	/**
-	 * Detects and instantiates {@link IntentSectionReferenceinModelingUnit} occurrences in the given string.
+	 * Detects and instantiates {@link IntentReferenceinModelingUnit} occurrences in the given string.
 	 * 
 	 * @param string
 	 *            the string to analyze
@@ -353,19 +351,15 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 		Matcher matcher = pattern.matcher(string);
 
 		while (matcher.find()) {
-			IntentSectionReferenceinModelingUnit instance = ModelingUnitFactory.eINSTANCE
-					.createIntentSectionReferenceinModelingUnit();
-			instance.setLineBreak(true); // fixed by default
-
-			IntentSectionOrParagraphReference ref = IntentDocumentFactory.eINSTANCE
-					.createIntentSectionOrParagraphReference();
+			IntentReferenceinModelingUnit ref = ModelingUnitFactory.eINSTANCE
+					.createIntentReferenceinModelingUnit();
+			ref.setLineBreak(true); // fixed by default
 			ref.setIntentHref(matcher.group(1));
-			instance.setReferencedObject(ref);
 			if (matcher.group(3) != null) {
-				instance.setTextToPrint(matcher.group(3));
+				ref.setTextToPrint(matcher.group(3));
 			}
 
-			res.put(new Location(matcher.start(), matcher.end()), instance);
+			res.put(new Location(matcher.start(), matcher.end()), ref);
 		}
 		return res;
 	}
@@ -491,8 +485,8 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 					.createReferenceValueForStructuralFeature();
 			InstanciationInstructionReference referencedInstanciation = ModelingUnitFactory.eINSTANCE
 					.createInstanciationInstructionReference();
-			referencedInstanciation.setIntentHref(string);
-			referenceValue.setReferencedElement(referencedInstanciation);
+			referencedInstanciation.setInstanceName(string);
+			referenceValue.setInstanciationReference(referencedInstanciation);
 			res = referenceValue;
 		} else {
 			Map<Location, UnitInstruction> instructions = getInstanciationInstructions(rootOffset, string,

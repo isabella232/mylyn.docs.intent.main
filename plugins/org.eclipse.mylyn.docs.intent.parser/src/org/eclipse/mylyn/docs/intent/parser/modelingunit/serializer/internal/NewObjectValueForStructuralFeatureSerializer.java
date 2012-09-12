@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
-
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**

@@ -17,9 +17,9 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
@@ -27,7 +27,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanceLevelInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
@@ -118,13 +118,13 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseModelingUnitInstructionReference(ModelingUnitInstructionReference object) {
-			return createModelingUnitInstructionReferenceAdapter();
+		public Adapter caseInstanciationInstructionReference(InstanciationInstructionReference object) {
+			return createInstanciationInstructionReferenceAdapter();
 		}
 
 		@Override
-		public Adapter caseInstanciationInstructionReference(InstanciationInstructionReference object) {
-			return createInstanciationInstructionReferenceAdapter();
+		public Adapter caseModelingUnitInstructionReference(ModelingUnitInstructionReference object) {
+			return createModelingUnitInstructionReferenceAdapter();
 		}
 
 		@Override
@@ -133,8 +133,8 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseIntentSectionReferenceinModelingUnit(IntentSectionReferenceinModelingUnit object) {
-			return createIntentSectionReferenceinModelingUnitAdapter();
+		public Adapter caseIntentReferenceinModelingUnit(IntentReferenceinModelingUnit object) {
+			return createIntentReferenceinModelingUnitAdapter();
 		}
 
 		@Override
@@ -213,8 +213,8 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseIntentSectionReferenceInstruction(IntentSectionReferenceInstruction object) {
-			return createIntentSectionReferenceInstructionAdapter();
+		public Adapter caseIntentReferenceInstruction(IntentReferenceInstruction object) {
+			return createIntentReferenceInstructionAdapter();
 		}
 
 		@Override
@@ -340,16 +340,16 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit <em>Intent Section Referencein Modeling Unit</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit <em>Intent Referencein Modeling Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit
 	 * @generated
 	 */
-	public Adapter createIntentSectionReferenceinModelingUnitAdapter() {
+	public Adapter createIntentReferenceinModelingUnitAdapter() {
 		return null;
 	}
 
@@ -550,13 +550,13 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference <em>Intent Reference</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference <em>Intent Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReference
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference
 	 * @generated
 	 */
 	public Adapter createIntentReferenceAdapter() {
@@ -564,16 +564,16 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction <em>Intent Section Reference Instruction</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction <em>Intent Reference Instruction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction
 	 * @generated
 	 */
-	public Adapter createIntentSectionReferenceInstructionAdapter() {
+	public Adapter createIntentReferenceInstructionAdapter() {
 		return null;
 	}
 

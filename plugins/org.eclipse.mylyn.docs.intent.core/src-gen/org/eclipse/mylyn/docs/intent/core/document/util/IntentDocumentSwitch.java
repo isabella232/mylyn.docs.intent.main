@@ -20,10 +20,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration;
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.markup.markup.Container;
@@ -114,33 +111,8 @@ public class IntentDocumentSwitch<T> extends Switch<T> {
 			}
 			case IntentDocumentPackage.ANNOTATION_MAPPING: {
 				@SuppressWarnings("unchecked")
-				Map.Entry<String, String> annotationMapping = (Map.Entry<String, String>)theEObject;
+				Map.Entry<String, Object> annotationMapping = (Map.Entry<String, Object>)theEObject;
 				T result = caseAnnotationMapping(annotationMapping);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case IntentDocumentPackage.INTENT_REFERENCE: {
-				IntentReference intentReference = (IntentReference)theEObject;
-				T result = caseIntentReference(intentReference);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case IntentDocumentPackage.INTENT_SECTION_REFERENCE: {
-				IntentSectionReference intentSectionReference = (IntentSectionReference)theEObject;
-				T result = caseIntentSectionReference(intentSectionReference);
-				if (result == null)
-					result = caseIntentReference(intentSectionReference);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case IntentDocumentPackage.INTENT_SECTION_OR_PARAGRAPH_REFERENCE: {
-				IntentSectionOrParagraphReference intentSectionOrParagraphReference = (IntentSectionOrParagraphReference)theEObject;
-				T result = caseIntentSectionOrParagraphReference(intentSectionOrParagraphReference);
-				if (result == null)
-					result = caseIntentReference(intentSectionOrParagraphReference);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -263,7 +235,7 @@ public class IntentDocumentSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseAnnotationMapping(Map.Entry<String, String> object) {
+	public T caseAnnotationMapping(Map.Entry<String, Object> object) {
 		return null;
 	}
 
@@ -279,51 +251,6 @@ public class IntentDocumentSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIntentStructuredElement(IntentStructuredElement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Reference</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIntentReference(IntentReference object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Section Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Section Reference</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIntentSectionReference(IntentSectionReference object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Section Or Paragraph Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Section Or Paragraph Reference</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIntentSectionOrParagraphReference(IntentSectionOrParagraphReference object) {
 		return null;
 	}
 

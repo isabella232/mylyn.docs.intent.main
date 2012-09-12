@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.core.modelingunit;
 
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
 
 /**
@@ -22,5 +23,5 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
  * @model
  * @generated
  */
-public interface LabelinModelingUnit extends LabelDeclaration, ModelingUnitInstruction, ModelingUnitInstructionReference {
+public interface LabelinModelingUnit extends LabelDeclaration, ModelingUnitInstruction, IntentReference {
 } // LabelinModelingUnit

@@ -52,7 +52,7 @@ public final class IntentAcceleoServices {
 	/**
 	 * Returns the title to associate to the given IntentDocument.
 	 * 
-	 * @param intentDocument
+	 * @param any
 	 *            the intent document
 	 * @return the title to associate to the given IntentDocument
 	 */

@@ -29,10 +29,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration;
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
@@ -71,27 +68,6 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 	 * @generated
 	 */
 	private EClass annotationMappingEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass intentReferenceEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass intentSectionReferenceEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass intentSectionOrParagraphReferenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -315,60 +291,6 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 	 */
 	public EAttribute getIntentStructuredElement_CompleteLevel() {
 		return (EAttribute)intentStructuredElementEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getIntentReference() {
-		return intentReferenceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIntentReference_IntentHref() {
-		return (EAttribute)intentReferenceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getIntentSectionReference() {
-		return intentSectionReferenceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getIntentSectionReference_ReferencedElement() {
-		return (EReference)intentSectionReferenceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getIntentSectionOrParagraphReference() {
-		return intentSectionOrParagraphReferenceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getIntentSectionOrParagraphReference_ReferencedObject() {
-		return (EReference)intentSectionOrParagraphReferenceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -601,16 +523,6 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		createEAttribute(annotationMappingEClass, ANNOTATION_MAPPING__KEY);
 		createEAttribute(annotationMappingEClass, ANNOTATION_MAPPING__VALUE);
 
-		intentReferenceEClass = createEClass(INTENT_REFERENCE);
-		createEAttribute(intentReferenceEClass, INTENT_REFERENCE__INTENT_HREF);
-
-		intentSectionReferenceEClass = createEClass(INTENT_SECTION_REFERENCE);
-		createEReference(intentSectionReferenceEClass, INTENT_SECTION_REFERENCE__REFERENCED_ELEMENT);
-
-		intentSectionOrParagraphReferenceEClass = createEClass(INTENT_SECTION_OR_PARAGRAPH_REFERENCE);
-		createEReference(intentSectionOrParagraphReferenceEClass,
-				INTENT_SECTION_OR_PARAGRAPH_REFERENCE__REFERENCED_OBJECT);
-
 		intentDocumentEClass = createEClass(INTENT_DOCUMENT);
 		createEReference(intentDocumentEClass, INTENT_DOCUMENT__CHAPTERS);
 		createEReference(intentDocumentEClass, INTENT_DOCUMENT__HEADERS);
@@ -687,8 +599,6 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		// Add supertypes to classes
 		intentStructuredElementEClass.getESuperTypes().add(theMarkupPackage.getSection());
 		intentStructuredElementEClass.getESuperTypes().add(this.getIntentGenericElement());
-		intentSectionReferenceEClass.getESuperTypes().add(this.getIntentReference());
-		intentSectionOrParagraphReferenceEClass.getESuperTypes().add(this.getIntentReference());
 		intentDocumentEClass.getESuperTypes().add(this.getIntentStructuredElement());
 		intentSubSectionContainerEClass.getESuperTypes().add(this.getIntentStructuredElement());
 		intentChapterEClass.getESuperTypes().add(this.getIntentSubSectionContainer());
@@ -724,26 +634,6 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		initEAttribute(getAnnotationMapping_Value(), this.getURI(), "value", null, 0, 1, Map.Entry.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-
-		initEClass(intentReferenceEClass, IntentReference.class, "IntentReference", IS_ABSTRACT,
-				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIntentReference_IntentHref(), ecorePackage.getEString(), "IntentHref", null, 0, 1,
-				IntentReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
-				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(intentSectionReferenceEClass, IntentSectionReference.class, "IntentSectionReference",
-				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getIntentSectionReference_ReferencedElement(), this.getIntentSection(), null,
-				"referencedElement", null, 0, 1, IntentSectionReference.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
-
-		initEClass(intentSectionOrParagraphReferenceEClass, IntentSectionOrParagraphReference.class,
-				"IntentSectionOrParagraphReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getIntentSectionOrParagraphReference_ReferencedObject(),
-				theMarkupPackage.getStructureElement(), null, "referencedObject", null, 0, 1,
-				IntentSectionOrParagraphReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
-				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(intentDocumentEClass, IntentDocument.class, "IntentDocument", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);

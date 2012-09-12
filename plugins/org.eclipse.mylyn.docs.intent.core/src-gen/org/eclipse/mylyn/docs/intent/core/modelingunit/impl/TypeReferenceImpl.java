@@ -11,7 +11,7 @@
 package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
 
@@ -21,13 +21,14 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.TypeReferenceImpl#getTypeName <em>Type Name</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.TypeReferenceImpl#getResolvedType <em>Resolved Type</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class TypeReferenceImpl extends IntentReferenceImpl implements TypeReference {
+public class TypeReferenceImpl extends CDOObjectImpl implements TypeReference {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -43,6 +44,34 @@ public class TypeReferenceImpl extends IntentReferenceImpl implements TypeRefere
 	@Override
 	protected EClass eStaticClass() {
 		return ModelingUnitPackage.Literals.TYPE_REFERENCE;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getTypeName() {
+		return (String)eGet(ModelingUnitPackage.Literals.TYPE_REFERENCE__TYPE_NAME, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTypeName(String newTypeName) {
+		eSet(ModelingUnitPackage.Literals.TYPE_REFERENCE__TYPE_NAME, newTypeName);
 	}
 
 	/**

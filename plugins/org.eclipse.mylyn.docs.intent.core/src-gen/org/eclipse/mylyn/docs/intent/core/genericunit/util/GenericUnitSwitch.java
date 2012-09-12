@@ -14,16 +14,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.AdressedAnnotation;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -100,31 +98,15 @@ public class GenericUnitSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case GenericUnitPackage.UNIT_INSTRUCTION_REFERENCE: {
-				UnitInstructionReference unitInstructionReference = (UnitInstructionReference)theEObject;
-				T result = caseUnitInstructionReference(unitInstructionReference);
+			case GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION: {
+				IntentReferenceInstruction intentReferenceInstruction = (IntentReferenceInstruction)theEObject;
+				T result = caseIntentReferenceInstruction(intentReferenceInstruction);
 				if (result == null)
-					result = caseIntentReference(unitInstructionReference);
+					result = caseUnitInstruction(intentReferenceInstruction);
 				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case GenericUnitPackage.LABEL_DECLARATION_REFERENCE: {
-				LabelDeclarationReference labelDeclarationReference = (LabelDeclarationReference)theEObject;
-				T result = caseLabelDeclarationReference(labelDeclarationReference);
+					result = caseIntentReference(intentReferenceInstruction);
 				if (result == null)
-					result = caseIntentReference(labelDeclarationReference);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION: {
-				IntentSectionReferenceInstruction intentSectionReferenceInstruction = (IntentSectionReferenceInstruction)theEObject;
-				T result = caseIntentSectionReferenceInstruction(intentSectionReferenceInstruction);
-				if (result == null)
-					result = caseUnitInstruction(intentSectionReferenceInstruction);
-				if (result == null)
-					result = caseIntentGenericElement(intentSectionReferenceInstruction);
+					result = caseIntentGenericElement(intentReferenceInstruction);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -146,6 +128,8 @@ public class GenericUnitSwitch<T> extends Switch<T> {
 				if (result == null)
 					result = caseUnitInstruction(labelReferenceInstruction);
 				if (result == null)
+					result = caseIntentReference(labelReferenceInstruction);
+				if (result == null)
 					result = caseIntentGenericElement(labelReferenceInstruction);
 				if (result == null)
 					result = defaultCase(theEObject);
@@ -158,6 +142,13 @@ public class GenericUnitSwitch<T> extends Switch<T> {
 					result = caseUnitInstruction(adressedAnnotation);
 				if (result == null)
 					result = caseIntentGenericElement(adressedAnnotation);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case GenericUnitPackage.INTENT_REFERENCE: {
+				IntentReference intentReference = (IntentReference)theEObject;
+				T result = caseIntentReference(intentReference);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -198,47 +189,17 @@ public class GenericUnitSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Unit Instruction Reference</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Intent Reference Instruction</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Unit Instruction Reference</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Intent Reference Instruction</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUnitInstructionReference(UnitInstructionReference object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Label Declaration Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Label Declaration Reference</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseLabelDeclarationReference(LabelDeclarationReference object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Section Reference Instruction</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Section Reference Instruction</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIntentSectionReferenceInstruction(IntentSectionReferenceInstruction object) {
+	public T caseIntentReferenceInstruction(IntentReferenceInstruction object) {
 		return null;
 	}
 

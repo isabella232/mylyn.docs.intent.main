@@ -41,7 +41,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//ResourceDeclaration/contentType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ResourceDeclaration/content"/>
     </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//IntentSectionReferenceinModelingUnit"/>
+    <genClasses ecoreClass="modelingUnit.ecore#//IntentReferenceinModelingUnit"/>
     <genClasses ecoreClass="modelingUnit.ecore#//LabelinModelingUnit"/>
     <genClasses ecoreClass="modelingUnit.ecore#//AnnotationDeclaration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//AnnotationDeclaration/annotationID"/>
@@ -95,9 +95,9 @@
     <genClasses ecoreClass="genericUnit.ecore#//LabelDeclarationReference">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference genericUnit.ecore#//LabelDeclarationReference/referencedElement"/>
     </genClasses>
-    <genClasses ecoreClass="genericUnit.ecore#//IntentSectionReferenceInstruction">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference genericUnit.ecore#//IntentSectionReferenceInstruction/referencedObject"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//IntentSectionReferenceInstruction/textToPrint"/>
+    <genClasses ecoreClass="genericUnit.ecore#//IntentReferenceInstruction">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference genericUnit.ecore#//IntentReferenceInstruction/referencedObject"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//IntentReferenceInstruction/textToPrint"/>
     </genClasses>
     <genClasses ecoreClass="genericUnit.ecore#//LabelDeclaration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute genericUnit.ecore#//LabelDeclaration/labelValue"/>

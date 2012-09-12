@@ -76,13 +76,13 @@ public interface ModelingUnitFactory extends EFactory {
 	ResourceDeclaration createResourceDeclaration();
 
 	/**
-	 * Returns a new object of class '<em>Intent Section Referencein Modeling Unit</em>'.
+	 * Returns a new object of class '<em>Intent Referencein Modeling Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Intent Section Referencein Modeling Unit</em>'.
+	 * @return a new object of class '<em>Intent Referencein Modeling Unit</em>'.
 	 * @generated
 	 */
-	IntentSectionReferenceinModelingUnit createIntentSectionReferenceinModelingUnit();
+	IntentReferenceinModelingUnit createIntentReferenceinModelingUnit();
 
 	/**
 	 * Returns a new object of class '<em>Labelin Modeling Unit</em>'.

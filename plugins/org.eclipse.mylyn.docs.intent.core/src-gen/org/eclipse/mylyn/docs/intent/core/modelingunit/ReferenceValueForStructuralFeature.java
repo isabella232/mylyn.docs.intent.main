@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedElement <em>Referenced Element</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getInstanciationReference <em>Instanciation Reference</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedMetaType <em>Referenced Meta Type</em>}</li>
  * </ul>
  * </p>
@@ -31,30 +31,30 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ReferenceValueForStructuralFeature extends ValueForStructuralFeature {
 	/**
-	 * Returns the value of the '<em><b>Referenced Element</b></em>' containment reference.
+	 * Returns the value of the '<em><b>Instanciation Reference</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Referenced Element</em>' containment reference isn't clear,
+	 * If the meaning of the '<em>Instanciation Reference</em>' containment reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Referenced Element</em>' containment reference.
-	 * @see #setReferencedElement(InstanciationInstructionReference)
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#getReferenceValueForStructuralFeature_ReferencedElement()
+	 * @return the value of the '<em>Instanciation Reference</em>' containment reference.
+	 * @see #setInstanciationReference(InstanciationInstructionReference)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#getReferenceValueForStructuralFeature_InstanciationReference()
 	 * @model containment="true" resolveProxies="true" required="true"
 	 * @generated
 	 */
-	InstanciationInstructionReference getReferencedElement();
+	InstanciationInstructionReference getInstanciationReference();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedElement <em>Referenced Element</em>}' containment reference.
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getInstanciationReference <em>Instanciation Reference</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Referenced Element</em>' containment reference.
-	 * @see #getReferencedElement()
+	 * @param value the new value of the '<em>Instanciation Reference</em>' containment reference.
+	 * @see #getInstanciationReference()
 	 * @generated
 	 */
-	void setReferencedElement(InstanciationInstructionReference value);
+	void setInstanciationReference(InstanciationInstructionReference value);
 
 	/**
 	 * Returns the value of the '<em><b>Referenced Meta Type</b></em>' reference.

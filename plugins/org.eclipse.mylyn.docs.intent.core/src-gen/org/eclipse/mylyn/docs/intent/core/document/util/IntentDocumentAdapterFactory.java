@@ -21,10 +21,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration;
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionReference;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.markup.markup.Container;
@@ -98,23 +95,8 @@ public class IntentDocumentAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseAnnotationMapping(Map.Entry<String, String> object) {
+		public Adapter caseAnnotationMapping(Map.Entry<String, Object> object) {
 			return createAnnotationMappingAdapter();
-		}
-
-		@Override
-		public Adapter caseIntentReference(IntentReference object) {
-			return createIntentReferenceAdapter();
-		}
-
-		@Override
-		public Adapter caseIntentSectionReference(IntentSectionReference object) {
-			return createIntentSectionReferenceAdapter();
-		}
-
-		@Override
-		public Adapter caseIntentSectionOrParagraphReference(IntentSectionOrParagraphReference object) {
-			return createIntentSectionOrParagraphReferenceAdapter();
 		}
 
 		@Override
@@ -220,48 +202,6 @@ public class IntentDocumentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIntentStructuredElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference <em>Intent Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReference
-	 * @generated
-	 */
-	public Adapter createIntentReferenceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSectionReference <em>Intent Section Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionReference
-	 * @generated
-	 */
-	public Adapter createIntentSectionReferenceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference <em>Intent Section Or Paragraph Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference
-	 * @generated
-	 */
-	public Adapter createIntentSectionOrParagraphReferenceAdapter() {
 		return null;
 	}
 

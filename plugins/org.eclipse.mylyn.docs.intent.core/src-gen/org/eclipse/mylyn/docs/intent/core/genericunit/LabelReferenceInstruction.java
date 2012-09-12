@@ -18,7 +18,6 @@ package org.eclipse.mylyn.docs.intent.core.genericunit;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction#getReferencedLabel <em>Referenced Label</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction#getType <em>Type</em>}</li>
  * </ul>
  * </p>
@@ -27,33 +26,7 @@ package org.eclipse.mylyn.docs.intent.core.genericunit;
  * @model
  * @generated
  */
-public interface LabelReferenceInstruction extends UnitInstruction {
-	/**
-	 * Returns the value of the '<em><b>Referenced Label</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Referenced Label</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Referenced Label</em>' containment reference.
-	 * @see #setReferencedLabel(LabelDeclarationReference)
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage#getLabelReferenceInstruction_ReferencedLabel()
-	 * @model containment="true" resolveProxies="true" required="true"
-	 * @generated
-	 */
-	LabelDeclarationReference getReferencedLabel();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction#getReferencedLabel <em>Referenced Label</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Referenced Label</em>' containment reference.
-	 * @see #getReferencedLabel()
-	 * @generated
-	 */
-	void setReferencedLabel(LabelDeclarationReference value);
-
+public interface LabelReferenceInstruction extends UnitInstruction, IntentReference {
 	/**
 	 * Returns the value of the '<em><b>Type</b></em>' attribute.
 	 * The literals are from the enumeration {@link org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel}.

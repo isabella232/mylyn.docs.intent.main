@@ -41,7 +41,7 @@ public class TestModelingUnitParser {
 	private static ModelingUnitParser modelingUnitParser;
 
 	/**
-	 * Initialisation of the Test environnement : launching the StandaloneParsingManager.
+	 * Initialization of the Test environment : launching the StandaloneParsingManager.
 	 */
 	@Before
 	public void setUp() {
@@ -78,9 +78,7 @@ public class TestModelingUnitParser {
 			 */
 
 			// Step 2 : we save this model in an xmi file
-			File parsedASTFile = new File(ModelingUnitParsingTestConfigurator.getExpectedFolder()
-					+ "tempFile.xmi");
-			XMISaver.saveASXMI(parsedAST, parsedASTFile);
+			String actual = XMISaver.saveASXMI(parsedAST);
 
 			// Step 3 : we get the file corresponding to the expected result.
 			File expectedASTFile = new File(ModelingUnitParsingTestConfigurator.getExpectedFolder()
@@ -92,10 +90,8 @@ public class TestModelingUnitParser {
 
 			// Step 4 : we compare the textual version of the two xmiFiles.
 			String expected = FileToStringConverter.getFileAsString(expectedASTFile);
-			String actual = FileToStringConverter.getFileAsString(parsedASTFile);
 			Assert.assertEquals(expected, actual);
 			Assert.assertEquals(supposedToWork, true);
-
 		} catch (ParseException e) {
 			System.err.println("----------------------------------------");
 			System.err.println("--- Parsing errors for file : " + fileToTest);
@@ -190,7 +186,7 @@ public class TestModelingUnitParser {
 	 */
 	@Test
 	public void invalidLabelLinking() {
-		parseAndCompareToExpected("incorrectFiles/invalidLabelLinking", false);
+		parseAndCompareToExpected("incorrectFiles/invalidLabelLinking", true);
 	}
 
 	/**

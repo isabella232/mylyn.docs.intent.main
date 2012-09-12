@@ -233,108 +233,6 @@ public interface IntentDocumentPackage extends EPackage {
 	int ANNOTATION_MAPPING_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl <em>Intent Reference</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentReference()
-	 * @generated
-	 */
-	int INTENT_REFERENCE = 3;
-
-	/**
-	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_REFERENCE__INTENT_HREF = 0;
-
-	/**
-	 * The number of structural features of the '<em>Intent Reference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_REFERENCE_FEATURE_COUNT = 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionReferenceImpl <em>Intent Section Reference</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionReferenceImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSectionReference()
-	 * @generated
-	 */
-	int INTENT_SECTION_REFERENCE = 4;
-
-	/**
-	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION_REFERENCE__INTENT_HREF = INTENT_REFERENCE__INTENT_HREF;
-
-	/**
-	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION_REFERENCE__REFERENCED_ELEMENT = INTENT_REFERENCE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Intent Section Reference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION_REFERENCE_FEATURE_COUNT = INTENT_REFERENCE_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionOrParagraphReferenceImpl <em>Intent Section Or Paragraph Reference</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionOrParagraphReferenceImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSectionOrParagraphReference()
-	 * @generated
-	 */
-	int INTENT_SECTION_OR_PARAGRAPH_REFERENCE = 5;
-
-	/**
-	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION_OR_PARAGRAPH_REFERENCE__INTENT_HREF = INTENT_REFERENCE__INTENT_HREF;
-
-	/**
-	 * The feature id for the '<em><b>Referenced Object</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION_OR_PARAGRAPH_REFERENCE__REFERENCED_OBJECT = INTENT_REFERENCE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Intent Section Or Paragraph Reference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION_OR_PARAGRAPH_REFERENCE_FEATURE_COUNT = INTENT_REFERENCE_FEATURE_COUNT + 1;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentImpl <em>Intent Document</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -342,7 +240,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentDocument()
 	 * @generated
 	 */
-	int INTENT_DOCUMENT = 6;
+	int INTENT_DOCUMENT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Content</b></em>' containment reference list.
@@ -451,7 +349,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSubSectionContainer()
 	 * @generated
 	 */
-	int INTENT_SUB_SECTION_CONTAINER = 7;
+	int INTENT_SUB_SECTION_CONTAINER = 4;
 
 	/**
 	 * The feature id for the '<em><b>Content</b></em>' containment reference list.
@@ -578,7 +476,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentChapter()
 	 * @generated
 	 */
-	int INTENT_CHAPTER = 8;
+	int INTENT_CHAPTER = 5;
 
 	/**
 	 * The feature id for the '<em><b>Content</b></em>' containment reference list.
@@ -705,7 +603,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSection()
 	 * @generated
 	 */
-	int INTENT_SECTION = 9;
+	int INTENT_SECTION = 6;
 
 	/**
 	 * The feature id for the '<em><b>Content</b></em>' containment reference list.
@@ -868,7 +766,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentHeaderDeclaration()
 	 * @generated
 	 */
-	int INTENT_HEADER_DECLARATION = 10;
+	int INTENT_HEADER_DECLARATION = 7;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -923,7 +821,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSectionVisibility()
 	 * @generated
 	 */
-	int INTENT_SECTION_VISIBILITY = 11;
+	int INTENT_SECTION_VISIBILITY = 8;
 
 	/**
 	 * The meta object id for the '<em>URI</em>' data type.
@@ -933,7 +831,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getURI()
 	 * @generated
 	 */
-	int URI = 12;
+	int URI = 9;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement <em>Intent Generic Element</em>}'.
@@ -1032,69 +930,6 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getIntentStructuredElement_CompleteLevel();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference <em>Intent Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Intent Reference</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReference
-	 * @generated
-	 */
-	EClass getIntentReference();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference#getIntentHref <em>Intent Href</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Intent Href</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReference#getIntentHref()
-	 * @see #getIntentReference()
-	 * @generated
-	 */
-	EAttribute getIntentReference_IntentHref();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSectionReference <em>Intent Section Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Intent Section Reference</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionReference
-	 * @generated
-	 */
-	EClass getIntentSectionReference();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSectionReference#getReferencedElement <em>Referenced Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Referenced Element</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionReference#getReferencedElement()
-	 * @see #getIntentSectionReference()
-	 * @generated
-	 */
-	EReference getIntentSectionReference_ReferencedElement();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference <em>Intent Section Or Paragraph Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Intent Section Or Paragraph Reference</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference
-	 * @generated
-	 */
-	EClass getIntentSectionOrParagraphReference();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference#getReferencedObject <em>Referenced Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Referenced Object</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference#getReferencedObject()
-	 * @see #getIntentSectionOrParagraphReference()
-	 * @generated
-	 */
-	EReference getIntentSectionOrParagraphReference_ReferencedObject();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument <em>Intent Document</em>}'.
@@ -1316,7 +1151,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>URI</em>'.
 	 * @see String
-	 * @model instanceClass="String"
+	 * @model instanceClass="java.lang.Object"
 	 * @generated
 	 */
 	EDataType getURI();
@@ -1423,62 +1258,6 @@ public interface IntentDocumentPackage extends EPackage {
 		 */
 		EAttribute INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL = eINSTANCE
 				.getIntentStructuredElement_CompleteLevel();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl <em>Intent Reference</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentReference()
-		 * @generated
-		 */
-		EClass INTENT_REFERENCE = eINSTANCE.getIntentReference();
-
-		/**
-		 * The meta object literal for the '<em><b>Intent Href</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute INTENT_REFERENCE__INTENT_HREF = eINSTANCE.getIntentReference_IntentHref();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionReferenceImpl <em>Intent Section Reference</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionReferenceImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSectionReference()
-		 * @generated
-		 */
-		EClass INTENT_SECTION_REFERENCE = eINSTANCE.getIntentSectionReference();
-
-		/**
-		 * The meta object literal for the '<em><b>Referenced Element</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INTENT_SECTION_REFERENCE__REFERENCED_ELEMENT = eINSTANCE
-				.getIntentSectionReference_ReferencedElement();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionOrParagraphReferenceImpl <em>Intent Section Or Paragraph Reference</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionOrParagraphReferenceImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSectionOrParagraphReference()
-		 * @generated
-		 */
-		EClass INTENT_SECTION_OR_PARAGRAPH_REFERENCE = eINSTANCE.getIntentSectionOrParagraphReference();
-
-		/**
-		 * The meta object literal for the '<em><b>Referenced Object</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INTENT_SECTION_OR_PARAGRAPH_REFERENCE__REFERENCED_OBJECT = eINSTANCE
-				.getIntentSectionOrParagraphReference_ReferencedObject();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentImpl <em>Intent Document</em>}' class.
