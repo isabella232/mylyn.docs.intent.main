@@ -33,8 +33,8 @@
       </values>
     </structuralFeatures>
   </instructions>
-  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="&quot;Mysection where I have defined by B&quot;"/>
-  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="&quot;Another Section&quot;" textToPrint="&quot;reasons for separation of concerns&quot;"/>
+  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="Mysection where I have defined by B"/>
+  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="Another Section" textToPrint="reasons for separation of concerns"/>
   <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="ContributionInstruction?" referencedElement="//@instructions.7" annotationID="associateBashFileID">
     <map key="bashFile" value="&quot;bashFile1&quot;"/>
     <map key="mode" value="&quot;admin&quot;"/>

@@ -17,6 +17,6 @@
   </instructions>
   <instructions xmi:type="intentMU:LabelinModelingUnit" lineBreak="true" labelValue="&quot;testLabel&quot;" textToPrint="&quot;myPrettyResource&quot;" type="EXPLICIT"/>
   <instructions xmi:type="intentMU:ResourceDeclaration" lineBreak="true" uri="&quot;file:/D:/MyResourceFolder/myResource&quot;" name="myResWithoutContent" contentType="&quot;ECore&quot;"/>
-  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="&quot;TestSectionReference&quot;"/>
+  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="TestSectionReference"/>
   <instructions xmi:type="intentMU:ResourceDeclaration" lineBreak="true" name="emptyResource"/>
 </intentMU:ModelingUnit>

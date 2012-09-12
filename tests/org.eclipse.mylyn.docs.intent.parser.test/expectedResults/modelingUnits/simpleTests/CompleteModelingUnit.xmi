@@ -15,7 +15,7 @@
       <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;bAtt&quot;"/>
     </structuralFeatures>
   </instructions>
-  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="&quot;Section1.2.3&quot;" textToPrint="&quot;textToPrint&quot;"/>
+  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="Section1.2.3" textToPrint="textToPrint"/>
   <instructions xmi:type="intentMU:InstanciationInstruction" lineBreak="true" name="myA">
     <metaType typeName="A"/>
     <structuralFeatures lineBreak="true" name="myAtt1">

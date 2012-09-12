@@ -29,6 +29,8 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
 /**
@@ -94,16 +96,19 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 	 */
 	public Collection<IntentReferenceInstruction> getAllIntentReferenceInstructions() {
 		Collection<IntentReferenceInstruction> intentReferences = Sets.newLinkedHashSet();
-		// Step 1: get all descriptions units
 		for (DescriptionUnit unit : getAllDescriptionUnits()) {
 			intentReferences.addAll(Sets.newLinkedHashSet(Iterables.filter(unit.getInstructions(),
 					IntentReferenceInstruction.class)));
+		}
+		for (ModelingUnit unit : getAllModelingUnits()) {
+			intentReferences.addAll(Sets.newLinkedHashSet(Iterables.filter(unit.getInstructions(),
+					IntentReferenceinModelingUnit.class)));
 		}
 		return intentReferences;
 	}
 
 	/**
-	 * Returns all the {@link DescriptionUnit} contained in the queried {@link IntentDocument}.
+	 * Returns all the {@link DescriptionUnit}s contained in the queried {@link IntentDocument}.
 	 * 
 	 * @return all the {@link DescriptionUnit}s contained in the queried {@link IntentDocument}
 	 */
@@ -113,6 +118,37 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 			descriptionUnits.addAll(getAllDescriptionUnits(chapter));
 		}
 		return descriptionUnits;
+	}
+
+	/**
+	 * Returns all the {@link ModelingUnit}s contained in the queried {@link IntentDocument}.
+	 * 
+	 * @return all the {@link ModelingUnit}s contained in the queried {@link IntentDocument}
+	 */
+	public Collection<ModelingUnit> getAllModelingUnits() {
+		Collection<ModelingUnit> modelingUnits = Sets.newLinkedHashSet();
+		for (IntentChapter chapter : getOrCreateIntentDocument().getChapters()) {
+			modelingUnits.addAll(getAllModelingUnits(chapter));
+		}
+		return modelingUnits;
+	}
+
+	/**
+	 * Returns all the {@link ModelingUnit}s contained in the given {@link IntentSubSectionContainer}.
+	 * 
+	 * @param intentElement
+	 *            the {@link IntentSubSectionContainer} to get the description units from
+	 * @return all the {@link ModelingUnit}s contained in the given {@link IntentSubSectionContainer}
+	 */
+	public Collection<ModelingUnit> getAllModelingUnits(IntentSubSectionContainer intentElement) {
+		Collection<ModelingUnit> modelingUnits = Sets.newLinkedHashSet();
+		if (intentElement instanceof IntentSection) {
+			modelingUnits.addAll(((IntentSection)intentElement).getModelingUnits());
+		}
+		for (IntentSection subSection : intentElement.getSubSections()) {
+			modelingUnits.addAll(getAllModelingUnits(subSection));
+		}
+		return modelingUnits;
 	}
 
 	/**

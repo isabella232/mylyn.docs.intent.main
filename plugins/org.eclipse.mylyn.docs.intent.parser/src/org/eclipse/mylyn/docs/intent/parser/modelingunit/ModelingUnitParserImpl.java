@@ -350,9 +350,9 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			IntentReferenceinModelingUnit ref = ModelingUnitFactory.eINSTANCE
 					.createIntentReferenceinModelingUnit();
 			ref.setLineBreak(true); // fixed by default
-			ref.setIntentHref(matcher.group(1));
+			ref.setIntentHref(matcher.group(1).replaceAll("\"", ""));
 			if (matcher.group(3) != null) {
-				ref.setTextToPrint(matcher.group(3));
+				ref.setTextToPrint(matcher.group(3).replaceAll("\"", ""));
 			}
 
 			res.put(new Location(matcher.start(), matcher.end()), ref);

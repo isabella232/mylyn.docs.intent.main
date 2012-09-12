@@ -39,10 +39,11 @@ public final class IntentReferenceinModelingUnitSerializer {
 	public static String render(IntentReferenceinModelingUnit ref,
 			ModelingUnitElementDispatcher modelingUnitElementDispatcher) {
 		String renderedForm = "@see" + ModelingUnitSerializer.WHITESPACE;
-		renderedForm += ref.getIntentHref();
+		renderedForm += ModelingUnitSerializer.QUOTE + ref.getIntentHref() + ModelingUnitSerializer.QUOTE;
 
 		if (ref.getTextToPrint() != null && ref.getTextToPrint().length() > 0) {
-			renderedForm += ModelingUnitSerializer.WHITESPACE + ref.getTextToPrint();
+			renderedForm += ModelingUnitSerializer.WHITESPACE + ModelingUnitSerializer.QUOTE
+					+ ref.getTextToPrint() + ModelingUnitSerializer.QUOTE;
 		}
 
 		if (ref.isLineBreak()) {
