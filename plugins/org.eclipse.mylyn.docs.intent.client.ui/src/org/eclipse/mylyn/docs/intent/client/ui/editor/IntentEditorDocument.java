@@ -142,8 +142,17 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 * Sets the new value of the ast and refresh the document.
 	 */
 	public void reloadFromAST() {
-		Display.getDefault().asyncExec(new Runnable() {
+		reloadFromAST(false);
+	}
 
+	/**
+	 * Sets the new value of the ast and refresh the document.
+	 * 
+	 * @param syncExec
+	 *            if true, use sync exec. async if false
+	 */
+	protected void reloadFromAST(boolean syncExec) {
+		Runnable runnable = new Runnable() {
 			public void run() {
 				if (associatedEditor.getSelectionProvider() != null) {
 					ISelection selection = associatedEditor.getSelectionProvider().getSelection();
@@ -158,8 +167,12 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 					associatedEditor.getSelectionProvider().setSelection(selection);
 				}
 			}
-		});
-
+		};
+		if (syncExec) {
+			Display.getDefault().syncExec(runnable);
+		} else {
+			Display.getDefault().asyncExec(runnable);
+		}
 	}
 
 	/**

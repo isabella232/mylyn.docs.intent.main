@@ -355,6 +355,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 					public void execute() {
 						try {
 							merge((IntentEditorDocument)document, localAST);
+							((IntentEditorDocument)document).reloadFromAST(true);
 							repositoryAdapter.save();
 						} catch (ReadOnlyException e) {
 							IntentUiLogger.logError(e);
@@ -365,7 +366,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 
 				});
 
-				((IntentEditorDocument)document).reloadFromAST();
 			} catch (ParseException e) {
 				this.createSyntaxErrorAnnotation(e.getMessage(), e.getErrorOffset(), e.getErrorLength());
 				hasSyntaxErrors = true;
