@@ -168,49 +168,53 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 	}
 
 	/**
-	 * Returns the map of all the sections per IDs.
+	 * Returns the map of all the elements per IDs.
 	 * 
-	 * @return the map of all the sections
+	 * @return the map of all the elements
 	 */
-	public Map<String, IntentSection> getAllIdentifiedSections() {
-		Map<String, IntentSection> res = new HashMap<String, IntentSection>();
+	public Map<String, IntentStructuredElement> getAllIdentifiedElements() {
+		Map<String, IntentStructuredElement> res = new HashMap<String, IntentStructuredElement>();
 		for (IntentChapter chapter : getOrCreateIntentDocument().getChapters()) {
-			res.putAll(getAllIdentifiedSections(chapter));
+			String chapterId = getID(chapter);
+			if (chapterId != null) {
+				res.put(chapterId, chapter);
+			}
+			res.putAll(getAllIdentifiedElements(chapter));
 		}
 		return res;
 	}
 
 	/**
-	 * Returns the map of all the sections per IDs.
+	 * Returns the map of all the elements per IDs.
 	 * 
 	 * @param root
 	 *            the root container
-	 * @return the map of all the sections
+	 * @return the map of all the elements
 	 */
-	private Map<String, IntentSection> getAllIdentifiedSections(IntentSubSectionContainer root) {
-		Map<String, IntentSection> res = new HashMap<String, IntentSection>();
+	private Map<String, IntentStructuredElement> getAllIdentifiedElements(IntentSubSectionContainer root) {
+		Map<String, IntentStructuredElement> res = new HashMap<String, IntentStructuredElement>();
 		for (IntentSection section : root.getSubSections()) {
-			String sectionID = getSectionID(section);
-			if (sectionID != null) {
-				res.put(sectionID, section);
-				res.putAll(getAllIdentifiedSections(section));
+			String sectionId = getID(section);
+			if (sectionId != null) {
+				res.put(sectionId, section);
 			}
+			res.putAll(getAllIdentifiedElements(section));
 		}
 		return res;
 	}
 
 	/**
-	 * Returns the given section id.
+	 * Returns the given element id.
 	 * 
-	 * @param section
-	 *            the section
-	 * @return the given section id
+	 * @param element
+	 *            the element
+	 * @return the given element id
 	 */
-	private String getSectionID(IntentSection section) {
-		if (!section.getTitle().getContent().isEmpty()) {
+	private String getID(IntentStructuredElement element) {
+		if (!element.getTitle().getContent().isEmpty()) {
 			// TODO improve id computation
 			// TODO manage duplicates titles
-			return ((Text)section.getTitle().getContent().get(0)).getData().replaceAll(" ", "");
+			return ((Text)element.getTitle().getContent().get(0)).getData().replaceAll(" ", "");
 		}
 		return null;
 	}

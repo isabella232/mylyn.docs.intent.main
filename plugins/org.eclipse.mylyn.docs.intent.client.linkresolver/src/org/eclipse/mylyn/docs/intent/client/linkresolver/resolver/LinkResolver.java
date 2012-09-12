@@ -70,7 +70,7 @@ public class LinkResolver {
 		String href = referenceInstruction.getIntentHref();
 		if (href != null && href.length() > 0) {
 			// TODO resolve other references (currently only sections)
-			IntentStructuredElement element = documentQuery.getAllIdentifiedSections().get(href);
+			IntentStructuredElement element = documentQuery.getAllIdentifiedElements().get(href);
 			if (element != null) {
 				referenceInstruction.setReferencedElement(element);
 			} else {
