@@ -75,14 +75,14 @@ public class IntentHyperlinkDetector extends AbstractHyperlinkDetector {
 		if (element instanceof IntentReferenceInstruction) {
 			try {
 				String text = document.get(offset, length);
-				int refStart = text.indexOf("\"");
+				int refStart = text.indexOf("\"") + 1;
 				offset += refStart;
-				length = text.indexOf("\"", refStart);
+				length = text.indexOf("\"", refStart) - refStart;
 			} catch (BadLocationException e) {
 				// fail silently
 			}
 		}
-		// TODO manage other types
+		// TODO manage labels
 		Region hyperlinkRegion = new Region(Math.max(0, offset), Math.max(0, length));
 		return hyperlinkRegion;
 	}

@@ -66,28 +66,17 @@ public class LinkResolver {
 	 *            the {@link IntentReferenceInstruction} to resolve
 	 */
 	private void resolveReference(IntentReferenceInstruction referenceInstruction) {
-		if (referenceInstruction.getReferencedElement() != null) {
-
-			// We should be smarter and only resolve the link when needed
-			String href = referenceInstruction.getIntentHref();
-			if (href != null && href.length() > 0) {
-				try {
-					// TODO resolve other references (currently only sections)
-					IntentStructuredElement elementAtLevel = documentQuery.getAllIdentifiedSections().get(
-							href);
-					// desactivated: attempts to resolve titles
-					// IntentStructuredElement elementAtLevel = documentQuery.getElementAtLevel(href);
-					if (elementAtLevel != null) {
-						referenceInstruction.setReferencedElement(elementAtLevel);
-					} else {
-						// TODO : we should place a new Status on this reference instruction
-						IntentLogger.getInstance().log(LogType.WARNING, "Unresolved " + href);
-					}
-				} catch (NumberFormatException e) {
-					// TODO : we should place a new Status on this reference instruction
-				}
+		// We should be smarter and only resolve the link when needed
+		String href = referenceInstruction.getIntentHref();
+		if (href != null && href.length() > 0) {
+			// TODO resolve other references (currently only sections)
+			IntentStructuredElement element = documentQuery.getAllIdentifiedSections().get(href);
+			if (element != null) {
+				referenceInstruction.setReferencedElement(element);
+			} else {
+				// TODO : we should place a new Status on this reference instruction
+				IntentLogger.getInstance().log(LogType.WARNING, "Unresolved " + href);
 			}
 		}
-
 	}
 }
