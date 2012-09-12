@@ -5,7 +5,8 @@ Bundle-Name: org.eclipse.mylyn.docs.intent.modelingunit.parser.test
 Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.parser.test
 Bundle-Version: 0.7.0.qualifier
 Export-Package: org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils,
- org.eclipse.mylyn.docs.intent.parser.test
+ org.eclipse.mylyn.docs.intent.parser.test,
+ org.eclipse.mylyn.docs.intent.parser.test.utils
 Require-Bundle: org.eclipse.emf.common;bundle-version="2.6.0",
  org.eclipse.emf.ecore;bundle-version="2.6.0",
  org.eclipse.mylyn.docs.intent.core,

@@ -19,7 +19,7 @@ import junit.framework.AssertionFailedError;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
-import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
+import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 import org.junit.Test;
 

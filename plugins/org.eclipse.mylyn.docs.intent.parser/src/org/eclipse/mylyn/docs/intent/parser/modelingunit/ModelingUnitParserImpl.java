@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.modelingunit;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,7 +43,6 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectat
 import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.linker.ModelingUnitLinker;
-import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils.FileToStringConverter;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils.Location;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils.ModelingUnitContentManager;
 
@@ -107,10 +104,9 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser#parseFile(java.lang.String)
+	 * @see org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser#parseString(java.lang.String)
 	 */
-	public EObject parseFile(String filePath) throws ParseException, IOException {
-		String contentToParse = FileToStringConverter.getFileAsString(new File(filePath));
+	public EObject parseString(String contentToParse) throws ParseException {
 		return parseString(0, contentToParse);
 	}
 

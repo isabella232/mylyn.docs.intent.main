@@ -53,7 +53,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
+import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.eclipse.ui.PlatformUI;
 
 /**

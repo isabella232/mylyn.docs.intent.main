@@ -20,7 +20,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotatio
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractZipBasedTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AnnotationUtils;
-import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
+import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 
 /**
  * Abstract modeling unit updates test.

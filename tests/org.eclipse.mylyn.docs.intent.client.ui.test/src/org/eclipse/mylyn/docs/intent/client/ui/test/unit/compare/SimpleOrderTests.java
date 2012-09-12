@@ -17,7 +17,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
-import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
+import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 
 /**
  * Tests the correct behavior of Intent editor changes. Ensures that EMF Compare is able to maintain order and

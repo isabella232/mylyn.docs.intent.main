@@ -22,9 +22,9 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParserImpl;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
-import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.ModelingUnitParsingTestConfigurator;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.XMISaver;
+import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.junit.Before;
 import org.junit.Test;
 
