@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.internal.state;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
@@ -88,39 +87,9 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 					Block titleBlock = (Block)contents.get(0);
 
 					((IntentSubSectionContainer)this.currentElement).setTitle(titleBlock);
-					((IntentSubSectionContainer)this.currentElement)
-							.setFormattedTitle(createFormattedTitle(stringTitle));
 				}
 			}
 		}
-	}
-
-	/**
-	 * Returns the formatted title for the given sectionTitle.
-	 * 
-	 * @param title
-	 *            the title to format
-	 * @return the formatted title for the given sectionTitle
-	 * @throws ParseException
-	 *             if the identifier has already been associated to annoter element
-	 */
-	private String createFormattedTitle(String title) throws ParseException {
-		String formattedTitle = "";
-
-		for (int i = 0; i < title.length(); i++) {
-			if (Character.isJavaIdentifierPart(title.charAt(i))) {
-				formattedTitle += title.charAt(i);
-			}
-		}
-
-		if (identifiersToSection == null) {
-			identifiersToSection = new HashMap<String, IntentSubSectionContainer>();
-		}
-		if (identifiersToSection.get(formattedTitle) != null) {
-			// throw new ParseException("This title is already taken.");
-		}
-		identifiersToSection.put(formattedTitle, (IntentSubSectionContainer)this.currentElement);
-		return formattedTitle;
 	}
 
 	/**

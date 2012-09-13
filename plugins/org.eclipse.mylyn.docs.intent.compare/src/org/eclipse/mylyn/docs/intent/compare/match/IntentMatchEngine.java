@@ -66,7 +66,6 @@ public class IntentMatchEngine extends GenericMatchEngine {
 				.getModelingUnitInstructionReference_ReferencedInstruction());
 		featuresToIgnoreList.add(ModelingUnitPackage.eINSTANCE.getResourceReference_Declaration());
 		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentGenericElement_CompilationStatus());
-		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentStructuredElement_FormattedTitle());
 		featuresToIgnoreList.add(IntentDocumentPackage.eINSTANCE.getIntentStructuredElement_CompleteLevel());
 
 		((IntentElementFilter)filter).defineFeaturesToIgnore(featuresToIgnoreList);

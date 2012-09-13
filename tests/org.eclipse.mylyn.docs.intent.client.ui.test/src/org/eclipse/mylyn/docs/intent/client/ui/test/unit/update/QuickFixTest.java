@@ -26,7 +26,7 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
  */
 public class QuickFixTest extends AbstractUpdateTest {
 
-	private static final String INTENT_PROJECT_ARCHIVE = "data/unit/documents/quickfixes/intentProject.zip";
+	private static final String INTENT_PROJECT_ARCHIVE = "data/unit/documents/quickfixes/quickfixes.zip";
 
 	private static final String FINAL_INTENT_DOC = "data/unit/documents/quickfixes/final.intent";
 
@@ -36,7 +36,7 @@ public class QuickFixTest extends AbstractUpdateTest {
 	 * Constructor.
 	 */
 	public QuickFixTest() {
-		super(INTENT_PROJECT_ARCHIVE);
+		super(INTENT_PROJECT_ARCHIVE, "quickfixes");
 	}
 
 	/**

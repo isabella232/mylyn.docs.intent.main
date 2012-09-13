@@ -53,14 +53,25 @@
 	[descriptionBloc.descriptionBloc.oclAsType(Container).content.toHTML()/]
 [/template]
 
-[template public generateHTMLContent(labelReference : LabelReferenceInstruction)]
-	<a href="#">
-	[if (labelReference.referencedElement.oclIsUndefined()._not())]
-		[if (labelReference.referencedElement.oclAsType(LabelDeclaration).oclIsUndefined()._not())]
-			[labelReference.referencedElement.oclAsType(LabelDeclaration).textToPrint/]
-		[/if]	
-	[/if]
-	</a>
+[template public generateHTMLContent(reference : IntentReferenceInstruction)]
+[if (reference.referencedElement.oclIsUndefined()._not())]
+[generateReference(reference.textToPrint, reference.referencedElement)/]
+[else]
+<b>UNRESOLVED LINK : [reference.intentHref/]</b>	
+[/if]	
+[/template]
+
+[template public generateReference(textToPrint : String, referenced : IntentSubSectionContainer)]
+See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
+[if (textToPrint.oclIsUndefined()._not() and textToPrint.trim().size() > 0)]
+	[textToPrint/]
+[else]
+	[generateSubSectionTitle(referenced.oclAsType(IntentSubSectionContainer), true)/]
+[/if]</a>
+[/template]
+
+[template public generateReference(textToPrint : String, referenced : EObject)]
+<b>UNSUPPORTED LINK : [referenced.eClass().name/]</b>		
 [/template]
 
 [template public generateHTMLContent(label : LabelDeclaration)]

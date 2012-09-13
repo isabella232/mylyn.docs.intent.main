@@ -34,18 +34,18 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 
 public class IntentMatchEngineTests extends AbstractIntentUITest {
 
-	private static final String INTENT_DOCUMENT_FOLDER = "unit/models/documents/";
+	private static final String INTENT_DOCUMENT_FOLDER = "data/unit/documents/editorupdates/";
 
 	private Collection<AssertionFailedError> errors = Sets.newLinkedHashSet();
 
 	private int compareCasesNumber;
 
 	public void testCompareDocumentWithChapterTitles() {
-		doTestDiffEngine("compareTest-01.xmi");
+		doTestDiffEngine("compareTest-01.intent");
 	}
 
 	public void testCompareDocumentWithoutChapterTitles() {
-		doTestDiffEngine("compareTest-02.xmi");
+		doTestDiffEngine("compareTest-02.intent");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 	 */
 	protected void doTestDiffEngine(String modelPath) {
 		// Step 1: we load the intent document
-		loadIntentDocumentFromTests(INTENT_DOCUMENT_FOLDER + modelPath);
+		parseIntentDocumentFromTests(INTENT_DOCUMENT_FOLDER + modelPath);
 
 		// Step 2: compare with a copy of this element
 		doTestCopyIsEqualToOriginal();

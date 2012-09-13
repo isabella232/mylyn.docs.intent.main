@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.mylyn.docs.intent.core.genericunit.*;
 import org.eclipse.mylyn.docs.intent.core.genericunit.AdressedAnnotation;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;

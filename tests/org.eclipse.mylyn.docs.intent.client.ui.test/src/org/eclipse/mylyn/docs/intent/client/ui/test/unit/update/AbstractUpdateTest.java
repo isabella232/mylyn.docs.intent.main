@@ -36,8 +36,8 @@ public class AbstractUpdateTest extends AbstractZipBasedTest {
 	/**
 	 * Constructor.
 	 */
-	public AbstractUpdateTest(String intentProjectArchivePath) {
-		super(intentProjectArchivePath, "intentProject");
+	public AbstractUpdateTest(String intentProjectArchivePath, String intentProjectName) {
+		super(intentProjectArchivePath, intentProjectName);
 	}
 
 	/**

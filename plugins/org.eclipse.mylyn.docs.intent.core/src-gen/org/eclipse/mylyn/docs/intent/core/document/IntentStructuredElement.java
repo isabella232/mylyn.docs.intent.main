@@ -20,7 +20,6 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Section;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement#getFormattedTitle <em>Formatted Title</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement#getCompleteLevel <em>Complete Level</em>}</li>
  * </ul>
  * </p>
@@ -30,32 +29,6 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Section;
  * @generated
  */
 public interface IntentStructuredElement extends Section, IntentGenericElement {
-	/**
-	 * Returns the value of the '<em><b>Formatted Title</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Formatted Title</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Formatted Title</em>' attribute.
-	 * @see #setFormattedTitle(String)
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage#getIntentStructuredElement_FormattedTitle()
-	 * @model id="true" derived="true"
-	 * @generated
-	 */
-	String getFormattedTitle();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement#getFormattedTitle <em>Formatted Title</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Formatted Title</em>' attribute.
-	 * @see #getFormattedTitle()
-	 * @generated
-	 */
-	void setFormattedTitle(String value);
-
 	/**
 	 * Returns the value of the '<em><b>Complete Level</b></em>' attribute.
 	 * <!-- begin-user-doc -->

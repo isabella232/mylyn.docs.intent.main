@@ -7,7 +7,7 @@ Document {
 			
 			@M
 				Resource testResource {
-					URI = "platform:/resource/intentProject/test.ecore";
+					URI = "platform:/resource/quickfixes/test.ecore";
 					content += testPackage;
 				}
 				new EPackage testPackage {

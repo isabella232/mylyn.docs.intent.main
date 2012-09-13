@@ -280,12 +280,12 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		MarkupPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		IntentDocumentPackageImpl theIntentDocumentPackage = (IntentDocumentPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) instanceof IntentDocumentPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) : IntentDocumentPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
@@ -298,16 +298,16 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 
 		// Create package meta-data objects
 		theCompilerPackage.createPackageContents();
-		theIntentIndexerPackage.createPackageContents();
 		theIntentDocumentPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 		theGenericUnitPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
 		theModelingUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theCompilerPackage.initializePackageContents();
-		theIntentIndexerPackage.initializePackageContents();
 		theIntentDocumentPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 		theGenericUnitPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
 		theModelingUnitPackage.initializePackageContents();

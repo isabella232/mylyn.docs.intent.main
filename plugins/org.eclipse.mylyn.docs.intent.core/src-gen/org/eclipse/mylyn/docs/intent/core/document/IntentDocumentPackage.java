@@ -179,22 +179,13 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_STRUCTURED_ELEMENT__INDEX_ENTRY = MarkupPackage.SECTION_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Formatted Title</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE = MarkupPackage.SECTION_FEATURE_COUNT + 2;
-
-	/**
 	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL = MarkupPackage.SECTION_FEATURE_COUNT + 3;
+	int INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL = MarkupPackage.SECTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Intent Structured Element</em>' class.
@@ -203,7 +194,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT = MarkupPackage.SECTION_FEATURE_COUNT + 4;
+	int INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT = MarkupPackage.SECTION_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' attribute.
@@ -295,15 +286,6 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @ordered
 	 */
 	int INTENT_DOCUMENT__INDEX_ENTRY = INTENT_STRUCTURED_ELEMENT__INDEX_ENTRY;
-
-	/**
-	 * The feature id for the '<em><b>Formatted Title</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_DOCUMENT__FORMATTED_TITLE = INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE;
 
 	/**
 	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
@@ -404,15 +386,6 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @ordered
 	 */
 	int INTENT_SUB_SECTION_CONTAINER__INDEX_ENTRY = INTENT_STRUCTURED_ELEMENT__INDEX_ENTRY;
-
-	/**
-	 * The feature id for the '<em><b>Formatted Title</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SUB_SECTION_CONTAINER__FORMATTED_TITLE = INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE;
 
 	/**
 	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
@@ -533,15 +506,6 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_CHAPTER__INDEX_ENTRY = INTENT_SUB_SECTION_CONTAINER__INDEX_ENTRY;
 
 	/**
-	 * The feature id for the '<em><b>Formatted Title</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__FORMATTED_TITLE = INTENT_SUB_SECTION_CONTAINER__FORMATTED_TITLE;
-
-	/**
 	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -658,15 +622,6 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @ordered
 	 */
 	int INTENT_SECTION__INDEX_ENTRY = INTENT_SUB_SECTION_CONTAINER__INDEX_ENTRY;
-
-	/**
-	 * The feature id for the '<em><b>Formatted Title</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__FORMATTED_TITLE = INTENT_SUB_SECTION_CONTAINER__FORMATTED_TITLE;
 
 	/**
 	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
@@ -908,17 +863,6 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getIntentStructuredElement();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement#getFormattedTitle <em>Formatted Title</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Formatted Title</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement#getFormattedTitle()
-	 * @see #getIntentStructuredElement()
-	 * @generated
-	 */
-	EAttribute getIntentStructuredElement_FormattedTitle();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement#getCompleteLevel <em>Complete Level</em>}'.
@@ -1240,15 +1184,6 @@ public interface IntentDocumentPackage extends EPackage {
 		 * @generated
 		 */
 		EClass INTENT_STRUCTURED_ELEMENT = eINSTANCE.getIntentStructuredElement();
-
-		/**
-		 * The meta object literal for the '<em><b>Formatted Title</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE = eINSTANCE
-				.getIntentStructuredElement_FormattedTitle();
 
 		/**
 		 * The meta object literal for the '<em><b>Complete Level</b></em>' attribute feature.

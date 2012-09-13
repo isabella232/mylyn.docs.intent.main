@@ -172,12 +172,12 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		MarkupPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		CompilerPackageImpl theCompilerPackage = (CompilerPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) instanceof CompilerPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) : CompilerPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
@@ -190,16 +190,16 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 
 		// Create package meta-data objects
 		theIntentDocumentPackage.createPackageContents();
-		theIntentIndexerPackage.createPackageContents();
 		theCompilerPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 		theGenericUnitPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
 		theModelingUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theIntentDocumentPackage.initializePackageContents();
-		theIntentIndexerPackage.initializePackageContents();
 		theCompilerPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 		theGenericUnitPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
 		theModelingUnitPackage.initializePackageContents();
@@ -280,17 +280,8 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getIntentStructuredElement_FormattedTitle() {
-		return (EAttribute)intentStructuredElementEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getIntentStructuredElement_CompleteLevel() {
-		return (EAttribute)intentStructuredElementEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)intentStructuredElementEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -516,7 +507,6 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 		createEReference(intentGenericElementEClass, INTENT_GENERIC_ELEMENT__INDEX_ENTRY);
 
 		intentStructuredElementEClass = createEClass(INTENT_STRUCTURED_ELEMENT);
-		createEAttribute(intentStructuredElementEClass, INTENT_STRUCTURED_ELEMENT__FORMATTED_TITLE);
 		createEAttribute(intentStructuredElementEClass, INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL);
 
 		annotationMappingEClass = createEClass(ANNOTATION_MAPPING);
@@ -619,9 +609,6 @@ public class IntentDocumentPackageImpl extends EPackageImpl implements IntentDoc
 
 		initEClass(intentStructuredElementEClass, IntentStructuredElement.class, "IntentStructuredElement",
 				IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIntentStructuredElement_FormattedTitle(), ecorePackage.getEString(),
-				"formattedTitle", null, 0, 1, IntentStructuredElement.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIntentStructuredElement_CompleteLevel(), ecorePackage.getEString(),
 				"completeLevel", null, 0, 1, IntentStructuredElement.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
