@@ -18,12 +18,13 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
+import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
 /**
  * This will be used as the content provider of our content outline and quick outline view.
@@ -78,15 +79,12 @@ public class OutlineContentProvider extends AdapterFactoryContentProvider {
 	 */
 	@Override
 	public Object[] getChildren(Object object) {
-
 		Set<EObject> children = new LinkedHashSet<EObject>();
-
-		if (object instanceof IntentGenericElement) {
+		if (!filter(object)) {
 
 			// If the given element is a Resource Declaration, we only add its content
 			if (object instanceof ResourceDeclaration) {
 				ResourceDeclaration resourceDeclaration = (ResourceDeclaration)object;
-
 				for (ModelingUnitInstructionReference root : resourceDeclaration.getContent()) {
 					children.add(root);
 				}
@@ -95,14 +93,12 @@ public class OutlineContentProvider extends AdapterFactoryContentProvider {
 			// If the given element is a description unit and
 			// if this content provider has to hide description unit contents
 			// we return an empty table
-			if (!(hideDescriptionUnitsContent && (object instanceof DescriptionUnit))) {
+			if (!filter(object)) {
 
 				// We add all the IntentGenericElements contained in this element
 				EObject element = (EObject)object;
 				for (EObject containedElement : element.eContents()) {
-
-					if (containedElement instanceof IntentGenericElement) {
-
+					if (!filter(containedElement)) {
 						children.add(getValueForChildren((IntentGenericElement)containedElement));
 					}
 				}
@@ -113,6 +109,21 @@ public class OutlineContentProvider extends AdapterFactoryContentProvider {
 	}
 
 	/**
+	 * Returns true if the object has to be hidden.
+	 * 
+	 * @param object
+	 *            the object to filter
+	 * @return true if the object has to be hidden
+	 */
+	private boolean filter(Object object) {
+		boolean hasToBeFiltered = !(object instanceof IntentGenericElement);
+		if (hideDescriptionUnitsContent) {
+			hasToBeFiltered = hasToBeFiltered || object instanceof DescriptionBloc || object instanceof Text;
+		}
+		return hasToBeFiltered;
+	}
+
+	/**
 	 * Returns the value of the given children according to its type.
 	 * 
 	 * @param children
@@ -120,7 +131,6 @@ public class OutlineContentProvider extends AdapterFactoryContentProvider {
 	 * @return the value of the given children according to its type
 	 */
 	private EObject getValueForChildren(IntentGenericElement children) {
-
 		EObject valueForChildren = null;
 		// If the instruction is a new Object value, we directly render the contained
 		// instantiation instruction
@@ -156,11 +166,8 @@ public class OutlineContentProvider extends AdapterFactoryContentProvider {
 
 			// We add all the IntentGenericElements contained in this element
 			for (EObject containedElement : element.eContents()) {
-
-				if (containedElement instanceof IntentGenericElement) {
-
+				if (!filter(containedElement)) {
 					children.add(containedElement);
-
 				}
 			}
 
@@ -176,22 +183,16 @@ public class OutlineContentProvider extends AdapterFactoryContentProvider {
 	 */
 	@Override
 	public boolean hasChildren(Object object) {
-
 		boolean hasChildren = false;
 
-		// If we have to ignore description units content
-		if ((this.hideDescriptionUnitsContent) && (object instanceof DescriptionUnit)) {
-			return false;
-		}
-
 		// An object has children if it's a Genericelement and contains at least one IntentGenericElement.
-		if (object instanceof IntentGenericElement) {
+		if (!filter(object)) {
 			if (object instanceof ResourceDeclaration) {
 				hasChildren = true;
 			}
 			Iterator<EObject> contentIterator = ((EObject)object).eContents().iterator();
 			while (!hasChildren && contentIterator.hasNext()) {
-				hasChildren = contentIterator.next() instanceof IntentGenericElement;
+				hasChildren = !filter(contentIterator.next());
 			}
 		}
 		return hasChildren;
@@ -214,7 +215,6 @@ public class OutlineContentProvider extends AdapterFactoryContentProvider {
 	 */
 	@Override
 	public Object getParent(Object object) {
-
 		if (object == rootElement) {
 			return null;
 		}
