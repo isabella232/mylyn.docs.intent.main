@@ -10,12 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare;
 
-import com.google.common.io.Files;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
@@ -47,12 +41,9 @@ public class IntentASTMerger {
 	 * @param repositoryRoot
 	 *            the repository element to update
 	 * @throws MergingException
-	 *             if the mergin has encountered a problem.
+	 *             if the merging has encountered a problem.
 	 */
 	public void mergeFromLocalToRepository(EObject localRoot, EObject repositoryRoot) throws MergingException {
-		// String localSerialized = new IntentSerializer().serialize(localRoot);
-		// String repoSerialized = new IntentSerializer().serialize(repositoryRoot);
-
 		if (OVERRIDE) {
 			for (EStructuralFeature feature : repositoryRoot.eClass().getEAllStructuralFeatures()) {
 				repositoryRoot.eSet(feature, localRoot.eGet(feature));
@@ -63,26 +54,6 @@ public class IntentASTMerger {
 				diff.copyLeftToRight();
 			}
 		}
-
-		// String newRepoSerialized = new IntentSerializer().serialize(repositoryRoot);
-		// if (!localSerialized.equals(newRepoSerialized)) {
-		// File dir = new File(
-		// "D:/dev/git/intent/org.eclipse.mylyn.docs.intent.main/tests/org.eclipse.mylyn.docs.intent.compare.test/data/"
-		// + System.currentTimeMillis());
-		// dir.mkdir();
-		// saveToFile(dir + "/IntentDocument.text", repoSerialized);
-		// saveToFile(dir + "/IntentDocument.text.modifications", localSerialized);
-		// throw new MergingException("diffs");
-		// }
 	}
 
-	public static void saveToFile(String file, String content) {
-		File destination = new File(file);
-		try {
-			Files.write(content, destination, Charset.forName("UTF-8"));
-		} catch (IOException e) {
-			System.err.println(destination.getAbsolutePath());
-			e.printStackTrace();
-		}
-	}
 }

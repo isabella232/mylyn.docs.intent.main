@@ -50,7 +50,7 @@ public final class EMFCompareUtils {
 	 * @return the differences between the left element and the right element
 	 */
 	public static Comparison compare(Notifier left, Notifier right) {
-		EMFCompare compare = EMFCompare.newComparator(EMFCompare.createDefaultScope(left, right));
+		EMFCompare compare = EMFCompare.newComparator(new IntentComparisonScope(left, right));
 		compare.matchByID(UseIdentifiers.NEVER);
 		return compare.compare();
 	}

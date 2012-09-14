@@ -15,6 +15,7 @@ import org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.CountingDiffE
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
@@ -50,6 +51,10 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 */
 	@Override
 	public int measureDifferences(EObject a, EObject b) {
+		if (a instanceof IntentDocument && b instanceof IntentDocument) {
+			return 0; // root element
+		}
+
 		Integer distance = null;
 
 		// TODO refactor to only compute possible distances
@@ -66,7 +71,6 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 			distance = (int)(titleDistance * 0.6 + serializationDistance * 0.3 + uriDistance * 0.1);
 		} else if (serializationDistance != null && uriDistance != null) {
 			distance = (int)(serializationDistance * 0.8 + uriDistance * 0.2);
-			// distance = (int)(serializationDistance * 0.7 + uriDistance * 0.3);
 		} else {
 			distance = uriDistance;
 		}
