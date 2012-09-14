@@ -17,16 +17,19 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 
 public class AbstractEMFCompareTest extends TestCase {
 
-	protected void compareAndMergeDiffs(IntentStructuredElement left, IntentStructuredElement right) {
+	protected void compareAndMergeDiffs(IntentStructuredElement left,
+			IntentStructuredElement right) {
 		try {
 			new IntentASTMerger().mergeFromLocalToRepository(left, right);
 		} catch (MergingException e) {
 			fail(e.getMessage());
 		}
+
 	}
 
-	protected IntentStructuredElement parseIntentDocument(String content) throws ParseException {
-		return (IntentStructuredElement)new IntentParser().parse(content);
+	protected IntentStructuredElement parseIntentDocument(String content)
+			throws ParseException {
+		return (IntentStructuredElement) new IntentParser().parse(content);
 	}
 
 	/**

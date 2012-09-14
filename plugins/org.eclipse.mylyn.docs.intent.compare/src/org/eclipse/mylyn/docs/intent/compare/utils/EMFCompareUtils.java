@@ -19,7 +19,6 @@ import org.eclipse.emf.compare.match.eobject.IEObjectMatcher;
 import org.eclipse.emf.compare.match.eobject.ProximityEObjectMatcher;
 import org.eclipse.emf.compare.utils.EqualityHelper;
 import org.eclipse.emf.compare.utils.UseIdentifiers;
-import org.eclipse.mylyn.docs.intent.compare.debug.DebugUtils;
 import org.eclipse.mylyn.docs.intent.compare.scope.IntentComparisonScope;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
@@ -67,12 +66,7 @@ public final class EMFCompareUtils {
 	 */
 	public static Comparison compareDocuments(Notifier left, Notifier right) {
 		IntentComparisonScope scope = new IntentComparisonScope(left, right);
-		EqualityHelper helper = null;
-		if (DebugUtils.USE_DEFAULT_URI_HELPER) {
-			helper = new EqualityHelper();
-		} else {
-			helper = new IntentEqualityHelper();
-		}
+		EqualityHelper helper = new IntentEqualityHelper();
 
 		Predicate<Object> filter = not(or(instanceOf(CompilationStatus.class),
 				instanceOf(SynchronizerCompilationStatus.class)));
