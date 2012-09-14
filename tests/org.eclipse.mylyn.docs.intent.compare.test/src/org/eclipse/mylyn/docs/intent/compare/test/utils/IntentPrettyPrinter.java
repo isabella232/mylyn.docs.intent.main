@@ -44,6 +44,7 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Text;
  */
 @SuppressWarnings("nls")
 public final class IntentPrettyPrinter {
+
 	private static final String SEP = " |";
 
 	/** This is the max length of the columns we display for the Match. */
@@ -230,9 +231,11 @@ public final class IntentPrettyPrinter {
 			} else {
 				objectName = "";
 			}
-			stream.println("value " + valueName + " has been " + change
-					+ " reference " + refChange.getReference().getName()
-					+ " of object " + objectName);
+			if (valueName != null) {
+				stream.println("value " + valueName + " has been " + change
+						+ " reference " + refChange.getReference().getName()
+						+ " of object " + objectName);
+			}
 		} else if (diff instanceof AttributeChange) {
 			final AttributeChange attChange = (AttributeChange) diff;
 			String valueName = "null";

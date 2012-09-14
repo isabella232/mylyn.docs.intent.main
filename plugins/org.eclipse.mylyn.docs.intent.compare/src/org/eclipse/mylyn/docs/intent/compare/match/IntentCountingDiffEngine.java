@@ -29,10 +29,6 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  */
 public class IntentCountingDiffEngine extends CountingDiffEngine {
 
-	private static final double TITLE_RELEVANCE_COEFF = 0.8;
-
-	private static final double SERIALIZATION_RELEVANCE_COEFF = 0.2;
-
 	/**
 	 * Constructor.
 	 * 
@@ -60,19 +56,18 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		// TODO refactor to limit serializations
 
 		Integer titleDistance = null;
-		Integer serializationDistance = getSerializationDistance(a, b);
-
 		if (a instanceof IntentChapter || a instanceof IntentSection) {
 			titleDistance = getTitleDistance((IntentStructuredElement)a, (IntentStructuredElement)b);
 		}
+		Integer serializationDistance = getSerializationDistance(a, b);
+		Integer uriDistance = getURIDistance(a, b);
 
 		if (titleDistance != null && serializationDistance != null) {
-			distance = (int)(titleDistance * TITLE_RELEVANCE_COEFF + serializationDistance
-					* SERIALIZATION_RELEVANCE_COEFF);
-		} else if (serializationDistance != null) {
-			distance = serializationDistance;
+			distance = (int)(titleDistance * 0.7 + serializationDistance * 0.2 + uriDistance * 0.1);
+		} else if (serializationDistance != null && uriDistance != null) {
+			distance = (int)(serializationDistance * 0.7 + uriDistance * 0.3);
 		} else {
-			distance = super.measureDifferences(a, b);
+			distance = uriDistance;
 		}
 		return distance;
 	}
@@ -92,6 +87,25 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		String titleB = b.getFormattedTitle();
 		if (titleA != null && titleB != null) {
 			distance = StringDistanceUtils.getStringDistance(titleA, titleB);
+		}
+		return distance;
+	}
+
+	/**
+	 * Returns the distance between document elements by comparing their uris.
+	 * 
+	 * @param a
+	 *            the first element
+	 * @param b
+	 *            the second element
+	 * @return the distance between two strings
+	 */
+	private Integer getURIDistance(EObject a, EObject b) {
+		Integer distance = null;
+		String fragmentA = helper.getURI(a).fragment();
+		String fragmentB = helper.getURI(b).fragment();
+		if (fragmentA != null && fragmentB != null) {
+			distance = StringDistanceUtils.getStringDistance(fragmentA, fragmentB);
 		}
 		return distance;
 	}

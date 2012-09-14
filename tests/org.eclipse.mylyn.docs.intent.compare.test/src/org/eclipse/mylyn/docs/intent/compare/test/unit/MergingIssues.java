@@ -98,18 +98,16 @@ public class MergingIssues extends AbstractEMFCompareTest {
 			comparison = EMFCompareUtils.compareDocuments(left, right);
 		}
 
+		IntentPrettyPrinter.printMatch(comparison, System.out);
+		IntentPrettyPrinter.printDifferences(comparison, System.out);
+		System.out
+				.println("=========================================================");
+
 		for (Diff diff : comparison.getDifferences()) {
 			diff.copyLeftToRight();
 		}
 
 		String serialized = new IntentSerializer().serialize(right);
-		boolean equals = modified.equals(serialized);
-		if (!equals) {
-			IntentPrettyPrinter.printMatch(comparison, System.out);
-			IntentPrettyPrinter.printDifferences(comparison, System.out);
-			System.out
-					.println("=========================================================");
-		}
 		assertEquals(modified, serialized);
 	}
 }
