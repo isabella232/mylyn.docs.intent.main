@@ -1,23 +1,11 @@
 Document {
-	Chapter The first chapter is the best {
+	Chapter Chapter 1 {
+		Chapter 1.
+
+		Section {		}
+
 	}
 	Chapter Chapter 2 {
-		Chapter 2
-
-		Section 2.1 {
-		}
-
-		Section  2.2 {
-		}
-	}
-	Chapter Chapter 3 {
-		Chapter 3
-
-		Section {
-			Section Section 3.1.1 {
-			}
-			Section Section 3.2.1 {
-			}
-		}
+		Chapter 2.
 	}
 }

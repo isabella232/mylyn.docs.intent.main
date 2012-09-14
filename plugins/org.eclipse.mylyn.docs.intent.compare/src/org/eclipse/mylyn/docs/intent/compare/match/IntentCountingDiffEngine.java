@@ -63,9 +63,10 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		Integer uriDistance = getURIDistance(a, b);
 
 		if (titleDistance != null && serializationDistance != null) {
-			distance = (int)(titleDistance * 0.7 + serializationDistance * 0.2 + uriDistance * 0.1);
+			distance = (int)(titleDistance * 0.6 + serializationDistance * 0.3 + uriDistance * 0.1);
 		} else if (serializationDistance != null && uriDistance != null) {
-			distance = (int)(serializationDistance * 0.7 + uriDistance * 0.3);
+			distance = (int)(serializationDistance * 0.8 + uriDistance * 0.2);
+			// distance = (int)(serializationDistance * 0.7 + uriDistance * 0.3);
 		} else {
 			distance = uriDistance;
 		}

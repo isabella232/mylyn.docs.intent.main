@@ -14,7 +14,7 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 public class MergingIssues extends AbstractEMFCompareTest {
 	private static final boolean USE_DEFAULT_COMPARE = false;
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 
 	public void testFillEmptyDoc() throws IOException, ParseException {
 		compareAndMerge("fillEmptyDoc");
@@ -30,6 +30,10 @@ public class MergingIssues extends AbstractEMFCompareTest {
 
 	public void testNewChapter() throws IOException, ParseException {
 		compareAndMerge("newChapter");
+	}
+
+	public void testNewChapterWorking() throws IOException, ParseException {
+		compareAndMerge("newChapterWorking");
 	}
 
 	public void testDoubleSectionInsertion() throws IOException, ParseException {
@@ -119,6 +123,12 @@ public class MergingIssues extends AbstractEMFCompareTest {
 		}
 
 		if (DEBUG) {
+			System.out.println("Was:");
+			IntentPrettyPrinter.displayModel(right);
+			System.out.println();
+			System.out.println("Now:");
+			IntentPrettyPrinter.displayModel(left);
+			System.out.println();
 			IntentPrettyPrinter.printMatch(comparison, System.out);
 			IntentPrettyPrinter.printDifferences(comparison, System.out);
 			System.out

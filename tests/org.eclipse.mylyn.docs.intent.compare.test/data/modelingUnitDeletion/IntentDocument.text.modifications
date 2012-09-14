@@ -1,5 +1,4 @@
-Section  {
-	The MatchModel store suchs an element using @UnmatchElement@s (
-	@see "TheUnmatchElementConcept" ). To differenciate
-	added element from deleted element, we define the @EEnum@ *Side* :
+Section {
+	@see "TheUnmatchElementConcept"
+	some text
 }

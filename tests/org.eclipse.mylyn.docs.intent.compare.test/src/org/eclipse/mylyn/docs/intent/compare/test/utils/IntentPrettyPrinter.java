@@ -228,9 +228,10 @@ public final class IntentPrettyPrinter {
 				objectName = "";
 			}
 			if (valueName != null) {
-				stream.println("value " + valueName + " has been " + change
-						+ " reference " + refChange.getReference().getName()
-						+ " of object " + objectName);
+				stream.println("[" + diff.getKind() + "] " + "value "
+						+ valueName + " has been " + change + " reference "
+						+ refChange.getReference().getName() + " of object "
+						+ objectName);
 			}
 		} else if (diff instanceof AttributeChange) {
 			final AttributeChange attChange = (AttributeChange) diff;
