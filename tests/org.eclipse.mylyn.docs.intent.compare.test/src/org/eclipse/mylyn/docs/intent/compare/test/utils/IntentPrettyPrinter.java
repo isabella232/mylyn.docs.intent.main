@@ -11,12 +11,8 @@
 package org.eclipse.mylyn.docs.intent.compare.test.utils;
 
 import com.google.common.collect.Iterables;
-import com.google.common.io.Files;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import org.eclipse.emf.compare.AttributeChange;
@@ -514,13 +510,4 @@ public final class IntentPrettyPrinter {
 		return res;
 	}
 
-	public static void saveToFile(String file, String content) {
-		File destination = new File(file);
-		try {
-			Files.write(content, destination, Charset.forName("UTF-8"));
-		} catch (IOException e) {
-			System.err.println(destination.getAbsolutePath());
-			e.printStackTrace();
-		}
-	}
 }

@@ -1,0 +1,34 @@
+Document {
+	Chapter The first chapter is the best {
+		The first chapter is the best.
+	}
+	Chapter Chapter 2 {
+		Chapter 2
+
+		Section Section 2.1 {
+			The 2.1 Section.
+		}
+
+		Section Section 2.2 {
+			The 2.2 Section.
+		}
+	}
+	Chapter Chapter 3 {
+		Chapter 3
+
+		Section {
+			Section Section 3.1.1 {
+				Such a good section.
+			}
+			@M myModelingUnit 
+				Side {
+					serializable = "true";
+				}
+			M@
+
+			Section Section 3.2.1 {
+				The last Section.
+			}
+		}
+	}
+}

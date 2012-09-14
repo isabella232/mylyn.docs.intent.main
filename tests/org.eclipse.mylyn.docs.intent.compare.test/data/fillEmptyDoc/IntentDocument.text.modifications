@@ -1,7 +1,5 @@
 Document {
 	Chapter c {
-		Text
-
 		Section s {
 			Text
 		}

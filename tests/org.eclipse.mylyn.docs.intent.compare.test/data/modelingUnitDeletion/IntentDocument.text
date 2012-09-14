@@ -1,0 +1,12 @@
+Section {
+	The MatchModel store suchs an element using @UnmatchElement@s (
+	@see "TheUnmatchElementConcept" ). T
+	@M
+		Side {
+			serializable = "true";
+		}
+	M@
+
+	o differenciate
+	added element from deleted element, we define the @EEnum@ *Side* :
+}
