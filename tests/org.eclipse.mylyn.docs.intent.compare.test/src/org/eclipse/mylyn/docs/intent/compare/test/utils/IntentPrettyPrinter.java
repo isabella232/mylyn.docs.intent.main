@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.compare.utils.IntentEqualityHelper;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.markup.markup.Annotations;
 import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
@@ -507,8 +508,10 @@ public final class IntentPrettyPrinter {
 		} else if (element instanceof IntentDocument
 				|| element instanceof Annotations) {
 			res = null;
+		} else if (element instanceof StructuralFeatureAffectation) {
+			StructuralFeatureAffectation aff = (StructuralFeatureAffectation) element;
+			res += element.eClass().getName() + " \"" + aff.getName() + "\"";
 		}
 		return res;
 	}
-
 }

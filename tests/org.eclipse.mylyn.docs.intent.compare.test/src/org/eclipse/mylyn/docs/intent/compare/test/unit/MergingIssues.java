@@ -14,7 +14,7 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 public class MergingIssues extends AbstractEMFCompareTest {
 	private static final boolean USE_DEFAULT_COMPARE = false;
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	public void testFillEmptyDoc() throws IOException, ParseException {
 		compareAndMerge("fillEmptyDoc");

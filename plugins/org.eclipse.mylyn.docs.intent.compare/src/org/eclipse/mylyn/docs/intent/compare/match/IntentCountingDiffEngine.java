@@ -14,11 +14,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.CountingDiffEngine;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 import org.eclipse.mylyn.docs.intent.markup.serializer.WikiTextSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
@@ -29,6 +30,10 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentCountingDiffEngine extends CountingDiffEngine {
+
+	private static final double LOCALIZATION_DISTANCE_WEIGHT = 0.2;
+
+	private static final double IDENTIFIER_DISTANCE_WEIGHT = 0.8;
 
 	/**
 	 * Constructor.
@@ -57,41 +62,21 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 
 		Integer distance = null;
 
-		// TODO refactor to only compute possible distances
-		// TODO refactor to limit serializations
-
-		Integer titleDistance = null;
-		if (a instanceof IntentChapter || a instanceof IntentSection) {
-			titleDistance = getTitleDistance((IntentStructuredElement)a, (IntentStructuredElement)b);
-		}
-		Integer serializationDistance = getSerializationDistance(a, b);
+		// the default localization distance
 		Integer uriDistance = getURIDistance(a, b);
 
-		if (titleDistance != null && serializationDistance != null) {
-			distance = (int)(titleDistance * 0.6 + serializationDistance * 0.3 + uriDistance * 0.1);
-		} else if (serializationDistance != null && uriDistance != null) {
-			distance = (int)(serializationDistance * 0.8 + uriDistance * 0.2);
+		// the semantic distance: in the best case, a title or feature id. If not available, the
+		// element serialization
+		Integer identifierDistance = getIdentifierDistance(a, b);
+		if (identifierDistance == null) {
+			identifierDistance = getSerializationDistance(a, b);
+		}
+
+		if (identifierDistance != null) {
+			distance = (int)(identifierDistance * IDENTIFIER_DISTANCE_WEIGHT + uriDistance
+					* LOCALIZATION_DISTANCE_WEIGHT);
 		} else {
 			distance = uriDistance;
-		}
-		return distance;
-	}
-
-	/**
-	 * Returns the distance between document elements by comparing their titles.
-	 * 
-	 * @param a
-	 *            the first element
-	 * @param b
-	 *            the second element
-	 * @return the distance between two strings
-	 */
-	private Integer getTitleDistance(IntentStructuredElement a, IntentStructuredElement b) {
-		Integer distance = null;
-		String titleA = a.getFormattedTitle();
-		String titleB = b.getFormattedTitle();
-		if (titleA != null && titleB != null) {
-			distance = StringDistanceUtils.getStringDistance(titleA, titleB);
 		}
 		return distance;
 	}
@@ -111,6 +96,38 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		String fragmentB = helper.getURI(b).fragment();
 		if (fragmentA != null && fragmentB != null) {
 			distance = StringDistanceUtils.getStringDistance(fragmentA, fragmentB);
+		}
+		return distance;
+	}
+
+	/**
+	 * Returns the distance between document elements by comparing their identifiers.
+	 * 
+	 * @param a
+	 *            the first element
+	 * @param b
+	 *            the second element
+	 * @return the distance between two strings
+	 */
+	private Integer getIdentifierDistance(EObject a, EObject b) {
+		Integer distance = null;
+		String identifierA = null;
+		String identifierB = null;
+		if (a instanceof IntentStructuredElement && b instanceof IntentStructuredElement) {
+			identifierA = ((IntentStructuredElement)a).getFormattedTitle();
+			identifierB = ((IntentStructuredElement)b).getFormattedTitle();
+		} else if (a instanceof StructuralFeatureAffectation && b instanceof StructuralFeatureAffectation) {
+			identifierA = ((StructuralFeatureAffectation)a).getName();
+			identifierB = ((StructuralFeatureAffectation)b).getName();
+		} else if (a instanceof InstanciationInstruction && b instanceof InstanciationInstruction) {
+			identifierA = ((InstanciationInstruction)a).getName();
+			identifierB = ((InstanciationInstruction)b).getName();
+		} else if (a instanceof ContributionInstruction && b instanceof ContributionInstruction) {
+			identifierA = ((ContributionInstruction)a).getReferencedElement().getIntentHref();
+			identifierB = ((ContributionInstruction)b).getReferencedElement().getIntentHref();
+		}
+		if (identifierA != null && identifierB != null) {
+			distance = StringDistanceUtils.getStringDistance(identifierA, identifierB);
 		}
 		return distance;
 	}
