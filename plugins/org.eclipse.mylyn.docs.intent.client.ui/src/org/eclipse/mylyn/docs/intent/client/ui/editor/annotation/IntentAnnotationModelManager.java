@@ -62,27 +62,6 @@ public class IntentAnnotationModelManager {
 	public void addAnnotationFromStatus(RepositoryAdapter repositoryAdapter, CompilationStatus status,
 			Position position) {
 		if (!(handledCompilationStatus.containsKey(status))) {
-			// If the status is a Synchronization Status
-			// URI uri = null;
-			// if (status instanceof SynchronizerCompilationStatus
-			// && ((SynchronizerCompilationStatus)status).getCompiledResourceURI() != null
-			// && ((SynchronizerCompilationStatus)status).getCompiledResourceURI().length() > 0) {
-			// // We use the repository Adapter to get the Resource containing
-			// // the target of the synchronization error
-			// String compiledResourceURI = ((SynchronizerCompilationStatus)status).getCompiledResourceURI();
-			// Resource resource = null;
-			// try {
-			// resource = repositoryAdapter.getResource(compiledResourceURI);
-			// if (resource != null) {
-			// uri = resource.getURI();
-			// }
-			// // CHECKSTYLE:OFF
-			// } catch (Exception e) {
-			// // CHECKSTYLE:ON
-			// // Silent catch
-			// }
-			// }
-
 			// We create an annotation from the status and add it to the annotation model
 			Annotation annotation = IntentAnnotationFactory.createAnnotationFromCompilationStatus(status);
 			addAnnotation(annotation, position);
