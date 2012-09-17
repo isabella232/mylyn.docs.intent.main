@@ -48,6 +48,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature
  * Comparison, error on a ResourceDeclaration...).
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public final class SynchronizerStatusFactory {
 
@@ -55,7 +56,6 @@ public final class SynchronizerStatusFactory {
 	 * SynchronizerStatusFactory constructor.
 	 */
 	private SynchronizerStatusFactory() {
-
 	}
 
 	/**
@@ -72,7 +72,6 @@ public final class SynchronizerStatusFactory {
 			Diff difference) {
 
 		List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
-
 		SynchronizerCompilationStatus status = null;
 
 		if (difference instanceof AttributeChange) {
@@ -80,13 +79,15 @@ public final class SynchronizerStatusFactory {
 		} else if (difference instanceof ReferenceChange) {
 			status = createStatusFromReferenceChange(indexEntry, (ReferenceChange)difference);
 		} else if (difference instanceof ResourceAttachmentChange) {
-			// TODO [COMPARE2] [SYNC] investigate resource diff semantics equivalence
 			status = CompilerFactory.eINSTANCE.createResourceChangeStatus();
 		}
 
 		if (status != null) {
-			// TODO [COMPARE2] [SYNC] classify order diffs as INFO instead of WARNING
-			status.setSeverity(CompilationStatusSeverity.WARNING);
+			if (difference.getKind().equals(DifferenceKind.MOVE_VALUE)) {
+				status.setSeverity(CompilationStatusSeverity.INFO);
+			} else {
+				status.setSeverity(CompilationStatusSeverity.WARNING);
+			}
 			status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
 
 			status.setMessage(SynchronizerMessageProvider.createMessageFromDiff(difference));
@@ -110,48 +111,6 @@ public final class SynchronizerStatusFactory {
 		return statusList;
 	}
 
-	// /**
-	// * Creates the status related to the given difference.
-	// *
-	// * @param indexEntry
-	// * the current index entry
-	// * @param difference
-	// * the difference
-	// * @return the status
-	// */
-	// private static ModelElementChangeStatus createStatusFromModelElementChange(
-	// TraceabilityIndexEntry indexEntry, ModelElementChange difference) {
-	// ModelElementChangeStatus status = CompilerFactory.eINSTANCE.createModelElementChangeStatus();
-	//
-	// switch (difference.eClass().getClassifierID()) {
-	// case ComparePackage.MODEL_ELEMENT_CHANGE_LEFT_TARGET:
-	// status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
-	// ModelElementChangeLeftTarget letTargetDiff = (ModelElementChangeLeftTarget)difference;
-	// status.setCompiledElement(letTargetDiff.getLeftElement());
-	// status.setWorkingCopyParentURIFragment(createURIFragment(letTargetDiff.getRightParent()));
-	// status.setTarget(getInstructionFromCompiledElement(indexEntry, letTargetDiff.getLeftElement()));
-	// break;
-	//
-	// case ComparePackage.MODEL_ELEMENT_CHANGE_RIGHT_TARGET:
-	// status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
-	// ModelElementChangeRightTarget rightTargetDiff = (ModelElementChangeRightTarget)difference;
-	// status.setWorkingCopyElementURIFragment(createURIFragment(rightTargetDiff.getRightElement()));
-	// status.setCompiledParent(rightTargetDiff.getLeftParent());
-	// status.setTarget(getInstructionFromCompiledElement(indexEntry,
-	// rightTargetDiff.getLeftParent()));
-	// break;
-	//
-	// case ComparePackage.UPDATE_MODEL_ELEMENT:
-	// status.setChangeState(SynchronizerChangeState.UPDATE);
-	// break;
-	//
-	// default:
-	// status = null;
-	// break;
-	// }
-	// return status;
-	// }
-
 	/**
 	 * Creates the status related to the given difference.
 	 * 
@@ -169,51 +128,10 @@ public final class SynchronizerStatusFactory {
 		status.setCompiledElement(compiledElement);
 		status.setFeatureName(difference.getReference().getName());
 		status.setWorkingCopyElementURIFragment(createURIFragment(difference.getMatch().getRight()));
+		status.setChangeState(convertDifferenceKindToState(difference.getKind()));
 
-		switch (difference.getKind().getValue()) {
-			case DifferenceKind.ADD_VALUE: // TODO [COMPARE2] [SYNC] check semantics
-				// case ComparePackage.REFERENCE_CHANGE_RIGHT_TARGET:
-				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
-				// TODO [COMPARE2] [SYNC] get reference diff targets
-				// status.setCompiledTarget(((ReferenceChangeRightTarget)difference).getLeftTarget());
-				// status.setWorkingCopyTargetURIFragment(createURIFragment(((ReferenceChangeRightTarget)difference)
-				// .getRightTarget()));
-				break;
-
-			case DifferenceKind.MOVE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
-				// case ComparePackage.REFERENCE_ORDER_CHANGE:
-				status.setChangeState(SynchronizerChangeState.ORDER);
-				break;
-
-			case DifferenceKind.DELETE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
-				// case ComparePackage.REFERENCE_CHANGE_LEFT_TARGET:
-				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
-				// TODO [COMPARE2] [SYNC] get reference diff targets
-				// target = getInstructionFromAffectation(indexEntry, compiledElement,
-				// difference.getReference(), ((ReferenceChangeLeftTarget)difference).getLeftTarget());
-				// status.setCompiledTarget(((ReferenceChangeLeftTarget)difference).getLeftTarget());
-				// status.setWorkingCopyTargetURIFragment(createURIFragment(((ReferenceChangeLeftTarget)difference)
-				// .getRightTarget()));
-				break;
-
-			case DifferenceKind.CHANGE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
-				// case ComparePackage.UPDATE_REFERENCE:
-				status.setChangeState(SynchronizerChangeState.UPDATE);
-				target = getInstructionFromAffectation(indexEntry, compiledElement,
-						difference.getReference(),
-						difference.getMatch().getLeft().eGet(difference.getReference()));
-
-				// TODO [COMPARE2] [SYNC] get reference diff targets
-				// status.setCompiledTarget(leftTarget);
-				// if (rightTarget != null) {
-				// status.setWorkingCopyTargetURIFragment(createURIFragment(rightTarget));
-				// }
-				break;
-
-			default:
-				status = null;
-				break;
-		}
+		target = getInstructionFromAffectation(indexEntry, compiledElement, difference.getReference(),
+				difference.getValue());
 
 		// target setting: if affectation not found (or not available), use the parent compiled element
 		if (status != null) {
@@ -244,39 +162,10 @@ public final class SynchronizerStatusFactory {
 		status.setCompiledElement(compiledElement);
 		status.setFeatureName(difference.getAttribute().getName());
 		status.setWorkingCopyElementURIFragment(createURIFragment(difference.getMatch().getRight()));
+		status.setChangeState(convertDifferenceKindToState(difference.getKind()));
 
-		switch (difference.getKind().getValue()) {
-			case DifferenceKind.ADD_VALUE: // TODO [COMPARE2] [SYNC] check semantics
-				// case ComparePackage.ATTRIBUTE_CHANGE_RIGHT_TARGET:
-				status.setChangeState(SynchronizerChangeState.WORKING_COPY_TARGET);
-				break;
-
-			case DifferenceKind.MOVE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
-				// case ComparePackage.ATTRIBUTE_ORDER_CHANGE:
-				status.setChangeState(SynchronizerChangeState.ORDER);
-				break;
-
-			case DifferenceKind.DELETE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
-				// case ComparePackage.ATTRIBUTE_CHANGE_LEFT_TARGET:
-				status.setChangeState(SynchronizerChangeState.COMPILED_TARGET);
-				// target = getInstructionFromAffectation(indexEntry, difference.getMatch().getLeft(),
-				// difference.getAttribute(), ((AttributeChangeLeftTarget)difference).getLeftTarget());
-				target = getInstructionFromAffectation(indexEntry, difference.getMatch().getLeft(),
-						difference.getAttribute(), difference.getValue());
-				// TODO [COMPARE2] [SYNC] check semantics
-				break;
-
-			case DifferenceKind.CHANGE_VALUE: // TODO [COMPARE2] [SYNC] check semantics
-				// case ComparePackage.UPDATE_ATTRIBUTE:
-				status.setChangeState(SynchronizerChangeState.UPDATE);
-				target = getInstructionFromAffectation(indexEntry, compiledElement,
-						difference.getAttribute(), compiledElement.eGet(difference.getAttribute()));
-				break;
-
-			default:
-				status = null;
-				break;
-		}
+		target = getInstructionFromAffectation(indexEntry, difference.getMatch().getLeft(),
+				difference.getAttribute(), difference.getValue());
 
 		// target setting: if affectation not found (or not available), use the parent compiled element
 		if (status != null) {
@@ -412,6 +301,38 @@ public final class SynchronizerStatusFactory {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Converts a difference kind to a state.
+	 * 
+	 * @param differenceKind
+	 *            the difference kind
+	 * @return the state
+	 */
+	private static SynchronizerChangeState convertDifferenceKindToState(DifferenceKind differenceKind) {
+		SynchronizerChangeState state = null;
+		switch (differenceKind.getValue()) {
+			case DifferenceKind.ADD_VALUE:
+				state = SynchronizerChangeState.WORKING_COPY_TARGET;
+				break;
+
+			case DifferenceKind.MOVE_VALUE:
+				state = SynchronizerChangeState.ORDER;
+				break;
+
+			case DifferenceKind.DELETE_VALUE:
+				state = SynchronizerChangeState.COMPILED_TARGET;
+				break;
+
+			case DifferenceKind.CHANGE_VALUE:
+				state = SynchronizerChangeState.UPDATE;
+				break;
+
+			default:
+				break;
+		}
+		return state;
 	}
 
 	/**
