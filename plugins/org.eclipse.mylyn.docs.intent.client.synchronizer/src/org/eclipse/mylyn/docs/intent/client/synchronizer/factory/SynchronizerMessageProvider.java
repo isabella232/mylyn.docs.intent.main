@@ -11,33 +11,25 @@
 package org.eclipse.mylyn.docs.intent.client.synchronizer.factory;
 
 import org.eclipse.emf.compare.AttributeChange;
-import org.eclipse.emf.compare.ComparePackage;
 import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.compare.ReferenceChange;
-import org.eclipse.emf.compare.ResourceAttachmentChange;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 
 /**
  * Provide messages created from a given Diff.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public final class SynchronizerMessageProvider {
 
-	// TODO [COMPARE2] [SYNC] accurate sync status messages
-	/**
-	 * Represents a whitespace in a status message.
-	 */
 	private static final String SYNC_MESSAGES_WHITESPACE = " ";
 
 	private static final String SYNC_MESSAGES_INTERNAL_MODEL = "<b>Current Document</b>";
 
 	private static final String SYNC_MESSAGES_EXTERNAL_MODEL = "<b>Working Copy</b>";
-
-	/**
-	 * Represents the separation space between to status.
-	 */
-	private static final String SYNC_STATUS_SEPARATOR = "<br/><hr/><br/>";
 
 	/**
 	 * SynchronizerMessageProvider constructor.
@@ -54,73 +46,137 @@ public final class SynchronizerMessageProvider {
 	 */
 	public static String createMessageFromDiff(Diff diff) {
 		String returnedMessage = null;
-		try {
-			switch (diff.eClass().getClassifierID()) {
-				case ComparePackage.ATTRIBUTE_CHANGE:
-					returnedMessage = createMessageFromAttributeChange((AttributeChange)diff);
-					break;
-
-				case ComparePackage.REFERENCE_CHANGE:
-					returnedMessage = createMessageFromReferenceChange((ReferenceChange)diff);
-					break;
-
-				case ComparePackage.RESOURCE_ATTACHMENT_CHANGE:
-					returnedMessage = createMessageFromResourceAttachmentChange((ResourceAttachmentChange)diff);
-					break;
-
-				default:
-					break;
-
+		if (diff instanceof ReferenceChange) {
+			ReferenceChange referenceChange = (ReferenceChange)diff;
+			if (referenceChange.getReference().isContainment()) {
+				returnedMessage = createMessageFromContainmentChange(referenceChange);
+			} else {
+				returnedMessage = createMessageFromReferenceChange(referenceChange);
 			}
-		} catch (IllegalArgumentException e) {
-			returnedMessage = null;
+		} else if (diff instanceof AttributeChange) {
+			returnedMessage = createMessageFromAttributeChange((AttributeChange)diff);
 		}
+
 		if (returnedMessage == null) {
-			returnedMessage = SynchonizerEObjectNameGetter.computeObjectName(diff);
+			returnedMessage = diff.toString();
 		}
 		return returnedMessage;
 	}
 
 	/**
-	 * Create a message from the given AttributeChange element.
+	 * Create a message from the given Difference element.
 	 * 
-	 * @param difference
-	 *            the Diff used to create the returned message
-	 * @return a message created from the given AttributeChange element
-	 */
-	public static String createMessageFromAttributeChange(AttributeChange difference) {
-		return difference.toString();
-	}
-
-	/**
-	 * Create a message from the given ReferenceChange element.
-	 * 
-	 * @param difference
+	 * @param diff
 	 *            the Diff used to create the returned message
 	 * @return a message created from the given ReferenceChange element
 	 */
-	public static String createMessageFromReferenceChange(ReferenceChange difference) {
-		return difference.toString();
+	private static String createMessageFromContainmentChange(ReferenceChange diff) {
+		String elementLabel = SynchonizerEObjectNameGetter.computeObjectName(diff.getValue());
+		String returnedMessage = null;
+		switch (diff.getKind().getValue()) {
+			case DifferenceKind.ADD_VALUE:
+				returnedMessage = "The " + diff.getValue().eClass().getName();
+				if (elementLabel != null) {
+					returnedMessage += SYNC_MESSAGES_WHITESPACE + elementLabel;
+				}
+				returnedMessage += " is defined in the " + SYNC_MESSAGES_INTERNAL_MODEL
+						+ " model<br/>but not in the " + SYNC_MESSAGES_EXTERNAL_MODEL + " model.";
+				break;
+			case DifferenceKind.DELETE_VALUE:
+				returnedMessage = "The " + diff.getValue().eClass().getName();
+				if (elementLabel != null) {
+					returnedMessage += SYNC_MESSAGES_WHITESPACE + elementLabel;
+				}
+				returnedMessage += " is defined in the " + SYNC_MESSAGES_EXTERNAL_MODEL
+						+ " model<br/>but not in the " + SYNC_MESSAGES_INTERNAL_MODEL + " model.";
+				break;
+			default:
+				returnedMessage = createMessageFromReferenceChange(diff);
+				break;
+		}
+		return returnedMessage;
 	}
 
 	/**
-	 * Create a message from the given {@link ResourceAttachmentChange} element.
+	 * Create a message from the given Difference element.
 	 * 
-	 * @param difference
+	 * @param diff
 	 *            the Diff used to create the returned message
-	 * @return a message created from the given {@link ResourceAttachmentChange} element
+	 * @return a message created from the given ReferenceChange element
 	 */
-	public static String createMessageFromResourceAttachmentChange(ResourceAttachmentChange difference) {
-		return difference.toString();
+	private static String createMessageFromReferenceChange(ReferenceChange diff) {
+		String valueSignature = diff.getValue().eClass().getName();
+		String valueLabel = SynchonizerEObjectNameGetter.computeObjectName(diff.getValue());
+		if (valueLabel != null) {
+			valueSignature += SYNC_MESSAGES_WHITESPACE + valueLabel;
+		}
+
+		String returnedMessage = null;
+		String signature = "reference '" + diff.getReference().getName() + "'";
+
+		switch (diff.getKind().getValue()) {
+			case DifferenceKind.ADD_VALUE:
+				returnedMessage = "The " + valueSignature + " has been added to the " + signature;
+				break;
+			case DifferenceKind.DELETE_VALUE:
+				returnedMessage = "The " + valueSignature + " has been removed from the " + signature;
+				break;
+			case DifferenceKind.MOVE_VALUE:
+				returnedMessage = "The order of the values of the " + signature + " has changed";
+				break;
+			case DifferenceKind.CHANGE_VALUE:
+				returnedMessage = "The " + signature;
+				EObject element = diff.getMatch().getRight();
+				String elementLabel = SynchonizerEObjectNameGetter.computeObjectName(element);
+				if (elementLabel != null) {
+					returnedMessage += " in " + elementLabel;
+				}
+				returnedMessage += " has changed.<br/>";
+				returnedMessage += SYNC_MESSAGES_INTERNAL_MODEL + " : " + diff.getValue() + "<br/>"
+						+ SYNC_MESSAGES_EXTERNAL_MODEL + " : " + element.eGet(diff.getReference());
+				break;
+			default:
+				break;
+		}
+		return returnedMessage;
 	}
 
 	/**
-	 * Returns a String representing the separation space between to status.
+	 * Create a message from the given Difference element.
 	 * 
-	 * @return a String representing the separation space between to status
+	 * @param diff
+	 *            the Diff used to create the returned message
+	 * @return a message created from the given ReferenceChange element
 	 */
-	public static String getStatusSeparator() {
-		return SYNC_STATUS_SEPARATOR;
+	private static String createMessageFromAttributeChange(AttributeChange diff) {
+		String returnedMessage = null;
+		String signature = "attribute '" + diff.getAttribute().getName() + "'";
+
+		switch (diff.getKind().getValue()) {
+			case DifferenceKind.ADD_VALUE:
+				returnedMessage = "The " + diff.getValue() + " has been added to " + signature;
+				break;
+			case DifferenceKind.DELETE_VALUE:
+				returnedMessage = "The " + diff.getValue() + " has been removed from " + signature;
+				break;
+			case DifferenceKind.MOVE_VALUE:
+				returnedMessage = "The order of the values of " + signature + " has changed";
+				break;
+			case DifferenceKind.CHANGE_VALUE:
+				returnedMessage = "The " + signature;
+				EObject element = diff.getMatch().getRight();
+				String elementLabel = SynchonizerEObjectNameGetter.computeObjectName(element);
+				if (elementLabel != null) {
+					returnedMessage += " in " + elementLabel;
+				}
+				returnedMessage += " has changed.<br/>";
+				returnedMessage += SYNC_MESSAGES_INTERNAL_MODEL + " : " + diff.getValue() + "<br/>"
+						+ SYNC_MESSAGES_EXTERNAL_MODEL + " : " + element.eGet(diff.getAttribute());
+				break;
+			default:
+				break;
+		}
+		return returnedMessage;
 	}
 
 	/**
