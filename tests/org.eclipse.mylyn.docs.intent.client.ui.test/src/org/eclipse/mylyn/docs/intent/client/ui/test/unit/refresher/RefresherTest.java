@@ -62,7 +62,12 @@ public class RefresherTest extends AbstractIntentUITest {
 		waitForCompiler(false);
 	}
 
-	private List<String> getProblems() {
+	/**
+	 * Returns the current problem messages.
+	 * 
+	 * @return the current problem messages
+	 */
+	protected List<String> getProblems() {
 		List<String> res = new ArrayList<String>();
 		try {
 			IMarker[] markers = intentProject.findMarkers("org.eclipse.core.resources.problemmarker", true,
