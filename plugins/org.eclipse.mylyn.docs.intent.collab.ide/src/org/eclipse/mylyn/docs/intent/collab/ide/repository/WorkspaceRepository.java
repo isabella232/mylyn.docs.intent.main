@@ -151,7 +151,7 @@ public class WorkspaceRepository implements Repository {
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#getOrCreateSession()
 	 */
-	public Object getOrCreateSession() throws RepositoryConnectionException {
+	public synchronized Object getOrCreateSession() throws RepositoryConnectionException {
 
 		// We first initialize the resource set if needed
 		if (!isResourceSetLoaded) {
@@ -176,7 +176,7 @@ public class WorkspaceRepository implements Repository {
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#closeSession()
 	 */
-	public void closeSession() throws RepositoryConnectionException {
+	public synchronized void closeSession() throws RepositoryConnectionException {
 		if (this.session != null) {
 			ResourcesPlugin.getWorkspace().removeResourceChangeListener(session);
 			this.session.close();
