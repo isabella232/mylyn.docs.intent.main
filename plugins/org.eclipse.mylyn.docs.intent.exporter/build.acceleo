@@ -18,7 +18,7 @@
         <acceleoCompiler 
             sourceFolder="${target.folder}"
             outputFolder="${target.folder}"
-            dependencies="${target.folder}/../../org.eclipse.mylyn.docs.intent.core;${target.folder}/../../org.eclipse.mylyn.docs.intent.markup;${target.folder}/../../org.eclipse.mylyn.docs.intent.markup.gen;${target.folder}/../../org.eclipse.mylyn.docs.intent.collab.common;${target.folder}/../../org.eclipse.mylyn.docs.intent.collab;${target.folder}/../../org.eclipse.emf.compare;${target.folder}/../../org.eclipse.mylyn.docs.intent.parser;${target.folder}/../../org.eclipse.mylyn.docs.intent.client.ui;${target.folder}/../../org.eclipse.mylyn.docs.intent.compare;${target.folder}/../../org.eclipse.mylyn.docs.intent.modelingunit.update;"
+            dependencies="${target.folder}/../../org.eclipse.mylyn.docs.intent.core;${target.folder}/../../org.eclipse.mylyn.docs.intent.markup;${target.folder}/../../org.eclipse.mylyn.docs.intent.markup.gen;${target.folder}/../../org.eclipse.mylyn.docs.intent.collab.common;${target.folder}/../../org.eclipse.mylyn.docs.intent.collab;${target.folder}/../../org.eclipse.emf.compare;${target.folder}/../../org.eclipse.mylyn.docs.intent.parser;${target.folder}/../../org.eclipse.mylyn.docs.intent.client.ui;${target.folder}/../../org.eclipse.mylyn.docs.intent.compare;${target.folder}/../../org.eclipse.mylyn.docs.intent.modelingunit.update;${target.folder}/../../org.eclipse.emf.compare.ide.ui;${target.folder}/../../org.eclipse.emf.compare.edit;${target.folder}/../../org.eclipse.emf.compare.ide;${target.folder}/../../org.eclipse.emf.compare.rcp.ui;"
             binaryResource="false"
             packagesToRegister="">
         </acceleoCompiler>
