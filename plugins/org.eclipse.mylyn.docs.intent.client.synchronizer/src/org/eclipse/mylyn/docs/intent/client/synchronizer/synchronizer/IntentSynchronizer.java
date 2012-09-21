@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -487,7 +488,8 @@ public class IntentSynchronizer {
 	private List<Diff> compareResource(Resource leftResource, Resource rightResource)
 			throws InterruptedException {
 		try {
-			return EMFCompareUtils.compare(leftResource, rightResource).getDifferences();
+			Comparison comparison = EMFCompareUtils.compare(leftResource, rightResource);
+			return comparison.getDifferences();
 			// CHECKSTYLE:OFF
 		} catch (Exception e) {
 			// CHECKSTYLE :ON

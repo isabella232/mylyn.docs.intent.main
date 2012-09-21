@@ -25,6 +25,10 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
  */
 public final class SynchronizerMessageProvider {
 
+	private static final String SYNC_MESSAGES_SEPARATOR = " : ";
+
+	private static final String SYNC_MESSAGES_BEGINNING = "The ";
+
 	private static final String SYNC_MESSAGES_WHITESPACE = " ";
 
 	private static final String SYNC_MESSAGES_INTERNAL_MODEL = "<b>Current Document</b>";
@@ -46,6 +50,7 @@ public final class SynchronizerMessageProvider {
 	 */
 	public static String createMessageFromDiff(Diff diff) {
 		String returnedMessage = null;
+
 		if (diff instanceof ReferenceChange) {
 			ReferenceChange referenceChange = (ReferenceChange)diff;
 			if (referenceChange.getReference().isContainment()) {
@@ -71,22 +76,15 @@ public final class SynchronizerMessageProvider {
 	 * @return a message created from the given ReferenceChange element
 	 */
 	private static String createMessageFromContainmentChange(ReferenceChange diff) {
-		String elementLabel = SynchonizerEObjectNameGetter.computeObjectName(diff.getValue());
-		String returnedMessage = null;
+		String returnedMessage = SYNC_MESSAGES_BEGINNING + SYNC_MESSAGES_WHITESPACE
+				+ diff.getValue().eClass().getName() + SYNC_MESSAGES_WHITESPACE
+				+ SynchonizerEObjectNameGetter.computeObjectName(diff.getValue());
 		switch (diff.getKind().getValue()) {
 			case DifferenceKind.ADD_VALUE:
-				returnedMessage = "The " + diff.getValue().eClass().getName();
-				if (elementLabel != null) {
-					returnedMessage += SYNC_MESSAGES_WHITESPACE + elementLabel;
-				}
 				returnedMessage += " is defined in the " + SYNC_MESSAGES_INTERNAL_MODEL
 						+ " model<br/>but not in the " + SYNC_MESSAGES_EXTERNAL_MODEL + " model.";
 				break;
 			case DifferenceKind.DELETE_VALUE:
-				returnedMessage = "The " + diff.getValue().eClass().getName();
-				if (elementLabel != null) {
-					returnedMessage += SYNC_MESSAGES_WHITESPACE + elementLabel;
-				}
 				returnedMessage += " is defined in the " + SYNC_MESSAGES_EXTERNAL_MODEL
 						+ " model<br/>but not in the " + SYNC_MESSAGES_INTERNAL_MODEL + " model.";
 				break;
@@ -105,35 +103,45 @@ public final class SynchronizerMessageProvider {
 	 * @return a message created from the given ReferenceChange element
 	 */
 	private static String createMessageFromReferenceChange(ReferenceChange diff) {
-		String valueSignature = diff.getValue().eClass().getName();
-		String valueLabel = SynchonizerEObjectNameGetter.computeObjectName(diff.getValue());
-		if (valueLabel != null) {
-			valueSignature += SYNC_MESSAGES_WHITESPACE + valueLabel;
-		}
+		String valueSignature = diff.getValue().eClass().getName() + SYNC_MESSAGES_WHITESPACE
+				+ SynchonizerEObjectNameGetter.computeObjectName(diff.getValue());
 
 		String returnedMessage = null;
 		String signature = "reference '" + diff.getReference().getName() + "'";
 
 		switch (diff.getKind().getValue()) {
 			case DifferenceKind.ADD_VALUE:
-				returnedMessage = "The " + valueSignature + " has been added to the " + signature;
+				returnedMessage = SYNC_MESSAGES_BEGINNING + valueSignature + " has been added to the "
+						+ signature;
 				break;
 			case DifferenceKind.DELETE_VALUE:
-				returnedMessage = "The " + valueSignature + " has been removed from the " + signature;
+				returnedMessage = SYNC_MESSAGES_BEGINNING + valueSignature + " has been removed from the "
+						+ signature;
 				break;
 			case DifferenceKind.MOVE_VALUE:
 				returnedMessage = "The order of the values of the " + signature + " has changed";
 				break;
 			case DifferenceKind.CHANGE_VALUE:
-				returnedMessage = "The " + signature;
+				returnedMessage = SYNC_MESSAGES_BEGINNING + signature;
 				EObject element = diff.getMatch().getRight();
-				String elementLabel = SynchonizerEObjectNameGetter.computeObjectName(element);
-				if (elementLabel != null) {
-					returnedMessage += " in " + elementLabel;
+
+				if (element != null) {
+
+					String elementLabel = SynchonizerEObjectNameGetter.computeObjectName(element);
+					if (elementLabel != null) {
+						returnedMessage += " in " + elementLabel;
+					}
+					returnedMessage += " has changed.<br/>";
+					returnedMessage += SYNC_MESSAGES_INTERNAL_MODEL
+							+ SYNC_MESSAGES_SEPARATOR
+							+ SynchonizerEObjectNameGetter.computeObjectName(diff.getValue())
+							+ "<br/>"
+							+ SYNC_MESSAGES_EXTERNAL_MODEL
+							+ SYNC_MESSAGES_SEPARATOR
+							+ SynchonizerEObjectNameGetter.computeObjectName((EObject)element.eGet(diff
+									.getReference()));
+
 				}
-				returnedMessage += " has changed.<br/>";
-				returnedMessage += SYNC_MESSAGES_INTERNAL_MODEL + " : " + diff.getValue() + "<br/>"
-						+ SYNC_MESSAGES_EXTERNAL_MODEL + " : " + element.eGet(diff.getReference());
 				break;
 			default:
 				break;
@@ -154,24 +162,27 @@ public final class SynchronizerMessageProvider {
 
 		switch (diff.getKind().getValue()) {
 			case DifferenceKind.ADD_VALUE:
-				returnedMessage = "The " + diff.getValue() + " has been added to " + signature;
+				returnedMessage = SYNC_MESSAGES_BEGINNING + diff.getValue() + " has been added to "
+						+ signature;
 				break;
 			case DifferenceKind.DELETE_VALUE:
-				returnedMessage = "The " + diff.getValue() + " has been removed from " + signature;
+				returnedMessage = SYNC_MESSAGES_BEGINNING + diff.getValue() + " has been removed from "
+						+ signature;
 				break;
 			case DifferenceKind.MOVE_VALUE:
 				returnedMessage = "The order of the values of " + signature + " has changed";
 				break;
 			case DifferenceKind.CHANGE_VALUE:
-				returnedMessage = "The " + signature;
+				returnedMessage = SYNC_MESSAGES_BEGINNING + signature;
 				EObject element = diff.getMatch().getRight();
 				String elementLabel = SynchonizerEObjectNameGetter.computeObjectName(element);
 				if (elementLabel != null) {
 					returnedMessage += " in " + elementLabel;
 				}
 				returnedMessage += " has changed.<br/>";
-				returnedMessage += SYNC_MESSAGES_INTERNAL_MODEL + " : " + diff.getValue() + "<br/>"
-						+ SYNC_MESSAGES_EXTERNAL_MODEL + " : " + element.eGet(diff.getAttribute());
+				returnedMessage += SYNC_MESSAGES_INTERNAL_MODEL + SYNC_MESSAGES_SEPARATOR + diff.getValue()
+						+ "<br/>" + SYNC_MESSAGES_EXTERNAL_MODEL + SYNC_MESSAGES_SEPARATOR
+						+ element.eGet(diff.getAttribute());
 				break;
 			default:
 				break;

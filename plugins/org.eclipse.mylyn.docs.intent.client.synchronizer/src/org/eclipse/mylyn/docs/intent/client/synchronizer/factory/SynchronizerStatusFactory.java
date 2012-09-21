@@ -18,7 +18,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.compare.AttributeChange;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.DifferenceKind;
-import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -72,37 +71,42 @@ public final class SynchronizerStatusFactory {
 			Diff difference) {
 
 		List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
-		
+
 		SynchronizerCompilationStatus status = null;
 
-		if (difference instanceof AttributeChange) {
-			status = createStatusFromAttributeChange(indexEntry, (AttributeChange)difference);
-		} else if (difference instanceof ReferenceChange) {
-			status = createStatusFromReferenceChange(indexEntry, (ReferenceChange)difference);
-		}
-
-		if (status != null) {
-			if (difference.getKind().equals(DifferenceKind.MOVE)) {
-				status.setSeverity(CompilationStatusSeverity.INFO);
-			} else {
-				status.setSeverity(CompilationStatusSeverity.WARNING);
+		if (difference.getKind().equals(DifferenceKind.CHANGE)
+				&& (difference.getMatch().getRight() == null || difference.getMatch().getLeft() == null)) {
+			System.err.println("IGNORING (related to non existing element)" + difference);
+		} else {
+			if (difference instanceof AttributeChange) {
+				status = createStatusFromAttributeChange(indexEntry, (AttributeChange)difference);
+			} else if (difference instanceof ReferenceChange) {
+				status = createStatusFromReferenceChange(indexEntry, (ReferenceChange)difference);
 			}
-			status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
 
-			status.setMessage(SynchronizerMessageProvider.createMessageFromDiff(difference));
-			status.setWorkingCopyResourceURI(indexEntry.getResourceDeclaration().getUri().toString());
-			status.setCompiledResourceURI(indexEntry.getGeneratedResourcePath());
+			if (status != null) {
+				if (difference.getKind().equals(DifferenceKind.MOVE)) {
+					status.setSeverity(CompilationStatusSeverity.INFO);
+				} else {
+					status.setSeverity(CompilationStatusSeverity.WARNING);
+				}
+				status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
 
-			if (status.getTarget() == null) {
-				// If no instruction has been found, we associated the status with the currently compiled
-				// resource
-				IntentLogger.getInstance().log(
-						LogType.WARNING,
-						"CANNOT FIND ANY INSTRUCTION FOR " + difference.eClass().getName() + ": "
-								+ difference);
-				status.setTarget(indexEntry.getResourceDeclaration());
+				status.setMessage(SynchronizerMessageProvider.createMessageFromDiff(difference));
+				status.setWorkingCopyResourceURI(indexEntry.getResourceDeclaration().getUri().toString());
+				status.setCompiledResourceURI(indexEntry.getGeneratedResourcePath());
+
+				if (status.getTarget() == null) {
+					// If no instruction has been found, we associated the status with the currently compiled
+					// resource
+					IntentLogger.getInstance().log(
+							LogType.WARNING,
+							"CANNOT FIND ANY INSTRUCTION FOR " + difference.eClass().getName() + ": "
+									+ difference);
+					status.setTarget(indexEntry.getResourceDeclaration());
+				}
+				statusList.add(status);
 			}
-			statusList.add(status);
 		}
 		return statusList;
 	}
@@ -118,12 +122,12 @@ public final class SynchronizerStatusFactory {
 	 */
 	private static ReferenceChangeStatus createStatusFromReferenceChange(TraceabilityIndexEntry indexEntry,
 			ReferenceChange difference) {
-		EObject compiledElement = getCompiledElement(difference.getMatch());
+		EObject compiledElement = difference.getMatch().getLeft();
 		IntentGenericElement target = null;
 		ReferenceChangeStatus status = CompilerFactory.eINSTANCE.createReferenceChangeStatus();
 		status.setCompiledElement(compiledElement);
 		status.setFeatureName(difference.getReference().getName());
-		status.setWorkingCopyElementURIFragment(createURIFragment(getWorkingCopyElement(difference.getMatch())));
+		status.setWorkingCopyElementURIFragment(createURIFragment(difference.getMatch().getRight()));
 		status.setChangeState(convertDifferenceKindToState(difference.getKind()));
 
 		target = getInstructionFromAffectation(indexEntry, compiledElement, difference.getReference(),
@@ -141,34 +145,6 @@ public final class SynchronizerStatusFactory {
 		return status;
 	}
 
-	public static EObject getCompiledElement(Match match) {
-		EObject res = null;
-		if (match != null) {
-			res = match.getLeft();
-			if (res == null) {
-				EObject container = match.eContainer();
-				if (container instanceof Match) {
-					res = getCompiledElement((Match)container);
-				}
-			}
-		}
-		return res;
-	}
-
-	public static EObject getWorkingCopyElement(Match match) {
-		EObject res = null;
-		if (match != null) {
-			res = match.getRight();
-			if (res == null) {
-				EObject container = match.eContainer();
-				if (container instanceof Match) {
-					res = getWorkingCopyElement((Match)container);
-				}
-			}
-		}
-		return res;
-	}
-
 	/**
 	 * Creates the status related to the given difference.
 	 * 
@@ -180,12 +156,12 @@ public final class SynchronizerStatusFactory {
 	 */
 	private static AttributeChangeStatus createStatusFromAttributeChange(TraceabilityIndexEntry indexEntry,
 			AttributeChange difference) {
-		EObject compiledElement = getCompiledElement(difference.getMatch());
+		EObject compiledElement = difference.getMatch().getLeft();
 		IntentGenericElement target = null;
 		AttributeChangeStatus status = CompilerFactory.eINSTANCE.createAttributeChangeStatus();
 		status.setCompiledElement(compiledElement);
 		status.setFeatureName(difference.getAttribute().getName());
-		status.setWorkingCopyElementURIFragment(createURIFragment(getWorkingCopyElement(difference.getMatch())));
+		status.setWorkingCopyElementURIFragment(createURIFragment(difference.getMatch().getRight()));
 		status.setChangeState(convertDifferenceKindToState(difference.getKind()));
 
 		target = getInstructionFromAffectation(indexEntry, compiledElement, difference.getAttribute(),
