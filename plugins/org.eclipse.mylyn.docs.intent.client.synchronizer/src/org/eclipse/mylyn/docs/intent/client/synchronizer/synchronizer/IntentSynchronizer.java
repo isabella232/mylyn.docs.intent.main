@@ -34,7 +34,6 @@ import org.eclipse.emf.compare.match.service.MatchService;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtensionRegistry;
@@ -244,7 +243,7 @@ public class IntentSynchronizer {
 
 		stopIfCanceled(progressMonitor);
 		// Step 2 : getting the generated resource
-		Resource externalResource = getExternalResource(indexEntry);
+		Resource externalResource = getExternalResource(adapter, indexEntry);
 
 		stopIfCanceled(progressMonitor);
 		// Step 3 : if one of the resource is null,
@@ -458,13 +457,15 @@ public class IntentSynchronizer {
 	 * Returns the resource containing the compiled model currently inspected (<b>external</b> resource of the
 	 * repository : can be in a workspace, on internet...).
 	 * 
+	 * @param adapter
+	 *            the current {@link RepositoryAdapter}
 	 * @param indexEntry
 	 *            the indexEntry indicating the location of the compiled resource
 	 * @return the resource containing the compiled model currently inspected (<b>external</b> resource of the
 	 *         repository) - can be null if the resource doesn't exist.
 	 */
-	private Resource getExternalResource(TraceabilityIndexEntry indexEntry) {
-		ResourceSet resourceSet = new ResourceSetImpl();
+	private Resource getExternalResource(RepositoryAdapter adapter, TraceabilityIndexEntry indexEntry) {
+		ResourceSet resourceSet = adapter.getResourceSet();
 		Resource resource = null;
 		if (indexEntry.getResourceDeclaration() != null) {
 			URI externalURI = getResourceDeclarationURI(indexEntry.getResourceDeclaration());

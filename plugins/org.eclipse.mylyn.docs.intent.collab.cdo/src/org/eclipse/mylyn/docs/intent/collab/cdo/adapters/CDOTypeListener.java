@@ -92,8 +92,9 @@ public class CDOTypeListener implements IListener {
 			if (changesDetected) {
 				RepositoryChangeNotification newNotification = RepositoryChangeNotificationFactoryHolder
 						.getChangeNotificationFactory().createRepositoryChangeNotification(invalidationEvent);
-
-				this.listeningTypeNotificator.notifyHandlers(newNotification);
+				if (newNotification != null) {
+					this.listeningTypeNotificator.notifyHandlers(newNotification);
+				}
 			}
 
 		}
@@ -113,14 +114,11 @@ public class CDOTypeListener implements IListener {
 				&& !isListennedType;) {
 			ENamedElement listennedtype = iterator.next();
 			if (listennedtype instanceof EStructuralFeature) {
-
 				isListennedType = listennedtype.equals(feature);
 			}
 			if (listennedtype instanceof EClass) {
-
 				isListennedType = ((EClass)listennedtype).getEAllStructuralFeatures().contains(feature);
 			}
-
 		}
 
 		return isListennedType;

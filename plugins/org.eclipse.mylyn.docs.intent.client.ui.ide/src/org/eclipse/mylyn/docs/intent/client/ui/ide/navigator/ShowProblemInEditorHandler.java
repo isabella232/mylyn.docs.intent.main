@@ -82,6 +82,7 @@ public class ShowProblemInEditorHandler extends AbstractHandler {
 			location = location.substring(0, location.indexOf("/"));
 			Repository repository = IntentRepositoryManager.INSTANCE.getRepository(location);
 			RepositoryAdapter adapter = repository.createRepositoryAdapter();
+			adapter.openReadOnlyContext();
 			EObject elementToOpen = adapter.getResource(IntentLocations.INTENT_INDEX).getResourceSet()
 					.getEObject(URI.createURI(markerItem.getLocation()), true);
 			if (elementToOpen instanceof CompilationStatus) {

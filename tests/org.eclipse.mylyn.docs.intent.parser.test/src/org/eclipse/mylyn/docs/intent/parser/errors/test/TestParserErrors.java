@@ -22,19 +22,28 @@ public class TestParserErrors extends AbstractTestParserErrors {
 
 	@Test
 	public void testMissingBracket() {
+		final int expectedErrorposition = 10;
+		final int expectedErrorLength = 22;
 		testErrorsOnFile("dataTests/intentDocuments/errors/missing_bracket.intent", new ParseException(
-				"Cannot handle any description unit here : only in sections or chapters.", 10, 22));
+				"Cannot handle any description unit here : only in sections or chapters.",
+				expectedErrorposition, expectedErrorLength));
 	}
 
 	@Test
 	public void testNewLines() {
+		final int expectedErrorposition = 10;
+		final int expectedErrorLength = 21;
 		testErrorsOnFile("dataTests/intentDocuments/errors/newlines.intent", new ParseException(
-				"Cannot handle any description unit here : only in sections or chapters.", 10, 21));
+				"Cannot handle any description unit here : only in sections or chapters.",
+				expectedErrorposition, expectedErrorLength));
 	}
 
 	@Test
 	public void testMisplacedModelingUnit() {
+		final int expectedErrorposition = 40;
+		final int expectedErrorLength = 7;
 		testErrorsOnFile("dataTests/intentDocuments/errors/misplacedModelingUnit.intent", new ParseException(
-				"Cannot handle any modeling unit here : only in sections.", 40, 7));
+				"Cannot handle any modeling unit here : only in sections.", expectedErrorposition,
+				expectedErrorLength));
 	}
 }

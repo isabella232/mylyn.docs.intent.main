@@ -82,8 +82,9 @@ public class WorkspaceTypeListener {
 		if (changesDetected) {
 			RepositoryChangeNotification newNotification = RepositoryChangeNotificationFactoryHolder
 					.getChangeNotificationFactory().createRepositoryChangeNotification(resource);
-
-			this.typeNotificator.notifyHandlers(newNotification);
+			if (newNotification != null) {
+				this.typeNotificator.notifyHandlers(newNotification);
+			}
 		}
 	}
 

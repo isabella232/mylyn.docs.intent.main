@@ -82,4 +82,8 @@ public interface IntentKeyWords {
 	String MODELING_UNIT_BEGIN = ModelingUnitParser.MODELING_UNIT_PREFIX;
 
 	String MODELING_UNIT_END = ModelingUnitParser.MODELING_UNIT_SUFFIX;
+
+	String MODELING_UNIT_AFFECTATION_MULTI_VAL = "+=";
+
+	String MODELING_UNIT_AFFECTATION_SINGLE_VAL = "=";
 }

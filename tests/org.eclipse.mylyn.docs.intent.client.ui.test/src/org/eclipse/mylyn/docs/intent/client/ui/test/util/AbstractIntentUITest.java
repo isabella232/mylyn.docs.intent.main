@@ -56,7 +56,7 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * An abstract test class providing API for manage an Intent IDE projects and editors.
+ * An abstract test class providing API for managing an Intent IDE projects and editors.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
@@ -109,9 +109,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		WorkspaceUtils.closeWelcomePage();
 		waitForAllOperationsInUIThread();
 		IntentEditorActivator.getDefault().getLog().addLogListener(this);
-
-		System.out.println("-- SETTED UP.;");
-		traceHeapSize();
 
 		openedEditors = new ArrayList<IntentEditor>();
 	}
@@ -169,17 +166,13 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		setAllFieldsToNull();
 
 		super.tearDown();
-		long totalHeapSize = Runtime.getRuntime().totalMemory();
-		long usedHeap = totalHeapSize - Runtime.getRuntime().freeMemory();
-		System.out.println("-- TEARED DOWN.");
-		traceHeapSize();
 	}
 
 	/**
 	 * Creates and register an new {@link org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient } in
 	 * charge of detecting that events happened on the repository.
 	 */
-	protected void registerRepositoryListener() {
+	protected final void registerRepositoryListener() {
 		this.repositoryListener = new RepositoryListenerForTests();
 		Platform.addLogListener(repositoryListener);
 	}
@@ -190,7 +183,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * @param projectName
 	 *            the intent project name
 	 */
-	protected void setUpIntentProject(final String projectName) {
+	protected final void setUpIntentProject(final String projectName) {
 		setUpIntentProject(projectName, INTENT_EMPTY_DOC_PATH, false);
 	}
 
@@ -203,7 +196,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 *            the path of the intent document to use (relative to the
 	 *            org.eclipse.mylyn.docs.intent.client.ui.test project).
 	 */
-	protected void setUpIntentProject(final String projectName, String intentDocumentPath) {
+	protected final void setUpIntentProject(final String projectName, String intentDocumentPath) {
 		setUpIntentProject(projectName, intentDocumentPath, false);
 	}
 
@@ -223,38 +216,23 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	protected void setUpIntentProject(final String projectName, String intentDocumentPath,
 			boolean listenForRepository) {
 		try {
-			// Step 1 : getting the content of the intent document located at the given path.
+			// Step 1: getting the content of the intent document located at the given path.
 			File file = new File(intentDocumentPath);
 			final String intentDocumentContent = FileToStringConverter.getFileAsString(file);
 
-			// Step 2 : creating the intent project
-			IWorkspaceRunnable create = new IWorkspaceRunnable() {
-				public void run(IProgressMonitor monitor) throws CoreException {
-					IProject project = WorkspaceUtils.createProject(projectName, monitor);
-					ToggleNatureAction.toggleNature(project);
+			// Step 2: creating the intent project
+			doCreateIntentProject(projectName, intentDocumentContent);
 
-					IntentRepositoryInitializer.initializeContent(projectName, intentDocumentContent);
-
-					// Step 3 : initializing all useful informations
-					intentProject = project;
-					setUpRepository(project);
-				}
-			};
-			ResourcesPlugin.getWorkspace().run(create, null);
-
-			while (repositoryAdapter == null
-			// && (repository == null || ((WorkspaceRepository)repository).getEditingDomain()
-			// .getCommandStack() == null)
-			) {
+			while (repositoryAdapter == null) {
 				Thread.sleep(10);
 			}
 
-			// Step 3 : registering the repository listener
+			// Step 3: registering the repository listener
 			registerRepositoryListener();
-
-			// Step 4: waiting for synchronizer to pass
 			repositoryListener.clearPreviousEntries();
-			waitForSynchronizer();
+
+			// Step 4: additional setup operations
+			additionalSetUpOperations();
 
 		} catch (CoreException e) {
 			AssertionFailedError error = new AssertionFailedError("Failed to create Intent project");
@@ -273,12 +251,39 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	}
 
 	/**
+	 * Creates the intent project with the given name, with the given content.
+	 * 
+	 * @param projectName
+	 *            the name of the project to create
+	 * @param intentDocumentContent
+	 *            the content to associate to the created intent document
+	 * @throws CoreException
+	 *             if the project cannot be created properly
+	 */
+	protected void doCreateIntentProject(final String projectName, final String intentDocumentContent)
+			throws CoreException {
+		IWorkspaceRunnable create = new IWorkspaceRunnable() {
+			public void run(IProgressMonitor monitor) throws CoreException {
+				IProject project = WorkspaceUtils.createProject(projectName, monitor);
+				ToggleNatureAction.toggleNature(project);
+
+				IntentRepositoryInitializer.initializeContent(projectName, intentDocumentContent);
+
+				// Step 3 : initializing all useful informations
+				intentProject = project;
+				setUpRepository(project);
+			}
+		};
+		ResourcesPlugin.getWorkspace().run(create, null);
+	}
+
+	/**
 	 * Set up the repository for the given project.
 	 * 
 	 * @param project
 	 *            the project
 	 */
-	protected void setUpRepository(IProject project) {
+	protected final void setUpRepository(IProject project) {
 		assertNotNull(project);
 		try {
 			repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
@@ -354,7 +359,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * 
 	 * @return the intentDocument associated to the current Intent project
 	 */
-	protected IntentDocument getIntentDocument() {
+	protected final IntentDocument getIntentDocument() {
 		if (intentDocument == null) {
 			intentDocument = new IntentDocumentQuery(repositoryAdapter).getOrCreateIntentDocument();
 		}
@@ -368,7 +373,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 *            the number of the chapter
 	 * @return the chapter
 	 */
-	protected IntentChapter getIntentChapter(int number) {
+	protected final IntentChapter getIntentChapter(int number) {
 		return getIntentDocument().getChapters().get(number - 1);
 	}
 
@@ -379,7 +384,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 *            the number of the section
 	 * @return the section
 	 */
-	protected IntentSection getIntentSection(int... number) {
+	protected final IntentSection getIntentSection(int... number) {
 		IntentSection section = getIntentChapter(number[0]).getSubSections().get(number[1] - 1);
 		if (number.length > 2) {
 			for (int i = 2; i < number.length; i++) {
@@ -394,7 +399,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * 
 	 * @return the opened editor
 	 */
-	protected IntentEditor openIntentEditor() {
+	protected final IntentEditor openIntentEditor() {
 		return openIntentEditor(getIntentDocument());
 	}
 
@@ -405,7 +410,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 *            the {@link IntentStructuredElement} to open an editor on
 	 * @return the opened editor
 	 */
-	protected IntentEditor openIntentEditor(IntentStructuredElement element) {
+	protected final IntentEditor openIntentEditor(IntentStructuredElement element) {
 		IntentEditorOpener.openIntentEditor(repository, element, true, null, true);
 		waitForAllOperationsInUIThread();
 		IntentEditor editor = IntentEditorOpener.getAlreadyOpenedEditor(element);
@@ -441,28 +446,28 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	/**
 	 * Wait for synchronizer to complete work.
 	 */
-	protected void waitForSynchronizer() {
+	protected final void waitForSynchronizer() {
 		waitForSynchronizer(true);
 	}
 
 	/**
 	 * Wait for repository to complete work.
 	 */
-	protected void waitForIndexer() {
+	protected final void waitForIndexer() {
 		waitForIndexer(true);
 	}
 
 	/**
 	 * Wait for compiler to complete work.
 	 */
-	protected void waitForCompiler() {
+	protected final void waitForCompiler() {
 		waitForCompiler(true);
 	}
 
 	/**
 	 * Wait for the project explorer refresher to complete work.
 	 */
-	protected void waitForProjectExplorerRefresher() {
+	protected final void waitForProjectExplorerRefresher() {
 		waitForProjectExplorerRefresher(true);
 	}
 
@@ -472,7 +477,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * @param synchronizerShouldBeNotified
 	 *            indicates whether the synchronizer should be notified or not
 	 */
-	protected void waitForSynchronizer(boolean synchronizerShouldBeNotified) {
+	protected final void waitForSynchronizer(boolean synchronizerShouldBeNotified) {
 		waitForAllOperationsInUIThread();
 		assertNotNull(
 				"Cannot wait for synchronizer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
@@ -498,7 +503,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * @param indexerShouldBeNotified
 	 *            indicates whether the indexer should be notified or not
 	 */
-	protected void waitForIndexer(boolean indexerShouldBeNotified) {
+	protected final void waitForIndexer(boolean indexerShouldBeNotified) {
 		waitForAllOperationsInUIThread();
 		assertNotNull(
 				"Cannot wait for Indexer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
@@ -519,7 +524,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * @param refresherShouldBeNotified
 	 *            indicates whether the indexer should be notified or not
 	 */
-	protected void waitForProjectExplorerRefresher(boolean refresherShouldBeNotified) {
+	protected final void waitForProjectExplorerRefresher(boolean refresherShouldBeNotified) {
 		waitForAllOperationsInUIThread();
 		assertNotNull(
 				"Cannot wait for Project Explorer Refresher : you need to initialize a repository listener by calling the registerRepositoryListener() method",
@@ -540,7 +545,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * @param compilerShouldBeNotified
 	 *            indicates whether the compiler should be notified or not
 	 */
-	protected void waitForCompiler(boolean compilerShouldBeNotified) {
+	protected final void waitForCompiler(boolean compilerShouldBeNotified) {
 		waitForAllOperationsInUIThread();
 		assertNotNull(
 				"Cannot wait for compiler : you need to initialize a repository listener by calling the registerRepositoryListener() method",
@@ -558,6 +563,14 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			// fail silently
 		}
 		waitForAllOperationsInUIThread();
+	}
+
+	/**
+	 * Additional operations performed at the end of set-up.
+	 */
+	protected void additionalSetUpOperations() {
+		// waiting for synchronizer to pass
+		waitForSynchronizer();
 	}
 
 	/**

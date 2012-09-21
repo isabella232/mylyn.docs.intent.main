@@ -36,6 +36,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
+import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 
 /**
  * Computes the completion proposal for ModelingUnits.
@@ -106,9 +107,10 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 					proposals.addAll(getProposalsForEmptyModelingUnit(false, text));
 				} else if (NEW_ENTITY_KEYWORD.equals(lastRelevantKeyWord)) {
 					proposals.addAll(getProposalsForNewInstruction(text));
-				} else if ("{".equals(lastRelevantKeyWord)) {
+				} else if (IntentKeyWords.INTENT_KEYWORD_OPEN.equals(lastRelevantKeyWord)) {
 					proposals.addAll(getProposalsForStructuralFeatureAffectation(text));
-				} else if ("=".equals(lastRelevantKeyWord) || "+=".equals(lastRelevantKeyWord)) {
+				} else if (IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL.equals(lastRelevantKeyWord)
+						|| IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL.equals(lastRelevantKeyWord)) {
 					proposals.addAll(getProposalsForStructuralFeatureValue(text));
 				}
 			}
@@ -154,7 +156,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				if (instruction.getName() != null
 						&& (contributionBeginning.length() == 0 || instruction.getName().startsWith(
 								contributionBeginning))) {
-					String description = "Contribute to the " + instruction.getName() + " ";
+					String description = "Contribute to the " + instruction.getName()
+							+ IntentKeyWords.INTENT_WHITESPACE;
 					if (instruction.getMetaType() != null
 							&& instruction.getMetaType().getTypeName() != null) {
 						description += instruction.getMetaType().getTypeName();
@@ -185,17 +188,20 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		String featureNameBeginning = "";
 		boolean isContribution = true;
 		boolean isResourceDeclaration = false;
-		if (text.lastIndexOf("{") != -1) {
-			contributionName = text.substring(0, text.lastIndexOf("{")).trim();
-			featureNameBeginning = text.substring(text.lastIndexOf("{")).replace("{", "").trim();
+		if (text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) != -1) {
+			contributionName = text.substring(0, text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN)).trim();
+			featureNameBeginning = text.substring(text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN))
+					.replace(IntentKeyWords.INTENT_KEYWORD_OPEN, "").trim();
 
 			if (contributionName.contains(NEW_ENTITY_KEYWORD)) {
 				isContribution = false;
 				contributionName = contributionName.substring(
 						contributionName.lastIndexOf(NEW_ENTITY_KEYWORD)).trim();
-				contributionName = contributionName.substring(contributionName.indexOf(" ")).trim();
-				if (contributionName.contains(" ")) {
-					contributionName = contributionName.substring(0, contributionName.indexOf(" ")).trim();
+				contributionName = contributionName.substring(
+						contributionName.indexOf(IntentKeyWords.INTENT_WHITESPACE)).trim();
+				if (contributionName.contains(IntentKeyWords.INTENT_WHITESPACE)) {
+					contributionName = contributionName.substring(0,
+							contributionName.indexOf(IntentKeyWords.INTENT_WHITESPACE)).trim();
 				}
 			}
 			if (contributionName.contains(RESOURCE_DECLARATION_KEYWORD)) {
@@ -270,24 +276,31 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		String classifierName = null;
 		String featureName = null;
 		String beginning = "";
-		if (text.lastIndexOf("{") != -1) {
-			classifierName = text.substring(0, text.lastIndexOf("{")).trim();
-			featureName = text.substring(text.lastIndexOf("{")).replace("{", "").trim();
-			if (featureName.contains("+=")) {
-				beginning = featureName.substring(featureName.indexOf("+=") + 2).trim();
-				featureName = featureName.substring(0, featureName.indexOf("+=")).trim();
-			} else if (featureName.contains("=")) {
-				beginning = featureName.substring(featureName.indexOf("=") + 1).trim();
-				featureName = featureName.substring(0, featureName.indexOf("=")).trim();
+		if (text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) != -1) {
+			classifierName = text.substring(0, text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN)).trim();
+			featureName = text.substring(text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN))
+					.replace(IntentKeyWords.INTENT_KEYWORD_OPEN, "").trim();
+			if (featureName.contains(IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL)) {
+				beginning = featureName.substring(
+						featureName.indexOf(IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL) + 2).trim();
+				featureName = featureName.substring(0,
+						featureName.indexOf(IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL)).trim();
+			} else if (featureName.contains(IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL)) {
+				beginning = featureName.substring(
+						featureName.indexOf(IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL) + 1).trim();
+				featureName = featureName.substring(0,
+						featureName.indexOf(IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL)).trim();
 			}
 
 			if (classifierName.contains(NEW_ENTITY_KEYWORD)) {
 				isContribution = false;
 				classifierName = classifierName.substring(classifierName.lastIndexOf(NEW_ENTITY_KEYWORD))
 						.trim();
-				classifierName = classifierName.substring(classifierName.indexOf(" ")).trim();
-				if (classifierName.contains(" ")) {
-					classifierName = classifierName.substring(0, classifierName.indexOf(" ")).trim();
+				classifierName = classifierName.substring(
+						classifierName.indexOf(IntentKeyWords.INTENT_WHITESPACE)).trim();
+				if (classifierName.contains(IntentKeyWords.INTENT_WHITESPACE)) {
+					classifierName = classifierName.substring(0,
+							classifierName.indexOf(IntentKeyWords.INTENT_WHITESPACE)).trim();
 				}
 			}
 			if (classifierName.contains(RESOURCE_DECLARATION_KEYWORD)) {
@@ -413,10 +426,10 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	 * Returns the last relevant keyword of the given text. For example :
 	 * <ul>
 	 * <li>"new Somethin" will return "new"</li>
-	 * <li>"new Something {" will return "{"</li>
-	 * <li>"new Something { attrib" will return "{"</li>
-	 * <li>"new Something { attribute =" will return "="</li>
-	 * <li>"new Something { attribute = 'value'; will return "{"</li>
+	 * <li>"new Something {" will return IntentKeyWords.INTENT_KEYWORD_OPEN</li>
+	 * <li>"new Something { attrib" will return IntentKeyWords.INTENT_KEYWORD_OPEN</li>
+	 * <li>"new Something { attribute =" will return IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL</li>
+	 * <li>"new Something { attribute = 'value'; will return IntentKeyWords.INTENT_KEYWORD_OPEN</li>
 	 * </ul>
 	 * 
 	 * @param text
@@ -426,9 +439,11 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	private String getLastRelevantKeyWord(String text) {
 
 		int lastNew = getLastIndexOf(text, Pattern.compile(NEW_ENTITY_KEYWORD));
-		int lastOpeningBracket = text.lastIndexOf("{");
-		int lastStructuralFeatureAffectation = text.lastIndexOf("=");
-		int lastMultiValuedStructuralFeatureAffectation = text.lastIndexOf("+=");
+		int lastOpeningBracket = text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN);
+		int lastStructuralFeatureAffectation = text
+				.lastIndexOf(IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL);
+		int lastMultiValuedStructuralFeatureAffectation = text
+				.lastIndexOf(IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL);
 		int lastKWIndex = Math.max(
 				Math.max(lastStructuralFeatureAffectation, lastStructuralFeatureAffectation),
 				Math.max(lastNew, lastOpeningBracket));
@@ -436,11 +451,11 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			if (lastKWIndex == lastNew) {
 				return NEW_ENTITY_KEYWORD;
 			} else if (lastKWIndex == lastOpeningBracket) {
-				return "{";
+				return IntentKeyWords.INTENT_KEYWORD_OPEN;
 			} else if (lastKWIndex == lastStructuralFeatureAffectation) {
-				return "=";
+				return IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL;
 			} else if (lastKWIndex == lastMultiValuedStructuralFeatureAffectation) {
-				return "+=";
+				return IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL;
 			}
 		}
 		int lastIndexOfSpaceCharacter = lastIndexOfSpaceCharacter(text);
@@ -456,7 +471,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	}
 
 	private int lastIndexOfSpaceCharacter(String text) {
-		int lastIndexOfSpace = text.lastIndexOf(" ");
+		int lastIndexOfSpace = text.lastIndexOf(IntentKeyWords.INTENT_WHITESPACE);
 		int lastIndexOfTab = text.lastIndexOf("\t");
 		int lastIndexOfNewLine = text.lastIndexOf("\n");
 		return Math.max(Math.max(lastIndexOfSpace, lastIndexOfTab), lastIndexOfNewLine);
@@ -473,10 +488,11 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	private String removeInstructionsInsideClosedBrackets(String text) {
 		Document tempDoc = new Document(text);
 		IntentPairMatcher pairMatcher = new IntentPairMatcher();
-		if (tempDoc.get().indexOf("{") != -1) {
-			IRegion match = pairMatcher.match(tempDoc, tempDoc.get().indexOf("{") + 1);
+		if (tempDoc.get().indexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) != -1) {
+			IRegion match = pairMatcher.match(tempDoc,
+					tempDoc.get().indexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) + 1);
 			try {
-				while (tempDoc.get().indexOf("{") != -1 && match != null) {
+				while (tempDoc.get().indexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) != -1 && match != null) {
 
 					int beginLineToRemove = tempDoc.getLineOfOffset(match.getOffset());
 					int beginOffSettoRemove = tempDoc.getLineOffset(beginLineToRemove);
@@ -486,7 +502,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 					String newDocContent = tempDoc.get().substring(0, beginOffSettoRemove)
 							+ tempDoc.get().substring(endOffsetToRemove);
 					tempDoc.set(newDocContent);
-					match = pairMatcher.match(tempDoc, tempDoc.get().indexOf("{") + 1);
+					match = pairMatcher.match(tempDoc,
+							tempDoc.get().indexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) + 1);
 				}
 			} catch (BadLocationException e) {
 				// Nothing to do : silent catch
@@ -522,7 +539,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private TemplateProposal createStructuralFeatureAffectationTemplateProposal(String contributionName,
 			EStructuralFeature feature) {
-		String affect = "=";
+		String affect = IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL;
 		if (feature.isMany()) {
 			affect = "+" + affect;
 		}
@@ -545,7 +562,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			}
 		}
 		String description = "Set the value " + contributionName + "." + feature.getName();
-		return createTemplateProposal(label, description, feature.getName() + " " + affect + " ",
+		return createTemplateProposal(label, description, feature.getName()
+				+ IntentKeyWords.INTENT_WHITESPACE + affect + IntentKeyWords.INTENT_WHITESPACE,
 				"icon/outline/modelingunit_affect.png");
 	}
 

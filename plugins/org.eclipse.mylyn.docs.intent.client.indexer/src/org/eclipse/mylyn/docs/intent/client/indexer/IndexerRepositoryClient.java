@@ -61,14 +61,14 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 			repositoryAdapter.execute(new IntentCommand() {
 
 				public void execute() {
-					final IntentIndex index = new IndexQuery(repositoryAdapter).getOrCreateIntentIndex();
-					final IntentDocument document = new IntentDocumentQuery(repositoryAdapter)
-							.getOrCreateIntentDocument();
-					IntentLogger.getInstance().log(LogType.LIFECYCLE,
-							"[Indexer] Indexing " + document.getChapters().size() + " chapters");
 
 					try {
-						repositoryAdapter.openSaveContext();
+						final IntentIndex index = new IndexQuery(repositoryAdapter).getOrCreateIntentIndex();
+						final IntentDocument document = new IntentDocumentQuery(repositoryAdapter)
+								.getOrCreateIntentDocument();
+						IntentLogger.getInstance().log(LogType.LIFECYCLE,
+								"[Indexer] Indexing " + document.getChapters().size() + " chapters");
+
 						indexComputor.computeIndex(index, document);
 
 						repositoryAdapter.setSendSessionWarningBeforeSaving(Lists
@@ -79,7 +79,6 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 					} catch (ReadOnlyException e) {
 						IntentLogger.getInstance().log(LogType.ERROR, "Indexer failed to save changes", e);
 					}
-					repositoryAdapter.closeContext();
 					IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Indexer] Index saved");
 				}
 			});
@@ -105,5 +104,4 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 		job.setSystem(true);
 		return job;
 	}
-
 }

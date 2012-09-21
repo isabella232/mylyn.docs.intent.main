@@ -55,6 +55,7 @@ public final class IndexerCreator {
 
 		// Step 1 : adapter creation
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
+		repositoryAdapter.openSaveContext();
 
 		// Step 2 : creating the handler
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);

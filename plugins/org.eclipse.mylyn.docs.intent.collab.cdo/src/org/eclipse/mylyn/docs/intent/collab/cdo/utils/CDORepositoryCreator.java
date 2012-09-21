@@ -45,7 +45,7 @@ public class CDORepositoryCreator implements RepositoryCreator {
 			throw new RepositoryConnectionException("The given configuration informations are invalid.");
 		}
 
-		if (RepositoryChangeNotificationFactoryHolder.getChangeNotificationFactory() == null) {
+		if (!(RepositoryChangeNotificationFactoryHolder.getChangeNotificationFactory() instanceof CDORepositoryChangeNotificationFactory)) {
 			RepositoryChangeNotificationFactoryHolder
 					.setChangeNotificationFactory(new CDORepositoryChangeNotificationFactory());
 		}

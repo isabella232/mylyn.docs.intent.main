@@ -84,6 +84,7 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 
+		repositoryAdapter.openSaveContext();
 		// Step 2 : Creating the RepositoryObjectHandler for this client
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 		// listening to the Intent Index

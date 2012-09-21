@@ -17,7 +17,9 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
+import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 
 /**
  * Allows the RepositoryObjectHandler to work with any type of repository.
@@ -204,4 +206,18 @@ public interface RepositoryAdapter {
 	 *            the command to execute
 	 */
 	void execute(IntentCommand command);
+
+	/**
+	 * Returns the {@link Repository} from which this adapter has been created.
+	 * 
+	 * @return the {@link Repository} from which this adapter has been created
+	 */
+	Repository getRepository();
+
+	/**
+	 * Returns the {@link ResourceSet} associated to this {@link RepositoryAdapter}.
+	 * 
+	 * @return the {@link ResourceSet} associated to this {@link RepositoryAdapter}
+	 */
+	ResourceSet getResourceSet();
 }

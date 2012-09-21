@@ -60,13 +60,12 @@ public final class IntentEditorOpener {
 	public static void openIntentEditor(final Repository repository, boolean readOnlyMode) {
 		try {
 			final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
-			repositoryAdapter.openSaveContext();
+
+			openContext(repositoryAdapter, readOnlyMode);
 			IntentDocument elementToOpen = new IntentDocumentQuery(repositoryAdapter)
 					.getOrCreateIntentDocument();
 			openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, false);
 		} catch (PartInitException e) {
-			IntentUiLogger.logError(e);
-		} catch (ReadOnlyException e) {
 			IntentUiLogger.logError(e);
 		}
 	}
@@ -179,23 +178,24 @@ public final class IntentEditorOpener {
 	 *            indicates whether the context should be opened in read-only mode or node
 	 */
 	private static void openContext(RepositoryAdapter repositoryAdapter, boolean readOnlyMode) {
-		boolean isReadOnly = readOnlyMode;
-		if (!readOnlyMode) {
-			try {
-				repositoryAdapter.openSaveContext();
-			} catch (ReadOnlyException e) {
-				IntentLogger
-						.getInstance()
-						.log(LogType.WARNING,
-								"The Intent Editor has insufficient rights (read-only) to save modifications on the repository. A read-only context will be used instead.");
-				isReadOnly = true;
+		if (repositoryAdapter.getContext() == null) {
+			boolean isReadOnly = readOnlyMode;
+			if (!readOnlyMode) {
+				try {
+					repositoryAdapter.openSaveContext();
+				} catch (ReadOnlyException e) {
+					IntentLogger
+							.getInstance()
+							.log(LogType.WARNING,
+									"The Intent Editor has insufficient rights (read-only) to save modifications on the repository. A read-only context will be used instead.");
+					isReadOnly = true;
+				}
+			}
+
+			if (isReadOnly) {
+				repositoryAdapter.openReadOnlyContext();
 			}
 		}
-
-		if (isReadOnly) {
-			repositoryAdapter.openReadOnlyContext();
-		}
-
 	}
 
 	/**

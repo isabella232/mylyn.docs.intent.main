@@ -33,6 +33,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -49,6 +50,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.ide.notification.WorkspaceTypeListener;
 import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceRepository;
 import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceSession;
+import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 
 /**
@@ -217,11 +219,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 							// We make sure the session isn't still reacting to previous saves
 							while (((WorkspaceSession)this.repository.getOrCreateSession())
 									.isProcessingDelta()) {
-								try {
-									Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
-								} catch (InterruptedException e) {
-									throw new SaveException(e.getMessage());
-								}
+								Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
 							}
 
 							// Step 2: we send a warning to the WorkspaceSession if necessary
@@ -245,6 +243,8 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 					saveException = new SaveException(e.getMessage());
 				} catch (IOException e) {
 					saveException = new SaveException(e.getMessage());
+				} catch (InterruptedException e) {
+					throw new SaveException(e.getMessage());
 				}
 
 			}
@@ -688,5 +688,23 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 			throw new SaveException(ioE.getMessage());
 		}
 		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getRepository()
+	 */
+	public Repository getRepository() {
+		return this.repository;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getResourceSet()
+	 */
+	public ResourceSet getResourceSet() {
+		return this.repository.getResourceSet();
 	}
 }

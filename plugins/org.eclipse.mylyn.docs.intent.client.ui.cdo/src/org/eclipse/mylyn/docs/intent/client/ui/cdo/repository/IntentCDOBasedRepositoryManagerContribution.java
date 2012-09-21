@@ -68,7 +68,7 @@ public class IntentCDOBasedRepositoryManagerContribution implements IntentReposi
 	 * @return the repository name
 	 */
 	private String getRepositoryName(String identifier) {
-		String repositoryName = identifier.replaceFirst("cdo:/", "");
+		String repositoryName = identifier.replaceFirst("cdo://", "").replaceFirst("cdo:/", "");
 		repositoryName = repositoryName.split("/")[0];
 		return repositoryName;
 	}

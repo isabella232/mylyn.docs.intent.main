@@ -46,6 +46,8 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature
  */
 public final class StructuralFeatureGenerator {
 
+	private static final String COMPILATION_EXCEPTION_MESSAGE_FEATURE = "The feature ";
+
 	/**
 	 * StructuralFeatureGenerator constructor.
 	 */
@@ -75,7 +77,7 @@ public final class StructuralFeatureGenerator {
 			if (feature == null || feature.getEType() == null) {
 				modelingUnitGenerator.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
 						new CompilationException(affectation, CompilationErrorType.INVALID_REFERENCE_ERROR,
-								"The feature " + feature.getName() + " is derived and cannot be set."));
+								COMPILATION_EXCEPTION_MESSAGE_FEATURE + feature.getName() + " is derived and cannot be set."));
 				// TODO externalize message
 				feature.setEType(EcorePackage.eINSTANCE.getEString());
 			}
@@ -120,7 +122,7 @@ public final class StructuralFeatureGenerator {
 
 			} else {
 				CompilationStatus status = CompilerFactory.eINSTANCE.createCompilationStatus();
-				status.setMessage("The feature " + affectation.getName() + " is undefined for type "
+				status.setMessage(COMPILATION_EXCEPTION_MESSAGE_FEATURE + affectation.getName() + " is undefined for type "
 						+ eClass.eClass());
 				status.setTarget(affectation);
 				status.setSeverity(CompilationStatusSeverity.ERROR);
@@ -215,12 +217,12 @@ public final class StructuralFeatureGenerator {
 			if (value instanceof Collection) {
 				for (Object element : (Collection<?>)value) {
 					if (element instanceof EObject && !isInstanceOf((EObject)element, type)) {
-						throw new InvalidValueException(unitInstruction, "The feature " + feature.getName()
+						throw new InvalidValueException(unitInstruction, COMPILATION_EXCEPTION_MESSAGE_FEATURE + feature.getName()
 								+ " cannot handle type " + element.getClass().getSimpleName() + ". ");
 					}
 				}
 			} else if (value instanceof EObject && !isInstanceOf((EObject)value, type)) {
-				throw new InvalidValueException(unitInstruction, "The feature " + feature.getName()
+				throw new InvalidValueException(unitInstruction, COMPILATION_EXCEPTION_MESSAGE_FEATURE + feature.getName()
 						+ " cannot handle type " + value.getClass().getSimpleName() + ". ");
 			}
 		}

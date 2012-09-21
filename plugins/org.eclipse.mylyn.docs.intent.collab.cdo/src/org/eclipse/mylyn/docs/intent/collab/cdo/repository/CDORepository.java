@@ -16,6 +16,7 @@ import java.util.Set;
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
+import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.mylyn.docs.intent.collab.cdo.adapters.CDOAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
@@ -115,6 +116,7 @@ public class CDORepository implements Repository {
 
 		// If no configuration has been created yet
 		if (cdoSessionConfiguration == null) {
+			CDOUtil.setLegacyModeDefault(true);
 			// We create this configuration
 			container = ContainerUtil.createContainer();
 
@@ -205,10 +207,8 @@ public class CDORepository implements Repository {
 	 */
 	public RepositoryAdapter createRepositoryAdapter() {
 		try {
-			return new CDOAdapter((CDONet4jSession)getOrCreateSession());
+			return new CDOAdapter(this, (CDONet4jSession)getOrCreateSession());
 		} catch (RepositoryConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return null;
 		}
 	}

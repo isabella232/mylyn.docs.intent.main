@@ -87,6 +87,7 @@ public class EclipseBasedIntentLogger implements IIntentLogger, IPreferenceChang
 				severity = IStatus.ERROR;
 				MessageDialog.openError(Display.getCurrent().getActiveShell(), "Intent - An error occured",
 						message);
+				break;
 			case ERROR:
 				severity = IStatus.ERROR;
 				break;

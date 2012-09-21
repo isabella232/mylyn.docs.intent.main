@@ -39,6 +39,20 @@ import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
  */
 public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 
+	private static final String CHAPTER_KEYWORD = "Chapter";
+	private static final String SUBSECTION_2_1_1 = "2.1.1";
+	private static final String SUBSECTION_4_1_2 = "4.1.2";
+	private static final String SUBSECTION_4_1_1 = "4.1.1";
+	private static final String SECTION_4_1 = "4.1";
+	private static final String CHAPTER_4 = "4";
+	private static final String CHAPTER_3 = "3";
+	private static final String CHAPTER_2 = "2";
+	private static final String CHAPTER_1 = "1";
+	private static final String SECTION_3_2 = "3.2";
+	private static final String SECTION_3_1 = "3.1";
+	private static final String SECTION_2_2 = "2.2";
+	private static final String SECTION_2_1 = "2.1";
+	private static final String SECTION1_1 = "1.1";
 	private static final String NEW_CHAPTER = "\tChapter {\n\t\tSection {\n\t\t}\n\t}\n}";
 
 	/**
@@ -52,8 +66,8 @@ public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 		IntentEditor editor = openIntentEditor();
 
 		// Step 2: we check the initial structure of the project
-		checkRepositoryStructure(Lists.newArrayList("1", "2", "3"),
-				Lists.newArrayList("1.1", "2.1", "2.2", "3.1", "3.1.1", "3.1.2"),
+		checkRepositoryStructure(Lists.newArrayList(CHAPTER_1, CHAPTER_2, CHAPTER_3),
+				Lists.newArrayList(SECTION1_1, SECTION_2_1, SECTION_2_2, SECTION_3_1, "3.1.1", "3.1.2"),
 				Lists.newArrayList("1.1.1", "3.1.1"));
 
 		// Step 3: adding a new chapter a the begging
@@ -66,9 +80,9 @@ public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
-		checkRepositoryStructure(Lists.newArrayList("1", "2", "3", "4"),
-				Lists.newArrayList("1.1", "2.1", "3.1", "3.2", "4.1", "4.1.1", "4.1.2"),
-				Lists.newArrayList("2.1.1", "4.1.1"));
+		checkRepositoryStructure(Lists.newArrayList(CHAPTER_1, CHAPTER_2, CHAPTER_3, CHAPTER_4),
+				Lists.newArrayList(SECTION1_1, SECTION_2_1, SECTION_3_1, SECTION_3_2, SECTION_4_1, SUBSECTION_4_1_1, SUBSECTION_4_1_2),
+				Lists.newArrayList(SUBSECTION_2_1_1, SUBSECTION_4_1_1));
 
 		// Step 4: adding a new chapter at the end
 		String documentWithChapterAtTheEnd = document.get().substring(0, document.get().lastIndexOf("}"))
@@ -77,34 +91,34 @@ public class IntentRepositoryStructurerTest extends AbstractIntentUITest {
 		document.set(documentWithChapterAtTheEnd);
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
-		checkRepositoryStructure(Lists.newArrayList("1", "2", "3", "4", "5"),
-				Lists.newArrayList("1.1", "2.1", "3.1", "3.2", "4.1", "4.1.1", "4.1.2", "5.1"),
-				Lists.newArrayList("2.1.1", "4.1.1"));
+		checkRepositoryStructure(Lists.newArrayList(CHAPTER_1, CHAPTER_2, CHAPTER_3, CHAPTER_4, "5"),
+				Lists.newArrayList(SECTION1_1, SECTION_2_1, SECTION_3_1, SECTION_3_2, SECTION_4_1, SUBSECTION_4_1_1, SUBSECTION_4_1_2, "5.1"),
+				Lists.newArrayList(SUBSECTION_2_1_1, SUBSECTION_4_1_1));
 
 		// Step 5 : adding a new chapter in the middle
 		String chapterToAdd = "";
 		int index = document.get().indexOf("The 2.2 Section");
 		chapterToAdd = document.get().substring(index);
-		chapterToAdd = chapterToAdd.substring(chapterToAdd.indexOf("Chapter"),
-				chapterToAdd.lastIndexOf("Chapter"));
+		chapterToAdd = chapterToAdd.substring(chapterToAdd.indexOf(CHAPTER_KEYWORD),
+				chapterToAdd.lastIndexOf(CHAPTER_KEYWORD));
 		document.set(document.get().replace(chapterToAdd, chapterToAdd + NEW_CHAPTER));
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
-		checkRepositoryStructure(Lists.newArrayList("1", "2", "3", "4", "5"),
-				Lists.newArrayList("1.1", "2.1", "3.1", "3.2", "4.1", "4.1.1", "4.1.2", "5.1"),
-				Lists.newArrayList("2.1.1", "4.1.1"));
+		checkRepositoryStructure(Lists.newArrayList(CHAPTER_1, CHAPTER_2, CHAPTER_3, CHAPTER_4, "5"),
+				Lists.newArrayList(SECTION1_1, SECTION_2_1, SECTION_3_1, SECTION_3_2, SECTION_4_1, SUBSECTION_4_1_1, SUBSECTION_4_1_2, "5.1"),
+				Lists.newArrayList(SUBSECTION_2_1_1, SUBSECTION_4_1_1));
 
 		// Step 6 : deleting a chapter in the middle
 		String chapterToDelete = "";
 		index = document.get().indexOf("The 2.2 Section");
 		chapterToDelete = document.get().substring(index);
-		chapterToDelete = chapterToDelete.substring(chapterToDelete.indexOf("Chapter"),
-				chapterToDelete.lastIndexOf("Chapter"));
+		chapterToDelete = chapterToDelete.substring(chapterToDelete.indexOf(CHAPTER_KEYWORD),
+				chapterToDelete.lastIndexOf(CHAPTER_KEYWORD));
 		document.set(document.get().replace(chapterToDelete, ""));
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
-		checkRepositoryStructure(Lists.newArrayList("1", "2", "3", "4"),
-				Lists.newArrayList("1.1", "2.1", "3.1", "3.2", "4.1"), Lists.newArrayList("2.1.1"));
+		checkRepositoryStructure(Lists.newArrayList(CHAPTER_1, CHAPTER_2, CHAPTER_3, CHAPTER_4),
+				Lists.newArrayList(SECTION1_1, SECTION_2_1, SECTION_3_1, SECTION_3_2, SECTION_4_1), Lists.newArrayList(SUBSECTION_2_1_1));
 	}
 
 	/**

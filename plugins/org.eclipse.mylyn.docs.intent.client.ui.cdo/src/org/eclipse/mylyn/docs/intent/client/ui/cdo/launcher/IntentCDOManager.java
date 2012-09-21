@@ -19,7 +19,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.mylyn.docs.intent.client.compiler.launcher.CompilerCreator;
 import org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection.CompilerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
-import org.eclipse.mylyn.docs.intent.client.indexer.launcher.IndexerCreator;
 import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverClient;
 import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
@@ -141,14 +140,14 @@ public final class IntentCDOManager {
 		}
 
 		// Indexer
-		if (indexerClient == null) {
-			indexerClient = IndexerCreator.createIndexer(repository);
-		}
+		// if (indexerClient == null) {
+		// indexerClient = IndexerCreator.createIndexer(repository);
+		// }
 
 		// notifies the clients
 
 		// launch the indexer in order to allow navigation within the document
-		indexerClient.handleChangeNotification(null);
+		// indexerClient.handleChangeNotification(null);
 
 		// launch the compiler to detect eventual existing issues
 		compilerClient.handleChangeNotification(null);

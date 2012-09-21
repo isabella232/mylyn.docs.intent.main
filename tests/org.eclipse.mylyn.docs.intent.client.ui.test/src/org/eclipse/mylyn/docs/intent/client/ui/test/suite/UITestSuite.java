@@ -15,6 +15,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.cdo.CDOIntegrationTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.IntentMatchEngineTests;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.SimpleOrderTests;
@@ -108,6 +109,14 @@ public class UITestSuite extends TestCase {
 		updatesSuite.addTestSuite(QuickFixTest.class);
 		updatesSuite.addTestSuite(DragAndDropTest.class);
 		uiTestSuite.addTest(updatesSuite);
+
+		/*
+		 * CDO related test Suite
+		 */
+		final TestSuite cdoSuite = new TestSuite("CDO integration tests");
+		suite.addTest(cdoSuite);
+
+		cdoSuite.addTestSuite(CDOIntegrationTest.class);
 
 		return suite;
 	}

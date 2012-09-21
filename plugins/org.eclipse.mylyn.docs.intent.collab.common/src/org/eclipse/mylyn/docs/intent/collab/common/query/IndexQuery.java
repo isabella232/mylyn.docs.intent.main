@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.collab.common.query;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
@@ -46,7 +47,12 @@ public class IndexQuery extends AbstractIntentQuery {
 		if (intentIndex == null) {
 			final Resource indexResource = repositoryAdapter.getResource(IntentLocations.GENERAL_INDEX_PATH);
 			if (indexResource.getContents().isEmpty()) {
-				indexResource.getContents().add(IntentIndexerFactory.eINSTANCE.createIntentIndex());
+				repositoryAdapter.execute(new IntentCommand() {
+
+					public void execute() {
+						indexResource.getContents().add(IntentIndexerFactory.eINSTANCE.createIntentIndex());
+					}
+				});
 			}
 			intentIndex = (IntentIndex)indexResource.getContents().get(0);
 		}

@@ -32,9 +32,16 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 
+/**
+ * Test ensuring that the Intent match engine works as expected.
+ * 
+ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ */
 public class IntentMatchEngineTests extends AbstractIntentUITest {
 
 	private static final String INTENT_DOCUMENT_FOLDER = "data/unit/documents/editorupdates/";
+
+	private static final String LINEBREAK = "\n";
 
 	private Collection<AssertionFailedError> errors = Sets.newLinkedHashSet();
 
@@ -121,7 +128,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 				String message = "One new chapter should be detected at position " + position;
 				try {
 					DiffElement diff = assertDiffElementIsAsExpected(message, differences, 2);
-					assertEquals(message + "\n" + getDiffAsString(differences), DifferenceKind.ADDITION,
+					assertEquals(message + LINEBREAK + getDiffAsString(differences), DifferenceKind.ADDITION,
 							diff.getKind());
 					assertEquals(message + getDiffAsString(differences), newChapter,
 							((ModelElementChangeLeftTarget)diff).getLeftElement());
@@ -153,11 +160,11 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 			try {
 				List<DiffElement> differences = IntentASTMerger.getDifferences(copy, getIntentDocument());
 				DiffElement diff = assertDiffElementIsAsExpected(message, differences, 2);
-				assertEquals(message + "\n" + getDiffAsString(differences), DifferenceKind.DELETION,
+				assertEquals(message + LINEBREAK + getDiffAsString(differences), DifferenceKind.DELETION,
 						diff.getKind());
-				assertEquals(message + "\n" + getDiffAsString(differences), chapterToRemoveInOriginal,
+				assertEquals(message + LINEBREAK + getDiffAsString(differences), chapterToRemoveInOriginal,
 						((ModelElementChangeRightTarget)diff).getRightElement());
-				assertEquals(message + "\n" + getDiffAsString(differences), copy,
+				assertEquals(message + LINEBREAK + getDiffAsString(differences), copy,
 						((ModelElementChangeRightTarget)diff).getLeftParent());
 			} catch (AssertionFailedError e) {
 				errors.add(e);
@@ -199,11 +206,11 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 						+ sectionID;
 				try {
 					DiffElement diff = assertDiffElementIsAsExpected(message, differences, containerLevel);
-					assertEquals(message + "\n" + getDiffAsString(differences), DifferenceKind.ADDITION,
+					assertEquals(message + LINEBREAK + getDiffAsString(differences), DifferenceKind.ADDITION,
 							diff.getKind());
-					assertEquals(message + "\n" + getDiffAsString(differences), newSection,
+					assertEquals(message + LINEBREAK + getDiffAsString(differences), newSection,
 							((ModelElementChangeLeftTarget)diff).getLeftElement());
-					assertEquals(message + "\n" + getDiffAsString(differences), container,
+					assertEquals(message + LINEBREAK + getDiffAsString(differences), container,
 							((ModelElementChangeLeftTarget)diff).getRightParent());
 				} catch (AssertionFailedError e) {
 					errors.add(e);
@@ -255,12 +262,11 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 
 			try {
 				DiffElement diff = assertDiffElementIsAsExpected(message, differences, containerLevel);
-				assertEquals(message + "\n" + getDiffAsString(differences), DifferenceKind.DELETION,
+				assertEquals(message + LINEBREAK + getDiffAsString(differences), DifferenceKind.DELETION,
 						diff.getKind());
-				assertEquals(message + "\n" + getDiffAsString(differences),
-						container.getIntentContent().get(trueIndex),
-						((ModelElementChangeRightTarget)diff).getRightElement());
-				assertEquals(message + "\n" + getDiffAsString(differences), containerCopy,
+				assertEquals(message + LINEBREAK + getDiffAsString(differences), container.getIntentContent()
+						.get(trueIndex), ((ModelElementChangeRightTarget)diff).getRightElement());
+				assertEquals(message + LINEBREAK + getDiffAsString(differences), containerCopy,
 						((ModelElementChangeRightTarget)diff).getLeftParent());
 			} catch (AssertionFailedError e) {
 				errors.add(e);
@@ -291,27 +297,28 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 	protected DiffElement assertDiffElementIsAsExpected(String message, Collection<DiffElement> differences,
 			int expectedLevel) {
 		compareCasesNumber++;
-		assertEquals(message + "\n" + getDiffAsString(differences), 1, differences.size());
+		assertEquals(message + LINEBREAK + getDiffAsString(differences), 1, differences.size());
 
 		// We want to have exactly one difference at the expected level
 		DiffElement childDiff = differences.iterator().next();
 		int currentLevel = 0;
 		while (childDiff != null && currentLevel < expectedLevel) {
-			assertEquals(message + "\n" + getDiffAsString(differences), 1, childDiff.getSubDiffElements()
-					.size());
+			assertEquals(message + LINEBREAK + getDiffAsString(differences), 1, childDiff
+					.getSubDiffElements().size());
 			currentLevel++;
 			childDiff = childDiff.getSubDiffElements().iterator().next();
 		}
 
 		// This difference should not have any sub difference elements
-		assertEquals(message + "\n" + getDiffAsString(differences), 0, childDiff.getSubDiffElements().size());
+		assertEquals(message + LINEBREAK + getDiffAsString(differences), 0, childDiff.getSubDiffElements()
+				.size());
 		return childDiff;
 	}
 
 	protected String getDiffAsString(Collection<DiffElement> differences) {
 		String diff = "";
 		for (DiffElement element : differences) {
-			diff += element.toString() + "\n";
+			diff += element.toString() + LINEBREAK;
 			diff += getDiffAsString(element.getSubDiffElements());
 		}
 		return diff;

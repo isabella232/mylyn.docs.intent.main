@@ -19,6 +19,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AnnotationUtils;
+import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 
 /**
@@ -27,6 +28,10 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class CompilerNotificationsTest extends AbstractIntentUITest {
+
+	private static final String COMPILER_SHOULD_NOT_DETECT_ISSUE_FAILURE_MESSAGE = "The compiler should not detect any issue";
+
+	private static final String ECLASS_NAME = "c1";
 
 	private static final String INTENT_DATA_FOLDER = "data/unit/documents/scenario/compilerNotifications/";
 
@@ -55,21 +60,21 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 	public void testCompilerIsNotifiedWhenModifyingMU() {
 		// Update Modeling Unit : make it pass
 		repositoryListener.clearPreviousEntries();
-		document.set(document.get().replace("c1", "new EClass c1 {}"));
+		document.set(document.get().replace(ECLASS_NAME, "new EClass c1 {}"));
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler(true);
-		assertFalse("The compiler should not detect any issue", AnnotationUtils.hasIntentAnnotation(editor,
-				IntentAnnotationMessageType.COMPILER_ERROR, "", false));
+		assertFalse(COMPILER_SHOULD_NOT_DETECT_ISSUE_FAILURE_MESSAGE, AnnotationUtils.hasIntentAnnotation(
+				editor, IntentAnnotationMessageType.COMPILER_ERROR, "", false));
 		// FIXME add this condition
 		// waitForCompiler(false);
 
 		// Update Modeling Unit : Add an error
 		repositoryListener.clearPreviousEntries();
-		document.set(document.get().replace("new EClass c1 {}", "c1"));
+		document.set(document.get().replace("new EClass c1 {}", ECLASS_NAME));
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler(true);
-		assertTrue("The compiler should not detect any issue", AnnotationUtils.hasIntentAnnotation(editor,
-				IntentAnnotationMessageType.COMPILER_ERROR, "The Entity c1 cannot be resolved", true));
+		assertTrue(COMPILER_SHOULD_NOT_DETECT_ISSUE_FAILURE_MESSAGE, AnnotationUtils.hasIntentAnnotation(
+				editor, IntentAnnotationMessageType.COMPILER_ERROR, "The Entity c1 cannot be resolved", true));
 		// FIXME add this condition
 		// waitForCompiler(false);
 	}
@@ -88,7 +93,7 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 
 		// Renaming the section and change the issue
 		repositoryListener.clearPreviousEntries();
-		document.set(document.get().replace("c1", "cRenamed"));
+		document.set(document.get().replace(ECLASS_NAME, "cRenamed"));
 
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler(true);
@@ -104,7 +109,8 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 		repositoryListener.clearPreviousEntries();
 		String newSection = FileToStringConverter.getFileAsString(new File(INTENT_DATA_FOLDER
 				+ "newSection01.intent"));
-		document.set(document.get().replace("M@", "M@\n" + newSection));
+		document.set(document.get().replace(IntentKeyWords.MODELING_UNIT_END,
+				IntentKeyWords.MODELING_UNIT_END + "\n" + newSection));
 
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler(true);
@@ -115,8 +121,8 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 
 		// Create another new Modeling Unit : Add an error
 		repositoryListener.clearPreviousEntries();
-		int beginIndex = document.get().lastIndexOf("@M");
-		int endIndex = document.get().lastIndexOf("M@");
+		int beginIndex = document.get().lastIndexOf(IntentKeyWords.MODELING_UNIT_END);
+		int endIndex = document.get().lastIndexOf(IntentKeyWords.MODELING_UNIT_END);
 		document.set(document.get().substring(0, beginIndex) + document.get().substring(endIndex + 2));
 
 		editor.doSave(new NullProgressMonitor());
@@ -137,8 +143,8 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler(true);
-		assertFalse("The compiler should not detect any issue", AnnotationUtils.hasIntentAnnotation(editor,
-				IntentAnnotationMessageType.COMPILER_ERROR, "", false));
+		assertFalse(COMPILER_SHOULD_NOT_DETECT_ISSUE_FAILURE_MESSAGE, AnnotationUtils.hasIntentAnnotation(
+				editor, IntentAnnotationMessageType.COMPILER_ERROR, "", false));
 		// FIXME add this condition
 		// waitForCompiler(false);
 

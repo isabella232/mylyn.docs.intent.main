@@ -19,22 +19,28 @@ import java.util.Set;
 import org.eclipse.emf.cdo.CDOObject;
 import org.eclipse.emf.cdo.common.CDOCommonSession.Options.PassiveUpdateMode;
 import org.eclipse.emf.cdo.common.id.CDOID;
+import org.eclipse.emf.cdo.common.revision.CDORevisionKey;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.transaction.CDOTransaction;
 import org.eclipse.emf.cdo.util.CDOURIUtil;
 import org.eclipse.emf.cdo.util.CommitException;
 import org.eclipse.emf.cdo.util.ReadOnlyException;
 import org.eclipse.emf.cdo.view.CDOAdapterPolicy;
+import org.eclipse.emf.cdo.view.CDOInvalidationPolicy;
 import org.eclipse.emf.cdo.view.CDOView;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.spi.cdo.InternalCDOObject;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
+import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.net4j.util.event.IListener;
 
 /**
@@ -43,6 +49,16 @@ import org.eclipse.net4j.util.event.IListener;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class CDOAdapter implements RepositoryAdapter {
+
+	private static final CDOInvalidationPolicy INTENT_CDO_INVALIDATION_POLICY = new CDOInvalidationPolicy() {
+		public void handleInvalidation(CDOObject object, CDORevisionKey key) {
+			((InternalCDOObject)object).cdoInternalSetRevision(null);
+		}
+
+		public void handleInvalidObject(CDOObject object) {
+			// We do no throw exception to catch these error silently
+		}
+	};
 
 	/**
 	 * The session used in this adapter.
@@ -70,14 +86,22 @@ public class CDOAdapter implements RepositoryAdapter {
 	private boolean allowChangeSubscriptionPolicy;
 
 	/**
+	 * The {@link Repository} from witch this adapter has been created.
+	 */
+	private Repository repository;
+
+	/**
 	 * CDOAdapter Constructor.
 	 * 
+	 * @param repository
+	 *            the {@link Repository} from witch this adapter has been created
 	 * @param object
 	 *            the session to use.
 	 */
-	public CDOAdapter(Object object) {
+	public CDOAdapter(Repository repository, Object object) {
 		this.notificatorToListener = new HashMap<Notificator, Set<IListener>>();
 		this.allowChangeSubscriptionPolicy = false;
+		this.repository = repository;
 		setSession(object);
 	}
 
@@ -111,7 +135,8 @@ public class CDOAdapter implements RepositoryAdapter {
 	 */
 	public Object openSaveContext() {
 		if (this.currentContext == null) {
-			this.currentContext = session.openTransaction();
+			this.currentContext = session.openTransaction(new ResourceSetImpl());
+			currentContext.options().setInvalidationPolicy(INTENT_CDO_INVALIDATION_POLICY);
 			setChangeSubscriptionPolicy();
 			this.isReadOnlyContext = false;
 		}
@@ -142,18 +167,6 @@ public class CDOAdapter implements RepositoryAdapter {
 			this.currentContext = session.openView();
 		}
 		return null;
-	}
-
-	/**
-	 * Use this method if a save context has already been launched and you want this Adapter to use it.
-	 * 
-	 * @param saveContext
-	 *            the save context to use
-	 */
-	public void setSaveContext(Object saveContext) {
-		this.currentContext = (CDOTransaction)saveContext;
-		this.isReadOnlyContext = false;
-		setChangeSubscriptionPolicy();
 	}
 
 	/**
@@ -366,5 +379,26 @@ public class CDOAdapter implements RepositoryAdapter {
 	 */
 	public void execute(IntentCommand command) {
 		command.execute();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getRepository()
+	 */
+	public Repository getRepository() {
+		return this.repository;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getResourceSet()
+	 */
+	public ResourceSet getResourceSet() {
+		if (this.currentContext != null) {
+			return this.currentContext.getResourceSet();
+		}
+		return null;
 	}
 }

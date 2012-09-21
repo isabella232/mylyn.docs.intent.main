@@ -63,16 +63,23 @@ public final class CompilerCreator {
 		listenedTypes.add(IntentDocumentPackage.eINSTANCE.getIntentSection_ModelingUnits());
 
 		for (EObject obj : ModelingUnitPackage.eINSTANCE.eContents()) {
-			if (obj instanceof EClass) {
+			if (obj instanceof EClass && !(ModelingUnitPackage.eINSTANCE.getTypeReference().equals(obj))) {
 				listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass((EClass)obj));
 			}
 		}
 		listenedTypes.remove(IntentDocumentPackage.eINSTANCE.getIntentGenericElement_CompilationStatus());
 		listenedTypes.remove(GenericUnitPackage.eINSTANCE.getGenericUnit_Instructions());
 		listenedTypes.remove(GenericUnitPackage.eINSTANCE.getGenericUnit_UnitName());
+		listenedTypes
+				.remove(ModelingUnitPackage.eINSTANCE.getContributionInstruction_ContributionReference());
+		listenedTypes.remove(ModelingUnitPackage.eINSTANCE
+				.getModelingUnitInstructionReference_ReferencedInstruction());
+		listenedTypes.remove(ModelingUnitPackage.eINSTANCE.getResourceReference_Declaration());
+		listenedTypes.remove(ModelingUnitPackage.eINSTANCE.getInstanceLevelInstruction_MetaType());
 
 		// Step 2: create the adapter and the handler for these types
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
+		repositoryAdapter.openSaveContext();
 
 		RepositoryObjectHandler handler;
 		handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);

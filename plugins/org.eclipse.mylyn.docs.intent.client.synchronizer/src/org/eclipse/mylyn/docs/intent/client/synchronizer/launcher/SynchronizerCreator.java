@@ -104,7 +104,6 @@ public final class SynchronizerCreator {
 				}
 			}
 		}
-		repositoryAdapter.closeContext();
 		return synchronizerClient;
 
 	}

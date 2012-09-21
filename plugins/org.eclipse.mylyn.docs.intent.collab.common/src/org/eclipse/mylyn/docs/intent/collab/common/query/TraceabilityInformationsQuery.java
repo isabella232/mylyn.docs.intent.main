@@ -25,6 +25,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
@@ -64,14 +65,18 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 	 */
 	public TraceabilityIndex getOrCreateTraceabilityIndex() {
 		if (traceabilityIndex == null) {
-			Resource traceabilityResource;
 			try {
-				traceabilityResource = repositoryAdapter
+				final Resource traceabilityResource = repositoryAdapter
 						.getOrCreateResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
 
 				if (traceabilityResource.getContents().isEmpty()) {
-					traceabilityResource.getContents().add(
-							CompilerFactory.eINSTANCE.createTraceabilityIndex());
+					repositoryAdapter.execute(new IntentCommand() {
+
+						public void execute() {
+							traceabilityResource.getContents().add(
+									CompilerFactory.eINSTANCE.createTraceabilityIndex());
+						}
+					});
 				}
 				traceabilityIndex = (TraceabilityIndex)traceabilityResource.getContents().get(0);
 			} catch (ReadOnlyException e) {

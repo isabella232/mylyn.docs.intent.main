@@ -89,13 +89,14 @@ public class IsAssociatedToIntentDocumentTester extends PropertyTester {
 	 * @return the intent document if the given element is an Intent Project, or directly the Intent Document;
 	 *         null otherwise.
 	 */
-	public static IntentDocument getIntentDocument(Object any) {
+	public static IntentDocument getIntentDocument(Object selection) {
 		IntentDocument document = null;
-		if (any instanceof Collection<?> && ((Collection<?>)any).iterator().hasNext()) {
-			any = ((Collection<?>)any).iterator().next();
+		Object any = selection;
+		if (selection instanceof Collection<?> && ((Collection<?>)selection).iterator().hasNext()) {
+			any = ((Collection<?>)selection).iterator().next();
 		}
-		if (any instanceof IStructuredSelection && !((IStructuredSelection)any).isEmpty()) {
-			any = ((IStructuredSelection)any).iterator().next();
+		if (selection instanceof IStructuredSelection && !((IStructuredSelection)selection).isEmpty()) {
+			any = ((IStructuredSelection)selection).iterator().next();
 		}
 		if (any instanceof IProject) {
 
@@ -107,7 +108,7 @@ public class IsAssociatedToIntentDocumentTester extends PropertyTester {
 				Repository repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
 				if (repository != null) {
 					repositoryAdapter = repository.createRepositoryAdapter();
-
+					repositoryAdapter.openReadOnlyContext();
 					EList<EObject> contents = repositoryAdapter.getResource(IntentLocations.INTENT_INDEX)
 							.getContents();
 					if (!contents.isEmpty() && contents.iterator().next() instanceof IntentDocument) {

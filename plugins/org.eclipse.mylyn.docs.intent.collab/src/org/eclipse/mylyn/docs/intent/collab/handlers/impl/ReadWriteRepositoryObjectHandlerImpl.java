@@ -36,7 +36,6 @@ public class ReadWriteRepositoryObjectHandlerImpl extends AbstractRepositoryObje
 	public ReadWriteRepositoryObjectHandlerImpl(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
 		super();
 		this.setRepositoryAdapter(repositoryAdapter);
-		this.getRepositoryAdapter().openSaveContext();
 	}
 
 	/**
@@ -65,7 +64,6 @@ public class ReadWriteRepositoryObjectHandlerImpl extends AbstractRepositoryObje
 	 */
 	@Override
 	public void stop() {
-		this.getRepositoryAdapter().closeContext();
 		super.stop();
 	}
 
@@ -75,7 +73,6 @@ public class ReadWriteRepositoryObjectHandlerImpl extends AbstractRepositoryObje
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.ReadWriteRepositoryObjectHandler#setConflictHander(org.eclipse.mylyn.docs.intent.collab.handlers.ConfictResolver)
 	 */
 	public void setConflictHander(ConfictResolver conflictHandler) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.cdo.notification;
 
+import org.eclipse.emf.cdo.common.revision.CDORevisionKey;
+import org.eclipse.emf.cdo.common.revision.delta.CDOFeatureDelta;
+import org.eclipse.emf.cdo.common.revision.delta.CDORevisionDelta;
 import org.eclipse.emf.cdo.session.CDOSessionInvalidationEvent;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
@@ -79,22 +82,24 @@ public final class CDORepositoryChangeNotificationFactory implements RepositoryC
 			CDOSessionInvalidationEvent event) {
 		RepositoryChangeNotification newNotification = new RepositoryChangeNotificationImpl();
 
-		// for (CDORevisionKey key : event.getChangedObjects()) {
-		// CDORevisionDelta revisionDelta = (CDORevisionDelta)key;
-		//
-		// for (CDOFeatureDelta delta : revisionDelta.getFeatureDeltas()) {
-		// switch (delta.getType()) {
-		// case SET:
-		// // CDOSetFeatureDelta completeDelta = (CDOSetFeatureDelta)delta;
-		// newNotification.getRightRoots().add(view.getObject(key.getID()));
-		// break;
-		// default:
-		//
-		// break;
-		// }
-		// }
-		//
-		// }
+		for (CDORevisionKey key : event.getChangedObjects()) {
+			CDORevisionDelta revisionDelta = (CDORevisionDelta)key;
+
+			for (CDOFeatureDelta delta : revisionDelta.getFeatureDeltas()) {
+				switch (delta.getType()) {
+					case SET:
+						if (event.getLocalTransaction() != null) {
+							newNotification.getRightRoots().add(
+									event.getLocalTransaction().getObject(key.getID()));
+							break;
+						}
+					default:
+
+						break;
+				}
+			}
+
+		}
 		return newNotification;
 	}
 

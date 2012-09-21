@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
@@ -59,9 +60,14 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 	 */
 	public IntentDocument getOrCreateIntentDocument() {
 		if (intentDocument == null) {
-			Resource resource = repositoryAdapter.getResource(IntentLocations.INTENT_INDEX);
+			final Resource resource = repositoryAdapter.getResource(IntentLocations.INTENT_INDEX);
 			if (resource.getContents().isEmpty()) {
-				resource.getContents().add(IntentDocumentFactory.eINSTANCE.createIntentDocument());
+				repositoryAdapter.execute(new IntentCommand() {
+
+					public void execute() {
+						resource.getContents().add(IntentDocumentFactory.eINSTANCE.createIntentDocument());
+					}
+				});
 			}
 			intentDocument = (IntentDocument)resource.getContents().get(0);
 		}
