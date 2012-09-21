@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.compare.match;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -28,9 +29,11 @@ import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.diff.DefaultDiffEngine;
 import org.eclipse.emf.compare.diff.FeatureFilter;
 import org.eclipse.emf.compare.diff.IDiffProcessor;
-import org.eclipse.emf.compare.match.eobject.PairCharDistance;
 import org.eclipse.emf.compare.match.eobject.ProximityEObjectMatcher.DistanceFunction;
+import org.eclipse.emf.compare.match.eobject.URIDistance;
+import org.eclipse.emf.compare.utils.DiffUtil;
 import org.eclipse.emf.compare.utils.EqualityHelper;
+import org.eclipse.emf.compare.utils.ReferenceUtil;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -55,7 +58,7 @@ public class EditionDistance implements DistanceFunction {
 	/**
 	 * Weight coefficient of a change of location (uri).
 	 */
-	private int locationChangeCoef = 1;
+	private int locationChangeCoef = 4;
 
 	/**
 	 * Weight coefficient of a change of order within a reference.
@@ -237,8 +240,8 @@ public class EditionDistance implements DistanceFunction {
 		 */
 		public void attributeChange(Match match, EAttribute attribute, Object value, DifferenceKind kind,
 				DifferenceSource source) {
-			Object aValue = match.getLeft().eGet(attribute);
-			Object bValue = match.getRight().eGet(attribute);
+			Object aValue = ReferenceUtil.safeEGet(match.getLeft(), attribute);
+			Object bValue = ReferenceUtil.safeEGet(match.getRight(), attribute);
 			switch (kind) {
 				case MOVE:
 					distance += getWeight(attribute) * orderChangeCoef;
@@ -248,7 +251,8 @@ public class EditionDistance implements DistanceFunction {
 				case CHANGE:
 					if (aValue instanceof String && bValue instanceof String) {
 						distance += getWeight(attribute)
-								* new PairCharDistance().distance((String)aValue, (String)bValue);
+								* (1 - DiffUtil.diceCoefficient((String)aValue, (String)bValue))
+								* attributeChangeCoef;
 					} else {
 						distance += getWeight(attribute) * attributeChangeCoef;
 					}
@@ -271,21 +275,6 @@ public class EditionDistance implements DistanceFunction {
 		}
 
 		/**
-		 * Return the weight for the given feature.
-		 * 
-		 * @param attribute
-		 *            any {@link EStructuralFeature}.
-		 * @return the weight for the given feature.
-		 */
-		private int getWeight(EStructuralFeature attribute) {
-			Integer found = weights.get(attribute);
-			if (found == null) {
-				found = Integer.valueOf(1);
-			}
-			return found.intValue();
-		}
-
-		/**
 		 * return the computed distance.
 		 * 
 		 * @return the computed distance.
@@ -294,6 +283,25 @@ public class EditionDistance implements DistanceFunction {
 			return distance;
 		}
 
+	}
+
+	/**
+	 * Return the weight for the given feature.
+	 * 
+	 * @param attribute
+	 *            any {@link EStructuralFeature}.
+	 * @return the weight for the given feature.
+	 */
+	private int getWeight(EStructuralFeature attribute) {
+		Integer found = weights.get(attribute);
+		if (found == null) {
+			if ("name".equals(attribute.getName())) { //$NON-NLS-1$
+				found = Integer.valueOf(3);
+			} else {
+				found = Integer.valueOf(1);
+			}
+		}
+		return found.intValue();
 	}
 
 	/**
@@ -355,13 +363,15 @@ public class EditionDistance implements DistanceFunction {
 			URI bLocation = helper.getURI(b);
 			int changes = 0;
 			if (!aLocation.fragment().equals(bLocation.fragment())) {
-				int dist = new PairCharDistance().distance(aLocation.fragment(), bLocation.fragment());
-				changes += dist * locationChangeCoef * 1;
+				int dist = new URIDistance(fakeComparison).proximity(aLocation.fragment(),
+						bLocation.fragment());
+				changes += dist * locationChangeCoef;
 			}
 			if (changes <= maxDistance) {
 				checkForDifferences(fakeMatch);
 				changes += getCounter().getComputedDistance();
 			}
+			// System.err.println(changes + ":max=>" + maxDistance + ":" + a + ":" + b);
 			return changes;
 
 		}
@@ -404,4 +414,34 @@ public class EditionDistance implements DistanceFunction {
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public int getMaxDistance(EObject eObj) {
+
+		Predicate<EStructuralFeature> featureFilter = new Predicate<EStructuralFeature>() {
+
+			public boolean apply(EStructuralFeature feat) {
+				return !feat.isDerived() && !feat.isTransient() && !toBeIgnored.contains(feat);
+			}
+		};
+		// When can you safely says these are not the same EObjects *at all* ?
+		// lets consider every feature which is set, and add this in the max distance.
+		// and then tweak the max value adding half a location change
+		// thats very empirical... and might be wrong in the end, but it gives pretty good results with
+		// Ecore so I'll try to gather as much as test data I can and add the corresponding test to be able to
+		// assess the quality of further changes.
+		int max = 0;
+		for (EReference feat : Iterables.filter(eObj.eClass().getEAllReferences(), featureFilter)) {
+			if (!feat.isContainer() && eObj.eIsSet(feat)) {
+				max += getWeight(feat) * referenceChangeCoef;
+			}
+		}
+		for (EAttribute feat : Iterables.filter(eObj.eClass().getEAllAttributes(), featureFilter)) {
+			max += getWeight(feat) * attributeChangeCoef;
+		}
+		max = max + locationChangeCoef * 5 - 1;
+		// System.out.println(eObj.eClass().getName() + ":" + eObj + ":" + max);
+		return max;
+	}
 }
