@@ -217,7 +217,8 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 	 * @return the given element id
 	 */
 	private String getID(IntentStructuredElement element) {
-		if (!element.getTitle().getContent().isEmpty()) {
+		if (element.getTitle() != null && element.getTitle().getContent() != null
+				&& !element.getTitle().getContent().isEmpty()) {
 			// TODO improve id computation
 			// TODO manage duplicates titles
 			return ((Text)element.getTitle().getContent().get(0)).getData().replaceAll(" ", "");
