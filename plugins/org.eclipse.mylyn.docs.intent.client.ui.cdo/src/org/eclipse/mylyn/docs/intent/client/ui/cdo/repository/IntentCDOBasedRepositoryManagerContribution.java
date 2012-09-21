@@ -53,7 +53,7 @@ public class IntentCDOBasedRepositoryManagerContribution implements IntentReposi
 				throw new RepositoryConnectionException("Cannot instantiate a repository of type:"
 						+ repositoryType);
 			}
-			CDOConfig config = new CDOConfig("localhost:2036", getRepositoryName(identifier));
+			CDOConfig config = new CDOConfig("localhost:1027", getRepositoryName(identifier));
 			return repositoryCreator.createRepository(config, repositoryStructurer);
 		} catch (CoreException e) {
 			throw new RepositoryConnectionException(e.getMessage());

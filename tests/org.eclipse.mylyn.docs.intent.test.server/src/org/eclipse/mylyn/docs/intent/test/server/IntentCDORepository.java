@@ -43,7 +43,7 @@ public final class IntentCDORepository {
 
 	private static final String SERVER_LOCATION = "localhost";
 
-	private static final String SERVER_PORT_NUMBER = "2036";
+	private static final String SERVER_PORT_NUMBER = "1027";
 
 	/**
 	 * Private constructor.
