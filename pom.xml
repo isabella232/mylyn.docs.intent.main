@@ -94,7 +94,7 @@
     <module>tests/org.eclipse.mylyn.docs.intent.collab.test</module>
     <module>tests/org.eclipse.mylyn.docs.intent.client.ui.test</module>
 	<module>tests/org.eclipse.mylyn.docs.intent.client.compiler.test</module>	
-	<module>test/org.eclipse.mylyn.docs.intent.test.server</module>
+	<module>tests/org.eclipse.mylyn.docs.intent.test.server</module>
 
 	<!-- Intent examples -->
 	<module>examples/org.eclipse.mylyn.docs.intent.example.documents</module>
