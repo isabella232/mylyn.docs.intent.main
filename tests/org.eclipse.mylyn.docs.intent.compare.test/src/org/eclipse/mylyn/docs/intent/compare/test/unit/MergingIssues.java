@@ -106,7 +106,7 @@ public class MergingIssues extends AbstractEMFCompareTest {
 
 	private void compareAndMerge(String testName) throws IOException,
 			ParseException {
-		System.out.println("TESTING: " + testName);
+
 		String repository = getFileAsString(new File("data/" + testName
 				+ "/IntentDocument.text"));
 		String modified = getFileAsString(new File("data/" + testName
@@ -123,6 +123,7 @@ public class MergingIssues extends AbstractEMFCompareTest {
 		}
 
 		if (DEBUG) {
+			System.out.println("TESTING: " + testName);
 			System.out.println("Was:");
 			IntentPrettyPrinter.displayModel(right);
 			System.out.println();
