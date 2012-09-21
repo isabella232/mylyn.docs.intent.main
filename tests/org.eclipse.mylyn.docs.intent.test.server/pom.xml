@@ -18,7 +18,7 @@
   </parent>
 
   <artifactId>org.eclipse.mylyn.docs.intent.test.server</artifactId>
-  <packaging>eclipse-test-plugin</packaging>
+  <packaging>eclipse-plugin</packaging>
 
  <build>   
     <plugins>
