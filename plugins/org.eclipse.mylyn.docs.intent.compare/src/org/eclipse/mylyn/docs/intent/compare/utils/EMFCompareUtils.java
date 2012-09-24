@@ -41,7 +41,11 @@ public final class EMFCompareUtils {
 	}
 
 	/**
-	 * Returns the differences between the left element and the right element.
+	 * Returns the differences between the left element and the right element. Comparison customization:
+	 * <ul>
+	 * <li>Ignore XMI Ids</li>
+	 * <li>Resolve proxies</li>
+	 * </ul>
 	 * 
 	 * @param left
 	 *            the left element
@@ -50,13 +54,26 @@ public final class EMFCompareUtils {
 	 * @return the differences between the left element and the right element
 	 */
 	public static Comparison compare(Notifier left, Notifier right) {
-		EMFCompare compare = EMFCompare.newComparator(new IntentComparisonScope(left, right));
+		IntentComparisonScope scope = new IntentComparisonScope(left, right);
+		EqualityHelper helper = new IntentEqualityHelper();
+
+		Predicate<Object> filter = not(or(instanceOf(CompilationStatus.class),
+				instanceOf(SynchronizerCompilationStatus.class)));
+		scope.setEObjectContentFilter(filter);
+
+		EMFCompare compare = EMFCompare.newComparator(scope);
 		compare.matchByID(UseIdentifiers.NEVER);
+		compare.setEqualityHelper(helper);
 		return compare.compare();
 	}
 
 	/**
-	 * Returns the differences between the left element and the right element.
+	 * Returns the differences between the left element and the right element. Comparison customization:
+	 * <ul>
+	 * <li>Ignore XMI Ids</li>
+	 * <li>Resolve proxies</li>
+	 * <li>Intent specific match engine</li>
+	 * </ul>
 	 * 
 	 * @param left
 	 *            the left element
