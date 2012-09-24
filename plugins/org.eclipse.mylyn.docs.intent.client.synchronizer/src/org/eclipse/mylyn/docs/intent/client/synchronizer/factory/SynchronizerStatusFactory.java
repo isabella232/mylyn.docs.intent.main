@@ -133,6 +133,13 @@ public final class SynchronizerStatusFactory {
 		target = getInstructionFromAffectation(indexEntry, compiledElement, difference.getReference(),
 				difference.getValue());
 
+		if (target instanceof NewObjectValueForStructuralFeature && !target.eContents().isEmpty()) {
+			EObject content = target.eContents().get(0);
+			if (content instanceof InstanciationInstruction) {
+				target = (InstanciationInstruction)content;
+			}
+		}
+
 		// target setting: if affectation not found (or not available), use the parent compiled element
 		if (status != null) {
 			if (target == null) {
