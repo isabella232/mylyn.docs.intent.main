@@ -105,4 +105,15 @@ public class ParsedElementPosition implements Comparable<ParsedElementPosition> 
 		return res;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + "[offset: " + offset + ", declaration length: "
+				+ declarationLength + ", length: " + length + "]";
+	}
+
 }
