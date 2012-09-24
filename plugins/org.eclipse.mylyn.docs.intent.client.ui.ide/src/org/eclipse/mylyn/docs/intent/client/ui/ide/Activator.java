@@ -69,6 +69,7 @@ public class Activator extends AbstractUIPlugin {
 				return Status.OK_STATUS;
 			}
 		};
+		activateListenerJob.setPriority(Job.DECORATE);
 		activateListenerJob.schedule();
 	}
 

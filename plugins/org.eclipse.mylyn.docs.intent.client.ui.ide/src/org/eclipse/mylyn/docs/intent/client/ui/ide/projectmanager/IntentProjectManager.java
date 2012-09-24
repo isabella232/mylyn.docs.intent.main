@@ -98,7 +98,6 @@ public final class IntentProjectManager {
 			IntentLogger.getInstance().log(LogType.LIFECYCLE,
 					"[IntentProjectManager] Connecting to project " + project.getName());
 			if (project.isAccessible() && project.getNature(IntentNature.NATURE_ID) != null) {
-				repository.getOrCreateSession();
 
 				// Clients creation (if needed)
 
