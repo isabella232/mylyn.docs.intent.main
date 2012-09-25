@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.CompareFactory;
 import org.eclipse.emf.compare.Comparison;
@@ -82,22 +83,46 @@ public class EditionDistance implements DistanceFunction {
 	private EqualityHelper helper;
 
 	/**
+	 * The left root.
+	 */
+	private Notifier leftRoot;
+
+	/**
+	 * The right root.
+	 */
+	private Notifier rightRoot;
+
+	/**
 	 * Instanciate a new Edition Distance using the given equality helper.
 	 * 
 	 * @param equalityHelper
 	 *            the equality helper to use.
+	 * @param leftRoot
+	 *            the left root of the comparison
+	 * @param rightRoot
+	 *            the right root of the comparison
 	 */
-	public EditionDistance(EqualityHelper equalityHelper) {
+	// FORK
+	public EditionDistance(EqualityHelper equalityHelper, Notifier leftRoot, Notifier rightRoot) {
 		weights = Maps.newHashMap();
 		this.helper = equalityHelper;
 		this.toBeIgnored = Sets.newLinkedHashSet();
+		this.leftRoot = leftRoot;
+		this.rightRoot = rightRoot;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	// FORK
 	public int distance(EObject a, EObject b, int maxDistance) {
-		return new IntentCountingDiffEngine(this, maxDistance).measureDifferences(a, b);
+		int distance = maxDistance;
+		if (a.equals(leftRoot) && b.equals(rightRoot) || b.equals(leftRoot) && a.equals(rightRoot)) {
+			distance = 0;
+		} else {
+			distance = new IntentCountingDiffEngine(this, maxDistance).measureDifferences(a, b);
+		}
+		return distance;
 	}
 
 	/**
@@ -105,10 +130,14 @@ public class EditionDistance implements DistanceFunction {
 	 * 
 	 * @param helper
 	 *            the equality helper (required to instanciate an EditionDistance).
+	 * @param leftRoot
+	 *            the left root of the comparison
+	 * @param rightRoot
+	 *            the right root of the comparison
 	 * @return a configuration builder.
 	 */
-	public static Builder builder(EqualityHelper helper) {
-		return new Builder(helper);
+	public static Builder builder(EqualityHelper helper, Notifier leftRoot, Notifier rightRoot) {
+		return new Builder(helper, leftRoot, rightRoot);
 	}
 
 	/**
@@ -125,9 +154,14 @@ public class EditionDistance implements DistanceFunction {
 		 * 
 		 * @param toBe
 		 *            the equality helper (required to instanciate an EditionDistance).
+		 * @param leftRoot
+		 *            the left root of the comparison
+		 * @param rightRoot
+		 *            the right root of the comparison
 		 */
-		public Builder(EqualityHelper toBe) {
-			this.toBeBuilt = new EditionDistance(toBe);
+		// FORK
+		public Builder(EqualityHelper toBe, Notifier leftRoot, Notifier rightRoot) {
+			this.toBeBuilt = new EditionDistance(toBe, leftRoot, rightRoot);
 		}
 
 		/**

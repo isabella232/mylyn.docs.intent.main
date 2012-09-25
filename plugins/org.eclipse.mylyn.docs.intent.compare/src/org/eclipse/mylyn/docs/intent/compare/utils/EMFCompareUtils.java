@@ -90,7 +90,8 @@ public final class EMFCompareUtils {
 		scope.setEObjectContentFilter(filter);
 
 		IEObjectMatcher matcher = ProximityEObjectMatcher.builder(
-				org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.builder(helper).build()).build();
+				org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.builder(helper, left, right)
+						.build()).build();
 
 		EMFCompare compare = EMFCompare.newComparator(scope);
 		compare.setEObjectMatcher(matcher);
