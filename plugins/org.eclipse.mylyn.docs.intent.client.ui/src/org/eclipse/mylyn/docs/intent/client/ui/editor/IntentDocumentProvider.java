@@ -345,7 +345,12 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				hasSyntaxErrors = false;
 				this.removeSyntaxErrors();
 
-				localAST = new IntentParser().parse(document.get());
+				String rootCompleteLevel = null;
+				if (documentRoot instanceof IntentStructuredElement) {
+					rootCompleteLevel = ((IntentStructuredElement)documentRoot).getCompleteLevel();
+				}
+
+				localAST = new IntentParser().parse(document.get(), rootCompleteLevel);
 
 				this.associatedEditor.refreshTitle(localAST);
 				final RepositoryAdapter repositoryAdapter = this.listenedElementsHandler

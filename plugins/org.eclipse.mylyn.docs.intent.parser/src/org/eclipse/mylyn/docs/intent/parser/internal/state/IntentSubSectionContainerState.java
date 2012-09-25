@@ -17,8 +17,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.markup.markup.Block;
@@ -55,14 +57,17 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 	 *            the positionManager where to register positions
 	 * @param title
 	 *            the element title
+	 * @param completeLevel
+	 *            the container complete level
 	 * @throws ParseException
 	 *             it the title cannot be parsed
 	 */
 	public IntentSubSectionContainerState(int offset, int declarationLength, IntentGenericState previous,
-			EObject currentElement, IntentPositionManager positionManager, String title)
+			EObject currentElement, IntentPositionManager positionManager, String title, String completeLevel)
 			throws ParseException {
 		super(offset, declarationLength, previous, currentElement, positionManager);
 		setTitle(title);
+		((IntentStructuredElement)this.currentElement).setCompleteLevel(completeLevel);
 	}
 
 	/**
@@ -134,7 +139,32 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 			throws ParseException {
 		IntentSection subSection = IntentDocumentFactory.eINSTANCE.createIntentSection();
 		((IntentSubSectionContainer)currentElement).getIntentContent().add(subSection);
-		return new SSection(offset, declarationLength, this, subSection, positionManager, title);
+		return new SSection(offset, declarationLength, this, subSection, positionManager, title,
+				((IntentStructuredElement)currentElement).getCompleteLevel() + "." + getIndex(subSection));
+	}
+
+	/**
+	 * Returns the index for this element, using its hierarchical level (for example "2.1.4").
+	 * 
+	 * @param element
+	 *            a structured element
+	 * @return the index of this element
+	 */
+	private String getIndex(IntentStructuredElement element) {
+		int positionInContainer = 0;
+		// If the element is contained in a document
+		if (element.eContainer() instanceof IntentDocument) {
+			// We get its position in this document
+			positionInContainer = element.eContainer().eContents().indexOf(element) + 1;
+		} else {
+			// If the element is contained in a SubSectionContainer (i.e. Section or Chapter)
+			if (element.eContainer() instanceof IntentSubSectionContainer) {
+				// we get its position in this container
+				positionInContainer = ((IntentSubSectionContainer)element.eContainer()).getSubSections()
+						.indexOf(element) + 1;
+			}
+		}
+		return Integer.toString(positionInContainer);
 	}
 
 	/**

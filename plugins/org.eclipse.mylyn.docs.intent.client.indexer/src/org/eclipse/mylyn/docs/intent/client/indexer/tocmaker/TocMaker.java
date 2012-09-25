@@ -20,7 +20,6 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
@@ -43,6 +42,7 @@ public class TocMaker {
 	 *            the Intent document
 	 */
 	public void computeIndex(IntentIndex index, IntentDocument document) {
+
 		// Purge Index
 		List<EObject> toRemove = new ArrayList<EObject>();
 		for (Iterator<EObject> iterator = index.eAllContents(); iterator.hasNext();) {
@@ -77,18 +77,19 @@ public class TocMaker {
 		documentIndexEntry.setName(title);
 		documentIndexEntry.setReferencedElement(document);
 		documentIndexEntry.setType(INDEX_ENTRY_TYPE.INTENT_DOCUMENT);
-		int chapterIt = 0;
 
 		// Step 4: for each chapter contained in this document
 		for (IntentChapter chapter : document.getChapters()) {
 			IntentIndexEntry candidateChapterEntry = null;
 			// Step 4.1: we use an existing index entry if any
-			if (documentIndexEntry.getSubEntries().size() > chapterIt) {
-				candidateChapterEntry = documentIndexEntry.getSubEntries().get(chapterIt);
+			for (IntentIndexEntry candidate : documentIndexEntry.getSubEntries()) {
+				if (((IntentStructuredElement)candidate.getReferencedElement()).getCompleteLevel().equals(
+						chapter.getCompleteLevel())) {
+					candidateChapterEntry = candidate;
+				}
 			}
 			// Step 4.2: and compute the entry for this chapter
 			computeEntryForChapter(documentIndexEntry, candidateChapterEntry, chapter);
-			chapterIt++;
 		}
 	}
 
@@ -113,33 +114,29 @@ public class TocMaker {
 		}
 
 		// Step 2: compute the title
-		String chapterIndex = getIndex(chapter);
 		String title = StructuredElementHelper.getTitle(chapter);
 		if ((title == null) || (title.length() < 1)) {
 			title = "Untitled Chapter";
 		}
 
 		// Step 3: setting index entry informations
-		chapterEntry.setName(chapterIndex + " " + title);
+		chapterEntry.setName(chapter.getCompleteLevel() + " " + title);
 		chapterEntry.setReferencedElement(chapter);
 		chapterEntry.setType(INDEX_ENTRY_TYPE.INTENT_CHAPTER);
 
-		// Step 4: update the level of this chapter
-		if (!chapterIndex.equals(chapter.getCompleteLevel())) {
-			chapter.setCompleteLevel(chapterIndex);
-		}
-
-		// Step 5: for each section contained in this chapter
-		int subSectionIt = 0;
+		// Step 4: for each section contained in this chapter
 		for (IntentSection section : chapter.getSubSections()) {
-			// Step 5.1: we use an existing index entry if any
+			// Step 4.1: we use an existing index entry if any
 			IntentIndexEntry candidateSectionEntry = null;
-			if (chapterEntry.getSubEntries().size() > subSectionIt) {
-				candidateSectionEntry = chapterEntry.getSubEntries().get(subSectionIt);
+			for (IntentIndexEntry candidate : chapterEntry.getSubEntries()) {
+				if (((IntentStructuredElement)candidate.getReferencedElement()).getCompleteLevel().equals(
+						section.getCompleteLevel())) {
+					candidateSectionEntry = candidate;
+				}
 			}
-			// Step 5.2: and compute the entry for this section
+
+			// Step 4.2: and compute the entry for this section
 			computeEntryForSection(chapterEntry, candidateSectionEntry, section);
-			subSectionIt++;
 		}
 		return chapterEntry;
 	}
@@ -165,60 +162,32 @@ public class TocMaker {
 		}
 
 		// Step 2: compute the title
-		String sectionIndex = ((IntentStructuredElement)containerIndexEntry.getReferencedElement())
-				.getCompleteLevel() + "." + getIndex(section);
 		String title = StructuredElementHelper.getTitle(section);
 		if ((title == null) || (title.length() < 1)) {
 			title = "Untitled Section";
 		}
 
 		// Step 3: setting index entry informations
-		sectionEntry.setName(sectionIndex + " " + title);
+		sectionEntry.setName(section.getCompleteLevel() + " " + title);
 		sectionEntry.setReferencedElement(section);
 		sectionEntry.setType(INDEX_ENTRY_TYPE.INTENT_SECTION);
 
-		// Step 4: update the level of this chapter
-		if (!sectionIndex.equals(section.getCompleteLevel())) {
-			section.setCompleteLevel(sectionIndex);
-		}
-
-		// Step 5: for each sub-section contained in this section
-		int subSectionIt = 0;
+		// Step 4: for each sub-section contained in this section
 		for (IntentSection subSection : section.getSubSections()) {
-			// Step 5.1: we use an existing index entry if any
+			// Step 4.1: we use an existing index entry if any
 			IntentIndexEntry candidateSubSectionEntry = null;
-			if (sectionEntry.getSubEntries().size() > subSectionIt) {
-				candidateSubSectionEntry = sectionEntry.getSubEntries().get(subSectionIt);
+
+			for (IntentIndexEntry candidate : sectionEntry.getSubEntries()) {
+				if (((IntentStructuredElement)candidate.getReferencedElement()).getCompleteLevel().equals(
+						subSection.getCompleteLevel())) {
+					candidateSubSectionEntry = candidate;
+				}
 			}
-			// Step 5.2: and compute the entry for this sub-section
+
+			// Step 4.2: and compute the entry for this sub-section
 			computeEntryForSection(sectionEntry, candidateSubSectionEntry, subSection);
-			subSectionIt++;
 		}
 		return sectionEntry;
-	}
-
-	/**
-	 * Returns the index for this element, using its hierarchical level (for example "2.1.4").
-	 * 
-	 * @param element
-	 *            a structured element
-	 * @return the index of this element
-	 */
-	private String getIndex(IntentStructuredElement element) {
-		int positionInContainer = 0;
-		// If the element is contained in a document
-		if (element.eContainer() instanceof IntentDocument) {
-			// We get its position in this document
-			positionInContainer = element.eContainer().eContents().indexOf(element) + 1;
-		} else {
-			// If the element is contained in a SubSectionContainer (i.e. Section or Chapter)
-			if (element.eContainer() instanceof IntentSubSectionContainer) {
-				// we get its position in this container
-				positionInContainer = ((IntentSubSectionContainer)element.eContainer()).getSubSections()
-						.indexOf(element) + 1;
-			}
-		}
-		return Integer.toString(positionInContainer);
 	}
 
 }

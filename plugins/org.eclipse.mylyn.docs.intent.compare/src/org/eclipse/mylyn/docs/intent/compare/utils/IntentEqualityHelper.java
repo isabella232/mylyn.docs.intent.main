@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.compare.utils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.utils.EqualityHelper;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 
 /**
  * An {@link EqualityHelper} redefinition used to define accurate URIs.
@@ -45,18 +46,20 @@ public class IntentEqualityHelper extends EqualityHelper {
 	 */
 	private static String computeLevel(EObject object) {
 		String level = null;
-		// TODO FIXME we should use the completeLevel attribute when possible in order to avoid the loading of
-		// all the document
-		EObject container = object.eContainer();
-		if (container != null) {
-			int index = container.eContents().indexOf(object);
-			String containerLevel = computeLevel(container);
-			if (containerLevel != null) {
-				level = containerLevel + "_";
-			} else {
-				level = "";
+		if (object instanceof IntentStructuredElement) {
+			level = ((IntentStructuredElement)object).getCompleteLevel();
+		} else {
+			EObject container = object.eContainer();
+			if (container != null) {
+				int index = container.eContents().indexOf(object);
+				String containerLevel = computeLevel(container);
+				if (containerLevel != null) {
+					level = containerLevel + ".";
+				} else {
+					level = "";
+				}
+				level += index;
 			}
-			level += index;
 		}
 		return level;
 	}
