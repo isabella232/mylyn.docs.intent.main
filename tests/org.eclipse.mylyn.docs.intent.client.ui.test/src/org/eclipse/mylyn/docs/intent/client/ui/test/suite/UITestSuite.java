@@ -29,6 +29,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.CompilerNotifi
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.synchronizer.SynchronizerTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.update.DragAndDropTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.update.QuickFixTest;
 
@@ -83,6 +84,7 @@ public class UITestSuite extends TestCase {
 		basicTestSuite.addTestSuite(RefresherTest.class);
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
 		basicTestSuite.addTestSuite(SimpleOrderTests.class);
+		basicTestSuite.addTestSuite(SynchronizerTest.class);
 		uiTestSuite.addTest(basicTestSuite);
 
 		// Scenario tests

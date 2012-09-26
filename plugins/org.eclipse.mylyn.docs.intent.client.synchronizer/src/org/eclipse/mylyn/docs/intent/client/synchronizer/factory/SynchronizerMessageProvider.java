@@ -76,9 +76,8 @@ public final class SynchronizerMessageProvider {
 	 * @return a message created from the given ReferenceChange element
 	 */
 	private static String createMessageFromContainmentChange(ReferenceChange diff) {
-		String returnedMessage = SYNC_MESSAGES_BEGINNING + SYNC_MESSAGES_WHITESPACE
-				+ diff.getValue().eClass().getName() + SYNC_MESSAGES_WHITESPACE
-				+ SynchonizerEObjectNameGetter.computeObjectName(diff.getValue());
+		String returnedMessage = SYNC_MESSAGES_BEGINNING + diff.getValue().eClass().getName()
+				+ SYNC_MESSAGES_WHITESPACE + SynchonizerEObjectNameGetter.computeObjectName(diff.getValue());
 		switch (diff.getKind().getValue()) {
 			case DifferenceKind.ADD_VALUE:
 				returnedMessage += " is defined in the " + SYNC_MESSAGES_INTERNAL_MODEL
