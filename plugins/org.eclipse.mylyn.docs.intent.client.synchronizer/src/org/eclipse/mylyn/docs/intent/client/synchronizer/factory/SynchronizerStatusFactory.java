@@ -22,8 +22,6 @@ import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
-import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
@@ -69,15 +67,10 @@ public final class SynchronizerStatusFactory {
 	 */
 	public static List<CompilationStatus> createStatusFromDiff(TraceabilityIndexEntry indexEntry,
 			Diff difference) {
-
 		List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
 
 		SynchronizerCompilationStatus status = null;
-
-		if (difference.getKind().equals(DifferenceKind.CHANGE)
-				&& (difference.getMatch().getRight() == null || difference.getMatch().getLeft() == null)) {
-			System.err.println("IGNORING (related to non existing element)" + difference);
-		} else {
+		if (difference.getMatch().getLeft() != null) { // ignoring diffs related to non existing elements
 			if (difference instanceof AttributeChange) {
 				status = createStatusFromAttributeChange(indexEntry, (AttributeChange)difference);
 			} else if (difference instanceof ReferenceChange) {
@@ -91,20 +84,10 @@ public final class SynchronizerStatusFactory {
 					status.setSeverity(CompilationStatusSeverity.WARNING);
 				}
 				status.setType(CompilationMessageType.SYNCHRONIZER_WARNING);
-
 				status.setMessage(SynchronizerMessageProvider.createMessageFromDiff(difference));
 				status.setWorkingCopyResourceURI(indexEntry.getResourceDeclaration().getUri().toString());
 				status.setCompiledResourceURI(indexEntry.getGeneratedResourcePath());
 
-				if (status.getTarget() == null) {
-					// If no instruction has been found, we associated the status with the currently compiled
-					// resource
-					IntentLogger.getInstance().log(
-							LogType.WARNING,
-							"CANNOT FIND ANY INSTRUCTION FOR " + difference.eClass().getName() + ": "
-									+ difference);
-					status.setTarget(indexEntry.getResourceDeclaration());
-				}
 				statusList.add(status);
 			}
 		}
@@ -149,6 +132,7 @@ public final class SynchronizerStatusFactory {
 			}
 			status.setTarget(target);
 		}
+
 		return status;
 	}
 
