@@ -21,9 +21,5 @@
 <unit id="org.eclipse.platform.sdk" version="4.2.0.I20120608-1400"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.2"/>
 </location>
-<location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.compare.feature.group" version="2.0.0.201208310944"/>
-<repository location="https://hudson.eclipse.org/hudson/job/emf-compare-master/lastSuccessfulBuild/artifact/packaging/org.eclipse.emf.compare.update/target/repository/"/>
-</location>
 </locations>
 </target>
