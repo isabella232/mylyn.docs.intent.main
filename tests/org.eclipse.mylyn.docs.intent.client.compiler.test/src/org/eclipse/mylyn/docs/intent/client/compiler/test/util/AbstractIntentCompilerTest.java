@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -171,8 +172,9 @@ public abstract class AbstractIntentCompilerTest implements ILogListener {
 				}
 			} else {
 				Resource expected = resourceSet.getResource(expectedURI, true);
-				Assert.assertTrue("There are differences between expected and actual", EMFCompareUtils
-						.compare(expected, generatedResource).getDifferences().isEmpty());
+				Comparison comparison = EMFCompareUtils.compare(expected, generatedResource);
+				Assert.assertTrue("There are differences between expected and actual", comparison
+						.getDifferences().isEmpty());
 			}
 		}
 
