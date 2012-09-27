@@ -87,14 +87,14 @@ public abstract class AbstractModelingUnitGenerator {
 		contribution.setLineBreak(true);
 		ModelingUnitInstructionReference ref = ModelingUnitFactory.eINSTANCE
 				.createModelingUnitInstructionReference();
-		ref.setReferencedElement(instanciation);
+		ref.setReferencedInstruction(instanciation);
 		if (instanciation.getName() == null) {
 			// if there is no reference available we generate a new one
 			EObject generated = getGeneratedElement(instanciation);
 			instanciation.setName(getReferenceName(generated));
 		}
 		ref.setIntentHref(instanciation.getName());
-		contribution.setReferencedElement(ref);
+		contribution.setContributionReference(ref);
 		return contribution;
 	}
 
@@ -111,7 +111,7 @@ public abstract class AbstractModelingUnitGenerator {
 		instanciation.setName(getReferenceName(root)); // we set the previously generated reference name
 
 		TypeReference typeReference = ModelingUnitFactory.eINSTANCE.createTypeReference();
-		typeReference.setIntentHref(root.eClass().getName());
+		typeReference.setTypeName(root.eClass().getName());
 		typeReference.setResolvedType(root.eClass());
 
 		instanciation.setMetaType(typeReference);
@@ -207,12 +207,13 @@ public abstract class AbstractModelingUnitGenerator {
 				break;
 			case ModelingUnitPackage.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE:
 				if (newValue instanceof EDataType) {
-					InstanciationInstructionReference reference = ModelingUnitFactory.eINSTANCE
+					InstanciationInstructionReference instanciationRef = ModelingUnitFactory.eINSTANCE
 							.createInstanciationInstructionReference();
-					reference.setIntentHref(((EDataType)newValue).getName());
+					instanciationRef.setInstanceName(((EDataType)newValue).getName());
 					((ReferenceValueForStructuralFeature)valueInstruction)
 							.setReferencedMetaType((EDataType)newValue);
-					((ReferenceValueForStructuralFeature)valueInstruction).setReferencedElement(reference);
+					((ReferenceValueForStructuralFeature)valueInstruction)
+							.setInstanciationReference(instanciationRef);
 				} else {
 					InstanciationInstructionReference reference = ModelingUnitFactory.eINSTANCE
 							.createInstanciationInstructionReference();
@@ -223,13 +224,13 @@ public abstract class AbstractModelingUnitGenerator {
 							// if there is no reference available we generate a new one
 							instanciation.setName(getReferenceName(getGeneratedElement(instanciation)));
 						}
-						reference.setIntentHref(instanciation.getName());
+						reference.setInstanceName(instanciation.getName());
 						((ReferenceValueForStructuralFeature)valueInstruction)
-								.setReferencedElement(reference);
+								.setInstanciationReference(reference);
 					} else if (newObjects != null && newObjects.contains(newValue)) {
-						reference.setIntentHref(getReferenceName((EObject)newValue));
+						reference.setInstanceName(getReferenceName((EObject)newValue));
 						((ReferenceValueForStructuralFeature)valueInstruction)
-								.setReferencedElement(reference);
+								.setInstanciationReference(reference);
 					} else {
 						res = false;
 					}

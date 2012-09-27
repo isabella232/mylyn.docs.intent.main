@@ -7,7 +7,7 @@
     </title>
     <intentContent xmi:type="intentDU:DescriptionUnit">
       <instructions xmi:type="intentGU:LabelReferenceInstruction" type="EXPLICIT">
-        <referencedLabel IntentHref="ref"/>
+        <referencedLabel intentHref="ref"/>
       </instructions>
     </intentContent>
   </chapters>

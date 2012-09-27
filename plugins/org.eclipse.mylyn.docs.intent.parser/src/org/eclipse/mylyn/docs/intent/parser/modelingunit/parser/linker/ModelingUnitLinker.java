@@ -15,8 +15,6 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
@@ -95,41 +93,11 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseLabelinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit)
-	 */
-	@Override
-	public Object caseLabelinModelingUnit(LabelinModelingUnit object) {
-		try {
-			LabelinModelingUnitLinker.attachLabelinModelingUnit(object);
-		} catch (ParseException e) {
-			return e;
-		}
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNewObjectValueForStructuralFeature(org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature)
 	 */
 	@Override
 	public Object caseNewObjectValueForStructuralFeature(NewObjectValueForStructuralFeature object) {
 		return doSwitch(object.getValue());
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseIntentSectionReferenceinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit)
-	 */
-	@Override
-	public Object caseIntentSectionReferenceinModelingUnit(IntentSectionReferenceinModelingUnit object) {
-		try {
-			SectionReferenceinModelingUnitLinker.attachSectioninModelingUnit(object);
-		} catch (ParseException e) {
-			return e;
-		}
-		return null;
 	}
 
 	/**
@@ -152,7 +120,7 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	 */
 	@Override
 	public Object caseInstanciationInstructionReference(InstanciationInstructionReference object) {
-		return doSwitch(object.getReferencedElement());
+		return doSwitch(object.getInstanciation());
 	}
 
 }

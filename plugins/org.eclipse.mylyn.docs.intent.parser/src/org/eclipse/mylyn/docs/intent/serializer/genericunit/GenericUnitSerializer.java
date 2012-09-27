@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.serializer.genericunit;
 
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.util.GenericUnitSwitch;
@@ -50,10 +50,10 @@ public class GenericUnitSerializer extends GenericUnitSwitch<String> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.util.GenericUnitSwitch#caseIntentSectionReferenceInstruction(org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction)
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.util.GenericUnitSwitch#caseIntentReferenceInstruction(org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction)
 	 */
 	@Override
-	public String caseIntentSectionReferenceInstruction(IntentSectionReferenceInstruction object) {
+	public String caseIntentReferenceInstruction(IntentReferenceInstruction object) {
 		return LabelOrSectionReferenceSerializer.serialize(object, tabulationPrefix);
 	}
 

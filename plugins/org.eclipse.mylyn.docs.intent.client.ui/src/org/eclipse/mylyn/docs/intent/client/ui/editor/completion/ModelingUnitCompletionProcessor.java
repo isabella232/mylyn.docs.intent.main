@@ -156,8 +156,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 								contributionBeginning))) {
 					String description = "Contribute to the " + instruction.getName() + " ";
 					if (instruction.getMetaType() != null
-							&& instruction.getMetaType().getIntentHref() != null) {
-						description += instruction.getMetaType().getIntentHref();
+							&& instruction.getMetaType().getTypeName() != null) {
+						description += instruction.getMetaType().getTypeName();
 					} else {
 						description += "entity";
 					}

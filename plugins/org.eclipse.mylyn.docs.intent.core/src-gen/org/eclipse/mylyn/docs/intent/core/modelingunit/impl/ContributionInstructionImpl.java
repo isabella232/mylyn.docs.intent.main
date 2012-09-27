@@ -24,7 +24,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ContributionInstructionImpl#getReferencedElement <em>Referenced Element</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ContributionInstructionImpl#getContributionReference <em>Contribution Reference</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ContributionInstructionImpl#getContributions <em>Contributions</em>}</li>
  * </ul>
  * </p>
@@ -56,9 +56,9 @@ public class ContributionInstructionImpl extends ModelingUnitInstructionImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ModelingUnitInstructionReference getReferencedElement() {
+	public ModelingUnitInstructionReference getContributionReference() {
 		return (ModelingUnitInstructionReference)eGet(
-				ModelingUnitPackage.Literals.CONTRIBUTION_INSTRUCTION__REFERENCED_ELEMENT, true);
+				ModelingUnitPackage.Literals.CONTRIBUTION_INSTRUCTION__CONTRIBUTION_REFERENCE, true);
 	}
 
 	/**
@@ -66,8 +66,9 @@ public class ContributionInstructionImpl extends ModelingUnitInstructionImpl imp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReferencedElement(ModelingUnitInstructionReference newReferencedElement) {
-		eSet(ModelingUnitPackage.Literals.CONTRIBUTION_INSTRUCTION__REFERENCED_ELEMENT, newReferencedElement);
+	public void setContributionReference(ModelingUnitInstructionReference newContributionReference) {
+		eSet(ModelingUnitPackage.Literals.CONTRIBUTION_INSTRUCTION__CONTRIBUTION_REFERENCE,
+				newContributionReference);
 	}
 
 	/**

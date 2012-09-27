@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.core.modelingunit;
 
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
+import org.eclipse.emf.cdo.CDOObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,39 +20,67 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getReferencedElement <em>Referenced Element</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getInstanceName <em>Instance Name</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getInstanciation <em>Instanciation</em>}</li>
  * </ul>
  * </p>
  *
  * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#getInstanciationInstructionReference()
  * @model
+ * @extends CDOObject
  * @generated
  */
-public interface InstanciationInstructionReference extends IntentReference {
+public interface InstanciationInstructionReference extends CDOObject {
 	/**
-	 * Returns the value of the '<em><b>Referenced Element</b></em>' reference.
+	 * Returns the value of the '<em><b>Instance Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Referenced Element</em>' reference isn't clear,
+	 * If the meaning of the '<em>Instance Name</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Referenced Element</em>' reference.
-	 * @see #setReferencedElement(InstanciationInstruction)
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#getInstanciationInstructionReference_ReferencedElement()
+	 * @return the value of the '<em>Instance Name</em>' attribute.
+	 * @see #setInstanceName(String)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#getInstanciationInstructionReference_InstanceName()
 	 * @model
 	 * @generated
 	 */
-	InstanciationInstruction getReferencedElement();
+	String getInstanceName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getReferencedElement <em>Referenced Element</em>}' reference.
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getInstanceName <em>Instance Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Referenced Element</em>' reference.
-	 * @see #getReferencedElement()
+	 * @param value the new value of the '<em>Instance Name</em>' attribute.
+	 * @see #getInstanceName()
 	 * @generated
 	 */
-	void setReferencedElement(InstanciationInstruction value);
+	void setInstanceName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Instanciation</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Instanciation</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Instanciation</em>' reference.
+	 * @see #setInstanciation(InstanciationInstruction)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#getInstanciationInstructionReference_Instanciation()
+	 * @model
+	 * @generated
+	 */
+	InstanciationInstruction getInstanciation();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getInstanciation <em>Instanciation</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Instanciation</em>' reference.
+	 * @see #getInstanciation()
+	 * @generated
+	 */
+	void setInstanciation(InstanciationInstruction value);
 
 } // InstanciationInstructionReference

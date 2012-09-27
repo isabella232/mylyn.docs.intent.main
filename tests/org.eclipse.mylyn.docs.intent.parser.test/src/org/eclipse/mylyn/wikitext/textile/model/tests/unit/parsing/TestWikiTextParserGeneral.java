@@ -25,8 +25,8 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 import org.eclipse.mylyn.docs.intent.markup.resource.WikitextResourceFactory;
 import org.eclipse.mylyn.docs.intent.markup.serializer.WikiTextResourceSerializer;
-import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.WikiTextParserTestConfigurator;
+import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.junit.Test;
 
 /**

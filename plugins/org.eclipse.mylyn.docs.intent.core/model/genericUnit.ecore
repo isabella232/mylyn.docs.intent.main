@@ -13,19 +13,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lineBreak" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UnitInstructionReference" eSuperTypes="document.ecore#//IntentReference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedElement" eType="#//UnitInstruction"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="LabelDeclarationReference" eSuperTypes="document.ecore#//IntentReference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedElement" eType="#//LabelDeclaration"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="TypeLabel">
     <eLiterals name="LAZY"/>
     <eLiterals name="EXPLICIT" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IntentSectionReferenceInstruction" eSuperTypes="#//UnitInstruction">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedObject" lowerBound="1"
-        eType="ecore:EClass document.ecore#//IntentSectionOrParagraphReference" containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IntentReferenceInstruction" eSuperTypes="#//UnitInstruction #//IntentReference">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="textToPrint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LabelDeclaration" eSuperTypes="#//UnitInstruction">
@@ -35,9 +27,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//TypeLabel"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="LabelReferenceInstruction" eSuperTypes="#//UnitInstruction">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedLabel" lowerBound="1"
-        eType="#//LabelDeclarationReference" containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LabelReferenceInstruction" eSuperTypes="#//UnitInstruction #//IntentReference">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//TypeLabel"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AdressedAnnotation" eSuperTypes="#//UnitInstruction">
@@ -48,5 +38,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="message" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntentReference" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="intentHref" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedElement" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
 </ecore:EPackage>

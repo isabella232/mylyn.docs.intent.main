@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
@@ -92,7 +92,7 @@ public final class AnnotationDeclarationLinker {
 		isCandidateTargetforAnnotationDeclaration = isCandidateTargetforAnnotationDeclaration
 				&& !(candidate instanceof LabelinModelingUnit);
 		isCandidateTargetforAnnotationDeclaration = isCandidateTargetforAnnotationDeclaration
-				&& !(candidate instanceof IntentSectionReferenceinModelingUnit);
+				&& !(candidate instanceof IntentReferenceinModelingUnit);
 		isCandidateTargetforAnnotationDeclaration = isCandidateTargetforAnnotationDeclaration
 				&& !(candidate instanceof AnnotationDeclaration);
 		return isCandidateTargetforAnnotationDeclaration;

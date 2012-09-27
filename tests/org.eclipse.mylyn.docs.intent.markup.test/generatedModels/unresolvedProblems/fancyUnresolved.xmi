@@ -50,7 +50,7 @@
         <content xmi:type="markup:TableRow">
           <attributes/>
           <content xmi:type="markup:TableCell">
-            <attributes CSSStyle="text-align: top;"/>
+            <attributes CSSStyle="vertical-align: top;"/>
             <content xmi:type="markup:Text" data="top alignment "/>
           </content>
         </content>

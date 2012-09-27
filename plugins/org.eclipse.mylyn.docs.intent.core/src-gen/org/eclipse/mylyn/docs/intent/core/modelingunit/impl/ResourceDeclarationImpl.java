@@ -57,8 +57,8 @@ public class ResourceDeclarationImpl extends ModelingUnitInstructionImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getUri() {
-		return (String)eGet(ModelingUnitPackage.Literals.RESOURCE_DECLARATION__URI, true);
+	public Object getUri() {
+		return (Object)eGet(ModelingUnitPackage.Literals.RESOURCE_DECLARATION__URI, true);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class ResourceDeclarationImpl extends ModelingUnitInstructionImpl impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setUri(String newUri) {
+	public void setUri(Object newUri) {
 		eSet(ModelingUnitPackage.Literals.RESOURCE_DECLARATION__URI, newUri);
 	}
 

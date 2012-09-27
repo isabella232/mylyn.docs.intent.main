@@ -46,6 +46,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParserImpl;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
+import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.junit.After;
 import org.junit.Before;
 
@@ -120,7 +121,8 @@ public abstract class AbstractIntentCompilerTest implements ILogListener {
 	 */
 	private ModelingUnit parse(String testName) {
 		try {
-			EObject res = modelingUnitParser.parseFile(testName);
+			EObject res = modelingUnitParser.parseString(FileToStringConverter.getFileAsString(new File(
+					testName)));
 			if (res instanceof ModelingUnit) {
 				return (ModelingUnit)res;
 			}

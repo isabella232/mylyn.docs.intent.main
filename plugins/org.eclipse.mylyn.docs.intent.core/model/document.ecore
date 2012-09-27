@@ -11,8 +11,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntentStructuredElement" abstract="true"
       eSuperTypes="../../org.eclipse.mylyn.docs.intent.markup/model/markup.ecore#//Section #//IntentGenericElement">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="formattedTitle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        derived="true" iD="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="completeLevel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="IntentSectionVisibility">
@@ -24,15 +22,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="AnnotationMapping" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="#//URI"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IntentReference" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="IntentHref" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IntentSectionReference" eSuperTypes="#//IntentReference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedElement" eType="#//IntentSection"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IntentSectionOrParagraphReference" eSuperTypes="#//IntentReference">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="referencedObject" eType="ecore:EClass ../../org.eclipse.mylyn.docs.intent.markup/model/markup.ecore#//StructureElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IntentDocument" eSuperTypes="#//IntentStructuredElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="chapters" upperBound="-1"

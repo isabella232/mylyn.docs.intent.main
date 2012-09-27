@@ -28,7 +28,7 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  */
 public class DragAndDropTest extends AbstractUpdateTest {
 
-	private static final String INTENT_PROJECT_ARCHIVE = "data/unit/documents/dragdrop/intentProject.zip";
+	private static final String INTENT_PROJECT_ARCHIVE = "data/unit/documents/dragdrop/dragdrop.zip";
 
 	private static final String FINAL_INTENT_DOC = "data/unit/documents/dragdrop/final.intent";
 
@@ -38,7 +38,7 @@ public class DragAndDropTest extends AbstractUpdateTest {
 	 * Constructor.
 	 */
 	public DragAndDropTest() {
-		super(INTENT_PROJECT_ARCHIVE);
+		super(INTENT_PROJECT_ARCHIVE, "dragdrop");
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class DragAndDropTest extends AbstractUpdateTest {
 	public void testDragAndDrop() throws IOException {
 		// add all missing elements at once
 		Resource resource = new ResourceSetImpl().getResource(
-				URI.createURI("platform:/resource/intentProject/test.ecore"), true);
+				URI.createURI("platform:/resource/dragdrop/test.ecore"), true);
 		EObject root = resource.getContents().get(0);
 		new MergeUpdater(repositoryAdapter).create(modelingUnit, root.eContents());
 		document.set(new IntentSerializer().serialize((EObject)document.getAST()));

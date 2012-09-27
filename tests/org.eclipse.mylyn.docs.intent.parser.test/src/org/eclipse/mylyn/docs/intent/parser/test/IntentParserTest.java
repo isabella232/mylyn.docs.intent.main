@@ -19,8 +19,7 @@ import junit.framework.AssertionFailedError;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
-import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
-import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.XMISaver;
+import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 import org.junit.Test;
 
@@ -50,7 +49,7 @@ public class IntentParserTest {
 
 			String section = FileToStringConverter.getFileAsString(file);
 			EObject generated = parser.parse(section);
-			XMISaver.saveASXMI(generated, new File("expectedResults/intentDocuments/intentDocument.xmi"));
+			// XMISaver.saveASXMI(generated, new File("expectedResults/intentDocuments/intentDocument.xmi"));
 			Assert.assertEquals(section, serializer.serialize(generated));
 		} catch (IOException e) {
 			throw new AssertionFailedError(e.getMessage());

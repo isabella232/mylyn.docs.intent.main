@@ -23,7 +23,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructur
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ReferenceValueForStructuralFeatureImpl#getReferencedElement <em>Referenced Element</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ReferenceValueForStructuralFeatureImpl#getInstanciationReference <em>Instanciation Reference</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ReferenceValueForStructuralFeatureImpl#getReferencedMetaType <em>Referenced Meta Type</em>}</li>
  * </ul>
  * </p>
@@ -55,9 +55,10 @@ public class ReferenceValueForStructuralFeatureImpl extends ValueForStructuralFe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public InstanciationInstructionReference getReferencedElement() {
+	public InstanciationInstructionReference getInstanciationReference() {
 		return (InstanciationInstructionReference)eGet(
-				ModelingUnitPackage.Literals.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_ELEMENT, true);
+				ModelingUnitPackage.Literals.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__INSTANCIATION_REFERENCE,
+				true);
 	}
 
 	/**
@@ -65,9 +66,9 @@ public class ReferenceValueForStructuralFeatureImpl extends ValueForStructuralFe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReferencedElement(InstanciationInstructionReference newReferencedElement) {
-		eSet(ModelingUnitPackage.Literals.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_ELEMENT,
-				newReferencedElement);
+	public void setInstanciationReference(InstanciationInstructionReference newInstanciationReference) {
+		eSet(ModelingUnitPackage.Literals.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__INSTANCIATION_REFERENCE,
+				newInstanciationReference);
 	}
 
 	/**

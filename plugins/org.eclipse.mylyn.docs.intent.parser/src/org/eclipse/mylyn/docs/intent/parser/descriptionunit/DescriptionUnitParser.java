@@ -16,13 +16,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitFactory;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionOrParagraphReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitFactory;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.markup.builder.ModelDocumentBuilder;
@@ -245,23 +241,10 @@ public class DescriptionUnitParser {
 		String parsendSentenceWithoutReferenceValue = parsedSentence.substring(offSet - initialOffset);
 		String textToPrint = extractFirstString(parsendSentenceWithoutReferenceValue);
 
-		if (textToPrint != null) {
-			// We consider that it is a SectionReference
-			referenceInstruction = GenericUnitFactory.eINSTANCE.createIntentSectionReferenceInstruction();
-			((IntentSectionReferenceInstruction)referenceInstruction).setTextToPrint(textToPrint);
-			IntentSectionOrParagraphReference reference = IntentDocumentFactory.eINSTANCE
-					.createIntentSectionOrParagraphReference();
-			reference.setIntentHref(referenceValue);
-			((IntentSectionReferenceInstruction)referenceInstruction).setReferencedObject(reference);
-		} else {
-			// We consider that it is a LabelReference
-			referenceInstruction = GenericUnitFactory.eINSTANCE.createLabelReferenceInstruction();
-			((LabelReferenceInstruction)referenceInstruction).setType(TypeLabel.EXPLICIT);
-			LabelDeclarationReference reference = GenericUnitFactory.eINSTANCE
-					.createLabelDeclarationReference();
-			reference.setIntentHref(referenceValue);
-			((LabelReferenceInstruction)referenceInstruction).setReferencedLabel(reference);
-		}
+		// We consider that it is a SectionReference
+		referenceInstruction = GenericUnitFactory.eINSTANCE.createIntentReferenceInstruction();
+		((IntentReferenceInstruction)referenceInstruction).setTextToPrint(textToPrint);
+		((IntentReferenceInstruction)referenceInstruction).setIntentHref(referenceValue);
 
 		if (parsedSentence.length() > (offSet - initialOffset)) {
 			if (parsedSentence.charAt(offSet - initialOffset) == '\n') {

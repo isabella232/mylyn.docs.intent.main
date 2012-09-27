@@ -1,0 +1,581 @@
+Document {
+	Chapter Introduction {
+		EMF Compare provides comparison and merge facility for any kind of EMF Model.
+
+		It includes a *generic comparison engine*, the ability to *export differences in a model patch* and it is 
+		integrated with the Eclipse Team API meaning that it enable collaborative work on models using *CVS*, *SVN*
+		and *GIT*.
+
+		In a nutshell this project provides : a *framework you can easily reuse and extend* to compare 
+		instances of your models and a tool integrated in the Eclipse IDE to see the differences and merge them.
+	}
+	Chapter Architecture {
+		This Chapter provides an overview of EMF Compare Logical Architecture. 
+
+		Please refer to
+		@see "PhysicialArchitecture" for more technical informations.
+
+		Section Comparison process {
+			The comparison process is divided in 2 phases : matching and differencing. The matching phase browses both models trying to figure out which element of model
+			1 corresponds to which element of model 2. The differencing process then browses the result of the matching and creates the corresponding delta. The result of
+			both phases can be serialized as models.
+
+			!images/Process.png!
+			
+		}
+
+		Section Plugins Architecture {
+			Here is the plugin architecture of the EMF Compare component :
+
+			!images/Plugins.png!
+			
+		}
+
+		Section @API@s {
+			The red boxes in the following picture represent the component which were designed for extensibility. On all of these components can be plugged your own engines
+			or behavior.
+
+			!images/compare_general_extensibility.png!
+			
+		}
+	}
+	Chapter Features {
+		All the features provided by EMF Compare are listed here.
+
+		Section Extensible model comparison {
+			With EMF Compare, you can define your own mechanisms for comparing models.
+		}
+
+		Section SVN Integration {
+			EMF Compare provides integration with the SVN tool.
+		}
+
+		Section CVS Integration {
+			EMF Compare provides integration with the CVS tool.
+		}
+
+		Section Git Integration {
+			EMF Compare provides integration with the Git tool.
+		}
+
+		Section Diff Exploration {
+			Exploration of diffs.
+		}
+
+		Section Merge {
+			Merging models.
+			
+			@M
+				Resource productResource {
+					content += emfCompareProduct;
+				}
+			M@
+			
+
+			The emf compare product :
+			
+			@M
+				new Product emfCompareProduct {
+					interactions += new Interaction compareDialog {};
+				}
+			M@
+			
+		}
+
+		Section Using patches for merging models {
+			With EMF Compare, you will soon be able patch differences between two models and apply 
+			them using the standard Eclipse API.
+		}
+	}
+	Chapter Presentation of the Match model {
+		A Match model is used to represent the result of a match operation between two models.
+
+		In associates each element of the left model to an element of the right model (if such element can be found).
+		This model will be used to compute differences between these two models during a Diff operation (please
+		refer to
+		@see "ExplorationOfDiffs" for additional informations).
+
+		Section Match model : main concepts {
+			Let us first present the main concepts used in a Match model.
+
+			Section Architecture of the match package {
+				The Match metamodel can be found at the following location :
+				
+				@M matchResourceDefinition 
+					Resource matchResource {
+						URI = "platform:/resource/org.eclipse.emf.compare.match/model/match.ecore";
+						content += match;
+					}
+				M@
+				
+
+				All concepts are defined in the @match@ EPackage, which is associated to a standard eclipse URI :
+				
+				@M matchPackage_definition 
+					new EPackage match {
+						nsURI = "http://www.eclipse.org/emf/compare/match/1.1";
+						nsPrefix = "match";
+					}
+				M@
+				
+			}
+
+			Section The MatchModel concept {
+				A Match model is used to represent the result of a match operation between two models.
+				
+				@M MatchModelDefinition 
+					match {
+						eClassifiers += new EClass MatchModel {
+							eStructuralFeatures += new EReference {
+								name = "matchedElements";
+								eType = MatchElement;
+								containment = "true";
+								upperBound = "-1";
+								changeable = "true";
+								ordered = "true";
+							};
+							eStructuralFeatures += new EReference {
+								name = "unmatchedElements";
+								eType = UnmatchElement;
+								containment = "true";
+								upperBound = "-1";
+								changeable = "true";
+								ordered = "true";
+							};
+							eStructuralFeatures += new EReference {
+								name = "leftRoots";
+								eType = EObject;
+								upperBound = "-1";
+								changeable = "true";
+								ordered = "true";
+							};
+							eStructuralFeatures += new EReference {
+								name = "rightRoots";
+								eType = EObject;
+								upperBound = "-1";
+								changeable = "true";
+								ordered = "true";
+							};
+							eStructuralFeatures += new EReference {
+								name = "ancestorRoots";
+								eType = EObject;
+								upperBound = "-1";
+								changeable = "true";
+								ordered = "true";
+							};
+						};
+					}
+				M@
+				
+			}
+		}
+
+		Section Other concepts {
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+			Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
+			@label "UnmatchModel" "UnmatchModel definition"
+			nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+			reprehenderit in voluptate _@velit@_ esse cillum dolore eu fugiat
+			@see "UnmatchModel" nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+			sunt in culpa qui officia deserunt mollit anim id est laborum.
+			
+			@M UnmatchModelDefinition 
+				match {
+					eClassifiers += new EClass UnmatchModel {
+						eStructuralFeatures += new EReference {
+							name = "roots";
+							eType = EObject;
+							upperBound = "-1";
+							changeable = "true";
+							ordered = "true";
+						};
+						eStructuralFeatures += new EAttribute {
+							name = "remote";
+							eType = EBoolean;
+							changeable = "true";
+							ordered = "true";
+						};
+						eStructuralFeatures += new EAttribute {
+							name = "side";
+							eType = Side;
+							changeable = "true";
+							ordered = "true";
+						};
+					};
+				}
+			M@
+			
+
+			Section Presentation of the MatchResourceSet class. {
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
+				@label "MatchResourceSet" "MatchResourceSet definition"
+				nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+				reprehenderit in voluptate _@velit@_ esse cillum dolore eu fugiat
+				@see "MatchResourceSet" nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+				sunt in culpa qui officia deserunt mollit anim id est laborum.
+				
+				@M MatchResourceSetDefinition 
+					match {
+						eClassifiers += new EClass MatchResourceSet {
+							eStructuralFeatures += new EReference {
+								name = "matchModels";
+								eType = MatchModel;
+								containment = "true";
+								upperBound = "-1";
+								changeable = "true";
+								ordered = "true";
+							};
+							eStructuralFeatures += new EReference {
+								name = "unmatchedModels";
+								eType = UnmatchModel;
+								containment = "true";
+								upperBound = "-1";
+								changeable = "true";
+								ordered = "true";
+							};
+						};
+					}
+				M@
+				
+			}
+		}
+
+		Section Matching elements of the left model with elements of the right model {
+			Matchin elements.
+
+			Section The MatchElement concept {
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
+				@label "MatchElement" "MatchElement definition"
+				nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+				reprehenderit in voluptate _@velit@_ esse cillum dolore eu fugiat
+				@see "MatchElement" nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+				sunt in culpa qui officia deserunt mollit anim id est laborum.
+				
+				@M MatchElementDefinition 
+					match {
+						eClassifiers += new EClass MatchElement {
+							eStructuralFeatures += new EAttribute {
+								name = "similarity";
+								eType = EDouble;
+								lowerBound = "1";
+								changeable = "true";
+								ordered = "false";
+								unique = "false";
+							};
+							eStructuralFeatures += new EReference {
+								name = "subMatchElements";
+								eType = MatchElement;
+								containment = "true";
+								upperBound = "-1";
+								changeable = "true";
+								ordered = "true";
+							};
+						};
+					}
+				M@
+				
+
+				Section Matching left and right elements {
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+					sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
+					@label "Match2Elements" "Match2Elements definition"
+					nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+					reprehenderit in voluptate _@velit@_ esse cillum dolore eu fugiat
+					@see "Match2Elements" nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum.
+					
+					@M Match2ElementsDefinition 
+						match {
+							eClassifiers += new EClass Match2Elements {
+								eStructuralFeatures += new EReference {
+									name = "leftElement";
+									eType = EObject;
+									lowerBound = "1";
+									changeable = "true";
+									ordered = "false";
+								};
+								eStructuralFeatures += new EReference {
+									name = "rightElement";
+									eType = EObject;
+									lowerBound = "1";
+									changeable = "true";
+									ordered = "false";
+								};
+								eSuperTypes += MatchElement;
+							};
+						}
+					M@
+					
+				}
+
+				Section Three-way match : left, right and common ancestor {
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+					sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
+					@label "Match3Elements" "Match3Elements definition"
+					nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+					reprehenderit in voluptate _@velit@_ esse cillum dolore eu fugiat
+					@see "Match3Elements" nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum.
+					
+					@M Match3ElementsDefinition 
+						match {
+							eClassifiers += new EClass Match3Elements {
+								eStructuralFeatures += new EReference {
+									name = "originElement";
+									eType = EObject;
+									lowerBound = "1";
+									changeable = "true";
+									ordered = "false";
+								};
+								eSuperTypes += Match2Elements;
+							};
+						}
+					M@
+					
+				}
+			}
+
+			Section The UnmatchElement concept {
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, 
+				sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+				Ut enim ad *minim* veniam, quis nostrud exercitation ullamco laboris
+				@label "UnmatchElement" "UnmatchElement definition"
+				nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+				reprehenderit in voluptate _@velit@_ esse cillum dolore eu fugiat
+				@see "UnmatchElement" nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+				sunt in culpa qui officia deserunt mollit anim id est laborum.
+				
+				@M UnmatchElementDefinition 
+					match {
+						eClassifiers += new EClass UnmatchElement {
+							eStructuralFeatures += new EReference {
+								name = "element";
+								eType = EObject;
+								lowerBound = "1";
+								changeable = "true";
+								ordered = "false";
+							};
+							eStructuralFeatures += new EAttribute {
+								name = "conflicting";
+								eType = EBoolean;
+								changeable = "true";
+								ordered = "true";
+							};
+							eStructuralFeatures += new EAttribute {
+								name = "remote";
+								eType = EBoolean;
+								changeable = "true";
+								ordered = "true";
+							};
+							eStructuralFeatures += new EAttribute {
+								name = "side";
+								eType = Side;
+								changeable = "true";
+								ordered = "true";
+							};
+						};
+					}
+				M@
+				
+			}
+
+			Section Differencing the left model from right model when comparaison fails {
+				During the Match process, deleted or added elements are considered as unmatched.
+
+				Two different situations can occur : 
+
+				* an element defined in the left model is not matching any element in the right model (deleted element)
+				* an element defined in the right model is not matching any element in the left model (added element)
+				
+
+				The MatchModel store suchs an element using @UnmatchElement@s (
+				@see "TheUnmatchElementConcept" ). To differenciate
+				added element from deleted element, we define the @EEnum@ *Side* :
+				
+				@M SidedataTypeDefinition 
+					match {
+						eClassifiers += new EEnum Side {
+							serializable = "true";
+							eLiterals += new EEnumLiteral {
+								name = "Left";
+								literal = "Left";
+								value = "0";
+							};
+							eLiterals += new EEnumLiteral {
+								name = "Right";
+								literal = "Right";
+								value = "1";
+							};
+						};
+					}
+				M@
+				
+
+				If the feature @side@ of an UnmatchElement is _Right_, then it must be considered as an added element. 
+				Otherwise, it is a deleted element.
+			}
+		}
+
+		Section Abstractness and other design considerations {
+			In this chapter, we will study the abstractness of each class of the Metamodel.
+
+			We decide to associate the followin abstracness to MatchModel.
+			
+			@M MatchModelAbstracness 
+				MatchModel {
+					abstract = "false";
+				}
+			M@
+			
+
+			We decide to associate the followin abstracness to UnmatchModel.
+			
+			@M UnmatchModelAbstracness 
+				UnmatchModel {
+					abstract = "false";
+				}
+			M@
+			
+
+			We decide to associate the followin abstracness to MatchResourceSet.
+			
+			@M MatchResourceSetAbstracness 
+				MatchResourceSet {
+					abstract = "false";
+				}
+			M@
+			
+
+			We decide to associate the followin abstracness to MatchElement.
+			
+			@M MatchElementAbstracness 
+				MatchElement {
+					abstract = "true";
+				}
+			M@
+			
+
+			We decide to associate the followin abstracness to Match2Elements.
+			
+			@M Match2ElementsAbstracness 
+				Match2Elements {
+					abstract = "false";
+				}
+			M@
+			
+
+			We decide to associate the followin abstracness to Match3Elements.
+			
+			@M Match3ElementsAbstracness 
+				Match3Elements {
+					abstract = "false";
+				}
+			M@
+			
+
+			We decide to associate the followin abstracness to UnmatchElement.
+			
+			@M UnmatchElementAbstracness 
+				UnmatchElement {
+					abstract = "false";
+				}
+			M@
+			
+		}
+	}
+	Chapter Presentation of the Diff model {
+		The diff model presentation.
+
+		Section Architecture of the diff package {
+			All concepts are defined in the @diff@ package, which is associated to a standard eclipse URI :
+			
+			@M diffPackage_definition 
+				Resource diffResource {
+					URI = "platform:/resource/org.eclipse.emf.compare.diff/model/diff.ecore";
+					content += diff;
+				}
+			M@
+			
+			
+			@M
+				new EPackage diff {
+					nsURI = "http://www.eclipse.org/emf/compare/diff/1.1";
+					nsPrefix = "diff";
+				}
+			M@
+			
+		}
+	}
+	Chapter Physical Architecture {
+		EMFCompare is divided in 4 main components : 
+
+		* EMF Compare core
+		** @org.eclipse.emf.compare@ (standalone)
+		* EMF Compare match
+		** @org.eclipse.emf.compare.match@ (standalone)
+		* EMF Compare diff
+		** @org.eclipse.emf.compare.diff@ (standalone)
+		* EMF Compare UI
+		** @org.eclipse.emf.compare.ui@ (depends on the Eclipes environment)
+		
+
+		
+
+		Section EMF Compare core {
+			This plugin defines utility classes and Exceptions.
+		}
+
+		Section EMF Compare match {
+			This plugin defines all the logic allowing to Match two different models.
+
+			For additional details about the Match metamodel, please refer to the chapter entitled
+			@see "PresentationOfTheMatchMetamodel" .
+		}
+
+		Section EMF Compare diff {
+			This plugin defines all the logic allowing to compute differences between two matched models. 
+
+			It also merges the model using the computed differences.
+
+			For additional details about the Match metamodel, please refer to the chapter entitled
+			@see "PresentationOfTheMatchMetamodel" .
+		}
+
+		Section EMF Compare UI {
+			This plugin defines all UI related features of EMF Compare.
+		}
+	}
+	Chapter Test architecture of EMF Compare {
+		The test architecture of EMF Compare
+
+		Section Test projects {
+			The org.eclipse.emf.compare.tests plugin contains all tests relative to EMFCompare features.
+			
+			@M
+				Resource compareTestProjectResource {
+					URI = "retro:/org.eclipse.emf.compare.tests/*patch*";
+					content += emfCompareTestProject;
+				}
+				new Project emfCompareTestProject {
+					id = "org.eclipse.emf.compare.tests";
+				}
+			M@
+			
+		}
+
+		Section Acceptance tests {
+			In this section, we will present all the acceptance tests that have been written in EMF Compare.
+		}
+
+		Section Unit tests {
+			unit test
+		}
+	}
+}

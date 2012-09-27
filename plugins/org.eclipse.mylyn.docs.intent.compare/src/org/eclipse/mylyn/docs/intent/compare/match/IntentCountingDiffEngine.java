@@ -125,8 +125,8 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 			identifierA = ((InstanciationInstruction)a).getName();
 			identifierB = ((InstanciationInstruction)b).getName();
 		} else if (a instanceof ContributionInstruction && b instanceof ContributionInstruction) {
-			identifierA = ((ContributionInstruction)a).getReferencedElement().getIntentHref();
-			identifierB = ((ContributionInstruction)b).getReferencedElement().getIntentHref();
+			identifierA = ((ContributionInstruction)a).getContributionReference().getIntentHref();
+			identifierB = ((ContributionInstruction)b).getContributionReference().getIntentHref();
 		}
 		if (identifierA != null && identifierB != null) {
 			distance = StringDistanceUtils.getStringDistance(identifierA, identifierB);

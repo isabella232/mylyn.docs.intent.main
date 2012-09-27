@@ -26,13 +26,12 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.AdressedAnnotation;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
 import org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
@@ -65,21 +64,7 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass unitInstructionReferenceEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass labelDeclarationReferenceEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass intentSectionReferenceInstructionEClass = null;
+	private EClass intentReferenceInstructionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -101,6 +86,13 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 	 * @generated
 	 */
 	private EClass adressedAnnotationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass intentReferenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -162,15 +154,15 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		MarkupPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		IntentDocumentPackageImpl theIntentDocumentPackage = (IntentDocumentPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) instanceof IntentDocumentPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) : IntentDocumentPackage.eINSTANCE);
 		CompilerPackageImpl theCompilerPackage = (CompilerPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) instanceof CompilerPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) : CompilerPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		DescriptionUnitPackageImpl theDescriptionUnitPackage = (DescriptionUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) instanceof DescriptionUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) : DescriptionUnitPackage.eINSTANCE);
@@ -180,17 +172,17 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 
 		// Create package meta-data objects
 		theGenericUnitPackage.createPackageContents();
-		theIntentIndexerPackage.createPackageContents();
 		theIntentDocumentPackage.createPackageContents();
 		theCompilerPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
 		theModelingUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theGenericUnitPackage.initializePackageContents();
-		theIntentIndexerPackage.initializePackageContents();
 		theIntentDocumentPackage.initializePackageContents();
 		theCompilerPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
 		theModelingUnitPackage.initializePackageContents();
 
@@ -261,8 +253,8 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getUnitInstructionReference() {
-		return unitInstructionReferenceEClass;
+	public EClass getIntentReferenceInstruction() {
+		return intentReferenceInstructionEClass;
 	}
 
 	/**
@@ -270,53 +262,8 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUnitInstructionReference_ReferencedElement() {
-		return (EReference)unitInstructionReferenceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getLabelDeclarationReference() {
-		return labelDeclarationReferenceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getLabelDeclarationReference_ReferencedElement() {
-		return (EReference)labelDeclarationReferenceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getIntentSectionReferenceInstruction() {
-		return intentSectionReferenceInstructionEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getIntentSectionReferenceInstruction_ReferencedObject() {
-		return (EReference)intentSectionReferenceInstructionEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIntentSectionReferenceInstruction_TextToPrint() {
-		return (EAttribute)intentSectionReferenceInstructionEClass.getEStructuralFeatures().get(1);
+	public EAttribute getIntentReferenceInstruction_TextToPrint() {
+		return (EAttribute)intentReferenceInstructionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -369,17 +316,8 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getLabelReferenceInstruction_ReferencedLabel() {
-		return (EReference)labelReferenceInstructionEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getLabelReferenceInstruction_Type() {
-		return (EAttribute)labelReferenceInstructionEClass.getEStructuralFeatures().get(1);
+		return (EAttribute)labelReferenceInstructionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -432,6 +370,33 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIntentReference() {
+		return intentReferenceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIntentReference_IntentHref() {
+		return (EAttribute)intentReferenceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIntentReference_ReferencedElement() {
+		return (EReference)intentReferenceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getTypeLabel() {
 		return typeLabelEEnum;
 	}
@@ -473,17 +438,8 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		createEReference(unitInstructionEClass, UNIT_INSTRUCTION__UNIT);
 		createEAttribute(unitInstructionEClass, UNIT_INSTRUCTION__LINE_BREAK);
 
-		unitInstructionReferenceEClass = createEClass(UNIT_INSTRUCTION_REFERENCE);
-		createEReference(unitInstructionReferenceEClass, UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT);
-
-		labelDeclarationReferenceEClass = createEClass(LABEL_DECLARATION_REFERENCE);
-		createEReference(labelDeclarationReferenceEClass, LABEL_DECLARATION_REFERENCE__REFERENCED_ELEMENT);
-
-		intentSectionReferenceInstructionEClass = createEClass(INTENT_SECTION_REFERENCE_INSTRUCTION);
-		createEReference(intentSectionReferenceInstructionEClass,
-				INTENT_SECTION_REFERENCE_INSTRUCTION__REFERENCED_OBJECT);
-		createEAttribute(intentSectionReferenceInstructionEClass,
-				INTENT_SECTION_REFERENCE_INSTRUCTION__TEXT_TO_PRINT);
+		intentReferenceInstructionEClass = createEClass(INTENT_REFERENCE_INSTRUCTION);
+		createEAttribute(intentReferenceInstructionEClass, INTENT_REFERENCE_INSTRUCTION__TEXT_TO_PRINT);
 
 		labelDeclarationEClass = createEClass(LABEL_DECLARATION);
 		createEAttribute(labelDeclarationEClass, LABEL_DECLARATION__LABEL_VALUE);
@@ -491,7 +447,6 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		createEAttribute(labelDeclarationEClass, LABEL_DECLARATION__TYPE);
 
 		labelReferenceInstructionEClass = createEClass(LABEL_REFERENCE_INSTRUCTION);
-		createEReference(labelReferenceInstructionEClass, LABEL_REFERENCE_INSTRUCTION__REFERENCED_LABEL);
 		createEAttribute(labelReferenceInstructionEClass, LABEL_REFERENCE_INSTRUCTION__TYPE);
 
 		adressedAnnotationEClass = createEClass(ADRESSED_ANNOTATION);
@@ -499,6 +454,10 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		createEAttribute(adressedAnnotationEClass, ADRESSED_ANNOTATION__SOURCE);
 		createEAttribute(adressedAnnotationEClass, ADRESSED_ANNOTATION__MESSAGE);
 		createEAttribute(adressedAnnotationEClass, ADRESSED_ANNOTATION__TYPE);
+
+		intentReferenceEClass = createEClass(INTENT_REFERENCE);
+		createEAttribute(intentReferenceEClass, INTENT_REFERENCE__INTENT_HREF);
+		createEReference(intentReferenceEClass, INTENT_REFERENCE__REFERENCED_ELEMENT);
 
 		// Create enums
 		typeLabelEEnum = createEEnum(TYPE_LABEL);
@@ -539,11 +498,11 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		// Add supertypes to classes
 		genericUnitEClass.getESuperTypes().add(theIntentDocumentPackage.getIntentGenericElement());
 		unitInstructionEClass.getESuperTypes().add(theIntentDocumentPackage.getIntentGenericElement());
-		unitInstructionReferenceEClass.getESuperTypes().add(theIntentDocumentPackage.getIntentReference());
-		labelDeclarationReferenceEClass.getESuperTypes().add(theIntentDocumentPackage.getIntentReference());
-		intentSectionReferenceInstructionEClass.getESuperTypes().add(this.getUnitInstruction());
+		intentReferenceInstructionEClass.getESuperTypes().add(this.getUnitInstruction());
+		intentReferenceInstructionEClass.getESuperTypes().add(this.getIntentReference());
 		labelDeclarationEClass.getESuperTypes().add(this.getUnitInstruction());
 		labelReferenceInstructionEClass.getESuperTypes().add(this.getUnitInstruction());
+		labelReferenceInstructionEClass.getESuperTypes().add(this.getIntentReference());
 		adressedAnnotationEClass.getESuperTypes().add(this.getUnitInstruction());
 
 		// Initialize classes and features; add operations and parameters
@@ -566,30 +525,11 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 				1, UnitInstruction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(unitInstructionReferenceEClass, UnitInstructionReference.class,
-				"UnitInstructionReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getUnitInstructionReference_ReferencedElement(), this.getUnitInstruction(), null,
-				"referencedElement", null, 0, 1, UnitInstructionReference.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
-
-		initEClass(labelDeclarationReferenceEClass, LabelDeclarationReference.class,
-				"LabelDeclarationReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLabelDeclarationReference_ReferencedElement(), this.getLabelDeclaration(), null,
-				"referencedElement", null, 0, 1, LabelDeclarationReference.class, !IS_TRANSIENT,
-				!IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
-				!IS_DERIVED, IS_ORDERED);
-
-		initEClass(intentSectionReferenceInstructionEClass, IntentSectionReferenceInstruction.class,
-				"IntentSectionReferenceInstruction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getIntentSectionReferenceInstruction_ReferencedObject(),
-				theIntentDocumentPackage.getIntentSectionOrParagraphReference(), null, "referencedObject",
-				null, 1, 1, IntentSectionReferenceInstruction.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
-				IS_ORDERED);
-		initEAttribute(getIntentSectionReferenceInstruction_TextToPrint(), ecorePackage.getEString(),
-				"textToPrint", null, 0, 1, IntentSectionReferenceInstruction.class, !IS_TRANSIENT,
-				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(intentReferenceInstructionEClass, IntentReferenceInstruction.class,
+				"IntentReferenceInstruction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIntentReferenceInstruction_TextToPrint(), ecorePackage.getEString(), "textToPrint",
+				null, 0, 1, IntentReferenceInstruction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(labelDeclarationEClass, LabelDeclaration.class, "LabelDeclaration", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -605,10 +545,6 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 
 		initEClass(labelReferenceInstructionEClass, LabelReferenceInstruction.class,
 				"LabelReferenceInstruction", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getLabelReferenceInstruction_ReferencedLabel(), this.getLabelDeclarationReference(),
-				null, "referencedLabel", null, 1, 1, LabelReferenceInstruction.class, !IS_TRANSIENT,
-				!IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE,
-				!IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLabelReferenceInstruction_Type(), this.getTypeLabel(), "type", null, 1, 1,
 				LabelReferenceInstruction.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE,
 				!IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -627,6 +563,16 @@ public class GenericUnitPackageImpl extends EPackageImpl implements GenericUnitP
 		initEAttribute(getAdressedAnnotation_Type(), ecorePackage.getEString(), "type", null, 1, 1,
 				AdressedAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(intentReferenceEClass, IntentReference.class, "IntentReference", IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIntentReference_IntentHref(), ecorePackage.getEString(), "intentHref", null, 0, 1,
+				IntentReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIntentReference_ReferencedElement(), ecorePackage.getEObject(), null,
+				"referencedElement", null, 0, 1, IntentReference.class, !IS_TRANSIENT, !IS_VOLATILE,
+				IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
+				IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(typeLabelEEnum, TypeLabel.class, "TypeLabel");

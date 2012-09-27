@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils;
+package org.eclipse.mylyn.docs.intent.parser.test.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

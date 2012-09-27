@@ -1,0 +1,22 @@
+Document {
+	Chapter QuickFixes {
+		Tests the creation of modeling units by application of quick fixes.
+
+		Section Modeling Unit {
+			This section contains the main modeling unit.
+			
+			@M
+				Resource testResource {
+					URI = "platform:/resource/dragdrop/test.ecore";
+					content += testPackage;
+				}
+				new EPackage testPackage {
+					name = "testPackage";
+					nsURI = "testPackageURI";
+					nsPrefix = "testPackagePrefix";
+				}
+			M@
+			
+		}
+	}
+}

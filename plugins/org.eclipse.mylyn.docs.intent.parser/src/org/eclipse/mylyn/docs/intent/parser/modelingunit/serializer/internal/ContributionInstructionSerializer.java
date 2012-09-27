@@ -43,8 +43,8 @@ public final class ContributionInstructionSerializer {
 		int initialOffset = dispatcher.getCurrentOffset();
 
 		String renderedForm = "";
-		if (contributionInstruction.getReferencedElement() != null) {
-			renderedForm += dispatcher.doSwitch(contributionInstruction.getReferencedElement());
+		if (contributionInstruction.getContributionReference() != null) {
+			renderedForm += dispatcher.doSwitch(contributionInstruction.getContributionReference());
 		}
 		int declarationLength = renderedForm.length();
 		renderedForm += ModelingUnitSerializer.WHITESPACE + "{" + ModelingUnitSerializer.LINE_BREAK;

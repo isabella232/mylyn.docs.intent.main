@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.core.modelingunit;
 
 import org.eclipse.emf.common.util.EMap;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,7 +30,7 @@ import org.eclipse.emf.common.util.EMap;
  * @model
  * @generated
  */
-public interface AnnotationDeclaration extends ModelingUnitInstruction, ModelingUnitInstructionReference {
+public interface AnnotationDeclaration extends ModelingUnitInstruction, IntentReference {
 	/**
 	 * Returns the value of the '<em><b>Annotation ID</b></em>' attribute.
 	 * <!-- begin-user-doc -->

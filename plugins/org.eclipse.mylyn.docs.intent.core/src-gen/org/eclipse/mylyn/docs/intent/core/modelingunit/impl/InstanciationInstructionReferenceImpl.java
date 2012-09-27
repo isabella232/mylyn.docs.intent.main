@@ -11,7 +11,7 @@
 package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
@@ -23,13 +23,14 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.InstanciationInstructionReferenceImpl#getReferencedElement <em>Referenced Element</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.InstanciationInstructionReferenceImpl#getInstanceName <em>Instance Name</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.InstanciationInstructionReferenceImpl#getInstanciation <em>Instanciation</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class InstanciationInstructionReferenceImpl extends IntentReferenceImpl implements InstanciationInstructionReference {
+public class InstanciationInstructionReferenceImpl extends CDOObjectImpl implements InstanciationInstructionReference {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -54,9 +55,9 @@ public class InstanciationInstructionReferenceImpl extends IntentReferenceImpl i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public InstanciationInstruction getReferencedElement() {
-		return (InstanciationInstruction)eGet(
-				ModelingUnitPackage.Literals.INSTANCIATION_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT, true);
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -64,9 +65,38 @@ public class InstanciationInstructionReferenceImpl extends IntentReferenceImpl i
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReferencedElement(InstanciationInstruction newReferencedElement) {
-		eSet(ModelingUnitPackage.Literals.INSTANCIATION_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT,
-				newReferencedElement);
+	public String getInstanceName() {
+		return (String)eGet(ModelingUnitPackage.Literals.INSTANCIATION_INSTRUCTION_REFERENCE__INSTANCE_NAME,
+				true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInstanceName(String newInstanceName) {
+		eSet(ModelingUnitPackage.Literals.INSTANCIATION_INSTRUCTION_REFERENCE__INSTANCE_NAME, newInstanceName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InstanciationInstruction getInstanciation() {
+		return (InstanciationInstruction)eGet(
+				ModelingUnitPackage.Literals.INSTANCIATION_INSTRUCTION_REFERENCE__INSTANCIATION, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setInstanciation(InstanciationInstruction newInstanciation) {
+		eSet(ModelingUnitPackage.Literals.INSTANCIATION_INSTRUCTION_REFERENCE__INSTANCIATION,
+				newInstanciation);
 	}
 
 } //InstanciationInstructionReferenceImpl

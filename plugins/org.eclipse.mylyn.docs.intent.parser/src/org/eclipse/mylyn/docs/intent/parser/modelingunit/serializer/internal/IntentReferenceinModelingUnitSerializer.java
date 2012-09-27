@@ -10,50 +10,48 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
- * Returns the serialized form of the given ModelingUnit SectionReferenceinModelingUnit element.
+ * Returns the serialized form of the given ModelingUnit ReferenceinModelingUnit element.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public final class IntentSectionReferenceinModelingUnitSerializer {
+public final class IntentReferenceinModelingUnitSerializer {
 
 	/**
-	 * SectionReferenceinModelingUnitSerializer constructor.
+	 * ReferenceinModelingUnitSerializer constructor.
 	 */
-	private IntentSectionReferenceinModelingUnitSerializer() {
+	private IntentReferenceinModelingUnitSerializer() {
 
 	}
 
 	/**
-	 * Return the textual form of the given ModelingUnit SectionReferenceinModelingUnit.
+	 * Return the textual form of the given ModelingUnit ReferenceinModelingUnit.
 	 * 
-	 * @param sectionReferenceinModelingUnit
+	 * @param ref
 	 *            the element to serialize
 	 * @param modelingUnitElementDispatcher
 	 *            the modelingUnitElementDispatcher
-	 * @return the textual form of the given ModelingUnit SectionReferenceinModelingUnit.
+	 * @return the textual form of the given ModelingUnit ReferenceinModelingUnit.
 	 */
-	public static String render(IntentSectionReferenceinModelingUnit sectionReferenceinModelingUnit,
+	public static String render(IntentReferenceinModelingUnit ref,
 			ModelingUnitElementDispatcher modelingUnitElementDispatcher) {
 		String renderedForm = "@see" + ModelingUnitSerializer.WHITESPACE;
-		renderedForm += sectionReferenceinModelingUnit.getReferencedObject().getIntentHref();
+		renderedForm += ModelingUnitSerializer.QUOTE + ref.getIntentHref() + ModelingUnitSerializer.QUOTE;
 
-		if (sectionReferenceinModelingUnit.getTextToPrint() != null
-				&& sectionReferenceinModelingUnit.getTextToPrint().length() > 0) {
-			renderedForm += ModelingUnitSerializer.WHITESPACE
-					+ sectionReferenceinModelingUnit.getTextToPrint();
+		if (ref.getTextToPrint() != null && ref.getTextToPrint().length() > 0) {
+			renderedForm += ModelingUnitSerializer.WHITESPACE + ModelingUnitSerializer.QUOTE
+					+ ref.getTextToPrint() + ModelingUnitSerializer.QUOTE;
 		}
 
-		if (sectionReferenceinModelingUnit.isLineBreak()) {
+		if (ref.isLineBreak()) {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		modelingUnitElementDispatcher.getPositionManager().setPositionForInstruction(
-				sectionReferenceinModelingUnit, modelingUnitElementDispatcher.getCurrentOffset(),
-				renderedForm.length());
+		modelingUnitElementDispatcher.getPositionManager().setPositionForInstruction(ref,
+				modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length());
 		modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
 				+ renderedForm.length());
 		return renderedForm;

@@ -11,7 +11,7 @@
 package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference;
@@ -23,14 +23,15 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ResourceReferenceImpl#getReferencedElement <em>Referenced Element</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ResourceReferenceImpl#getResourceName <em>Resource Name</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ResourceReferenceImpl#getDeclaration <em>Declaration</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ResourceReferenceImpl#isLineBreak <em>Line Break</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ResourceReferenceImpl extends IntentReferenceImpl implements ResourceReference {
+public class ResourceReferenceImpl extends CDOObjectImpl implements ResourceReference {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -55,9 +56,9 @@ public class ResourceReferenceImpl extends IntentReferenceImpl implements Resour
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ResourceDeclaration getReferencedElement() {
-		return (ResourceDeclaration)eGet(ModelingUnitPackage.Literals.RESOURCE_REFERENCE__REFERENCED_ELEMENT,
-				true);
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -65,8 +66,35 @@ public class ResourceReferenceImpl extends IntentReferenceImpl implements Resour
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReferencedElement(ResourceDeclaration newReferencedElement) {
-		eSet(ModelingUnitPackage.Literals.RESOURCE_REFERENCE__REFERENCED_ELEMENT, newReferencedElement);
+	public String getResourceName() {
+		return (String)eGet(ModelingUnitPackage.Literals.RESOURCE_REFERENCE__RESOURCE_NAME, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setResourceName(String newResourceName) {
+		eSet(ModelingUnitPackage.Literals.RESOURCE_REFERENCE__RESOURCE_NAME, newResourceName);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ResourceDeclaration getDeclaration() {
+		return (ResourceDeclaration)eGet(ModelingUnitPackage.Literals.RESOURCE_REFERENCE__DECLARATION, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDeclaration(ResourceDeclaration newDeclaration) {
+		eSet(ModelingUnitPackage.Literals.RESOURCE_REFERENCE__DECLARATION, newDeclaration);
 	}
 
 	/**

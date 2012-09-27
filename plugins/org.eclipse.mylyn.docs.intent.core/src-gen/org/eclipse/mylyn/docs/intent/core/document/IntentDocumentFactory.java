@@ -40,24 +40,6 @@ public interface IntentDocumentFactory extends EFactory {
 	IntentGenericElement createIntentGenericElement();
 
 	/**
-	 * Returns a new object of class '<em>Intent Section Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Intent Section Reference</em>'.
-	 * @generated
-	 */
-	IntentSectionReference createIntentSectionReference();
-
-	/**
-	 * Returns a new object of class '<em>Intent Section Or Paragraph Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Intent Section Or Paragraph Reference</em>'.
-	 * @generated
-	 */
-	IntentSectionOrParagraphReference createIntentSectionOrParagraphReference();
-
-	/**
 	 * Returns a new object of class '<em>Intent Document</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

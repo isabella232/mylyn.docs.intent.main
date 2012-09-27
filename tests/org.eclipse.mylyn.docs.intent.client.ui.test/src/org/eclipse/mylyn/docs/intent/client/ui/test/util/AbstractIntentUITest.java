@@ -33,10 +33,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
@@ -53,7 +50,9 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.FileToStringConverter;
+import org.eclipse.mylyn.docs.intent.parser.IntentParser;
+import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
+import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -300,8 +299,33 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		waitForAllOperationsInUIThread();
 	}
 
+	// /**
+	// * Loads the {@link IntentStructuredElement} located at the given path. If it contains an
+	// IntentDocument,
+	// * also updates the intentDocument field.
+	// *
+	// * @param intentDocumentModelPath
+	// * the path of the Intent document model (from
+	// * org.eclipse.mylyn.docs.intent.client.ui.test/data)
+	// * @return the loaded {@link IntentStructuredElement}
+	// */
+	// protected IntentStructuredElement loadIntentDocumentFromTests(String intentDocumentModelPath) {
+	// ResourceSet rs = new ResourceSetImpl();
+	// URI documentURI = URI.createURI("platform:/plugin/org.eclipse.mylyn.docs.intent.client.ui.test/data/"
+	// + intentDocumentModelPath);
+	// Resource documentResource = rs.getResource(documentURI, true);
+	// if (documentResource != null && documentResource.getContents().iterator().hasNext()
+	// && documentResource.getContents().iterator().next() instanceof IntentStructuredElement) {
+	// if (documentResource.getContents().iterator().next() instanceof IntentDocument) {
+	// intentDocument = (IntentDocument)documentResource.getContents().iterator().next();
+	// }
+	// return (IntentStructuredElement)documentResource.getContents().iterator().next();
+	// }
+	// throw new AssertionFailedError("Could not load Intent model at " + intentDocumentModelPath);
+	// }
+
 	/**
-	 * Loads the {@link IntentStructuredElement} located at the given path. If it contains an IntentDocument,
+	 * Parses the {@link IntentStructuredElement} located at the given path. If it contains an IntentDocument,
 	 * also updates the intentDocument field.
 	 * 
 	 * @param intentDocumentModelPath
@@ -309,19 +333,20 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 *            org.eclipse.mylyn.docs.intent.client.ui.test/data)
 	 * @return the loaded {@link IntentStructuredElement}
 	 */
-	protected IntentStructuredElement loadIntentDocumentFromTests(String intentDocumentModelPath) {
-		ResourceSet rs = new ResourceSetImpl();
-		URI documentURI = URI.createURI("platform:/plugin/org.eclipse.mylyn.docs.intent.client.ui.test/data/"
-				+ intentDocumentModelPath);
-		Resource documentResource = rs.getResource(documentURI, true);
-		if (documentResource != null && documentResource.getContents().iterator().hasNext()
-				&& documentResource.getContents().iterator().next() instanceof IntentStructuredElement) {
-			if (documentResource.getContents().iterator().next() instanceof IntentDocument) {
-				intentDocument = (IntentDocument)documentResource.getContents().iterator().next();
-			}
-			return (IntentStructuredElement)documentResource.getContents().iterator().next();
+	protected IntentDocument parseIntentDocumentFromTests(String intentDocumentModelPath) {
+		EObject res = null;
+		try {
+			res = new IntentParser().parse(FileToStringConverter.getFileAsString(new File(
+					intentDocumentModelPath)));
+		} catch (ParseException e) {
+			fail(e.getMessage());
+		} catch (IOException e) {
+			fail(e.getMessage());
 		}
-		throw new AssertionFailedError("Could not load Intent model at " + intentDocumentModelPath);
+		if (res instanceof IntentDocument) {
+			intentDocument = (IntentDocument)res;
+		}
+		return intentDocument;
 	}
 
 	/**

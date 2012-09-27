@@ -16,15 +16,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.mylyn.docs.intent.core.genericunit.*;
 import org.eclipse.mylyn.docs.intent.core.genericunit.AdressedAnnotation;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -70,12 +69,8 @@ public class GenericUnitFactoryImpl extends EFactoryImpl implements GenericUnitF
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case GenericUnitPackage.UNIT_INSTRUCTION_REFERENCE:
-				return (EObject)createUnitInstructionReference();
-			case GenericUnitPackage.LABEL_DECLARATION_REFERENCE:
-				return (EObject)createLabelDeclarationReference();
-			case GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION:
-				return (EObject)createIntentSectionReferenceInstruction();
+			case GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION:
+				return (EObject)createIntentReferenceInstruction();
 			case GenericUnitPackage.LABEL_DECLARATION:
 				return (EObject)createLabelDeclaration();
 			case GenericUnitPackage.LABEL_REFERENCE_INSTRUCTION:
@@ -125,29 +120,9 @@ public class GenericUnitFactoryImpl extends EFactoryImpl implements GenericUnitF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UnitInstructionReference createUnitInstructionReference() {
-		UnitInstructionReferenceImpl unitInstructionReference = new UnitInstructionReferenceImpl();
-		return unitInstructionReference;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public LabelDeclarationReference createLabelDeclarationReference() {
-		LabelDeclarationReferenceImpl labelDeclarationReference = new LabelDeclarationReferenceImpl();
-		return labelDeclarationReference;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IntentSectionReferenceInstruction createIntentSectionReferenceInstruction() {
-		IntentSectionReferenceInstructionImpl intentSectionReferenceInstruction = new IntentSectionReferenceInstructionImpl();
-		return intentSectionReferenceInstruction;
+	public IntentReferenceInstruction createIntentReferenceInstruction() {
+		IntentReferenceInstructionImpl intentReferenceInstruction = new IntentReferenceInstructionImpl();
+		return intentReferenceInstruction;
 	}
 
 	/**

@@ -1,0 +1,31 @@
+Document {
+	Chapter QuickFixes {
+		Tests the creation of modeling units by application of quick fixes.
+
+		Section Modeling Unit {
+			This section contains the main modeling unit.
+			
+			@M
+				Resource testResource {
+					URI = "platform:/resource/quickfixes/test.ecore";
+					content += testPackage;
+					content += toDelete;
+				}
+				new EPackage testPackage {
+					name = "testPackage";
+					nsURI = "testPackageURI";
+					nsPrefix = "testPackagePrefix";
+					eClassifiers += new EClass {
+						name = "E";
+					};
+				}
+				new EPackage toDelete {
+					name = "toDelete";
+					nsURI = "toDelete";
+					nsPrefix = "toDelete";
+				}
+			M@
+			
+		}
+	}
+}

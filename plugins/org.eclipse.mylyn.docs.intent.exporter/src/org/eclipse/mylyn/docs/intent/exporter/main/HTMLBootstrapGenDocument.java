@@ -186,9 +186,9 @@ public class HTMLBootstrapGenDocument extends AbstractAcceleoGenerator {
 	 * Launches the generation described by this instance.
 	 * 
 	 * @param repositoryAdapter
-	 * @param basicMonitor
+	 * @param monitor
 	 *            This will be used to display progress information to the user.
-	 * @param intentProjectName
+	 * @param projectName
 	 *            the expected intent project name
 	 * @throws IOException
 	 *             This will be thrown if any of the output files cannot be saved to disk.

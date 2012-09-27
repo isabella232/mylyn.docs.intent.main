@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.markup.markup.impl;
 
-import static org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage.CONTAINER;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
@@ -50,6 +48,8 @@ import org.eclipse.mylyn.docs.intent.markup.markup.TableRow;
 import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 import org.eclipse.mylyn.docs.intent.markup.markup.Tip;
 import org.eclipse.mylyn.docs.intent.markup.markup.Warning;
+
+import static org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage.CONTAINER;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!-- end-user-doc -->

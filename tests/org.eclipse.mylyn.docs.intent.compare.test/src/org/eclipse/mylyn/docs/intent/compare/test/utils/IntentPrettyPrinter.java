@@ -499,12 +499,6 @@ public final class IntentPrettyPrinter {
 		}
 		if (element instanceof Text) {
 			res = "\"" + ((Text) element).getData() + "\"";
-		} else if (element instanceof IntentStructuredElement) {
-			String title = ((IntentStructuredElement) element)
-					.getFormattedTitle();
-			if (title != null) {
-				res += "\"" + title + "\"";
-			}
 		} else if (element instanceof IntentDocument
 				|| element instanceof Annotations) {
 			res = null;

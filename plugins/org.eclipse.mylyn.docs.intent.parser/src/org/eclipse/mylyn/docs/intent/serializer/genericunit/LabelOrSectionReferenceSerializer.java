@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.serializer.genericunit;
 
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
@@ -39,13 +39,12 @@ public final class LabelOrSectionReferenceSerializer {
 	 * @return the textual form of the given LabelOrSectionReferenceSerializer.
 	 */
 	public static String serialize(UnitInstruction labelOrReferenceDeclaration, String tabulationPrefix) {
-
 		String renderedForm = tabulationPrefix + IntentKeyWords.INTENT_FCT_REFERENCE
 				+ IntentKeyWords.INTENT_WHITESPACE;
 
-		if (labelOrReferenceDeclaration instanceof IntentSectionReferenceInstruction) {
-			IntentSectionReferenceInstruction ref = (IntentSectionReferenceInstruction)labelOrReferenceDeclaration;
-			renderedForm += '"' + ref.getReferencedObject().getIntentHref() + '"';
+		if (labelOrReferenceDeclaration instanceof IntentReferenceInstruction) {
+			IntentReferenceInstruction ref = (IntentReferenceInstruction)labelOrReferenceDeclaration;
+			renderedForm += '"' + ref.getIntentHref() + '"';
 			if (ref.getTextToPrint() != null) {
 				renderedForm += IntentKeyWords.INTENT_WHITESPACE + '"' + ref.getTextToPrint() + '"';
 			}
@@ -53,7 +52,7 @@ public final class LabelOrSectionReferenceSerializer {
 		}
 		if (labelOrReferenceDeclaration instanceof LabelReferenceInstruction) {
 			LabelReferenceInstruction ref = (LabelReferenceInstruction)labelOrReferenceDeclaration;
-			renderedForm += '"' + ref.getReferencedLabel().getIntentHref() + '"';
+			renderedForm += '"' + ref.getIntentHref() + '"';
 		}
 
 		if (labelOrReferenceDeclaration.isLineBreak()) {

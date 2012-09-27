@@ -21,6 +21,10 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public final class ModelingUnitSerializer {
+	/**
+	 * Define the symbol for quote, used by all elements.
+	 */
+	public static final String QUOTE = "\"";
 
 	/**
 	 * Define the symbol for lineBreak, used by all elements.

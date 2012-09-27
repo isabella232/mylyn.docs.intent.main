@@ -18,12 +18,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.*;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
@@ -87,14 +88,14 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 				return (EObject)createModelingUnit();
 			case ModelingUnitPackage.RESOURCE_REFERENCE:
 				return (EObject)createResourceReference();
-			case ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE:
-				return (EObject)createModelingUnitInstructionReference();
 			case ModelingUnitPackage.INSTANCIATION_INSTRUCTION_REFERENCE:
 				return (EObject)createInstanciationInstructionReference();
+			case ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE:
+				return (EObject)createModelingUnitInstructionReference();
 			case ModelingUnitPackage.RESOURCE_DECLARATION:
 				return (EObject)createResourceDeclaration();
-			case ModelingUnitPackage.INTENT_SECTION_REFERENCEIN_MODELING_UNIT:
-				return (EObject)createIntentSectionReferenceinModelingUnit();
+			case ModelingUnitPackage.INTENT_REFERENCEIN_MODELING_UNIT:
+				return (EObject)createIntentReferenceinModelingUnit();
 			case ModelingUnitPackage.LABELIN_MODELING_UNIT:
 				return (EObject)createLabelinModelingUnit();
 			case ModelingUnitPackage.ANNOTATION_DECLARATION:
@@ -216,9 +217,9 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntentSectionReferenceinModelingUnit createIntentSectionReferenceinModelingUnit() {
-		IntentSectionReferenceinModelingUnitImpl intentSectionReferenceinModelingUnit = new IntentSectionReferenceinModelingUnitImpl();
-		return intentSectionReferenceinModelingUnit;
+	public IntentReferenceinModelingUnit createIntentReferenceinModelingUnit() {
+		IntentReferenceinModelingUnitImpl intentReferenceinModelingUnit = new IntentReferenceinModelingUnitImpl();
+		return intentReferenceinModelingUnit;
 	}
 
 	/**

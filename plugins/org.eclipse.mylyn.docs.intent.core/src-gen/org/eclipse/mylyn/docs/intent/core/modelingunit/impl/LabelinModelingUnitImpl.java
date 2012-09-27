@@ -11,12 +11,12 @@
 package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
 import org.eclipse.mylyn.docs.intent.core.genericunit.impl.LabelDeclarationImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 
 /**
@@ -59,7 +59,7 @@ public class LabelinModelingUnitImpl extends LabelDeclarationImpl implements Lab
 	 * @generated
 	 */
 	public String getIntentHref() {
-		return (String)eGet(IntentDocumentPackage.Literals.INTENT_REFERENCE__INTENT_HREF, true);
+		return (String)eGet(GenericUnitPackage.Literals.INTENT_REFERENCE__INTENT_HREF, true);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class LabelinModelingUnitImpl extends LabelDeclarationImpl implements Lab
 	 * @generated
 	 */
 	public void setIntentHref(String newIntentHref) {
-		eSet(IntentDocumentPackage.Literals.INTENT_REFERENCE__INTENT_HREF, newIntentHref);
+		eSet(GenericUnitPackage.Literals.INTENT_REFERENCE__INTENT_HREF, newIntentHref);
 	}
 
 	/**
@@ -76,9 +76,8 @@ public class LabelinModelingUnitImpl extends LabelDeclarationImpl implements Lab
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ModelingUnitInstruction getReferencedElement() {
-		return (ModelingUnitInstruction)eGet(
-				ModelingUnitPackage.Literals.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT, true);
+	public EObject getReferencedElement() {
+		return (EObject)eGet(GenericUnitPackage.Literals.INTENT_REFERENCE__REFERENCED_ELEMENT, true);
 	}
 
 	/**
@@ -86,9 +85,8 @@ public class LabelinModelingUnitImpl extends LabelDeclarationImpl implements Lab
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReferencedElement(ModelingUnitInstruction newReferencedElement) {
-		eSet(ModelingUnitPackage.Literals.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT,
-				newReferencedElement);
+	public void setReferencedElement(EObject newReferencedElement) {
+		eSet(GenericUnitPackage.Literals.INTENT_REFERENCE__REFERENCED_ELEMENT, newReferencedElement);
 	}
 
 	/**
@@ -107,15 +105,9 @@ public class LabelinModelingUnitImpl extends LabelDeclarationImpl implements Lab
 		if (baseClass == IntentReference.class) {
 			switch (derivedFeatureID) {
 				case ModelingUnitPackage.LABELIN_MODELING_UNIT__INTENT_HREF:
-					return IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF;
-				default:
-					return -1;
-			}
-		}
-		if (baseClass == ModelingUnitInstructionReference.class) {
-			switch (derivedFeatureID) {
+					return GenericUnitPackage.INTENT_REFERENCE__INTENT_HREF;
 				case ModelingUnitPackage.LABELIN_MODELING_UNIT__REFERENCED_ELEMENT:
-					return ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT;
+					return GenericUnitPackage.INTENT_REFERENCE__REFERENCED_ELEMENT;
 				default:
 					return -1;
 			}
@@ -138,15 +130,9 @@ public class LabelinModelingUnitImpl extends LabelDeclarationImpl implements Lab
 		}
 		if (baseClass == IntentReference.class) {
 			switch (baseFeatureID) {
-				case IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF:
+				case GenericUnitPackage.INTENT_REFERENCE__INTENT_HREF:
 					return ModelingUnitPackage.LABELIN_MODELING_UNIT__INTENT_HREF;
-				default:
-					return -1;
-			}
-		}
-		if (baseClass == ModelingUnitInstructionReference.class) {
-			switch (baseFeatureID) {
-				case ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT:
+				case GenericUnitPackage.INTENT_REFERENCE__REFERENCED_ELEMENT:
 					return ModelingUnitPackage.LABELIN_MODELING_UNIT__REFERENCED_ELEMENT;
 				default:
 					return -1;

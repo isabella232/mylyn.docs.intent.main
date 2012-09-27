@@ -23,6 +23,8 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
+import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 
 /**
  * Utility class allowing to create {@link LinkResolverClient}s.
@@ -53,20 +55,22 @@ public final class LinkResolverCreator {
 
 		// Step 1: initialize the listened types
 		Set<EStructuralFeature> listenedTypes = new LinkedHashSet<EStructuralFeature>();
-		listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass(IntentDocumentPackage.eINSTANCE
+		listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass(GenericUnitPackage.eINSTANCE
 				.getIntentReference()));
 		listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass(IntentDocumentPackage.eINSTANCE
-				.getIntentSectionReference()));
+				.getIntentSection()));
 		listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass(IntentDocumentPackage.eINSTANCE
-				.getIntentSectionOrParagraphReference()));
+				.getIntentChapter()));
+		listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass(ModelingUnitPackage.eINSTANCE
+				.getModelingUnit()));
 
 		// Step 2: create the adapter and the handler for these types
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 
-		Notificator notificator = new TypeNotificator(listenedTypes);
-		handler.addNotificator(notificator);
+		Notificator typeNotificator = new TypeNotificator(listenedTypes);
+		handler.addNotificator(typeNotificator);
 
 		// Step 3: create the link resolver
 		LinkResolverClient linkResolver = new LinkResolverClient();

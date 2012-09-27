@@ -10,11 +10,13 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
+import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 
 /**
  * Contains all the configuration informations about the Modeling Parser tests.
@@ -87,7 +89,8 @@ public final class ModelingUnitParsingTestConfigurator {
 	 */
 	public static EObject parseFile(ModelingUnitParser modelingUnitParser, String filePath)
 			throws ParseException, IOException {
-		return modelingUnitParser.parseFile(ModelingUnitParsingTestConfigurator.getDatatestsFolder()
-				+ filePath + ModelingUnitParsingTestConfigurator.getFileExtensions());
+		return modelingUnitParser.parseString(FileToStringConverter.getFileAsString(new File(
+				ModelingUnitParsingTestConfigurator.getDatatestsFolder() + filePath
+						+ ModelingUnitParsingTestConfigurator.getFileExtensions())));
 	}
 }

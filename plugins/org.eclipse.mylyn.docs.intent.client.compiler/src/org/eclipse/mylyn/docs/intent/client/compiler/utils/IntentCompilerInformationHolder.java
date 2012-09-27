@@ -127,13 +127,13 @@ public final class IntentCompilerInformationHolder {
 	 *            the contribution instruction
 	 */
 	private void referenceContributionInstruction(ContributionInstruction contributionInstruction) {
-		if (contributionInstruction.getReferencedElement() != null
-				&& contributionInstruction.getReferencedElement().getReferencedElement() != null) {
+		if (contributionInstruction.getContributionReference() != null
+				&& contributionInstruction.getContributionReference().getReferencedInstruction() != null) {
 
 			Iterator<Entry<EObject, EList<UnitInstruction>>> entryIterator = this.informationHolder
 					.getCreatedElementsToInstructions().entrySet().iterator();
 			ModelingUnitInstruction targetInstanciationInstruction = contributionInstruction
-					.getReferencedElement().getReferencedElement();
+					.getContributionReference().getReferencedInstruction();
 			boolean instanciationInstructionFound = false;
 			while (entryIterator.hasNext() && !instanciationInstructionFound) {
 				Entry<EObject, EList<UnitInstruction>> entry = entryIterator.next();
@@ -360,11 +360,11 @@ public final class IntentCompilerInformationHolder {
 	 */
 	public boolean isUnresolvedContribution(ContributionInstruction contributionInstruction) {
 		boolean isUnresolved = this.informationHolder.getUnresolvedContributions().get(
-				contributionInstruction.getReferencedElement().getIntentHref()) == null;
+				contributionInstruction.getContributionReference().getIntentHref()) == null;
 		if (!isUnresolved) {
 			isUnresolved = true;
 			for (UnresolvedContributionHolder holder : this.informationHolder.getUnresolvedContributions()
-					.get(contributionInstruction.getReferencedElement().getIntentHref())) {
+					.get(contributionInstruction.getContributionReference().getIntentHref())) {
 				if (holder.getReferencedContribution() == contributionInstruction) {
 					isUnresolved = isUnresolved && !holder.isResolved();
 				}
@@ -566,7 +566,7 @@ public final class IntentCompilerInformationHolder {
 	public boolean isRegisteredUnresolvedContribution(ContributionInstruction contributionInstruction) {
 		boolean isRegistered = false;
 		for (UnresolvedContributionHolder holder : this.informationHolder.getUnresolvedContributions().get(
-				contributionInstruction.getReferencedElement().getIntentHref())) {
+				contributionInstruction.getContributionReference().getIntentHref())) {
 			isRegistered = isRegistered || (holder.getReferencedContribution() == contributionInstruction);
 		}
 		return isRegistered;
@@ -581,9 +581,8 @@ public final class IntentCompilerInformationHolder {
 	 *            the contributionInstruction to consider as resolved.
 	 */
 	public void setContributionInstructionAsResolved(ContributionInstruction contributionInstruction) {
-
 		for (UnresolvedContributionHolder holder : informationHolder.getUnresolvedContributions().get(
-				contributionInstruction.getReferencedElement().getIntentHref())) {
+				contributionInstruction.getContributionReference().getIntentHref())) {
 
 			if (holder.getReferencedContribution() == contributionInstruction) {
 				holder.setResolved(true);

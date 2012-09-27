@@ -11,7 +11,7 @@
 package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl;
+import org.eclipse.emf.internal.cdo.CDOObjectImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
@@ -23,13 +23,14 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitInstructionReferenceImpl#getReferencedElement <em>Referenced Element</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitInstructionReferenceImpl#getIntentHref <em>Intent Href</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitInstructionReferenceImpl#getReferencedInstruction <em>Referenced Instruction</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class ModelingUnitInstructionReferenceImpl extends IntentReferenceImpl implements ModelingUnitInstructionReference {
+public class ModelingUnitInstructionReferenceImpl extends CDOObjectImpl implements ModelingUnitInstructionReference {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -54,9 +55,9 @@ public class ModelingUnitInstructionReferenceImpl extends IntentReferenceImpl im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ModelingUnitInstruction getReferencedElement() {
-		return (ModelingUnitInstruction)eGet(
-				ModelingUnitPackage.Literals.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT, true);
+	@Override
+	protected int eStaticFeatureCount() {
+		return 0;
 	}
 
 	/**
@@ -64,9 +65,39 @@ public class ModelingUnitInstructionReferenceImpl extends IntentReferenceImpl im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReferencedElement(ModelingUnitInstruction newReferencedElement) {
-		eSet(ModelingUnitPackage.Literals.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT,
-				newReferencedElement);
+	public String getIntentHref() {
+		return (String)eGet(ModelingUnitPackage.Literals.MODELING_UNIT_INSTRUCTION_REFERENCE__INTENT_HREF,
+				true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setIntentHref(String newIntentHref) {
+		eSet(ModelingUnitPackage.Literals.MODELING_UNIT_INSTRUCTION_REFERENCE__INTENT_HREF, newIntentHref);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ModelingUnitInstruction getReferencedInstruction() {
+		return (ModelingUnitInstruction)eGet(
+				ModelingUnitPackage.Literals.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_INSTRUCTION,
+				true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setReferencedInstruction(ModelingUnitInstruction newReferencedInstruction) {
+		eSet(ModelingUnitPackage.Literals.MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_INSTRUCTION,
+				newReferencedInstruction);
 	}
 
 } //ModelingUnitInstructionReferenceImpl

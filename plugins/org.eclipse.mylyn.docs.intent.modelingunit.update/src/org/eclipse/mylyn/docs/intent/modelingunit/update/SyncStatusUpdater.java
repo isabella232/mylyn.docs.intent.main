@@ -117,7 +117,7 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 						ModelingUnitPackage.INSTANCIATION_INSTRUCTION);
 				if (container instanceof ContributionInstruction) {
 					ContributionInstruction contribution = (ContributionInstruction)container;
-					container = contribution.getReferencedElement().getReferencedElement();
+					container = contribution.getContributionReference().getReferencedInstruction();
 				}
 
 				if (container instanceof InstanciationInstruction) {

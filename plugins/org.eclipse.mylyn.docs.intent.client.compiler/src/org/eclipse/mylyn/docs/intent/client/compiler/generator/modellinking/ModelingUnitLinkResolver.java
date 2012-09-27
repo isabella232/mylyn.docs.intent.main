@@ -303,12 +303,12 @@ public class ModelingUnitLinkResolver {
 				.getInstanciationInstructionByCreatedElement(foundReference);
 		if (instanciationInstruction instanceof ModelingUnitInstruction
 				&& instruction instanceof ContributionInstruction) {
-			((ContributionInstruction)instruction).getReferencedElement().setReferencedElement(
+			((ContributionInstruction)instruction).getContributionReference().setReferencedInstruction(
 					(ModelingUnitInstruction)instanciationInstruction);
 		} else if (instanciationInstruction instanceof InstanciationInstruction) {
 			if (instruction instanceof ReferenceValueForStructuralFeature) {
-				((ReferenceValueForStructuralFeature)instruction).getReferencedElement()
-						.setReferencedElement((InstanciationInstruction)instanciationInstruction);
+				((ReferenceValueForStructuralFeature)instruction).getInstanciationReference()
+						.setInstanciation((InstanciationInstruction)instanciationInstruction);
 				((ReferenceValueForStructuralFeature)instruction)
 						.setReferencedMetaType(((InstanciationInstruction)instanciationInstruction)
 								.getMetaType().getResolvedType());
@@ -316,7 +316,7 @@ public class ModelingUnitLinkResolver {
 				ResourceDeclaration resourceDeclaration = (ResourceDeclaration)instruction;
 				for (ModelingUnitInstructionReference reference : resourceDeclaration.getContent()) {
 					if (referencedValue.equals(reference.getIntentHref())) {
-						reference.setReferencedElement((ModelingUnitInstruction)instanciationInstruction);
+						reference.setReferencedInstruction((ModelingUnitInstruction)instanciationInstruction);
 					}
 				}
 			}

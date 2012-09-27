@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 
 /**
@@ -252,22 +251,22 @@ public interface ModelingUnitPackage extends EPackage {
 	int RESOURCE_REFERENCE = 3;
 
 	/**
-	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
+	 * The feature id for the '<em><b>Resource Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_REFERENCE__INTENT_HREF = IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF;
+	int RESOURCE_REFERENCE__RESOURCE_NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
+	 * The feature id for the '<em><b>Declaration</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_REFERENCE__REFERENCED_ELEMENT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 0;
+	int RESOURCE_REFERENCE__DECLARATION = 1;
 
 	/**
 	 * The feature id for the '<em><b>Line Break</b></em>' attribute.
@@ -276,7 +275,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_REFERENCE__LINE_BREAK = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 1;
+	int RESOURCE_REFERENCE__LINE_BREAK = 2;
 
 	/**
 	 * The number of structural features of the '<em>Resource Reference</em>' class.
@@ -285,7 +284,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int RESOURCE_REFERENCE_FEATURE_COUNT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 2;
+	int RESOURCE_REFERENCE_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitInstructionReferenceImpl <em>Instruction Reference</em>}' class.
@@ -295,34 +294,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl#getModelingUnitInstructionReference()
 	 * @generated
 	 */
-	int MODELING_UNIT_INSTRUCTION_REFERENCE = 4;
-
-	/**
-	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODELING_UNIT_INSTRUCTION_REFERENCE__INTENT_HREF = IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF;
-
-	/**
-	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Instruction Reference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MODELING_UNIT_INSTRUCTION_REFERENCE_FEATURE_COUNT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 1;
+	int MODELING_UNIT_INSTRUCTION_REFERENCE = 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.InstanciationInstructionReferenceImpl <em>Instanciation Instruction Reference</em>}' class.
@@ -332,25 +304,25 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl#getInstanciationInstructionReference()
 	 * @generated
 	 */
-	int INSTANCIATION_INSTRUCTION_REFERENCE = 5;
+	int INSTANCIATION_INSTRUCTION_REFERENCE = 4;
 
 	/**
-	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
+	 * The feature id for the '<em><b>Instance Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INSTANCIATION_INSTRUCTION_REFERENCE__INTENT_HREF = IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF;
+	int INSTANCIATION_INSTRUCTION_REFERENCE__INSTANCE_NAME = 0;
 
 	/**
-	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
+	 * The feature id for the '<em><b>Instanciation</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INSTANCIATION_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 0;
+	int INSTANCIATION_INSTRUCTION_REFERENCE__INSTANCIATION = 1;
 
 	/**
 	 * The number of structural features of the '<em>Instanciation Instruction Reference</em>' class.
@@ -359,7 +331,34 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INSTANCIATION_INSTRUCTION_REFERENCE_FEATURE_COUNT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 1;
+	int INSTANCIATION_INSTRUCTION_REFERENCE_FEATURE_COUNT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODELING_UNIT_INSTRUCTION_REFERENCE__INTENT_HREF = 0;
+
+	/**
+	 * The feature id for the '<em><b>Referenced Instruction</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_INSTRUCTION = 1;
+
+	/**
+	 * The number of structural features of the '<em>Instruction Reference</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODELING_UNIT_INSTRUCTION_REFERENCE_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ResourceDeclarationImpl <em>Resource Declaration</em>}' class.
@@ -453,14 +452,14 @@ public interface ModelingUnitPackage extends EPackage {
 	int RESOURCE_DECLARATION_FEATURE_COUNT = MODELING_UNIT_INSTRUCTION_FEATURE_COUNT + 4;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.IntentSectionReferenceinModelingUnitImpl <em>Intent Section Referencein Modeling Unit</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.IntentReferenceinModelingUnitImpl <em>Intent Referencein Modeling Unit</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.IntentSectionReferenceinModelingUnitImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl#getIntentSectionReferenceinModelingUnit()
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.IntentReferenceinModelingUnitImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl#getIntentReferenceinModelingUnit()
 	 * @generated
 	 */
-	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT = 7;
+	int INTENT_REFERENCEIN_MODELING_UNIT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
@@ -469,7 +468,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT__COMPILATION_STATUS = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION__COMPILATION_STATUS;
+	int INTENT_REFERENCEIN_MODELING_UNIT__COMPILATION_STATUS = GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION__COMPILATION_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
@@ -478,7 +477,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT__INDEX_ENTRY = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION__INDEX_ENTRY;
+	int INTENT_REFERENCEIN_MODELING_UNIT__INDEX_ENTRY = GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -487,7 +486,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT__UNIT = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION__UNIT;
+	int INTENT_REFERENCEIN_MODELING_UNIT__UNIT = GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION__UNIT;
 
 	/**
 	 * The feature id for the '<em><b>Line Break</b></em>' attribute.
@@ -496,25 +495,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT__LINE_BREAK = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION__LINE_BREAK;
-
-	/**
-	 * The feature id for the '<em><b>Referenced Object</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT__REFERENCED_OBJECT = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION__REFERENCED_OBJECT;
-
-	/**
-	 * The feature id for the '<em><b>Text To Print</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT__TEXT_TO_PRINT = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION__TEXT_TO_PRINT;
+	int INTENT_REFERENCEIN_MODELING_UNIT__LINE_BREAK = GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION__LINE_BREAK;
 
 	/**
 	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
@@ -523,7 +504,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT__INTENT_HREF = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION_FEATURE_COUNT + 0;
+	int INTENT_REFERENCEIN_MODELING_UNIT__INTENT_HREF = GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION__INTENT_HREF;
 
 	/**
 	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
@@ -532,16 +513,25 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT__REFERENCED_ELEMENT = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION_FEATURE_COUNT + 1;
+	int INTENT_REFERENCEIN_MODELING_UNIT__REFERENCED_ELEMENT = GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION__REFERENCED_ELEMENT;
 
 	/**
-	 * The number of structural features of the '<em>Intent Section Referencein Modeling Unit</em>' class.
+	 * The feature id for the '<em><b>Text To Print</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCEIN_MODELING_UNIT_FEATURE_COUNT = GenericUnitPackage.INTENT_SECTION_REFERENCE_INSTRUCTION_FEATURE_COUNT + 2;
+	int INTENT_REFERENCEIN_MODELING_UNIT__TEXT_TO_PRINT = GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION__TEXT_TO_PRINT;
+
+	/**
+	 * The number of structural features of the '<em>Intent Referencein Modeling Unit</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCEIN_MODELING_UNIT_FEATURE_COUNT = GenericUnitPackage.INTENT_REFERENCE_INSTRUCTION_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.LabelinModelingUnitImpl <em>Labelin Modeling Unit</em>}' class.
@@ -745,13 +735,13 @@ public interface ModelingUnitPackage extends EPackage {
 	int TYPE_REFERENCE = 10;
 
 	/**
-	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
+	 * The feature id for the '<em><b>Type Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_REFERENCE__INTENT_HREF = IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF;
+	int TYPE_REFERENCE__TYPE_NAME = 0;
 
 	/**
 	 * The feature id for the '<em><b>Resolved Type</b></em>' reference.
@@ -760,7 +750,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_REFERENCE__RESOLVED_TYPE = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 0;
+	int TYPE_REFERENCE__RESOLVED_TYPE = 1;
 
 	/**
 	 * The number of structural features of the '<em>Type Reference</em>' class.
@@ -769,7 +759,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_REFERENCE_FEATURE_COUNT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 1;
+	int TYPE_REFERENCE_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.InstanceLevelInstructionImpl <em>Instance Level Instruction</em>}' class.
@@ -1238,13 +1228,13 @@ public interface ModelingUnitPackage extends EPackage {
 	int REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__LINE_BREAK = VALUE_FOR_STRUCTURAL_FEATURE__LINE_BREAK;
 
 	/**
-	 * The feature id for the '<em><b>Referenced Element</b></em>' containment reference.
+	 * The feature id for the '<em><b>Instanciation Reference</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_ELEMENT = VALUE_FOR_STRUCTURAL_FEATURE_FEATURE_COUNT + 0;
+	int REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__INSTANCIATION_REFERENCE = VALUE_FOR_STRUCTURAL_FEATURE_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Referenced Meta Type</b></em>' reference.
@@ -1311,13 +1301,13 @@ public interface ModelingUnitPackage extends EPackage {
 	int CONTRIBUTION_INSTRUCTION__LINE_BREAK = MODELING_UNIT_INSTRUCTION__LINE_BREAK;
 
 	/**
-	 * The feature id for the '<em><b>Referenced Element</b></em>' containment reference.
+	 * The feature id for the '<em><b>Contribution Reference</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONTRIBUTION_INSTRUCTION__REFERENCED_ELEMENT = MODELING_UNIT_INSTRUCTION_FEATURE_COUNT + 0;
+	int CONTRIBUTION_INSTRUCTION__CONTRIBUTION_REFERENCE = MODELING_UNIT_INSTRUCTION_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Contributions</b></em>' containment reference list.
@@ -1445,15 +1435,26 @@ public interface ModelingUnitPackage extends EPackage {
 	EClass getResourceReference();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference#getReferencedElement <em>Referenced Element</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference#getResourceName <em>Resource Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Referenced Element</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference#getReferencedElement()
+	 * @return the meta object for the attribute '<em>Resource Name</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference#getResourceName()
 	 * @see #getResourceReference()
 	 * @generated
 	 */
-	EReference getResourceReference_ReferencedElement();
+	EAttribute getResourceReference_ResourceName();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference#getDeclaration <em>Declaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Declaration</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference#getDeclaration()
+	 * @see #getResourceReference()
+	 * @generated
+	 */
+	EReference getResourceReference_Declaration();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference#isLineBreak <em>Line Break</em>}'.
@@ -1477,15 +1478,26 @@ public interface ModelingUnitPackage extends EPackage {
 	EClass getModelingUnitInstructionReference();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference#getReferencedElement <em>Referenced Element</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference#getIntentHref <em>Intent Href</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Referenced Element</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference#getReferencedElement()
+	 * @return the meta object for the attribute '<em>Intent Href</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference#getIntentHref()
 	 * @see #getModelingUnitInstructionReference()
 	 * @generated
 	 */
-	EReference getModelingUnitInstructionReference_ReferencedElement();
+	EAttribute getModelingUnitInstructionReference_IntentHref();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference#getReferencedInstruction <em>Referenced Instruction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Referenced Instruction</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference#getReferencedInstruction()
+	 * @see #getModelingUnitInstructionReference()
+	 * @generated
+	 */
+	EReference getModelingUnitInstructionReference_ReferencedInstruction();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference <em>Instanciation Instruction Reference</em>}'.
@@ -1498,15 +1510,26 @@ public interface ModelingUnitPackage extends EPackage {
 	EClass getInstanciationInstructionReference();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getReferencedElement <em>Referenced Element</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getInstanceName <em>Instance Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Referenced Element</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getReferencedElement()
+	 * @return the meta object for the attribute '<em>Instance Name</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getInstanceName()
 	 * @see #getInstanciationInstructionReference()
 	 * @generated
 	 */
-	EReference getInstanciationInstructionReference_ReferencedElement();
+	EAttribute getInstanciationInstructionReference_InstanceName();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getInstanciation <em>Instanciation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Instanciation</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference#getInstanciation()
+	 * @see #getInstanciationInstructionReference()
+	 * @generated
+	 */
+	EReference getInstanciationInstructionReference_Instanciation();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration <em>Resource Declaration</em>}'.
@@ -1563,14 +1586,14 @@ public interface ModelingUnitPackage extends EPackage {
 	EReference getResourceDeclaration_Content();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit <em>Intent Section Referencein Modeling Unit</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit <em>Intent Referencein Modeling Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Intent Section Referencein Modeling Unit</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.IntentSectionReferenceinModelingUnit
+	 * @return the meta object for class '<em>Intent Referencein Modeling Unit</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit
 	 * @generated
 	 */
-	EClass getIntentSectionReferenceinModelingUnit();
+	EClass getIntentReferenceinModelingUnit();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit <em>Labelin Modeling Unit</em>}'.
@@ -1623,6 +1646,17 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getTypeReference();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference#getTypeName <em>Type Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type Name</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference#getTypeName()
+	 * @see #getTypeReference()
+	 * @generated
+	 */
+	EAttribute getTypeReference_TypeName();
 
 	/**
 	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference#getResolvedType <em>Resolved Type</em>}'.
@@ -1794,15 +1828,15 @@ public interface ModelingUnitPackage extends EPackage {
 	EClass getReferenceValueForStructuralFeature();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedElement <em>Referenced Element</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getInstanciationReference <em>Instanciation Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Referenced Element</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedElement()
+	 * @return the meta object for the containment reference '<em>Instanciation Reference</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getInstanciationReference()
 	 * @see #getReferenceValueForStructuralFeature()
 	 * @generated
 	 */
-	EReference getReferenceValueForStructuralFeature_ReferencedElement();
+	EReference getReferenceValueForStructuralFeature_InstanciationReference();
 
 	/**
 	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature#getReferencedMetaType <em>Referenced Meta Type</em>}'.
@@ -1826,15 +1860,15 @@ public interface ModelingUnitPackage extends EPackage {
 	EClass getContributionInstruction();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction#getReferencedElement <em>Referenced Element</em>}'.
+	 * Returns the meta object for the containment reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction#getContributionReference <em>Contribution Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Referenced Element</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction#getReferencedElement()
+	 * @return the meta object for the containment reference '<em>Contribution Reference</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction#getContributionReference()
 	 * @see #getContributionInstruction()
 	 * @generated
 	 */
-	EReference getContributionInstruction_ReferencedElement();
+	EReference getContributionInstruction_ContributionReference();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction#getContributions <em>Contributions</em>}'.
@@ -1960,13 +1994,20 @@ public interface ModelingUnitPackage extends EPackage {
 		EClass RESOURCE_REFERENCE = eINSTANCE.getResourceReference();
 
 		/**
-		 * The meta object literal for the '<em><b>Referenced Element</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Resource Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference RESOURCE_REFERENCE__REFERENCED_ELEMENT = eINSTANCE
-				.getResourceReference_ReferencedElement();
+		EAttribute RESOURCE_REFERENCE__RESOURCE_NAME = eINSTANCE.getResourceReference_ResourceName();
+
+		/**
+		 * The meta object literal for the '<em><b>Declaration</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference RESOURCE_REFERENCE__DECLARATION = eINSTANCE.getResourceReference_Declaration();
 
 		/**
 		 * The meta object literal for the '<em><b>Line Break</b></em>' attribute feature.
@@ -1987,13 +2028,22 @@ public interface ModelingUnitPackage extends EPackage {
 		EClass MODELING_UNIT_INSTRUCTION_REFERENCE = eINSTANCE.getModelingUnitInstructionReference();
 
 		/**
-		 * The meta object literal for the '<em><b>Referenced Element</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Intent Href</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT = eINSTANCE
-				.getModelingUnitInstructionReference_ReferencedElement();
+		EAttribute MODELING_UNIT_INSTRUCTION_REFERENCE__INTENT_HREF = eINSTANCE
+				.getModelingUnitInstructionReference_IntentHref();
+
+		/**
+		 * The meta object literal for the '<em><b>Referenced Instruction</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODELING_UNIT_INSTRUCTION_REFERENCE__REFERENCED_INSTRUCTION = eINSTANCE
+				.getModelingUnitInstructionReference_ReferencedInstruction();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.InstanciationInstructionReferenceImpl <em>Instanciation Instruction Reference</em>}' class.
@@ -2006,13 +2056,22 @@ public interface ModelingUnitPackage extends EPackage {
 		EClass INSTANCIATION_INSTRUCTION_REFERENCE = eINSTANCE.getInstanciationInstructionReference();
 
 		/**
-		 * The meta object literal for the '<em><b>Referenced Element</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Instance Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference INSTANCIATION_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT = eINSTANCE
-				.getInstanciationInstructionReference_ReferencedElement();
+		EAttribute INSTANCIATION_INSTRUCTION_REFERENCE__INSTANCE_NAME = eINSTANCE
+				.getInstanciationInstructionReference_InstanceName();
+
+		/**
+		 * The meta object literal for the '<em><b>Instanciation</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INSTANCIATION_INSTRUCTION_REFERENCE__INSTANCIATION = eINSTANCE
+				.getInstanciationInstructionReference_Instanciation();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ResourceDeclarationImpl <em>Resource Declaration</em>}' class.
@@ -2057,14 +2116,14 @@ public interface ModelingUnitPackage extends EPackage {
 		EReference RESOURCE_DECLARATION__CONTENT = eINSTANCE.getResourceDeclaration_Content();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.IntentSectionReferenceinModelingUnitImpl <em>Intent Section Referencein Modeling Unit</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.IntentReferenceinModelingUnitImpl <em>Intent Referencein Modeling Unit</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.IntentSectionReferenceinModelingUnitImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl#getIntentSectionReferenceinModelingUnit()
+		 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.IntentReferenceinModelingUnitImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl#getIntentReferenceinModelingUnit()
 		 * @generated
 		 */
-		EClass INTENT_SECTION_REFERENCEIN_MODELING_UNIT = eINSTANCE.getIntentSectionReferenceinModelingUnit();
+		EClass INTENT_REFERENCEIN_MODELING_UNIT = eINSTANCE.getIntentReferenceinModelingUnit();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.LabelinModelingUnitImpl <em>Labelin Modeling Unit</em>}' class.
@@ -2111,6 +2170,14 @@ public interface ModelingUnitPackage extends EPackage {
 		 * @generated
 		 */
 		EClass TYPE_REFERENCE = eINSTANCE.getTypeReference();
+
+		/**
+		 * The meta object literal for the '<em><b>Type Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TYPE_REFERENCE__TYPE_NAME = eINSTANCE.getTypeReference_TypeName();
 
 		/**
 		 * The meta object literal for the '<em><b>Resolved Type</b></em>' reference feature.
@@ -2260,13 +2327,13 @@ public interface ModelingUnitPackage extends EPackage {
 		EClass REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE = eINSTANCE.getReferenceValueForStructuralFeature();
 
 		/**
-		 * The meta object literal for the '<em><b>Referenced Element</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Instanciation Reference</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__REFERENCED_ELEMENT = eINSTANCE
-				.getReferenceValueForStructuralFeature_ReferencedElement();
+		EReference REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE__INSTANCIATION_REFERENCE = eINSTANCE
+				.getReferenceValueForStructuralFeature_InstanciationReference();
 
 		/**
 		 * The meta object literal for the '<em><b>Referenced Meta Type</b></em>' reference feature.
@@ -2288,13 +2355,13 @@ public interface ModelingUnitPackage extends EPackage {
 		EClass CONTRIBUTION_INSTRUCTION = eINSTANCE.getContributionInstruction();
 
 		/**
-		 * The meta object literal for the '<em><b>Referenced Element</b></em>' containment reference feature.
+		 * The meta object literal for the '<em><b>Contribution Reference</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference CONTRIBUTION_INSTRUCTION__REFERENCED_ELEMENT = eINSTANCE
-				.getContributionInstruction_ReferencedElement();
+		EReference CONTRIBUTION_INSTRUCTION__CONTRIBUTION_REFERENCE = eINSTANCE
+				.getContributionInstruction_ContributionReference();
 
 		/**
 		 * The meta object literal for the '<em><b>Contributions</b></em>' containment reference list feature.

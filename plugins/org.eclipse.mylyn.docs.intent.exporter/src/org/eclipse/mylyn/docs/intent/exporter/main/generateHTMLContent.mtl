@@ -53,14 +53,25 @@
 	[descriptionBloc.descriptionBloc.oclAsType(Container).content.toHTML()/]
 [/template]
 
-[template public generateHTMLContent(labelReference : LabelReferenceInstruction)]
-	<a href="#">
-	[if (labelReference.referencedLabel.oclIsUndefined()._not())]
-		[if (labelReference.referencedLabel.referencedElement.oclIsUndefined()._not())]
-			[labelReference.referencedLabel.referencedElement.textToPrint/]
-		[/if]	
-	[/if]
-	</a>
+[template public generateHTMLContent(reference : IntentReferenceInstruction)]
+[if (reference.referencedElement.oclIsUndefined()._not())]
+[generateReference(reference.textToPrint, reference.referencedElement)/]
+[else]
+<b>UNRESOLVED LINK : [reference.intentHref/]</b>	
+[/if]	
+[/template]
+
+[template public generateReference(textToPrint : String, referenced : IntentSubSectionContainer)]
+See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
+[if (textToPrint.oclIsUndefined()._not() and textToPrint.trim().size() > 0)]
+	[textToPrint/]
+[else]
+	[generateSubSectionTitle(referenced.oclAsType(IntentSubSectionContainer), true)/]
+[/if]</a>
+[/template]
+
+[template public generateReference(textToPrint : String, referenced : EObject)]
+<b>UNSUPPORTED LINK : [referenced.eClass().name/]</b>		
 [/template]
 
 [template public generateHTMLContent(label : LabelDeclaration)]
@@ -84,7 +95,7 @@
 [if instancation.name->isEmpty()._not()]
 	[instancation.name/] - 
 [/if]
- 		new [instancation.metaType.IntentHref/] [definitionInformation()/]
+ 		new [instancation.metaType.typeName/] [definitionInformation()/]
 	</a>
 
 [if instancation.structuralFeatures->size() > 0]
@@ -100,10 +111,10 @@
 [contribution.getImageForValue()/]
 
 	<a href="#"												
-		rel="popover" title="Contribution to [contribution.referencedElement.IntentHref/] [if contribution.referencedElement.referencedElement.oclIsInvalid()._not()](of type [contribution.referencedElement.referencedElement.oclAsType(InstanciationInstruction).metaType.IntentHref/])[/if]"
-	[contribution.referencedElement.referencedElement.oclAsType(InstanciationInstruction).generatePopoverLinks()/]
+		rel="popover" title="Contribution to [contribution.contributionReference.intentHref/] [if contribution.contributionReference.referencedInstruction.oclIsInvalid()._not()](of type [contribution.contributionReference.referencedInstruction.oclAsType(InstanciationInstruction).metaType.typeName/])[/if]"
+	[contribution.contributionReference.referencedInstruction.oclAsType(InstanciationInstruction).generatePopoverLinks()/]
 		">
-	[contribution.referencedElement.IntentHref/] [contributionInformation()/]
+	[contribution.contributionReference.intentHref/] [contributionInformation()/]
 </a>
 [if contribution.contributions->size() > 0]
 	<ul>
@@ -130,9 +141,9 @@
 			<ul>
 			[for (reference : ModelingUnitInstructionReference | resourceDeclaration.content)]
 				<a href="#"												
-			rel="popover" title="Reference to [reference.IntentHref/] [if reference.referencedElement.oclAsType(InstanciationInstruction).metaType.oclIsInvalid()._not()](of type [reference.referencedElement.oclAsType(InstanciationInstruction).metaType.IntentHref/])[/if]"
-			[reference.referencedElement.oclAsType(InstanciationInstruction).generatePopoverLinks()/]
-			>[reference.IntentHref/]</a>
+			rel="popover" title="Reference to [reference.intentHref/] [if reference.referencedInstruction.oclAsType(InstanciationInstruction).metaType.oclIsInvalid()._not()](of type [reference.referencedInstruction.oclAsType(InstanciationInstruction).metaType.typeName/])[/if]"
+			[reference.referencedInstruction.oclAsType(InstanciationInstruction).generatePopoverLinks()/]
+			>[reference.intentHref/]</a>
 			[/for]
 			</ul>
 		[/if]
@@ -148,7 +159,7 @@
 
 	[comment left-hand link/]
 	<a href="#" style="color:black"									
-		rel="popover" title="Feature [structuralFeature.name/] [if structuralFeature.metaType.IntentHref.oclIsInvalid()._not()](of type [structuralFeature.metaType.IntentHref/])[/if]"
+		rel="popover" title="Feature [structuralFeature.name/] [if structuralFeature.metaType.typeName.oclIsInvalid()._not()](of type [structuralFeature.metaType.typeName/])[/if]"
 		data-content="Informations on [structuralFeature.name/]"
 	>
 	[structuralFeature.name/]
@@ -181,7 +192,7 @@
 [if newValueInstruction.value.name->isEmpty()._not()]
 	[newValueInstruction.value.name/] - 
 [/if]
- new [newValueInstruction.value.metaType.IntentHref/] [definitionInformation()/]
+ new [newValueInstruction.value.metaType.typeName/] [definitionInformation()/]
 
 </a>
 [if newValueInstruction.value.structuralFeatures->size() > 0]
@@ -206,9 +217,9 @@
 
 [template public generateHTMLContent(reference : ReferenceValueForStructuralFeature)]
 <a href="#"												
-			rel="popover" title="Reference to [reference.referencedElement.IntentHref/] [if reference.referencedElement.referencedElement.metaType.oclIsInvalid()._not()](of type [reference.referencedElement.referencedElement.metaType.IntentHref/])[/if]"
-			[reference.referencedElement.referencedElement.generatePopoverLinks()/]
->[reference.referencedElement.IntentHref/]</a>
+			rel="popover" title="Reference to [reference.instanciationReference.instanceName/] [if reference.instanciationReference.instanciation.metaType.oclIsInvalid()._not()](of type [reference.instanciationReference.instanciation.metaType.typeName/])[/if]"
+			[reference.instanciationReference.instanciation.generatePopoverLinks()/]
+>[reference.instanciationReference.instanceName/]</a>
 [/template]
 
 [template public getImageForValue(valueInstruction : NativeValueForStructuralFeature)]
@@ -254,7 +265,7 @@
 [/template]
 
 [template public getImageForValue(contributionInstruction : ContributionInstruction)]
-[let imagePath : String = contributionInstruction.referencedElement.referencedElement.oclAsType(InstanciationInstruction).metaType.resolvedType.getQualifiedImageId()]
+[let imagePath : String = contributionInstruction.contributionReference.referencedInstruction.oclAsType(InstanciationInstruction).metaType.resolvedType.getQualifiedImageId()]
 	[if imagePath.size() > 0]
 		<img src="[imagePath/]"/>
 	[else]

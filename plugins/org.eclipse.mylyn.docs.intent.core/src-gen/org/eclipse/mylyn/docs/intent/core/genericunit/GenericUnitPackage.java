@@ -177,88 +177,14 @@ public interface GenericUnitPackage extends EPackage {
 	int UNIT_INSTRUCTION_FEATURE_COUNT = IntentDocumentPackage.INTENT_GENERIC_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.UnitInstructionReferenceImpl <em>Unit Instruction Reference</em>}' class.
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentReferenceInstructionImpl <em>Intent Reference Instruction</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.UnitInstructionReferenceImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getUnitInstructionReference()
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentReferenceInstructionImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getIntentReferenceInstruction()
 	 * @generated
 	 */
-	int UNIT_INSTRUCTION_REFERENCE = 2;
-
-	/**
-	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UNIT_INSTRUCTION_REFERENCE__INTENT_HREF = IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF;
-
-	/**
-	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Unit Instruction Reference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int UNIT_INSTRUCTION_REFERENCE_FEATURE_COUNT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.LabelDeclarationReferenceImpl <em>Label Declaration Reference</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.LabelDeclarationReferenceImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getLabelDeclarationReference()
-	 * @generated
-	 */
-	int LABEL_DECLARATION_REFERENCE = 3;
-
-	/**
-	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LABEL_DECLARATION_REFERENCE__INTENT_HREF = IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF;
-
-	/**
-	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LABEL_DECLARATION_REFERENCE__REFERENCED_ELEMENT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Label Declaration Reference</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LABEL_DECLARATION_REFERENCE_FEATURE_COUNT = IntentDocumentPackage.INTENT_REFERENCE_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentSectionReferenceInstructionImpl <em>Intent Section Reference Instruction</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentSectionReferenceInstructionImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getIntentSectionReferenceInstruction()
-	 * @generated
-	 */
-	int INTENT_SECTION_REFERENCE_INSTRUCTION = 4;
+	int INTENT_REFERENCE_INSTRUCTION = 2;
 
 	/**
 	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
@@ -267,7 +193,7 @@ public interface GenericUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCE_INSTRUCTION__COMPILATION_STATUS = UNIT_INSTRUCTION__COMPILATION_STATUS;
+	int INTENT_REFERENCE_INSTRUCTION__COMPILATION_STATUS = UNIT_INSTRUCTION__COMPILATION_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
@@ -276,7 +202,7 @@ public interface GenericUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCE_INSTRUCTION__INDEX_ENTRY = UNIT_INSTRUCTION__INDEX_ENTRY;
+	int INTENT_REFERENCE_INSTRUCTION__INDEX_ENTRY = UNIT_INSTRUCTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Unit</b></em>' container reference.
@@ -285,7 +211,7 @@ public interface GenericUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCE_INSTRUCTION__UNIT = UNIT_INSTRUCTION__UNIT;
+	int INTENT_REFERENCE_INSTRUCTION__UNIT = UNIT_INSTRUCTION__UNIT;
 
 	/**
 	 * The feature id for the '<em><b>Line Break</b></em>' attribute.
@@ -294,16 +220,25 @@ public interface GenericUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCE_INSTRUCTION__LINE_BREAK = UNIT_INSTRUCTION__LINE_BREAK;
+	int INTENT_REFERENCE_INSTRUCTION__LINE_BREAK = UNIT_INSTRUCTION__LINE_BREAK;
 
 	/**
-	 * The feature id for the '<em><b>Referenced Object</b></em>' containment reference.
+	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCE_INSTRUCTION__REFERENCED_OBJECT = UNIT_INSTRUCTION_FEATURE_COUNT + 0;
+	int INTENT_REFERENCE_INSTRUCTION__INTENT_HREF = UNIT_INSTRUCTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_INSTRUCTION__REFERENCED_ELEMENT = UNIT_INSTRUCTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Text To Print</b></em>' attribute.
@@ -312,16 +247,16 @@ public interface GenericUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCE_INSTRUCTION__TEXT_TO_PRINT = UNIT_INSTRUCTION_FEATURE_COUNT + 1;
+	int INTENT_REFERENCE_INSTRUCTION__TEXT_TO_PRINT = UNIT_INSTRUCTION_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Intent Section Reference Instruction</em>' class.
+	 * The number of structural features of the '<em>Intent Reference Instruction</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_REFERENCE_INSTRUCTION_FEATURE_COUNT = UNIT_INSTRUCTION_FEATURE_COUNT + 2;
+	int INTENT_REFERENCE_INSTRUCTION_FEATURE_COUNT = UNIT_INSTRUCTION_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.LabelDeclarationImpl <em>Label Declaration</em>}' class.
@@ -331,7 +266,7 @@ public interface GenericUnitPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getLabelDeclaration()
 	 * @generated
 	 */
-	int LABEL_DECLARATION = 5;
+	int LABEL_DECLARATION = 3;
 
 	/**
 	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
@@ -413,7 +348,7 @@ public interface GenericUnitPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getLabelReferenceInstruction()
 	 * @generated
 	 */
-	int LABEL_REFERENCE_INSTRUCTION = 6;
+	int LABEL_REFERENCE_INSTRUCTION = 4;
 
 	/**
 	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
@@ -452,13 +387,22 @@ public interface GenericUnitPackage extends EPackage {
 	int LABEL_REFERENCE_INSTRUCTION__LINE_BREAK = UNIT_INSTRUCTION__LINE_BREAK;
 
 	/**
-	 * The feature id for the '<em><b>Referenced Label</b></em>' containment reference.
+	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LABEL_REFERENCE_INSTRUCTION__REFERENCED_LABEL = UNIT_INSTRUCTION_FEATURE_COUNT + 0;
+	int LABEL_REFERENCE_INSTRUCTION__INTENT_HREF = UNIT_INSTRUCTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_REFERENCE_INSTRUCTION__REFERENCED_ELEMENT = UNIT_INSTRUCTION_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -467,7 +411,7 @@ public interface GenericUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LABEL_REFERENCE_INSTRUCTION__TYPE = UNIT_INSTRUCTION_FEATURE_COUNT + 1;
+	int LABEL_REFERENCE_INSTRUCTION__TYPE = UNIT_INSTRUCTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Label Reference Instruction</em>' class.
@@ -476,7 +420,7 @@ public interface GenericUnitPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LABEL_REFERENCE_INSTRUCTION_FEATURE_COUNT = UNIT_INSTRUCTION_FEATURE_COUNT + 2;
+	int LABEL_REFERENCE_INSTRUCTION_FEATURE_COUNT = UNIT_INSTRUCTION_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.AdressedAnnotationImpl <em>Adressed Annotation</em>}' class.
@@ -486,7 +430,7 @@ public interface GenericUnitPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getAdressedAnnotation()
 	 * @generated
 	 */
-	int ADRESSED_ANNOTATION = 7;
+	int ADRESSED_ANNOTATION = 5;
 
 	/**
 	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
@@ -570,6 +514,43 @@ public interface GenericUnitPackage extends EPackage {
 	int ADRESSED_ANNOTATION_FEATURE_COUNT = UNIT_INSTRUCTION_FEATURE_COUNT + 4;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentReferenceImpl <em>Intent Reference</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentReferenceImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getIntentReference()
+	 * @generated
+	 */
+	int INTENT_REFERENCE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE__INTENT_HREF = 0;
+
+	/**
+	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE__REFERENCED_ELEMENT = 1;
+
+	/**
+	 * The number of structural features of the '<em>Intent Reference</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_FEATURE_COUNT = 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel <em>Type Label</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -577,7 +558,7 @@ public interface GenericUnitPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getTypeLabel()
 	 * @generated
 	 */
-	int TYPE_LABEL = 8;
+	int TYPE_LABEL = 7;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit <em>Generic Unit</em>}'.
@@ -644,78 +625,25 @@ public interface GenericUnitPackage extends EPackage {
 	EAttribute getUnitInstruction_LineBreak();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference <em>Unit Instruction Reference</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction <em>Intent Reference Instruction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Unit Instruction Reference</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference
+	 * @return the meta object for class '<em>Intent Reference Instruction</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction
 	 * @generated
 	 */
-	EClass getUnitInstructionReference();
+	EClass getIntentReferenceInstruction();
 
 	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference#getReferencedElement <em>Referenced Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Referenced Element</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstructionReference#getReferencedElement()
-	 * @see #getUnitInstructionReference()
-	 * @generated
-	 */
-	EReference getUnitInstructionReference_ReferencedElement();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference <em>Label Declaration Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Label Declaration Reference</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference
-	 * @generated
-	 */
-	EClass getLabelDeclarationReference();
-
-	/**
-	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference#getReferencedElement <em>Referenced Element</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Referenced Element</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclarationReference#getReferencedElement()
-	 * @see #getLabelDeclarationReference()
-	 * @generated
-	 */
-	EReference getLabelDeclarationReference_ReferencedElement();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction <em>Intent Section Reference Instruction</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Intent Section Reference Instruction</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction
-	 * @generated
-	 */
-	EClass getIntentSectionReferenceInstruction();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction#getReferencedObject <em>Referenced Object</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Referenced Object</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction#getReferencedObject()
-	 * @see #getIntentSectionReferenceInstruction()
-	 * @generated
-	 */
-	EReference getIntentSectionReferenceInstruction_ReferencedObject();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction#getTextToPrint <em>Text To Print</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction#getTextToPrint <em>Text To Print</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Text To Print</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction#getTextToPrint()
-	 * @see #getIntentSectionReferenceInstruction()
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction#getTextToPrint()
+	 * @see #getIntentReferenceInstruction()
 	 * @generated
 	 */
-	EAttribute getIntentSectionReferenceInstruction_TextToPrint();
+	EAttribute getIntentReferenceInstruction_TextToPrint();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration <em>Label Declaration</em>}'.
@@ -769,17 +697,6 @@ public interface GenericUnitPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getLabelReferenceInstruction();
-
-	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction#getReferencedLabel <em>Referenced Label</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Referenced Label</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction#getReferencedLabel()
-	 * @see #getLabelReferenceInstruction()
-	 * @generated
-	 */
-	EReference getLabelReferenceInstruction_ReferencedLabel();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction#getType <em>Type</em>}'.
@@ -845,6 +762,38 @@ public interface GenericUnitPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getAdressedAnnotation_Type();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference <em>Intent Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Intent Reference</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference
+	 * @generated
+	 */
+	EClass getIntentReference();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference#getIntentHref <em>Intent Href</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Intent Href</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference#getIntentHref()
+	 * @see #getIntentReference()
+	 * @generated
+	 */
+	EAttribute getIntentReference_IntentHref();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference#getReferencedElement <em>Referenced Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Referenced Element</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference#getReferencedElement()
+	 * @see #getIntentReference()
+	 * @generated
+	 */
+	EReference getIntentReference_ReferencedElement();
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel <em>Type Label</em>}'.
@@ -931,61 +880,14 @@ public interface GenericUnitPackage extends EPackage {
 		EAttribute UNIT_INSTRUCTION__LINE_BREAK = eINSTANCE.getUnitInstruction_LineBreak();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.UnitInstructionReferenceImpl <em>Unit Instruction Reference</em>}' class.
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentReferenceInstructionImpl <em>Intent Reference Instruction</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.UnitInstructionReferenceImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getUnitInstructionReference()
+		 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentReferenceInstructionImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getIntentReferenceInstruction()
 		 * @generated
 		 */
-		EClass UNIT_INSTRUCTION_REFERENCE = eINSTANCE.getUnitInstructionReference();
-
-		/**
-		 * The meta object literal for the '<em><b>Referenced Element</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference UNIT_INSTRUCTION_REFERENCE__REFERENCED_ELEMENT = eINSTANCE
-				.getUnitInstructionReference_ReferencedElement();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.LabelDeclarationReferenceImpl <em>Label Declaration Reference</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.LabelDeclarationReferenceImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getLabelDeclarationReference()
-		 * @generated
-		 */
-		EClass LABEL_DECLARATION_REFERENCE = eINSTANCE.getLabelDeclarationReference();
-
-		/**
-		 * The meta object literal for the '<em><b>Referenced Element</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference LABEL_DECLARATION_REFERENCE__REFERENCED_ELEMENT = eINSTANCE
-				.getLabelDeclarationReference_ReferencedElement();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentSectionReferenceInstructionImpl <em>Intent Section Reference Instruction</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentSectionReferenceInstructionImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getIntentSectionReferenceInstruction()
-		 * @generated
-		 */
-		EClass INTENT_SECTION_REFERENCE_INSTRUCTION = eINSTANCE.getIntentSectionReferenceInstruction();
-
-		/**
-		 * The meta object literal for the '<em><b>Referenced Object</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INTENT_SECTION_REFERENCE_INSTRUCTION__REFERENCED_OBJECT = eINSTANCE
-				.getIntentSectionReferenceInstruction_ReferencedObject();
+		EClass INTENT_REFERENCE_INSTRUCTION = eINSTANCE.getIntentReferenceInstruction();
 
 		/**
 		 * The meta object literal for the '<em><b>Text To Print</b></em>' attribute feature.
@@ -993,8 +895,8 @@ public interface GenericUnitPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute INTENT_SECTION_REFERENCE_INSTRUCTION__TEXT_TO_PRINT = eINSTANCE
-				.getIntentSectionReferenceInstruction_TextToPrint();
+		EAttribute INTENT_REFERENCE_INSTRUCTION__TEXT_TO_PRINT = eINSTANCE
+				.getIntentReferenceInstruction_TextToPrint();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.LabelDeclarationImpl <em>Label Declaration</em>}' class.
@@ -1039,15 +941,6 @@ public interface GenericUnitPackage extends EPackage {
 		 * @generated
 		 */
 		EClass LABEL_REFERENCE_INSTRUCTION = eINSTANCE.getLabelReferenceInstruction();
-
-		/**
-		 * The meta object literal for the '<em><b>Referenced Label</b></em>' containment reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference LABEL_REFERENCE_INSTRUCTION__REFERENCED_LABEL = eINSTANCE
-				.getLabelReferenceInstruction_ReferencedLabel();
 
 		/**
 		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
@@ -1098,6 +991,32 @@ public interface GenericUnitPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ADRESSED_ANNOTATION__TYPE = eINSTANCE.getAdressedAnnotation_Type();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentReferenceImpl <em>Intent Reference</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.IntentReferenceImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl#getIntentReference()
+		 * @generated
+		 */
+		EClass INTENT_REFERENCE = eINSTANCE.getIntentReference();
+
+		/**
+		 * The meta object literal for the '<em><b>Intent Href</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INTENT_REFERENCE__INTENT_HREF = eINSTANCE.getIntentReference_IntentHref();
+
+		/**
+		 * The meta object literal for the '<em><b>Referenced Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INTENT_REFERENCE__REFERENCED_ELEMENT = eINSTANCE.getIntentReference_ReferencedElement();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel <em>Type Label</em>}' enum.

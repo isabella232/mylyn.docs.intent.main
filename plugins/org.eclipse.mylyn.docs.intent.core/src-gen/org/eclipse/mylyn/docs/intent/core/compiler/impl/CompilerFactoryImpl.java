@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.mylyn.docs.intent.core.compiler.*;
 import org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
@@ -46,13 +47,12 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!-- end-user-doc -->
- * 
  * @generated
  */
 public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory {
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static CompilerFactory init() {
@@ -69,8 +69,8 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 	}
 
 	/**
-	 * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public CompilerFactoryImpl() {
@@ -79,7 +79,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -137,7 +136,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -159,7 +157,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -181,7 +178,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Map.Entry<String, EObject> createEStringToEObject() {
@@ -191,7 +187,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Map.Entry<String, EList<UnresolvedContributionHolder>> createTextualReferenceToContributions() {
@@ -201,7 +196,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public StringToEObjectMap createStringToEObjectMap() {
@@ -211,7 +205,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Map.Entry<EClassifier, StringToEObjectMap> createETypeToStringToEObjectMap() {
@@ -221,7 +214,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Map.Entry<EObject, EList<UnresolvedReferenceHolder>> createEObjectToUnresolvedReferencesList() {
@@ -231,7 +223,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Map.Entry<ResourceDeclaration, EList<EObject>> createResourceToContainedElementsMapEntry() {
@@ -241,7 +232,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Map.Entry<ModelingUnit, EList<CompilationStatus>> createModelingUnitToStatusList() {
@@ -251,7 +241,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Map.Entry<EObject, EList<UnitInstruction>> createCreatedElementToInstructionMapEntry() {
@@ -261,7 +250,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public UnresolvedReferenceHolder createUnresolvedReferenceHolder() {
@@ -271,7 +259,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public CompilationStatus createCompilationStatus() {
@@ -281,7 +268,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public CompilationStatusManager createCompilationStatusManager() {
@@ -291,7 +277,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public CompilationInformationHolder createCompilationInformationHolder() {
@@ -301,7 +286,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public UnresolvedContributionHolder createUnresolvedContributionHolder() {
@@ -311,7 +295,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TraceabilityIndex createTraceabilityIndex() {
@@ -321,7 +304,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public TraceabilityIndexEntry createTraceabilityIndexEntry() {
@@ -331,7 +313,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Map.Entry<EObject, EList<InstructionTraceabilityEntry>> createCompiledElementToInstructionEntry() {
@@ -341,7 +322,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public InstructionTraceabilityEntry createInstructionTraceabilityEntry() {
@@ -351,7 +331,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Map.Entry<String, EList<ValueForStructuralFeature>> createFeatureToAffectationEntry() {
@@ -361,7 +340,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ResourceChangeStatus createResourceChangeStatus() {
@@ -371,7 +349,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ModelElementChangeStatus createModelElementChangeStatus() {
@@ -381,7 +358,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ReferenceChangeStatus createReferenceChangeStatus() {
@@ -391,7 +367,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public AttributeChangeStatus createAttributeChangeStatus() {
@@ -401,7 +376,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public CompilationStatusSeverity createCompilationStatusSeverityFromString(EDataType eDataType,
@@ -415,7 +389,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertCompilationStatusSeverityToString(EDataType eDataType, Object instanceValue) {
@@ -424,7 +397,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public CompilationMessageType createCompilationMessageTypeFromString(EDataType eDataType,
@@ -438,7 +410,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertCompilationMessageTypeToString(EDataType eDataType, Object instanceValue) {
@@ -447,7 +418,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SynchronizerResourceState createSynchronizerResourceStateFromString(EDataType eDataType,
@@ -461,7 +431,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertSynchronizerResourceStateToString(EDataType eDataType, Object instanceValue) {
@@ -470,7 +439,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public SynchronizerChangeState createSynchronizerChangeStateFromString(EDataType eDataType,
@@ -484,7 +452,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public String convertSynchronizerChangeStateToString(EDataType eDataType, Object instanceValue) {
@@ -493,7 +460,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public CompilerPackage getCompilerPackage() {
@@ -502,7 +468,6 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @deprecated
 	 * @generated
 	 */

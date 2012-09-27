@@ -27,8 +27,10 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentSectionReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
 /**
@@ -92,18 +94,21 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 	 * @return all the {@link org.eclipse.mylyn.docs.intent.core.document.IntentReference}s contained in the
 	 *         queried {@link IntentDocument}
 	 */
-	public Collection<IntentSectionReferenceInstruction> getAllIntentReferenceInstructions() {
-		Collection<IntentSectionReferenceInstruction> intentReferences = Sets.newLinkedHashSet();
-		// Step 1: get all descriptions units
+	public Collection<IntentReferenceInstruction> getAllIntentReferenceInstructions() {
+		Collection<IntentReferenceInstruction> intentReferences = Sets.newLinkedHashSet();
 		for (DescriptionUnit unit : getAllDescriptionUnits()) {
 			intentReferences.addAll(Sets.newLinkedHashSet(Iterables.filter(unit.getInstructions(),
-					IntentSectionReferenceInstruction.class)));
+					IntentReferenceInstruction.class)));
+		}
+		for (ModelingUnit unit : getAllModelingUnits()) {
+			intentReferences.addAll(Sets.newLinkedHashSet(Iterables.filter(unit.getInstructions(),
+					IntentReferenceinModelingUnit.class)));
 		}
 		return intentReferences;
 	}
 
 	/**
-	 * Returns all the {@link DescriptionUnit} contained in the queried {@link IntentDocument}.
+	 * Returns all the {@link DescriptionUnit}s contained in the queried {@link IntentDocument}.
 	 * 
 	 * @return all the {@link DescriptionUnit}s contained in the queried {@link IntentDocument}
 	 */
@@ -113,6 +118,37 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 			descriptionUnits.addAll(getAllDescriptionUnits(chapter));
 		}
 		return descriptionUnits;
+	}
+
+	/**
+	 * Returns all the {@link ModelingUnit}s contained in the queried {@link IntentDocument}.
+	 * 
+	 * @return all the {@link ModelingUnit}s contained in the queried {@link IntentDocument}
+	 */
+	public Collection<ModelingUnit> getAllModelingUnits() {
+		Collection<ModelingUnit> modelingUnits = Sets.newLinkedHashSet();
+		for (IntentChapter chapter : getOrCreateIntentDocument().getChapters()) {
+			modelingUnits.addAll(getAllModelingUnits(chapter));
+		}
+		return modelingUnits;
+	}
+
+	/**
+	 * Returns all the {@link ModelingUnit}s contained in the given {@link IntentSubSectionContainer}.
+	 * 
+	 * @param intentElement
+	 *            the {@link IntentSubSectionContainer} to get the description units from
+	 * @return all the {@link ModelingUnit}s contained in the given {@link IntentSubSectionContainer}
+	 */
+	public Collection<ModelingUnit> getAllModelingUnits(IntentSubSectionContainer intentElement) {
+		Collection<ModelingUnit> modelingUnits = Sets.newLinkedHashSet();
+		if (intentElement instanceof IntentSection) {
+			modelingUnits.addAll(((IntentSection)intentElement).getModelingUnits());
+		}
+		for (IntentSection subSection : intentElement.getSubSections()) {
+			modelingUnits.addAll(getAllModelingUnits(subSection));
+		}
+		return modelingUnits;
 	}
 
 	/**
@@ -132,49 +168,54 @@ public class IntentDocumentQuery extends AbstractIntentQuery {
 	}
 
 	/**
-	 * Returns the map of all the sections per IDs.
+	 * Returns the map of all the elements per IDs.
 	 * 
-	 * @return the map of all the sections
+	 * @return the map of all the elements
 	 */
-	public Map<String, IntentSection> getAllIdentifiedSections() {
-		Map<String, IntentSection> res = new HashMap<String, IntentSection>();
+	public Map<String, IntentStructuredElement> getAllIdentifiedElements() {
+		Map<String, IntentStructuredElement> res = new HashMap<String, IntentStructuredElement>();
 		for (IntentChapter chapter : getOrCreateIntentDocument().getChapters()) {
-			res.putAll(getAllIdentifiedSections(chapter));
+			String chapterId = getID(chapter);
+			if (chapterId != null) {
+				res.put(chapterId, chapter);
+			}
+			res.putAll(getAllIdentifiedElements(chapter));
 		}
 		return res;
 	}
 
 	/**
-	 * Returns the map of all the sections per IDs.
+	 * Returns the map of all the elements per IDs.
 	 * 
 	 * @param root
 	 *            the root container
-	 * @return the map of all the sections
+	 * @return the map of all the elements
 	 */
-	private Map<String, IntentSection> getAllIdentifiedSections(IntentSubSectionContainer root) {
-		Map<String, IntentSection> res = new HashMap<String, IntentSection>();
+	private Map<String, IntentStructuredElement> getAllIdentifiedElements(IntentSubSectionContainer root) {
+		Map<String, IntentStructuredElement> res = new HashMap<String, IntentStructuredElement>();
 		for (IntentSection section : root.getSubSections()) {
-			String sectionID = getSectionID(section);
-			if (sectionID != null) {
-				res.put(sectionID, section);
-				res.putAll(getAllIdentifiedSections(section));
+			String sectionId = getID(section);
+			if (sectionId != null) {
+				res.put(sectionId, section);
 			}
+			res.putAll(getAllIdentifiedElements(section));
 		}
 		return res;
 	}
 
 	/**
-	 * Returns the given section id.
+	 * Returns the given element id.
 	 * 
-	 * @param section
-	 *            the section
-	 * @return the given section id
+	 * @param element
+	 *            the element
+	 * @return the given element id
 	 */
-	private String getSectionID(IntentSection section) {
-		if (!section.getTitle().getContent().isEmpty()) {
+	private String getID(IntentStructuredElement element) {
+		if (element.getTitle() != null && element.getTitle().getContent() != null
+				&& !element.getTitle().getContent().isEmpty()) {
 			// TODO improve id computation
 			// TODO manage duplicates titles
-			return ((Text)section.getTitle().getContent().get(0)).getData().replaceAll(" ", "");
+			return ((Text)element.getTitle().getContent().get(0)).getData().replaceAll(" ", "");
 		}
 		return null;
 	}

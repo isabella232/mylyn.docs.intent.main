@@ -31,7 +31,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
  *
  * @generated
  */
-public class AnnotationMappingImpl extends CDOObjectImpl implements BasicEMap.Entry<String, String> {
+public class AnnotationMappingImpl extends CDOObjectImpl implements BasicEMap.Entry<String, Object> {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -84,8 +84,8 @@ public class AnnotationMappingImpl extends CDOObjectImpl implements BasicEMap.En
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getTypedValue() {
-		return (String)eGet(IntentDocumentPackage.Literals.ANNOTATION_MAPPING__VALUE, true);
+	public Object getTypedValue() {
+		return (Object)eGet(IntentDocumentPackage.Literals.ANNOTATION_MAPPING__VALUE, true);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class AnnotationMappingImpl extends CDOObjectImpl implements BasicEMap.En
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setTypedValue(String newValue) {
+	public void setTypedValue(Object newValue) {
 		eSet(IntentDocumentPackage.Literals.ANNOTATION_MAPPING__VALUE, newValue);
 	}
 
@@ -149,7 +149,7 @@ public class AnnotationMappingImpl extends CDOObjectImpl implements BasicEMap.En
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getValue() {
+	public Object getValue() {
 		return getTypedValue();
 	}
 
@@ -158,8 +158,8 @@ public class AnnotationMappingImpl extends CDOObjectImpl implements BasicEMap.En
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String setValue(String value) {
-		String oldValue = getValue();
+	public Object setValue(Object value) {
+		Object oldValue = getValue();
 		setTypedValue(value);
 		return oldValue;
 	}
@@ -170,9 +170,9 @@ public class AnnotationMappingImpl extends CDOObjectImpl implements BasicEMap.En
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EMap<String, String> getEMap() {
+	public EMap<String, Object> getEMap() {
 		EObject container = eContainer();
-		return container == null ? null : (EMap<String, String>)container.eGet(eContainmentFeature());
+		return container == null ? null : (EMap<String, Object>)container.eGet(eContainmentFeature());
 	}
 
 } //AnnotationMappingImpl

@@ -55,7 +55,7 @@ public final class NativeValueForStructuralFeatureGenerator {
 
 		// We first get the type of the value to generate
 		String typeName = ((StructuralFeatureAffectation)valueInstruction.eContainer()).getMetaType()
-				.getIntentHref();
+				.getTypeName();
 
 		Object generatedValue = generateCorrectValueAccordingToType(valueInstruction, linkResolver, typeName);
 

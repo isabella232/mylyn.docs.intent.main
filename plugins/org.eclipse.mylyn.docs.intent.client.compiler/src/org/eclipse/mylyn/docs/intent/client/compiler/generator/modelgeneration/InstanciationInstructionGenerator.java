@@ -60,7 +60,7 @@ public final class InstanciationInstructionGenerator {
 
 		EObject createdElement = null;
 		// Step 1 : resolving the link to the metaType (thanks to the linkResolver)
-		String metaTypeHref = instanciationInstruction.getMetaType().getIntentHref();
+		String metaTypeHref = instanciationInstruction.getMetaType().getTypeName();
 		try {
 			EClass metaType = (EClass)linkResolver.resolveEClassifierUsingPackage(instanciationInstruction,
 					importedPackageURIS, metaTypeHref);
@@ -150,6 +150,6 @@ public final class InstanciationInstructionGenerator {
 	 * @return true if the given Instantiation instruction instantiates an EPackage, false otherwise
 	 */
 	public static boolean isEPackageInstanciation(InstanciationInstruction instruction) {
-		return "EPackage".equals(instruction.getMetaType().getIntentHref());
+		return "EPackage".equals(instruction.getMetaType().getTypeName());
 	}
 }

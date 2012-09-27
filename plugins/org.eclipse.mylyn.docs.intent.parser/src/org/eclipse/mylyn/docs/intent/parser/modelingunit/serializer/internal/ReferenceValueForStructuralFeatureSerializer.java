@@ -41,7 +41,7 @@ public final class ReferenceValueForStructuralFeatureSerializer {
 
 		int initialOffset = dispatcher.getCurrentOffset();
 		String renderedForm = ""
-				+ dispatcher.doSwitch(referenceValueForStructuralFeature.getReferencedElement());
+				+ dispatcher.doSwitch(referenceValueForStructuralFeature.getInstanciationReference());
 
 		if (referenceValueForStructuralFeature.isLineBreak()) {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;

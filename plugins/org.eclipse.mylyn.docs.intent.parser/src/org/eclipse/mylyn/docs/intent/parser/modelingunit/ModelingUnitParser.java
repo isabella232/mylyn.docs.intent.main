@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.modelingunit;
 
-import java.io.IOException;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -46,16 +44,13 @@ public interface ModelingUnitParser {
 	EObject parseString(int rootOffset, String stringToParse) throws ParseException;
 
 	/**
-	 * Parse the file located at the given filePath and return its AST.
+	 * Parse the given String and return its AST.
 	 * 
-	 * @param filePath
-	 *            Location of the file to parse
-	 * @return the AST corresponding to the file content
+	 * @param stringToParse
+	 *            String representing the Modeling Unit to parse
+	 * @return the AST corresponding to the given String
 	 * @throws ParseException
-	 *             if the given File cannot be parsed
-	 * @throws IOException
-	 *             if the given File doesn't exists
+	 *             if the given String cannot be parsed
 	 */
-	EObject parseFile(String filePath) throws ParseException, IOException;
-
+	EObject parseString(String stringToParse) throws ParseException;
 }
