@@ -42,4 +42,21 @@ public interface IntentRepositoryManagerContribution {
 	 *             if the {@link Repository} cannot be created
 	 */
 	Repository createRepository(String identifier) throws RepositoryConnectionException;
+
+	/**
+	 * Returns the identifier if it cannot be normalized by this contribution, or the normalized form of the
+	 * given identifier otherwise. For example:
+	 * <ul>
+	 * <li>if identifier is of the form platform:/resource/PROJECT_NAME/..., returns PROJECT_NAME</li>
+	 * <li>if identifier is of the form cdo:/REPOSITORY_LOCATION/REPOSITORY_NAME/... returns
+	 * cdo:/REPOSITORY_NAME</li>
+	 * </ul>
+	 * 
+	 * @param identifier
+	 *            the identifier to normalize
+	 * @return the identifier if it cannot be normalized by this contribution, or the normalized form of the
+	 *         given identifier (e.g. if identifier is of the form platform:/resource/PROJECT_NAME/...,
+	 *         returns PROJECT_NAME) otherwise
+	 */
+	String normalizeIdentifier(String identifier);
 }

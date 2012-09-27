@@ -47,7 +47,7 @@ public class CDOIntegrationTest extends AbstractIntentCDOTest {
 
 		// Some remote user modifies the intent document by adding a chapter
 		final RepositoryAdapter remoteUser = IntentRepositoryManager.INSTANCE.getRepository(
-				"cdo:/myIntentProject").createRepositoryAdapter();
+				getIntentRepositoryIdentifier()).createRepositoryAdapter();
 		remoteUser.openSaveContext();
 		remoteUser.execute(new IntentCommand() {
 

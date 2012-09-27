@@ -38,6 +38,10 @@ import org.eclipse.net4j.util.container.IManagedContainer;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class CDORepository implements Repository {
+	/**
+	 * A constant used to identify cdo repositories.
+	 */
+	public static final String CDO_REPOSITORY_IDENTIFIER = "cdo:/";
 
 	/**
 	 * Connector to the repository.
@@ -220,6 +224,15 @@ public class CDORepository implements Repository {
 	 */
 	public void setRepositoryStructurer(RepositoryStructurer structurer) {
 		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#getIdentifier()
+	 */
+	public String getIdentifier() {
+		return CDO_REPOSITORY_IDENTIFIER + repositoryConfiguration.getRepositoryName();
 	}
 
 }

@@ -327,4 +327,13 @@ public class WorkspaceRepository implements Repository {
 		return workspaceAdapter;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#getIdentifier()
+	 */
+	public String getIdentifier() {
+		return workspaceConfig.getProject().getName();
+	}
+
 }

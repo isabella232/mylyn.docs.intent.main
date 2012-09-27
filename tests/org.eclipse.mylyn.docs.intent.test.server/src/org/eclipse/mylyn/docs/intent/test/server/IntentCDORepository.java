@@ -116,4 +116,13 @@ public final class IntentCDORepository {
 			repository = null;
 		}
 	}
+
+	/**
+	 * Returns the server location.
+	 * 
+	 * @return the server location (e.g. localhost:2037)
+	 */
+	public static String getServerLocation() {
+		return SERVER_LOCATION + ":" + SERVER_PORT_NUMBER;
+	}
 }

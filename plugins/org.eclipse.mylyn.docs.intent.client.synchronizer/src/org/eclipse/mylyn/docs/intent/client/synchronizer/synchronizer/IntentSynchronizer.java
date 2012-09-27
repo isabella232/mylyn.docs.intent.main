@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.cdo.util.InvalidURIException;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
@@ -473,6 +474,8 @@ public class IntentSynchronizer {
 			try {
 				resource = resourceSet.getResource(externalURI, true);
 			} catch (WrappedException e) {
+				resource = null;
+			} catch (InvalidURIException e) {
 				resource = null;
 			}
 		}

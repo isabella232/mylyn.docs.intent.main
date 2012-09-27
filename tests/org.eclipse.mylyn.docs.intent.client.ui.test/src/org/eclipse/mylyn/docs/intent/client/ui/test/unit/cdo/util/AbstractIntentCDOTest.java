@@ -63,8 +63,7 @@ public class AbstractIntentCDOTest extends AbstractIntentUITest {
 	@Override
 	protected void setUpIntentProject(String projectName, String intentDocumentPath,
 			boolean listenForRepository) {
-		super.setUpIntentProject("cdo:/" + INTENT_REPOSITORY_NAME + "/" + projectName, intentDocumentPath,
-				listenForRepository);
+		super.setUpIntentProject(getIntentRepositoryIdentifier(), intentDocumentPath, listenForRepository);
 	}
 
 	/**
@@ -93,6 +92,15 @@ public class AbstractIntentCDOTest extends AbstractIntentUITest {
 			fail("Failed to open a Transaction on the CDO Repository '" + projectName + "': "
 					+ e.getMessage());
 		}
+	}
+
+	/**
+	 * Returns the repository identifier associated to the current test.
+	 * 
+	 * @return the repository identifier associated to the current test
+	 */
+	protected final String getIntentRepositoryIdentifier() {
+		return "cdo:/" + IntentCDORepository.getServerLocation() + "/" + INTENT_REPOSITORY_NAME;
 	}
 
 	/**

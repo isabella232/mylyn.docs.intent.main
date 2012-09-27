@@ -66,9 +66,9 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 					.getRepositoryManagerContributions().iterator(); iterator.hasNext() && repository == null;) {
 				IntentRepositoryManagerContribution repositoryManagerContribution = iterator.next();
 				if (repositoryManagerContribution.canCreateRepository(normalizedIdentifier)) {
-					repository = repositoryManagerContribution.createRepository(normalizedIdentifier);
+					repository = repositoryManagerContribution.createRepository(identifier);
 					if (repository != null) {
-						repositoriesByProject.put(normalizedIdentifier, repository);
+						repositoriesByProject.put(repository.getIdentifier(), repository);
 					}
 				}
 			}
@@ -108,14 +108,14 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	 *         platform:/resource/PROJECT_NAME/..., returns PROJECT_NAME
 	 */
 	private String normalizeIdentifier(String identifier) {
-		String normalizedIdentifier = identifier;
-		// If identifier is of the form platform:/resource/PROJECT_NAME/...
-		// we extract the IProject name
-		if (identifier.startsWith("platform:/resource")) {
-			normalizedIdentifier = identifier.toString().replaceFirst("platform:/resource/", "");
-			normalizedIdentifier = normalizedIdentifier.split("/")[0];
+		for (Iterator<IntentRepositoryManagerContribution> iterator = IntentRepositoryManagerContributionRegistry
+				.getRepositoryManagerContributions().iterator(); iterator.hasNext();) {
+			IntentRepositoryManagerContribution repositoryManagerContribution = iterator.next();
+			String normalizedIdentifier = repositoryManagerContribution.normalizeIdentifier(identifier);
+			if (!normalizedIdentifier.equals(identifier)) {
+				return normalizedIdentifier;
+			}
 		}
-		return normalizedIdentifier;
+		return identifier;
 	}
-
 }

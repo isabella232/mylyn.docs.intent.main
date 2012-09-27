@@ -12,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.cdo.repository;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDOConfig;
+import org.eclipse.mylyn.docs.intent.collab.cdo.repository.CDORepository;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -27,13 +28,15 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryRegistry;
  */
 public class IntentCDOBasedRepositoryManagerContribution implements IntentRepositoryManagerContribution {
 
+	private static final String SLASH = "/";
+
 	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution#canCreateRepository(java.lang.String)
 	 */
 	public boolean canCreateRepository(String identifier) {
-		return identifier.contains("cdo:/");
+		return identifier.startsWith(CDORepository.CDO_REPOSITORY_IDENTIFIER);
 	}
 
 	/**
@@ -42,6 +45,8 @@ public class IntentCDOBasedRepositoryManagerContribution implements IntentReposi
 	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution#createRepository(java.lang.String)
 	 */
 	public Repository createRepository(String identifier) throws RepositoryConnectionException {
+		// Identifier should respect the following form:
+		// cdo:/REPOSITORYLOCATION/repoName (e.g. cdo:/localhost:2037/repo1)
 		String repositoryType = "org.eclipse.mylyn.docs.intent.collab.cdo.repository";
 		RepositoryCreator repositoryCreator;
 		try {
@@ -53,24 +58,88 @@ public class IntentCDOBasedRepositoryManagerContribution implements IntentReposi
 				throw new RepositoryConnectionException("Cannot instantiate a repository of type:"
 						+ repositoryType);
 			}
-			CDOConfig config = new CDOConfig("localhost:1027", getRepositoryName(identifier));
-			return repositoryCreator.createRepository(config, repositoryStructurer);
+			String identifierWithoutPrefix = identifier.replaceFirst(
+					CDORepository.CDO_REPOSITORY_IDENTIFIER + SLASH, "").replaceFirst(
+					CDORepository.CDO_REPOSITORY_IDENTIFIER, "");
+			String[] fragments = identifierWithoutPrefix.split(SLASH);
+			if (fragments.length >= 2) {
+				String repositoryLocation = checkRepositoryLocation(fragments[0]);
+				String repositoryName = checkRepositoryName(fragments[1]);
+				CDOConfig config = new CDOConfig(repositoryLocation, repositoryName);
+				return repositoryCreator.createRepository(config, repositoryStructurer);
+			} else {
+				throw new RepositoryConnectionException(
+						"Invalid identifier for Intent repository '"
+								+ identifier
+								+ "': should be cdo:/REPOSITORY_LOCATION/REPOSITORY_NAME (e.g. cdo:/localhost:2036/repo1)");
+			}
 		} catch (CoreException e) {
 			throw new RepositoryConnectionException(e.getMessage());
 		}
 	}
 
 	/**
-	 * Returns the name of the repository contained by the given identifier.
+	 * Checks the repository name, and throw a {@link RepositoryConnectionException} if it is not correct.
 	 * 
-	 * @param identifier
-	 *            the identifier
-	 * @return the repository name
+	 * @param repositoryName
+	 *            the repositoryName extracted from Intent repository identifier
+	 * @return the repository name if correct
+	 * @throws RepositoryConnectionException
+	 *             if the repository name is not correct
 	 */
-	private String getRepositoryName(String identifier) {
-		String repositoryName = identifier.replaceFirst("cdo://", "").replaceFirst("cdo:/", "");
-		repositoryName = repositoryName.split("/")[0];
+	private String checkRepositoryName(String repositoryName) throws RepositoryConnectionException {
+		if (repositoryName.trim().length() == 0) {
+			throw new RepositoryConnectionException("Invalid Intent repositoy name '" + repositoryName + "'");
+		}
 		return repositoryName;
 	}
 
+	/**
+	 * Checks the repository location, and throw a {@link RepositoryConnectionException} if it is not correct.
+	 * 
+	 * @param repositoryLocation
+	 *            the repository location extracted from Intent repository identifier
+	 * @return the repository location if correct
+	 * @throws RepositoryConnectionException
+	 *             if the repository location is not correct
+	 */
+	private String checkRepositoryLocation(String repositoryLocation) throws RepositoryConnectionException {
+		if (repositoryLocation.split(":").length != 2) {
+			throw new RepositoryConnectionException("Invalid Intent repositoy location '"
+					+ repositoryLocation
+					+ "': should be IP_ADRESS:PORT_NUMBER (e.g. 'localhost:2036', '192.1.2.3:1038')");
+		}
+		return repositoryLocation;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution#normalizeIdentifier(java.lang.String)
+	 */
+	public String normalizeIdentifier(String identifier) {
+		String normalizedIdentifier = identifier;
+		// If the identifier starts with cdo:/
+		if (canCreateRepository(normalizedIdentifier)) {
+			// We return cdo:/REPOSITORY_NAME, so that we do not have to always give the repository location
+			String identifierWithoutPrefix = identifier.replaceFirst(
+					CDORepository.CDO_REPOSITORY_IDENTIFIER + SLASH, "").replaceFirst(
+					CDORepository.CDO_REPOSITORY_IDENTIFIER, "");
+			String[] fragments = identifierWithoutPrefix.split(SLASH);
+			if (fragments.length == 1) {
+				// If identifier is already cdo:/REPOSITORY_NAME
+				normalizedIdentifier = identifier;
+			} else {
+				// if identifier is cdo:/REPOSITORY_LOCATION/REPOSITORY_NAME[/...]
+				if ((fragments.length == 2) && (fragments[0].contains(":"))) {
+					normalizedIdentifier = CDORepository.CDO_REPOSITORY_IDENTIFIER + fragments[1];
+				} else {
+					if (fragments.length >= 2) {
+						normalizedIdentifier = CDORepository.CDO_REPOSITORY_IDENTIFIER + fragments[0];
+					}
+				}
+			}
+		}
+		return normalizedIdentifier;
+	}
 }

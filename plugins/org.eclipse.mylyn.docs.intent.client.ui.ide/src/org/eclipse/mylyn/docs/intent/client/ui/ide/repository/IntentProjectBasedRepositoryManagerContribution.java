@@ -39,16 +39,13 @@ public class IntentProjectBasedRepositoryManagerContribution implements IntentRe
 	}
 
 	/**
-	 * Creates the {@link Repository} associated to the given identifier.
+	 * {@inheritDoc}
 	 * 
-	 * @param identifier
-	 *            the repository identifier (can be an IProject name, a CDO Repository name...).
-	 * @return the {@link Repository} associated to the considered project
-	 * @throws RepositoryConnectionException
-	 *             if the {@link Repository} cannot be created
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution#createRepository(java.lang.String)
 	 */
-	public Repository createRepository(String identifier) throws RepositoryConnectionException {
+	public Repository createRepository(String repositoryIdentifier) throws RepositoryConnectionException {
 		Repository repository = null;
+		String identifier = normalizeIdentifier(repositoryIdentifier);
 		try {
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(identifier);
 			if (project != null) {
@@ -56,19 +53,19 @@ public class IntentProjectBasedRepositoryManagerContribution implements IntentRe
 					if (!project.isOpen()) {
 						project.open(null);
 					}
-
+					RepositoryCreator repositoryCreator = null;
+					String repositoryType = null;
 					if (project.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature")) {
-						String repositoryType = getRepositoryType(project);
-						RepositoryCreator repositoryCreator = RepositoryRegistry.INSTANCE
-								.getRepositoryCreator(repositoryType);
-						RepositoryStructurer repositoryStructurer = RepositoryRegistry.INSTANCE
-								.getRepositoryStructurer(repositoryType);
-						if (repositoryCreator == null) {
-							throw new RepositoryConnectionException(
-									"Cannot instantiate a repository of type:" + repositoryType);
-						}
-						repository = repositoryCreator.createRepository(project, repositoryStructurer);
+						repositoryType = getRepositoryType(project);
+						repositoryCreator = RepositoryRegistry.INSTANCE.getRepositoryCreator(repositoryType);
 					}
+					if (repositoryCreator == null) {
+						throw new RepositoryConnectionException("Cannot instantiate a repository of type:"
+								+ repositoryType);
+					}
+					RepositoryStructurer repositoryStructurer = RepositoryRegistry.INSTANCE
+							.getRepositoryStructurer(repositoryType);
+					repository = repositoryCreator.createRepository(project, repositoryStructurer);
 				}
 			}
 		} catch (CoreException e) {
@@ -77,6 +74,15 @@ public class IntentProjectBasedRepositoryManagerContribution implements IntentRe
 		return repository;
 	}
 
+	/**
+	 * Returns the repository type associated to the given {@link IProject}.
+	 * 
+	 * @param project
+	 *            an intent project
+	 * @return the repository type associated to the given {@link IProject}
+	 * @throws CoreException
+	 *             if project description cannot be properly accessed
+	 */
 	private static String getRepositoryType(IProject project) throws CoreException {
 		for (ICommand command : project.getDescription().getBuildSpec()) {
 			if ("org.eclipse.mylyn.docs.intent.client.ui.ide.intentBuilder".equals(command.getBuilderName())) {
@@ -84,6 +90,20 @@ public class IntentProjectBasedRepositoryManagerContribution implements IntentRe
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution#normalizeIdentifier(java.lang.String)
+	 */
+	public String normalizeIdentifier(String identifier) {
+		String normalizedIdentifier = identifier;
+		if (identifier.startsWith("platform:/resource")) {
+			normalizedIdentifier = identifier.toString().replaceFirst("platform:/resource/", "");
+			normalizedIdentifier = normalizedIdentifier.split("/")[0];
+		}
+		return normalizedIdentifier;
 	}
 
 }

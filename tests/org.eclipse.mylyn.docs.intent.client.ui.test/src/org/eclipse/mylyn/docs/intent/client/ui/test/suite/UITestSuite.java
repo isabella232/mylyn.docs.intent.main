@@ -60,6 +60,14 @@ public class UITestSuite extends TestCase {
 		final TestSuite suite = new TestSuite("Intent Global TestSuite");
 
 		/*
+		 * CDO related test Suite
+		 */
+		final TestSuite cdoSuite = new TestSuite("CDO integration tests");
+		suite.addTest(cdoSuite);
+
+		cdoSuite.addTestSuite(CDOIntegrationTest.class);
+
+		/*
 		 * Intent Technical Tests
 		 */
 		final TestSuite clientSuite = new TestSuite("Intent Client tests");
@@ -109,14 +117,6 @@ public class UITestSuite extends TestCase {
 		updatesSuite.addTestSuite(QuickFixTest.class);
 		updatesSuite.addTestSuite(DragAndDropTest.class);
 		uiTestSuite.addTest(updatesSuite);
-
-		/*
-		 * CDO related test Suite
-		 */
-		final TestSuite cdoSuite = new TestSuite("CDO integration tests");
-		suite.addTest(cdoSuite);
-
-		cdoSuite.addTestSuite(CDOIntegrationTest.class);
 
 		return suite;
 	}

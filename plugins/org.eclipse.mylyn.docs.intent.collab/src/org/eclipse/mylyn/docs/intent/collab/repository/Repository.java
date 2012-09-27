@@ -80,4 +80,13 @@ public interface Repository {
 	 */
 	void setRepositoryStructurer(RepositoryStructurer structurer);
 
+	/**
+	 * Returns the identier of this repository (e.g. 'myRepository' for a workspace repository,
+	 * 'cdo:/myRepository' for a cdo repository...).
+	 * 
+	 * @return the identier of this repository (e.g. 'myRepository' for a workspace repository,
+	 *         'cdo:/myRepository' for a cdo repository...)
+	 */
+	String getIdentifier();
+
 }

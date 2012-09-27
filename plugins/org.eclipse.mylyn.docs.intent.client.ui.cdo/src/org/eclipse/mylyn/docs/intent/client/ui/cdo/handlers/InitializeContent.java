@@ -37,7 +37,7 @@ public class InitializeContent extends AbstractHandler {
 	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IntentRepositoryInitializer.initializeContent("cdo:/intent-server", "Document {}");
+		IntentRepositoryInitializer.initializeContent("cdo:/localhost:2036/intent-server", "Document {}");
 		IntentLogger.getInstance().log(LogType.INFO, "Content correctly initialized.");
 		return null;
 	}
