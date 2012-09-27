@@ -305,7 +305,7 @@ public final class SynchronizerStatusFactory {
 		SynchronizerChangeState state = null;
 		switch (differenceKind.getValue()) {
 			case DifferenceKind.ADD_VALUE:
-				state = SynchronizerChangeState.WORKING_COPY_TARGET;
+				state = SynchronizerChangeState.COMPILED_TARGET;
 				break;
 
 			case DifferenceKind.MOVE_VALUE:
@@ -313,7 +313,7 @@ public final class SynchronizerStatusFactory {
 				break;
 
 			case DifferenceKind.DELETE_VALUE:
-				state = SynchronizerChangeState.COMPILED_TARGET;
+				state = SynchronizerChangeState.WORKING_COPY_TARGET;
 				break;
 
 			case DifferenceKind.CHANGE_VALUE:

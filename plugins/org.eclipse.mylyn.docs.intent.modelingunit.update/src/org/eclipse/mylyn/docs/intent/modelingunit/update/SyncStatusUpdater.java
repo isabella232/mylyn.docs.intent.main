@@ -133,7 +133,7 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 					}
 					setNewObjects(newObjects);
 
-					StructuralFeatureAffectation affectation = generateAffectation(
+					StructuralFeatureAffectation affectation = generateSingleAffectation(
 							workingCopyObject.eContainingFeature(), workingCopyObject);
 					if (affectation != null) {
 						instanciation.getStructuralFeatures().add(affectation);
@@ -201,10 +201,7 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 						setValue((ValueForStructuralFeature)status.getTarget(), newValue);
 					}
 				} else if (status.getTarget() instanceof InstanciationInstruction) {
-					StructuralFeatureAffectation newAffectation = generateAffectation(feature, newValue);
-					if (newAffectation != null) {
-						addAffectation(status.getTarget(), newAffectation);
-					}
+					addAffectations(status.getTarget(), generateAffectations(feature, newValue));
 				}
 				break;
 
@@ -217,11 +214,10 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 				break;
 
 			case SynchronizerChangeState.WORKING_COPY_TARGET_VALUE:
-				StructuralFeatureAffectation newAffectation = generateAffectation(feature, newValue);
 				IntentGenericElement container = getContainer(status.getTarget(),
 						ModelingUnitPackage.CONTRIBUTION_INSTRUCTION,
 						ModelingUnitPackage.INSTANCIATION_INSTRUCTION);
-				addAffectation(container, newAffectation);
+				addAffectations(container, generateAffectations(feature, newValue));
 				break;
 
 			default:
@@ -236,16 +232,17 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 	 * 
 	 * @param container
 	 *            the container
-	 * @param affectation
+	 * @param affectations
 	 *            the affectation
 	 */
-	private void addAffectation(IntentGenericElement container, StructuralFeatureAffectation affectation) {
+	private void addAffectations(IntentGenericElement container,
+			List<StructuralFeatureAffectation> affectations) {
 		if (container instanceof ContributionInstruction) {
 			ContributionInstruction contribution = (ContributionInstruction)container;
-			contribution.getContributions().add(affectation);
+			contribution.getContributions().addAll(affectations);
 		} else if (container instanceof InstanciationInstruction) {
 			InstanciationInstruction instanciation = (InstanciationInstruction)container;
-			instanciation.getStructuralFeatures().add(affectation);
+			instanciation.getStructuralFeatures().addAll(affectations);
 		}
 	}
 

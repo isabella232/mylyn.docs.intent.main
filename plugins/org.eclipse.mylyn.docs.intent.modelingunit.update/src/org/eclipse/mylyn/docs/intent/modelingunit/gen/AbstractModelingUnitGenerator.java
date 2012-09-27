@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.modelingunit.gen;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -117,20 +118,8 @@ public abstract class AbstractModelingUnitGenerator {
 
 		for (EStructuralFeature feature : root.eClass().getEAllStructuralFeatures()) {
 			if (!filter(feature)) {
-				Object value = root.eGet(feature);
-				if (value instanceof Collection<?>) {
-					for (Object singleValue : (Collection<?>)value) {
-						StructuralFeatureAffectation affectation = generateAffectation(feature, singleValue);
-						if (affectation != null) {
-							instanciation.getStructuralFeatures().add(affectation);
-						}
-					}
-				} else {
-					StructuralFeatureAffectation affectation = generateAffectation(feature, value);
-					if (affectation != null) {
-						instanciation.getStructuralFeatures().add(affectation);
-					}
-				}
+				instanciation.getStructuralFeatures().addAll(
+						generateAffectations(feature, root.eGet(feature)));
 			}
 		}
 		return instanciation;
@@ -142,10 +131,38 @@ public abstract class AbstractModelingUnitGenerator {
 	 * @param feature
 	 *            the feature to set
 	 * @param workingCopyValue
-	 *            the value to set
+	 *            the value to set, can be a collection
 	 * @return the affectation instruction
 	 */
-	public StructuralFeatureAffectation generateAffectation(EStructuralFeature feature,
+	public List<StructuralFeatureAffectation> generateAffectations(EStructuralFeature feature,
+			Object workingCopyValue) {
+		List<StructuralFeatureAffectation> affectations = new ArrayList<StructuralFeatureAffectation>();
+		if (workingCopyValue instanceof Collection<?>) {
+			for (Object singleValue : (Collection<?>)workingCopyValue) {
+				StructuralFeatureAffectation affectation = generateSingleAffectation(feature, singleValue);
+				if (affectation != null) {
+					affectations.add(affectation);
+				}
+			}
+		} else {
+			StructuralFeatureAffectation affectation = generateSingleAffectation(feature, workingCopyValue);
+			if (affectation != null) {
+				affectations.add(affectation);
+			}
+		}
+		return affectations;
+	}
+
+	/**
+	 * Generates the {@link StructuralFeatureAffectation} which build the affectation.
+	 * 
+	 * @param feature
+	 *            the feature to set
+	 * @param workingCopyValue
+	 *            the single value to set
+	 * @return the affectation instruction
+	 */
+	public StructuralFeatureAffectation generateSingleAffectation(EStructuralFeature feature,
 			Object workingCopyValue) {
 		StructuralFeatureAffectation affectation = null;
 		if (workingCopyValue != null
@@ -166,33 +183,6 @@ public abstract class AbstractModelingUnitGenerator {
 			}
 		}
 		return affectation;
-	}
-
-	/**
-	 * Generates the {@link ValueForStructuralFeature} which build the value.
-	 * 
-	 * @param feature
-	 *            the feature to set
-	 * @param value
-	 *            the value
-	 * @return the value instruction
-	 */
-	public ValueForStructuralFeature generateValue(EStructuralFeature feature, Object value) {
-		ValueForStructuralFeature res = null;
-		if (feature instanceof EAttribute) {
-			res = ModelingUnitFactory.eINSTANCE.createNativeValueForStructuralFeature();
-		} else if (feature instanceof EReference) {
-			if (((EReference)feature).isContainment()) {
-				res = ModelingUnitFactory.eINSTANCE.createNewObjectValueForStructuralFeature();
-			} else {
-				res = ModelingUnitFactory.eINSTANCE.createReferenceValueForStructuralFeature();
-			}
-		}
-		if (setValue(res, value)) {
-			return res;
-		} else {
-			return null;
-		}
 	}
 
 	/**
@@ -226,7 +216,7 @@ public abstract class AbstractModelingUnitGenerator {
 				} else {
 					InstanciationInstructionReference reference = ModelingUnitFactory.eINSTANCE
 							.createInstanciationInstructionReference();
-
+	
 					InstanciationInstruction instanciation = getExistingInstanciationFor((EObject)newValue);
 					if (instanciation != null) {
 						if (instanciation.getName() == null) {
@@ -249,6 +239,33 @@ public abstract class AbstractModelingUnitGenerator {
 				break;
 		}
 		return res;
+	}
+
+	/**
+	 * Generates the {@link ValueForStructuralFeature} which build the value.
+	 * 
+	 * @param feature
+	 *            the feature to set
+	 * @param value
+	 *            the value
+	 * @return the value instruction
+	 */
+	private ValueForStructuralFeature generateValue(EStructuralFeature feature, Object value) {
+		ValueForStructuralFeature res = null;
+		if (feature instanceof EAttribute) {
+			res = ModelingUnitFactory.eINSTANCE.createNativeValueForStructuralFeature();
+		} else if (feature instanceof EReference) {
+			if (((EReference)feature).isContainment()) {
+				res = ModelingUnitFactory.eINSTANCE.createNewObjectValueForStructuralFeature();
+			} else {
+				res = ModelingUnitFactory.eINSTANCE.createReferenceValueForStructuralFeature();
+			}
+		}
+		if (setValue(res, value)) {
+			return res;
+		} else {
+			return null;
+		}
 	}
 
 	/**

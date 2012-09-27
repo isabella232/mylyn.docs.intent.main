@@ -27,7 +27,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
@@ -119,31 +119,27 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 		setNewObjects(getAllNewObjects(elements));
 		newInstanciations = new HashMap<EObject, InstanciationInstruction>();
 		for (EObject workingCopyObject : elements) {
-			ModelElementChangeStatus status = findStatus(workingCopyObject);
-			if (status != null) {
-				Resource compiledResource = repositoryAdapter.getResource(status.getCompiledResourceURI());
-				includeMatch(compiledResource, workingCopyObject.eResource());
-				if (getExistingInstanciationFor(workingCopyObject) == null) {
-					InstanciationInstruction containerInstanciation = getExistingInstanciationFor(workingCopyObject
-							.eContainer());
-					if (containerInstanciation == null) {
-						// lookup in new instanciations
-						containerInstanciation = newInstanciations.get(workingCopyObject.eContainer());
-					}
-					if (containerInstanciation != null) {
-						ContributionInstruction contribution = generateContribution(containerInstanciation);
-						StructuralFeatureAffectation containment = generateAffectation(
-								workingCopyObject.eContainingFeature(), workingCopyObject);
-						contribution.getContributions().add(containment);
-						modelingUnit.getInstructions().add(contribution);
-						newInstanciations.put(workingCopyObject,
-								((NewObjectValueForStructuralFeature)containment.getValues().get(0))
-										.getValue());
-					} else {
-						InstanciationInstruction instanciation = generateInstanciation(workingCopyObject);
-						modelingUnit.getInstructions().add(instanciation);
-						newInstanciations.put(workingCopyObject, instanciation);
-					}
+			Resource compiledResource = getMatchingCompiledResource(workingCopyObject);
+			includeMatch(compiledResource, workingCopyObject.eResource());
+			if (getExistingInstanciationFor(workingCopyObject) == null) {
+				InstanciationInstruction containerInstanciation = getExistingInstanciationFor(workingCopyObject
+						.eContainer());
+				if (containerInstanciation == null) {
+					// lookup in new instanciations
+					containerInstanciation = newInstanciations.get(workingCopyObject.eContainer());
+				}
+				if (containerInstanciation != null) {
+					ContributionInstruction contribution = generateContribution(containerInstanciation);
+					StructuralFeatureAffectation containment = generateSingleAffectation(
+							workingCopyObject.eContainingFeature(), workingCopyObject);
+					contribution.getContributions().add(containment);
+					modelingUnit.getInstructions().add(contribution);
+					newInstanciations.put(workingCopyObject, ((NewObjectValueForStructuralFeature)containment
+							.getValues().get(0)).getValue());
+				} else {
+					InstanciationInstruction instanciation = generateInstanciation(workingCopyObject);
+					modelingUnit.getInstructions().add(instanciation);
+					newInstanciations.put(workingCopyObject, instanciation);
 				}
 			}
 		}
@@ -172,15 +168,15 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 	 *            the object
 	 * @return a status associated to the given object
 	 */
-	private ModelElementChangeStatus findStatus(EObject eObject) {
+	private Resource getMatchingCompiledResource(EObject eObject) {
 		String uriFragment = EcoreUtil.getURI(eObject).toString();
 		CompilationStatusQuery query = new CompilationStatusQuery(repositoryAdapter);
 		for (CompilationStatus compilationStatus : query.getOrCreateCompilationStatusManager()
 				.getCompilationStatusList()) {
-			if (compilationStatus instanceof ModelElementChangeStatus) {
-				ModelElementChangeStatus status = (ModelElementChangeStatus)compilationStatus;
+			if (compilationStatus instanceof StructuralFeatureChangeStatus) {
+				StructuralFeatureChangeStatus status = (StructuralFeatureChangeStatus)compilationStatus;
 				if (uriFragment.equals(status.getWorkingCopyElementURIFragment())) {
-					return status;
+					return repositoryAdapter.getResource(status.getCompiledResourceURI());
 				}
 			}
 		}
