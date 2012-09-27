@@ -20,7 +20,9 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
+import org.eclipse.mylyn.docs.intent.markup.markup.BlockContent;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
+import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 import org.eclipse.mylyn.docs.intent.markup.serializer.WikiTextSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
@@ -114,8 +116,8 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		String identifierA = null;
 		String identifierB = null;
 		if (a instanceof IntentStructuredElement && b instanceof IntentStructuredElement) {
-			identifierA = ((IntentStructuredElement)a).getFormattedTitle();
-			identifierB = ((IntentStructuredElement)b).getFormattedTitle();
+			identifierA = getTitle((IntentStructuredElement)a);
+			identifierB = getTitle((IntentStructuredElement)b);
 		} else if (a instanceof StructuralFeatureAffectation && b instanceof StructuralFeatureAffectation) {
 			identifierA = ((StructuralFeatureAffectation)a).getName();
 			identifierB = ((StructuralFeatureAffectation)b).getName();
@@ -170,5 +172,23 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 			res = serialize(bloc.getDescriptionBloc());
 		}
 		return res;
+	}
+
+	/**
+	 * Returns the formatted title of the given element.
+	 * 
+	 * @param element
+	 *            the formatted title
+	 * @return the formatted title of the given element
+	 */
+	private static String getTitle(IntentStructuredElement element) {
+		String title = null;
+		if (element.getTitle() != null && !element.getTitle().getContent().isEmpty()) {
+			BlockContent content = element.getTitle().getContent().get(0);
+			if (content instanceof Text) {
+				title = ((Text)content).getData();
+			}
+		}
+		return title;
 	}
 }
