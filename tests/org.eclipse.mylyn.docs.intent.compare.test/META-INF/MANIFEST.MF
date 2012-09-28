@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Emf_compare2_merge_issues
+Bundle-Localization: plugin
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.compare.test
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 0.7.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.junit;bundle-version="4.8.1",
  org.eclipse.mylyn.docs.intent.core;bundle-version="0.7.0",
@@ -11,4 +12,5 @@ Require-Bundle: org.eclipse.core.runtime,
  com.google.guava;bundle-version="10.0.1",
  org.eclipse.mylyn.docs.intent.compare;bundle-version="0.7.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Vendor: %providerName

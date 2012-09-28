@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.test.utils;
 
-import com.google.common.collect.Iterables;
-
 import java.io.PrintStream;
 import java.util.Arrays;
 
@@ -27,15 +25,15 @@ import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.compare.utils.IntentEqualityHelper;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
-import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.markup.markup.Annotations;
 import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
-// TODO do we need to externalize this? For now, suppressing the NLS warnings.
+import com.google.common.collect.Iterables;
+
 /**
- * This class exposes methods to serialize a "human-readable" form of the
- * comparison model onto a given stream.
+ * This class exposes methods to serialize a "human-readable" form of the comparison model onto a given
+ * stream.
  * 
  * @author <a href="mailto:laurent.goubet@obeo.fr">Laurent Goubet</a>
  */
@@ -55,14 +53,12 @@ public final class IntentPrettyPrinter {
 	}
 
 	/**
-	 * Prints the whole comparison on the given stream (might be {@code stream}
-	 * ).
+	 * Prints the whole comparison on the given stream (might be {@code stream} ).
 	 * 
 	 * @param comparison
 	 *            The comparison we are to print on {@code stream}.
 	 * @param stream
-	 *            The {@link PrintStream} on which we should print this
-	 *            comparison model.
+	 *            The {@link PrintStream} on which we should print this comparison model.
 	 */
 	public static void printComparison(Comparison comparison, PrintStream stream) {
 		for (MatchResource res : comparison.getMatchedResources()) {
@@ -81,30 +77,25 @@ public final class IntentPrettyPrinter {
 	}
 
 	/**
-	 * Prints all the Match elements contained by the given {@code comparison}.
-	 * Each Match will be displayed on its own line.
+	 * Prints all the Match elements contained by the given {@code comparison}. Each Match will be displayed
+	 * on its own line.
 	 * <p>
-	 * For example, if the left model has two packages "package1" and
-	 * "package2", but the right has "package1" and "package3", what we will
-	 * display here depends on the Match : if "left.package1" is matched with
-	 * "right.package1", but "package2" and "package3" did not match, this will
-	 * print <code><pre>
+	 * For example, if the left model has two packages "package1" and "package2", but the right has "package1"
+	 * and "package3", what we will display here depends on the Match : if "left.package1" is matched with
+	 * "right.package1", but "package2" and "package3" did not match, this will print <code><pre>
 	 * | package1 | package1 |
 	 * | package2 |          |
 	 * |          | package3 |
-	 * </pre></code> On the contrary, if "package2" and "package3" did match, we
-	 * will display <code><pre>
+	 * </pre></code> On the contrary, if "package2" and "package3" did match, we will display <code><pre>
 	 * | package1 | package1 |
 	 * | package2 | package3 |
 	 * </pre></code>
 	 * </p>
 	 * 
 	 * @param comparison
-	 *            The comparison which Matched elements we are to print on
-	 *            {@code stream}.
+	 *            The comparison which Matched elements we are to print on {@code stream}.
 	 * @param stream
-	 *            The {@link PrintStream} on which we should print the matched
-	 *            elements of this comparison.
+	 *            The {@link PrintStream} on which we should print the matched elements of this comparison.
 	 */
 	public static void printMatch(Comparison comparison, PrintStream stream) {
 		final String separator = "+----------------------------------------+----------------------------------------+----------------------------------------+"; //$NON-NLS-1$
@@ -112,9 +103,8 @@ public final class IntentPrettyPrinter {
 		final String rightLabel = "Right";
 		final String originLabel = "Origin";
 		stream.println(separator);
-		stream.println('|' + formatHeader(leftLabel) + '|'
-				+ formatHeader(rightLabel) + '|' + formatHeader(originLabel)
-				+ '|');
+		stream.println('|' + formatHeader(leftLabel) + '|' + formatHeader(rightLabel) + '|'
+				+ formatHeader(originLabel) + '|');
 		stream.println(separator);
 		for (Match match : comparison.getMatches()) {
 			printMatch(match, stream);
@@ -123,20 +113,16 @@ public final class IntentPrettyPrinter {
 	}
 
 	/**
-	 * Prints all differences detected for the given {@code comparison} on the
-	 * given {@code stream}.
+	 * Prints all differences detected for the given {@code comparison} on the given {@code stream}.
 	 * 
 	 * @param comparison
-	 *            The comparison which differences we are to print on
-	 *            {@code stream}.
+	 *            The comparison which differences we are to print on {@code stream}.
 	 * @param stream
-	 *            The {@link PrintStream} on which we should print these
-	 *            differences.
+	 *            The {@link PrintStream} on which we should print these differences.
 	 */
-	public static void printDifferences(Comparison comparison,
-			PrintStream stream) {
-		final Iterable<ReferenceChange> refChanges = Iterables.filter(
-				comparison.getDifferences(), ReferenceChange.class);
+	public static void printDifferences(Comparison comparison, PrintStream stream) {
+		final Iterable<ReferenceChange> refChanges = Iterables.filter(comparison.getDifferences(),
+				ReferenceChange.class);
 
 		stream.println("REFERENCE CHANGES");
 		for (Diff diff : refChanges) {
@@ -145,8 +131,8 @@ public final class IntentPrettyPrinter {
 		stream.println();
 
 		stream.println("ATTRIBUTE CHANGES");
-		final Iterable<AttributeChange> attChanges = Iterables.filter(
-				comparison.getDifferences(), AttributeChange.class);
+		final Iterable<AttributeChange> attChanges = Iterables.filter(comparison.getDifferences(),
+				AttributeChange.class);
 		for (Diff diff : attChanges) {
 			printDiff(diff, stream);
 		}
@@ -164,19 +150,18 @@ public final class IntentPrettyPrinter {
 	 * @param conflict
 	 *            The conflict we need to print on {@code stream}.
 	 * @param stream
-	 *            The {@link PrintStream} on which we should print this
-	 *            conflict.
+	 *            The {@link PrintStream} on which we should print this conflict.
 	 */
 	private static void printConflict(Conflict conflict, PrintStream stream) {
 		stream.println(conflict.getKind() + " conflict:");
-		final Iterable<ReferenceChange> refChanges = Iterables.filter(
-				conflict.getDifferences(), ReferenceChange.class);
+		final Iterable<ReferenceChange> refChanges = Iterables.filter(conflict.getDifferences(),
+				ReferenceChange.class);
 		for (Diff diff : refChanges) {
 			stream.print("\t");
 			printDiff(diff, stream);
 		}
-		final Iterable<AttributeChange> attChanges = Iterables.filter(
-				conflict.getDifferences(), AttributeChange.class);
+		final Iterable<AttributeChange> attChanges = Iterables.filter(conflict.getDifferences(),
+				AttributeChange.class);
 		for (Diff diff : attChanges) {
 			stream.print("\t");
 			printDiff(diff, stream);
@@ -190,12 +175,11 @@ public final class IntentPrettyPrinter {
 	 * @param diff
 	 *            The difference we are to print on {@code stream}.
 	 * @param stream
-	 *            The {@link PrintStream} on which we should print this
-	 *            difference.
+	 *            The {@link PrintStream} on which we should print this difference.
 	 */
 	private static void printDiff(Diff diff, PrintStream stream) {
 		if (diff instanceof ReferenceChange) {
-			final ReferenceChange refChange = (ReferenceChange) diff;
+			final ReferenceChange refChange = (ReferenceChange)diff;
 			final String valueName;
 			if (refChange.getValue() != null) {
 				valueName = elementToReadableString(refChange.getValue());
@@ -217,25 +201,20 @@ public final class IntentPrettyPrinter {
 			}
 			final String objectName;
 			if (refChange.getMatch().getLeft() != null) {
-				objectName = elementToReadableString(refChange.getMatch()
-						.getLeft());
+				objectName = elementToReadableString(refChange.getMatch().getLeft());
 			} else if (refChange.getMatch().getRight() != null) {
-				objectName = elementToReadableString(refChange.getMatch()
-						.getRight());
+				objectName = elementToReadableString(refChange.getMatch().getRight());
 			} else if (refChange.getMatch().getOrigin() != null) {
-				objectName = elementToReadableString(refChange.getMatch()
-						.getOrigin());
+				objectName = elementToReadableString(refChange.getMatch().getOrigin());
 			} else {
 				objectName = "";
 			}
 			if (valueName != null) {
-				stream.println("[" + diff.getKind() + "] " + "value "
-						+ valueName + " has been " + change + " reference "
-						+ refChange.getReference().getName() + " of object "
-						+ objectName);
+				stream.println("[" + diff.getKind() + "] " + "value " + valueName + " has been " + change
+						+ " reference " + refChange.getReference().getName() + " of object " + objectName);
 			}
 		} else if (diff instanceof AttributeChange) {
-			final AttributeChange attChange = (AttributeChange) diff;
+			final AttributeChange attChange = (AttributeChange)diff;
 			String valueName = "null";
 			if (attChange.getValue() != null) {
 				valueName = attChange.getValue().toString();
@@ -255,20 +234,16 @@ public final class IntentPrettyPrinter {
 			}
 			final String objectName;
 			if (attChange.getMatch().getLeft() != null) {
-				objectName = elementToReadableString(attChange.getMatch()
-						.getLeft());
+				objectName = elementToReadableString(attChange.getMatch().getLeft());
 			} else if (attChange.getMatch().getRight() != null) {
-				objectName = elementToReadableString(attChange.getMatch()
-						.getRight());
+				objectName = elementToReadableString(attChange.getMatch().getRight());
 			} else if (attChange.getMatch().getOrigin() != null) {
-				objectName = elementToReadableString(attChange.getMatch()
-						.getOrigin());
+				objectName = elementToReadableString(attChange.getMatch().getOrigin());
 			} else {
 				objectName = "";
 			}
-			stream.println("value " + valueName + " has been " + change
-					+ " attribute " + attChange.getAttribute().getName()
-					+ " of object " + objectName);
+			stream.println("value " + valueName + " has been " + change + " attribute "
+					+ attChange.getAttribute().getName() + " of object " + objectName);
 		}
 	}
 
@@ -278,10 +253,8 @@ public final class IntentPrettyPrinter {
 	 * @param match
 	 *            The match we are to print on {@code stream}.
 	 * @param stream
-	 *            The {@link PrintStream} on which we should print this
-	 *            difference.
-	 * @see #printMatch(Comparison, PrintStream) A description on how we format
-	 *      the match.
+	 *            The {@link PrintStream} on which we should print this difference.
+	 * @see #printMatch(Comparison, PrintStream) A description on how we format the match.
 	 */
 	private static void printMatch(Match match, PrintStream stream) {
 		String leftName = null;
@@ -295,12 +268,10 @@ public final class IntentPrettyPrinter {
 		} else {
 			int level = 0;
 			EObject currentMatch = match;
-			while (currentMatch instanceof Match
-					&& ((Match) currentMatch).getLeft() == null) {
+			while (currentMatch instanceof Match && ((Match)currentMatch).getLeft() == null) {
 				currentMatch = currentMatch.eContainer();
 			}
-			while (currentMatch instanceof Match
-					&& ((Match) currentMatch).getLeft() != null) {
+			while (currentMatch instanceof Match && ((Match)currentMatch).getLeft() != null) {
 				level++;
 				currentMatch = currentMatch.eContainer();
 			}
@@ -312,12 +283,10 @@ public final class IntentPrettyPrinter {
 		} else {
 			int level = 0;
 			EObject currentMatch = match;
-			while (currentMatch instanceof Match
-					&& ((Match) currentMatch).getRight() == null) {
+			while (currentMatch instanceof Match && ((Match)currentMatch).getRight() == null) {
 				currentMatch = currentMatch.eContainer();
 			}
-			while (currentMatch instanceof Match
-					&& ((Match) currentMatch).getRight() != null) {
+			while (currentMatch instanceof Match && ((Match)currentMatch).getRight() != null) {
 				level++;
 				currentMatch = currentMatch.eContainer();
 			}
@@ -333,8 +302,8 @@ public final class IntentPrettyPrinter {
 	}
 
 	/**
-	 * Formats the given header so that it spans {@value #COLUMN_LENGTH}
-	 * characters, centered between white spaces.
+	 * Formats the given header so that it spans {@value #COLUMN_LENGTH} characters, centered between white
+	 * spaces.
 	 * 
 	 * @param header
 	 *            The header we are to format.
@@ -353,13 +322,12 @@ public final class IntentPrettyPrinter {
 		for (int i = 0; i < charsAfter.length; i++) {
 			charsAfter[i] = ' ';
 		}
-		return String.valueOf(charsBefore) + header
-				+ String.valueOf(charsAfter);
+		return String.valueOf(charsBefore) + header + String.valueOf(charsAfter);
 	}
 
 	/**
-	 * Formats the named of the given element by adding spaces before and after
-	 * it so that it spans {@value #COLUMN_LENGTH} characters at most.
+	 * Formats the named of the given element by adding spaces before and after it so that it spans
+	 * {@value #COLUMN_LENGTH} characters at most.
 	 * 
 	 * @param element
 	 *            The element which name should be formatted.
@@ -386,13 +354,11 @@ public final class IntentPrettyPrinter {
 				charsBefore[charsBefore.length - 1] = '-';
 			}
 
-			int missingChars = COLUMN_LENGTH - name.length()
-					- charsBefore.length;
+			int missingChars = COLUMN_LENGTH - name.length() - charsBefore.length;
 			final char[] spacesAfter = new char[Math.max(0, missingChars)];
 			Arrays.fill(spacesAfter, ' ');
 
-			return String.valueOf(charsBefore) + name
-					+ String.valueOf(spacesAfter);
+			return String.valueOf(charsBefore) + name + String.valueOf(spacesAfter);
 		}
 		return null;
 	}
@@ -401,10 +367,8 @@ public final class IntentPrettyPrinter {
 	 * Returns an "empty line" which will only show pipes for previous levels.
 	 * 
 	 * @param level
-	 *            The level of nesting that we should make visible through pipes
-	 *            on this line.
-	 * @return A line that displays only pipes for a tree's {@code level}, and
-	 *         only that.
+	 *            The level of nesting that we should make visible through pipes on this line.
+	 * @return A line that displays only pipes for a tree's {@code level}, and only that.
 	 */
 	private static String getEmptyLine(int level) {
 		char[] charsBefore = new char[1 + (level * 2)];
@@ -462,11 +426,11 @@ public final class IntentPrettyPrinter {
 	public static String diffToReadableString(Diff diff) {
 		String res = diff.getKind() + " ";
 		if (diff instanceof AttributeChange) {
-			AttributeChange change = (AttributeChange) diff;
+			AttributeChange change = (AttributeChange)diff;
 			res += change.getAttribute().getEContainingClass().getName() + "."
 					+ change.getAttribute().getName() + " ";
 		} else if (diff instanceof ReferenceChange) {
-			ReferenceChange change = (ReferenceChange) diff;
+			ReferenceChange change = (ReferenceChange)diff;
 			res += change.getReference().getEContainingClass().getName() + "."
 					+ change.getReference().getName() + " ";
 		}
@@ -491,19 +455,17 @@ public final class IntentPrettyPrinter {
 			res = "?";
 		} else {
 			res = element.eClass().getName();
-			String fragment = new IntentEqualityHelper().getURI(element)
-					.fragment();
+			String fragment = new IntentEqualityHelper().getURI(element).fragment();
 			if (fragment != null) {
 				res += "[" + fragment + "]";
 			}
 		}
 		if (element instanceof Text) {
-			res = "\"" + ((Text) element).getData() + "\"";
-		} else if (element instanceof IntentDocument
-				|| element instanceof Annotations) {
+			res = "\"" + ((Text)element).getData() + "\"";
+		} else if (element instanceof IntentDocument || element instanceof Annotations) {
 			res = null;
 		} else if (element instanceof StructuralFeatureAffectation) {
-			StructuralFeatureAffectation aff = (StructuralFeatureAffectation) element;
+			StructuralFeatureAffectation aff = (StructuralFeatureAffectation)element;
 			res += element.eClass().getName() + " \"" + aff.getName() + "\"";
 		}
 		return res;

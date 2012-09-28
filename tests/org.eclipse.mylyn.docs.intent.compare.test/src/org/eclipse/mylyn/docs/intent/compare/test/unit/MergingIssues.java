@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Obeo.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Obeo - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.test.unit;
 
 import java.io.File;
@@ -12,8 +22,14 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
+/**
+ * Tests the potential merging issues.
+ * 
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
+ */
 public class MergingIssues extends AbstractEMFCompareTest {
 	private static final boolean USE_DEFAULT_COMPARE = false;
+
 	private static final boolean DEBUG = false;
 
 	public void testFillEmptyDoc() throws IOException, ParseException {
@@ -104,13 +120,10 @@ public class MergingIssues extends AbstractEMFCompareTest {
 		compareAndMerge("reverseRename");
 	}
 
-	private void compareAndMerge(String testName) throws IOException,
-			ParseException {
+	private void compareAndMerge(String testName) throws IOException, ParseException {
 
-		String repository = getFileAsString(new File("data/" + testName
-				+ "/IntentDocument.text"));
-		String modified = getFileAsString(new File("data/" + testName
-				+ "/IntentDocument.text.modifications"));
+		String repository = getFileAsString(new File("data/" + testName + "/IntentDocument.text"));
+		String modified = getFileAsString(new File("data/" + testName + "/IntentDocument.text.modifications"));
 		IntentStructuredElement left = parseIntentDocument(modified);
 		IntentStructuredElement right = parseIntentDocument(repository);
 
@@ -132,8 +145,7 @@ public class MergingIssues extends AbstractEMFCompareTest {
 			System.out.println();
 			IntentPrettyPrinter.printMatch(comparison, System.out);
 			IntentPrettyPrinter.printDifferences(comparison, System.out);
-			System.out
-					.println("=========================================================");
+			System.out.println("=========================================================");
 		}
 
 		for (Diff diff : comparison.getDifferences()) {
