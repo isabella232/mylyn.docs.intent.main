@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare;
 
-import com.google.common.collect.Sets;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -29,6 +27,8 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
+
+import com.google.common.collect.Sets;
 
 public class IntentMatchEngineTests extends AbstractIntentUITest {
 
@@ -122,7 +122,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 					Diff diff = assertDiffIsAsExpected(message, differences, 2);
 					assertEquals(message + '\n' + getDiffAsString(differences), DifferenceKind.ADD,
 							diff.getKind());
-					// TODO [COMPARE2] [TESTS] refactor
+					// TODO migrate to emf compare2
 					// assertEquals(message + getDiffAsString(differences), newChapter,
 					// ((ModelElementChangeLeftTarget)diff).getLeftElement());
 					// assertEquals(message + getDiffAsString(differences), getIntentDocument(),
@@ -156,7 +156,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 				Diff diff = assertDiffIsAsExpected(message, differences, 2);
 				assertEquals(message + '\n' + getDiffAsString(differences), DifferenceKind.DELETE,
 						diff.getKind());
-				// TODO [COMPARE2] [TESTS] refactor
+				// TODO migrate to emf compare2
 				// assertEquals(message + '\n' + getDiffAsString(differences), chapterToRemoveInOriginal,
 				// ((ModelElementChangeRightTarget)diff).getRightElement());
 				// assertEquals(message + '\n' + getDiffAsString(differences), copy,
@@ -204,7 +204,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 					Diff diff = assertDiffIsAsExpected(message, differences, containerLevel);
 					assertEquals(message + '\n' + getDiffAsString(differences), DifferenceKind.ADD,
 							diff.getKind());
-					// TODO [COMPARE2] [TESTS] refactor
+					// TODO migrate to emf compare2
 					// assertEquals(message + '\n' + getDiffAsString(differences), newSection,
 					// ((ModelElementChangeLeftTarget)diff).getLeftElement());
 					// assertEquals(message + '\n' + getDiffAsString(differences), container,
@@ -262,7 +262,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 				Diff diff = assertDiffIsAsExpected(message, differences, containerLevel);
 				assertEquals(message + '\n' + getDiffAsString(differences), DifferenceKind.DELETE,
 						diff.getKind());
-				// TODO [COMPARE2] [TESTS] refactor
+				// TODO migrate to emf compare2
 				// assertEquals(message + '\n' + getDiffAsString(differences),
 				// container.getIntentContent().get(trueIndex),
 				// ((ModelElementChangeRightTarget)diff).getRightElement());
@@ -303,15 +303,15 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 		int currentLevel = 0;
 		while (childDiff != null && currentLevel < expectedLevel) {
 			// assertEquals(message + '\n' + getDiffAsString(differences), 1, childDiff.getSubDiffs().size());
-			// // TODO [COMPARE2] [TESTS] refactor
+			// TODO migrate to emf compare2
 			currentLevel++;
 			// childDiff = childDiff.getSubDiffs().iterator().next();
-			// TODO [COMPARE2] [TESTS] refactor
+			// TODO migrate to emf compare2
 		}
 
 		// This difference should not have any sub difference elements
 		// assertEquals(message + '\n' + getDiffAsString(differences), 0, childDiff.getSubDiffs().size()); //
-		// TODO [COMPARE2] [TESTS] refactor
+		// TODO migrate to emf compare2
 		return childDiff;
 	}
 
@@ -319,7 +319,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 		String diff = "";
 		for (Diff element : differences) {
 			diff += element.toString() + '\n';
-			// diff += getDiffAsString(element.getSubDiffs()); // TODO [COMPARE2] [TESTS] refactor
+			// diff += getDiffAsString(element.getSubDiffs()); // TODO migrate to emf compare2
 		}
 		return diff;
 	}

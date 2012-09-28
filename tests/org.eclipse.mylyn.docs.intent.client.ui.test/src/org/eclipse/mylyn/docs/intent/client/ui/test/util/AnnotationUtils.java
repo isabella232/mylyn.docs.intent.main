@@ -155,7 +155,6 @@ public final class AnnotationUtils {
 
 		// Step 3.1 : making match and diff
 		for (Diff diff : EMFCompareUtils.compare(workingCopyResource, generatedResource).getDifferences()) {
-			// TODO [COMPARE2] [TESTS] check merge direction
 			diff.copyLeftToRight();
 		}
 
