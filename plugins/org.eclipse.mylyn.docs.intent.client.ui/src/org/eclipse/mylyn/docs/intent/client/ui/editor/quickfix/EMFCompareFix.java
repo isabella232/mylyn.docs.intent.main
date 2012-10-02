@@ -47,7 +47,7 @@ public class EMFCompareFix extends AbstractIntentFix {
 
 	private static final String COMPARE_EDITOR_TITLE = "Comparing Intent Document and Working Copy";
 
-	private static final ComposedAdapterFactory ADAPTER_FACTORY = new ComposedAdapterFactory(
+	private ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
 			ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
 	/**
@@ -137,7 +137,7 @@ public class EMFCompareFix extends AbstractIntentFix {
 		@Override
 		protected Object prepareInput(IProgressMonitor monitor) throws InvocationTargetException,
 				InterruptedException {
-			return (IDiffElement)ADAPTER_FACTORY.adapt(this.selection, IDiffElement.class);
+			return (IDiffElement)adapterFactory.adapt(this.selection, IDiffElement.class);
 		}
 
 		/**
