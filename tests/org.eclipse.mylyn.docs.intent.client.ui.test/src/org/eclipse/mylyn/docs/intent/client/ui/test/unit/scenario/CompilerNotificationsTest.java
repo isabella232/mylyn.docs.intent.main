@@ -121,7 +121,7 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 
 		// Create another new Modeling Unit : Add an error
 		repositoryListener.clearPreviousEntries();
-		int beginIndex = document.get().lastIndexOf(IntentKeyWords.MODELING_UNIT_END);
+		int beginIndex = document.get().lastIndexOf(IntentKeyWords.MODELING_UNIT_BEGIN);
 		int endIndex = document.get().lastIndexOf(IntentKeyWords.MODELING_UNIT_END);
 		document.set(document.get().substring(0, beginIndex) + document.get().substring(endIndex + 2));
 

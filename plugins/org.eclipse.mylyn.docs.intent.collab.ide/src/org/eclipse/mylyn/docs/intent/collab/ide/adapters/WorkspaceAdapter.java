@@ -705,6 +705,6 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getResourceSet()
 	 */
 	public ResourceSet getResourceSet() {
-		return this.repository.getResourceSet();
+		return new ResourceSetImpl();
 	}
 }
