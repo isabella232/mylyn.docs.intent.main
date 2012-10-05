@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.cdo;
 
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.cdo.util.AbstractIntentCDOTest;
+import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
@@ -80,43 +83,44 @@ public class CDOIntegrationTest extends AbstractIntentCDOTest {
 	 * 
 	 * @throws Exception
 	 */
-	// public void testRemoteChangesIntegrationInsideEditor() throws Exception {
-	// Local user opens an editor on an Intent document
-	// setUpIntentProject("myIntentProject", INTENT_ABSTRACT_RESOURCE_DOCUMENT_PATH, false);
-	// waitForAllOperationsInUIThread();
-	// IntentEditor editor = openIntentEditor(getIntentDocument());
-	// waitForAllOperationsInUIThread();
-	// String initialContent = ((IntentEditorDocument)editor.getDocumentProvider().getDocument(
-	// editor.getEditorInput())).get();
+	public void testRemoteChangesIntegrationInsideEditor() throws Exception {
+		// Local user opens an editor on an Intent document
+		setUpIntentProject("myIntentProject", INTENT_ABSTRACT_RESOURCE_DOCUMENT_PATH, false);
+		IntentEditor editor = IntentEditorOpener.openIntentEditor(
+				IntentRepositoryManager.INSTANCE.getRepository(getIntentRepositoryIdentifier()), false);
+		waitForAllOperationsInUIThread();
+		String initialContent = ((IntentEditorDocument)editor.getDocumentProvider().getDocument(
+				editor.getEditorInput())).get();
 
-	// Remote user adds an untitle chapter
-	// final RepositoryAdapter remoteUser = IntentRepositoryManager.INSTANCE.getRepository(
-	// "cdo:/myIntentProject").createRepositoryAdapter();
-	// remoteUser.openSaveContext();
-	// remoteUser.execute(new IntentCommand() {
-	//
-	// public void execute() {
-	// IntentDocument remoteIntentDocument;
-	// try {
-	// remoteIntentDocument = (IntentDocument)remoteUser
-	// .getOrCreateResource(IntentLocations.INTENT_INDEX).getContents().iterator()
-	// .next();
-	// remoteIntentDocument.getChapters().add(
-	// IntentDocumentFactory.eINSTANCE.createIntentChapter());
-	// } catch (ReadOnlyException e) {
-	// fail(e.getMessage());
-	// }
-	// }
-	// });
-	// remoteUser.save();
-	// remoteUser.closeContext();
-	// waitForAllOperationsInUIThread();
+		// Remote user adds an untitled chapter
+		final RepositoryAdapter remoteUser = IntentRepositoryManager.INSTANCE.getRepository(
+				getIntentRepositoryIdentifier()).createRepositoryAdapter();
+		remoteUser.openSaveContext();
+		remoteUser.execute(new IntentCommand() {
 
-	// Local user should see the new chapter
-	// assertNotSame(initialContent,
-	// ((IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput()))
-	// .get());
-	//
-	// editor.close(false);
-	// }
+			public void execute() {
+				IntentDocument remoteIntentDocument;
+				try {
+					remoteIntentDocument = (IntentDocument)remoteUser
+							.getOrCreateResource(IntentLocations.INTENT_INDEX).getContents().iterator()
+							.next();
+					remoteIntentDocument.getChapters().add(
+							IntentDocumentFactory.eINSTANCE.createIntentChapter());
+				} catch (ReadOnlyException e) {
+					fail(e.getMessage());
+				}
+			}
+		});
+		remoteUser.save();
+		remoteUser.closeContext();
+		waitForAllOperationsInUIThread();
+
+		// Local user should see the new chapter
+		assertNotSame(initialContent,
+				((IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput()))
+						.get());
+		// Local user's editor should not be dirty
+		assertFalse("Editor should not be dirty after remote changes integration", editor.isDirty());
+		editor.close(false);
+	}
 }

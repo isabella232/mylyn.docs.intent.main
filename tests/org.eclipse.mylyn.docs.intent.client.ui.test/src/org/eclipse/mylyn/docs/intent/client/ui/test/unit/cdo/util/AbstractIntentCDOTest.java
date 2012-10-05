@@ -50,6 +50,11 @@ public class AbstractIntentCDOTest extends AbstractIntentUITest {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 
+		// Delete intent repository
+		IntentRepositoryManager.INSTANCE.getRepository(getIntentRepositoryIdentifier()).closeSession();
+		IntentRepositoryManager.INSTANCE.deleteRepository(getIntentRepositoryIdentifier());
+		waitForAllOperationsInUIThread();
+
 		// Stopping the CDOServer
 		IntentCDORepository.stop();
 	}
@@ -112,4 +117,5 @@ public class AbstractIntentCDOTest extends AbstractIntentUITest {
 	protected void additionalSetUpOperations() {
 
 	}
+
 }

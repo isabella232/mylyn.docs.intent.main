@@ -57,16 +57,17 @@ public final class IntentEditorOpener {
 	 * @param readOnlyMode
 	 *            indicates if the editor should be opened in readOnly mode.
 	 */
-	public static void openIntentEditor(final Repository repository, boolean readOnlyMode) {
+	public static IntentEditor openIntentEditor(final Repository repository, boolean readOnlyMode) {
 		try {
 			final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 
 			openContext(repositoryAdapter, readOnlyMode);
 			IntentDocument elementToOpen = new IntentDocumentQuery(repositoryAdapter)
 					.getOrCreateIntentDocument();
-			openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, false);
+			return openIntentEditor(repositoryAdapter, elementToOpen, false, elementToOpen, false);
 		} catch (PartInitException e) {
 			IntentUiLogger.logError(e);
+			return null;
 		}
 	}
 
