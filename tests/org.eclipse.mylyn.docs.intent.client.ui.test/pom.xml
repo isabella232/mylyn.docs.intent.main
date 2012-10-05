@@ -39,7 +39,7 @@
 	      <useUIThread>true</useUIThread>
 	      <product>org.eclipse.e4.ide.application.product</product>
           <application>org.eclipse.ui.ide.workbench</application>
-	      <appArgLine>-Xms200m -Xmx1024m -XX:MaxPermSize=512m</appArgLine>
+	      <appArgLine>-Xms200m -Xmx512m -XX:MaxPermSize=512M</appArgLine>
 	      <testIgnoreFailure>true</testIgnoreFailure>
 	      <testFailureIgnore>true</testFailureIgnore>
 	     <dependencies>
