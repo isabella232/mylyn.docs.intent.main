@@ -14,8 +14,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.emf.cdo.net4j.CDONet4jSession;
-import org.eclipse.emf.cdo.net4j.CDONet4jSessionConfiguration;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
+import org.eclipse.emf.cdo.net4j.CDOSession;
+import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.mylyn.docs.intent.collab.cdo.adapters.CDOAdapter;
@@ -56,12 +57,12 @@ public class CDORepository implements Repository {
 	/**
 	 * SessionConfiguration for the CDO repository (concrete notion).
 	 */
-	private static CDONet4jSessionConfiguration cdoSessionConfiguration;
+	private static CDOSessionConfiguration cdoSessionConfiguration;
 
 	/**
 	 * Current session connected to the repository.
 	 */
-	private static CDONet4jSession session;
+	private static CDOSession session;
 
 	/**
 	 * List of the active repositories (while not empty, we can't close the session).
@@ -133,7 +134,7 @@ public class CDORepository implements Repository {
 			connector = TCPUtil.getConnector(container, repositoryConfiguration.getServerAdress());
 
 			// Create configuration
-			cdoSessionConfiguration = CDONet4jUtil.createNet4jSessionConfiguration();
+			cdoSessionConfiguration = CDONet4jUtil.createSessionConfiguration();
 			cdoSessionConfiguration.setConnector(connector);
 			cdoSessionConfiguration.setRepositoryName(repositoryConfiguration.getRepositoryName());
 
@@ -143,7 +144,7 @@ public class CDORepository implements Repository {
 		if ((session == null) || session.isClosed()) {
 			// Open session
 			try {
-				session = cdoSessionConfiguration.openNet4jSession();
+				session = cdoSessionConfiguration.openSession();
 			} catch (TimeoutRuntimeException tre) {
 				throw new RepositoryConnectionException(tre.getMessage());
 			} catch (ChannelException ce) {
@@ -201,7 +202,7 @@ public class CDORepository implements Repository {
 	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#getPackageRegistry()
 	 */
 	public Registry getPackageRegistry() throws RepositoryConnectionException {
-		return ((CDONet4jSession)getOrCreateSession()).getPackageRegistry();
+		return ((CDOSession)getOrCreateSession()).getPackageRegistry();
 	}
 
 	/**

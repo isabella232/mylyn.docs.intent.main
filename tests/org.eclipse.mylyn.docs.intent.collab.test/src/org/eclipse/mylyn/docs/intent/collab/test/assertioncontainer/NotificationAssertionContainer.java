@@ -67,9 +67,9 @@ public class NotificationAssertionContainer {
 		if ((notification != null) && expectedNotification) {
 			// Then we check that the notification is relative to the expected target
 			isNotificationConformToExpected = isNotificationConformToExpected
-					&& (EcoreUtil.equals(notification.getRightRoots().get(0), expectedTarget));
+					&& (EcoreUtil.equals(notification.getImpactedElements().get(0), expectedTarget));
 			if (!isNotificationConformToExpected) {
-				System.err.println(" got :" + notification.getRightRoots());
+				System.err.println(" got :" + notification.getImpactedElements());
 				System.err.println("expected :" + expectedTarget.eResource());
 			}
 		}

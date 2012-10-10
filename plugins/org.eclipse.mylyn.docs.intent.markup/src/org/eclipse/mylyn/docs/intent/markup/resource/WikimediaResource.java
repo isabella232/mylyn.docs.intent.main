@@ -13,8 +13,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.markup.resource;
 
-import com.google.common.collect.Iterators;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,6 +47,8 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import com.google.common.collect.Iterators;
+
 /**
  * A resource implementation for web-based pages on wikimedia.
  * 
@@ -82,7 +82,8 @@ public class WikimediaResource extends ResourceImpl {
 		Map<?, ?> response = null;
 		if (options != null) {
 			response = (Map<?, ?>)options.get(URIConverter.OPTION_RESPONSE);
-		} else {
+		}
+		if (response == null) {
 			response = new HashMap<Object, Object>();
 		}
 

@@ -1,0 +1,12 @@
+Document {
+	Chapter TITLE {
+		Section {
+			text
+			@M
+				Side {
+					serializable = "false";
+				}
+			M@
+		}
+	}
+}

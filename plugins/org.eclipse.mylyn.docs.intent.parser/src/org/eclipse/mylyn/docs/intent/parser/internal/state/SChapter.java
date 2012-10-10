@@ -21,6 +21,7 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class SChapter extends IntentSubSectionContainerState {
+
 	/**
 	 * SChapter constructor.
 	 * 
@@ -36,12 +37,14 @@ public class SChapter extends IntentSubSectionContainerState {
 	 *            the positionManager where to register positions
 	 * @param title
 	 *            the section title
+	 * @param containerLevel
+	 *            the resolved container level
 	 * @throws ParseException
 	 *             if the title cannot be parsed
 	 */
 	public SChapter(int offset, int declarationLength, IntentGenericState previous, IntentChapter chapter,
-			IntentPositionManager positionManager, String title) throws ParseException {
-		super(offset, declarationLength, previous, chapter, positionManager, title);
+			IntentPositionManager positionManager, String title, String containerLevel) throws ParseException {
+		super(offset, declarationLength, previous, chapter, positionManager, title, containerLevel);
 	}
 
 }

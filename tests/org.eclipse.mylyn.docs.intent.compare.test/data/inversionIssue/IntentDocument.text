@@ -1,0 +1,9 @@
+Document {
+	Chapter {
+		MiddleText
+
+		Section {
+			BottomText
+		}
+	}
+}

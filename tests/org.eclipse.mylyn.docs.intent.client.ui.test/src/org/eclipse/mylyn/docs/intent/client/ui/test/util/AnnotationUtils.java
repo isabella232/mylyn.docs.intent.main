@@ -12,18 +12,11 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.merge.service.MergeService;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
+import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -34,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.SyncStatusUpdater;
@@ -91,7 +85,7 @@ public final class AnnotationUtils {
 	 */
 	public static IntentAnnotation getIntentAnnotation(IntentEditor intentEditor,
 			IntentAnnotationMessageType messageType, String expectedMessage, boolean exactMessage) {
-		Iterator annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
+		Iterator<?> annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
 				.getAnnotationModel(null).getAnnotationIterator();
 		while (annotationIterator.hasNext()) {
 			Object annotation = annotationIterator.next();
@@ -160,14 +154,9 @@ public final class AnnotationUtils {
 		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
 
 		// Step 3.1 : making match and diff
-		final HashMap<String, Object> options = new HashMap<String, Object>();
-		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
-		MatchModel match = MatchService.doResourceMatch(generatedResource, workingCopyResource, options);
-		DiffModel diff = DiffService.doDiff(match, false);
-
-		// Step 3.2 : Merges all differences from local to repository
-		List<DiffElement> differences = new ArrayList<DiffElement>(diff.getOwnedElements());
-		MergeService.merge(differences, true);
+		for (Diff diff : EMFCompareUtils.compare(workingCopyResource, generatedResource).getDifferences()) {
+			diff.copyLeftToRight();
+		}
 
 		// Step 3.3 : Save model
 		workingCopyResource.save(null);
@@ -218,7 +207,7 @@ public final class AnnotationUtils {
 	 */
 	public static void displayAnnotations(IntentEditor intentEditor) {
 		System.err.println("Annotations in \"" + intentEditor.getPartName() + "\":");
-		Iterator annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
+		Iterator<?> annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
 				.getAnnotationModel(null).getAnnotationIterator();
 		while (annotationIterator.hasNext()) {
 			Object o = annotationIterator.next();

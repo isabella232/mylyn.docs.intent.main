@@ -10,31 +10,37 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification;
 
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.metamodel.impl.DiffModelImpl;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 
 /**
- * Representation of a notification (use the EMF Compare DiffModel).
+ * Representation of a notification (use the EMF Compare Comparison).
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class RepositoryChangeNotificationImpl extends DiffModelImpl implements RepositoryChangeNotification {
+public class RepositoryChangeNotificationImpl implements RepositoryChangeNotification {
+
+	private List<EObject> impactedElements;
 
 	/**
 	 * RepositoryChangeNotificationImpl default constructor.
 	 */
 	public RepositoryChangeNotificationImpl() {
 		super();
+		impactedElements = new ArrayList<EObject>();
 	}
 
 	/**
 	 * RepositoryChangeNotificationImpl constructor.
 	 * 
-	 * @param diffModel
-	 *            the DiffModel to copy.
+	 * @param comparison
+	 *            the Comparison to copy.
 	 */
-	public RepositoryChangeNotificationImpl(DiffModel diffModel) {
+	public RepositoryChangeNotificationImpl(Comparison comparison) {
 		super();
 	}
 
@@ -45,7 +51,16 @@ public class RepositoryChangeNotificationImpl extends DiffModelImpl implements R
 	 */
 	@Override
 	public String toString() {
-		String toString = getRightRoots().toString();
+		String toString = getImpactedElements().toString();
 		return toString;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification#getImpactedElements()
+	 */
+	public List<EObject> getImpactedElements() {
+		return impactedElements;
 	}
 }

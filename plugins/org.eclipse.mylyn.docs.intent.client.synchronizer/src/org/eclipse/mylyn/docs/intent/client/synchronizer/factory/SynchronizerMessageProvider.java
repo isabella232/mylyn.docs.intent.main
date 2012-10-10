@@ -10,30 +10,25 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer.factory;
 
-import org.eclipse.emf.compare.diff.metamodel.AttributeChange;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffPackage;
-import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeLeftTarget;
-import org.eclipse.emf.compare.diff.metamodel.ModelElementChangeRightTarget;
-import org.eclipse.emf.compare.diff.metamodel.ReferenceChange;
-import org.eclipse.emf.compare.diff.metamodel.UpdateAttribute;
-import org.eclipse.emf.compare.diff.metamodel.UpdateReference;
-import org.eclipse.emf.compare.diff.metamodel.impl.UpdateAttributeImpl;
-import org.eclipse.emf.compare.diff.metamodel.impl.UpdateReferenceImpl;
-import org.eclipse.emf.ecore.ENamedElement;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.compare.AttributeChange;
+import org.eclipse.emf.compare.Diff;
+import org.eclipse.emf.compare.DifferenceKind;
+import org.eclipse.emf.compare.ReferenceChange;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 
 /**
- * Provide messages created from a given DiffElement.
+ * Provide messages created from a given Diff.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public final class SynchronizerMessageProvider {
 
-	/**
-	 * Represents a whitespace in a status message.
-	 */
+	private static final String SYNC_MESSAGES_SEPARATOR = " : ";
+
+	private static final String SYNC_MESSAGES_BEGINNING = "The ";
+
 	private static final String SYNC_MESSAGES_WHITESPACE = " ";
 
 	private static final String SYNC_MESSAGES_INTERNAL_MODEL = "<b>Current Document</b>";
@@ -41,203 +36,157 @@ public final class SynchronizerMessageProvider {
 	private static final String SYNC_MESSAGES_EXTERNAL_MODEL = "<b>Working Copy</b>";
 
 	/**
-	 * Represents the separation space between to status.
-	 */
-	private static final String SYNC_STATUS_SEPARATOR = "<br/><hr/><br/>";
-
-	/**
 	 * SynchronizerMessageProvider constructor.
 	 */
 	private SynchronizerMessageProvider() {
-
 	}
 
 	/**
-	 * Create a message from the given {@link DiffElement}.
+	 * Create a message from the given {@link Diff}.
 	 * 
-	 * @param diffElement
-	 *            the {@link DiffElement} used to create the returned message
-	 * @return a message created from the given {@link DiffElement} element
+	 * @param diff
+	 *            the {@link Diff} used to create the returned message
+	 * @return a message created from the given {@link Diff} element
 	 */
-	public static String createMessageFromDiffElement(DiffElement diffElement) {
+	public static String createMessageFromDiff(Diff diff) {
 		String returnedMessage = null;
-		try {
-			switch (diffElement.eClass().getClassifierID()) {
-				case DiffPackage.ATTRIBUTE_CHANGE:
-					returnedMessage = createMessageFromAttributeChange((AttributeChange)diffElement);
-					break;
 
-				case DiffPackage.REFERENCE_CHANGE:
-					returnedMessage = createMessageFromReferenceChange((ReferenceChange)diffElement);
-					break;
-
-				case DiffPackage.UPDATE_ATTRIBUTE:
-					returnedMessage = createMessageFromUpdateAttribute((UpdateAttribute)diffElement);
-					break;
-				case DiffPackage.UPDATE_REFERENCE:
-					returnedMessage = createMessageFromUpdateReference((UpdateReference)diffElement);
-					break;
-
-				case DiffPackage.MODEL_ELEMENT_CHANGE_LEFT_TARGET:
-					returnedMessage = createMessageFromModelElementChangeLeftTarget((ModelElementChangeLeftTarget)diffElement);
-					break;
-				case DiffPackage.MODEL_ELEMENT_CHANGE_RIGHT_TARGET:
-					returnedMessage = createMessageFromModelElementChangeRightTarget((ModelElementChangeRightTarget)diffElement);
-					break;
-				case DiffPackage.REFERENCE_CHANGE_LEFT_TARGET:
-					break;
-				case DiffPackage.REFERENCE_CHANGE_RIGHT_TARGET:
-					break;
-				case DiffPackage.RESOURCE_DIFF:
-					break;
-				default:
-					break;
-
+		if (diff instanceof ReferenceChange) {
+			ReferenceChange referenceChange = (ReferenceChange)diff;
+			if (referenceChange.getReference().isContainment()) {
+				returnedMessage = createMessageFromContainmentChange(referenceChange);
+			} else {
+				returnedMessage = createMessageFromReferenceChange(referenceChange);
 			}
-		} catch (IllegalArgumentException e) {
-			returnedMessage = null;
+		} else if (diff instanceof AttributeChange) {
+			returnedMessage = createMessageFromAttributeChange((AttributeChange)diff);
 		}
+
 		if (returnedMessage == null) {
-			returnedMessage = SynchonizerEObjectNameGetter.computeObjectName(diffElement);
+			returnedMessage = diff.toString();
 		}
 		return returnedMessage;
 	}
 
 	/**
-	 * Create a message from the given AttributeChange element.
+	 * Create a message from the given Difference element.
 	 * 
-	 * @param difference
-	 *            the DiffElement used to create the returned message
-	 * @return a message created from the given AttributeChange element
-	 */
-	public static String createMessageFromAttributeChange(AttributeChange difference) {
-		return difference.toString();
-	}
-
-	/**
-	 * Create a message from the given ReferenceChange element.
-	 * 
-	 * @param difference
-	 *            the DiffElement used to create the returned message
+	 * @param diff
+	 *            the Diff used to create the returned message
 	 * @return a message created from the given ReferenceChange element
 	 */
-	public static String createMessageFromReferenceChange(ReferenceChange difference) {
-		return difference.toString();
-	}
-
-	/**
-	 * Create a message from the given UpdateAttribute element.
-	 * 
-	 * @param difference
-	 *            the DiffElement used to create the returned message
-	 * @return a message created from the given UpdateAttribute element
-	 */
-	public static String createMessageFromUpdateAttribute(UpdateAttribute difference) {
-		// We get the attribute
-		EStructuralFeature attribute = ((UpdateAttributeImpl)difference).getAttribute();
-		// <Attribute's class name> <attributename>
-		String returnedMessage = attribute.eClass().getName() + SYNC_MESSAGES_WHITESPACE
-				+ attribute.getName();
-		// If the container of this attribute has a name, 'in' <name of the instance containing this
-		// attribute>
-		if (difference.getLeftElement() instanceof ENamedElement) {
-			String name = ((ENamedElement)difference.getLeftElement()).getName();
-			if (name != null) {
-				returnedMessage += " in " + name;
-			}
+	private static String createMessageFromContainmentChange(ReferenceChange diff) {
+		String returnedMessage = SYNC_MESSAGES_BEGINNING + diff.getValue().eClass().getName()
+				+ SYNC_MESSAGES_WHITESPACE + SynchonizerEObjectNameGetter.computeObjectName(diff.getValue());
+		switch (diff.getKind().getValue()) {
+			case DifferenceKind.ADD_VALUE:
+				returnedMessage += " is defined in the " + SYNC_MESSAGES_INTERNAL_MODEL
+						+ " model<br/>but not in the " + SYNC_MESSAGES_EXTERNAL_MODEL + " model.";
+				break;
+			case DifferenceKind.DELETE_VALUE:
+				returnedMessage += " is defined in the " + SYNC_MESSAGES_EXTERNAL_MODEL
+						+ " model<br/>but not in the " + SYNC_MESSAGES_INTERNAL_MODEL + " model.";
+				break;
+			default:
+				returnedMessage = createMessageFromReferenceChange(diff);
+				break;
 		}
-		// Standard comparison message
-		returnedMessage += createCompareValuesMessage(difference.getLeftElement().eGet(attribute), difference
-				.getRightElement().eGet(attribute));
 		return returnedMessage;
 	}
 
 	/**
-	 * Create a message from the given UpdateAttribute element.
+	 * Create a message from the given Difference element.
 	 * 
-	 * @param difference
-	 *            the DiffElement used to create the returned message
-	 * @return a message created from the given UpdateAttribute element
+	 * @param diff
+	 *            the Diff used to create the returned message
+	 * @return a message created from the given ReferenceChange element
 	 */
-	public static String createMessageFromUpdateReference(UpdateReference difference) {
-		EStructuralFeature reference = ((UpdateReferenceImpl)difference).getReference();
-		String returnedMessage = reference.eClass().getName() + SYNC_MESSAGES_WHITESPACE
-				+ reference.getName();
+	private static String createMessageFromReferenceChange(ReferenceChange diff) {
+		String valueSignature = diff.getValue().eClass().getName() + SYNC_MESSAGES_WHITESPACE
+				+ SynchonizerEObjectNameGetter.computeObjectName(diff.getValue());
 
-		if (difference.getLeftElement() instanceof ENamedElement) {
-			String name = ((ENamedElement)difference.getLeftElement()).getName();
-			if (name != null) {
-				returnedMessage += " in " + name;
-			}
+		String returnedMessage = null;
+		String signature = "reference '" + diff.getReference().getName() + "'";
+
+		switch (diff.getKind().getValue()) {
+			case DifferenceKind.ADD_VALUE:
+				returnedMessage = SYNC_MESSAGES_BEGINNING + valueSignature + " has been added to the "
+						+ signature;
+				break;
+			case DifferenceKind.DELETE_VALUE:
+				returnedMessage = SYNC_MESSAGES_BEGINNING + valueSignature + " has been removed from the "
+						+ signature;
+				break;
+			case DifferenceKind.MOVE_VALUE:
+				returnedMessage = "The order of the values of the " + signature + " has changed";
+				break;
+			case DifferenceKind.CHANGE_VALUE:
+				returnedMessage = SYNC_MESSAGES_BEGINNING + signature;
+				EObject element = diff.getMatch().getRight();
+
+				if (element != null) {
+
+					String elementLabel = SynchonizerEObjectNameGetter.computeObjectName(element);
+					if (elementLabel != null) {
+						returnedMessage += " in " + elementLabel;
+					}
+					returnedMessage += " has changed.<br/>";
+					returnedMessage += SYNC_MESSAGES_INTERNAL_MODEL
+							+ SYNC_MESSAGES_SEPARATOR
+							+ SynchonizerEObjectNameGetter.computeObjectName(diff.getValue())
+							+ "<br/>"
+							+ SYNC_MESSAGES_EXTERNAL_MODEL
+							+ SYNC_MESSAGES_SEPARATOR
+							+ SynchonizerEObjectNameGetter.computeObjectName((EObject)element.eGet(diff
+									.getReference()));
+
+				}
+				break;
+			default:
+				break;
 		}
-		returnedMessage += createCompareValuesMessage(difference.getLeftElement().eGet(reference), difference
-				.getRightElement().eGet(reference));
 		return returnedMessage;
 	}
 
 	/**
-	 * Create a message from the given ModelElementChangeLeftTarget element.
+	 * Create a message from the given Difference element.
 	 * 
-	 * @param difference
-	 *            the DiffElement used to create the returned message
-	 * @return a message created from the given ModelElementChangeLeftTarget element
+	 * @param diff
+	 *            the Diff used to create the returned message
+	 * @return a message created from the given ReferenceChange element
 	 */
-	public static String createMessageFromModelElementChangeLeftTarget(ModelElementChangeLeftTarget difference) {
-		String returnedMessage = "The " + difference.getLeftElement().eClass().getName();
-		if (difference.getLeftElement() instanceof ENamedElement) {
-			String name = ((ENamedElement)difference.getLeftElement()).getName();
-			if (name != null) {
-				returnedMessage += SYNC_MESSAGES_WHITESPACE + name;
-			}
+	private static String createMessageFromAttributeChange(AttributeChange diff) {
+		String returnedMessage = null;
+		String signature = "attribute '" + diff.getAttribute().getName() + "'";
+
+		switch (diff.getKind().getValue()) {
+			case DifferenceKind.ADD_VALUE:
+				returnedMessage = SYNC_MESSAGES_BEGINNING + diff.getValue() + " has been added to "
+						+ signature;
+				break;
+			case DifferenceKind.DELETE_VALUE:
+				returnedMessage = SYNC_MESSAGES_BEGINNING + diff.getValue() + " has been removed from "
+						+ signature;
+				break;
+			case DifferenceKind.MOVE_VALUE:
+				returnedMessage = "The order of the values of " + signature + " has changed";
+				break;
+			case DifferenceKind.CHANGE_VALUE:
+				returnedMessage = SYNC_MESSAGES_BEGINNING + signature;
+				EObject element = diff.getMatch().getRight();
+				String elementLabel = SynchonizerEObjectNameGetter.computeObjectName(element);
+				if (elementLabel != null) {
+					returnedMessage += " in " + elementLabel;
+				}
+				returnedMessage += " has changed.<br/>";
+				returnedMessage += SYNC_MESSAGES_INTERNAL_MODEL + SYNC_MESSAGES_SEPARATOR + diff.getValue()
+						+ "<br/>" + SYNC_MESSAGES_EXTERNAL_MODEL + SYNC_MESSAGES_SEPARATOR
+						+ element.eGet(diff.getAttribute());
+				break;
+			default:
+				break;
 		}
-		returnedMessage += " is defined in the " + SYNC_MESSAGES_INTERNAL_MODEL
-				+ " model<br/>but not in the " + SYNC_MESSAGES_EXTERNAL_MODEL + " model.";
 		return returnedMessage;
-	}
-
-	/**
-	 * Create a message from the given ModelElementChangeRightTarget element.
-	 * 
-	 * @param difference
-	 *            the DiffElement used to create the returned message
-	 * @return a message created from the given ModelElementChangeRightTarget element
-	 */
-	public static String createMessageFromModelElementChangeRightTarget(
-			ModelElementChangeRightTarget difference) {
-		String returnedMessage = "The " + difference.getRightElement().eClass().getName();
-		if (difference.getRightElement() instanceof ENamedElement) {
-			String name = ((ENamedElement)difference.getRightElement()).getName();
-			if (name != null) {
-				returnedMessage += SYNC_MESSAGES_WHITESPACE + name;
-			}
-		}
-		returnedMessage += " is defined in the " + SYNC_MESSAGES_EXTERNAL_MODEL
-				+ " model<br/>but not in the " + SYNC_MESSAGES_INTERNAL_MODEL + " model.";
-		return returnedMessage;
-	}
-
-	/**
-	 * Create a standard comparison message between the given value from the repository and the given local
-	 * value.
-	 * 
-	 * @param repositoryValue
-	 *            the repositoryValue
-	 * @param localValue
-	 *            the localValue
-	 * @return a standard comparison message between the two given values
-	 */
-	private static String createCompareValuesMessage(Object repositoryValue, Object localValue) {
-		return " has changed.<br/>" + SYNC_MESSAGES_INTERNAL_MODEL + " : " + repositoryValue + "<br/>"
-				+ SYNC_MESSAGES_EXTERNAL_MODEL + " : " + localValue;
-	}
-
-	/**
-	 * Returns a String representing the separation space between to status.
-	 * 
-	 * @return a String representing the separation space between to status
-	 */
-	public static String getStatusSeparator() {
-		return SYNC_STATUS_SEPARATOR;
 	}
 
 	/**

@@ -76,7 +76,7 @@ public class ElementListAdapter extends EContentAdapter {
 	public void notifyChangesOnElement(EObject target) {
 		RepositoryChangeNotification newNotification = new RepositoryChangeNotificationImpl();
 		if (target != null) {
-			newNotification.getRightRoots().add(target);
+			newNotification.getImpactedElements().add(target);
 		}
 		this.notificator.notifyHandlers(newNotification);
 	}

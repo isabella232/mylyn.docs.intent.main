@@ -1,0 +1,46 @@
+Section Differencing the left model from right model when comparaison fails {
+	During the Match process, deleted or added elements are considered as unmatched.
+
+	Two different situations can occur : 
+
+	* an element defined in the left model is not matching any element in the right model (deleted element)
+	* an element defined in the right model is not matching any element in the left model (added element)
+	
+
+	
+
+	Section {
+		SubSection1
+
+		MySubSection
+	}
+	@M SidedataTypeDefinition 
+		match {
+			eClassifiers += new EEnum Side {
+				eLiterals += new EEnumLiteral {
+					name = "Left";
+					literal = "Left";
+					value = "0";
+				};
+				eLiterals += new EEnumLiteral {
+					name = "Right";
+					literal = "Right";
+					value = "1";
+				};
+			};
+		}
+	M@
+
+	If the feature @side@ of an UnmatchElement is _Right_, then it must be considered as an added element. 
+	Otherwise, it is a deleted element.
+
+	Section {
+		SubSection2
+
+		MySubSection
+	}
+
+	The MatchModel store suchs an element using @UnmatchElement@s (
+	@see "TheUnmatchElementConcept" ). To differenciate
+	added element from deleted element, we define the @EEnum@ *Side* :
+}

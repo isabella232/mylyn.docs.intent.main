@@ -1,0 +1,13 @@
+Document {
+	Chapter New Chapter {
+		New Chapter.
+	}
+	Chapter Chapter 1 {
+		Chapter 1.
+
+		Section {		}
+	}
+	Chapter Chapter 2 {
+		Chapter 2.
+	}
+}

@@ -46,8 +46,8 @@ public final class NewObjectValueForStructuralFeatureSerializer {
 			renderedForm += ModelingUnitSerializer.LINE_BREAK;
 		}
 
-		// dispatcher.setPositionForInstruction(newObjectValueForStructuralFeature, initialOffset,
-		// renderedForm.length());
+		dispatcher.getPositionManager().setPositionForInstruction(newObjectValueForStructuralFeature,
+				initialOffset, renderedForm.length());
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 		return renderedForm;
 	}

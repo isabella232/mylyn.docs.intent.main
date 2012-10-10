@@ -63,14 +63,22 @@ public class IntentBuilder {
 	private int currentImbricationLevel;
 
 	/**
+	 * The root complete level.
+	 */
+	private String rootCompleteLevel;
+
+	/**
 	 * IntentBuilder constructor.
 	 * 
 	 * @param positionManager
 	 *            the positionManager where to register positions
+	 * @param rootCompleteLevel
+	 *            the root complete level
 	 */
-	public IntentBuilder(IntentPositionManager positionManager) {
+	public IntentBuilder(IntentPositionManager positionManager, String rootCompleteLevel) {
 		roots = new ArrayList<EObject>();
 		this.positionManager = positionManager;
+		this.rootCompleteLevel = rootCompleteLevel;
 	}
 
 	/**
@@ -153,7 +161,7 @@ public class IntentBuilder {
 			currentRoot = IntentDocumentFactory.eINSTANCE.createIntentChapter();
 			roots.add(currentRoot);
 			currentState = new SChapter(offset, declarationLength, null, (IntentChapter)currentRoot,
-					positionManager, title);
+					positionManager, title, rootCompleteLevel);
 
 		} else {
 			currentState = currentState.beginChapter(offset, declarationLength, title);
@@ -178,7 +186,7 @@ public class IntentBuilder {
 			currentRoot = IntentDocumentFactory.eINSTANCE.createIntentSection();
 			roots.add(currentRoot);
 			currentState = new SSection(offset, declarationLength, null, (IntentSection)currentRoot,
-					positionManager, title);
+					positionManager, title, rootCompleteLevel);
 		} else {
 			currentState = currentState.beginSection(offset, declarationLength, title);
 		}

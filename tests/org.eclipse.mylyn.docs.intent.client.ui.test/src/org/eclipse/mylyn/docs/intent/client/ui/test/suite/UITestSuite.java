@@ -17,7 +17,6 @@ import junit.textui.TestRunner;
 
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.cdo.CDOIntegrationTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.IntentMatchEngineTests;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.SimpleOrderTests;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.compilation.CompileTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening.OpenEditorTest;
@@ -30,8 +29,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.CompilerNotifi
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.update.DragAndDropTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.update.QuickFixTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.synchronizer.SynchronizerTest;
 
 /**
  * This suite will launch all the tests relative to the UI behavior.
@@ -65,10 +63,11 @@ public class UITestSuite extends TestCase {
 		final TestSuite clientSuite = new TestSuite("Intent Client tests");
 		suite.addTest(clientSuite);
 
-		// Match & merge tests
-		final TestSuite compareSuite = new TestSuite("Intent match and merge tests");
-		compareSuite.addTestSuite(IntentMatchEngineTests.class);
-		clientSuite.addTest(compareSuite);
+		// TODO reactivate tests when comparison match stable
+		// // Match & merge tests
+		// final TestSuite compareSuite = new TestSuite("Intent match and merge tests");
+		// compareSuite.addTestSuite(IntentMatchEngineTests.class);
+		// clientSuite.addTest(compareSuite);
 
 		/*
 		 * Intent UI Tests
@@ -84,6 +83,7 @@ public class UITestSuite extends TestCase {
 		basicTestSuite.addTestSuite(RefresherTest.class);
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
 		basicTestSuite.addTestSuite(SimpleOrderTests.class);
+		basicTestSuite.addTestSuite(SynchronizerTest.class);
 		uiTestSuite.addTest(basicTestSuite);
 
 		// Scenario tests
@@ -104,11 +104,12 @@ public class UITestSuite extends TestCase {
 		demoSuite.addTestSuite(JavaTest.class);
 		// uiTestSuite.addTest(demoSuite);
 
-		// Updates tests
-		final TestSuite updatesSuite = new TestSuite("Modeling Unit update tests");
-		updatesSuite.addTestSuite(QuickFixTest.class);
-		updatesSuite.addTestSuite(DragAndDropTest.class);
-		uiTestSuite.addTest(updatesSuite);
+		// TODO reactivate tests when comparison match stable
+		// // Updates tests
+		// final TestSuite updatesSuite = new TestSuite("Modeling Unit update tests");
+		// updatesSuite.addTestSuite(QuickFixTest.class);
+		// updatesSuite.addTestSuite(DragAndDropTest.class);
+		// uiTestSuite.addTest(updatesSuite);
 
 		/*
 		 * CDO related test Suite

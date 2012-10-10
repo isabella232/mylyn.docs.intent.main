@@ -41,6 +41,22 @@ public class IntentParser {
 	 *             if the given content contain error or doesn't describe an Intent entity
 	 */
 	public EObject parse(String contentToParse) throws ParseException {
+		return parse(contentToParse, null);
+	}
+
+	/**
+	 * Parse the given content and return the described element.
+	 * 
+	 * @param contentToParse
+	 *            textual form of an Intent entity (can be a IntentDocument, a Section, a Chapter, a Modeling
+	 *            Unit or a Description Unit).
+	 * @param rootCompleteLevel
+	 *            the root complete level
+	 * @return the given content and return the described element
+	 * @throws ParseException
+	 *             if the given content contain error or doesn't describe an Intent entity
+	 */
+	public EObject parse(String contentToParse, String rootCompleteLevel) throws ParseException {
 		IntentDocumentParser documentParser = new IntentDocumentParser();
 		ModelingUnitParserImpl modelingUnitParser = new ModelingUnitParserImpl();
 		DescriptionUnitParser descriptionUnitParser = new DescriptionUnitParser();
@@ -56,7 +72,7 @@ public class IntentParser {
 			} else {
 				// If it starts with a IntentDocument's Keyword (like "Section, Document, Chapter..."
 				if (documentParser.isParserFor(contentToParse)) {
-					generatedObject = documentParser.parse(contentToParse);
+					generatedObject = documentParser.parse(contentToParse, rootCompleteLevel);
 					positionManager.addIntentPositionManagerInformations(documentParser.getPositionManager());
 				} else {
 					// In the other cases, we consider that the given contentToParse is a DescriptionUnit

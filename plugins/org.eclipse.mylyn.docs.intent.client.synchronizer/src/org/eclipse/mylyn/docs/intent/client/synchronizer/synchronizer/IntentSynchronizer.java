@@ -16,7 +16,6 @@ import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +25,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.compare.diff.metamodel.DiffElement;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -44,6 +39,7 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.DefaultSynchro
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
@@ -323,13 +319,13 @@ public class IntentSynchronizer {
 				Resource rightResource = synchronizerStrategy.getRightResource(internalResource,
 						externalResource);
 
-				List<DiffElement> differences = null;
+				List<Diff> differences = null;
 				stopIfCanceled(progressMonitor);
 				differences = compareResource(leftResource, rightResource);
 
 				stopIfCanceled(progressMonitor);
-				// Step 5 : creating status from the DiffElement
-				statusList = createSynchronizerSatusListFromDiffModel(indexEntry, differences,
+				// Step 5 : creating status from the Diff
+				statusList = createSynchronizerSatusListFromComparison(indexEntry, differences,
 						progressMonitor);
 
 				// Step 6 : unloading the external resource
@@ -395,31 +391,30 @@ public class IntentSynchronizer {
 	}
 
 	/**
-	 * Creates the synchronization statuses corresponding to the given list of {@link DiffElement}.
+	 * Creates the synchronization statuses corresponding to the given list of {@link Diff}.
 	 * 
 	 * @param indexEntry
 	 *            the indexEntry indicating the compared resources
 	 * @param differences
-	 *            the list of {@link DiffElement} between the compared resources
+	 *            the list of {@link Diff} between the compared resources
 	 * @param progressMonitor
 	 *            the progress Monitor indicating if this synchronization operation has been canceled
-	 * @return a list containing the synchronization statuses corresponding to the given list of
-	 *         {@link DiffElement}
+	 * @return a list containing the synchronization statuses corresponding to the given list of {@link Diff}
 	 * @throws InterruptedException
 	 *             if the operation has been canceled
 	 */
-	private List<CompilationStatus> createSynchronizerSatusListFromDiffModel(
-			TraceabilityIndexEntry indexEntry, List<DiffElement> differences, Monitor progressMonitor)
+	private List<CompilationStatus> createSynchronizerSatusListFromComparison(
+			TraceabilityIndexEntry indexEntry, List<Diff> differences, Monitor progressMonitor)
 			throws InterruptedException {
 		Map<IntentGenericElement, Collection<CompilationStatus>> elementToSyncStatus = Maps
 				.newLinkedHashMap();
 		List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
 
-		for (DiffElement difference : differences) {
+		for (Diff difference : differences) {
 			stopIfCanceled(progressMonitor);
-			// For each synchronization status relative to the consider diffElement
-			for (CompilationStatus newStatus : SynchronizerStatusFactory.createStatusFromDiffElement(
-					indexEntry, difference)) {
+			// For each synchronization status relative to the consider Diff
+			for (CompilationStatus newStatus : SynchronizerStatusFactory.createStatusFromDiff(indexEntry,
+					difference)) {
 				stopIfCanceled(progressMonitor);
 
 				if (elementToSyncStatus.get(newStatus.getTarget()) == null) {
@@ -489,27 +484,21 @@ public class IntentSynchronizer {
 	 *            the <i>"left"</i> resource of the two resources to get compared.
 	 * @param rightResource
 	 *            the <i>"right"</i> resource of the two resources to get compared.
-	 * @return a list of diffElement corresponding to all the differences between the left resources and the
-	 *         right resource
+	 * @return a list of Diff corresponding to all the differences between the left resources and the right
+	 *         resource
 	 * @throws InterruptedException
 	 *             if the comparison is interrupted
 	 */
-	private List<DiffElement> compareResource(Resource leftResource, Resource rightResource)
+	private List<Diff> compareResource(Resource leftResource, Resource rightResource)
 			throws InterruptedException {
-
 		try {
-			// TODO : treat differently models and meta-models : this match isn't efficient on
-			// simple meta-models instances
-			final HashMap<String, Object> options = new HashMap<String, Object>();
-			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
-			MatchModel matchModel = MatchService.doResourceMatch(leftResource, rightResource, options);
-			DiffModel diff = DiffService.doDiff(matchModel, false);
-			return diff.getDifferences();
+			Comparison comparison = EMFCompareUtils.compare(leftResource, rightResource);
+			return comparison.getDifferences();
 			// CHECKSTYLE:OFF
 		} catch (Exception e) {
 			// CHECKSTYLE :ON
 			// TODO create a Status which has the left resource has target
-			return new ArrayList<DiffElement>();
+			return new ArrayList<Diff>();
 		}
 
 	}

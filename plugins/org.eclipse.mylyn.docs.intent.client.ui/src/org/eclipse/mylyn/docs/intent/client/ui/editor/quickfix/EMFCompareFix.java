@@ -11,47 +11,32 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
-import java.util.Collection;
-import java.util.HashMap;
+import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.compare.CompareConfiguration;
+import org.eclipse.compare.CompareEditorInput;
 import org.eclipse.compare.CompareUI;
-import org.eclipse.compare.internal.Utilities;
-import org.eclipse.core.commands.Command;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.commands.IHandler;
-import org.eclipse.core.commands.NotEnabledException;
-import org.eclipse.core.commands.NotHandledException;
-import org.eclipse.core.commands.ParameterizedCommand;
-import org.eclipse.core.commands.common.NotDefinedException;
-import org.eclipse.core.expressions.Expression;
-import org.eclipse.core.expressions.IEvaluationContext;
-import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.compare.structuremergeviewer.IDiffElement;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.diff.metamodel.ComparisonResourceSnapshot;
-import org.eclipse.emf.compare.diff.metamodel.ComparisonSnapshot;
-import org.eclipse.emf.compare.diff.metamodel.DiffFactory;
-import org.eclipse.emf.compare.diff.metamodel.DiffModel;
-import org.eclipse.emf.compare.diff.service.DiffService;
-import org.eclipse.emf.compare.match.MatchOptions;
-import org.eclipse.emf.compare.match.metamodel.MatchModel;
-import org.eclipse.emf.compare.match.service.MatchService;
-import org.eclipse.emf.compare.ui.editor.ModelCompareEditorInput;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Match;
+import org.eclipse.emf.compare.ide.ui.internal.EMFCompareConstants;
+import org.eclipse.emf.compare.ide.ui.internal.structuremergeviewer.EMFCompareStructureMergeViewer;
+import org.eclipse.emf.compare.ide.ui.internal.util.EMFCompareEditingDomain;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.jface.text.source.Annotation;
-import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
+import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.ui.ISourceProvider;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.IHandlerActivation;
-import org.eclipse.ui.handlers.IHandlerService;
-import org.eclipse.ui.services.IServiceLocator;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * Proposal used to fix a Synchronization issue by opening the compare Editor.
@@ -61,6 +46,9 @@ import org.eclipse.ui.services.IServiceLocator;
 public class EMFCompareFix extends AbstractIntentFix {
 
 	private static final String COMPARE_EDITOR_TITLE = "Comparing Intent Document and Working Copy";
+
+	private ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
+			ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 
 	/**
 	 * Default constructor.
@@ -80,41 +68,27 @@ public class EMFCompareFix extends AbstractIntentFix {
 	 */
 	@Override
 	protected void applyFix(RepositoryAdapter repositoryAdapter, IntentEditorDocument document) {
-		// Step 1 : getting the resources to compare URI
 		String workingCopyResourceURI = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
 				.getWorkingCopyResourceURI().replace("\"", "");
 		String generatedResourceURI = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
 				.getCompiledResourceURI().replace("\"", "");
 
-		// Step 2 : loading the resources
+		// launch comparison
 		Resource generatedResource = repositoryAdapter.getResource(generatedResourceURI);
 		ResourceSetImpl rs = new ResourceSetImpl();
 		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
+		final Comparison comparison = EMFCompareUtils.compare(generatedResource, workingCopyResource);
 
-		// Step 3 : opening a new Compare Editor on these two resources
-		try {
-			// Step 3.1 : making match and diff
-			final HashMap<String, Object> options = new HashMap<String, Object>();
-			options.put(MatchOptions.OPTION_IGNORE_XMI_ID, Boolean.TRUE);
-			MatchModel match = MatchService.doResourceMatch(generatedResource, workingCopyResource, options);
-			DiffModel diff = DiffService.doDiff(match, false);
-
-			// Step 3.2 : creating a comparaison snapshot from this diff
-			ComparisonResourceSnapshot snapshot = DiffFactory.eINSTANCE.createComparisonResourceSnapshot();
-			snapshot.setDiff(diff);
-			snapshot.setMatch(match);
-
-			// Step 3.3 : open a compare dialog
-			final CompareConfiguration compareConfig = new IntentCompareConfiguration(generatedResource,
-					workingCopyResource);
-			ModelCompareEditorInput input = new IntentCompareEditorInput(snapshot, compareConfig);
-			compareConfig.setContainer(input);
-			input.setTitle(COMPARE_EDITOR_TITLE + " (" + workingCopyResourceURI + ")");
-			CompareUI.openCompareDialog(input);
-
-		} catch (InterruptedException e) {
-			// Editor will not be opened
-		}
+		// prepare configuration & open dialog
+		final CompareConfiguration compareConfig = new IntentCompareConfiguration(generatedResource,
+				workingCopyResource);
+		compareConfig.setProperty(EMFCompareConstants.COMPARE_RESULT, comparison);
+		compareConfig.setProperty(EMFCompareConstants.EDITING_DOMAIN, new EMFCompareEditingDomain(comparison,
+				generatedResource, workingCopyResource, null));
+		CompareEditorInput input = new IntentCompareEditorInput(compareConfig, comparison);
+		compareConfig.setContainer(input);
+		input.setTitle(COMPARE_EDITOR_TITLE + " (" + workingCopyResourceURI + ")");
+		CompareUI.openCompareDialog(input);
 	}
 
 	/**
@@ -127,319 +101,53 @@ public class EMFCompareFix extends AbstractIntentFix {
 	}
 
 	/**
-	 * A custom CompareEditorInput for Intent.
-	 * 
-	 * @author alagarde
+	 * A custom implementation of the editor input.
 	 */
-	private class IntentCompareEditorInput extends ModelCompareEditorInput {
-
-		private CompareConfiguration compareConfig;
-
-		private ListenerList listenerList = new ListenerList();
-
-		private boolean isDirty;
+	class IntentCompareEditorInput extends CompareEditorInput {
+		private Object selection;
 
 		/**
-		 * This constructor takes a {@link ComparisonSnapshot} as input.
+		 * Constructor.
 		 * 
-		 * @param snapshot
-		 *            The ComparisonSnapshot loaded from an emfdiff.
-		 * @param compareConfig
-		 *            the compare config
+		 * @param configuration
+		 *            the compare configuration
+		 * @param comparison
+		 *            the comparison
 		 */
-		public IntentCompareEditorInput(ComparisonSnapshot snapshot, CompareConfiguration compareConfig) {
-			super(snapshot);
-			this.compareConfig = compareConfig;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#getCompareConfiguration()
-		 */
-		@Override
-		public CompareConfiguration getCompareConfiguration() {
-			return compareConfig;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#getWorkbenchPart()
-		 */
-		@Override
-		public IWorkbenchPart getWorkbenchPart() {
-			return PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#getServiceLocator()
-		 */
-		@Override
-		public IServiceLocator getServiceLocator() {
-			return new IServiceLocator() {
-
-				public boolean hasService(Class api) {
-					if (api.equals(IHandlerService.class)) {
-						return true;
-					}
-					return false;
+		public IntentCompareEditorInput(CompareConfiguration configuration, Comparison comparison) {
+			super(configuration);
+			this.selection = comparison;
+			CompilationStatus status = syncAnnotation.getCompilationStatus();
+			if (status instanceof StructuralFeatureChangeStatus) {
+				EObject element = ((StructuralFeatureChangeStatus)status).getCompiledElement();
+				Match match = comparison.getMatch(element);
+				if (match != null && !match.getDifferences().isEmpty()) {
+					// TODO improve, find a way to accurately rely status original difference with comparison
+					// (use message ?)
+					this.selection = match.getDifferences().get(0);
 				}
-
-				public Object getService(Class api) {
-					if (api.equals(IHandlerService.class)) {
-						return new IntentCompareHandlerService();
-					}
-					return null;
-				}
-			};
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#addPropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
-		 */
-		@Override
-		public void addPropertyChangeListener(IPropertyChangeListener listener) {
-			if (listener != null) {
-				listenerList.add(listener);
 			}
-			super.addPropertyChangeListener(listener);
 		}
 
 		/**
 		 * {@inheritDoc}
 		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#removePropertyChangeListener(org.eclipse.jface.util.IPropertyChangeListener)
+		 * @see org.eclipse.compare.CompareEditorInput#prepareInput(org.eclipse.core.runtime.IProgressMonitor)
 		 */
 		@Override
-		public void removePropertyChangeListener(IPropertyChangeListener listener) {
-			if (listenerList != null) {
-				listenerList.remove(listener);
-			}
-			super.removePropertyChangeListener(listener);
+		protected Object prepareInput(IProgressMonitor monitor) throws InvocationTargetException,
+				InterruptedException {
+			return (IDiffElement)adapterFactory.adapt(this.selection, IDiffElement.class);
 		}
 
 		/**
 		 * {@inheritDoc}
 		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#setDirty(boolean)
+		 * @see org.eclipse.compare.CompareEditorInput#createDiffViewer(org.eclipse.swt.widgets.Composite)
 		 */
 		@Override
-		public void setDirty(boolean dirty) {
-			boolean oldDirty = isDirty;
-			isDirty = dirty;
-			if (oldDirty != isDirty) {
-				Utilities.firePropertyChange(listenerList, this, DIRTY_STATE, Boolean.valueOf(oldDirty),
-						Boolean.valueOf(isSaveNeeded()));
-			}
-
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#isDirty()
-		 */
-		@Override
-		public boolean isDirty() {
-			return this.isDirty;
-		}
-
+		public Viewer createDiffViewer(Composite parent) {
+			return new EMFCompareStructureMergeViewer(parent, getCompareConfiguration());
+		};
 	}
-
-	/**
-	 * A IHandlerService for Intent.
-	 * 
-	 * @author alagarde
-	 */
-	private class IntentCompareHandlerService implements IHandlerService {
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.services.IDisposable#dispose()
-		 */
-		public void dispose() {
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.services.IServiceWithSources#removeSourceProvider(org.eclipse.ui.ISourceProvider)
-		 */
-		public void removeSourceProvider(ISourceProvider provider) {
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.services.IServiceWithSources#addSourceProvider(org.eclipse.ui.ISourceProvider)
-		 */
-		public void addSourceProvider(ISourceProvider provider) {
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#setHelpContextId(org.eclipse.core.commands.IHandler,
-		 *      java.lang.String)
-		 */
-		public void setHelpContextId(IHandler handler, String helpContextId) {
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#readRegistry()
-		 */
-		public void readRegistry() {
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#getCurrentState()
-		 */
-		public IEvaluationContext getCurrentState() {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#executeCommandInContext(org.eclipse.core.commands.ParameterizedCommand,
-		 *      org.eclipse.swt.widgets.Event, org.eclipse.core.expressions.IEvaluationContext)
-		 */
-		// CHECKSTYLE:OFF
-		public Object executeCommandInContext(ParameterizedCommand command, Event event,
-				IEvaluationContext context) throws ExecutionException, NotDefinedException,
-				NotEnabledException, NotHandledException {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#executeCommand(org.eclipse.core.commands.ParameterizedCommand,
-		 *      org.eclipse.swt.widgets.Event)
-		 */
-		public Object executeCommand(ParameterizedCommand command, Event event) throws ExecutionException,
-				NotDefinedException, NotEnabledException, NotHandledException {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#executeCommand(java.lang.String,
-		 *      org.eclipse.swt.widgets.Event)
-		 */
-		public Object executeCommand(String commandId, Event event) throws ExecutionException,
-				NotDefinedException, NotEnabledException, NotHandledException {
-			return null;
-		}
-
-		// CHECKSTYLE:ON
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#deactivateHandlers(java.util.Collection)
-		 */
-		public void deactivateHandlers(Collection activations) {
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#deactivateHandler(org.eclipse.ui.handlers.IHandlerActivation)
-		 */
-		public void deactivateHandler(IHandlerActivation activation) {
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#createExecutionEvent(org.eclipse.core.commands.ParameterizedCommand,
-		 *      org.eclipse.swt.widgets.Event)
-		 */
-		public ExecutionEvent createExecutionEvent(ParameterizedCommand command, Event event) {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#createExecutionEvent(org.eclipse.core.commands.Command,
-		 *      org.eclipse.swt.widgets.Event)
-		 */
-		public ExecutionEvent createExecutionEvent(Command command, Event event) {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#createContextSnapshot(boolean)
-		 */
-		public IEvaluationContext createContextSnapshot(boolean includeSelection) {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#activateHandler(java.lang.String,
-		 *      org.eclipse.core.commands.IHandler, org.eclipse.core.expressions.Expression, int)
-		 */
-		public IHandlerActivation activateHandler(String commandId, IHandler handler, Expression expression,
-				int sourcePriorities) {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#activateHandler(java.lang.String,
-		 *      org.eclipse.core.commands.IHandler, org.eclipse.core.expressions.Expression, boolean)
-		 */
-		public IHandlerActivation activateHandler(String commandId, IHandler handler, Expression expression,
-				boolean global) {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#activateHandler(java.lang.String,
-		 *      org.eclipse.core.commands.IHandler, org.eclipse.core.expressions.Expression)
-		 */
-		public IHandlerActivation activateHandler(String commandId, IHandler handler, Expression expression) {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#activateHandler(java.lang.String,
-		 *      org.eclipse.core.commands.IHandler)
-		 */
-		public IHandlerActivation activateHandler(String commandId, IHandler handler) {
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.ui.handlers.IHandlerService#activateHandler(org.eclipse.ui.handlers.IHandlerActivation)
-		 */
-		public IHandlerActivation activateHandler(IHandlerActivation activation) {
-			return null;
-		}
-
-	}
-
 }

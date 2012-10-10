@@ -1,0 +1,80 @@
+Document {
+	Chapter Synchronizer {
+		Tests the synchronization status.
+
+		Section MAIN {			
+			@M
+				Resource testResource {
+					URI = "platform:/resource/synchronizer/test.ecore";
+					content += testPackage;
+				}
+				new EPackage testPackage {
+					name = "testPackage";
+					nsURI = "testPackageURI";
+					nsPrefix = "testPackagePrefix";
+					eClassifiers += new EClass A {};
+					eClassifiers += new EClass B {};
+					eClassifiers += new EClass C {};
+				}
+			M@
+			
+		}
+
+		Section Containement {			
+			@M
+				testPackage {
+					eSubpackages += new EPackage OnlyInCurrentDocument {
+						name = "OnlyInCurrentDocument";
+						nsURI = "OnlyInCurrentDocument";
+						nsPrefix = "OnlyInCurrentDocument";
+					};
+				}
+			M@
+			
+		}
+
+		Section References {
+			Section Added {				
+				@M
+					testPackage {
+						eClassifiers += new EClass AddedReference {
+							eSuperTypes += A;
+						};
+					}
+				M@
+				
+			}
+
+			Section Deleted {				
+				@M
+					testPackage {
+						eClassifiers += new EClass DeletedReference {};
+					}
+				M@
+				
+			}
+
+			Section Changed {				
+				@M
+					testPackage {
+						eClassifiers += new EClass ChangedReference {
+							eSuperTypes += B;
+						};
+					}
+				M@
+				
+			}
+		}
+
+		Section Attributes {			
+			@M
+				testPackage {
+					eClassifiers += new EClass Attributes {
+						abstract = "true";
+					};
+				}
+			M@
+			
+		}
+	}
+}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intentDocument:IntentDocument xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intentDU="http://www.eclipse.org/intent/descriptionunit/0.7" xmlns:intentDocument="http://www.eclipse.org/intent/intentdocument/0.7" xmlns:intentGU="http://www.eclipse.org/intent/genericunit/0.7" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.7" xmlns:markup="http://www.eclipse.org/intent/markup/0.7" xsi:schemaLocation="http://www.eclipse.org/intent/descriptionunit/0.7 expectedResults/packagesModels/descriptionUnit.ecore http://www.eclipse.org/intent/intentdocument/0.7 expectedResults/packagesModels/org.eclipse.mylyn.docs.intent.core.document.ecore http://www.eclipse.org/intent/genericunit/0.7 expectedResults/packagesModels/genericUnit.ecore http://www.eclipse.org/intent/modelingunit/0.7 expectedResults/packagesModels/org.eclipse.mylyn.docs.intent.core.modelingunit.ecore http://www.eclipse.org/intent/markup/0.7 expectedResults/packagesModels/markup.ecore">
-  <chapters>
+  <chapters completeLevel="1">
     <title xmi:type="markup:Paragraph">
       <attributes/>
       <content xmi:type="markup:Text" data="Overview : the "/>
@@ -40,7 +40,7 @@
         </descriptionBloc>
       </instructions>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="1.1">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Motivation for define Extended Library"/>
@@ -75,7 +75,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="1.2">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Extended Library storage : Resources definitions"/>
@@ -109,7 +109,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="1.3">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Extended Library Package : package hierarchy"/>
@@ -156,7 +156,7 @@
       </intentContent>
     </intentContent>
   </chapters>
-  <chapters>
+  <chapters completeLevel="2">
     <title xmi:type="markup:Paragraph">
       <attributes/>
       <content xmi:type="markup:Text" data="The main entities of the Extended Library"/>
@@ -173,7 +173,7 @@
         </descriptionBloc>
       </instructions>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="2.1">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Specification of a Book"/>
@@ -296,7 +296,7 @@
       </intentContent>
     </intentContent>
   </chapters>
-  <chapters>
+  <chapters completeLevel="3">
     <title xmi:type="markup:Paragraph">
       <attributes/>
       <content xmi:type="markup:Text" data="The Items hierarchy"/>
@@ -312,7 +312,7 @@
         </descriptionBloc>
       </instructions>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.1">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="BookCategory : allow us to classify Books"/>
@@ -393,7 +393,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.2">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the Book class."/>
@@ -476,7 +476,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.3">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the Library class."/>
@@ -856,7 +856,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.4">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the Writer class."/>
@@ -978,7 +978,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.5">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the Item class."/>
@@ -1063,7 +1063,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.6">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the Lendable class."/>
@@ -1183,7 +1183,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.7">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the CirculatingItem class."/>
@@ -1255,7 +1255,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.8">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the Periodical class."/>
@@ -1369,7 +1369,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.9">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the AudioVisualItem class."/>
@@ -1504,7 +1504,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.10">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the BookOnTape class."/>
@@ -1612,7 +1612,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.11">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the VideoCassette class."/>
@@ -1702,7 +1702,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="3.12">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the Borrower class."/>
@@ -1798,7 +1798,7 @@
       </intentContent>
     </intentContent>
   </chapters>
-  <chapters>
+  <chapters completeLevel="4">
     <title xmi:type="markup:Paragraph">
       <attributes/>
       <content xmi:type="markup:Text" data="Specification of the actor of an Extended Library : Employees and Borrowers"/>
@@ -1813,7 +1813,7 @@
         </descriptionBloc>
       </instructions>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="4.1">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the Person class."/>
@@ -1927,7 +1927,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="4.2">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the Employee class."/>
@@ -2014,7 +2014,7 @@
         </instructions>
       </intentContent>
     </intentContent>
-    <intentContent xmi:type="intentDocument:IntentSection">
+    <intentContent xmi:type="intentDocument:IntentSection" completeLevel="4.3">
       <title xmi:type="markup:Paragraph">
         <attributes/>
         <content xmi:type="markup:Text" data="Presentation of the Addressable class."/>

@@ -67,7 +67,7 @@ public final class CDORepositoryChangeNotificationFactory implements RepositoryC
 		// notification.getNewValue();
 
 		RepositoryChangeNotification newNotification = new RepositoryChangeNotificationImpl();
-		newNotification.getRightRoots().add(target);
+		newNotification.getImpactedElements().add(target);
 		return newNotification;
 	}
 

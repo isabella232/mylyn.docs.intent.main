@@ -46,12 +46,14 @@ public class SSection extends IntentSubSectionContainerState {
 	 *            the positionManager where to register positions
 	 * @param title
 	 *            the section title
+	 * @param containerLevel
+	 *            the resolved container level
 	 * @throws ParseException
 	 *             if the title cannot be parsed
 	 */
 	public SSection(int offset, int declarationLength, IntentGenericState previous, IntentSection section,
-			IntentPositionManager positionManager, String title) throws ParseException {
-		super(offset, declarationLength, previous, section, positionManager, title);
+			IntentPositionManager positionManager, String title, String containerLevel) throws ParseException {
+		super(offset, declarationLength, previous, section, positionManager, title, containerLevel);
 	}
 
 	/**

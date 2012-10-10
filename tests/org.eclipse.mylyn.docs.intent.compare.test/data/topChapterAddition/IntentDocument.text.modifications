@@ -1,0 +1,10 @@
+Document {
+	Chapter New Chapter {
+		New chapter.
+
+		Section {		}
+	}
+	Chapter The first chapter is the best {
+		The first chapter is the best.
+	}
+}

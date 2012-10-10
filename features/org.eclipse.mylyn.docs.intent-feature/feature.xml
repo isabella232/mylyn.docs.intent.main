@@ -12,7 +12,7 @@ Contributors:
 <feature
       id="org.eclipse.mylyn.docs.intent.feature"
       label="%featureName"
-      version="0.7.0.qualifier"
+      version="0.8.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.mylyn.docs.intent">
 
@@ -119,6 +119,13 @@ Contributors:
 
    <plugin
          id="org.eclipse.mylyn.docs.intent.modelingunit.update"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.mylyn.docs.intent.client.linkresolver"
          download-size="0"
          install-size="0"
          version="0.0.0"

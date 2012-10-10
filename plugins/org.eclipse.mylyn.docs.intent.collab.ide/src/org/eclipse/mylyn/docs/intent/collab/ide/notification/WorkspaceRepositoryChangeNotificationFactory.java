@@ -58,7 +58,7 @@ public class WorkspaceRepositoryChangeNotificationFactory implements RepositoryC
 		// notification.getNewValue();
 
 		RepositoryChangeNotification newNotification = new RepositoryChangeNotificationImpl();
-		newNotification.getRightRoots().add(target);
+		newNotification.getImpactedElements().add(target);
 		return newNotification;
 	}
 
@@ -71,7 +71,7 @@ public class WorkspaceRepositoryChangeNotificationFactory implements RepositoryC
 	 */
 	private RepositoryChangeNotification createFromChangedResource(Resource changedResource) {
 		RepositoryChangeNotification newNotification = new RepositoryChangeNotificationImpl();
-		newNotification.getRightRoots().addAll(changedResource.getContents());
+		newNotification.getImpactedElements().addAll(changedResource.getContents());
 		return newNotification;
 	}
 

@@ -1,0 +1,37 @@
+Document {
+	Chapter {
+		The first chapter is the best.
+
+		Section Differencing the left model from right model when comparaison fails {
+			During the Match process, deleted or added elements are considered as unmatched.
+
+			@M SidedataTypeDefinition 
+				match {
+					eClassifiers += new EEnum Side {
+						eLiterals += new EEnumLiteral {
+							name = "Left";
+							literal = "Left";
+							value = "0";
+						};
+						eLiterals += new EEnumLiteral {
+							name = "Right";
+							literal = "Right";
+							value = "1";
+						};
+					};
+				}
+			M@
+
+			Otherwise, it is a deleted element.
+		}
+	}
+	Chapter {
+		Section {
+			@M myModelingUnit 
+				Side {
+					serializable = "true";
+				}
+			M@
+		}
+	}
+}

@@ -72,13 +72,15 @@ public class IntentDocumentParser {
 	 * 
 	 * @param contentToParse
 	 *            the contentToParse
+	 * @param rootCompleteLevel
+	 *            the root complete level
 	 * @return the IntentStructuredElement described by the given content to parse
 	 * @throws ParseException
 	 *             if the given content to parse contains errors
 	 */
-	public EObject parse(String contentToParse) throws ParseException {
+	public EObject parse(String contentToParse, String rootCompleteLevel) throws ParseException {
 		// Step 1 : creating the builder which will generate the elements
-		builder = new IntentBuilder(positionManager);
+		builder = new IntentBuilder(positionManager, rootCompleteLevel);
 		String remainingContentToParse = contentToParse;
 		String currentlyParsedSentence = null;
 		int cursor = 0;
