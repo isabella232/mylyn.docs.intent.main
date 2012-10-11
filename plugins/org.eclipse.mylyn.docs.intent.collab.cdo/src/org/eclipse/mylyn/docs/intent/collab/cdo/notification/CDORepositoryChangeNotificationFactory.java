@@ -89,7 +89,7 @@ public final class CDORepositoryChangeNotificationFactory implements RepositoryC
 				switch (delta.getType()) {
 					case SET:
 						if (event.getLocalTransaction() != null) {
-							newNotification.getRightRoots().add(
+							newNotification.getImpactedElements().add(
 									event.getLocalTransaction().getObject(key.getID()));
 							break;
 						}

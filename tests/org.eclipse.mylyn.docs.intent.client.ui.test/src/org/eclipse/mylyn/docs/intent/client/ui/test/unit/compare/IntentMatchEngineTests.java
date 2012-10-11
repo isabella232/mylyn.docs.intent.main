@@ -28,16 +28,13 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 
-<<<<<<< HEAD
+import com.google.common.collect.Sets;
+
 /**
  * Test ensuring that the Intent match engine works as expected.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-=======
-import com.google.common.collect.Sets;
-
->>>>>>> master
 public class IntentMatchEngineTests extends AbstractIntentUITest {
 
 	private static final String INTENT_DOCUMENT_FOLDER = "data/unit/documents/editorupdates/";
