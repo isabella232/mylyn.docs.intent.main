@@ -57,4 +57,14 @@ public interface IntentRepositoryManager {
 	 */
 	void deleteRepository(String identifier);
 
+	/**
+	 * Registers the repository with the given identifier.
+	 * 
+	 * @param identifier
+	 *            the repository identifier
+	 * @param repository
+	 *            the repository
+	 */
+	void register(String identifier, Repository repository);
+
 }

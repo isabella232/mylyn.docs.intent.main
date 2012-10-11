@@ -66,9 +66,9 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 					.getRepositoryManagerContributions().iterator(); iterator.hasNext() && repository == null;) {
 				IntentRepositoryManagerContribution repositoryManagerContribution = iterator.next();
 				if (repositoryManagerContribution.canCreateRepository(normalizedIdentifier)) {
-					repository = repositoryManagerContribution.createRepository(identifier);
+					repository = repositoryManagerContribution.createRepository(normalizedIdentifier);
 					if (repository != null) {
-						repositoriesByProject.put(repository.getIdentifier(), repository);
+						repositoriesByProject.put(normalizedIdentifier, repository);
 					}
 				}
 			}
@@ -96,6 +96,16 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	public synchronized void deleteRepository(String identifier) {
 		String normalizedIdentifier = normalizeIdentifier(identifier);
 		repositoriesByProject.remove(normalizedIdentifier);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager#register(java.lang.String, org.eclipse.mylyn.docs.intent.collab.repository.Repository)
+	 */
+	public synchronized void register(String identifier, Repository repository) {
+		String normalizedIdentifier = normalizeIdentifier(identifier);
+		repositoriesByProject.put(normalizedIdentifier, repository);
 	}
 
 	/**

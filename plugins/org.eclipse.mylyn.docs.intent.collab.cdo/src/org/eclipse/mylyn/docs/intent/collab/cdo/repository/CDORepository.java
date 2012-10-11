@@ -13,10 +13,9 @@ package org.eclipse.mylyn.docs.intent.collab.cdo.repository;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.eclipse.emf.cdo.net4j.CDONet4jSession;
 import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
-import org.eclipse.emf.cdo.net4j.CDOSession;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
+import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.util.CDOUtil;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.mylyn.docs.intent.collab.cdo.adapters.CDOAdapter;
@@ -42,27 +41,27 @@ public class CDORepository implements Repository {
 	/**
 	 * A constant used to identify cdo repositories.
 	 */
-	public static final String CDO_REPOSITORY_IDENTIFIER = "cdo:/";
+	public static final String CDO_REPOSITORY_IDENTIFIER = "cdo://";
 
 	/**
 	 * Connector to the repository.
 	 */
-	private static IConnector connector;
+	private IConnector connector;
 
 	/**
 	 * Container containing the connection.
 	 */
-	private static IManagedContainer container;
+	private IManagedContainer container;
 
 	/**
 	 * SessionConfiguration for the CDO repository (concrete notion).
 	 */
-	private static CDOSessionConfiguration cdoSessionConfiguration;
+	private CDOSessionConfiguration cdoSessionConfiguration;
 
 	/**
 	 * Current session connected to the repository.
 	 */
-	private static CDOSession session;
+	private CDOSession session;
 
 	/**
 	 * List of the active repositories (while not empty, we can't close the session).
@@ -78,6 +77,17 @@ public class CDORepository implements Repository {
 	 * Registry containing all the clients currently subscribed to this repository.
 	 */
 	private Set<RepositoryClient> clientRegistry;
+
+	/**
+	 * CDORepository constructor.
+	 * 
+	 * @param cdoSession
+	 *            the cdo session to use
+	 */
+	public CDORepository(CDOSession cdoSession) {
+		this.clientRegistry = new LinkedHashSet<RepositoryClient>();
+		this.session = cdoSession;
+	}
 
 	/**
 	 * CDORepository constructor.
@@ -120,7 +130,7 @@ public class CDORepository implements Repository {
 	public Object getOrCreateSession() throws RepositoryConnectionException {
 
 		// If no configuration has been created yet
-		if (cdoSessionConfiguration == null) {
+		if (cdoSessionConfiguration == null && session == null) {
 			CDOUtil.setLegacyModeDefault(true);
 			// We create this configuration
 			container = ContainerUtil.createContainer();
@@ -212,7 +222,7 @@ public class CDORepository implements Repository {
 	 */
 	public RepositoryAdapter createRepositoryAdapter() {
 		try {
-			return new CDOAdapter(this, (CDONet4jSession)getOrCreateSession());
+			return new CDOAdapter(this, (CDOSession)getOrCreateSession());
 		} catch (RepositoryConnectionException e) {
 			return null;
 		}
