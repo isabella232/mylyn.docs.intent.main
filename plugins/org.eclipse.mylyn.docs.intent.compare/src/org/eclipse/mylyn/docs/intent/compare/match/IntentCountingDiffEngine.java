@@ -12,6 +12,8 @@ package org.eclipse.mylyn.docs.intent.compare.match;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.CountingDiffEngine;
+import org.eclipse.mylyn.docs.intent.compare.utils.LocationDistanceUtils;
+import org.eclipse.mylyn.docs.intent.compare.utils.StringDistanceUtils;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
@@ -33,9 +35,9 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  */
 public class IntentCountingDiffEngine extends CountingDiffEngine {
 
-	private static final double LOCALIZATION_DISTANCE_WEIGHT = 0.2;
+	private static final double LOCALIZATION_DISTANCE_WEIGHT = 0.15;
 
-	private static final double IDENTIFIER_DISTANCE_WEIGHT = 0.8;
+	private static final double IDENTIFIER_DISTANCE_WEIGHT = 0.85;
 
 	/**
 	 * Constructor.
@@ -65,7 +67,7 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		Integer distance = null;
 
 		// the default localization distance
-		Integer uriDistance = getURIDistance(a, b);
+		Integer locationDistance = getLocationDistance(a, b);
 
 		// the semantic distance: in the best case, a title or feature id. If not available, the
 		// element serialization
@@ -74,17 +76,21 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 			identifierDistance = getSerializationDistance(a, b);
 		}
 
-		if (identifierDistance != null) {
-			distance = (int)(identifierDistance * IDENTIFIER_DISTANCE_WEIGHT + uriDistance
+		if (identifierDistance != null && locationDistance != null) {
+			distance = (int)(identifierDistance * IDENTIFIER_DISTANCE_WEIGHT + locationDistance
 					* LOCALIZATION_DISTANCE_WEIGHT);
+		} else if (identifierDistance != null) {
+			distance = identifierDistance;
+		} else if (locationDistance != null) {
+			distance = locationDistance;
 		} else {
-			distance = uriDistance;
+			distance = super.measureDifferences(a, b);
 		}
 		return distance;
 	}
 
 	/**
-	 * Returns the distance between document elements by comparing their uris.
+	 * Returns the distance between document elements by comparing their locations.
 	 * 
 	 * @param a
 	 *            the first element
@@ -92,10 +98,10 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 *            the second element
 	 * @return the distance between two strings
 	 */
-	private Integer getURIDistance(EObject a, EObject b) {
+	private Integer getLocationDistance(EObject a, EObject b) {
 		Integer distance = null;
-		String fragmentA = helper.getURI(a).fragment();
-		String fragmentB = helper.getURI(b).fragment();
+		String fragmentA = LocationDistanceUtils.computeLevel(a);
+		String fragmentB = LocationDistanceUtils.computeLevel(b);
 		if (fragmentA != null && fragmentB != null) {
 			distance = StringDistanceUtils.getStringDistance(fragmentA, fragmentB);
 		}

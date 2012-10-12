@@ -10,18 +10,11 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.match;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.CompareFactory;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.DifferenceKind;
@@ -39,6 +32,12 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * This distance function implementation will actually compare the given EObject.
@@ -77,6 +76,11 @@ public class EditionDistance implements DistanceFunction {
 	private Set<EStructuralFeature> toBeIgnored;
 
 	/**
+	 * The instance used to compare location of EObjects.
+	 */
+	private URIDistance uriDistance = new URIDistance();
+
+	/**
 	 * The equality helper used to retrieve the URIs through its cache and to instanciate a specific diff
 	 * engine.
 	 */
@@ -97,17 +101,37 @@ public class EditionDistance implements DistanceFunction {
 	/**
 	 * Instanciate a new Edition Distance using the given equality helper.
 	 * 
-	 * @param equalityHelper
-	 *            the equality helper to use.
 	 * @param leftRoot
 	 *            the left root of the comparison
 	 * @param rightRoot
 	 *            the right root of the comparison
 	 */
 	// FORK
-	public EditionDistance(EqualityHelper equalityHelper, Notifier leftRoot, Notifier rightRoot) {
+	public EditionDistance(Notifier leftRoot, Notifier rightRoot) {
 		weights = Maps.newHashMap();
-		this.helper = equalityHelper;
+		this.helper = new EqualityHelper() {
+
+			@Override
+			protected boolean matchingEObjects(Comparison comparison, EObject object1, EObject object2) {
+				final Match match = comparison.getMatch(object1);
+
+				final boolean equal;
+				// Match could be null if the value is out of the scope
+				if (match != null) {
+					equal = match.getLeft() == object2 || match.getRight() == object2
+							|| match.getOrigin() == object2;
+				} else {
+					/*
+					 * use a temporary variable as buffer for the "equal" boolean. We know that the following
+					 * try/catch block can, and will, only initialize it once ... but the compiler does not.
+					 */
+					equal = uriDistance.proximity(object1, object2) == 0;
+				}
+
+				return equal;
+			}
+
+		};
 		this.toBeIgnored = Sets.newLinkedHashSet();
 		this.leftRoot = leftRoot;
 		this.rightRoot = rightRoot;
@@ -116,30 +140,37 @@ public class EditionDistance implements DistanceFunction {
 	/**
 	 * {@inheritDoc}
 	 */
-	// FORK
-	public int distance(EObject a, EObject b, int maxDistance) {
-		int distance = maxDistance;
-		if (a.equals(leftRoot) && b.equals(rightRoot) || b.equals(leftRoot) && a.equals(rightRoot)) {
-			distance = 0;
-		} else {
-			distance = new IntentCountingDiffEngine(this, maxDistance).measureDifferences(a, b);
+	public int distance(EObject a, EObject b) {
+		int maxDist = Math.max(getMaxDistance(a), getMaxDistance(b));
+		// FORK
+		int measuredDist = new IntentCountingDiffEngine(this, maxDist).measureDifferences(a, b);
+		if (measuredDist >= maxDist) {
+			return Integer.MAX_VALUE;
 		}
-		return distance;
+		return measuredDist;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean areIdentic(EObject a, EObject b) {
+		// FORK
+		return a.equals(leftRoot) && b.equals(rightRoot) || b.equals(leftRoot) && a.equals(rightRoot)
+				|| new IntentCountingDiffEngine(this, 0).measureDifferences(a, b) == 0;
 	}
 
 	/**
 	 * Create a new builder to instanciate and configure an EditionDistance.
 	 * 
-	 * @param helper
-	 *            the equality helper (required to instanciate an EditionDistance).
 	 * @param leftRoot
 	 *            the left root of the comparison
 	 * @param rightRoot
 	 *            the right root of the comparison
 	 * @return a configuration builder.
 	 */
-	public static Builder builder(EqualityHelper helper, Notifier leftRoot, Notifier rightRoot) {
-		return new Builder(helper, leftRoot, rightRoot);
+	// FORK
+	public static Builder builder(Notifier leftRoot, Notifier rightRoot) {
+		return new Builder(leftRoot, rightRoot);
 	}
 
 	/**
@@ -154,16 +185,14 @@ public class EditionDistance implements DistanceFunction {
 		/**
 		 * Create the builder.
 		 * 
-		 * @param toBe
-		 *            the equality helper (required to instanciate an EditionDistance).
 		 * @param leftRoot
 		 *            the left root of the comparison
 		 * @param rightRoot
 		 *            the right root of the comparison
 		 */
 		// FORK
-		public Builder(EqualityHelper toBe, Notifier leftRoot, Notifier rightRoot) {
-			this.toBeBuilt = new EditionDistance(toBe, leftRoot, rightRoot);
+		public Builder(Notifier leftRoot, Notifier rightRoot) {
+			this.toBeBuilt = new EditionDistance(leftRoot, rightRoot);
 		}
 
 		/**
@@ -393,13 +422,9 @@ public class EditionDistance implements DistanceFunction {
 			Match fakeMatch = CompareFactory.eINSTANCE.createMatch();
 			fakeMatch.setLeft(a);
 			fakeMatch.setRight(b);
-			URI aLocation = helper.getURI(a);
-			URI bLocation = helper.getURI(b);
 			int changes = 0;
-			if (!aLocation.fragment().equals(bLocation.fragment())) {
-				int dist = new URIDistance().proximity(aLocation.fragment(), bLocation.fragment());
-				changes += dist * locationChangeCoef;
-			}
+			int dist = uriDistance.proximity(a, b);
+			changes += dist * locationChangeCoef;
 			if (changes <= maxDistance) {
 				checkForDifferences(fakeMatch);
 				changes += getCounter().getComputedDistance();
@@ -427,7 +452,7 @@ public class EditionDistance implements DistanceFunction {
 					return Iterators.filter(super.getReferencesToCheck(match), new Predicate<EReference>() {
 
 						public boolean apply(EReference input) {
-							return toBeIgnored.contains(input) && !input.isContainment();
+							return !toBeIgnored.contains(input) && !input.isContainment();
 						}
 					});
 				}
@@ -466,15 +491,17 @@ public class EditionDistance implements DistanceFunction {
 		// assess the quality of further changes.
 		int max = 0;
 		for (EReference feat : Iterables.filter(eObj.eClass().getEAllReferences(), featureFilter)) {
-			if (!feat.isContainer() && eObj.eIsSet(feat)) {
+			if (!feat.isContainer() && !feat.isContainment() && eObj.eIsSet(feat)) {
 				max += getWeight(feat) * referenceChangeCoef;
 			}
 		}
 		for (EAttribute feat : Iterables.filter(eObj.eClass().getEAllAttributes(), featureFilter)) {
-			max += getWeight(feat) * attributeChangeCoef;
+			if (eObj.eIsSet(feat)) {
+				max += getWeight(feat) * attributeChangeCoef;
+			}
 		}
-		max = max + locationChangeCoef * 5 - 1;
-		// System.out.println(eObj.eClass().getName() + ":" + eObj + ":" + max);
-		return max;
+		max = max + locationChangeCoef * 5;
+		return max / 2;
 	}
+
 }
