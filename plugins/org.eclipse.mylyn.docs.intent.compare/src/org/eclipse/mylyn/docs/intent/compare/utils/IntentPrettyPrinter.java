@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.compare.test.utils;
+package org.eclipse.mylyn.docs.intent.compare.utils;
 
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -23,7 +23,6 @@ import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.MatchResource;
 import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.compare.utils.IntentEqualityHelper;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.markup.markup.Annotations;
@@ -36,6 +35,7 @@ import com.google.common.collect.Iterables;
  * stream.
  * 
  * @author <a href="mailto:laurent.goubet@obeo.fr">Laurent Goubet</a>
+ * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 @SuppressWarnings("nls")
 public final class IntentPrettyPrinter {
@@ -455,10 +455,10 @@ public final class IntentPrettyPrinter {
 			res = "?";
 		} else {
 			res = element.eClass().getName();
-			String fragment = new IntentEqualityHelper().getURI(element).fragment();
-			if (fragment != null) {
-				res += "[" + fragment + "]";
-			}
+			// String fragment = new IntentEqualityHelper().getURI(element).fragment();
+			// if (fragment != null) {
+			// res += "[" + fragment + "]";
+			// }
 		}
 		if (element instanceof Text) {
 			res = "\"" + ((Text)element).getData() + "\"";

@@ -8,7 +8,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.compare.match;
+package org.eclipse.mylyn.docs.intent.compare.utils;
 
 import org.eclipse.emf.compare.utils.DiffUtil;
 

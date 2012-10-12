@@ -10,31 +10,20 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.utils;
 
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.utils.EqualityHelper;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 
 /**
- * An {@link EqualityHelper} redefinition used to define accurate URIs.
+ * Location distance computation utilities.
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class IntentEqualityHelper extends EqualityHelper {
+public final class LocationDistanceUtils {
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.compare.utils.EqualityHelper#getURI(org.eclipse.emf.ecore.EObject)
+	 * Prevents instantiation.
 	 */
-	@Override
-	public URI getURI(EObject object) {
-		URI uri = super.getURI(object);
-		String level = computeLevel(object);
-		if (level != null) {
-			uri = uri.trimFragment().appendFragment(level);
-		}
-		return uri;
+	private LocationDistanceUtils() {
 	}
 
 	/**
@@ -44,7 +33,7 @@ public class IntentEqualityHelper extends EqualityHelper {
 	 *            the object
 	 * @return the level of the given object inside of the model tree
 	 */
-	private static String computeLevel(EObject object) {
+	public static String computeLevel(EObject object) {
 		String level = null;
 		if (object instanceof IntentStructuredElement) {
 			level = ((IntentStructuredElement)object).getCompleteLevel();
@@ -63,5 +52,4 @@ public class IntentEqualityHelper extends EqualityHelper {
 		}
 		return level;
 	}
-
 }

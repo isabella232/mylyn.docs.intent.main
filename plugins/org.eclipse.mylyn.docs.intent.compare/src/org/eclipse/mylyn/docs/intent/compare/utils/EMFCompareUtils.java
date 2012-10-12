@@ -10,22 +10,21 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.utils;
 
-import com.google.common.base.Predicate;
+import static com.google.common.base.Predicates.instanceOf;
+import static com.google.common.base.Predicates.not;
+import static com.google.common.base.Predicates.or;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.EMFCompare;
 import org.eclipse.emf.compare.match.eobject.IEObjectMatcher;
 import org.eclipse.emf.compare.match.eobject.ProximityEObjectMatcher;
-import org.eclipse.emf.compare.utils.EqualityHelper;
 import org.eclipse.emf.compare.utils.UseIdentifiers;
 import org.eclipse.mylyn.docs.intent.compare.scope.IntentComparisonScope;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 
-import static com.google.common.base.Predicates.instanceOf;
-import static com.google.common.base.Predicates.not;
-import static com.google.common.base.Predicates.or;
+import com.google.common.base.Predicate;
 
 /**
  * Utilities for EMF Compare use.
@@ -55,7 +54,6 @@ public final class EMFCompareUtils {
 	 */
 	public static Comparison compare(Notifier left, Notifier right) {
 		IntentComparisonScope scope = new IntentComparisonScope(left, right);
-		EqualityHelper helper = new IntentEqualityHelper();
 
 		Predicate<Object> filter = not(or(instanceOf(CompilationStatus.class),
 				instanceOf(SynchronizerCompilationStatus.class)));
@@ -63,8 +61,10 @@ public final class EMFCompareUtils {
 
 		EMFCompare compare = EMFCompare.newComparator(scope);
 		compare.matchByID(UseIdentifiers.NEVER);
-		compare.setEqualityHelper(helper);
-		return compare.compare();
+		Comparison comparison = compare.compare();
+
+		// IntentPrettyPrinter.printMatch(comparison, System.out);
+		return comparison;
 	}
 
 	/**
@@ -83,20 +83,20 @@ public final class EMFCompareUtils {
 	 */
 	public static Comparison compareDocuments(Notifier left, Notifier right) {
 		IntentComparisonScope scope = new IntentComparisonScope(left, right);
-		EqualityHelper helper = new IntentEqualityHelper();
 
 		Predicate<Object> filter = not(or(instanceOf(CompilationStatus.class),
 				instanceOf(SynchronizerCompilationStatus.class)));
 		scope.setEObjectContentFilter(filter);
 
 		IEObjectMatcher matcher = ProximityEObjectMatcher.builder(
-				org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.builder(helper, left, right)
-						.build()).build();
+				org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.builder(left, right).build())
+				.build();
 
 		EMFCompare compare = EMFCompare.newComparator(scope);
 		compare.setEObjectMatcher(matcher);
 		compare.matchByID(UseIdentifiers.NEVER);
-		compare.setEqualityHelper(helper);
-		return compare.compare();
+
+		Comparison comparison = compare.compare();
+		return comparison;
 	}
 }
