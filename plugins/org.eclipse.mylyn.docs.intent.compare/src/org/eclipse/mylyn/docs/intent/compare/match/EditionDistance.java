@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.compare.CompareFactory;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.DifferenceKind;
@@ -23,15 +24,20 @@ import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.diff.DefaultDiffEngine;
 import org.eclipse.emf.compare.diff.FeatureFilter;
 import org.eclipse.emf.compare.diff.IDiffProcessor;
+import org.eclipse.emf.compare.match.DefaultComparisonFactory;
+import org.eclipse.emf.compare.match.IComparisonFactory;
+import org.eclipse.emf.compare.match.IEqualityHelperFactory;
 import org.eclipse.emf.compare.match.eobject.ProximityEObjectMatcher.DistanceFunction;
 import org.eclipse.emf.compare.match.eobject.URIDistance;
 import org.eclipse.emf.compare.utils.DiffUtil;
 import org.eclipse.emf.compare.utils.EqualityHelper;
+import org.eclipse.emf.compare.utils.IEqualityHelper;
 import org.eclipse.emf.compare.utils.ReferenceUtil;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -89,13 +95,11 @@ public class EditionDistance implements DistanceFunction {
 	/**
 	 * The left root.
 	 */
-	// FORK
 	private Notifier leftRoot;
 
 	/**
 	 * The right root.
 	 */
-	// FORK
 	private Notifier rightRoot;
 
 	/**
@@ -106,14 +110,13 @@ public class EditionDistance implements DistanceFunction {
 	 * @param rightRoot
 	 *            the right root of the comparison
 	 */
-	// FORK
 	public EditionDistance(Notifier leftRoot, Notifier rightRoot) {
 		weights = Maps.newHashMap();
 		this.helper = new EqualityHelper() {
 
 			@Override
-			protected boolean matchingEObjects(Comparison comparison, EObject object1, EObject object2) {
-				final Match match = comparison.getMatch(object1);
+			protected boolean matchingEObjects(EObject object1, EObject object2) {
+				final Match match = getTarget().getMatch(object1);
 
 				final boolean equal;
 				// Match could be null if the value is out of the scope
@@ -142,7 +145,6 @@ public class EditionDistance implements DistanceFunction {
 	 */
 	public int distance(EObject a, EObject b) {
 		int maxDist = Math.max(getMaxDistance(a), getMaxDistance(b));
-		// FORK
 		int measuredDist = new IntentCountingDiffEngine(this, maxDist).measureDifferences(a, b);
 		if (measuredDist >= maxDist) {
 			return Integer.MAX_VALUE;
@@ -154,13 +156,13 @@ public class EditionDistance implements DistanceFunction {
 	 * {@inheritDoc}
 	 */
 	public boolean areIdentic(EObject a, EObject b) {
-		// FORK
-		return a.equals(leftRoot) && b.equals(rightRoot) || b.equals(leftRoot) && a.equals(rightRoot)
-				|| new IntentCountingDiffEngine(this, 0).measureDifferences(a, b) == 0;
+		boolean areRoots = a.equals(leftRoot) && b.equals(rightRoot) || b.equals(leftRoot)
+				&& a.equals(rightRoot);
+		return areRoots || new IntentCountingDiffEngine(this, 0).measureDifferences(a, b) == 0;
 	}
 
 	/**
-	 * Create a new builder to instanciate and configure an EditionDistance.
+	 * Create a new builder to instantiate and configure an EditionDistance.
 	 * 
 	 * @param leftRoot
 	 *            the left root of the comparison
@@ -168,7 +170,6 @@ public class EditionDistance implements DistanceFunction {
 	 *            the right root of the comparison
 	 * @return a configuration builder.
 	 */
-	// FORK
 	public static Builder builder(Notifier leftRoot, Notifier rightRoot) {
 		return new Builder(leftRoot, rightRoot);
 	}
@@ -190,7 +191,6 @@ public class EditionDistance implements DistanceFunction {
 		 * @param rightRoot
 		 *            the right root of the comparison
 		 */
-		// FORK
 		public Builder(Notifier leftRoot, Notifier rightRoot) {
 			this.toBeBuilt = new EditionDistance(leftRoot, rightRoot);
 		}
@@ -373,13 +373,15 @@ public class EditionDistance implements DistanceFunction {
 	 * An implementation of a diff engine which count and measure the detected changes.
 	 */
 	class CountingDiffEngine extends DefaultDiffEngine {
-		/** A fake comparison object required so that the diff engine does his job correctly. */
-		private Comparison fakeComparison;
-
 		/**
 		 * The maximum distance until which we just have to stop.
 		 */
 		private int maxDistance;
+
+		/**
+		 * The comparison factory to create fake comparison.
+		 */
+		private final IComparisonFactory fakeComparisonFactory;
 
 		/**
 		 * Create the diff engine.
@@ -390,9 +392,13 @@ public class EditionDistance implements DistanceFunction {
 		public CountingDiffEngine(int maxDistance) {
 			super(new CountingDiffProcessor());
 			this.maxDistance = maxDistance;
-			this.fakeComparison = CompareFactory.eINSTANCE.createComparison();
-			this.helper = EditionDistance.this.helper;
-
+			// will always return the same instance.
+			IEqualityHelperFactory fakeEqualityHelperFactory = new IEqualityHelperFactory() {
+				public IEqualityHelper createEqualityHelper() {
+					return EditionDistance.this.helper;
+				}
+			};
+			fakeComparisonFactory = new DefaultComparisonFactory(fakeEqualityHelperFactory);
 		}
 
 		@Override
@@ -419,14 +425,12 @@ public class EditionDistance implements DistanceFunction {
 		 * @return the distance between them computed using the number of changes required to change a to b.
 		 */
 		public int measureDifferences(EObject a, EObject b) {
-			Match fakeMatch = CompareFactory.eINSTANCE.createMatch();
-			fakeMatch.setLeft(a);
-			fakeMatch.setRight(b);
+			Match fakeMatch = createFakeMatch(a, b);
 			int changes = 0;
 			int dist = uriDistance.proximity(a, b);
 			changes += dist * locationChangeCoef;
 			if (changes <= maxDistance) {
-				checkForDifferences(fakeMatch);
+				checkForDifferences(fakeMatch, new BasicMonitor());
 				changes += getCounter().getComputedDistance();
 			}
 			// System.err.println(changes + ":max=>" + maxDistance + ":" + a + ":" + b);
@@ -434,13 +438,17 @@ public class EditionDistance implements DistanceFunction {
 
 		}
 
-		protected CountingDiffProcessor getCounter() {
-			return (CountingDiffProcessor)getDiffProcessor();
+		private Match createFakeMatch(EObject a, EObject b) {
+			Comparison fakeComparison = fakeComparisonFactory.createComparison();
+			Match fakeMatch = CompareFactory.eINSTANCE.createMatch();
+			((InternalEList<Match>)fakeComparison.getMatches()).addUnique(fakeMatch);
+			fakeMatch.setLeft(a);
+			fakeMatch.setRight(b);
+			return fakeMatch;
 		}
 
-		@Override
-		protected Comparison getComparison() {
-			return fakeComparison;
+		protected CountingDiffProcessor getCounter() {
+			return (CountingDiffProcessor)getDiffProcessor();
 		}
 
 		@Override
@@ -501,7 +509,7 @@ public class EditionDistance implements DistanceFunction {
 			}
 		}
 		max = max + locationChangeCoef * 5;
-		return max / 2;
+		return Double.valueOf(max / 3 * 2).intValue();
 	}
 
 }

@@ -17,14 +17,19 @@ import static com.google.common.base.Predicates.or;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.EMFCompare.Builder;
+import org.eclipse.emf.compare.match.DefaultComparisonFactory;
+import org.eclipse.emf.compare.match.DefaultEqualityHelperFactory;
+import org.eclipse.emf.compare.match.DefaultMatchEngine;
+import org.eclipse.emf.compare.match.IComparisonFactory;
+import org.eclipse.emf.compare.match.IMatchEngine;
 import org.eclipse.emf.compare.match.eobject.IEObjectMatcher;
 import org.eclipse.emf.compare.match.eobject.ProximityEObjectMatcher;
 import org.eclipse.emf.compare.utils.UseIdentifiers;
+import org.eclipse.mylyn.docs.intent.compare.match.EditionDistance;
 import org.eclipse.mylyn.docs.intent.compare.scope.IntentComparisonScope;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
-
-import com.google.common.base.Predicate;
 
 /**
  * Utilities for EMF Compare use.
@@ -54,17 +59,12 @@ public final class EMFCompareUtils {
 	 */
 	public static Comparison compare(Notifier left, Notifier right) {
 		IntentComparisonScope scope = new IntentComparisonScope(left, right);
+		scope.setEObjectContentFilter(not(or(instanceOf(CompilationStatus.class),
+				instanceOf(SynchronizerCompilationStatus.class))));
 
-		Predicate<Object> filter = not(or(instanceOf(CompilationStatus.class),
-				instanceOf(SynchronizerCompilationStatus.class)));
-		scope.setEObjectContentFilter(filter);
-
-		EMFCompare compare = EMFCompare.newComparator(scope);
-		compare.matchByID(UseIdentifiers.NEVER);
-		Comparison comparison = compare.compare();
-
-		// IntentPrettyPrinter.printMatch(comparison, System.out);
-		return comparison;
+		Builder builder = EMFCompare.builder();
+		builder.setMatchEngine(DefaultMatchEngine.create(UseIdentifiers.NEVER));
+		return builder.build().compare(scope);
 	}
 
 	/**
@@ -83,20 +83,16 @@ public final class EMFCompareUtils {
 	 */
 	public static Comparison compareDocuments(Notifier left, Notifier right) {
 		IntentComparisonScope scope = new IntentComparisonScope(left, right);
+		scope.setEObjectContentFilter(not(or(instanceOf(CompilationStatus.class),
+				instanceOf(SynchronizerCompilationStatus.class))));
 
-		Predicate<Object> filter = not(or(instanceOf(CompilationStatus.class),
-				instanceOf(SynchronizerCompilationStatus.class)));
-		scope.setEObjectContentFilter(filter);
+		IEObjectMatcher matcher = new ProximityEObjectMatcher(new EditionDistance(left, right));
+		final IComparisonFactory comparisonFactory = new DefaultComparisonFactory(
+				new DefaultEqualityHelperFactory());
+		IMatchEngine matchEngine = new DefaultMatchEngine(matcher, comparisonFactory);
 
-		IEObjectMatcher matcher = ProximityEObjectMatcher.builder(
-				org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.builder(left, right).build())
-				.build();
-
-		EMFCompare compare = EMFCompare.newComparator(scope);
-		compare.setEObjectMatcher(matcher);
-		compare.matchByID(UseIdentifiers.NEVER);
-
-		Comparison comparison = compare.compare();
-		return comparison;
+		Builder builder = EMFCompare.builder();
+		builder.setMatchEngine(matchEngine);
+		return builder.build().compare(scope);
 	}
 }
