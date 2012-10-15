@@ -66,7 +66,7 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 					.getRepositoryManagerContributions().iterator(); iterator.hasNext() && repository == null;) {
 				IntentRepositoryManagerContribution repositoryManagerContribution = iterator.next();
 				if (repositoryManagerContribution.canCreateRepository(normalizedIdentifier)) {
-					repository = repositoryManagerContribution.createRepository(normalizedIdentifier);
+					repository = repositoryManagerContribution.createRepository(identifier);
 					if (repository != null) {
 						repositoriesByProject.put(normalizedIdentifier, repository);
 					}
@@ -101,7 +101,8 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager#register(java.lang.String, org.eclipse.mylyn.docs.intent.collab.repository.Repository)
+	 * @see org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager#register(java.lang.String,
+	 *      org.eclipse.mylyn.docs.intent.collab.repository.Repository)
 	 */
 	public synchronized void register(String identifier, Repository repository) {
 		String normalizedIdentifier = normalizeIdentifier(identifier);
