@@ -100,7 +100,7 @@ public class AbstractIntentCDOTest extends AbstractIntentUITest {
 	 * @return the repository identifier associated to the current test
 	 */
 	protected final String getIntentRepositoryIdentifier() {
-		return "cdo:/" + IntentCDORepository.getServerLocation() + "/" + INTENT_REPOSITORY_NAME;
+		return "cdo://" + IntentCDORepository.getServerLocation() + "/" + INTENT_REPOSITORY_NAME;
 	}
 
 	/**

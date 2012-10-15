@@ -46,7 +46,7 @@ public class IntentCDOBasedRepositoryManagerContribution implements IntentReposi
 	 */
 	public Repository createRepository(String identifier) throws RepositoryConnectionException {
 		// Identifier should respect the following form:
-		// cdo:/REPOSITORYLOCATION/repoName (e.g. cdo:/localhost:2037/repo1)
+		// cdo://REPOSITORYLOCATION/repoName (e.g. cdo://localhost:2037/repo1)
 		String repositoryType = "org.eclipse.mylyn.docs.intent.collab.cdo.repository";
 		RepositoryCreator repositoryCreator;
 		try {
@@ -58,9 +58,8 @@ public class IntentCDOBasedRepositoryManagerContribution implements IntentReposi
 				throw new RepositoryConnectionException("Cannot instantiate a repository of type:"
 						+ repositoryType);
 			}
-			String identifierWithoutPrefix = identifier.replaceFirst(
-					CDORepository.CDO_REPOSITORY_IDENTIFIER + SLASH, "").replaceFirst(
-					CDORepository.CDO_REPOSITORY_IDENTIFIER, "");
+			String identifierWithoutPrefix = identifier.substring(CDORepository.CDO_REPOSITORY_IDENTIFIER
+					.length());
 			String[] fragments = identifierWithoutPrefix.split(SLASH);
 			if (fragments.length >= 2) {
 				String repositoryLocation = checkRepositoryLocation(fragments[0]);
@@ -119,18 +118,17 @@ public class IntentCDOBasedRepositoryManagerContribution implements IntentReposi
 	 */
 	public String normalizeIdentifier(String identifier) {
 		String normalizedIdentifier = identifier;
-		// If the identifier starts with cdo:/
+		// If the identifier starts with cdo://
 		if (canCreateRepository(normalizedIdentifier)) {
-			// We return cdo:/REPOSITORY_NAME, so that we do not have to always give the repository location
-			String identifierWithoutPrefix = identifier.replaceFirst(
-					CDORepository.CDO_REPOSITORY_IDENTIFIER + SLASH, "").replaceFirst(
-					CDORepository.CDO_REPOSITORY_IDENTIFIER, "");
+			// We return cdo://REPOSITORY_NAME, so that we do not have to always give the repository location
+			String identifierWithoutPrefix = identifier.substring(CDORepository.CDO_REPOSITORY_IDENTIFIER
+					.length());
 			String[] fragments = identifierWithoutPrefix.split(SLASH);
 			if (fragments.length == 1) {
-				// If identifier is already cdo:/REPOSITORY_NAME
+				// If identifier is already cdo://REPOSITORY_NAME
 				normalizedIdentifier = identifier;
 			} else {
-				// if identifier is cdo:/REPOSITORY_LOCATION/REPOSITORY_NAME[/...]
+				// if identifier is cdo://REPOSITORY_LOCATION/REPOSITORY_NAME[/...]
 				if ((fragments.length == 2) && (fragments[0].contains(":"))) {
 					normalizedIdentifier = CDORepository.CDO_REPOSITORY_IDENTIFIER + fragments[1];
 				} else {
