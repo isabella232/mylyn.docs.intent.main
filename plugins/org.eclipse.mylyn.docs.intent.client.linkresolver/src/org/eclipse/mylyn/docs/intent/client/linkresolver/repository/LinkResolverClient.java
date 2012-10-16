@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.linkresolver.repository;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
+import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 
 /**
  * Link resolver client. Launch a resolve operation each time a modification on links is detected.
@@ -21,6 +22,16 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChan
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class LinkResolverClient extends AbstractRepositoryClient {
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param repository
+	 *            the repository
+	 */
+	public LinkResolverClient(Repository repository) {
+		super(repository);
+	}
 
 	/**
 	 * {@inheritDoc}

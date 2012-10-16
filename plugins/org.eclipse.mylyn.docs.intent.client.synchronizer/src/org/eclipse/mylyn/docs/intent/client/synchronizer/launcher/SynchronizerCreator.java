@@ -87,7 +87,7 @@ public final class SynchronizerCreator {
 
 		// Step 3 : create the synchronizer
 		SynchronizerRepositoryClient synchronizerClient = new SynchronizerRepositoryClient(traceabilityIndex,
-				statusManager);
+				statusManager, repository);
 		synchronizerClient.addRepositoryObjectHandler(handler);
 		synchronizerClient.setGeneratedElementListener(generatedElementListener);
 

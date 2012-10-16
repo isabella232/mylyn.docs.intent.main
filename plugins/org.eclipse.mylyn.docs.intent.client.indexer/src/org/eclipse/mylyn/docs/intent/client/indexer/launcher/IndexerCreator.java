@@ -68,7 +68,7 @@ public final class IndexerCreator {
 
 		// Step 4 : launching the indexer
 
-		IndexerRepositoryClient indexer = new IndexerRepositoryClient();
+		IndexerRepositoryClient indexer = new IndexerRepositoryClient(repository);
 		indexer.addRepositoryObjectHandler(handler);
 
 		return indexer;

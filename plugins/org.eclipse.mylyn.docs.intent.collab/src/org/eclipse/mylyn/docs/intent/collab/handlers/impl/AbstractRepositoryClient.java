@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
+import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 
 /**
  * An abstract Repository Client which manages notifications.
@@ -33,9 +34,25 @@ public abstract class AbstractRepositoryClient implements RepositoryClient {
 	protected RepositoryObjectHandler repositoryObjectHandler;
 
 	/**
+	 * The repository to use for access to package registry and several informations.
+	 */
+	protected Repository repository;
+
+	/**
 	 * The {@link Job} that handles notifications.
 	 */
 	private Job notificationJob;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param repository
+	 *            the repository
+	 */
+	public AbstractRepositoryClient(Repository repository) {
+		this.repository = repository;
+		this.repository.register(this);
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -99,6 +116,7 @@ public abstract class AbstractRepositoryClient implements RepositoryClient {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient#dispose()
 	 */
 	public void dispose() {
+		this.repository.unregister(this);
 		if (notificationJob != null) {
 			notificationJob.cancel();
 			notificationJob = null;

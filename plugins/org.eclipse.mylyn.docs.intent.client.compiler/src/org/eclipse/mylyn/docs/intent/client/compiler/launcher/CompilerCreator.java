@@ -88,8 +88,7 @@ public final class CompilerCreator {
 		handler.addNotificator(notificator);
 
 		// Step 3: create the compiler
-		CompilerRepositoryClient compilerClient = new CompilerRepositoryClient();
-		compilerClient.setRepository(repository);
+		CompilerRepositoryClient compilerClient = new CompilerRepositoryClient(repository);
 		compilerClient.addRepositoryObjectHandler(handler);
 
 		return compilerClient;

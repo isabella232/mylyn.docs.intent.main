@@ -73,7 +73,7 @@ public final class LinkResolverCreator {
 		handler.addNotificator(typeNotificator);
 
 		// Step 3: create the link resolver
-		LinkResolverClient linkResolver = new LinkResolverClient();
+		LinkResolverClient linkResolver = new LinkResolverClient(repository);
 		linkResolver.addRepositoryObjectHandler(handler);
 
 		return linkResolver;

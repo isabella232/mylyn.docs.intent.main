@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
-
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -23,10 +20,14 @@ import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
+import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 
 /**
  * In charge of communication between the repository and the synchronizer ; launch a synchronization operation
@@ -59,9 +60,12 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	 *            the listened {@link TraceabilityIndex}
 	 * @param statusManager
 	 *            the {@link CompilationStatusManager} to use for adding statuses
+	 * @param repository
+	 *            the repository to listen
 	 */
 	public SynchronizerRepositoryClient(TraceabilityIndex traceabilityIndex,
-			CompilationStatusManager statusManager) {
+			CompilationStatusManager statusManager, Repository repository) {
+		super(repository);
 		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Synchronizer] Ready");
 		this.synchronizer = new IntentSynchronizer(this);
 		this.traceabilityIndex = traceabilityIndex;

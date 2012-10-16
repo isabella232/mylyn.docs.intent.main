@@ -27,26 +27,14 @@ import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 public class CompilerRepositoryClient extends AbstractRepositoryClient {
 
 	/**
-	 * The repository to use for access to package registry and several informations.
-	 */
-	private Repository repository;
-
-	/**
 	 * Constructor.
-	 */
-	public CompilerRepositoryClient() {
-		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Compiler] Ready");
-	}
-
-	/**
-	 * Sets the repository to use for saving and closing getConnexion.
 	 * 
 	 * @param repository
-	 *            the repository to use for saving and closing getConnexion
+	 *            the repository
 	 */
-	public void setRepository(Repository repository) {
-		this.repository = repository;
-		this.repository.register(this);
+	public CompilerRepositoryClient(Repository repository) {
+		super(repository);
+		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Compiler] Ready");
 	}
 
 	/**
@@ -59,14 +47,4 @@ public class CompilerRepositoryClient extends AbstractRepositoryClient {
 		return new CompilationJob(this.repository, this.repositoryObjectHandler);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient#dispose()
-	 */
-	@Override
-	public void dispose() {
-		this.repository.unregister(this);
-		super.dispose();
-	}
 }

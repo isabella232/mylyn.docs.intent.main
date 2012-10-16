@@ -57,8 +57,11 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 	 * 
 	 * @param project
 	 *            the project to refresh
+	 * @param repository
+	 *            the repository to listen
 	 */
-	public ProjectExplorerRefresher(IProject project) {
+	public ProjectExplorerRefresher(IProject project, Repository repository) {
+		super(repository);
 		this.project = project;
 		updateProblemView();
 	}
@@ -99,7 +102,7 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		handler.addNotificator(listenedElementsNotificator);
 
 		// Step 4 : create the ProjectExplorer refresher
-		ProjectExplorerRefresher refresher = new ProjectExplorerRefresher(project);
+		ProjectExplorerRefresher refresher = new ProjectExplorerRefresher(project, repository);
 		refresher.addRepositoryObjectHandler(handler);
 		return refresher;
 	}

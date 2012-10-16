@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.indexer;
 
-import com.google.common.collect.Lists;
-
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -28,8 +26,11 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
+import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
+
+import com.google.common.collect.Lists;
 
 /**
  * When notified about modifications on the listened elements, update the index.
@@ -45,9 +46,13 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 	private TocMaker indexComputor;
 
 	/**
-	 * Indexer constructor.
+	 * Constructor.
+	 * 
+	 * @param repository
+	 *            the repository
 	 */
-	public IndexerRepositoryClient() {
+	public IndexerRepositoryClient(Repository repository) {
+		super(repository);
 		indexComputor = new TocMaker();
 		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[Indexer] Ready");
 	}
@@ -104,4 +109,5 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 		job.setSystem(true);
 		return job;
 	}
+
 }
