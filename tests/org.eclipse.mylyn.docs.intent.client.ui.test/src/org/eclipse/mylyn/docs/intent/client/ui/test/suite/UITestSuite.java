@@ -28,7 +28,6 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.CompilerNotifi
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.synchronizer.SynchronizerTest;
 
 /**
  * This suite will launch all the tests relative to the UI behavior.
@@ -82,7 +81,7 @@ public class UITestSuite extends TestCase {
 		basicTestSuite.addTestSuite(RefresherTest.class);
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
 		basicTestSuite.addTestSuite(SimpleOrderTests.class);
-		basicTestSuite.addTestSuite(SynchronizerTest.class);
+		// basicTestSuite.addTestSuite(SynchronizerTest.class); // TODO reactivate when 391798 fixed
 		uiTestSuite.addTest(basicTestSuite);
 
 		// Scenario tests
@@ -101,7 +100,7 @@ public class UITestSuite extends TestCase {
 		demoSuite.addTestSuite(CompileTest.class);
 		demoSuite.addTestSuite(EcoreTest.class);
 		demoSuite.addTestSuite(JavaTest.class);
-		// uiTestSuite.addTest(demoSuite);
+		// uiTestSuite.addTest(demoSuite); // TODO check tests
 
 		// TODO reactivate tests when comparison match stable
 		// // Updates tests
@@ -110,6 +109,7 @@ public class UITestSuite extends TestCase {
 		// updatesSuite.addTestSuite(DragAndDropTest.class);
 		// uiTestSuite.addTest(updatesSuite);
 
+		// TODO reactivate tests when fixed permgen build issue
 		/*
 		 * CDO related test Suite
 		 */
