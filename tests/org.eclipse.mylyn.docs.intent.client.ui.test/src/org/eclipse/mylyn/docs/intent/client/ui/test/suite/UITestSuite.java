@@ -17,10 +17,6 @@ import junit.textui.TestRunner;
 
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.SimpleOrderTests;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.compilation.CompileTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.opening.OpenEditorTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.EcoreTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.synchronization.JavaTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.refresher.RefresherTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentRepositoryStructurerTest;
@@ -54,71 +50,96 @@ public class UITestSuite extends TestCase {
 	 */
 	public static Test suite() {
 		final TestSuite suite = new TestSuite("Intent Global TestSuite");
+		suite.addTest(comparisonSuite());
 
-		/*
-		 * Intent Technical Tests
-		 */
-		final TestSuite clientSuite = new TestSuite("Intent Client tests");
-		suite.addTest(clientSuite);
-
-		// TODO reactivate tests when comparison match stable
-		// // Match & merge tests
-		// final TestSuite compareSuite = new TestSuite("Intent match and merge tests");
-		// compareSuite.addTestSuite(IntentMatchEngineTests.class);
-		// clientSuite.addTest(compareSuite);
-
-		/*
-		 * Intent UI Tests
-		 */
 		final TestSuite uiTestSuite = new TestSuite("Intent UI tests");
+		uiTestSuite.addTest(uiBasicSuite());
+		uiTestSuite.addTest(uiScenarioSuite());
+		uiTestSuite.addTest(uiDemoSuite());
+		uiTestSuite.addTest(uiUpdateSuite());
 		suite.addTest(uiTestSuite);
 
-		// Core tests
-		// All tests that test a technical concern (emf compare behavior, project lifecycle...)
+		suite.addTest(cdoSuite());
+		return suite;
+	}
+
+	/**
+	 * CDO related test Suite.
+	 * 
+	 * @return the suite
+	 */
+	private static TestSuite cdoSuite() {
+		final TestSuite cdoSuite = new TestSuite("CDO integration tests");
+		// cdoSuite.addTestSuite(CDOIntegrationTest.class); // TODO reactivate when build permgen fixed
+		return cdoSuite;
+	}
+
+	/**
+	 * Match & merge Tests.
+	 * 
+	 * @return the suite
+	 */
+	private static TestSuite comparisonSuite() {
+		final TestSuite compareSuite = new TestSuite("Intent match and merge tests");
+		// compareSuite.addTestSuite(IntentMatchEngineTests.class); // TODO reactivate when match stable
+		return compareSuite;
+	}
+
+	/**
+	 * Core tests: all tests that test a technical concern (emf compare behavior, project lifecycle...).
+	 * 
+	 * @return the suite
+	 */
+	private static TestSuite uiBasicSuite() {
 		final TestSuite basicTestSuite = new TestSuite("Technical tests");
 		basicTestSuite.addTestSuite(IntentRepositoryStructurerTest.class);
 		basicTestSuite.addTestSuite(ProjectTest.class);
 		basicTestSuite.addTestSuite(RefresherTest.class);
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
 		basicTestSuite.addTestSuite(SimpleOrderTests.class);
+		// basicTestSuite.addTestSuite(CompletionTest.class); // FIXME Completion issues
 		// basicTestSuite.addTestSuite(SynchronizerTest.class); // TODO reactivate when 391798 fixed
-		uiTestSuite.addTest(basicTestSuite);
+		return basicTestSuite;
+	}
 
-		// Scenario tests
-		// all tests that test an identified scenario for the end-user (very simple use case)
+	/**
+	 * Scenario tests: all tests that test an identified scenario for the end-user (very simple use case).
+	 * 
+	 * @return the suite
+	 */
+	private static TestSuite uiScenarioSuite() {
 		final TestSuite scenarioSuite = new TestSuite("Simple End-User Scenarios");
 		scenarioSuite.addTestSuite(CompilerNotificationsTest.class);
 		scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
 		scenarioSuite.addTestSuite(IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest.class);
 		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
-		uiTestSuite.addTest(scenarioSuite);
+		return scenarioSuite;
+	}
 
-		// Complete use case testSuite
-		// all tests that ensures the behavior of complete use cases
+	/**
+	 * Complete use case testSuite: all tests that ensures the behavior of complete use cases.
+	 * 
+	 * @return the suite
+	 */
+	private static TestSuite uiDemoSuite() {
 		final TestSuite demoSuite = new TestSuite("Intent Demo TestSuite");
-		demoSuite.addTestSuite(OpenEditorTest.class);
-		demoSuite.addTestSuite(CompileTest.class);
-		demoSuite.addTestSuite(EcoreTest.class);
-		demoSuite.addTestSuite(JavaTest.class);
-		// uiTestSuite.addTest(demoSuite); // TODO check tests
+		// demoSuite.addTestSuite(OpenEditorTest.class); // FIXME synchronizer issue
+		// demoSuite.addTestSuite(CompileTest.class); // FIXME synchronizer issue
+		// demoSuite.addTestSuite(EcoreTest.class); // FIXME synchronizer issue
+		// demoSuite.addTestSuite(JavaTest.class); // FIXME synchronizer issue
+		return demoSuite;
+	}
 
-		// TODO reactivate tests when comparison match stable
-		// // Updates tests
-		// final TestSuite updatesSuite = new TestSuite("Modeling Unit update tests");
-		// updatesSuite.addTestSuite(QuickFixTest.class);
-		// updatesSuite.addTestSuite(DragAndDropTest.class);
-		// uiTestSuite.addTest(updatesSuite);
-
-		// TODO reactivate tests when fixed permgen build issue
-		/*
-		 * CDO related test Suite
-		 */
-		// final TestSuite cdoSuite = new TestSuite("CDO integration tests");
-		// suite.addTest(cdoSuite);
-		//
-		// cdoSuite.addTestSuite(CDOIntegrationTest.class);
-
-		return suite;
+	/**
+	 * Modeling Units updates tests.
+	 * 
+	 * @return the suite
+	 */
+	private static TestSuite uiUpdateSuite() {
+		final TestSuite updatesSuite = new TestSuite("Modeling Unit update tests");
+		// updatesSuite.addTestSuite(QuickFixTest.class); // TODO reactivate when comparison match stable
+		// updatesSuite.addTestSuite(DragAndDropTest.class); // TODO reactivate when comparison match stable
+		return updatesSuite;
 	}
 
 }

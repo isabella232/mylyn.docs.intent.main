@@ -29,6 +29,7 @@ import org.eclipse.jface.text.information.InformationPresenter;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
+import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
@@ -103,6 +104,8 @@ public class IntentEditor extends TextEditor {
 	 */
 	private IntentPairMatcher blockMatcher;
 
+	private IntentEditorConfiguration sourceViewerConfiguration;
+
 	/**
 	 * Default constructor.
 	 */
@@ -139,7 +142,8 @@ public class IntentEditor extends TextEditor {
 	 */
 	@Override
 	protected void doSetInput(IEditorInput input) throws CoreException {
-		setSourceViewerConfiguration(new IntentEditorConfiguration(this, getPreferenceStore()));
+		sourceViewerConfiguration = new IntentEditorConfiguration(this, getPreferenceStore());
+		setSourceViewerConfiguration(sourceViewerConfiguration);
 		setDocumentProvider(new IntentDocumentProvider(this));
 		super.doSetInput(input);
 	}
@@ -454,6 +458,10 @@ public class IntentEditor extends TextEditor {
 
 	public IntentPairMatcher getBlockMatcher() {
 		return blockMatcher;
+	}
+
+	public SourceViewerConfiguration getViewerConfiguration() {
+		return sourceViewerConfiguration;
 	}
 
 	/**
