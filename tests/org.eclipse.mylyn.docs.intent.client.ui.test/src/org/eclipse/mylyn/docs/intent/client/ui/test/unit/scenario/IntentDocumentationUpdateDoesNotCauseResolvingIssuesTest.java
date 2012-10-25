@@ -68,7 +68,7 @@ public class IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest extends Ab
 		waitForAllOperationsInUIThread();
 	}
 
-	public void testSectionRenamming() throws IOException {
+	public void testSectionRenaming() throws IOException {
 		String intialContent = FileToStringConverter.getFileAsString(new File(
 				"data/unit/documents/scenario/documentUpdate/documentUpdate01.intent"));
 		String renamedContent = FileToStringConverter.getFileAsString(new File(
@@ -82,7 +82,7 @@ public class IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest extends Ab
 		waitForAllOperationsInUIThread();
 	}
 
-	public void testMultipleContainmentSectionRenamming() throws IOException {
+	public void testMultipleContainmentSectionRenaming() throws IOException {
 		String intialContent = FileToStringConverter.getFileAsString(new File(
 				"data/unit/documents/scenario/documentUpdate/multipleContainmentSection.intent"));
 		String renamedContent = intialContent.replace("Title", "A");
