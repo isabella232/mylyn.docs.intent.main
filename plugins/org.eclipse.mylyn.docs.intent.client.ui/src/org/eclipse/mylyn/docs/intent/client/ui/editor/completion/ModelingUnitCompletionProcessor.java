@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.completion;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.regex.Pattern;
@@ -38,6 +35,9 @@ import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+
 /**
  * Computes the completion proposal for ModelingUnits.
  * 
@@ -57,8 +57,6 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private static final String QUALIFIED_NAME_DELIMITER = "\\.";
 
-	private RepositoryAdapter repositoryAdapter;
-
 	private TraceabilityInformationsQuery traceabilityInfoQuery;
 
 	/**
@@ -68,7 +66,6 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	 *            the repository adapter
 	 */
 	public ModelingUnitCompletionProcessor(RepositoryAdapter repositoryAdapter) {
-		this.repositoryAdapter = repositoryAdapter;
 		this.traceabilityInfoQuery = new TraceabilityInformationsQuery(repositoryAdapter);
 	}
 
@@ -158,8 +155,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 								contributionBeginning))) {
 					String description = "Contribute to the " + instruction.getName()
 							+ IntentKeyWords.INTENT_WHITESPACE;
-					if (instruction.getMetaType() != null
-							&& instruction.getMetaType().getTypeName() != null) {
+					if (instruction.getMetaType() != null && instruction.getMetaType().getTypeName() != null) {
 						description += instruction.getMetaType().getTypeName();
 					} else {
 						description += "entity";
