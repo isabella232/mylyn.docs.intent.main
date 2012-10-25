@@ -39,7 +39,7 @@ public class LaunchAllClients extends AbstractHandler {
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
-			IntentCDOManager.getCDOManager("cdo:/localhost:2036/intent-server").initializeClients();
+			IntentCDOManager.getCDOManager("cdo://localhost:2036/intent-server").initializeClients();
 		} catch (RepositoryConnectionException e) {
 			IntentLogger.getInstance().logError(e);
 		} catch (ReadOnlyException e) {

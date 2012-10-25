@@ -41,7 +41,7 @@ public class ShowIndexHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
 			IntentEditorOpener.openIntentEditor(
-					IntentRepositoryManager.INSTANCE.getRepository("cdo:/localhost:2036/intent-server"),
+					IntentRepositoryManager.INSTANCE.getRepository("cdo://localhost:2036/intent-server"),
 					false);
 		} catch (RepositoryConnectionException e) {
 			IntentLogger.getInstance().logError(e);
