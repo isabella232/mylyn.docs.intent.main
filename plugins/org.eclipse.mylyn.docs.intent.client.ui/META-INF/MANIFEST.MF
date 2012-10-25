@@ -30,6 +30,7 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.mylyn.docs.intent.client.ui,
  org.eclipse.mylyn.docs.intent.client.ui.editor,
  org.eclipse.mylyn.docs.intent.client.ui.editor.annotation;x-friends:="org.eclipse.mylyn.docs.intent.client.ui.test",
+ org.eclipse.mylyn.docs.intent.client.ui.editor.completion,
  org.eclipse.mylyn.docs.intent.client.ui.editor.configuration,
  org.eclipse.mylyn.docs.intent.client.ui.editor.outline,
  org.eclipse.mylyn.docs.intent.client.ui.editor.scanner,
