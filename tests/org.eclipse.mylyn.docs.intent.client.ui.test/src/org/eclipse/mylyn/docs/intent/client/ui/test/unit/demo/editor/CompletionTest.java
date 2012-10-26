@@ -110,6 +110,12 @@ public class CompletionTest extends AbstractIntentUITest {
 		assertEquals(TEMPLATE_DESC_RESOURCE, proposals[0].getDisplayString());
 		assertEquals(TEMPLATE_DESC_INST, proposals[1].getDisplayString());
 
+		// beginning of a named modeling unit
+		proposals = getCompletionProposals(3232);
+		assertEquals(2, proposals.length);
+		assertEquals(TEMPLATE_DESC_RESOURCE, proposals[0].getDisplayString());
+		assertEquals(TEMPLATE_DESC_INST, proposals[1].getDisplayString());
+
 		// resource declaration patterns
 		proposals = getCompletionProposals(3263);
 		assertEquals(2, proposals.length);
@@ -122,6 +128,12 @@ public class CompletionTest extends AbstractIntentUITest {
 		assertEquals("nsURI : EString [?] - Set the value EPackage.nsURI", proposals[0].getDisplayString());
 		assertEquals("nsPrefix : EString [?] - Set the value EPackage.nsPrefix",
 				proposals[1].getDisplayString());
+
+		// features proposals in contribution
+		proposals = getCompletionProposals(3848);
+		assertEquals(1, proposals.length);
+		assertEquals("eClassifiers : EClassifier [0,*] - Set the value match.eClassifiers",
+				proposals[0].getDisplayString());
 
 		// Boolean value
 		proposals = getCompletionProposals(4016);
@@ -143,35 +155,10 @@ public class CompletionTest extends AbstractIntentUITest {
 		assertEquals("EClassifier - http://www.eclipse.org/emf/2002/Ecore", proposals[1].getDisplayString());
 	}
 
-	public void testToFix1() throws BadLocationException {
-		ICompletionProposal[] proposals = null;
-		// resource declaration patterns with word beginning
-		proposals = getCompletionProposals(3265);
-		assertEquals(1, proposals.length);
-		assertEquals(TEMPLATE_DESC_URI, proposals[0].getDisplayString());
-	}
-
-	public void testToFix2() throws BadLocationException {
+	// TODO integrate in main test when fixed
+	public void testUnresolvedProblems() throws BadLocationException {
 		ICompletionProposal[] proposals;
-		// beginning of a named modeling unit
-		proposals = getCompletionProposals(3232);
-		assertEquals(2, proposals.length);
-		assertEquals(TEMPLATE_DESC_RESOURCE, proposals[0].getDisplayString());
-		assertEquals(TEMPLATE_DESC_INST, proposals[1].getDisplayString());
-	}
-
-	public void testToFix3() throws BadLocationException {
-		ICompletionProposal[] proposals;
-		// features proposals, different place
-		proposals = getCompletionProposals(3848);
-		assertEquals(1, proposals.length);
-		assertEquals("eClassifiers : EClassifier [0,*] - Set the value EPackage.eClassifiers",
-				proposals[0].getDisplayString());
-	}
-
-	public void testToFix4() throws BadLocationException {
-		ICompletionProposal[] proposals;
-		// features proposals, different place, further
+		// features proposals further in contribution
 		proposals = getCompletionProposals(4128);
 		assertEquals(1, proposals.length);
 		assertEquals(

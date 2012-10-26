@@ -17,6 +17,7 @@ import junit.textui.TestRunner;
 
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.SimpleOrderTests;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.editor.CompletionTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.refresher.RefresherTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentRepositoryStructurerTest;
@@ -97,7 +98,7 @@ public class UITestSuite extends TestCase {
 		basicTestSuite.addTestSuite(RefresherTest.class);
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
 		basicTestSuite.addTestSuite(SimpleOrderTests.class);
-		// basicTestSuite.addTestSuite(CompletionTest.class); // FIXME Completion issues
+		basicTestSuite.addTestSuite(CompletionTest.class);
 		// basicTestSuite.addTestSuite(SynchronizerTest.class); // TODO reactivate when 391798 fixed
 		return basicTestSuite;
 	}

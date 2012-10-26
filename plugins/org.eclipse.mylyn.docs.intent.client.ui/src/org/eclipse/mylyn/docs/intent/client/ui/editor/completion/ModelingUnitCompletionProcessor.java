@@ -186,6 +186,10 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		boolean isResourceDeclaration = false;
 		if (text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) != -1) {
 			contributionName = text.substring(0, text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN)).trim();
+			if (contributionName.contains("\n")) {
+				String[] split = contributionName.split("\n");
+				contributionName = split[split.length - 1].trim();
+			}
 			featureNameBeginning = text.substring(text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN))
 					.replace(IntentKeyWords.INTENT_KEYWORD_OPEN, "").trim();
 
@@ -239,20 +243,15 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private void getProposalsForContribution(Collection<ICompletionProposal> proposals,
 			String contributionName, String featureNameBeginning) throws ReadOnlyException {
-		TraceabilityIndex traceabilityIndex = getTraceabilityIndex();
-		for (TraceabilityIndexEntry entry : traceabilityIndex.getEntries()) {
-			for (InstanciationInstruction instruction : Iterables.filter(entry
-					.getContainedElementToInstructions().values(), InstanciationInstruction.class)) {
-				if (contributionName.equals(instruction.getName())) {
-					if (instruction.getMetaType() != null
-							&& instruction.getMetaType().getResolvedType() != null) {
-						for (EStructuralFeature feature : instruction.getMetaType().getResolvedType()
-								.getEAllStructuralFeatures()) {
-							if (featureNameBeginning.length() == 0
-									|| feature.getName().startsWith(featureNameBeginning)) {
-								proposals.add(createStructuralFeatureAffectationTemplateProposal(
-										contributionName, feature));
-							}
+		for (InstanciationInstruction instruction : traceabilityInfoQuery.getInstanciations()) {
+			if (contributionName.equals(instruction.getName())) {
+				if (instruction.getMetaType() != null && instruction.getMetaType().getResolvedType() != null) {
+					for (EStructuralFeature feature : instruction.getMetaType().getResolvedType()
+							.getEAllStructuralFeatures()) {
+						if (featureNameBeginning.length() == 0
+								|| feature.getName().startsWith(featureNameBeginning)) {
+							proposals.add(createStructuralFeatureAffectationTemplateProposal(
+									contributionName, feature));
 						}
 					}
 				}
@@ -454,23 +453,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				return IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL;
 			}
 		}
-		int lastIndexOfSpaceCharacter = lastIndexOfSpaceCharacter(text);
-		if (lastIndexOfSpaceCharacter > -1) {
-			String textWithoutLastPart = text.substring(0, lastIndexOfSpaceCharacter + 1).trim();
-			lastIndexOfSpaceCharacter = lastIndexOfSpaceCharacter(textWithoutLastPart);
-			if (lastIndexOfSpaceCharacter > -1) {
-				return textWithoutLastPart.substring(lastIndexOfSpaceCharacter + 1).trim();
-			}
-			return textWithoutLastPart;
-		}
 		return null;
-	}
-
-	private int lastIndexOfSpaceCharacter(String text) {
-		int lastIndexOfSpace = text.lastIndexOf(IntentKeyWords.INTENT_WHITESPACE);
-		int lastIndexOfTab = text.lastIndexOf("\t");
-		int lastIndexOfNewLine = text.lastIndexOf("\n");
-		return Math.max(Math.max(lastIndexOfSpace, lastIndexOfTab), lastIndexOfNewLine);
 	}
 
 	/**
