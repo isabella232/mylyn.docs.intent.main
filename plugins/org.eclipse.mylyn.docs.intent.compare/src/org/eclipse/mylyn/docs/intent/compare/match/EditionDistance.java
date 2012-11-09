@@ -10,6 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.match;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -38,12 +44,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * This distance function implementation will actually compare the given EObject.

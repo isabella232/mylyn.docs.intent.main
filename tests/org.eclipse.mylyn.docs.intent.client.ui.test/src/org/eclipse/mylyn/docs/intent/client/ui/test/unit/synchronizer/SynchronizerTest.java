@@ -57,6 +57,7 @@ public class SynchronizerTest extends AbstractZipBasedTest {
 	 * 
 	 * @throws Exception
 	 */
+	// CHECKSTYLE:OFF
 	public void testSynchronizationStatus() throws Exception {
 		markers = intentProject.findMarkers("org.eclipse.core.resources.problemmarker", true,
 				IResource.DEPTH_INFINITE);
@@ -81,6 +82,8 @@ public class SynchronizerTest extends AbstractZipBasedTest {
 				"[Sync] The attribute 'abstract' in Attributes has changed.<br/><b>Current Document</b> : true<br/><b>Working Copy</b> : false",
 				1326, 6);
 	}
+
+	// CHECKSTYLE:ON
 
 	/**
 	 * Checks that the given message exists at the given position.

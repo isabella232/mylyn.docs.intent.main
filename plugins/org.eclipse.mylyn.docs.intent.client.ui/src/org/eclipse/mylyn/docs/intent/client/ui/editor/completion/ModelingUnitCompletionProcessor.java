@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.completion;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.regex.Pattern;
@@ -34,9 +37,6 @@ import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
-
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 
 /**
  * Computes the completion proposal for ModelingUnits.

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare;
 
+import com.google.common.collect.Sets;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -27,8 +29,6 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
-
-import com.google.common.collect.Sets;
 
 /**
  * Test ensuring that the Intent match engine works as expected.

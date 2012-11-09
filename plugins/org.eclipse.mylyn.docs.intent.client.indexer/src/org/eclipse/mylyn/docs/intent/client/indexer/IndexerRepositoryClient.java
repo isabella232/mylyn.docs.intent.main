@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.indexer;
 
+import com.google.common.collect.Lists;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -29,8 +31,6 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChan
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
-
-import com.google.common.collect.Lists;
 
 /**
  * When notified about modifications on the listened elements, update the index.

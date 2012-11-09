@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.scope;
 
+import com.google.common.collect.ForwardingIterator;
+import com.google.common.collect.Iterators;
+
 import java.util.Iterator;
 
 import org.eclipse.emf.common.notify.Notifier;
@@ -17,9 +20,6 @@ import org.eclipse.emf.compare.scope.DefaultComparisonScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-
-import com.google.common.collect.ForwardingIterator;
-import com.google.common.collect.Iterators;
 
 /**
  * The comparison scope for intent documents. Derived from FilterComparisonScope: resolve content proxies.

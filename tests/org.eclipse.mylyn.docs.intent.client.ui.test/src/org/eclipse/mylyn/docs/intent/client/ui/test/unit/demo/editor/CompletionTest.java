@@ -71,6 +71,7 @@ public class CompletionTest extends AbstractIntentUITest {
 	 * 
 	 * @throws Exception
 	 */
+	// CHECKSTYLE:OFF
 	public void testCompletion() throws Exception {
 		ICompletionProposal[] proposals = null;
 
@@ -165,6 +166,8 @@ public class CompletionTest extends AbstractIntentUITest {
 				"eStructuralFeatures : EStructuralFeatures [0,*] - Set the value EClass.eStructuralFeatures",
 				proposals[0].getDisplayString());
 	}
+
+	// CHECKSTYLE:ON
 
 	/**
 	 * Returns the completion proposals at the given offset.

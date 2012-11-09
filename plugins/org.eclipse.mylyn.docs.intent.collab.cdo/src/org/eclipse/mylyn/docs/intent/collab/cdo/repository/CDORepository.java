@@ -44,6 +44,11 @@ public class CDORepository implements Repository {
 	public static final String CDO_REPOSITORY_IDENTIFIER = "cdo://";
 
 	/**
+	 * List of the active repositories (while not empty, we can't close the session).
+	 */
+	private static Set<CDORepository> activeRepositories = new LinkedHashSet<CDORepository>();
+
+	/**
 	 * Connector to the repository.
 	 */
 	private IConnector connector;
@@ -62,11 +67,6 @@ public class CDORepository implements Repository {
 	 * Current session connected to the repository.
 	 */
 	private CDOSession session;
-
-	/**
-	 * List of the active repositories (while not empty, we can't close the session).
-	 */
-	private static Set<CDORepository> activeRepositories = new LinkedHashSet<CDORepository>();
 
 	/**
 	 * Configuration of this CDORepository (abstract notion).

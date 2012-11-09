@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.utils;
 
+import com.google.common.collect.Iterables;
+
 import java.io.PrintStream;
 import java.util.Arrays;
 
@@ -28,8 +30,6 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectat
 import org.eclipse.mylyn.docs.intent.markup.markup.Annotations;
 import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
-import com.google.common.collect.Iterables;
-
 /**
  * This class exposes methods to serialize a "human-readable" form of the comparison model onto a given
  * stream.
@@ -39,6 +39,10 @@ import com.google.common.collect.Iterables;
  */
 @SuppressWarnings("nls")
 public final class IntentPrettyPrinter {
+
+	private static final String QUOTE = "\"";
+
+	private static final String WHITESPACE = " ";
 
 	private static final String SEP = " |";
 
@@ -424,15 +428,15 @@ public final class IntentPrettyPrinter {
 	}
 
 	public static String diffToReadableString(Diff diff) {
-		String res = diff.getKind() + " ";
+		String res = diff.getKind() + WHITESPACE;
 		if (diff instanceof AttributeChange) {
 			AttributeChange change = (AttributeChange)diff;
 			res += change.getAttribute().getEContainingClass().getName() + "."
-					+ change.getAttribute().getName() + " ";
+					+ change.getAttribute().getName() + WHITESPACE;
 		} else if (diff instanceof ReferenceChange) {
 			ReferenceChange change = (ReferenceChange)diff;
 			res += change.getReference().getEContainingClass().getName() + "."
-					+ change.getReference().getName() + " ";
+					+ change.getReference().getName() + WHITESPACE;
 		}
 		res += "\n" + diff + "\n";
 		res += "based on " + matchToReadableString(diff.getMatch());
@@ -461,12 +465,12 @@ public final class IntentPrettyPrinter {
 			// }
 		}
 		if (element instanceof Text) {
-			res = "\"" + ((Text)element).getData() + "\"";
+			res = QUOTE + ((Text)element).getData() + QUOTE;
 		} else if (element instanceof IntentDocument || element instanceof Annotations) {
 			res = null;
 		} else if (element instanceof StructuralFeatureAffectation) {
 			StructuralFeatureAffectation aff = (StructuralFeatureAffectation)element;
-			res += element.eClass().getName() + " \"" + aff.getName() + "\"";
+			res += element.eClass().getName() + " \"" + aff.getName() + QUOTE;
 		}
 		return res;
 	}

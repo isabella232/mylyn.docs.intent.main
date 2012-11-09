@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.utils;
 
-import static com.google.common.base.Predicates.instanceOf;
-import static com.google.common.base.Predicates.not;
-import static com.google.common.base.Predicates.or;
+import com.google.common.base.Predicates;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.compare.Comparison;
@@ -59,8 +57,9 @@ public final class EMFCompareUtils {
 	 */
 	public static Comparison compare(Notifier left, Notifier right) {
 		IntentComparisonScope scope = new IntentComparisonScope(left, right);
-		scope.setEObjectContentFilter(not(or(instanceOf(CompilationStatus.class),
-				instanceOf(SynchronizerCompilationStatus.class))));
+		scope.setEObjectContentFilter(Predicates.not(Predicates.or(
+				Predicates.instanceOf(CompilationStatus.class),
+				Predicates.instanceOf(SynchronizerCompilationStatus.class))));
 
 		Builder builder = EMFCompare.builder();
 		builder.setMatchEngine(DefaultMatchEngine.create(UseIdentifiers.NEVER));
@@ -83,8 +82,9 @@ public final class EMFCompareUtils {
 	 */
 	public static Comparison compareDocuments(Notifier left, Notifier right) {
 		IntentComparisonScope scope = new IntentComparisonScope(left, right);
-		scope.setEObjectContentFilter(not(or(instanceOf(CompilationStatus.class),
-				instanceOf(SynchronizerCompilationStatus.class))));
+		scope.setEObjectContentFilter(Predicates.not(Predicates.or(
+				Predicates.instanceOf(CompilationStatus.class),
+				Predicates.instanceOf(SynchronizerCompilationStatus.class))));
 
 		IEObjectMatcher matcher = new ProximityEObjectMatcher(new EditionDistance(left, right));
 		final IComparisonFactory comparisonFactory = new DefaultComparisonFactory(

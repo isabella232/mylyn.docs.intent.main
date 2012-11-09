@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.synchronizer;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -25,9 +28,6 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
-
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 
 /**
  * In charge of communication between the repository and the synchronizer ; launch a synchronization operation
