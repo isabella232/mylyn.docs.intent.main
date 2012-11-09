@@ -89,9 +89,9 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	 */
 	private IRule computeMUKeyWordsRule() {
 		IToken keyWordToken = new Token(new TextAttribute(keyWordforeGroundColor, defaultBackGroundColor,
-				SWT.BOLD, IntentFontConstants.MU_KW_FONT));
+				SWT.BOLD, IntentFontConstants.getModelingUnitFont()));
 		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, defaultBackGroundColor,
-				SWT.NONE, IntentFontConstants.MU_DEFAULT_FONT));
+				SWT.NONE, IntentFontConstants.getModelingUnitFont()));
 
 		WordRule keyWordsRule = new WordRule(new IntentWordDetector(true), defaultToken);
 		MU_KEYWORDS = new String[] {"new", "Resource", "@M", "M@", "@Annotation",
@@ -110,7 +110,7 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	 */
 	private Collection<? extends IRule> computeStringRules() {
 		IToken stringToken = new Token(new TextAttribute(stringforeGroundColor, defaultBackGroundColor,
-				SWT.ITALIC, IntentFontConstants.MU_DEFAULT_FONT));
+				SWT.ITALIC, IntentFontConstants.getModelingUnitFont()));
 		List<IRule> rules = new ArrayList<IRule>();
 		rules.add(new SingleLineRule("\"", "\"", stringToken, '\\'));
 		rules.add(new MultiLineRule("'", "'", stringToken, '\\'));
@@ -118,13 +118,13 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	}
 
 	/**
-	 * Compte the Rule related to white spaces.
+	 * Computes the Rule related to white spaces.
 	 * 
 	 * @return the Rule related to white spaces
 	 */
 	private IRule computeWhiteSpaceRule() {
 		IToken whiteSpaceToken = new Token(new TextAttribute(null, backgroundColor, SWT.NONE,
-				IntentFontConstants.MU_DEFAULT_FONT));
+				IntentFontConstants.getModelingUnitFont()));
 		return new WhitespaceRule(new IWhitespaceDetector() {
 
 			/**

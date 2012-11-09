@@ -303,4 +303,48 @@ Contributors:
                 name="Intent">
           </page>
        </extension>
+       
+       
+  	<extension point="org.eclipse.ui.themes">
+		       <themeElementCategory
+				id="org.eclipse.mylyn.docs.intent.editor.font.category" label="Intent">
+				<description>
+					An example theme category
+				</description>
+			</themeElementCategory>
+		
+			<fontDefinition
+				categoryId="org.eclipse.mylyn.docs.intent.editor.font.category"
+				id="org.eclipse.mylyn.docs.intent.editor.font.title" label="Title"
+				value="Verdana-bold-12">
+				<description>
+					Font used to display the titles of Chapters and Sections of an Intent document
+		        </description>
+			</fontDefinition>
+			
+			<fontDefinition
+				categoryId="org.eclipse.mylyn.docs.intent.editor.font.category"
+				id="org.eclipse.mylyn.docs.intent.editor.font.text" label="Text"
+				value="Verdana-regular-10">
+				<description>
+					Font used to display plain texts zone (e.g. paragraphs) of an Intent document
+		        </description>
+			</fontDefinition>
+			
+			<fontDefinition
+				categoryId="org.eclipse.mylyn.docs.intent.editor.font.category"
+				id="org.eclipse.mylyn.docs.intent.editor.font.modelfragment" label="Model Fragment"
+				value="Courier New-regular-9">
+				<description>
+					Font used to display the Model fragments of an Intent document
+		        </description>
+		         <fontValue
+       				os="linux"
+            		value="Monospace-regular-11"/>
+       			<fontValue
+       				os="macosx"
+            		value="Courier-regular-11"/>
+			</fontDefinition>
+			
+	</extension>
 </plugin>
