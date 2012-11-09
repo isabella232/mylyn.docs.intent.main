@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.configuration;
 
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.themes.ITheme;
+import org.eclipse.ui.themes.IThemeManager;
 
 /**
  * Constants for all the font used by an Intent Editor.
@@ -21,27 +23,13 @@ import org.eclipse.swt.widgets.Display;
  */
 public final class IntentFontConstants {
 
-	public static final int DU_FONT_SIZE = 10;
+	private static final String TITLE_FONT_PREFERENCE_ID = "org.eclipse.mylyn.docs.intent.editor.font.title";
 
-	public static final int DU_TITLE_SIZE = 10;
+	private static final String DESCRIPTION_FONT_PREFERENCE_ID = "org.eclipse.mylyn.docs.intent.editor.font.text";
 
-	public static final Font MU_DEFAULT_FONT = new Font(Display.getCurrent(), "Courier New", 9, SWT.NONE);
+	private static final String MODEL_FRAGMENT_FONT_PREFERENCE_ID = "org.eclipse.mylyn.docs.intent.editor.font.modelfragment";
 
-	public static final Font MU_KW_FONT = new Font(Display.getCurrent(), "Courier New", 9, SWT.BOLD);
-
-	/**
-	 * The name of the font to use to render documentation.
-	 */
-	private static final String DOCUMENTATION_FONT_NAME = "ComputerModern";
-
-	/**
-	 * The name of the font to use to render documentation, if the DOCUMENTATION_FONT_NAME is unavailable.
-	 */
-	private static final String DOCUMENTATION_DEFAULT_FONT_NAME = "Verdana";
-
-	private static Font DU_FONT;
-
-	private static Font TITLE_FONT;
+	private static FontRegistry fontRegistry;
 
 	/**
 	 * IntentFontConstants constructor.
@@ -50,36 +38,12 @@ public final class IntentFontConstants {
 	}
 
 	/**
-	 * Initialize the font to associate with not keyWords elements.
-	 */
-	private static void initializeWikiFont() {
-		IntentFontConstants.TITLE_FONT = new Font(Display.getCurrent(), DOCUMENTATION_DEFAULT_FONT_NAME,
-				IntentFontConstants.DU_TITLE_SIZE, SWT.BOLD);
-
-		// We try to initialize the description font to Computer Modern (used by Latex)
-		IntentFontConstants.DU_FONT = new Font(Display.getCurrent(), DOCUMENTATION_FONT_NAME,
-				IntentFontConstants.DU_FONT_SIZE, SWT.NONE);
-
-		if (IntentFontConstants.DU_FONT == null) {
-			// If this font isn't available, we use the Verdana font.
-			IntentFontConstants.DU_FONT = new Font(Display.getCurrent(), DOCUMENTATION_DEFAULT_FONT_NAME,
-					DU_FONT_SIZE, SWT.NONE);
-			IntentFontConstants.TITLE_FONT = new Font(Display.getCurrent(), DOCUMENTATION_DEFAULT_FONT_NAME,
-					IntentFontConstants.DU_TITLE_SIZE, SWT.BOLD);
-		}
-
-	}
-
-	/**
 	 * Returns the font associated to description units.
 	 * 
 	 * @return the font associated to description units.
 	 */
 	public static Font getDescriptionFont() {
-		if (DU_FONT == null) {
-			initializeWikiFont();
-		}
-		return DU_FONT;
+		return getCurrentFontRegistry().get(DESCRIPTION_FONT_PREFERENCE_ID);
 	}
 
 	/**
@@ -88,10 +52,31 @@ public final class IntentFontConstants {
 	 * @return the font associated to structured elements title.
 	 */
 	public static Font getTitleFont() {
-		if (TITLE_FONT == null) {
-			initializeWikiFont();
+		return getCurrentFontRegistry().get(TITLE_FONT_PREFERENCE_ID);
+	}
+
+	/**
+	 * Returns the default font associated to Modeling Unit content.
+	 * 
+	 * @return the default font associated to Modeling Unit content
+	 */
+	public static Font getModelingUnitFont() {
+		return getCurrentFontRegistry().get(MODEL_FRAGMENT_FONT_PREFERENCE_ID);
+	}
+
+	/**
+	 * Returns the {@link FontRegistry} to use for getting fonts as defined in user preferences.
+	 * 
+	 * @return the {@link FontRegistry} to use for getting fonts as defined in user preferences
+	 */
+	private static FontRegistry getCurrentFontRegistry() {
+		if (fontRegistry == null) {
+			IThemeManager themeManager = PlatformUI.getWorkbench().getThemeManager();
+			ITheme currentTheme = themeManager.getCurrentTheme();
+
+			fontRegistry = currentTheme.getFontRegistry();
 		}
-		return TITLE_FONT;
+		return fontRegistry;
 	}
 
 }
