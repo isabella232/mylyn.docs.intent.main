@@ -14,21 +14,19 @@ import java.util.Collection;
 
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentSelectionUtil;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 
 /**
- * Returns true if the tester element is associated to an IntentDocument (i.e. is an Intent Document or can be
- * adapted as such or is an Intent project).
+ * Returns true if the tester element is associated to an {@link IntentStructuredElement}.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class IsAssociatedToIntentDocumentTester extends PropertyTester {
+public class IsAssociatedToIntentStructuredElementTester extends PropertyTester {
 
 	/**
 	 * Default constructor.
 	 */
-	public IsAssociatedToIntentDocumentTester() {
+	public IsAssociatedToIntentStructuredElementTester() {
 	}
 
 	/**
@@ -41,6 +39,6 @@ public class IsAssociatedToIntentDocumentTester extends PropertyTester {
 		Collection<IntentStructuredElement> correspondingIntentElements = IntentSelectionUtil
 				.getIntentElements(receiver);
 		return (correspondingIntentElements.size() == 1)
-				&& (correspondingIntentElements.iterator().next() instanceof IntentDocument);
+				&& (correspondingIntentElements.iterator().next() instanceof IntentStructuredElement);
 	}
 }

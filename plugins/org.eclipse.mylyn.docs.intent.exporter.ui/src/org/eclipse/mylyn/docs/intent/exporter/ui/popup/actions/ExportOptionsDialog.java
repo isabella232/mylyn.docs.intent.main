@@ -107,7 +107,7 @@ public class ExportOptionsDialog extends Dialog {
 
 		// Allow to customize intent document name
 		Group group2 = new Group(composite, SWT.NONE);
-		group2.setText("Intent Document Name");
+		group2.setText("Exported Document Name");
 		final GridData anyElementData = new GridData();
 		anyElementData.horizontalAlignment = GridData.FILL;
 		anyElementData.grabExcessHorizontalSpace = true;
@@ -142,6 +142,7 @@ public class ExportOptionsDialog extends Dialog {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK button and rename the Cancel button with Ignore label
 		okButton = createButton(parent, IDialogConstants.OK_ID, "&" + IDialogConstants.OK_LABEL, true);
@@ -151,6 +152,7 @@ public class ExportOptionsDialog extends Dialog {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	protected void okPressed() {
 		exportedIntentDocumentName = intentDocumentNameText.getText() != null ? intentDocumentNameText
 				.getText() : "Intent Documentation";

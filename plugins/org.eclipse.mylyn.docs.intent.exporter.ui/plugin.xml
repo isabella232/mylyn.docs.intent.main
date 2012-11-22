@@ -15,7 +15,7 @@
             <iterate
                   operator="and">            <test
                   forcePluginActivation="true"
-                  property="org.eclipse.mylyn.docs.intent.client.ui.ide.isIntentDocument">
+                  property="org.eclipse.mylyn.docs.intent.client.ui.ide.isIntentStructuredElement">
             </test></iterate>
 
          </visibleWhen>

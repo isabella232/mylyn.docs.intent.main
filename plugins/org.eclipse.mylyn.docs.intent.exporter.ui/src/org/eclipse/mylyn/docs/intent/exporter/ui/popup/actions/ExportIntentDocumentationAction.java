@@ -31,6 +31,8 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.window.Window;
@@ -42,6 +44,8 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
 import org.eclipse.mylyn.docs.intent.exporter.main.HTMLBootstrapGenDocument;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -65,19 +69,41 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 			IProject intentProject = null;
 			if (((StructuredSelection)selection).getFirstElement() instanceof IProject) {
 				intentProject = (IProject)((StructuredSelection)selection).getFirstElement();
-			} else if (((StructuredSelection)selection).getFirstElement() instanceof IntentDocument) {
-				// TODO
-			}
-			// Step 1 : open the export dialog
-			ExportOptionsDialog exportOptionsDialog = new ExportOptionsDialog(Display.getCurrent()
-					.getActiveShell(), new File(((IProject)intentProject).getLocationURI()).getAbsolutePath()
-					+ "/html");
+			} else {
+				IntentStructuredElement correspondingIntentElement = null;
 
-			if (Window.OK == exportOptionsDialog.open()) {
-				// Step 2: realize export
-				exportIntentDocumentation((IProject)intentProject,
-						exportOptionsDialog.getTargetFolderLocation(),
-						exportOptionsDialog.getExportedIntentDocumentName(), new BasicMonitor());
+				if (((StructuredSelection)selection).getFirstElement() instanceof IntentStructuredElement) {
+					correspondingIntentElement = (IntentStructuredElement)((StructuredSelection)selection)
+							.getFirstElement();
+				}
+				if (((StructuredSelection)selection).getFirstElement() instanceof IntentIndexEntry) {
+					correspondingIntentElement = (IntentStructuredElement)((IntentIndexEntry)((StructuredSelection)selection)
+							.getFirstElement()).getReferencedElement();
+				}
+				if (correspondingIntentElement != null) {
+					try {
+						String projectName = IntentRepositoryManager.INSTANCE.getRepository(
+								EcoreUtil.getURI((EObject)((StructuredSelection)selection).getFirstElement())
+										.toString()).getIdentifier();
+						intentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+					} catch (RepositoryConnectionException e) {
+						IntentUiLogger.logError(e);
+					} catch (CoreException e) {
+						IntentUiLogger.logError(e);
+					}
+				}
+			}
+			if (intentProject != null) {
+				// Step 1 : open the export dialog
+				ExportOptionsDialog exportOptionsDialog = new ExportOptionsDialog(Display.getCurrent()
+						.getActiveShell(), new File(intentProject.getLocationURI()).getAbsolutePath()
+						+ "/html");
+
+				if (Window.OK == exportOptionsDialog.open()) {
+					// Step 2: realize export
+					exportIntentDocumentation(intentProject, exportOptionsDialog.getTargetFolderLocation(),
+							exportOptionsDialog.getExportedIntentDocumentName(), new BasicMonitor());
+				}
 			}
 		}
 		return null;
@@ -163,7 +189,7 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 		try {
 
 			while (zipEntry != null) {
-				final File file = new File(targetFolder.getAbsolutePath().toString(), zipEntry.getName()); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				final File file = new File(targetFolder.getAbsolutePath().toString(), zipEntry.getName());
 
 				if (!zipEntry.isDirectory()) {
 
