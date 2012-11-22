@@ -23,6 +23,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.common.EMFPlugin;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -101,39 +102,45 @@ public class CopyImageUtils {
 	 * @return the URL of the image corresponding to the given EObject, null if none found
 	 */
 	private static URL getImageFromWorkspace(EClassifier any, RepositoryAdapter repositoryAdapter) {
-		TraceabilityIndex projectTraceabilityIndex = IntentAcceleoServices
-				.getTraceabilityIndex(repositoryAdapter);
-		if (projectTraceabilityIndex != null) {
-			for (TraceabilityIndexEntry entry : projectTraceabilityIndex.getEntries()) {
-				if (any.eResource().getURI().toString().contains(entry.getGeneratedResourcePath())) {
-					Object metamodelURI = entry.getResourceDeclaration().getUri();
-					if (metamodelURI != null && metamodelURI.toString().replace("\"", "").endsWith("ecore")) {
-						URI genModelURI = URI.createURI(metamodelURI.toString().replace("\"", "")
-								.replace("ecore", "genmodel"));
-						try {
-							Resource resource = getResourceSet().getResource(genModelURI, true);
-							if (!resource.getContents().isEmpty()
-									&& resource.getContents().iterator().next() instanceof GenModel) {
-								String editIconsDirectory = ((GenModel)resource.getContents().iterator()
-										.next()).getEditIconsDirectory();
-								IFolder folder = ResourcesPlugin.getWorkspace().getRoot()
-										.getFolder(new Path(editIconsDirectory + "/full/obj16"));
-								if (folder.exists()) {
-									for (String imageExtension : new String[] {"gif", "png"
-									}) {
-										if (folder.getFile(any.getName() + "." + imageExtension).exists()) {
-											return new URL("file:/"
-													+ folder.getFile(any.getName() + "." + imageExtension)
-															.getLocation().toString());
+		// If the core.resource plugin is not available, we return null
+		if (EMFPlugin.IS_RESOURCES_BUNDLE_AVAILABLE) {
+			TraceabilityIndex projectTraceabilityIndex = IntentAcceleoServices
+					.getTraceabilityIndex(repositoryAdapter);
+			if (projectTraceabilityIndex != null) {
+				for (TraceabilityIndexEntry entry : projectTraceabilityIndex.getEntries()) {
+					if (any.eResource().getURI().toString().contains(entry.getGeneratedResourcePath())) {
+						Object metamodelURI = entry.getResourceDeclaration().getUri();
+						if (metamodelURI != null
+								&& metamodelURI.toString().replace("\"", "").endsWith("ecore")) {
+							URI genModelURI = URI.createURI(metamodelURI.toString().replace("\"", "")
+									.replace("ecore", "genmodel"));
+							try {
+								Resource resource = getResourceSet().getResource(genModelURI, true);
+								if (!resource.getContents().isEmpty()
+										&& resource.getContents().iterator().next() instanceof GenModel) {
+									String editIconsDirectory = ((GenModel)resource.getContents().iterator()
+											.next()).getEditIconsDirectory();
+									IFolder folder = ResourcesPlugin.getWorkspace().getRoot()
+											.getFolder(new Path(editIconsDirectory + "/full/obj16"));
+									if (folder.exists()) {
+										for (String imageExtension : new String[] {"gif", "png"
+										}) {
+											if (folder.getFile(any.getName() + "." + imageExtension).exists()) {
+												return new URL(
+														"file:/"
+																+ folder.getFile(
+																		any.getName() + "." + imageExtension)
+																		.getLocation().toString());
+											}
 										}
 									}
 								}
+							} catch (RuntimeException e) {
+								IntentUiLogger.logInfo("Cannot find genmodel at " + genModelURI
+										+ ". Default image will be use to display " + any.getName());
+							} catch (MalformedURLException e) {
+								IntentUiLogger.logError(e);
 							}
-						} catch (RuntimeException e) {
-							IntentUiLogger.logInfo("Cannot find genmodel at " + genModelURI
-									+ ". Default image will be use to display " + any.getName());
-						} catch (MalformedURLException e) {
-							IntentUiLogger.logError(e);
 						}
 					}
 				}
