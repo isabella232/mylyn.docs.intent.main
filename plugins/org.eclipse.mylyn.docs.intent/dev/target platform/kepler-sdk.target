@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+
+<target name="Kepler SDK" sequenceNumber="1">
+<locations>
+<location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.compare.feature.group" version="2.1.0.201212030924"/>
+<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="2.1.0.201212030924"/>
+<unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="2.1.0.201212030924"/>
+<repository location="https://hudson.eclipse.org/hudson/view/Modeling/job/emf-compare-master/lastSuccessfulBuild/artifact/packaging/org.eclipse.emf.compare.update/target/repository/"/>
+</location>
+<location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.7.2.v20120916-1200"/>
+<unit id="org.eclipse.acceleo.sdk.feature.group" version="3.3.1.v20120831-0923"/>
+<unit id="org.eclipse.emf.cdo.sdk.feature.group" version="4.1.1.v20120911-1146"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.8.1.v20120917-0436"/>
+<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.6.0.v20120328-0001-777Z-9A_WsZmcPluNecyPkvrPKlH"/>
+<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.6.0.v20120328-0001-67T-96SGR75UNqZNTdeQnghI6uFA"/>
+<repository location="http://download.eclipse.org/releases/juno"/>
+</location>
+<location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="com.google.collect" version="1.0.0.v201003051000"/>
+<unit id="org.junit" version="4.8.1.v4_8_1_v20100427-1100"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/updateSite"/>
+</location>
+<location includeAllPlatforms="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.platform.sdk" version="4.2.1.M20120914-1800"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.2"/>
+</location>
+</locations>
+<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre6"/>
+</target>

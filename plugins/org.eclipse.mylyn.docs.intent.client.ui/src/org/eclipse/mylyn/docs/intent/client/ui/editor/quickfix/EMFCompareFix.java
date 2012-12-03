@@ -21,9 +21,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Match;
+import org.eclipse.emf.compare.domain.impl.EMFCompareEditingDomain;
 import org.eclipse.emf.compare.ide.ui.internal.EMFCompareConstants;
-import org.eclipse.emf.compare.ide.ui.internal.structuremergeviewer.EMFCompareStructureMergeViewer;
-import org.eclipse.emf.compare.ide.ui.internal.util.EMFCompareEditingDomain;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -83,8 +82,8 @@ public class EMFCompareFix extends AbstractIntentFix {
 		final CompareConfiguration compareConfig = new IntentCompareConfiguration(generatedResource,
 				workingCopyResource);
 		compareConfig.setProperty(EMFCompareConstants.COMPARE_RESULT, comparison);
-		compareConfig.setProperty(EMFCompareConstants.EDITING_DOMAIN, new EMFCompareEditingDomain(comparison,
-				generatedResource, workingCopyResource, null));
+		compareConfig.setProperty(EMFCompareConstants.EDITING_DOMAIN,
+				EMFCompareEditingDomain.create(generatedResource, workingCopyResource, null));
 		CompareEditorInput input = new IntentCompareEditorInput(compareConfig, comparison);
 		compareConfig.setContainer(input);
 		input.setTitle(COMPARE_EDITOR_TITLE + " (" + workingCopyResourceURI + ")");
@@ -147,7 +146,8 @@ public class EMFCompareFix extends AbstractIntentFix {
 		 */
 		@Override
 		public Viewer createDiffViewer(Composite parent) {
-			return new EMFCompareStructureMergeViewer(parent, getCompareConfiguration());
+			// return new EMFCompareStructureMergeViewer(parent, getCompareConfiguration());
+			return super.createDiffViewer(parent);
 		};
 	}
 }
