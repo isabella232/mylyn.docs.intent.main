@@ -7,7 +7,7 @@
 
 
 
-[template public generateHTMLContent(intentDocument : IntentDocument)]
+[template public generateHTMLContentRoot(intentDocument : IntentDocument)]
 <div id="content" >
 	[for (chapter : IntentChapter | intentDocument.chapters)]
 		[generateHTMLContent(chapter, chapter.getIndex())/]
@@ -15,10 +15,19 @@
 </div>
 [/template]
 
+[template public generateHTMLContentRoot(intentElement : IntentSubSectionContainer)]
+<div id="content" >
+	[generateHTMLContent(intentElement, '')/]
+</div>
+[/template]
+
+[template public generateHTMLContentRoot(intentElement : IntentStructuredElement)]
+[/template]
+
 
 [template public generateHTMLContent(subSectionContainer : IntentSubSectionContainer, index : String) ]
 <section id="[index/]">
-[if subSectionContainer.oclIsTypeOf(IntentChapter)]
+[if (subSectionContainer.oclIsTypeOf(IntentChapter)) or (index = '')]
 	<div class="page-header">
 		<h1>
 			[subSectionContainer.generateSubSectionTitle(false)/]
@@ -126,7 +135,7 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 
 [template public generateHTMLContent(resourceDeclaration : ResourceDeclaration)]
 <li class="jstree-open">
-	<img src="./icons/modelingunit_resource.gif"/>
+	<img src="../icons/modelingunit_resource.gif"/>
 
 	<a href="#"												
 		rel="popover" title="Resource [resourceDeclaration.name/]"
@@ -223,22 +232,22 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 [/template]
 
 [template public getImageForValue(valueInstruction : NativeValueForStructuralFeature)]
-<img src="./icons/modelingunit_value.gif"/>
+<img src="../icons/modelingunit_value.gif"/>
 [/template]
 
 [template public getImageForValue(valueInstruction : ValueForStructuralFeature)]
-<img src="./icons/modelingunit_affect.png"/>
+<img src="../icons/modelingunit_affect.png"/>
 [/template]
 
 [template public getImageForValue(valueInstruction : ReferenceValueForStructuralFeature)]
 [if valueInstruction.referencedMetaType.oclIsUndefined()]
-	 <img src="./icons/modelingunit_ref.png"/>
+	 <img src="../icons/modelingunit_ref.png"/>
 [else]
 [let imagePath : String = valueInstruction.referencedMetaType.getQualifiedImageId()]
 	[if imagePath.size() > 2]
 		<img src="[imagePath/]"/>
 	[else]
-		<img src="./icons/modelingunit_ref.png"/>
+		<img src="../icons/modelingunit_ref.png"/>
 	[/if]
 [/let]
 [/if]
@@ -249,7 +258,7 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 	[if imagePath.size() > 0]
 		<img src="[imagePath/]"/>
 	[else]
-		<img src="./icons/modelingunit_ref.png"/>
+		<img src="../icons/modelingunit_ref.png"/>
 	[/if]
 [/let]
 [/template]
@@ -259,7 +268,7 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 	[if imagePath.size() > 0]
 		<img src="[imagePath/]"/>
 	[else]
-		<img src="./icons/modelingunit_new_element.png"/>
+		<img src="../icons/modelingunit_new_element.png"/>
 	[/if]
 [/let]
 [/template]
@@ -269,7 +278,7 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 	[if imagePath.size() > 0]
 		<img src="[imagePath/]"/>
 	[else]
-		<img src="./icons/modelingunit_contribution.png"/>
+		<img src="../icons/modelingunit_contribution.png"/>
 	[/if]
 [/let]
 [/template]

@@ -16,6 +16,8 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -26,6 +28,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
@@ -52,6 +55,8 @@ public class ExportOptionsDialog extends Dialog {
 
 	private Button okButton;
 
+	private final IntentStructuredElement intentElement;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -59,10 +64,14 @@ public class ExportOptionsDialog extends Dialog {
 	 *            the parent shell
 	 * @param defaultTargetFolderLocation
 	 *            the default location for the target folder
+	 * @param intentElement
+	 *            the intent element to launch the generation on
 	 */
-	public ExportOptionsDialog(Shell parent, String defaultTargetFolderLocation) {
+	public ExportOptionsDialog(Shell parent, String defaultTargetFolderLocation,
+			IntentStructuredElement intentElement) {
 		super(parent);
 		targetFolderLocation = defaultTargetFolderLocation;
+		this.intentElement = intentElement;
 	}
 
 	/**
@@ -83,6 +92,13 @@ public class ExportOptionsDialog extends Dialog {
 		Group group = new Group(composite, SWT.NONE);
 		group.setText("Export folder location");
 
+		Label label = new Label(group, SWT.NONE);
+		label.setText("The location in which the HTML files will be stored.");
+		new Label(group, SWT.NONE);
+		exportLocationText = new Text(group, SWT.NONE);
+		exportLocationText.setText(targetFolderLocation);
+		exportLocationText.setLayoutData(gridData);
+
 		Button button = new Button(group, SWT.NONE);
 		button.setText("Browse...");
 		button.addSelectionListener(new SelectionListener() {
@@ -100,24 +116,28 @@ public class ExportOptionsDialog extends Dialog {
 
 			}
 		});
-		exportLocationText = new Text(group, SWT.NONE);
-		exportLocationText.setText(targetFolderLocation);
+
 		group.setLayout(gridLayout);
 		group.setLayoutData(gridData);
 
 		// Allow to customize intent document name
-		Group group2 = new Group(composite, SWT.NONE);
-		group2.setText("Exported Document Name");
-		final GridData anyElementData = new GridData();
-		anyElementData.horizontalAlignment = GridData.FILL;
-		anyElementData.grabExcessHorizontalSpace = true;
+		if (intentElement instanceof IntentDocument) {
+			Group group2 = new Group(composite, SWT.NONE);
+			group2.setText("Exported Document Name");
+			new Label(group2, SWT.NONE);
+			label.setText("This name will be used as a title of the exported documentation.");
+			new Label(group, SWT.NONE);
+			final GridData anyElementData = new GridData();
+			anyElementData.horizontalAlignment = GridData.FILL;
+			anyElementData.grabExcessHorizontalSpace = true;
 
-		intentDocumentNameText = new Text(group2, SWT.BORDER);
-		intentDocumentNameText.setTextLimit(255);
-		intentDocumentNameText.setLayoutData(anyElementData);
-		intentDocumentNameText.setText(exportedIntentDocumentName);
-		group2.setLayout(gridLayout);
-		group2.setLayoutData(gridData);
+			intentDocumentNameText = new Text(group2, SWT.BORDER);
+			intentDocumentNameText.setTextLimit(255);
+			intentDocumentNameText.setLayoutData(anyElementData);
+			intentDocumentNameText.setText(exportedIntentDocumentName);
+			group2.setLayout(gridLayout);
+			group2.setLayoutData(gridData);
+		}
 		return composite;
 	}
 
@@ -154,8 +174,10 @@ public class ExportOptionsDialog extends Dialog {
 	 */
 	@Override
 	protected void okPressed() {
-		exportedIntentDocumentName = intentDocumentNameText.getText() != null ? intentDocumentNameText
-				.getText() : "Intent Documentation";
+		if (intentDocumentNameText != null) {
+			exportedIntentDocumentName = intentDocumentNameText.getText() != null ? intentDocumentNameText
+					.getText() : "Intent Documentation";
+		}
 		targetFolderLocation = exportLocationText.getText() != null ? exportLocationText.getText()
 				: targetFolderLocation;
 		super.okPressed();

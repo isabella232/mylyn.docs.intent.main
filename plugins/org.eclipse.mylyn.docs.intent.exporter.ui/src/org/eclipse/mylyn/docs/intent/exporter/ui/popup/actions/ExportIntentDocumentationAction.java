@@ -20,7 +20,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -80,31 +84,47 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 				}
 				if (intentProject != null) {
 					// Step 1 : open the export dialog
-					ExportOptionsDialog exportOptionsDialog = new ExportOptionsDialog(Display.getCurrent()
-							.getActiveShell(), new File(intentProject.getLocationURI()).getAbsolutePath()
-							+ "/html");
+					final ExportOptionsDialog exportOptionsDialog = new ExportOptionsDialog(Display
+							.getCurrent().getActiveShell(),
+							new File(intentProject.getLocationURI()).getAbsolutePath() + "/generated",
+							intentElement);
 
 					if (Window.OK == exportOptionsDialog.open()) {
 						// Step 2: realize export
-						new IntentHTMLExporter().exportIntentDocumentation(intentElement,
-								exportOptionsDialog.getTargetFolderLocation(),
-								exportOptionsDialog.getExportedIntentDocumentName(), new BasicMonitor());
+						final IntentStructuredElement intentElementToExport = intentElement;
+						final IProject correspondingProject = intentProject;
+						Job exportJob = new Job("Exporting documentation as HTML") {
 
-						// Step 3: if target folder is in workspace, refresh the folder
-						File targetFolder = new File(exportOptionsDialog.getTargetFolderLocation());
-						String projectRelativePath = targetFolder
-								.getAbsolutePath()
-								.toString()
-								.replace(
-										new File(intentProject.getLocationURI()).getAbsolutePath().toString(),
-										"").substring(1);
-						IFolder targetFolderInWorkspace = intentProject.getFolder(new Path(
-								projectRelativePath));
-						if (targetFolderInWorkspace.exists()) {
-							targetFolderInWorkspace.refreshLocal(IResource.DEPTH_INFINITE, null);
-						} else {
-							intentProject.refreshLocal(IResource.DEPTH_INFINITE, null);
-						}
+							@Override
+							protected IStatus run(IProgressMonitor monitor) {
+								new IntentHTMLExporter().exportIntentDocumentation(intentElementToExport,
+										exportOptionsDialog.getTargetFolderLocation(),
+										exportOptionsDialog.getExportedIntentDocumentName(),
+										BasicMonitor.toMonitor(monitor));
+
+								// Step 3: if target folder is in workspace, refresh the folder
+								File targetFolder = new File(exportOptionsDialog.getTargetFolderLocation());
+								String projectRelativePath = targetFolder
+										.getAbsolutePath()
+										.toString()
+										.replace(
+												new File(correspondingProject.getLocationURI())
+														.getAbsolutePath().toString(), "").substring(1);
+								IFolder targetFolderInWorkspace = correspondingProject.getFolder(new Path(
+										projectRelativePath));
+								try {
+									if (targetFolderInWorkspace.exists()) {
+										targetFolderInWorkspace.refreshLocal(IResource.DEPTH_INFINITE, null);
+									} else {
+										correspondingProject.refreshLocal(IResource.DEPTH_INFINITE, null);
+									}
+								} catch (CoreException e) {
+									IntentUiLogger.logError(e);
+								}
+								return Status.OK_STATUS;
+							}
+						};
+						exportJob.schedule();
 					}
 				}
 			} catch (RepositoryConnectionException e) {

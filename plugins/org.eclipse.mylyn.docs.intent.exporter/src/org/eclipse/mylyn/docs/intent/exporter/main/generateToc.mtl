@@ -4,7 +4,7 @@
 [import org::eclipse::mylyn::docs::intent::markup::gen::files::htmlGenDocument/]
 [import org::eclipse::mylyn::docs::intent::exporter::queries::documentQueries /]
 
-[template public generateTOC(intentDocument : IntentDocument)]
+[template public generateTOCRoot(intentDocument : IntentDocument)]
 <div id="table_of_content" class="sidebar-nav toc">
 		<div class="summary">				
 					<h3 class="summaryTitle">Table Of Contents</h3>
@@ -17,6 +17,22 @@
 					</div>
 		</div>
 </div>
+[/template]
+
+[template public generateTOCRoot(intentElement : IntentSubSectionContainer)]
+<div id="table_of_content" class="sidebar-nav toc">
+		<div class="summary">				
+					<h3 class="summaryTitle">Table Of Contents</h3>
+					<div id="toc" class="demo" style="height:100px;">
+						<ul id="menu" >
+							[intentElement.generateToc('')/]	
+						</ul>
+					</div>
+		</div>
+</div>
+[/template]
+
+[template public generateTOCRoot(intentElement : IntentStructuredElement)]
 [/template]
 
 [template public generateToc (subSectionContainer : IntentSubSectionContainer, index : String) ]

@@ -167,7 +167,7 @@ Contributors:
                    checkEnabled="false">
                 <test
                       forcePluginActivation="true"
-                      property="org.eclipse.mylyn.docs.intent.client.ui.ide.isIntentDocument"
+                      property="org.eclipse.mylyn.docs.intent.client.ui.ide.isIntentStructuredElement"
                       value="true">
                 </test>
              </visibleWhen>
@@ -280,9 +280,16 @@ Contributors:
           point="org.eclipse.core.expressions.propertyTesters">
        <propertyTester
              class="org.eclipse.mylyn.docs.intent.client.ui.ide.propertytester.IsAssociatedToIntentDocumentTester"
-             id="org.eclipse.mylyn.docs.intent.IntentPropertyTester"
+             id="org.eclipse.mylyn.docs.intent.IntentDocumentPropertyTester"
              namespace="org.eclipse.mylyn.docs.intent.client.ui.ide"
              properties="isIntentDocument"
+             type="java.lang.Object">
+       </propertyTester>
+       <propertyTester
+             class="org.eclipse.mylyn.docs.intent.client.ui.ide.propertytester.IsAssociatedToIntentStructuredElementTester"
+             id="org.eclipse.mylyn.docs.intent.IntentStructuredElementPropertyTester"
+             namespace="org.eclipse.mylyn.docs.intent.client.ui.ide"
+             properties="isIntentStructuredElement"
              type="java.lang.Object">
        </propertyTester>
        <propertyTester

@@ -1,28 +1,35 @@
 [comment encoding = UTF-8 /]
 [module HTMLBootstrapGenDocument('http://www.eclipse.org/intent/intentdocument/0.7', 'http://www.eclipse.org/intent/modelingunit/0.7', 'http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/markup/generator/0.7')/]
 
-
-
 [import org::eclipse::mylyn::docs::intent::exporter::main::generateToc/]
 [import org::eclipse::mylyn::docs::intent::exporter::main::generateHTMLContent/]
 [import org::eclipse::mylyn::docs::intent::markup::gen::files::html /]
 [import org::eclipse::mylyn::docs::intent::markup::gen::files::htmlGenDocument/]
+[import org::eclipse::mylyn::docs::intent::exporter::queries::documentQueries/]
 
 [query public fileName(documentName : String) : String = 
- 	documentName.replace(' ', '') + '.html'
+ 	'html/' + documentName.replaceAll(' ', '').replaceAll('/','_') + '.html'
 /]
 
-[template public HTMLBootstrapGenDocumentDocument(element : IntentDocument, intentDocumentName : String )]
+[template public HTMLBootstrapGenDocumentDocument(element : IntentStructuredElement, intentDocumentName : String )]
 [comment @main /]
-[file (fileName(intentDocumentName), false, 'UTF-8')]
+[if (element.oclIsKindOf(IntentSubSectionContainer))]
+[element.doGenerateHTMLDocument(element.oclAsType(IntentSubSectionContainer).getIndex().replaceAll('_','.') + '_', element.oclAsType(IntentSubSectionContainer).generateSubSectionTitle(true).trim())/]
+[else]
+[element.doGenerateHTMLDocument('', intentDocumentName)/]
+[/if]
+[/template]
+
+[template public doGenerateHTMLDocument(element:IntentStructuredElement, filePrefix:String, intentDocumentName : String)]
+[file (fileName(filePrefix+intentDocumentName), false, 'UTF-8')]
 [comment Step 1: create top navigation bar/]
 [generateNavigationBar(element, intentDocumentName)/]
 
 [comment Step 2: generate TOC/]
-[generateTOC(element)/]
+[generateTOCRoot(element)/]
 
 [comment Step 3: generate documentation content/]
-[generateHTMLContent(element)/]
+[generateHTMLContentRoot(element)/]
 
 [comment Step 4: generate footer/]
 [generateFooter(element)/]
@@ -30,16 +37,15 @@
 [/template]
 
 
-
-[template public generateNavigationBar (intentDocument : IntentDocument, intentDocumentName : String) ]
+[template public generateNavigationBar (intentDocument : IntentStructuredElement, intentDocumentName : String) ]
 <!doctype html>  
 <html> 
 	<head> 
 		<title>[intentDocumentName/]</title>
-	<link href="./css/bootstrap.css" rel="stylesheet">
-	<link href="./css/bootstrap-responsive.css" rel="stylesheet">
-	<link href="./css/toc.css" rel="stylesheet">			
-	<link href="./css/tree.css" rel="stylesheet">		
+	<link href="../css/bootstrap.css" rel="stylesheet">
+	<link href="../css/bootstrap-responsive.css" rel="stylesheet">
+	<link href="../css/toc.css" rel="stylesheet">			
+	<link href="../css/tree.css" rel="stylesheet">		
 	<style>
 	   body {
 	       padding-top: 60px;
@@ -76,18 +82,18 @@
 	</div>
 [/template]
 
-[template public generateFooter (aIntentDocument : IntentDocument) ]
-<script type="text/javascript" src="./scripts/jquery.js"></script>
-<script type="text/javascript" src="./scripts/jquery.jstree.js" ></script>	
-<script type="text/javascript" src="./scripts/bootstrap-twipsy.js"></script>
-<script type="text/javascript" src="./scripts/bootstrap-tooltip.js"></script>
-<script type="text/javascript" src="./scripts/bootstrap-popover.js"></script>
-<script type="text/javascript" src="./scripts/bootstrap-modal.js"></script>
-<script type="text/javascript" src="./scripts/bootstrap-tabs.js"></script>
-<script type="text/javascript" src="./scripts/bootstrap-dropdown.js" ></script>	
-<script type="text/javascript" src="./scripts/prettify.js"></script>
-<script type="text/javascript" src="./scripts/bootstrap-transition.js"></script>
-<script type="text/javascript" src="./scripts/bootstrap-scrollspy.js"></script>
+[template public generateFooter (intentElement : IntentStructuredElement) ]
+<script type="text/javascript" src="../scripts/jquery.js"></script>
+<script type="text/javascript" src="../scripts/jquery.jstree.js" ></script>	
+<script type="text/javascript" src="../scripts/bootstrap-twipsy.js"></script>
+<script type="text/javascript" src="../scripts/bootstrap-tooltip.js"></script>
+<script type="text/javascript" src="../scripts/bootstrap-popover.js"></script>
+<script type="text/javascript" src="../scripts/bootstrap-modal.js"></script>
+<script type="text/javascript" src="../scripts/bootstrap-tabs.js"></script>
+<script type="text/javascript" src="../scripts/bootstrap-dropdown.js" ></script>	
+<script type="text/javascript" src="../scripts/prettify.js"></script>
+<script type="text/javascript" src="../scripts/bootstrap-transition.js"></script>
+<script type="text/javascript" src="../scripts/bootstrap-scrollspy.js"></script>
 <script type="text/javascript">
 	$(function () {
 		$("#toc").jstree({ "plugins" : ['['/]"themes","html_data","ui"]})

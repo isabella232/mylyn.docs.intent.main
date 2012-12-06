@@ -190,7 +190,7 @@ public class CopyImageUtils {
 		}
 		String copiedImagePath = targetFile.getAbsolutePath().toString();
 		String outputFolderPath = outputFolder.getAbsolutePath();
-		return "." + copiedImagePath.substring(outputFolderPath.length());
+		return "../" + copiedImagePath.substring(outputFolderPath.length());
 	}
 
 	private static void copyFile(final InputStream sourceStream, final File destFile) throws IOException {
