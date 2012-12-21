@@ -107,7 +107,7 @@ public class OpenEditorAction extends Action {
 	 */
 	@Override
 	public String getText() {
-		return "Open in Intent editor";
+		return "Open in a new Intent editor";
 	}
 
 	/**
