@@ -25,16 +25,12 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.templates.TemplateProposal;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentPairMatcher;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
-import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 
@@ -44,6 +40,8 @@ import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionProcessor {
+
+	private static final String NEW_LINE = "\n\t";
 
 	private static final String NEW_ENTITY_KEYWORD = "new";
 
@@ -59,6 +57,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private TraceabilityInformationsQuery traceabilityInfoQuery;
 
+	private RepositoryAdapter repositoryAdapter;
+
 	/**
 	 * Creates the completion processor.
 	 * 
@@ -66,7 +66,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	 *            the repository adapter
 	 */
 	public ModelingUnitCompletionProcessor(RepositoryAdapter repositoryAdapter) {
-		this.traceabilityInfoQuery = new TraceabilityInformationsQuery(repositoryAdapter);
+		this.repositoryAdapter = repositoryAdapter;
 	}
 
 	/**
@@ -76,18 +76,18 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	 */
 	@Override
 	protected ICompletionProposal[] computeCompletionProposals() {
+		this.traceabilityInfoQuery = new TraceabilityInformationsQuery(repositoryAdapter);
 		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
 
 		try {
 			// Step 1: get the focused instruction
 			String text = document.get(0, offset);
-
 			// get the currently considered modeling unit
 			int startOffset = getLastIndexOf(text, Pattern.compile("@M"));
 			if (startOffset > -1) {
 				text = text.substring(startOffset);
 			}
-
+			String intialText = text;
 			// remove instructions inside closed brackets
 			text = removeInstructionsInsideClosedBrackets(text);
 			// remove instructions that are finished (ending with ";")
@@ -98,18 +98,9 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 			// Step 3: according to this keyword, compute the proposals
 			if (lastRelevantKeyWord == null) {
-				proposals.addAll(getProposalsForEmptyModelingUnit(true, ""));
+				proposals.addAll(getProposalsForEmptyModelingUnit("".equals(intialText), ""));
 			} else {
-				if ("".equals(lastRelevantKeyWord)) {
-					proposals.addAll(getProposalsForEmptyModelingUnit(false, text));
-				} else if (NEW_ENTITY_KEYWORD.equals(lastRelevantKeyWord)) {
-					proposals.addAll(getProposalsForNewInstruction(text));
-				} else if (IntentKeyWords.INTENT_KEYWORD_OPEN.equals(lastRelevantKeyWord)) {
-					proposals.addAll(getProposalsForStructuralFeatureAffectation(text));
-				} else if (IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL.equals(lastRelevantKeyWord)
-						|| IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL.equals(lastRelevantKeyWord)) {
-					proposals.addAll(getProposalsForStructuralFeatureValue(text));
-				}
+				proposals.addAll(computeCompletionProposalsFromText(text, lastRelevantKeyWord));
 			}
 		} catch (BadLocationException e) {
 			// Nothing to do, no completion will be proposed
@@ -125,50 +116,96 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		return proposals.toArray(new ICompletionProposal[proposals.size()]);
 	}
 
+	/**
+	 * According to the given text and last relevant keyword, returns the available
+	 * {@link ICompletionProposal}s.
+	 * 
+	 * @param text
+	 *            the text of the current Modeling Unit
+	 * @param lastRelevantKeyWord
+	 *            the last relevant keyword typed by user
+	 * @throws ReadOnlyException
+	 *             the available {@link ICompletionProposal}s
+	 * @return the available {@link ICompletionProposal}s
+	 */
+	private Collection<ICompletionProposal> computeCompletionProposalsFromText(String text,
+			String lastRelevantKeyWord) throws ReadOnlyException {
+		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
+		if ("".equals(lastRelevantKeyWord)) {
+			proposals.addAll(getProposalsForEmptyModelingUnit(false, text.trim()));
+		} else if (NEW_ENTITY_KEYWORD.equals(lastRelevantKeyWord)) {
+			proposals.addAll(getProposalsForNewInstruction(text));
+		} else if (IntentKeyWords.INTENT_KEYWORD_OPEN.equals(lastRelevantKeyWord)) {
+			proposals.addAll(getProposalsForStructuralFeatureAffectation(text));
+		} else if (IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL.equals(lastRelevantKeyWord)
+				|| IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL.equals(lastRelevantKeyWord)) {
+			proposals.addAll(getProposalsForStructuralFeatureValue(text));
+		}
+		return proposals;
+	}
+
+	/**
+	 * For an empty modeling unit, we provide the following {@link ICompletionProposal}s :
+	 * <ul>
+	 * <li>Resource declaration</li>
+	 * <li>new entity</li>
+	 * <li>contribute to an existing entity.</li>
+	 * </ul>
+	 * 
+	 * @param isAtMUBeggining
+	 *            if the cursor is at MU beginning
+	 * @param text
+	 *            the text current written (e.g. 'new ')
+	 * @return the {@link ICompletionProposal}s
+	 * @throws ReadOnlyException
+	 *             if errors occur while reading repository content
+	 */
 	private Collection<? extends ICompletionProposal> getProposalsForEmptyModelingUnit(
 			boolean isAtMUBeggining, String text) throws ReadOnlyException {
 		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
-		String prefix = "\n\t";
+		String prefix = NEW_LINE;
 		if (isAtMUBeggining) {
-			prefix = "@M" + prefix;
+			prefix = "@M" + NEW_LINE;
 		}
 		// First proposal : new Resource Declaration
-		if (text.trim().length() == 0 || RESOURCE_DECLARATION_KEYWORD.startsWith(text.trim())) {
-			proposals.add(createTemplateProposal(RESOURCE_DECLARATION_KEYWORD,
-					"Declaration of a new Resource", prefix
-							+ "Resource myResource {\n\t\tURI = \"${}\";\n\t}", MODELINGUNIT_RESOURCE_ICON));
+		if (text.length() == 0 || RESOURCE_DECLARATION_KEYWORD.startsWith(text)) {
+			proposals.add(createResourceDeclarationProposal(prefix));
 		}
 		// Second proposal : new entity
-		if (text.trim().length() == 0 || NEW_ENTITY_KEYWORD.startsWith(text.trim())) {
-			proposals.add(createTemplateProposal(NEW_ENTITY_KEYWORD, "Declaration of a new entity", prefix
-					+ "new ${Type} {}", MODELINGUNIT_NEW_ELEMENT_ICON));
+		if (text.length() == 0 || NEW_ENTITY_KEYWORD.startsWith(text)) {
+			proposals.add(createNewEntityProposal(prefix));
 		}
 
 		// Third proposal : contribute to an existing entity
-		TraceabilityIndex traceabilityIndex = getTraceabilityIndex();
-		String contributionBeginning = text.trim();
-		for (TraceabilityIndexEntry entry : traceabilityIndex.getEntries()) {
-			for (InstanciationInstruction instruction : Iterables.filter(entry
-					.getContainedElementToInstructions().values(), InstanciationInstruction.class)) {
-				if (instruction.getName() != null
-						&& (contributionBeginning.length() == 0 || instruction.getName().startsWith(
-								contributionBeginning))) {
-					String description = "Contribute to the " + instruction.getName()
-							+ IntentKeyWords.INTENT_WHITESPACE;
-					if (instruction.getMetaType() != null && instruction.getMetaType().getTypeName() != null) {
-						description += instruction.getMetaType().getTypeName();
-					} else {
-						description += "entity";
-					}
-					proposals.add(createTemplateProposal(instruction.getName() + " (contribution)",
-							description, prefix + instruction.getName() + " {\n\t\t${}\n\t}",
-							"icon/outline/modelingunit_contribution.png"));
+		for (InstanciationInstruction instruction : traceabilityInfoQuery.getInstanciations()) {
+			if (instruction.getName() != null
+					&& (text.length() == 0 || instruction.getName().startsWith(text))) {
+				String description = "Contribute to the " + instruction.getName()
+						+ IntentKeyWords.INTENT_WHITESPACE;
+				if (instruction.getMetaType() != null && instruction.getMetaType().getTypeName() != null) {
+					description += instruction.getMetaType().getTypeName();
+				} else {
+					description += "entity";
 				}
+				proposals.add(createTemplateProposal(instruction.getName() + " (contribution)", description,
+						prefix + instruction.getName() + " {\n\t\t${}\n\t}",
+						"icon/outline/modelingunit_contribution.png"));
 			}
 		}
 		return proposals;
 	}
 
+	/**
+	 * Returns all the {@link ICompletionProposal}s allowing to create new entities which name matches the
+	 * given text.
+	 * 
+	 * @param text
+	 *            the beginning of the entity name to create
+	 * @return all the {@link ICompletionProposal}s allowing to create new entities which name matches the
+	 *         given text
+	 * @throws ReadOnlyException
+	 *             if errors occur while reading repository content
+	 */
 	private Collection<? extends ICompletionProposal> getProposalsForNewInstruction(String text)
 			throws ReadOnlyException {
 		String classNameBeginning = text.substring(text.lastIndexOf(NEW_ENTITY_KEYWORD))
@@ -176,6 +213,17 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		return getProposalsForEClassifier(classNameBeginning);
 	}
 
+	/**
+	 * Returns all the {@link ICompletionProposal}s allowing to set a value to a feature starting wit the
+	 * given name.
+	 * 
+	 * @param text
+	 *            the beginning of the entity name to create
+	 * @return all the {@link ICompletionProposal}s allowing to set a value to a feature starting wit the
+	 *         given name
+	 * @throws ReadOnlyException
+	 *             if errors occur while reading repository content
+	 */
 	private Collection<ICompletionProposal> getProposalsForStructuralFeatureAffectation(String text)
 			throws ReadOnlyException {
 		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
@@ -186,8 +234,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		boolean isResourceDeclaration = false;
 		if (text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) != -1) {
 			contributionName = text.substring(0, text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN)).trim();
-			if (contributionName.contains("\n")) {
-				String[] split = contributionName.split("\n");
+			if (contributionName.contains(IntentKeyWords.INTENT_LINEBREAK)) {
+				String[] split = contributionName.split(IntentKeyWords.INTENT_LINEBREAK);
 				contributionName = split[split.length - 1].trim();
 			}
 			featureNameBeginning = text.substring(text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN))
@@ -222,8 +270,9 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				if (classifierToConsider instanceof EClass) {
 					for (EStructuralFeature feature : ((EClass)classifierToConsider)
 							.getEAllStructuralFeatures()) {
-						if (featureNameBeginning.length() == 0
-								| feature.getName().startsWith(featureNameBeginning)) {
+						if (isSettableFeature(feature)
+								&& (featureNameBeginning.length() == 0 || feature.getName().startsWith(
+										featureNameBeginning))) {
 							proposals.add(createStructuralFeatureAffectationTemplateProposal(
 									contributionName, feature));
 						}
@@ -248,8 +297,9 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				if (instruction.getMetaType() != null && instruction.getMetaType().getResolvedType() != null) {
 					for (EStructuralFeature feature : instruction.getMetaType().getResolvedType()
 							.getEAllStructuralFeatures()) {
-						if (featureNameBeginning.length() == 0
-								|| feature.getName().startsWith(featureNameBeginning)) {
+						if (isSettableFeature(feature)
+								&& (featureNameBeginning.length() == 0 || feature.getName().startsWith(
+										featureNameBeginning))) {
 							proposals.add(createStructuralFeatureAffectationTemplateProposal(
 									contributionName, feature));
 						}
@@ -306,16 +356,12 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		}
 
 		if (isContribution) {
-			TraceabilityIndex traceabilityIndex = getTraceabilityIndex();
-			for (TraceabilityIndexEntry entry : traceabilityIndex.getEntries()) {
-				for (InstanciationInstruction instruction : Iterables.filter(entry
-						.getContainedElementToInstructions().values(), InstanciationInstruction.class)) {
-					if (classifierName.equals(instruction.getName())) {
-						if (instruction.getMetaType() != null
-								&& instruction.getMetaType().getResolvedType() != null) {
-							classifierToConsider = instruction.getMetaType().getResolvedType();
-							break;
-						}
+			for (InstanciationInstruction instruction : traceabilityInfoQuery.getInstanciations()) {
+				if (classifierName.equals(instruction.getName())) {
+					if (instruction.getMetaType() != null
+							&& instruction.getMetaType().getResolvedType() != null) {
+						classifierToConsider = instruction.getMetaType().getResolvedType();
+						break;
 					}
 				}
 			}
@@ -335,60 +381,66 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 					|| (featureToConsider != null && featureToConsider.getEType() != null && featureToConsider
 							.getEType().getName() != null)) {
 
-				// Step 3: if the feature is an EAttribute, we add a proposal with the default value of this
-				// attribute type
-				if (featureToConsider instanceof EAttribute) {
-					String defaultAttributeValue = "";
-					if (featureToConsider.getEType().getDefaultValue() != null) {
-						defaultAttributeValue = featureToConsider.getEType().getDefaultValue().toString();
-					}
-					proposals.add(createTemplateProposal("value (of type "
-							+ featureToConsider.getEType().getName() + ")", "Set a simple value of type "
-							+ featureToConsider.getEType().getName(), '"' + defaultAttributeValue + "\";",
-							"icon/outline/modelingunit_value.gif"));
-				} else {
-					// Propose to create a new Element of the feature type
-					if (!isResourceContribution) {
-						proposals.add(createTemplateProposal("new Element (of type "
-								+ featureToConsider.getEType().getName() + ")",
-								"Set this new Element as value for " + featureToConsider.getName(), "new "
-										+ featureToConsider.getEType().getName() + "{\n\t${}\n};",
-								MODELINGUNIT_NEW_ELEMENT_ICON));
-					}
+				proposals.addAll(doGetProposalsForStructuralFeatureValue(isResourceContribution, featureName,
+						beginning, featureToConsider));
+			}
+		}
+		return proposals;
+	}
 
-					// Propose to reference an already defined element
-					TraceabilityIndex traceabilityIndex = getTraceabilityIndex();
-					for (TraceabilityIndexEntry entry : traceabilityIndex.getEntries()) {
-						for (InstanciationInstruction instruction : Iterables
-								.filter(entry.getContainedElementToInstructions().values(),
-										InstanciationInstruction.class)) {
-							if (instruction.getName() != null
-									&& (beginning.length() == 0 || instruction.getName()
-											.startsWith(beginning))) {
-								if (isResourceContribution
-										|| (instruction.getMetaType() != null && (featureToConsider
-												.getEType().equals(
-														instruction.getMetaType().getResolvedType()) || featureToConsider
-												.getEType() instanceof EClass
-												&& ((EClass)featureToConsider.getEType())
-														.isSuperTypeOf(instruction.getMetaType()
-																.getResolvedType())))) {
-									proposals.add(createTemplateProposal(
-											"Reference to " + instruction.getName(),
-											"Set the " + instruction.getName() + " element as value for "
-													+ featureName, instruction.getName(),
-											"icon/outline/modelingunit_ref.png"));
-								}
-							}
-						}
-					}
+	private Collection<ICompletionProposal> doGetProposalsForStructuralFeatureValue(
+			boolean isResourceContribution, String featureName, String beginning,
+			EStructuralFeature featureToConsider) throws ReadOnlyException {
+		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
+		// Step 3: if the feature is an EAttribute, we add a proposal with the default value of this
+		// attribute type
+		if (featureToConsider instanceof EAttribute) {
+			String defaultAttributeValue = "";
+			if (featureToConsider.getEType().getDefaultValue() != null) {
+				defaultAttributeValue = featureToConsider.getDefaultValue().toString();
+			}
+			proposals.add(createTemplateProposal("value (of type " + featureToConsider.getEType().getName()
+					+ ")", "Default: " + defaultAttributeValue + " - Set a simple value of type "
+					+ featureToConsider.getEType().getName(), '"' + defaultAttributeValue + "\";",
+					"icon/outline/modelingunit_value.gif"));
+		} else {
+			// Propose to create a new Element of the feature type
+			if (!isResourceContribution) {
+				proposals.add(createTemplateProposal("new Element (of type "
+						+ featureToConsider.getEType().getName() + ")", "Set this new Element as value for "
+						+ featureToConsider.getName(), "new " + featureToConsider.getEType().getName()
+						+ "{\n\t${}\n};", MODELINGUNIT_NEW_ELEMENT_ICON));
+			}
 
-					// If the expected eType is an EClassifier, also propose all available classifiers
-					if (!isResourceContribution
-							&& featureToConsider.getEType().equals(EcorePackage.eINSTANCE.getEClassifier())) {
-						proposals.addAll(getProposalsForEClassifier(beginning));
-					}
+			// Propose to reference an already defined element
+			for (InstanciationInstruction instruction : traceabilityInfoQuery.getInstanciations()) {
+				// Instruction's name should match the beginning
+				boolean isMatchingInstruction = false;
+				boolean hasMatchingName = instruction.getName() != null
+						&& (beginning.length() == 0 || instruction.getName().startsWith(beginning));
+				if (hasMatchingName && !isResourceContribution) {
+					// Instruction's type should match the featureToConsider type
+					isMatchingInstruction = instruction.getMetaType() != null
+							&& (featureToConsider.getEType().equals(
+									instruction.getMetaType().getResolvedType()) || featureToConsider
+									.getEType() instanceof EClass
+									&& ((EClass)featureToConsider.getEType()).isSuperTypeOf(instruction
+											.getMetaType().getResolvedType()));
+				} else if (hasMatchingName) {
+					// Resource content has not type so all instructions should be displayed
+					isMatchingInstruction = true;
 				}
+				if (isMatchingInstruction) {
+					proposals.add(createTemplateProposal("Reference to " + instruction.getName(), "Set the "
+							+ instruction.getName() + " element as value for " + featureName,
+							instruction.getName(), "icon/outline/modelingunit_ref.png"));
+				}
+			}
+
+			// If the expected eType is an EClassifier, also propose all available classifiers
+			if (!isResourceContribution
+					&& featureToConsider.getEType().equals(EcorePackage.eINSTANCE.getEClassifier())) {
+				proposals.addAll(getProposalsForEClassifier(beginning));
 			}
 		}
 		return proposals;
@@ -398,8 +450,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			throws ReadOnlyException {
 		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
 		Iterator<EPackage> availablePackages = Iterables.filter(
-				getTraceabilityIndex().eResource().getResourceSet().getPackageRegistry().values(),
-				EPackage.class).iterator();
+				traceabilityInfoQuery.getOrCreateTraceabilityIndex().eResource().getResourceSet()
+						.getPackageRegistry().values(), EPackage.class).iterator();
 		int i = 0;
 		while (availablePackages.hasNext() && i < 100) {
 			EPackage availablePackage = availablePackages.next();
@@ -432,7 +484,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	 * @return the last relevant keyword of the given text
 	 */
 	private String getLastRelevantKeyWord(String text) {
-
+		String lastRelevantKeyword = null;
 		int lastNew = getLastIndexOf(text, Pattern.compile(NEW_ENTITY_KEYWORD));
 		int lastOpeningBracket = text.lastIndexOf(IntentKeyWords.INTENT_KEYWORD_OPEN);
 		int lastStructuralFeatureAffectation = text
@@ -444,16 +496,16 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				Math.max(lastNew, lastOpeningBracket));
 		if (lastKWIndex != -1) {
 			if (lastKWIndex == lastNew) {
-				return NEW_ENTITY_KEYWORD;
+				lastRelevantKeyword = NEW_ENTITY_KEYWORD;
 			} else if (lastKWIndex == lastOpeningBracket) {
-				return IntentKeyWords.INTENT_KEYWORD_OPEN;
+				lastRelevantKeyword = IntentKeyWords.INTENT_KEYWORD_OPEN;
 			} else if (lastKWIndex == lastStructuralFeatureAffectation) {
-				return IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL;
+				lastRelevantKeyword = IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL;
 			} else if (lastKWIndex == lastMultiValuedStructuralFeatureAffectation) {
-				return IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL;
+				lastRelevantKeyword = IntentKeyWords.MODELING_UNIT_AFFECTATION_MULTI_VAL;
 			}
 		}
-		return null;
+		return lastRelevantKeyword;
 	}
 
 	/**
@@ -465,30 +517,31 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	 * @return the text without any instruction inside closed brackets
 	 */
 	private String removeInstructionsInsideClosedBrackets(String text) {
-		Document tempDoc = new Document(text);
-		IntentPairMatcher pairMatcher = new IntentPairMatcher();
-		if (tempDoc.get().indexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) != -1) {
-			IRegion match = pairMatcher.match(tempDoc,
-					tempDoc.get().indexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) + 1);
-			try {
-				while (tempDoc.get().indexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) != -1 && match != null) {
-
-					int beginLineToRemove = tempDoc.getLineOfOffset(match.getOffset());
-					int beginOffSettoRemove = tempDoc.getLineOffset(beginLineToRemove);
-					int endLineToRemove = tempDoc.getLineOfOffset(match.getOffset() + match.getLength());
-					int endOffsetToRemove = tempDoc.getLineOffset(endLineToRemove)
-							+ tempDoc.getLineLength(endLineToRemove);
-					String newDocContent = tempDoc.get().substring(0, beginOffSettoRemove)
-							+ tempDoc.get().substring(endOffsetToRemove);
-					tempDoc.set(newDocContent);
-					match = pairMatcher.match(tempDoc,
-							tempDoc.get().indexOf(IntentKeyWords.INTENT_KEYWORD_OPEN) + 1);
+		String textWithClosedInstructionsRemoved = text;
+		try {
+			int nextOffsetForEndingInstruction = textWithClosedInstructionsRemoved.indexOf("}");
+			int nextOffsetForEndingInstruction2 = textWithClosedInstructionsRemoved.indexOf("};");
+			while (Math.max(nextOffsetForEndingInstruction, nextOffsetForEndingInstruction2) != -1) {
+				String textToRemove = "";
+				if (nextOffsetForEndingInstruction > nextOffsetForEndingInstruction2) {
+					textToRemove = textWithClosedInstructionsRemoved.substring(0,
+							nextOffsetForEndingInstruction + 1);
+				} else {
+					textToRemove = textWithClosedInstructionsRemoved.substring(0,
+							nextOffsetForEndingInstruction + 2);
 				}
-			} catch (BadLocationException e) {
-				// Nothing to do : silent catch
+				textToRemove = textToRemove.substring(textToRemove
+						.substring(0, textToRemove.lastIndexOf("{")).lastIndexOf(
+								IntentKeyWords.INTENT_LINEBREAK));
+				textWithClosedInstructionsRemoved = textWithClosedInstructionsRemoved.replace(textToRemove,
+						"");
+				nextOffsetForEndingInstruction = textWithClosedInstructionsRemoved.indexOf("}");
+				nextOffsetForEndingInstruction2 = textWithClosedInstructionsRemoved.indexOf("};");
 			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// Nothing to do
 		}
-		return tempDoc.get();
+		return textWithClosedInstructionsRemoved;
 	}
 
 	/**
@@ -529,32 +582,28 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				label += " [";
 				if (feature.getLowerBound() == 0 && feature.getUpperBound() == 1) {
 					label += "?";
+				} else if (feature.getUpperBound() != -1) {
+					label += feature.getLowerBound() + "," + feature.getUpperBound();
 				} else {
-					label += feature.getLowerBound() + ",";
-					if (feature.getUpperBound() != -1) {
-						label += feature.getUpperBound();
-					} else {
-						label += "*";
-					}
+					label += feature.getLowerBound() + ",*";
 				}
 				label += "]";
 			}
 		}
 		String description = "Set the value " + contributionName + "." + feature.getName();
+		if (feature.getDefaultValue() != null) {
+			description = "Default: " + feature.getDefaultValue() + " - " + description;
+		}
 		return createTemplateProposal(label, description, feature.getName()
 				+ IntentKeyWords.INTENT_WHITESPACE + affect + IntentKeyWords.INTENT_WHITESPACE,
 				"icon/outline/modelingunit_affect.png");
 	}
 
-	private TraceabilityIndex getTraceabilityIndex() throws ReadOnlyException {
-		return traceabilityInfoQuery.getOrCreateTraceabilityIndex();
-	}
-
 	private EClassifier getEClassifier(String contributionName) throws ReadOnlyException {
 		EClassifier classifierToConsider = null;
 		Iterator<EPackage> availablePackages = Iterables.filter(
-				getTraceabilityIndex().eResource().getResourceSet().getPackageRegistry().values(),
-				EPackage.class).iterator();
+				traceabilityInfoQuery.getOrCreateTraceabilityIndex().eResource().getResourceSet()
+						.getPackageRegistry().values(), EPackage.class).iterator();
 
 		String packageName = null;
 		String classifierName = contributionName;
@@ -571,6 +620,42 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			}
 		}
 		return classifierToConsider;
+	}
+
+	/**
+	 * Indicates if the given feature can be modified and hence should be displayed in the proposal.
+	 * 
+	 * @param feature
+	 *            the feature to consider
+	 * @return true if the given feature can be modified and hence should be displayed in the proposal, false
+	 *         otherwise
+	 */
+	private boolean isSettableFeature(EStructuralFeature feature) {
+		return feature.isChangeable() && !feature.isDerived();
+	}
+
+	/**
+	 * Creates a {@link ICompletionProposal} allowing to create a new entity.
+	 * 
+	 * @param prefix
+	 *            the prefix to use
+	 * @return a {@link ICompletionProposal} allowing to create a new entity.
+	 */
+	private ICompletionProposal createNewEntityProposal(String prefix) {
+		return createTemplateProposal(NEW_ENTITY_KEYWORD, "Declaration of a new entity", prefix
+				+ "new ${Type} {}", MODELINGUNIT_NEW_ELEMENT_ICON);
+	}
+
+	/**
+	 * Creates a {@link ICompletionProposal} allowing to create a new resource declaration.
+	 * 
+	 * @param prefix
+	 *            the prefix to use
+	 * @return a {@link ICompletionProposal} allowing to create a new resource declaration.
+	 */
+	private ICompletionProposal createResourceDeclarationProposal(String prefix) {
+		return createTemplateProposal(RESOURCE_DECLARATION_KEYWORD, "Declaration of a new Resource", prefix
+				+ "Resource myResource {\n\t\tURI = \"${}\";\n\t}", MODELINGUNIT_RESOURCE_ICON);
 	}
 
 	/**
