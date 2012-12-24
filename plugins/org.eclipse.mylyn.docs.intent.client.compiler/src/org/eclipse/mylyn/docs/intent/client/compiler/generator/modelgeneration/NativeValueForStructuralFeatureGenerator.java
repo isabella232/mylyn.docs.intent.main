@@ -14,6 +14,7 @@ package org.eclipse.mylyn.docs.intent.client.compiler.generator.modelgeneration;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.InvalidValueException;
 import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.ModelingUnitLinkResolver;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
@@ -112,8 +113,19 @@ public final class NativeValueForStructuralFeatureGenerator {
 			if (type instanceof EEnum) {
 				EEnum typeAsEnum = (EEnum)type;
 				// Then we call the specific methods of this EEnum to get the correct literal.
-				generatedValue = typeAsEnum.getEEnumLiteralByLiteral(
-						removeQuotes(valueInstruction.getValue())).getInstance();
+				EEnumLiteral eEnumLiteralByLiteral = typeAsEnum
+						.getEEnumLiteralByLiteral(removeQuotes(valueInstruction.getValue()));
+				if (eEnumLiteralByLiteral != null) {
+					generatedValue = eEnumLiteralByLiteral.getInstance();
+				} else {
+					CompilationStatus status = CompilerFactory.eINSTANCE.createCompilationStatus();
+					status.setMessage("Invalid literal value '" + valueInstruction.getValue()
+							+ "' : expecting one of " + typeAsEnum.getELiterals());
+					status.setSeverity(CompilationStatusSeverity.ERROR);
+					status.setTarget(valueInstruction);
+					status.setType(CompilationMessageType.INVALID_VALUE_ERROR);
+					valueInstruction.getCompilationStatus().add(status);
+				}
 			} else if (type instanceof EDataType) {
 				EDataType typeAsDataType = (EDataType)type;
 				if (typeAsDataType.getInstanceClass().equals(Integer.class)) {

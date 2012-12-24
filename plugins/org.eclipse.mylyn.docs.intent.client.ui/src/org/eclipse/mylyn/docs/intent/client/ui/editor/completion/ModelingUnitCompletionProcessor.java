@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -399,10 +400,14 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		if (featureToConsider instanceof EAttribute) {
 			String defaultAttributeValue = "";
 			if (featureToConsider.getEType().getDefaultValue() != null) {
-				defaultAttributeValue = featureToConsider.getDefaultValue().toString();
+				defaultAttributeValue = "Default: " + featureToConsider.getDefaultValue().toString();
+			}
+			if (featureToConsider.getEType() instanceof EEnum) {
+				defaultAttributeValue = "One of " + ((EEnum)featureToConsider.getEType()).getELiterals()
+						+ " - " + defaultAttributeValue;
 			}
 			proposals.add(createTemplateProposal("value (of type " + featureToConsider.getEType().getName()
-					+ ")", "Default: " + defaultAttributeValue + " - Set a simple value of type "
+					+ ")", defaultAttributeValue + " - Set a simple value of type "
 					+ featureToConsider.getEType().getName(), '"' + defaultAttributeValue + "\";",
 					"icon/outline/modelingunit_value.gif"));
 		} else {
@@ -411,7 +416,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				proposals.add(createTemplateProposal("new Element (of type "
 						+ featureToConsider.getEType().getName() + ")", "Set this new Element as value for "
 						+ featureToConsider.getName(), "new "
-						+ featureToConsider.getEType().getEPackage().getNsPrefix() + DOT
+						+ getQualifiedName(featureToConsider.getEType().getEPackage()) + DOT
 						+ featureToConsider.getEType().getName() + "{\n\t${}\n};",
 						MODELINGUNIT_NEW_ELEMENT_ICON));
 			}
@@ -472,14 +477,14 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		while (availablePackages.hasNext() && i < 100) {
 			EPackage availablePackage = availablePackages.next();
 			if (!isPrefixedByPackageName || isPrefixedByPackageName
-					&& availablePackage.getNsPrefix().equals(packageNamePrefix)) {
+					&& getQualifiedName(availablePackage).equals(packageNamePrefix)) {
 				for (EClassifier availableClass : availablePackage.getEClassifiers()) {
 					if (availableClass.getName() != null
 							&& (classNameBeginningWithoutPackageDeclaration.length() == 0 || availableClass
 									.getName().startsWith(classNameBeginningWithoutPackageDeclaration))) {
 						String proposalContent = availableClass.getName();
 						if (!isPrefixedByPackageName) {
-							proposalContent = availablePackage.getNsPrefix() + DOT + proposalContent;
+							proposalContent = getQualifiedName(availablePackage) + DOT + proposalContent;
 						}
 						proposals.add(createTemplateProposal(availableClass.getName(),
 								availablePackage.getNsURI(), proposalContent, MODELINGUNIT_NEW_ELEMENT_ICON));
@@ -656,6 +661,23 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	 */
 	private boolean isSettableFeature(EStructuralFeature feature) {
 		return feature.isChangeable() && !feature.isDerived();
+	}
+
+	/**
+	 * Returns the qualified name of the given ePackage.
+	 * 
+	 * @param ePackage
+	 *            the ePackage
+	 * @return the qualified name of the given ePackage
+	 */
+	private static String getQualifiedName(EPackage ePackage) {
+		String res = ePackage.getName();
+		EPackage tmp = (EPackage)ePackage.eContainer();
+		while (tmp != null) {
+			res = tmp.getName() + '.' + res;
+			tmp = (EPackage)tmp.eContainer();
+		}
+		return res;
 	}
 
 	/**
