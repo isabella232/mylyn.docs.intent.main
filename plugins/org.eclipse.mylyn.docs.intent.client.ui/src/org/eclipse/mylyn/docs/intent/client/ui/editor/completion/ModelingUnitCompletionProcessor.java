@@ -41,6 +41,8 @@ import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
  */
 public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionProcessor {
 
+	private static final String DOT = ".";
+
 	private static final String NEW_LINE = "\n\t";
 
 	private static final String NEW_ENTITY_KEYWORD = "new";
@@ -408,8 +410,10 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			if (!isResourceContribution) {
 				proposals.add(createTemplateProposal("new Element (of type "
 						+ featureToConsider.getEType().getName() + ")", "Set this new Element as value for "
-						+ featureToConsider.getName(), "new " + featureToConsider.getEType().getName()
-						+ "{\n\t${}\n};", MODELINGUNIT_NEW_ELEMENT_ICON));
+						+ featureToConsider.getName(), "new "
+						+ featureToConsider.getEType().getEPackage().getNsPrefix() + DOT
+						+ featureToConsider.getEType().getName() + "{\n\t${}\n};",
+						MODELINGUNIT_NEW_ELEMENT_ICON));
 			}
 
 			// Propose to reference an already defined element
@@ -448,6 +452,18 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private Collection<? extends ICompletionProposal> getProposalsForEClassifier(String classNameBeginning)
 			throws ReadOnlyException {
+		boolean isPrefixedByPackageName = classNameBeginning.indexOf('.') != -1;
+		String packageNamePrefix = null;
+		String classNameBeginningWithoutPackageDeclaration = classNameBeginning;
+		if (isPrefixedByPackageName) {
+			String[] split = classNameBeginning.split("\\.");
+			packageNamePrefix = split[0];
+			if (split.length == 1) {
+				classNameBeginningWithoutPackageDeclaration = "";
+			} else {
+				classNameBeginningWithoutPackageDeclaration = split[1];
+			}
+		}
 		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
 		Iterator<EPackage> availablePackages = Iterables.filter(
 				traceabilityInfoQuery.getOrCreateTraceabilityIndex().eResource().getResourceSet()
@@ -455,14 +471,20 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		int i = 0;
 		while (availablePackages.hasNext() && i < 100) {
 			EPackage availablePackage = availablePackages.next();
-			for (EClassifier availableClass : availablePackage.getEClassifiers()) {
-				if (availableClass.getName() != null
-						&& (classNameBeginning.length() == 0 || availableClass.getName().startsWith(
-								classNameBeginning))) {
-					proposals.add(createTemplateProposal(availableClass.getName(), availableClass
-							.getEPackage().getNsURI(), availableClass.getName(),
-							MODELINGUNIT_NEW_ELEMENT_ICON));
-					i++;
+			if (!isPrefixedByPackageName || isPrefixedByPackageName
+					&& availablePackage.getNsPrefix().equals(packageNamePrefix)) {
+				for (EClassifier availableClass : availablePackage.getEClassifiers()) {
+					if (availableClass.getName() != null
+							&& (classNameBeginningWithoutPackageDeclaration.length() == 0 || availableClass
+									.getName().startsWith(classNameBeginningWithoutPackageDeclaration))) {
+						String proposalContent = availableClass.getName();
+						if (!isPrefixedByPackageName) {
+							proposalContent = availablePackage.getNsPrefix() + DOT + proposalContent;
+						}
+						proposals.add(createTemplateProposal(availableClass.getName(),
+								availablePackage.getNsURI(), proposalContent, MODELINGUNIT_NEW_ELEMENT_ICON));
+						i++;
+					}
 				}
 			}
 		}
@@ -540,6 +562,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			// Nothing to do
+		} catch (StringIndexOutOfBoundsException e) {
+			// Nothing to do
 		}
 		return textWithClosedInstructionsRemoved;
 	}
@@ -590,7 +614,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				label += "]";
 			}
 		}
-		String description = "Set the value " + contributionName + "." + feature.getName();
+		String description = "Set the value " + contributionName + DOT + feature.getName();
 		if (feature.getDefaultValue() != null) {
 			description = "Default: " + feature.getDefaultValue() + " - " + description;
 		}
