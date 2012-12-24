@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -41,6 +42,8 @@ import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionProcessor {
+
+	private static final String RIGHT_PAR = ")";
 
 	private static final String DOT = ".";
 
@@ -403,18 +406,23 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				defaultAttributeValue = "Default: " + featureToConsider.getDefaultValue().toString();
 			}
 			if (featureToConsider.getEType() instanceof EEnum) {
-				defaultAttributeValue = "One of " + ((EEnum)featureToConsider.getEType()).getELiterals()
-						+ " - " + defaultAttributeValue;
+				for (EEnumLiteral literal : ((EEnum)featureToConsider.getEType()).getELiterals()) {
+					proposals.add(createTemplateProposal("'" + literal.getName() + "' value (of type "
+							+ featureToConsider.getEType().getName() + RIGHT_PAR, defaultAttributeValue
+							+ " - Set a simple value of type " + featureToConsider.getEType().getName(), '"'
+							+ literal.getName() + "\";", "icon/outline/modelingunit_value.gif"));
+				}
+			} else {
+				proposals.add(createTemplateProposal("value (of type "
+						+ featureToConsider.getEType().getName() + RIGHT_PAR, defaultAttributeValue
+						+ " - Set a simple value of type " + featureToConsider.getEType().getName(), '"'
+						+ defaultAttributeValue + "\";", "icon/outline/modelingunit_value.gif"));
 			}
-			proposals.add(createTemplateProposal("value (of type " + featureToConsider.getEType().getName()
-					+ ")", defaultAttributeValue + " - Set a simple value of type "
-					+ featureToConsider.getEType().getName(), '"' + defaultAttributeValue + "\";",
-					"icon/outline/modelingunit_value.gif"));
 		} else {
 			// Propose to create a new Element of the feature type
 			if (!isResourceContribution) {
 				proposals.add(createTemplateProposal("new Element (of type "
-						+ featureToConsider.getEType().getName() + ")", "Set this new Element as value for "
+						+ featureToConsider.getEType().getName() + RIGHT_PAR, "Set this new Element as value for "
 						+ featureToConsider.getName(), "new "
 						+ getQualifiedName(featureToConsider.getEType().getEPackage()) + DOT
 						+ featureToConsider.getEType().getName() + "{\n\t${}\n};",

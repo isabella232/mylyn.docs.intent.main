@@ -44,7 +44,7 @@ public class CompletionTest extends AbstractIntentUITest {
 
 	private static final String TEMPLATE_DESC_CONTENT = "Resource Content - Add content to the Resource";
 
-	private static final String TEMPLATE_DESC_BOOL_VALUE = "value (of type EBoolean) - Set a simple value of type EBoolean";
+	private static final String TEMPLATE_DESC_BOOL_VALUE = "value (of type EBoolean) - Default: false - Set a simple value of type EBoolean";
 
 	private IntentEditor editor;
 
@@ -107,15 +107,12 @@ public class CompletionTest extends AbstractIntentUITest {
 		 */
 		// beginning of the modeling unit
 		proposals = getCompletionProposals(2138);
-		assertEquals(2, proposals.length);
-		assertEquals(TEMPLATE_DESC_RESOURCE, proposals[0].getDisplayString());
-		assertEquals(TEMPLATE_DESC_INST, proposals[1].getDisplayString());
+		// We should propose to create a new resource, a new entity, or contribute to an existing entity
+		assertIsExpectedProposalsForEmptyModelingUnit(proposals);
 
 		// beginning of a named modeling unit
 		proposals = getCompletionProposals(3232);
-		assertEquals(2, proposals.length);
-		assertEquals(TEMPLATE_DESC_RESOURCE, proposals[0].getDisplayString());
-		assertEquals(TEMPLATE_DESC_INST, proposals[1].getDisplayString());
+		assertIsExpectedProposalsForEmptyModelingUnit(proposals);
 
 		// resource declaration patterns
 		proposals = getCompletionProposals(3263);
@@ -143,28 +140,39 @@ public class CompletionTest extends AbstractIntentUITest {
 
 		// Object value
 		proposals = getCompletionProposals(3985);
-		assertEquals(2, proposals.length);
+		assertEquals(3, proposals.length);
+		// We should propose to create a new Element
 		assertEquals("new Element (of type EClassifier) - Set this new Element as value for eType",
 				proposals[0].getDisplayString());
-		assertEquals("MatchElement - http://www.eclipse.org/emf/compare/match/1.1",
+		// Use existing elements (of matching type) defined in the document
+		assertEquals("Reference to MatchElement - Set the MatchElement element as value for eType",
 				proposals[1].getDisplayString());
+		// And available Classifiers from the package registry
+		assertEquals("MatchElement - http://www.eclipse.org/emf/compare/match/1.1",
+				proposals[2].getDisplayString());
 
 		// instanciation proposals
 		proposals = getCompletionProposals(3865);
 		assertEquals(2, proposals.length);
 		assertEquals("EClass - http://www.eclipse.org/emf/2002/Ecore", proposals[0].getDisplayString());
 		assertEquals("EClassifier - http://www.eclipse.org/emf/2002/Ecore", proposals[1].getDisplayString());
-	}
 
-	// TODO integrate in main test when fixed
-	public void testUnresolvedProblems() throws BadLocationException {
-		ICompletionProposal[] proposals;
 		// features proposals further in contribution
 		proposals = getCompletionProposals(4128);
 		assertEquals(1, proposals.length);
 		assertEquals(
-				"eStructuralFeatures : EStructuralFeatures [0,*] - Set the value EClass.eStructuralFeatures",
+				"eStructuralFeatures : EStructuralFeature [0,*] - Set the value EClass.eStructuralFeatures",
 				proposals[0].getDisplayString());
+	}
+
+	private void assertIsExpectedProposalsForEmptyModelingUnit(ICompletionProposal[] proposals) {
+		assertEquals(15, proposals.length);
+		assertEquals(TEMPLATE_DESC_RESOURCE, proposals[0].getDisplayString());
+		assertEquals(TEMPLATE_DESC_INST, proposals[1].getDisplayString());
+		for (int i = 2; i < proposals.length; i++) {
+			assertTrue("We should propose to contribute to an existing element", proposals[i]
+					.getDisplayString().contains("(contribution"));
+		}
 	}
 
 	// CHECKSTYLE:ON
