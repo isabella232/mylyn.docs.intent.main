@@ -26,6 +26,8 @@ public class CompletionTest extends AbstractIntentUITest {
 
 	private static final String INTENT_DOC_PATH = "data/unit/demo/demo_as_text";
 
+	private static final String INTENT_DOC_WITH_ENUMS_PATH = "data/unit/documents/scenario/eenums/docWithEnums.intent";
+
 	private static final String KW_CHAPTER = "Chapter";
 
 	private static final String KW_SECTION = "Section";
@@ -53,17 +55,24 @@ public class CompletionTest extends AbstractIntentUITest {
 	private IDocument document;
 
 	/**
-	 * {@inheritDoc}
+	 * Ensures that completion behaves as expected when called on structural features with a EEnum value.
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.AbstractDemoTest#setUp()
+	 * @throws BadLocationException
 	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		setUpIntentProject("completionTest", INTENT_DOC_PATH);
+	// CHECKSTYLE:OFF
+	public void testCompletionOnEEnums() throws BadLocationException {
+		setUpIntentProject("completionTest", INTENT_DOC_WITH_ENUMS_PATH);
 		editor = openIntentEditor();
 		document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
 		contentAssistant = editor.getViewerConfiguration().getContentAssistant(editor.getProjectionViewer());
+
+		ICompletionProposal[] proposals = getCompletionProposals(112);
+		assertEquals(4, proposals.length);
+		String enumSuffix = " value (of type CompilationStatusSeverity) - Default: WARNING - Set a simple value of type CompilationStatusSeverity";
+		assertEquals("'WARNING'" + enumSuffix, proposals[0].getDisplayString());
+		assertEquals("'ERROR'" + enumSuffix, proposals[1].getDisplayString());
+		assertEquals("'INFO'" + enumSuffix, proposals[2].getDisplayString());
+		assertEquals("'OK'" + enumSuffix, proposals[3].getDisplayString());
 	}
 
 	/**
@@ -71,8 +80,12 @@ public class CompletionTest extends AbstractIntentUITest {
 	 * 
 	 * @throws Exception
 	 */
-	// CHECKSTYLE:OFF
 	public void testCompletion() throws Exception {
+		setUpIntentProject("completionTest", INTENT_DOC_PATH);
+		editor = openIntentEditor();
+		document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
+		contentAssistant = editor.getViewerConfiguration().getContentAssistant(editor.getProjectionViewer());
+
 		ICompletionProposal[] proposals = null;
 
 		/*
