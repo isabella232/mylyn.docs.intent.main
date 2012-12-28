@@ -1,0 +1,14 @@
+Document {
+	Chapter Title {
+		Text
+
+		Section 1 {			
+			@M
+				new compiler.CompilationStatus {
+					severity = "WARNING";
+				}
+			M@
+			
+		}
+	}
+}
