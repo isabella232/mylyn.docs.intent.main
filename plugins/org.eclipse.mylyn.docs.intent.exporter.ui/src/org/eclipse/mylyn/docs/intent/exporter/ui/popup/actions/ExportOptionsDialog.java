@@ -57,6 +57,8 @@ public class ExportOptionsDialog extends Dialog {
 
 	private final IntentStructuredElement intentElement;
 
+	private boolean shouldShowToc;
+
 	/**
 	 * Default constructor.
 	 * 
@@ -124,9 +126,9 @@ public class ExportOptionsDialog extends Dialog {
 		if (intentElement instanceof IntentDocument) {
 			Group group2 = new Group(composite, SWT.NONE);
 			group2.setText("Exported Document Name");
+			Label label2 = new Label(group2, SWT.NONE);
+			label2.setText("This name will be used as a title of the exported documentation.");
 			new Label(group2, SWT.NONE);
-			label.setText("This name will be used as a title of the exported documentation.");
-			new Label(group, SWT.NONE);
 			final GridData anyElementData = new GridData();
 			anyElementData.horizontalAlignment = GridData.FILL;
 			anyElementData.grabExcessHorizontalSpace = true;
@@ -138,6 +140,21 @@ public class ExportOptionsDialog extends Dialog {
 			group2.setLayout(gridLayout);
 			group2.setLayoutData(gridData);
 		}
+
+		shouldShowToc = true;
+		Button shouldShowTOCButton = new Button(composite, SWT.CHECK);
+		shouldShowTOCButton.setText("Show Table of Content by default");
+		shouldShowTOCButton.setSelection(true);
+		shouldShowTOCButton.addSelectionListener(new SelectionListener() {
+
+			public void widgetSelected(SelectionEvent e) {
+				shouldShowToc = !shouldShowToc;
+			}
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+
+			}
+		});
 		return composite;
 	}
 
@@ -157,6 +174,15 @@ public class ExportOptionsDialog extends Dialog {
 	 */
 	public String getTargetFolderLocation() {
 		return targetFolderLocation;
+	}
+
+	/**
+	 * Indicates whether Table of Contents should be shown by default.
+	 * 
+	 * @return true if the Table of Contents should be shown by default, false otherwise
+	 */
+	public boolean shouldShowTableOfContent() {
+		return shouldShowToc;
 	}
 
 	/**

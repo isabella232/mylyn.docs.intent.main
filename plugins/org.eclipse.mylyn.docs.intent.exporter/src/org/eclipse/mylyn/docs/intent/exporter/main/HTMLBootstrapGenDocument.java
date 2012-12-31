@@ -179,7 +179,7 @@ public class HTMLBootstrapGenDocument extends AbstractAcceleoGenerator {
 	 */
 	@Override
 	public void doGenerate(Monitor monitor) throws IOException {
-		doGenerate(monitor, "Intent Documentation", null);
+		doGenerate(monitor, "Intent Documentation", true, null);
 	}
 
 	/**
@@ -190,13 +190,16 @@ public class HTMLBootstrapGenDocument extends AbstractAcceleoGenerator {
 	 *            This will be used to display progress information to the user.
 	 * @param projectName
 	 *            the expected intent project name
+	 * @param showTableOfContents
+	 *            indicate whether TOC should be shown by default or not
 	 * @throws IOException
 	 *             This will be thrown if any of the output files cannot be saved to disk.
 	 */
-	public void doGenerate(Monitor monitor, String projectName, RepositoryAdapter repositoryAdapter)
-			throws IOException {
+	public void doGenerate(Monitor monitor, String projectName, boolean showTableOfContents,
+			RepositoryAdapter repositoryAdapter) throws IOException {
 		this.projectName = projectName;
-		IntentAcceleoServices.initialize(projectName, getTargetFolder(), repositoryAdapter);
+		IntentAcceleoServices.initialize(projectName, getTargetFolder(), showTableOfContents,
+				repositoryAdapter);
 		super.doGenerate(monitor);
 		IntentAcceleoServices.dispose();
 	}

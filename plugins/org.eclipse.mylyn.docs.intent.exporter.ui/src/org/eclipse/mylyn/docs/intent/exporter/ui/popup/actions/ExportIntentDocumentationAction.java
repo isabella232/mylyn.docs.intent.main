@@ -100,6 +100,7 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 								new IntentHTMLExporter().exportIntentDocumentation(intentElementToExport,
 										exportOptionsDialog.getTargetFolderLocation(),
 										exportOptionsDialog.getExportedIntentDocumentName(),
+										exportOptionsDialog.shouldShowTableOfContent(),
 										BasicMonitor.toMonitor(monitor));
 
 								// Step 3: if target folder is in workspace, refresh the folder

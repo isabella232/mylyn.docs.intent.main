@@ -37,6 +37,8 @@ public final class IntentAcceleoServices {
 
 	private static TraceabilityIndex traceabilityIndex;
 
+	private static boolean shouldShowTableOfContents;
+
 	/**
 	 * Returns the header size to apply to the section with the given ID. For example,
 	 * getHeaderSizeForSection(3_2) will return "2", getHeaderSizeForSection(4_3_2_1) will return "4".
@@ -108,9 +110,15 @@ public final class IntentAcceleoServices {
 		return index;
 	}
 
-	public static void initialize(String documentTitle, File generationOutputFolder, RepositoryAdapter adapter) {
+	public static boolean shouldShowTableOfContents() {
+		return shouldShowTableOfContents;
+	}
+
+	public static void initialize(String documentTitle, File generationOutputFolder,
+			boolean showTableOfContents, RepositoryAdapter adapter) {
 		intentDocumentTitle = documentTitle;
 		outputFolder = generationOutputFolder;
+		shouldShowTableOfContents = showTableOfContents;
 		repositoryAdapter = adapter;
 	}
 

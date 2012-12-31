@@ -5,10 +5,10 @@
 [import org::eclipse::mylyn::docs::intent::exporter::queries::documentQueries /]
 
 [template public generateTOCRoot(intentDocument : IntentDocument)]
-<div id="table_of_content" class="sidebar-nav toc">
+<div id="table_of_content" class="sidebar-nav toc" [if not(shouldShowTableOfContents())]style="display:none" [/if]>
 		<div class="summary">				
 					<h3 class="summaryTitle">Table Of Contents</h3>
-					<div id="toc" class="demo" style="height:100px;">					
+					<div id="toc" class="demo">					
 						<ul id="menu" >
 						[for (chapter : IntentChapter | intentDocument.chapters)]
 							[chapter.generateToc(chapter.getIndex())/]
@@ -20,10 +20,10 @@
 [/template]
 
 [template public generateTOCRoot(intentElement : IntentSubSectionContainer)]
-<div id="table_of_content" class="sidebar-nav toc">
+<div id="table_of_content" class="sidebar-nav toc" [if not(shouldShowTableOfContents())]style="display:none" [/if]>
 		<div class="summary">				
 					<h3 class="summaryTitle">Table Of Contents</h3>
-					<div id="toc" class="demo" style="height:100px;">
+					<div id="toc" class="demo">
 						<ul id="menu" >
 							[intentElement.generateToc('')/]	
 						</ul>

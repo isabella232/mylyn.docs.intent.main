@@ -50,12 +50,15 @@ public class IntentHTMLExporter {
 	 *            the target folder location
 	 * @param intentProject
 	 *            the intent project to export
-	 * @param projectName
+	 * @param documentName
+	 *            the name to associated to the exported HTML document
+	 * @param showTableOfContents
+	 *            indicate whether TOC should be shown by default or not
 	 * @param progressMonitor
 	 *            the progress monitor of this export operation
 	 */
 	public void exportIntentDocumentation(IntentStructuredElement intentElement, String targetFolderLocation,
-			String projectName, Monitor progressMonitor) {
+			String documentName, boolean showTableOfContents, Monitor progressMonitor) {
 		try {
 			// Step 1: get the intent document associated to the given project
 			Repository repository = IntentRepositoryManager.INSTANCE.getRepository(EcoreUtil.getURI(
@@ -76,7 +79,7 @@ public class IntentHTMLExporter {
 			// Step 4: launch generation
 			HTMLBootstrapGenDocument generator = new HTMLBootstrapGenDocument(intentElement, targetFolder,
 					new ArrayList<Object>());
-			generator.doGenerate(progressMonitor, projectName, repositoryAdapter);
+			generator.doGenerate(progressMonitor, documentName, showTableOfContents, repositoryAdapter);
 
 			repositoryAdapter.closeContext();
 		} catch (IOException e) {

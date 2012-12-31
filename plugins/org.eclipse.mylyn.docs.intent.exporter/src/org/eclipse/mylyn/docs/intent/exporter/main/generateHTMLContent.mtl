@@ -8,7 +8,7 @@
 
 
 [template public generateHTMLContentRoot(intentDocument : IntentDocument)]
-<div id="content" >
+<div id="content" [if not(shouldShowTableOfContents())]style="padding:0px 0px 0px 50px"[/if]>
 	[for (chapter : IntentChapter | intentDocument.chapters)]
 		[generateHTMLContent(chapter, chapter.getIndex())/]
 	[/for]
@@ -16,7 +16,7 @@
 [/template]
 
 [template public generateHTMLContentRoot(intentElement : IntentSubSectionContainer)]
-<div id="content" >
+<div id="content" [if not(shouldShowTableOfContents())]style="padding:0px 0px 0px 50px"[/if]>
 	[generateHTMLContent(intentElement, '')/]
 </div>
 [/template]

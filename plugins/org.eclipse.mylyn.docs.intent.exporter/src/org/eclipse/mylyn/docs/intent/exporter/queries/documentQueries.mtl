@@ -26,3 +26,7 @@ modelingUnit.eContainer().eContents()->filter(ModelingUnit)->asSequence()->index
 [query public getAllContributions(instanciationOrContributionInstruction : UnitInstruction) : OrderedSet(ContributionInstruction) = 
 invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getAllContributions(org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction)', Sequence{instanciationOrContributionInstruction})
 /]
+
+[query public shouldShowTableOfContents() : Boolean = 
+invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'shouldShowTableOfContents()', Sequence{})
+/]
