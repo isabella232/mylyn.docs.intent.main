@@ -19,6 +19,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
@@ -45,7 +46,6 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		}
 		addUIFieds(parent);
 		addLogFields(parent);
-
 	}
 
 	/**
@@ -57,10 +57,16 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 	private void addUIFieds(Composite parent) {
 		// All preferences relative to UI
 		Composite uiGroup = createGroup(parent, "Intent editor");
-		addField(new BooleanFieldEditor(IntentPreferenceConstants.MATCHING_BRACKETS,
-				"Activate bracket matching", new Composite(uiGroup, SWT.NONE)));
-		addField(new ColorFieldEditor(IntentPreferenceConstants.MATCHING_BRACKETS_COLOR,
-				"Matching brackets color", new Composite(uiGroup, SWT.NONE)));
+		addField(new BooleanFieldEditor(IntentPreferenceConstants.MATCHING_BRACKETS, "Brackets matching",
+				new Composite(uiGroup, SWT.NONE)));
+		addField(new ColorFieldEditor(IntentPreferenceConstants.MATCHING_BRACKETS_COLOR, "Brackets color",
+				new Composite(uiGroup, SWT.NONE)));
+
+		// Adding a label explaining that Intent font preferences can be customized through the General >
+		// Appearance > Colors and Fonts preference page
+		Label fontInfo = new Label(uiGroup, SWT.NONE);
+		fontInfo.setText("Note: Intent fonts can be customized using the 'General>Appearance>Colors and Fonts' preference page");
+
 	}
 
 	/**
@@ -73,7 +79,7 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		// All preferences relative to logging
 		Composite logGroup = createGroup(parent, "Logging");
 		addField(new BooleanFieldEditor(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING,
-				"Activate advanced logging", logGroup));
+				"Advanced logging", new Composite(logGroup, SWT.NONE)));
 	}
 
 	/**
