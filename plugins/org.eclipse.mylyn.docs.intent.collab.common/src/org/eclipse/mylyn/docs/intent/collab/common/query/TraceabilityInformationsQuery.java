@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
@@ -36,8 +37,11 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 
 /**
  * An utility class allowing to query the {@link TraceabilityIndex} to get useful traceability informations.
@@ -226,4 +230,89 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 		return relatedInstructions;
 	}
 
+	/**
+	 * Returns the {@link InstanciationInstruction} corresponding to the given {@link ModelingUnitInstruction}
+	 * .
+	 * 
+	 * @param instruction
+	 *            a {@link ModelingUnitInstruction}
+	 * @return the {@link InstanciationInstruction} corresponding to the given {@link ModelingUnitInstruction}
+	 */
+	public InstanciationInstruction getInstanciationInstruction(ModelingUnitInstruction instruction) {
+		InstanciationInstruction instancationInstruction = null;
+		if (instruction instanceof InstanciationInstruction) {
+			instancationInstruction = (InstanciationInstruction)instruction;
+		} else if (instruction instanceof ContributionInstruction) {
+			if (((ContributionInstruction)instruction).getContributionReference() != null
+					&& ((ContributionInstruction)instruction).getContributionReference()
+							.getReferencedInstruction() instanceof InstanciationInstruction) {
+				instancationInstruction = (InstanciationInstruction)((ContributionInstruction)instruction)
+						.getContributionReference().getReferencedInstruction();
+
+			}
+		} else if (instruction instanceof StructuralFeatureAffectation) {
+			if (((StructuralFeatureAffectation)instruction).getValues().size() > 0
+					&& ((StructuralFeatureAffectation)instruction).getValues().iterator().next() instanceof ReferenceValueForStructuralFeature) {
+				if (((ReferenceValueForStructuralFeature)((StructuralFeatureAffectation)instruction)
+						.getValues().iterator().next()).getInstanciationReference() instanceof InstanciationInstructionReference) {
+					instancationInstruction = ((ReferenceValueForStructuralFeature)((StructuralFeatureAffectation)instruction)
+							.getValues().iterator().next()).getInstanciationReference().getInstanciation();
+				}
+			}
+
+		}
+		return instancationInstruction;
+	}
+
+	/**
+	 * Returns the {@link URI} of the working copy Resource corresponding to the given
+	 * {@link ModelingUnitInstruction}. If the given parameter is true, then we will return the URI of the
+	 * compiled Resource if no working copy resource is found.
+	 * 
+	 * @param instruction
+	 *            the {@link ModelingUnitInstruction} to query
+	 * @param ifNoneFoundReturnCompiledResource
+	 *            indicates the behavior if no working copy resource is found: if true then we will return the
+	 *            URI of the compiled Resource if no working copy resource is found; if false, then null will
+	 *            be returned in that case.
+	 * @return the {@link URI} of the working copy Resource corresponding to the given
+	 *         {@link ModelingUnitInstruction}
+	 */
+	public URI getWorkingCopyResourceURI(ModelingUnitInstruction instruction,
+			boolean ifNoneFoundReturnCompiledResource) {
+		URI workingCopyResourceURI = null;
+
+		// Step 1: find the traceability index entry corresponding to the given instruction
+		InstanciationInstruction instanciationInstruction = getInstanciationInstruction(instruction);
+		if (instanciationInstruction != null) {
+			TraceabilityIndexEntry matchingTraceabilityEntry = null;
+			for (TraceabilityIndexEntry entry : getOrCreateTraceabilityIndex().getEntries()) {
+				for (Entry<EObject, EList<InstructionTraceabilityEntry>> instructionsEntry : entry
+						.getContainedElementToInstructions()) {
+					for (InstructionTraceabilityEntry instructionTraceabilityEntry : instructionsEntry
+							.getValue()) {
+						if (instructionTraceabilityEntry.getInstruction().equals(instanciationInstruction)) {
+							matchingTraceabilityEntry = entry;
+							break;
+						}
+					}
+				}
+			}
+			if (matchingTraceabilityEntry != null) {
+				// Step 2: get the working copy resource URI from the resource declaration (if any)
+				if (matchingTraceabilityEntry.getResourceDeclaration().getUri() != null) {
+					workingCopyResourceURI = URI.createURI(matchingTraceabilityEntry.getResourceDeclaration()
+							.getUri().toString().replace("\"", ""));
+				} else {
+					// If no working copy resource URI was find, return the compiled resource URI
+					if (ifNoneFoundReturnCompiledResource) {
+						workingCopyResourceURI = repositoryAdapter.getResource(
+								matchingTraceabilityEntry.getGeneratedResourcePath().replace("\"", ""))
+								.getURI();
+					}
+				}
+			}
+		}
+		return workingCopyResourceURI;
+	}
 }
