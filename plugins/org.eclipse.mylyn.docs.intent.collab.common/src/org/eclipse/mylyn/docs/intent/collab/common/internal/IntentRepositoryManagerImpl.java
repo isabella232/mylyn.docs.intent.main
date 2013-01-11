@@ -75,6 +75,10 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 		} finally {
 			lock = false;
 		}
+		if (repository == null) {
+			throw new RepositoryConnectionException("Could not find Intent Repository with id '" + identifier
+					+ "'");
+		}
 		return repository;
 	}
 

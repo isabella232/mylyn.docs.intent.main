@@ -240,26 +240,28 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 	 */
 	public InstanciationInstruction getInstanciationInstruction(ModelingUnitInstruction instruction) {
 		InstanciationInstruction instancationInstruction = null;
-		if (instruction instanceof InstanciationInstruction) {
-			instancationInstruction = (InstanciationInstruction)instruction;
-		} else if (instruction instanceof ContributionInstruction) {
-			if (((ContributionInstruction)instruction).getContributionReference() != null
-					&& ((ContributionInstruction)instruction).getContributionReference()
+		ModelingUnitInstruction mostSpecificInstruction = instruction;
+		if (mostSpecificInstruction instanceof InstanciationInstruction) {
+			instancationInstruction = (InstanciationInstruction)mostSpecificInstruction;
+		} else if (mostSpecificInstruction instanceof ContributionInstruction) {
+			if (((ContributionInstruction)mostSpecificInstruction).getContributionReference() != null
+					&& ((ContributionInstruction)mostSpecificInstruction).getContributionReference()
 							.getReferencedInstruction() instanceof InstanciationInstruction) {
-				instancationInstruction = (InstanciationInstruction)((ContributionInstruction)instruction)
+				instancationInstruction = (InstanciationInstruction)((ContributionInstruction)mostSpecificInstruction)
 						.getContributionReference().getReferencedInstruction();
 
 			}
-		} else if (instruction instanceof StructuralFeatureAffectation) {
-			if (((StructuralFeatureAffectation)instruction).getValues().size() > 0
-					&& ((StructuralFeatureAffectation)instruction).getValues().iterator().next() instanceof ReferenceValueForStructuralFeature) {
-				if (((ReferenceValueForStructuralFeature)((StructuralFeatureAffectation)instruction)
-						.getValues().iterator().next()).getInstanciationReference() instanceof InstanciationInstructionReference) {
-					instancationInstruction = ((ReferenceValueForStructuralFeature)((StructuralFeatureAffectation)instruction)
-							.getValues().iterator().next()).getInstanciationReference().getInstanciation();
-				}
+		} else if (mostSpecificInstruction instanceof StructuralFeatureAffectation) {
+			if (((StructuralFeatureAffectation)mostSpecificInstruction).getValues().size() > 0
+					&& ((StructuralFeatureAffectation)mostSpecificInstruction).getValues().iterator().next() instanceof ReferenceValueForStructuralFeature) {
+				mostSpecificInstruction = (ReferenceValueForStructuralFeature)((StructuralFeatureAffectation)instruction)
+						.getValues().iterator().next();
 			}
-
+		}
+		if (mostSpecificInstruction instanceof ReferenceValueForStructuralFeature
+				&& ((ReferenceValueForStructuralFeature)mostSpecificInstruction).getInstanciationReference() instanceof InstanciationInstructionReference) {
+			instancationInstruction = ((ReferenceValueForStructuralFeature)mostSpecificInstruction)
+					.getInstanciationReference().getInstanciation();
 		}
 		return instancationInstruction;
 	}

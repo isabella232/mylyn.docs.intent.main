@@ -21,18 +21,19 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.editor.CompletionT
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.refresher.RefresherTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentRepositoryStructurerTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentURITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.CompilerNotificationsTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
 
 /**
- * This suite will launch all the tests relative to the UI behavior.
+ * This suite will launch all tests requiring to launch an Intent runtime.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class UITestSuite extends TestCase {
+public class IntentPluginTestSuite extends TestCase {
 
 	/**
 	 * Launches the collaborative test suite.
@@ -53,7 +54,7 @@ public class UITestSuite extends TestCase {
 		final TestSuite suite = new TestSuite("Intent Global TestSuite");
 		suite.addTest(comparisonSuite());
 
-		final TestSuite uiTestSuite = new TestSuite("Intent UI tests");
+		final TestSuite uiTestSuite = new TestSuite("Intent Plugin Tests");
 		uiTestSuite.addTest(uiBasicSuite());
 		uiTestSuite.addTest(uiScenarioSuite());
 		uiTestSuite.addTest(uiDemoSuite());
@@ -93,6 +94,7 @@ public class UITestSuite extends TestCase {
 	 */
 	private static TestSuite uiBasicSuite() {
 		final TestSuite basicTestSuite = new TestSuite("Technical tests");
+		basicTestSuite.addTestSuite(IntentURITest.class);
 		basicTestSuite.addTestSuite(IntentRepositoryStructurerTest.class);
 		basicTestSuite.addTestSuite(ProjectTest.class);
 		basicTestSuite.addTestSuite(RefresherTest.class);

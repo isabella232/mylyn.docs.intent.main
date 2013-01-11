@@ -34,7 +34,7 @@
 	  
       <configuration>
 	      <testSuite>org.eclipse.mylyn.docs.intent.client.ui.test</testSuite>      
-          <testClass>org.eclipse.mylyn.docs.intent.client.ui.test.suite.UITestSuite</testClass>
+          <testClass>org.eclipse.mylyn.docs.intent.client.ui.test.suite.IntentPluginTestSuite</testClass>
 	      <useUIHarness>true</useUIHarness>
 	      <useUIThread>true</useUIThread>
 	      <product>org.eclipse.e4.ide.application.product</product>
