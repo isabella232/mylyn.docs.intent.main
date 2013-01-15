@@ -128,6 +128,8 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 				return (EObject)createReferenceChangeStatus();
 			case CompilerPackage.ATTRIBUTE_CHANGE_STATUS:
 				return (EObject)createAttributeChangeStatus();
+			case CompilerPackage.EXTERNAL_CONTENT:
+				return (EObject)createExternalContent();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName()
 						+ "' is not a valid classifier");
@@ -372,6 +374,16 @@ public class CompilerFactoryImpl extends EFactoryImpl implements CompilerFactory
 	public AttributeChangeStatus createAttributeChangeStatus() {
 		AttributeChangeStatusImpl attributeChangeStatus = new AttributeChangeStatusImpl();
 		return attributeChangeStatus;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ExternalContent createExternalContent() {
+		ExternalContentImpl externalContent = new ExternalContentImpl();
+		return externalContent;
 	}
 
 	/**

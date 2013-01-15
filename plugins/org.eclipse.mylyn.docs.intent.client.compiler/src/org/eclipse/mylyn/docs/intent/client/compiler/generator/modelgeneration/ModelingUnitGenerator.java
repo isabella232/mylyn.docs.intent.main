@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationErrorType;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.InvalidValueException;
+import org.eclipse.mylyn.docs.intent.client.compiler.externalcontent.ExternalContentReferenceGenerator;
 import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.ModelingUnitLinkResolver;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
@@ -26,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
@@ -328,6 +330,16 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	@Override
 	public List<Object> caseIntentReferenceinModelingUnit(IntentReferenceinModelingUnit object) {
 		return new ArrayList<Object>();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseExternalContentReference(org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference)
+	 */
+	@Override
+	public List<Object> caseExternalContentReference(ExternalContentReference object) {
+		return ExternalContentReferenceGenerator.generate(object, this);
 	}
 
 	/**

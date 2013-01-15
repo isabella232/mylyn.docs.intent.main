@@ -182,4 +182,7 @@
     <eLiterals name="WORKING_COPY_TARGET" value="2" literal="WORKING_COPY_TARGET"/>
     <eLiterals name="COMPILED_TARGET" value="3" literal="COMPILED_TARGET"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalContent">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="content" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

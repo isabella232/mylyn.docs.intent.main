@@ -1328,6 +1328,115 @@ public interface ModelingUnitPackage extends EPackage {
 	int CONTRIBUTION_INSTRUCTION_FEATURE_COUNT = MODELING_UNIT_INSTRUCTION_FEATURE_COUNT + 2;
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ExternalContentReferenceImpl <em>External Content Reference</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ExternalContentReferenceImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl#getExternalContentReference()
+	 * @generated
+	 */
+	int EXTERNAL_CONTENT_REFERENCE = 19;
+
+	/**
+	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE__COMPILATION_STATUS = RESOURCE_DECLARATION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE__INDEX_ENTRY = RESOURCE_DECLARATION__INDEX_ENTRY;
+
+	/**
+	 * The feature id for the '<em><b>Unit</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE__UNIT = RESOURCE_DECLARATION__UNIT;
+
+	/**
+	 * The feature id for the '<em><b>Line Break</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE__LINE_BREAK = RESOURCE_DECLARATION__LINE_BREAK;
+
+	/**
+	 * The feature id for the '<em><b>Uri</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE__URI = RESOURCE_DECLARATION__URI;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE__NAME = RESOURCE_DECLARATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Content Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE__CONTENT_TYPE = RESOURCE_DECLARATION__CONTENT_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Content</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE__CONTENT = RESOURCE_DECLARATION__CONTENT;
+
+	/**
+	 * The feature id for the '<em><b>External Content</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE__EXTERNAL_CONTENT = RESOURCE_DECLARATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Marked As Merged</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE__MARKED_AS_MERGED = RESOURCE_DECLARATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>External Content Reference</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXTERNAL_CONTENT_REFERENCE_FEATURE_COUNT = RESOURCE_DECLARATION_FEATURE_COUNT + 2;
+
+	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator <em>Affectation Operator</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1335,7 +1444,7 @@ public interface ModelingUnitPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl#getAffectationOperator()
 	 * @generated
 	 */
-	int AFFECTATION_OPERATOR = 19;
+	int AFFECTATION_OPERATOR = 20;
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Key Val For Annotation</em>}'.
@@ -1882,6 +1991,38 @@ public interface ModelingUnitPackage extends EPackage {
 	EReference getContributionInstruction_Contributions();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference <em>External Content Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>External Content Reference</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference
+	 * @generated
+	 */
+	EClass getExternalContentReference();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference#getExternalContent <em>External Content</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>External Content</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference#getExternalContent()
+	 * @see #getExternalContentReference()
+	 * @generated
+	 */
+	EReference getExternalContentReference_ExternalContent();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference#isMarkedAsMerged <em>Marked As Merged</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Marked As Merged</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference#isMarkedAsMerged()
+	 * @see #getExternalContentReference()
+	 * @generated
+	 */
+	EAttribute getExternalContentReference_MarkedAsMerged();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator <em>Affectation Operator</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2371,6 +2512,34 @@ public interface ModelingUnitPackage extends EPackage {
 		 */
 		EReference CONTRIBUTION_INSTRUCTION__CONTRIBUTIONS = eINSTANCE
 				.getContributionInstruction_Contributions();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ExternalContentReferenceImpl <em>External Content Reference</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ExternalContentReferenceImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl#getExternalContentReference()
+		 * @generated
+		 */
+		EClass EXTERNAL_CONTENT_REFERENCE = eINSTANCE.getExternalContentReference();
+
+		/**
+		 * The meta object literal for the '<em><b>External Content</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXTERNAL_CONTENT_REFERENCE__EXTERNAL_CONTENT = eINSTANCE
+				.getExternalContentReference_ExternalContent();
+
+		/**
+		 * The meta object literal for the '<em><b>Marked As Merged</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute EXTERNAL_CONTENT_REFERENCE__MARKED_AS_MERGED = eINSTANCE
+				.getExternalContentReference_MarkedAsMerged();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator <em>Affectation Operator</em>}' enum.

@@ -291,6 +291,13 @@ public class CompilerSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
+			case CompilerPackage.EXTERNAL_CONTENT: {
+				ExternalContent externalContent = (ExternalContent)theEObject;
+				T result = caseExternalContent(externalContent);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
 			default:
 				return defaultCase(theEObject);
 		}
@@ -634,6 +641,21 @@ public class CompilerSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseSynchronizerCompilationStatus(SynchronizerCompilationStatus object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>External Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>External Content</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExternalContent(ExternalContent object) {
 		return null;
 	}
 

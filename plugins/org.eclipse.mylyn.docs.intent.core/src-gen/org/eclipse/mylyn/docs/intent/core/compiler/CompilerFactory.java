@@ -144,6 +144,15 @@ public interface CompilerFactory extends EFactory {
 	AttributeChangeStatus createAttributeChangeStatus();
 
 	/**
+	 * Returns a new object of class '<em>External Content</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>External Content</em>'.
+	 * @generated
+	 */
+	ExternalContent createExternalContent();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the package supported by this factory.
