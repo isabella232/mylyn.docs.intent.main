@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Localization: plugin
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.markup.ui; singleton:=true
-Bundle-Version: 0.7.1.qualifier
+Bundle-Version: 0.7.2.qualifier
 Bundle-Activator: org.eclipse.mylyn.docs.intent.markup.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
