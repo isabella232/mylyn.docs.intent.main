@@ -218,11 +218,6 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseExternalContent(ExternalContent object) {
-			return createExternalContentAdapter();
-		}
-
-		@Override
 		public Adapter defaultCase(EObject object) {
 			return createEObjectAdapter();
 		}
@@ -557,20 +552,6 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSynchronizerCompilationStatusAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ExternalContent <em>External Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ExternalContent
-	 * @generated
-	 */
-	public Adapter createExternalContentAdapter() {
 		return null;
 	}
 

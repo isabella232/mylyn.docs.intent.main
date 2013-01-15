@@ -333,21 +333,6 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelingUnitPackage.EXTERNAL_CONTENT_REFERENCE: {
-				ExternalContentReference externalContentReference = (ExternalContentReference)theEObject;
-				T result = caseExternalContentReference(externalContentReference);
-				if (result == null)
-					result = caseResourceDeclaration(externalContentReference);
-				if (result == null)
-					result = caseModelingUnitInstruction(externalContentReference);
-				if (result == null)
-					result = caseUnitInstruction(externalContentReference);
-				if (result == null)
-					result = caseIntentGenericElement(externalContentReference);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
 			default:
 				return defaultCase(theEObject);
 		}
@@ -635,21 +620,6 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseContributionInstruction(ContributionInstruction object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>External Content Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>External Content Reference</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseExternalContentReference(ExternalContentReference object) {
 		return null;
 	}
 

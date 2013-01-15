@@ -166,15 +166,6 @@ public interface ModelingUnitFactory extends EFactory {
 	ContributionInstruction createContributionInstruction();
 
 	/**
-	 * Returns a new object of class '<em>External Content Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>External Content Reference</em>'.
-	 * @generated
-	 */
-	ExternalContentReference createExternalContentReference();
-
-	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

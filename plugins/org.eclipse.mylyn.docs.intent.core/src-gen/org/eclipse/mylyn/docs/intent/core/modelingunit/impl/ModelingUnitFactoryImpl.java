@@ -114,8 +114,6 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 				return (EObject)createReferenceValueForStructuralFeature();
 			case ModelingUnitPackage.CONTRIBUTION_INSTRUCTION:
 				return (EObject)createContributionInstruction();
-			case ModelingUnitPackage.EXTERNAL_CONTENT_REFERENCE:
-				return (EObject)createExternalContentReference();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName()
 						+ "' is not a valid classifier");
@@ -312,16 +310,6 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 	public ContributionInstruction createContributionInstruction() {
 		ContributionInstructionImpl contributionInstruction = new ContributionInstructionImpl();
 		return contributionInstruction;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ExternalContentReference createExternalContentReference() {
-		ExternalContentReferenceImpl externalContentReference = new ExternalContentReferenceImpl();
-		return externalContentReference;
 	}
 
 	/**

@@ -16,9 +16,6 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.EMFCompare;
 import org.eclipse.emf.compare.EMFCompare.Builder;
-import org.eclipse.emf.compare.diff.DefaultDiffEngine;
-import org.eclipse.emf.compare.diff.DiffBuilder;
-import org.eclipse.emf.compare.diff.FeatureFilter;
 import org.eclipse.emf.compare.match.DefaultComparisonFactory;
 import org.eclipse.emf.compare.match.DefaultEqualityHelperFactory;
 import org.eclipse.emf.compare.match.DefaultMatchEngine;
@@ -30,7 +27,6 @@ import org.eclipse.emf.compare.utils.UseIdentifiers;
 import org.eclipse.mylyn.docs.intent.compare.match.EditionDistance;
 import org.eclipse.mylyn.docs.intent.compare.scope.IntentComparisonScope;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.ExternalContent;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 
 /**
@@ -88,8 +84,7 @@ public final class EMFCompareUtils {
 		IntentComparisonScope scope = new IntentComparisonScope(left, right);
 		scope.setEObjectContentFilter(Predicates.not(Predicates.or(
 				Predicates.instanceOf(CompilationStatus.class),
-				Predicates.or(Predicates.instanceOf(SynchronizerCompilationStatus.class),
-						Predicates.instanceOf(ExternalContent.class)))));
+				Predicates.instanceOf(SynchronizerCompilationStatus.class))));
 
 		IEObjectMatcher matcher = new ProximityEObjectMatcher(new EditionDistance(left, right));
 		final IComparisonFactory comparisonFactory = new DefaultComparisonFactory(
@@ -97,14 +92,7 @@ public final class EMFCompareUtils {
 		IMatchEngine matchEngine = new DefaultMatchEngine(matcher, comparisonFactory);
 
 		Builder builder = EMFCompare.builder();
-		builder.setDiffEngine(new DefaultDiffEngine(new DiffBuilder()) {
-			@Override
-			protected FeatureFilter createFeatureFilter() {
-				return new IntentFeatureFilter();
-			}
-		});
 		builder.setMatchEngine(matchEngine);
-		Comparison compare = builder.build().compare(scope);
-		return compare;
+		return builder.build().compare(scope);
 	}
 }

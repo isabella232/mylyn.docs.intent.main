@@ -194,11 +194,6 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseExternalContentReference(ExternalContentReference object) {
-			return createExternalContentReferenceAdapter();
-		}
-
-		@Override
 		public Adapter caseIntentGenericElement(IntentGenericElement object) {
 			return createIntentGenericElementAdapter();
 		}
@@ -510,20 +505,6 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createContributionInstructionAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference <em>External Content Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference
-	 * @generated
-	 */
-	public Adapter createExternalContentReferenceAdapter() {
 		return null;
 	}
 

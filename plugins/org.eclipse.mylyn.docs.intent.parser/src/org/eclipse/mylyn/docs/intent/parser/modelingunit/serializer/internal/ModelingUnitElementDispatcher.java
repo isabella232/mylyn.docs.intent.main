@@ -13,7 +13,6 @@ package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
@@ -209,16 +208,6 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 	@Override
 	public String caseStructuralFeatureAffectation(StructuralFeatureAffectation object) {
 		return StructuralFeatureAffectationSerializer.render(object, this);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseExternalContentReference(org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference)
-	 */
-	@Override
-	public String caseExternalContentReference(ExternalContentReference object) {
-		return ExternalContentReferenceSerializer.render(object, this);
 	}
 
 	/**

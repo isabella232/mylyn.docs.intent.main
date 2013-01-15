@@ -93,8 +93,4 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="contributions" upperBound="-1"
         eType="#//ModelingUnitInstruction" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExternalContentReference" eSuperTypes="#//ResourceDeclaration">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="externalContent" eType="ecore:EClass compilerInformations.ecore#//ExternalContent"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="markedAsMerged" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-  </eClassifiers>
 </ecore:EPackage>

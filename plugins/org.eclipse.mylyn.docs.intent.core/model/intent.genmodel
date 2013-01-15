@@ -191,10 +191,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/compiledResourceURI"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//SynchronizerCompilationStatus/workingCopyResourceURI"/>
     </genClasses>
-    <genClasses ecoreClass="compilerInformations.ecore#//ExternalContent">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ExternalContent/content"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//ExternalContent/markedAsMerged"/>
-    </genClasses>
   </genPackages>
   <genPackages prefix="IntentIndexer" basePackage="org.eclipse.mylyn.docs.intent.core"
       disposableProviderFactory="true" ecorePackage="indexer.ecore#/">
@@ -328,9 +324,6 @@
     <genClasses ecoreClass="modelingUnit.ecore#//ContributionInstruction">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ContributionInstruction/contributionReference"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ContributionInstruction/contributions"/>
-    </genClasses>
-    <genClasses ecoreClass="modelingUnit.ecore#//ExternalContentReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ExternalContentReference/externalContent"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

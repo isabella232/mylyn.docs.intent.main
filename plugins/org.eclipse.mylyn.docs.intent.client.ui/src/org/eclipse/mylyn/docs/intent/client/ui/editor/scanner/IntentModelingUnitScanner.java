@@ -46,7 +46,7 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	 */
 	public static final String DEFAULT_ATTRIBUTE = "__Intent_default";
 
-	private static String[] MU_KEYWORDS = new String[] {"new", "Resource", "@M", "M@", "@Annotation", "@ref",
+	private static String[] MU_KEYWORDS = new String[] {"new", "Resource", "@M", "M@", "@Annotation",
 	};
 
 	private Color defaultforeGroundColor;
@@ -94,6 +94,8 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 				SWT.NONE, IntentFontConstants.getModelingUnitFont()));
 
 		WordRule keyWordsRule = new WordRule(new IntentWordDetector(true), defaultToken);
+		MU_KEYWORDS = new String[] {"new", "Resource", "@M", "M@", "@Annotation",
+		};
 		for (int i = 0; i < MU_KEYWORDS.length; i++) {
 			keyWordsRule.addWord(MU_KEYWORDS[i], keyWordToken);
 		}

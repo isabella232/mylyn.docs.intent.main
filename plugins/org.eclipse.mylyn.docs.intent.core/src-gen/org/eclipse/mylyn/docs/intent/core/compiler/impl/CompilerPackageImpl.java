@@ -26,7 +26,6 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
-import org.eclipse.mylyn.docs.intent.core.compiler.ExternalContent;
 import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus;
@@ -205,13 +204,6 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	 * @generated
 	 */
 	private EClass synchronizerCompilationStatusEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass externalContentEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -1019,24 +1011,6 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getExternalContent() {
-		return externalContentEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getExternalContent_Content() {
-		return (EAttribute)externalContentEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1234,9 +1208,6 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 				SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI);
 		createEAttribute(synchronizerCompilationStatusEClass,
 				SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI);
-
-		externalContentEClass = createEClass(EXTERNAL_CONTENT);
-		createEAttribute(externalContentEClass, EXTERNAL_CONTENT__CONTENT);
 
 		// Create enums
 		compilationStatusSeverityEEnum = createEEnum(COMPILATION_STATUS_SEVERITY);
@@ -1574,12 +1545,6 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		initEAttribute(getSynchronizerCompilationStatus_WorkingCopyResourceURI(), ecorePackage.getEString(),
 				"workingCopyResourceURI", null, 0, 1, SynchronizerCompilationStatus.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		initEClass(externalContentEClass, ExternalContent.class, "ExternalContent", !IS_ABSTRACT,
-				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getExternalContent_Content(), ecorePackage.getEString(), "content", null, 0, 1,
-				ExternalContent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
-				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(compilationStatusSeverityEEnum, CompilationStatusSeverity.class,

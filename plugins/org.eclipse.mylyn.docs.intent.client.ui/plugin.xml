@@ -65,7 +65,7 @@ Contributors:
           point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
        <hyperlinkDetector
              activate="true"
-             class="org.eclipse.mylyn.docs.intent.client.ui.editor.hyperlinks.IntentHyperLinkDetector"
+             class="org.eclipse.mylyn.docs.intent.client.ui.editor.IntentHyperlinkDetector"
              id="org.eclipse.mylyn.docs.intent.client.ui.editor.openDeclarationHyperlink"
              name="Intent Open Declaration"
              targetId="org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorSource">

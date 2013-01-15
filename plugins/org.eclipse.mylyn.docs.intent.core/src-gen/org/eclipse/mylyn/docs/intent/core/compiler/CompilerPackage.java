@@ -1423,41 +1423,13 @@ public interface CompilerPackage extends EPackage {
 	int ATTRIBUTE_CHANGE_STATUS_FEATURE_COUNT = STRUCTURAL_FEATURE_CHANGE_STATUS_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ExternalContentImpl <em>External Content</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ExternalContentImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getExternalContent()
-	 * @generated
-	 */
-	int EXTERNAL_CONTENT = 24;
-
-	/**
-	 * The feature id for the '<em><b>Content</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXTERNAL_CONTENT__CONTENT = 0;
-
-	/**
-	 * The number of structural features of the '<em>External Content</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXTERNAL_CONTENT_FEATURE_COUNT = 1;
-
-	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}' enum.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationStatusSeverity()
 	 * @generated
 	 */
-	int COMPILATION_STATUS_SEVERITY = 25;
+	int COMPILATION_STATUS_SEVERITY = 24;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType <em>Compilation Message Type</em>}' enum.
@@ -1466,7 +1438,7 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationMessageType()
 	 * @generated
 	 */
-	int COMPILATION_MESSAGE_TYPE = 26;
+	int COMPILATION_MESSAGE_TYPE = 25;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState <em>Synchronizer Resource State</em>}' enum.
@@ -1476,7 +1448,7 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getSynchronizerResourceState()
 	 * @generated
 	 */
-	int SYNCHRONIZER_RESOURCE_STATE = 27;
+	int SYNCHRONIZER_RESOURCE_STATE = 26;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState <em>Synchronizer Change State</em>}' enum.
@@ -1486,7 +1458,7 @@ public interface CompilerPackage extends EPackage {
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getSynchronizerChangeState()
 	 * @generated
 	 */
-	int SYNCHRONIZER_CHANGE_STATE = 28;
+	int SYNCHRONIZER_CHANGE_STATE = 27;
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To EObject</em>}'. <!--
@@ -2376,27 +2348,6 @@ public interface CompilerPackage extends EPackage {
 	EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceURI();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.ExternalContent <em>External Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>External Content</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ExternalContent
-	 * @generated
-	 */
-	EClass getExternalContent();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.ExternalContent#getContent <em>Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Content</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.compiler.ExternalContent#getContent()
-	 * @see #getExternalContent()
-	 * @generated
-	 */
-	EAttribute getExternalContent_Content();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledResourceURI <em>Compiled Resource URI</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -3218,24 +3169,6 @@ public interface CompilerPackage extends EPackage {
 		 */
 		EAttribute SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI = eINSTANCE
 				.getSynchronizerCompilationStatus_WorkingCopyResourceURI();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ExternalContentImpl <em>External Content</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ExternalContentImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getExternalContent()
-		 * @generated
-		 */
-		EClass EXTERNAL_CONTENT = eINSTANCE.getExternalContent();
-
-		/**
-		 * The meta object literal for the '<em><b>Content</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute EXTERNAL_CONTENT__CONTENT = eINSTANCE.getExternalContent_Content();
 
 		/**
 		 * The meta object literal for the '<em><b>Compiled Resource URI</b></em>' attribute feature.

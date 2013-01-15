@@ -31,7 +31,6 @@ import org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanceLevelInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
@@ -191,13 +190,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * @generated
 	 */
 	private EClass contributionInstructionEClass = null;
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	private EClass externalContentReferenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -763,33 +755,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getExternalContentReference() {
-		return externalContentReferenceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExternalContentReference_ExternalContent() {
-		return (EReference)externalContentReferenceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getExternalContentReference_MarkedAsMerged() {
-		return (EAttribute)externalContentReferenceEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EEnum getAffectationOperator() {
 		return affectationOperatorEEnum;
 	}
@@ -900,10 +865,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 		createEReference(contributionInstructionEClass, CONTRIBUTION_INSTRUCTION__CONTRIBUTION_REFERENCE);
 		createEReference(contributionInstructionEClass, CONTRIBUTION_INSTRUCTION__CONTRIBUTIONS);
 
-		externalContentReferenceEClass = createEClass(EXTERNAL_CONTENT_REFERENCE);
-		createEReference(externalContentReferenceEClass, EXTERNAL_CONTENT_REFERENCE__EXTERNAL_CONTENT);
-		createEAttribute(externalContentReferenceEClass, EXTERNAL_CONTENT_REFERENCE__MARKED_AS_MERGED);
-
 		// Create enums
 		affectationOperatorEEnum = createEEnum(AFFECTATION_OPERATOR);
 	}
@@ -937,8 +898,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 				.getEPackage(GenericUnitPackage.eNS_URI);
 		IntentDocumentPackage theIntentDocumentPackage = (IntentDocumentPackage)EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI);
-		CompilerPackage theCompilerPackage = (CompilerPackage)EPackage.Registry.INSTANCE
-				.getEPackage(CompilerPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -964,7 +923,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 		newObjectValueForStructuralFeatureEClass.getESuperTypes().add(this.getValueForStructuralFeature());
 		referenceValueForStructuralFeatureEClass.getESuperTypes().add(this.getValueForStructuralFeature());
 		contributionInstructionEClass.getESuperTypes().add(this.getModelingUnitInstruction());
-		externalContentReferenceEClass.getESuperTypes().add(this.getResourceDeclaration());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(keyValForAnnotationEClass, Map.Entry.class, "KeyValForAnnotation", !IS_ABSTRACT,
@@ -1133,16 +1091,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 				"contributions", null, 0, -1, ContributionInstruction.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED,
 				IS_ORDERED);
-
-		initEClass(externalContentReferenceEClass, ExternalContentReference.class,
-				"ExternalContentReference", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getExternalContentReference_ExternalContent(),
-				theCompilerPackage.getExternalContent(), null, "externalContent", null, 0, 1,
-				ExternalContentReference.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
-				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getExternalContentReference_MarkedAsMerged(), ecorePackage.getEBoolean(),
-				"markedAsMerged", null, 0, 1, ExternalContentReference.class, !IS_TRANSIENT, !IS_VOLATILE,
-				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(affectationOperatorEEnum, AffectationOperator.class, "AffectationOperator");

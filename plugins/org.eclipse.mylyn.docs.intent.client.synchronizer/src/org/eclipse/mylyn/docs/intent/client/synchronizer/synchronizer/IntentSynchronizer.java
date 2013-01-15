@@ -37,7 +37,6 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerSta
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.DefaultSynchronizerStrategy;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy;
-import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
@@ -330,13 +329,8 @@ public class IntentSynchronizer {
 						progressMonitor);
 
 				// Step 6 : unloading the external resource
-				try {
-					externalResource.unload();
-					// CHECKSTYLE:OFF
-				} catch (Exception e) {
-					// CHECKSTYLE:ON
-					IntentLogger.getInstance().logError(e);
-				}
+				externalResource.unload();
+
 				// Step 7 : we ask the generated element listener to listen to the external Resource
 				updateSynchronizedElementsListeners(externalResource.getURI());
 			}

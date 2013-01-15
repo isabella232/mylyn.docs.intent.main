@@ -38,7 +38,6 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
@@ -187,8 +186,7 @@ public final class SynchronizerStatusFactory {
 		if (instructionEntries != null) {
 			for (InstructionTraceabilityEntry entry : instructionEntries) {
 				IntentGenericElement instruction = entry.getInstruction();
-				if (instruction instanceof InstanciationInstruction
-						|| instruction instanceof ResourceDeclaration) {
+				if (instruction instanceof InstanciationInstruction) {
 					return instruction;
 				}
 			}

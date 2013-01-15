@@ -14,10 +14,8 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.SyncStatusUpdater;
 
@@ -48,26 +46,17 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 	@Override
 	protected void applyFix(final RepositoryAdapter repositoryAdapter, IntentEditorDocument document) {
 		EObject modelingUnit = syncAnnotation.getCompilationStatus().getTarget();
-		if (modelingUnit instanceof ExternalContentReference) {
-			repositoryAdapter.execute(new IntentCommand() {
 
-				public void execute() {
-					((ExternalContentReference)syncAnnotation.getCompilationStatus().getTarget())
-							.setMarkedAsMerged(true);
-				}
-			});
-		} else {
-			// TODO purpose new modeling unit creation
-			while (modelingUnit != null && !(modelingUnit instanceof ModelingUnit)) {
-				modelingUnit = modelingUnit.eContainer();
-			}
+		// TODO purpose new modeling unit creation
+		while (modelingUnit != null && !(modelingUnit instanceof ModelingUnit)) {
+			modelingUnit = modelingUnit.eContainer();
+		}
 
-			if (modelingUnit != null) {
-				SyncStatusUpdater updater = new SyncStatusUpdater(repositoryAdapter);
-				updater.fixSynchronizationStatus((SynchronizerCompilationStatus)syncAnnotation
-						.getCompilationStatus());
-				((IntentEditorDocument)document).reloadFromAST();
-			}
+		if (modelingUnit != null) {
+			SyncStatusUpdater updater = new SyncStatusUpdater(repositoryAdapter);
+			updater.fixSynchronizationStatus((SynchronizerCompilationStatus)syncAnnotation
+					.getCompilationStatus());
+			((IntentEditorDocument)document).reloadFromAST();
 		}
 	}
 

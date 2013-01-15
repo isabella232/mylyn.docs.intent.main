@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Localization: plugin
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.client.compiler;singleton:=true
+Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.client.compiler
 Bundle-Version: 0.8.0.qualifier
 Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.emf.common;bundle-version="2.6.0",
