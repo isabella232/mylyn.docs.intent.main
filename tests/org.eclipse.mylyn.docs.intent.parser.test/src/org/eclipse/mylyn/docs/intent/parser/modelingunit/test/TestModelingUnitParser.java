@@ -214,6 +214,15 @@ public class TestModelingUnitParser {
 	public void modelingAndResource() {
 		parseAndCompareToExpected("simpleTests/ModelingAndResource", true);
 	}
+
+	/**
+	 * Tests that {@link org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference} are
+	 * correctly parsed.
+	 */
+	@Test
+	public void externalReferencesParsing() {
+		parseAndCompareToExpected("simpleTests/ExternalContentReferences", true);
+	}
 	// @Test
 	// public void testDiagnostic() {
 	//

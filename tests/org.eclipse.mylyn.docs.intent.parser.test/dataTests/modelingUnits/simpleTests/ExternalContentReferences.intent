@@ -1,0 +1,4 @@
+@M
+	@ref "platform:/resource/myproject/myecore.ecore"
+	@ref "platform:/resource/myproject/myecore.ecore#//c1"
+M@

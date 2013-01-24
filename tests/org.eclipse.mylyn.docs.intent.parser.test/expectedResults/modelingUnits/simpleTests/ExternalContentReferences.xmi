@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<intentMU:ModelingUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.7">
+  <instructions xmi:type="intentMU:ExternalContentReference" lineBreak="true" uri="platform:/resource/myproject/myecore.ecore"/>
+  <instructions xmi:type="intentMU:ExternalContentReference" lineBreak="true" uri="platform:/resource/myproject/myecore.ecore#//c1"/>
+</intentMU:ModelingUnit>

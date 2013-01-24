@@ -325,5 +325,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ContributionInstruction/contributionReference"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ContributionInstruction/contributions"/>
     </genClasses>
+    <genClasses ecoreClass="modelingUnit.ecore#//ExternalContentReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference modelingUnit.ecore#//ExternalContentReference/externalContent"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute modelingUnit.ecore#//ExternalContentReference/markedAsMerged"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

@@ -165,36 +165,31 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	private EClass featureToAffectationEntryEClass = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EClass resourceChangeStatusEClass = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EClass modelElementChangeStatusEClass = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EClass structuralFeatureChangeStatusEClass = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EClass referenceChangeStatusEClass = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EClass attributeChangeStatusEClass = null;
@@ -224,8 +219,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	private EEnum synchronizerResourceStateEEnum = null;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	private EEnum synchronizerChangeStateEEnum = null;
@@ -833,8 +827,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EClass getResourceChangeStatus() {
@@ -842,8 +835,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getResourceChangeStatus_WorkingCopyResourceState() {
@@ -851,8 +843,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getResourceChangeStatus_CompiledResourceState() {
@@ -860,8 +851,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EClass getModelElementChangeStatus() {
@@ -869,8 +859,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getModelElementChangeStatus_ChangeState() {
@@ -878,8 +867,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EReference getModelElementChangeStatus_CompiledParent() {
@@ -887,8 +875,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EReference getModelElementChangeStatus_CompiledElement() {
@@ -896,8 +883,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getModelElementChangeStatus_WorkingCopyParentURIFragment() {
@@ -905,8 +891,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getModelElementChangeStatus_WorkingCopyElementURIFragment() {
@@ -914,8 +899,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EClass getStructuralFeatureChangeStatus() {
@@ -923,8 +907,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getStructuralFeatureChangeStatus_ChangeState() {
@@ -932,8 +915,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getStructuralFeatureChangeStatus_FeatureName() {
@@ -941,8 +923,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EReference getStructuralFeatureChangeStatus_CompiledElement() {
@@ -950,8 +931,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getStructuralFeatureChangeStatus_WorkingCopyElementURIFragment() {
@@ -959,8 +939,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EClass getReferenceChangeStatus() {
@@ -968,8 +947,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EReference getReferenceChangeStatus_CompiledTarget() {
@@ -977,8 +955,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EAttribute getReferenceChangeStatus_WorkingCopyTargetURIFragment() {
@@ -986,8 +963,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EClass getAttributeChangeStatus() {
@@ -1043,8 +1019,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EEnum getSynchronizerChangeState() {

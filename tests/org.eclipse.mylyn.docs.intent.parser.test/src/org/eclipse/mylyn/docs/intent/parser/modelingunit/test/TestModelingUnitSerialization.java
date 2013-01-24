@@ -124,4 +124,13 @@ public class TestModelingUnitSerialization {
 		parseAndCompareSerializationToExpected("qualifiedNames/qualifiedName", true);
 		parseAndCompareSerializationToExpected("qualifiedNames/qualifiedNameNewInstance", true);
 	}
+
+	/**
+	 * Tests that {@link org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference} are
+	 * correctly serialized.
+	 */
+	@Test
+	public void testExternalContentReferencesSerialization() {
+		parseAndCompareSerializationToExpected("simpleTests/ExternalContentReferences", true);
+	}
 }

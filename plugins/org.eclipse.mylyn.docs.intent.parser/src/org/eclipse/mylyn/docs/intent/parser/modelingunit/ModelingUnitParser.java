@@ -31,6 +31,11 @@ public interface ModelingUnitParser {
 	String MODELING_UNIT_SUFFIX = "M@";
 
 	/**
+	 * Keyword for declaring external content references.
+	 */
+	String EXTERNAL_CONTENT_REFERENCE = "@ref";
+
+	/**
 	 * Parse the given String and return its AST.
 	 * 
 	 * @param rootOffset

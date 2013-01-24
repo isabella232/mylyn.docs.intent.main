@@ -26,6 +26,7 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
@@ -52,6 +53,8 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils.ModelingUn
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class ModelingUnitParserImpl implements ModelingUnitParser {
+
+	private static final String QUOTE = "\"";
 
 	/**
 	 * Common expression for literals.
@@ -144,6 +147,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 		manager.addAllContent(getIntentSectionReferencesinModelingUnit(stringToParse));
 		manager.addAllContent(getAnnotationDeclarations(stringToParse));
 		manager.addAllContent(getLabelsinModelingUnit(stringToParse));
+		manager.addAllContent(getExternalContentReferencesInModelingUnit(stringToParse));
 		manager.validateContent(stringToParse, startOffset, endOffset, rootOffset);
 
 		modelingUnit.getInstructions().addAll(manager.getContent().values());
@@ -350,9 +354,9 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			IntentReferenceinModelingUnit ref = ModelingUnitFactory.eINSTANCE
 					.createIntentReferenceinModelingUnit();
 			ref.setLineBreak(true); // fixed by default
-			ref.setIntentHref(matcher.group(1).replaceAll("\"", ""));
+			ref.setIntentHref(matcher.group(1).replaceAll(QUOTE, ""));
 			if (matcher.group(3) != null) {
-				ref.setTextToPrint(matcher.group(3).replaceAll("\"", ""));
+				ref.setTextToPrint(matcher.group(3).replaceAll(QUOTE, ""));
 			}
 
 			res.put(new Location(matcher.start(), matcher.end()), ref);
@@ -417,6 +421,29 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 					instance.getMap().put(entryMatcher.group(1), entryMatcher.group(2));
 				}
 			}
+
+			res.put(new Location(matcher.start(), matcher.end()), instance);
+		}
+		return res;
+	}
+
+	/**
+	 * Detects and instantiates {@link ExternalContentReference} occurrences in the given string.
+	 * 
+	 * @param string
+	 *            the string to analyze
+	 * @return the map of occurrences found by start offset
+	 */
+	private Map<Location, UnitInstruction> getExternalContentReferencesInModelingUnit(String string) {
+		Map<Location, UnitInstruction> res = new HashMap<Location, UnitInstruction>();
+		Pattern pattern = Pattern.compile(EXTERNAL_CONTENT_REFERENCE + "\\s+" + STRING_WITH_QUOTES_REGEX); //$NON-NLS-1$ //$NON-NLS-2$
+		Matcher matcher = pattern.matcher(string);
+		while (matcher.find()) {
+			ExternalContentReference instance = ModelingUnitFactory.eINSTANCE
+					.createExternalContentReference();
+
+			instance.setLineBreak(true); // fixed by default
+			instance.setUri(matcher.group(1).replace(QUOTE, ""));
 
 			res.put(new Location(matcher.start(), matcher.end()), instance);
 		}
