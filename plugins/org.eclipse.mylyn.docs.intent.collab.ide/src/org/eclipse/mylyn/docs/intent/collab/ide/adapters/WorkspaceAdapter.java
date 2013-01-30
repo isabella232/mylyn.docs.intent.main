@@ -245,6 +245,9 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 					saveException = new SaveException(e.getMessage());
 				} catch (InterruptedException e) {
 					throw new SaveException(e.getMessage());
+				} catch (UnsupportedOperationException e) {
+					// Silently removing resource : it is not saveable
+					this.repository.getResourceSet().getResources().remove(resource);
 				}
 
 			}

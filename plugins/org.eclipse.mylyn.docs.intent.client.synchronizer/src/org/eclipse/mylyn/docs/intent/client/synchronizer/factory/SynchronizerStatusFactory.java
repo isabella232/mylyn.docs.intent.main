@@ -33,11 +33,13 @@ import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
@@ -186,7 +188,8 @@ public final class SynchronizerStatusFactory {
 		if (instructionEntries != null) {
 			for (InstructionTraceabilityEntry entry : instructionEntries) {
 				IntentGenericElement instruction = entry.getInstruction();
-				if (instruction instanceof InstanciationInstruction) {
+				if (instruction instanceof InstanciationInstruction
+						|| instruction instanceof ResourceDeclaration) {
 					return instruction;
 				}
 			}
@@ -209,29 +212,34 @@ public final class SynchronizerStatusFactory {
 	 */
 	private static IntentGenericElement getInstructionFromAffectation(TraceabilityIndexEntry indexEntry,
 			EObject compiledElement, EStructuralFeature feature, Object diffValue) {
-		EList<InstructionTraceabilityEntry> instructionEntries = indexEntry
-				.getContainedElementToInstructions().get(compiledElement);
-		if (instructionEntries != null) {
-			for (InstructionTraceabilityEntry entry : instructionEntries) {
-				EList<ValueForStructuralFeature> values = entry.getFeatures().get(feature.getName());
-				if (values != null) {
-					for (ValueForStructuralFeature value : values) {
-						Object compiledValue = getCompiledValue(indexEntry, value);
-						boolean isNativeValueEquals = value instanceof NativeValueForStructuralFeature
-								&& diffValue != null && diffValue.toString().equals(compiledValue);
-						boolean isRefValue = value instanceof ReferenceValueForStructuralFeature
-								|| value instanceof NewObjectValueForStructuralFeature;
-						boolean refValueEquals = (diffValue == null && compiledValue == null)
-								|| (diffValue != null && diffValue.equals(compiledValue));
-						boolean isRefValueEquals = isRefValue && refValueEquals;
-						if (isNativeValueEquals || isRefValueEquals) {
-							return value;
+		IntentGenericElement instruction = null;
+		if (indexEntry.getResourceDeclaration() instanceof ExternalContentReference) {
+			instruction = indexEntry.getResourceDeclaration();
+		} else {
+			EList<InstructionTraceabilityEntry> instructionEntries = indexEntry
+					.getContainedElementToInstructions().get(compiledElement);
+			if (instructionEntries != null) {
+				for (InstructionTraceabilityEntry entry : instructionEntries) {
+					EList<ValueForStructuralFeature> values = entry.getFeatures().get(feature.getName());
+					if (values != null) {
+						for (ValueForStructuralFeature value : values) {
+							Object compiledValue = getCompiledValue(indexEntry, value);
+							boolean isNativeValueEquals = value instanceof NativeValueForStructuralFeature
+									&& diffValue != null && diffValue.toString().equals(compiledValue);
+							boolean isRefValue = value instanceof ReferenceValueForStructuralFeature
+									|| value instanceof NewObjectValueForStructuralFeature;
+							boolean refValueEquals = (diffValue == null && compiledValue == null)
+									|| (diffValue != null && diffValue.equals(compiledValue));
+							boolean isRefValueEquals = isRefValue && refValueEquals;
+							if (isNativeValueEquals || isRefValueEquals) {
+								return value;
+							}
 						}
 					}
 				}
 			}
 		}
-		return null;
+		return instruction;
 	}
 
 	/**

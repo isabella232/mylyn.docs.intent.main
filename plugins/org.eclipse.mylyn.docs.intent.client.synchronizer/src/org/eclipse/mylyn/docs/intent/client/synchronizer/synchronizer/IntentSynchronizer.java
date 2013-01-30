@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.cdo.util.InvalidURIException;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -37,6 +37,8 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerSta
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.DefaultSynchronizerStrategy;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
@@ -318,18 +320,26 @@ public class IntentSynchronizer {
 						externalResource);
 				Resource rightResource = synchronizerStrategy.getRightResource(internalResource,
 						externalResource);
+				try {
+					List<Diff> differences = null;
+					stopIfCanceled(progressMonitor);
+					differences = compareResource(indexEntry, leftResource, rightResource);
 
-				List<Diff> differences = null;
-				stopIfCanceled(progressMonitor);
-				differences = compareResource(leftResource, rightResource);
+					stopIfCanceled(progressMonitor);
+					// Step 5 : creating status from the Diff
+					statusList = createSynchronizerSatusListFromComparison(indexEntry, differences,
+							progressMonitor);
 
-				stopIfCanceled(progressMonitor);
-				// Step 5 : creating status from the Diff
-				statusList = createSynchronizerSatusListFromComparison(indexEntry, differences,
-						progressMonitor);
-
-				// Step 6 : unloading the external resource
-				externalResource.unload();
+					// Step 6 : unloading the external resource
+				} finally {
+					try {
+						externalResource.unload();
+						// CHECKSTYLE:OFF
+					} catch (Exception e) {
+						// CHECKSTYLE:ON
+						IntentLogger.getInstance().logError(e);
+					}
+				}
 
 				// Step 7 : we ask the generated element listener to listen to the external Resource
 				updateSynchronizedElementsListeners(externalResource.getURI());
@@ -369,7 +379,7 @@ public class IntentSynchronizer {
 		// Step 2 : if no synchronizer extensions is define for the given URI, then we notify the generated
 		// elements listener
 		if (!foundSpecificSynchronizer && this.defaultSynchronizedElementListener != null) {
-			this.defaultSynchronizedElementListener.addElementToListen(uri);
+			this.defaultSynchronizedElementListener.addElementToListen(uri.trimFragment());
 		}
 
 	}
@@ -472,6 +482,8 @@ public class IntentSynchronizer {
 				resource = null;
 			} catch (InvalidURIException e) {
 				resource = null;
+			} catch (IllegalArgumentException e) {
+				resource = null;
 			}
 		}
 		return resource;
@@ -480,6 +492,8 @@ public class IntentSynchronizer {
 	/**
 	 * Compares the roots of the given resources and return a list of differences.
 	 * 
+	 * @param indexEntry
+	 *            the index entry declaring the left & right resources
 	 * @param leftResource
 	 *            the <i>"left"</i> resource of the two resources to get compared.
 	 * @param rightResource
@@ -489,17 +503,32 @@ public class IntentSynchronizer {
 	 * @throws InterruptedException
 	 *             if the comparison is interrupted
 	 */
-	private List<Diff> compareResource(Resource leftResource, Resource rightResource)
-			throws InterruptedException {
+	private List<Diff> compareResource(TraceabilityIndexEntry indexEntry, Resource leftResource,
+			Resource rightResource) throws InterruptedException {
+		List<Diff> differences = Lists.newArrayList();
 		try {
-			Comparison comparison = EMFCompareUtils.compare(leftResource, rightResource);
-			return comparison.getDifferences();
+
+			URI workingCopyResourceURI = URI.createURI(indexEntry.getResourceDeclaration().getUri()
+					.toString());
+			Notifier leftTarget = leftResource;
+			Notifier rightTarget = rightResource;
+			// If we are synchronizing the whole resource
+			if (workingCopyResourceURI.hasFragment()) {
+				leftTarget = leftResource.getContents().iterator().next();
+				rightTarget = rightResource.getEObject(workingCopyResourceURI.fragment());
+			}
+			if (leftTarget != null && rightTarget != null) {
+				differences.addAll(EMFCompareUtils.compare(leftTarget, rightTarget).getDifferences());
+			} else {
+				IntentLogger.getInstance().log(LogType.ERROR,
+						"Could not synchronize resource " + workingCopyResourceURI + ": resource was null");
+			}
 			// CHECKSTYLE:OFF
 		} catch (Exception e) {
 			// CHECKSTYLE :ON
-			// TODO create a Status which has the left resource has target
-			return new ArrayList<Diff>();
+			IntentLogger.getInstance().logError(e);
 		}
+		return differences;
 
 	}
 

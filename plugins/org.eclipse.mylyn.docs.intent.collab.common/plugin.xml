@@ -3,12 +3,20 @@
 <plugin>
    <extension-point id="intentlogger" name="org.eclipse.mylyn.docs.intent.collab.common.intentlogger" schema="schema/intentlogger.exsd"/>
    <extension-point id="repositorymanagercontribution" name="org.eclipse.mylyn.docs.intent.collab.common.repositorymanagercontribution" schema="schema/repositorymanagerextension.exsd"/>
+   <extension-point id="intentresourceinitializer" name="org.eclipse.mylyn.docs.intent.collab.common.intentresourceinitializer" schema="schema/intentresourceinitializer.exsd"/>
    <extension
          point="org.eclipse.emf.ecore.protocol_parser">
       <parser
             class="org.eclipse.mylyn.docs.intent.collab.common.uri.IntentResourceFactory"
             protocolName="intent">
       </parser>
+   </extension>
+   <extension
+         point="org.eclipse.mylyn.docs.intent.collab.common.intentresourceinitializer">
+      <IntentResourceInitializer
+            class="org.eclipse.mylyn.docs.intent.collab.common.internal.repository.contribution.EcoreIntentResourceInitializer"
+            file_extension="ecore">
+      </IntentResourceInitializer>
    </extension>
 
 </plugin>

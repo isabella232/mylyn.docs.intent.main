@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler;
 
+import com.google.common.collect.Sets;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -350,7 +352,7 @@ public class ModelingUnitCompiler {
 	 *            if true, only EPackages are validated / registered. Otherwise EPackages are ignored
 	 */
 	private void validateGeneratedElements(boolean validateOnlyEPackages) {
-		for (EObject generatedElement : informationHolder.getCurrentCreatedElements()) {
+		for (EObject generatedElement : Sets.newLinkedHashSet(informationHolder.getCurrentCreatedElements())) {
 			if (validateOnlyEPackages && generatedElement instanceof EPackage) {
 				EPackage ePackage = (EPackage)generatedElement;
 				UnitInstruction instanciation = informationHolder

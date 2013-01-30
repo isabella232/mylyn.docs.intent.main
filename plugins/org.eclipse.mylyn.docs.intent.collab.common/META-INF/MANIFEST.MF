@@ -10,7 +10,8 @@ Export-Package: org.eclipse.mylyn.docs.intent.collab.common,
  org.eclipse.mylyn.docs.intent.collab.common.logger,
  org.eclipse.mylyn.docs.intent.collab.common.query,
  org.eclipse.mylyn.docs.intent.collab.common.repository,
- org.eclipse.mylyn.docs.intent.collab.common.repository.contribution
+ org.eclipse.mylyn.docs.intent.collab.common.repository.contribution,
+ org.eclipse.mylyn.docs.intent.collab.common.uri
 Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.mylyn.docs.intent.collab,
  com.google.guava;bundle-version="[10.0.1,11.0.0)",

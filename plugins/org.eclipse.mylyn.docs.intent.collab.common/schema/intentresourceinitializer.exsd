@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.mylyn.docs.intent.collab.common" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.mylyn.docs.intent.collab.common" id="intentresourceinitializer" name="intentresourceinitializer"/>
+      </appinfo>
+      <documentation>
+         This extension point allows to contribution an IIntentResourceInitializer, that will be called when having to initialize the content of a resource created through an Intent URI.
+
+For example, if user declares an external reference @ref &quot;intent:/intentProject/model.ecore&quot;, then the {@link IIntentResourceInitializer} associated to the &apos;ecore&apos; extension will be called and will create an empty EPackage.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="IntentResourceInitializer"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="IntentResourceInitializer">
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.mylyn.docs.intent.collab.common.uri.IIntentResourceInitializer"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="file_extension" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         See how the org.eclipse.mylyn.docs.intent.collab.common plugin defines the ECoreIntentResourceInitializer.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="copyright"/>
+      </appinfo>
+      <documentation>
+         Copyright (c) 2010, 2011 Obeo, France.
+All rights reserved. This program and the accompanying materials 
+are made available under the terms of the Eclipse Public License v1.0 
+which accompanies this distribution, and is available at 
+http://www.eclipse.org/legal/epl-v10.html 
+
+Contributors: 
+   Obeo - initial API and implementation
+      </documentation>
+   </annotation>
+
+</schema>

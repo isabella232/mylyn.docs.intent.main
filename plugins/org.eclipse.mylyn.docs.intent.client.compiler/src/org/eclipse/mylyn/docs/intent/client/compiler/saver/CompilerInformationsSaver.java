@@ -380,11 +380,18 @@ public class CompilerInformationsSaver {
 			resourcePath = ((String)resource.getUri()).replace("\"", "");
 			// we get the last Segment of this URI to compute the internal path
 			if (resourcePath.contains("/")) {
-				resourcePath = resourcePath.substring(resourcePath.lastIndexOf('/') + 1);
+				if (resourcePath.contains("#")) {
+					String pathWithoutFragment = resourcePath.substring(0, resourcePath.lastIndexOf('#'));
+					resourcePath = pathWithoutFragment.substring(pathWithoutFragment.lastIndexOf('/') + 1)
+							+ "_"
+							+ resourcePath.substring(resourcePath.lastIndexOf('#') + 1).replace("/", "@");
+				} else {
+					resourcePath = resourcePath.substring(resourcePath.lastIndexOf('/') + 1);
+				}
 			}
 		}
 		// Removing invalid characters
-		resourcePath = resourcePath.replace("*", "").replace("?", "");
+		resourcePath = resourcePath.replace("*", "").replace("?", "-");
 		resourcePath = IntentLocations.GENERATED_RESOURCES_FOLDER_PATH + resourcePath;
 		return resourcePath;
 	}
@@ -396,7 +403,7 @@ public class CompilerInformationsSaver {
 	 * @param statusList
 	 *            the list of status to inspect
 	 * @param status
-	 *            the status which we want to know wether is contained in this list or not
+	 *            the status which we want to know whether is contained in this list or not
 	 * @return true if the given status is contained in the given list, false otherwise
 	 */
 	private boolean isContainedCompilationStatus(EList<CompilationStatus> statusList, CompilationStatus status) {

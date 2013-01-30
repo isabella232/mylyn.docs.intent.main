@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.collab.common;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.mylyn.docs.intent.collab.common.internal.logger.IntentLoggerRegistryListener;
 import org.eclipse.mylyn.docs.intent.collab.common.internal.repository.contribution.IntentRepositoryManagerContributionRegistryListener;
+import org.eclipse.mylyn.docs.intent.collab.common.internal.uri.contribution.IntentResourceInitializerRegistryListener;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -26,6 +27,8 @@ public class IntentRepositoryActivator extends Plugin {
 
 	private IntentRepositoryManagerContributionRegistryListener repositoryContributionsRegistryListener = new IntentRepositoryManagerContributionRegistryListener();
 
+	private IntentResourceInitializerRegistryListener resourceInitializerRegistryListener = new IntentResourceInitializerRegistryListener();
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -38,6 +41,7 @@ public class IntentRepositoryActivator extends Plugin {
 		// Initializing registry listener for all extension points
 		loggerRegistryListener.init();
 		repositoryContributionsRegistryListener.init();
+		resourceInitializerRegistryListener.init();
 	}
 
 	/**
@@ -47,10 +51,10 @@ public class IntentRepositoryActivator extends Plugin {
 	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
-		// Initializing registry listener for all extension points
+		// Disposing registry listener for all extension points
 		loggerRegistryListener.dispose();
 		repositoryContributionsRegistryListener.dispose();
-
+		resourceInitializerRegistryListener.dispose();
 		super.stop(context);
 	}
 }

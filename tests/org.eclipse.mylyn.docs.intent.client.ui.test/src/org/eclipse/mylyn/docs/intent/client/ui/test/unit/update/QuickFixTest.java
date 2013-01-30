@@ -14,9 +14,6 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
-import org.eclipse.mylyn.docs.intent.client.ui.test.util.AnnotationUtils;
 import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 
 /**
@@ -76,27 +73,6 @@ public class QuickFixTest extends AbstractUpdateTest {
 		fixIssue("C has been added to reference eSuperTypes : EClass in B -> A, D");
 
 		checkDocumentValidity(FINAL_INTENT_DOC);
-	}
-
-	/**
-	 * Fix the issue associated to the given message.
-	 * 
-	 * @param message
-	 *            the annotation message
-	 */
-	private void fixIssue(String message) {
-		for (IntentAnnotation annotation : AnnotationUtils.getIntentAnnotations(editor,
-				IntentAnnotationMessageType.SYNC_WARNING)) {
-			if (annotation.getText().equals(message)) {
-				AnnotationUtils.applyAnnotationFix(document, repositoryAdapter, annotation, 1);
-				editor.doSave(new NullProgressMonitor());
-				waitForCompiler();
-				waitForSynchronizer();
-				return;
-			}
-		}
-		AnnotationUtils.displayAnnotations(editor);
-		fail("Annotation not found: " + message);
 	}
 
 }

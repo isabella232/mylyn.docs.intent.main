@@ -16,6 +16,9 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.EMFCompare;
 import org.eclipse.emf.compare.EMFCompare.Builder;
+import org.eclipse.emf.compare.diff.DefaultDiffEngine;
+import org.eclipse.emf.compare.diff.DiffBuilder;
+import org.eclipse.emf.compare.diff.FeatureFilter;
 import org.eclipse.emf.compare.match.DefaultComparisonFactory;
 import org.eclipse.emf.compare.match.DefaultEqualityHelperFactory;
 import org.eclipse.emf.compare.match.DefaultMatchEngine;
@@ -57,10 +60,6 @@ public final class EMFCompareUtils {
 	 */
 	public static Comparison compare(Notifier left, Notifier right) {
 		IntentComparisonScope scope = new IntentComparisonScope(left, right);
-		scope.setEObjectContentFilter(Predicates.not(Predicates.or(
-				Predicates.instanceOf(CompilationStatus.class),
-				Predicates.instanceOf(SynchronizerCompilationStatus.class))));
-
 		Builder builder = EMFCompare.builder();
 		builder.setMatchEngine(DefaultMatchEngine.create(UseIdentifiers.NEVER));
 		return builder.build().compare(scope);
@@ -92,6 +91,12 @@ public final class EMFCompareUtils {
 		IMatchEngine matchEngine = new DefaultMatchEngine(matcher, comparisonFactory);
 
 		Builder builder = EMFCompare.builder();
+		builder.setDiffEngine(new DefaultDiffEngine(new DiffBuilder()) {
+			@Override
+			protected FeatureFilter createFeatureFilter() {
+				return new IntentFeatureFilter();
+			}
+		});
 		builder.setMatchEngine(matchEngine);
 		return builder.build().compare(scope);
 	}

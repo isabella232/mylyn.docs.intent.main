@@ -111,7 +111,7 @@ public final class IntentCompilerInformationHolder {
 	 * @param createdElement
 	 *            the element to register
 	 */
-	private void addCreatedElementsToCurrentList(UnitInstruction instruction, EObject createdElement) {
+	public void addCreatedElementsToCurrentList(UnitInstruction instruction, EObject createdElement) {
 		if (createdElement != null) {
 			this.getCurrentCreatedElements().add(createdElement);
 			BasicEList<UnitInstruction> unitInstructions = new BasicEList<UnitInstruction>();

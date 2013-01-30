@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Diff;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jface.text.source.Annotation;
@@ -26,12 +25,10 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix.UpdateModelingUnitFix;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-import org.eclipse.mylyn.docs.intent.modelingunit.update.SyncStatusUpdater;
-import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 /**
  * Provide utilities to ease annotations manipulation.
@@ -176,27 +173,7 @@ public final class AnnotationUtils {
 	 */
 	public static void applyAnnotationFix(IntentEditorDocument document, RepositoryAdapter repositoryAdapter,
 			IntentAnnotation syncAnnotation, int index) {
-		// NOTE: similar to
-		// org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix.UpdateModelingUnitFix.applyFix(RepositoryAdapter,
-		// IntentEditorDocument)
-
-		EObject modelingUnit = syncAnnotation.getCompilationStatus().getTarget();
-
-		while (modelingUnit != null && !(modelingUnit instanceof ModelingUnit)) {
-			modelingUnit = modelingUnit.eContainer();
-		}
-
-		if (modelingUnit != null) {
-			SyncStatusUpdater updater = new SyncStatusUpdater(repositoryAdapter);
-			updater.fixSynchronizationStatus((SynchronizerCompilationStatus)syncAnnotation
-					.getCompilationStatus());
-			document.reloadFromAST();
-		}
-
-		// FIXME WORKAROUND
-		// workaround issue when applying quick fixes : editor doesn't reflect modifications
-		document.set(new IntentSerializer().serialize((EObject)document.getAST()));
-		// END WORKAROUND
+		new UpdateModelingUnitFix(syncAnnotation).apply(document);
 	}
 
 	/**

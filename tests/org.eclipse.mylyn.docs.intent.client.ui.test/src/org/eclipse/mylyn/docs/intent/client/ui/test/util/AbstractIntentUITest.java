@@ -36,6 +36,9 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
@@ -563,6 +566,31 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			// fail silently
 		}
 		waitForAllOperationsInUIThread();
+	}
+
+	/**
+	 * Fixes the issue associated to the Intent annotation with the given message using the quickfix.
+	 * 
+	 * @param message
+	 *            the annotation message
+	 * @param editor
+	 *            the editor containing the annotation to search
+	 * @param document
+	 *            the editor's {@link IntentEditorDocument}
+	 */
+	protected void fixIssueUsingQuickFix(IntentEditor editor, IntentEditorDocument document, String message) {
+		for (IntentAnnotation annotation : AnnotationUtils.getIntentAnnotations(editor,
+				IntentAnnotationMessageType.SYNC_WARNING)) {
+			if (annotation.getText().equals(message)) {
+				AnnotationUtils.applyAnnotationFix(document, repositoryAdapter, annotation, 1);
+				editor.doSave(new NullProgressMonitor());
+				waitForCompiler();
+				waitForSynchronizer();
+				return;
+			}
+		}
+		AnnotationUtils.displayAnnotations(editor);
+		fail("Annotation not found: " + message);
 	}
 
 	/**

@@ -69,4 +69,14 @@ public class AbstractUpdateTest extends AbstractZipBasedTest {
 		assertTrue(annotations.isEmpty());
 	}
 
+	/**
+	 * Fixes the issue associated to the Intent annotation with the given message using the quickfix.
+	 * 
+	 * @param message
+	 *            the annotation message
+	 */
+	protected void fixIssue(String message) {
+		fixIssueUsingQuickFix(editor, document, message);
+	}
+
 }

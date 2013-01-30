@@ -23,6 +23,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.refresher.RefresherTest
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentRepositoryStructurerTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentURITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.CompilerNotificationsTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.ExternalContentReferencesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
@@ -116,6 +117,7 @@ public class IntentPluginTestSuite extends TestCase {
 		scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
 		scenarioSuite.addTestSuite(IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest.class);
 		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
+		scenarioSuite.addTestSuite(ExternalContentReferencesTest.class);
 		return scenarioSuite;
 	}
 
