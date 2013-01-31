@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<site>   
+<site>
    <feature id="org.eclipse.mylyn.docs.intent.feature" version="0.0.0">
       <category name="mylyn.intent"/>
    </feature>
@@ -8,16 +8,16 @@
    </feature>
    <feature id="org.eclipse.mylyn.docs.intent.markup.feature" version="0.0.0">
       <category name="mylyn.intent"/>
-	</feature>
-	<feature id="org.eclipse.mylyn.docs.intent.retro.feature" version="0.0.0">
-		<category name="mylyn.intent"/>
-	</feature>
-    <feature id="org.eclipse.mylyn.docs.intent.workspace.feature" version="0.0.0">
-		<category name="mylyn.intent"/>
-	</feature>
-	<feature id="org.eclipse.mylyn.docs.intent.cdo.feature" version="0.0.0">
-		<category name="mylyn.intent"/>
-	</feature>
+   </feature>
+   <feature id="org.eclipse.mylyn.docs.intent.workspace.feature" version="0.0.0">
+      <category name="mylyn.intent"/>
+   </feature>
+   <feature id="org.eclipse.mylyn.docs.intent.cdo.feature" version="0.0.0">
+      <category name="mylyn.intent"/>
+   </feature>
+   <feature url="features/org.eclipse.mylyn.docs.intent.bridge.java.feature_0.8.0.qualifier.jar" id="org.eclipse.mylyn.docs.intent.bridge.java.feature" version="0.8.0.qualifier">
+      <category name="mylyn.intent"/>
+   </feature>
    <category-def name="mylyn.intent" label="Mylyn Intent (Incubation)">
       <description>
          Mylyn Intent (Incubation)

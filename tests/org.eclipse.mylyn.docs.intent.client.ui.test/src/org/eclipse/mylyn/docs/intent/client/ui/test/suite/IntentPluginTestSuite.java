@@ -18,6 +18,7 @@ import junit.textui.TestRunner;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.SimpleOrderTests;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.editor.CompletionTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.java.JavaResourceFactoryTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.refresher.RefresherTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentRepositoryStructurerTest;
@@ -63,6 +64,7 @@ public class IntentPluginTestSuite extends TestCase {
 		suite.addTest(uiTestSuite);
 
 		suite.addTest(cdoSuite());
+		suite.addTest(bridgesSuite());
 		return suite;
 	}
 
@@ -147,4 +149,19 @@ public class IntentPluginTestSuite extends TestCase {
 		return updatesSuite;
 	}
 
+	/**
+	 * Bridges-related tests.
+	 * 
+	 * @return the suite
+	 */
+	private static Test bridgesSuite() {
+		final TestSuite bridgesSuite = new TestSuite("Intent Bridges Tests");
+
+		// Java bridge tests
+		final TestSuite javaBridgeSuite = new TestSuite("Java Bridge Tests");
+		javaBridgeSuite.addTestSuite(JavaResourceFactoryTest.class);
+		bridgesSuite.addTest(javaBridgeSuite);
+
+		return bridgesSuite;
+	}
 }

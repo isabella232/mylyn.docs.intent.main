@@ -59,6 +59,8 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 							.setMarkedAsMerged(true);
 				}
 			});
+			// Mark document as dirty
+			document.set(document.get() + " ");
 		} else {
 			// Otherwise, we use the SyncStatusUpdater to update the modeling unit according to the sync.
 			// issue

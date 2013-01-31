@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.mylyn.docs.intent.client.ui.internal.renderers.IEditorRendererExtensionRegistryListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.internal.util.BundleUtility;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -50,6 +51,8 @@ public class IntentEditorActivator extends AbstractUIPlugin {
 	 */
 	private Map<String, Image> imageMap = new HashMap<String, Image>();
 
+	private IEditorRendererExtensionRegistryListener editorRendererExtensionsListener = new IEditorRendererExtensionRegistryListener();
+
 	/**
 	 * IntentEditorActivator constructor.
 	 */
@@ -65,6 +68,8 @@ public class IntentEditorActivator extends AbstractUIPlugin {
 		super.start(context);
 		plugin = this;
 
+		// Initializing registry listener for all extension points
+		editorRendererExtensionsListener.init();
 	}
 
 	/**
@@ -113,8 +118,11 @@ public class IntentEditorActivator extends AbstractUIPlugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
+
+		// Disposing registry listener for all extension points
+		editorRendererExtensionsListener.dispose();
+
 		super.stop(context);
-		plugin = null;
 		Iterator<Image> imageIterator = imageMap.values().iterator();
 		while (imageIterator.hasNext()) {
 			Image image = imageIterator.next();

@@ -60,10 +60,10 @@ public final class ExternalContentReferenceGenerator {
 			URI externalContentResourceURI = URI.createURI(object.getUri().toString().replace("\"", ""));
 
 			// If the resource is internal (i.e. has an intent:/ URI)
-			if (IntentResourceFactory.INTENT_FACTORY_SCHEME.equals(externalContentResourceURI.scheme())) {
+			if (IntentResourceFactory.getIntentFactoryScheme().equals(externalContentResourceURI.scheme())) {
 				// We indicate through the URI that the IntentResourceFactory should create it if needed
 				externalContentResourceURI = URI.createURI(externalContentResourceURI.toString()
-						+ IntentResourceFactory.CREATE_RESOURCE_IF_NEEDED_TAG);
+						+ IntentResourceFactory.getCreateResourceIfNeededTag());
 			}
 			try {
 				object.setMarkedAsMerged(false);
@@ -72,8 +72,7 @@ public final class ExternalContentReferenceGenerator {
 				try {
 					EObject content = null;
 					Copier copier = new Copier(false, true);
-					if (externalContentResourceURI.fragment() != null
-							&& externalContentResourceURI.fragment().length() > 2) {
+					if (externalContentResourceURI.hasFragment()) {
 						content = copier.copy(externalContentResource.getEObject(externalContentResourceURI
 								.fragment()));
 					} else {

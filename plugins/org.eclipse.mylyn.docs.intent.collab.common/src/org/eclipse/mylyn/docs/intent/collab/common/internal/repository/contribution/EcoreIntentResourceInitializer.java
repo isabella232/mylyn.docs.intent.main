@@ -30,8 +30,9 @@ public class EcoreIntentResourceInitializer implements IIntentResourceInitialize
 	 */
 	public EObject getInitialContent(URI emptyResourceURI) {
 		EPackage ePackage = EcoreFactory.eINSTANCE.createEPackage();
-		ePackage.setName(emptyResourceURI.lastSegment());
-		ePackage.setNsPrefix(emptyResourceURI.lastSegment());
+		String defaultPackageName = emptyResourceURI.trimFileExtension().lastSegment();
+		ePackage.setName(defaultPackageName);
+		ePackage.setNsPrefix(defaultPackageName);
 		return ePackage;
 	}
 

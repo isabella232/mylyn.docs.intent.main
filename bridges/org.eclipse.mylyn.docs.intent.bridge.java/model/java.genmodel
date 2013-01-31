@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2010, 2012 Obeo.&#xD;&#xA;All rights reserved. This program and the accompanying materials&#xD;&#xA;are made available under the terms of the Eclipse Public License v1.0&#xD;&#xA;which accompanies this distribution, and is available at&#xD;&#xA;http://www.eclipse.org/legal/epl-v10.html&#xD;&#xA;&#xD;&#xA;Contributors:&#xD;&#xA;    Obeo - initial API and implementation"
+    modelDirectory="/org.eclipse.mylyn.docs.intent.bridge.java/src-gen" editDirectory="/org.eclipse.mylyn.docs.intent.bridge.java.edit/src-gen"
+    modelPluginID="org.eclipse.mylyn.docs.intent.bridge.java" modelName="Java" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>java.ecore</foreignModel>
+  <genPackages prefix="Java" basePackage="org.eclipse.mylyn.docs.intent.bridge" disposableProviderFactory="true"
+      ecorePackage="java.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="java.ecore#//VisibilityKind">
+      <genEnumLiterals ecoreEnumLiteral="java.ecore#//VisibilityKind/PUBLIC"/>
+      <genEnumLiterals ecoreEnumLiteral="java.ecore#//VisibilityKind/PROTECTED"/>
+      <genEnumLiterals ecoreEnumLiteral="java.ecore#//VisibilityKind/PACKAGE"/>
+      <genEnumLiterals ecoreEnumLiteral="java.ecore#//VisibilityKind/PRIVATE"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="java.ecore#//ClassifierKind">
+      <genEnumLiterals ecoreEnumLiteral="java.ecore#//ClassifierKind/CLASS"/>
+      <genEnumLiterals ecoreEnumLiteral="java.ecore#//ClassifierKind/INTERFACE"/>
+      <genEnumLiterals ecoreEnumLiteral="java.ecore#//ClassifierKind/ENUM"/>
+    </genEnums>
+    <genClasses ecoreClass="java.ecore#//Javadoc">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//Javadoc/content"/>
+    </genClasses>
+    <genClasses ecoreClass="java.ecore#//DocumentedElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//DocumentedElement/javadoc"/>
+    </genClasses>
+    <genClasses ecoreClass="java.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//NamedElement/name"/>
+    </genClasses>
+    <genClasses ecoreClass="java.ecore#//VisibleElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//VisibleElement/visibility"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//VisibleElement/static"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//VisibleElement/final"/>
+    </genClasses>
+    <genClasses ecoreClass="java.ecore#//AbstractCapableElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//AbstractCapableElement/abstract"/>
+    </genClasses>
+    <genClasses ecoreClass="java.ecore#//Field">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//Field/type"/>
+    </genClasses>
+    <genClasses ecoreClass="java.ecore#//Classifier">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//Classifier/kind"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//Classifier/extends"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//Classifier/implements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//Classifier/fields"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//Classifier/methods"/>
+    </genClasses>
+    <genClasses ecoreClass="java.ecore#//Method">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//Method/simpleName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//Method/returnType"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference java.ecore#//Method/parameters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//Method/content"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//Method/exceptions"/>
+    </genClasses>
+    <genClasses ecoreClass="java.ecore#//Constructor"/>
+    <genClasses ecoreClass="java.ecore#//Parameter">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute java.ecore#//Parameter/type"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

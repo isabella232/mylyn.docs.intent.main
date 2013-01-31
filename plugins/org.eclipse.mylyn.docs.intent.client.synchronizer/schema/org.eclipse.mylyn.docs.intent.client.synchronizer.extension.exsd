@@ -64,13 +64,6 @@ Each extension must define :
                </appinfo>
             </annotation>
          </attribute>
-         <attribute name="handled_uri_scheme" type="string" use="required">
-            <annotation>
-               <documentation>
-                  The Scheme handled by this SynchronizerExtension
-               </documentation>
-            </annotation>
-         </attribute>
       </complexType>
    </element>
 

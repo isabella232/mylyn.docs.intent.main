@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.internal.contribution.ISynchronizerExtensionDescriptor;
 
 /**
@@ -77,17 +78,17 @@ public final class ISynchronizerExtensionRegistry {
 	}
 
 	/**
-	 * Returns all the registernered synchronizer extensions defined for the given uriScheme.
+	 * Returns all the registered synchronizer extensions defined for the given uri.
 	 * 
-	 * @param uriScheme
-	 *            the uri scheme (for example "cdo", "collab"...).
-	 * @return all the registernered synchronizer extensions defined for the given uriScheme
+	 * @param uri
+	 *            the URI of the element
+	 * @return all the registered synchronizer extensions defined for the given uri
 	 */
-	public static Collection<ISynchronizerExtension> getSynchronizerExtensions(String uriScheme) {
+	public static Collection<ISynchronizerExtension> getSynchronizerExtensions(URI uri) {
 		Set<ISynchronizerExtension> registeredExtensions = Sets.newHashSet();
 		for (Collection<ISynchronizerExtensionDescriptor> extensions : EXTENSIONS.values()) {
 			for (ISynchronizerExtensionDescriptor descriptor : extensions) {
-				if (uriScheme.equals(descriptor.getURIScheme())) {
+				if (descriptor.getSynchronizerExtension().isExtensionFor(uri)) {
 					registeredExtensions.add(descriptor.getSynchronizerExtension());
 				}
 			}

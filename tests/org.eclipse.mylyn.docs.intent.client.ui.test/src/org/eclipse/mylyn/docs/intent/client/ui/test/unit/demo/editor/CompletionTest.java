@@ -179,7 +179,7 @@ public class CompletionTest extends AbstractIntentUITest {
 	}
 
 	private void assertIsExpectedProposalsForEmptyModelingUnit(ICompletionProposal[] proposals) {
-		assertEquals(15, proposals.length);
+		assertEquals(14, proposals.length);
 		assertEquals(TEMPLATE_DESC_RESOURCE, proposals[0].getDisplayString());
 		assertEquals(TEMPLATE_DESC_INST, proposals[1].getDisplayString());
 		for (int i = 2; i < proposals.length; i++) {

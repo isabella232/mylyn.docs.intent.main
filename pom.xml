@@ -80,15 +80,23 @@
     <module>plugins/org.eclipse.mylyn.docs.intent.markup.gen</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.markup.ui</module>
 	
+	<!-- Intent examples -->
+	<module>examples/org.eclipse.mylyn.docs.intent.example.documents</module>
+	<module>examples/org.eclipse.mylyn.docs.intent.example.cdo.server</module>
+	
+	<!-- Intent bridges -->
+	<module>bridges/org.eclipse.mylyn.docs.intent.bridge.java</module>
+	<module>bridges/org.eclipse.mylyn.docs.intent.bridge.java.edit</module>
+	
 	<!-- Intent features -->
     <module>features/org.eclipse.mylyn.docs.intent.update</module>
     <module>features/org.eclipse.mylyn.docs.intent-feature</module>
 	<module>features/org.eclipse.mylyn.docs.intent.cdo-feature</module>
 	<module>features/org.eclipse.mylyn.docs.intent.workspace-feature</module>
     <module>features/org.eclipse.mylyn.docs.intent.markup-feature</module>
-    <module>features/org.eclipse.mylyn.docs.intent.retro-feature</module>
 	<module>features/org.eclipse.mylyn.docs.intent.exporter-feature</module>
-
+	<module>features/org.eclipse.mylyn.docs.intent.bridge.java-feature</module>
+	
 	<!-- Intent tests -->
     <module>tests/org.eclipse.mylyn.docs.intent.parser.test</module>
 	<module>tests/org.eclipse.mylyn.docs.intent.compare.test</module>
@@ -96,11 +104,7 @@
     <module>tests/org.eclipse.mylyn.docs.intent.client.ui.test</module>
 	<module>tests/org.eclipse.mylyn.docs.intent.client.compiler.test</module>	
 	<module>tests/org.eclipse.mylyn.docs.intent.test.server</module>
-
-	<!-- Intent examples -->
-	<module>examples/org.eclipse.mylyn.docs.intent.example.documents</module>
-	<module>examples/org.eclipse.mylyn.docs.intent.example.cdo.server</module>
-    <module>examples/org.eclipse.mylyn.docs.intent.retro</module>
+	
    </modules>
   
   <build>
@@ -320,7 +324,7 @@
       </activation>
   		<repositories>
 			<repository><id>juno</id><layout>p2</layout>
-			   <url>http://download.eclipse.org/releases/juno</url>          
+			   <url>http://download.eclipse.org/releases/juno</url>
 			</repository>
 			<repository><id>platform</id><layout>p2</layout>
 			   <url>http://download.eclipse.org/eclipse/updates/4.2</url>          

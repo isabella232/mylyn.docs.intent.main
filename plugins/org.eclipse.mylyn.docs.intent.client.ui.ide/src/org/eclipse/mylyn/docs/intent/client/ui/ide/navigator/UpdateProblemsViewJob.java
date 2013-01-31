@@ -112,9 +112,12 @@ public class UpdateProblemsViewJob extends Job {
 	private void createMarkerFromStatus(CompilationStatus status) {
 		IMarker marker = null;
 		try {
-			if (project.isAccessible() && !status.eIsProxy() && status.getTarget() != null
-					&& !status.getTarget().eIsProxy() && status.eResource() != null
-					&& status.getTarget().eResource() != null) {
+			boolean statusIsProxy = status.eIsProxy() || status.getTarget() == null
+					|| status.getTarget().eIsProxy();
+			statusIsProxy = statusIsProxy || status.eResource() == null
+					|| status.getTarget().eResource() == null;
+
+			if (project.isAccessible() && !statusIsProxy) {
 				marker = project.createMarker("org.eclipse.core.resources.problemmarker");
 				if (status.getSeverity() == CompilationStatusSeverity.WARNING) {
 					marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);

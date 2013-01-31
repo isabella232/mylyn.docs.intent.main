@@ -46,12 +46,14 @@ public class IntentResourceFactory implements Resource.Factory {
 	/**
 	 * The scheme associated to this resource factory.
 	 */
-	public static String INTENT_FACTORY_SCHEME = "intent";
+	private static final String INTENT_FACTORY_SCHEME = "intent";
 
 	/**
 	 * A tag allowing to indicate through the URI whether resource should be created if it does not exists.
 	 */
-	public static String CREATE_RESOURCE_IF_NEEDED_TAG = "[create]";
+	private static final String CREATE_RESOURCE_IF_NEEDED_TAG = "[create]";
+
+	private static final String SLASH = "/";
 
 	/**
 	 * {@inheritDoc}
@@ -59,8 +61,8 @@ public class IntentResourceFactory implements Resource.Factory {
 	 * @see org.eclipse.emf.ecore.resource.Resource.Factory#createResource(org.eclipse.emf.common.util.URI)
 	 */
 	public Resource createResource(URI uri) {
-		boolean createResourceIFNeeded = uri.toString().endsWith(CREATE_RESOURCE_IF_NEEDED_TAG);
-		URI intentURI = URI.createURI(uri.toString().replace(CREATE_RESOURCE_IF_NEEDED_TAG, ""));
+		boolean createResourceIFNeeded = uri.toString().endsWith(getCreateResourceIfNeededTag());
+		URI intentURI = URI.createURI(uri.toString().replace(getCreateResourceIfNeededTag(), ""));
 		String intentRepositoryIdentifier = extractRepositoryIdentifier(intentURI);
 
 		try {
@@ -168,7 +170,7 @@ public class IntentResourceFactory implements Resource.Factory {
 	 * @return the Intent repository identifier contained in the given {@link URI}
 	 */
 	private String extractRepositoryIdentifier(URI uri) {
-		String[] paths = uri.path().split("/");
+		String[] paths = uri.path().split(SLASH);
 		if (paths.length > 0) {
 			return paths[1];
 		}
@@ -184,17 +186,32 @@ public class IntentResourceFactory implements Resource.Factory {
 	 */
 	private String extractCompiledResourceIdentifier(URI uri) {
 		String uriWithoutFragment = uri.trimFragment().toString();
-		String[] paths = uriWithoutFragment.split("/");
+		String[] paths = uriWithoutFragment.split(SLASH);
 		if (paths.length > 2) {
 			String compiledResourceIdentifier = paths[2];
 			for (int i = 3; i < paths.length; i++) {
 				compiledResourceIdentifier += paths[i];
 			}
 			if (uri.hasFragment()) {
-				compiledResourceIdentifier += "_" + uri.fragment().replace("/", "@");
+				compiledResourceIdentifier += "_" + uri.fragment().replace(SLASH, "@");
 			}
 			return compiledResourceIdentifier;
 		}
 		return "";
+	}
+
+	/**
+	 * Returns the scheme associated to this resource factory.
+	 */
+	public static String getIntentFactoryScheme() {
+		return INTENT_FACTORY_SCHEME;
+	}
+
+	/**
+	 * Returns a tag allowing to indicate through the URI whether resource should be created if it does not
+	 * exists.
+	 */
+	public static String getCreateResourceIfNeededTag() {
+		return CREATE_RESOURCE_IF_NEEDED_TAG;
 	}
 }

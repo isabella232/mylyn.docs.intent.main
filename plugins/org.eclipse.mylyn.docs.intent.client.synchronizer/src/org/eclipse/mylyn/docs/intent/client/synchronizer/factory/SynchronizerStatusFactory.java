@@ -218,22 +218,25 @@ public final class SynchronizerStatusFactory {
 		} else {
 			EList<InstructionTraceabilityEntry> instructionEntries = indexEntry
 					.getContainedElementToInstructions().get(compiledElement);
-			if (instructionEntries != null) {
-				for (InstructionTraceabilityEntry entry : instructionEntries) {
-					EList<ValueForStructuralFeature> values = entry.getFeatures().get(feature.getName());
-					if (values != null) {
-						for (ValueForStructuralFeature value : values) {
-							Object compiledValue = getCompiledValue(indexEntry, value);
-							boolean isNativeValueEquals = value instanceof NativeValueForStructuralFeature
-									&& diffValue != null && diffValue.toString().equals(compiledValue);
-							boolean isRefValue = value instanceof ReferenceValueForStructuralFeature
-									|| value instanceof NewObjectValueForStructuralFeature;
-							boolean refValueEquals = (diffValue == null && compiledValue == null)
-									|| (diffValue != null && diffValue.equals(compiledValue));
-							boolean isRefValueEquals = isRefValue && refValueEquals;
-							if (isNativeValueEquals || isRefValueEquals) {
-								return value;
-							}
+			if (instructionEntries == null) {
+				return null;
+			}
+
+			for (InstructionTraceabilityEntry entry : instructionEntries) {
+				EList<ValueForStructuralFeature> values = entry.getFeatures().get(feature.getName());
+				if (values != null) {
+					for (ValueForStructuralFeature value : values) {
+						Object compiledValue = getCompiledValue(indexEntry, value);
+						boolean isNativeValueEquals = value instanceof NativeValueForStructuralFeature
+								&& diffValue != null && diffValue.toString().equals(compiledValue);
+						boolean isRefValue = value instanceof ReferenceValueForStructuralFeature
+								|| value instanceof NewObjectValueForStructuralFeature;
+						boolean refValueEquals = (diffValue == null && compiledValue == null)
+								|| (diffValue != null && diffValue.equals(compiledValue));
+						boolean isRefValueEquals = isRefValue && refValueEquals;
+						if (isNativeValueEquals || isRefValueEquals) {
+							instruction = value;
+							break;
 						}
 					}
 				}

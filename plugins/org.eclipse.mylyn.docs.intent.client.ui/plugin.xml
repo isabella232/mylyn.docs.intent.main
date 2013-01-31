@@ -13,6 +13,7 @@ Contributors:
 -->
 
 <plugin>
+   <extension-point id="editorrendererextension" name="org.eclipse.mylyn.docs.intent.client.ui.editorrendererextension" schema="schema/editorrendererextension.exsd"/>
 
    <extension point="org.eclipse.ui.commands">
       <category
@@ -65,7 +66,7 @@ Contributors:
           point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
        <hyperlinkDetector
              activate="true"
-             class="org.eclipse.mylyn.docs.intent.client.ui.editor.IntentHyperlinkDetector"
+             class="org.eclipse.mylyn.docs.intent.client.ui.editor.hyperlinks.IntentHyperLinkDetector"
              id="org.eclipse.mylyn.docs.intent.client.ui.editor.openDeclarationHyperlink"
              name="Intent Open Declaration"
              targetId="org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorSource">

@@ -29,6 +29,16 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryC
 public interface ISynchronizerExtension {
 
 	/**
+	 * Indicates whether this {@link ISynchronizerExtension} is able to listen the element at the given URI.
+	 * 
+	 * @param uri
+	 *            the uri of the element to listen
+	 * @return true if this {@link ISynchronizerExtension} is able to listen the element at the given URI,
+	 *         false otherwise
+	 */
+	boolean isExtensionFor(URI uri);
+
+	/**
 	 * Adds the elements located at the given URIs to the listened elements : this extension is now in charge
 	 * of listening to any change made on the corresponding concrete artifacts.
 	 * 

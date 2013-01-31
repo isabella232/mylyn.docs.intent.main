@@ -366,13 +366,11 @@ public class IntentSynchronizer {
 
 		// Step 1 : searching through all contributed SynchronizerExtensions
 		// for an Extension matching the scheme of the given uri
-		if (uri.scheme() != null) {
-			for (ISynchronizerExtension synchronizerExtension : ISynchronizerExtensionRegistry
-					.getSynchronizerExtensions(uri.scheme())) {
-				if (synchronizerExtension != null) {
-					synchronizerExtension.addListenedElements(repositoryClient, Sets.newHashSet(uri));
-					foundSpecificSynchronizer = true;
-				}
+		for (ISynchronizerExtension synchronizerExtension : ISynchronizerExtensionRegistry
+				.getSynchronizerExtensions(uri)) {
+			if (synchronizerExtension != null) {
+				synchronizerExtension.addListenedElements(repositoryClient, Sets.newHashSet(uri));
+				foundSpecificSynchronizer = true;
 			}
 		}
 

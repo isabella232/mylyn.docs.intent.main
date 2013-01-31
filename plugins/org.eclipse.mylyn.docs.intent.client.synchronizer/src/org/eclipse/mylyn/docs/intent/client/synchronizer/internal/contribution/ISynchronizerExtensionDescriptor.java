@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.synchronizer.internal.contribution;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution.ISynchronizerExtension;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 
 /**
  * Describes a extension as contributed to the
@@ -26,8 +27,6 @@ public class ISynchronizerExtensionDescriptor {
 	 * Name of the attribute corresponding to the contributed class's path.
 	 */
 	public static final String SYNCHRONIZER_EXTENSION_CONTRIBUTED_CLASS_NAME = "class";
-
-	private static final String SYNCHRONIZER_EXTENSION_CONTRIBUTED_URI_SCHEME = "handled_uri_scheme";
 
 	/**
 	 * Configuration element of this descriptor .
@@ -45,11 +44,6 @@ public class ISynchronizerExtensionDescriptor {
 	private ISynchronizerExtension extension;
 
 	/**
-	 * The scheme supported by this extension.
-	 */
-	private String uriScheme;
-
-	/**
 	 * Instantiates a descriptor with all information.
 	 * 
 	 * @param configuration
@@ -58,7 +52,6 @@ public class ISynchronizerExtensionDescriptor {
 	public ISynchronizerExtensionDescriptor(IConfigurationElement configuration) {
 		element = configuration;
 		extensionClassName = configuration.getAttribute(SYNCHRONIZER_EXTENSION_CONTRIBUTED_CLASS_NAME);
-		uriScheme = configuration.getAttribute(SYNCHRONIZER_EXTENSION_CONTRIBUTED_URI_SCHEME);
 	}
 
 	/**
@@ -68,16 +61,6 @@ public class ISynchronizerExtensionDescriptor {
 	 */
 	public Object getExtensionClassName() {
 		return extensionClassName;
-	}
-
-	/**
-	 * Returns the scheme supported by this extension. For example, "retro" will indicates that this extension
-	 * is handling all URIs starting with "retro:/...".
-	 * 
-	 * @return the scheme supported by this extension
-	 */
-	public String getURIScheme() {
-		return uriScheme;
 	}
 
 	/**
@@ -91,7 +74,7 @@ public class ISynchronizerExtensionDescriptor {
 				extension = (ISynchronizerExtension)element
 						.createExecutableExtension(SYNCHRONIZER_EXTENSION_CONTRIBUTED_CLASS_NAME);
 			} catch (CoreException e) {
-				// TODO LOG THIS ERROR USING TOP-LEVEL LOGGER
+				IntentLogger.getInstance().logError(e);
 			}
 		}
 		return extension;
