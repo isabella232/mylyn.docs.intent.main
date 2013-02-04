@@ -1,4 +1,5 @@
 bin
 target
 _database
-.*.targetplatform
+*.targetplatform
+*build.acceleo

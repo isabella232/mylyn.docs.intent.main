@@ -20,6 +20,7 @@ import java.io.Reader;
 import junit.framework.AssertionFailedError;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -409,8 +410,14 @@ public class ExternalContentReferencesTest extends AbstractIntentUITest {
 	 */
 	private void importJavaProject() {
 		try {
+			// Deactivate the auto build to avoid problem of test before build is
+			// finish.
+			ResourcesPlugin.getWorkspace().getDescription().setAutoBuilding(false);
 			WorkspaceUtils.unzipAllProjects("org.eclipse.mylyn.docs.intent.client.ui.test",
 					"data/unit/java/java.example01.zip", new NullProgressMonitor());
+			// Launch a manual build and wait the end of the workspace build
+			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD,
+					new NullProgressMonitor());
 		} catch (IOException e) {
 			AssertionFailedError assertionFailedError = new AssertionFailedError(
 					"Could not import java project in test workspace");

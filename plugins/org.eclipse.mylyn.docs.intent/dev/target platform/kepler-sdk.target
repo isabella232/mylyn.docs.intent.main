@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 
-<target name="Kepler SDK" sequenceNumber="0">
+<target name="Kepler SDK" sequenceNumber="1">
 <locations>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.7.2.v20120916-1200"/>
-<unit id="org.eclipse.acceleo.sdk.feature.group" version="3.3.1.v20120831-0923"/>
-<unit id="org.eclipse.emf.cdo.sdk.feature.group" version="4.1.1.v20120911-1146"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.8.1.v20120917-0436"/>
-<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.6.0.v20120328-0001-777Z-9A_WsZmcPluNecyPkvrPKlH"/>
-<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.6.0.v20120328-0001-67T-96SGR75UNqZNTdeQnghI6uFA"/>
-<repository location="http://download.eclipse.org/releases/juno"/>
-</location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="com.google.collect" version="1.0.0.v201003051000"/>
 <unit id="org.junit" version="4.8.1.v4_8_1_v20100427-1100"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/updateSite"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.platform.sdk" version="4.2.1.M20120914-1800"/>
-<repository location="http://download.eclipse.org/eclipse/updates/4.2"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.compare.feature.group" version="2.1.0.201212170942"/>
-<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="2.1.0.201212170942"/>
-<unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="2.1.0.201212170942"/>
-<repository location="https://hudson.eclipse.org/hudson/view/Modeling/job/emf-compare-master/lastSuccessfulBuild/artifact/packaging/org.eclipse.emf.compare.update/target/repository/"/>
+<unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.8.0.I20121215-2122"/>
+<unit id="org.eclipse.emf.cdo.sdk.feature.group" version="4.2.0.v20121218-1021"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.9.0.v20121217-0429"/>
+<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.7.0.201212181754"/>
+<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.7.0.201212181556"/>
+<unit id="org.eclipse.jdt.feature.group" version="3.9.0.v20121210-132935-8-8tFyYFNOfwKDedebWWejRS5834"/>
+<unit id="org.eclipse.acceleo.feature.group" version="3.3.100.201212181427"/>
+<unit id="org.eclipse.pde.feature.group" version="3.9.0.v20120730-104211-7c7xFsGFFt6Zr5lOwAL3vKoET"/>
+<repository location="http://download.eclipse.org/releases/kepler"/>
 </location>
 </locations>
 </target>
