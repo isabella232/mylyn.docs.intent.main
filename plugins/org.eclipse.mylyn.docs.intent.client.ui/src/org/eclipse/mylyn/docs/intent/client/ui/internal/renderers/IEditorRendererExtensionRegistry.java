@@ -49,7 +49,7 @@ public final class IEditorRendererExtensionRegistry {
 	 *            The extension that is to be added to the registry
 	 */
 	public static void addExtension(IEditorRendererExtensionDescriptor extensionDescriptor) {
-		IEditorRendererExtension extension = extensionDescriptor.getSynchronizerExtension();
+		IEditorRendererExtension extension = extensionDescriptor.getEditorRendererExtension();
 		if (EXTENSIONS.get(extension) == null) {
 			EXTENSIONS.put(extension, new HashSet<IEditorRendererExtensionDescriptor>());
 		}
@@ -90,12 +90,21 @@ public final class IEditorRendererExtensionRegistry {
 		Set<IEditorRendererExtension> registeredExtensions = Sets.newHashSet();
 		for (Collection<IEditorRendererExtensionDescriptor> extensions : EXTENSIONS.values()) {
 			for (IEditorRendererExtensionDescriptor descriptor : extensions) {
-				if (descriptor.getSynchronizerExtension().isRendererFor(externalContentReference)) {
-					registeredExtensions.add(descriptor.getSynchronizerExtension());
+				if (descriptor.getEditorRendererExtension().isRendererFor(externalContentReference)) {
+					registeredExtensions.add(descriptor.getEditorRendererExtension());
 				}
 			}
 		}
 		return registeredExtensions;
+	}
+
+	/**
+	 * Returns all the registered {@link IEditorRendererExtension}s.
+	 * 
+	 * @return all the registered {@link IEditorRendererExtension}s
+	 */
+	public static Collection<IEditorRendererExtension> getEditorRendererExtensions() {
+		return EXTENSIONS.keySet();
 	}
 
 	/**

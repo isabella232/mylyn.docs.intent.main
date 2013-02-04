@@ -68,7 +68,7 @@ public class IEditorRendererExtensionDescriptor {
 	 * 
 	 * @return A new instance of this descriptor's {@link IEditorRendererExtension}.
 	 */
-	public IEditorRendererExtension getSynchronizerExtension() {
+	public IEditorRendererExtension getEditorRendererExtension() {
 		if (extension == null) {
 			try {
 				extension = (IEditorRendererExtension)element

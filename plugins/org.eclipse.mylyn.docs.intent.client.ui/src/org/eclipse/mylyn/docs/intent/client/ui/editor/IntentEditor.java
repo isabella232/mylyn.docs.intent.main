@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
+import com.google.common.collect.Lists;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +46,10 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditor
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentOutlinePage;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentQuickOutlineControl;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.QuickOutlineInformationProvider;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.ModelingUnitDecorationPainter;
+import org.eclipse.mylyn.docs.intent.client.ui.internal.renderers.IEditorRendererExtensionRegistry;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
@@ -491,9 +496,18 @@ public class IntentEditor extends TextEditor {
 	protected void initializeDragAndDrop(ISourceViewer viewer) {
 		StyledText text = viewer.getTextWidget();
 		int operations = DND.DROP_MOVE | DND.DROP_COPY | DND.DROP_DEFAULT;
-		Transfer[] transfers = new Transfer[] {LocalTransfer.getInstance(),
-		};
+
+		ArrayList<Transfer> supportedTransfers = Lists.newArrayList();
+		supportedTransfers.add(LocalTransfer.getInstance());
+		// Adding transfers provided by contributed IEditorRendererExtensions
+		for (IEditorRendererExtension editorRendererExtension : IEditorRendererExtensionRegistry
+				.getEditorRendererExtensions()) {
+			supportedTransfers.addAll(editorRendererExtension.getAdditionalTransfers());
+		}
+
 		IDragAndDropService service = (IDragAndDropService)getSite().getService(IDragAndDropService.class);
-		service.addMergedDropTarget(text, operations, transfers, new IntentEditorDropSupport(this));
+		service.addMergedDropTarget(text, operations,
+				supportedTransfers.toArray(new Transfer[supportedTransfers.size()]),
+				new IntentEditorDropSupport(this));
 	}
 }

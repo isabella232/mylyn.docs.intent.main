@@ -10,7 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.renderers;
 
+import java.util.Collection;
+
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
 
 /**
  * An extension allowing to:
@@ -48,4 +53,23 @@ public interface IEditorRendererExtension {
 	 *         applied
 	 */
 	boolean openEditor(ExternalContentReference externalContentReference);
+
+	/**
+	 * Returns additional transfers that should be supported by the intent editor. This allow for example to
+	 * drag a java class directly inside the intent document.
+	 * 
+	 * @return the additional transfers that should be supported by the Intent editor
+	 */
+	Collection<Transfer> getAdditionalTransfers();
+
+	/**
+	 * Returns the {@link EObject}s corresponding to the given {@link DropTargetEvent}, that will be added to
+	 * the IntentDocument.
+	 * 
+	 * @param event
+	 *            the {@link DropTargetEvent}
+	 * @return the {@link EObject}s corresponding to the given {@link DropTargetEvent}
+	 */
+	Collection<? extends EObject> getEObjectsFromDropTargetEvent(DropTargetEvent event);
+
 }

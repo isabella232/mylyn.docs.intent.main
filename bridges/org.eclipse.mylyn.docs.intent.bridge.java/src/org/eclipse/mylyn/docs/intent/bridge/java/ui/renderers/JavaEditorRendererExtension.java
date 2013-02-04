@@ -10,7 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.bridge.java.ui.renderers;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
@@ -31,11 +36,14 @@ import org.eclipse.mylyn.docs.intent.bridge.java.util.JavaBridgeUtils;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
+import org.eclipse.swt.dnd.DropTargetEvent;
+import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.part.ResourceTransfer;
 
 /**
  * An {@link IEditorRendererExtension} customizing the way java elements referenced through
@@ -131,5 +139,35 @@ public class JavaEditorRendererExtension implements IEditorRendererExtension {
 		} catch (JavaModelException e) {
 			// Silent catch, element will not be selected
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension#getAdditionalTransfers()
+	 */
+	public Collection<Transfer> getAdditionalTransfers() {
+		// Adding the Resource transfer to be able to directly drop java files inside the Intent editor
+		Collection<Transfer> transfers = new ArrayList<Transfer>();
+		transfers.add(ResourceTransfer.getInstance());
+		return transfers;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension#getEObjectsFromDropTargetEvent(org.eclipse.swt.dnd.DropTargetEvent)
+	 */
+	public Collection<? extends EObject> getEObjectsFromDropTargetEvent(DropTargetEvent event) {
+		Collection<EObject> eObjects = new LinkedHashSet<EObject>();
+		if (event.data instanceof IResource[]) {
+			IResource[] droppedResources = ((IResource[])event.data);
+			for (int i = 0; i < droppedResources.length; i++) {
+				eObjects.add(new JavaResourceFactory()
+						.createResource(URI.createURI(droppedResources[i].getFullPath().toString()))
+						.getContents().iterator().next());
+			}
+		}
+		return eObjects;
 	}
 }

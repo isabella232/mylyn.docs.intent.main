@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension;
+import org.eclipse.mylyn.docs.intent.client.ui.internal.renderers.IEditorRendererExtensionRegistry;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -55,15 +57,31 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 	 * @see org.eclipse.swt.dnd.DropTargetAdapter#drop(org.eclipse.swt.dnd.DropTargetEvent)
 	 */
 	public void drop(DropTargetEvent event) {
+		List<EObject> droppedEObjects = new ArrayList<EObject>();
+
+		// Default behavior : get EObjects from structured selection
 		if (event.data instanceof IStructuredSelection) {
-			// TODO support resource drop ?
-			List<EObject> droppedEObjects = new ArrayList<EObject>();
 			for (Iterator<?> iterator = ((IStructuredSelection)event.data).iterator(); iterator.hasNext();) {
 				Object data = iterator.next();
 				if (data instanceof EObject) {
 					droppedEObjects.add((EObject)data);
+				} else {
+					// Delegate drop to IEditorRendererExtensions
+					for (IEditorRendererExtension editorRendererExtension : IEditorRendererExtensionRegistry
+							.getEditorRendererExtensions()) {
+						droppedEObjects.addAll(editorRendererExtension.getEObjectsFromDropTargetEvent(event));
+					}
 				}
 			}
+		} else {
+			// Delegate drop to IEditorRendererExtensions
+			for (IEditorRendererExtension editorRendererExtension : IEditorRendererExtensionRegistry
+					.getEditorRendererExtensions()) {
+				droppedEObjects.addAll(editorRendererExtension.getEObjectsFromDropTargetEvent(event));
+			}
+		}
+
+		if (!droppedEObjects.isEmpty()) {
 
 			IntentDocumentProvider documentProvider = (IntentDocumentProvider)editor.getDocumentProvider();
 			final RepositoryAdapter repositoryAdapter = documentProvider.getListenedElementsHandler()
@@ -88,5 +106,4 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 			document.reloadFromAST();
 		}
 	}
-
 }
