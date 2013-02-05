@@ -11,13 +11,14 @@
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -53,7 +54,7 @@ public final class WorkspaceUtils {
 	}
 
 	/**
-	 * Creates a project using the given name.
+	 * Creates and opens a project using the given name.
 	 * 
 	 * @param projectName
 	 *            the project name
@@ -65,12 +66,29 @@ public final class WorkspaceUtils {
 	 */
 	public static IProject createProject(final String projectName, IProgressMonitor monitor)
 			throws CoreException {
+		return createProject(projectName, monitor, true);
+	}
+
+	/**
+	 * Creates a project using the given name.
+	 * 
+	 * @param projectName
+	 *            the project name
+	 * @param monitor
+	 *            the progress monitor
+	 * @param openProject
+	 *            indicates whether created project should be opened
+	 * @return the newly created project or the existing one if present
+	 * @throws CoreException
+	 *             if there is an issue creating the project
+	 */
+	public static IProject createProject(String projectName, IProgressMonitor monitor, boolean openProject)
+			throws CoreException {
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		if (!project.exists()) {
 			project.create(monitor);
-			project.open(monitor);
 		}
-		if (!project.isOpen()) {
+		if (!project.isOpen() && openProject) {
 			project.open(monitor);
 		}
 		return project;
@@ -91,24 +109,27 @@ public final class WorkspaceUtils {
 	 * @throws CoreException
 	 *             if there is an issue creating one of the projects
 	 */
-	public static Set<IProject> unzipAllProjects(String bundleName, String zipLocation,
+	public static Collection<IProject> unzipAllProjects(String bundleName, String zipLocation,
 			IProgressMonitor monitor) throws IOException, CoreException {
 		final URL interpreterZipUrl = FileLocator.find(Platform.getBundle(bundleName), new Path(zipLocation),
 				null);
 		final ZipInputStream zipFileStream = new ZipInputStream(interpreterZipUrl.openStream());
 		ZipEntry zipEntry = zipFileStream.getNextEntry();
 
-		Set<IProject> projects = new HashSet<IProject>();
+		Set<IProjectDescription> projectsToCreate = Sets.newLinkedHashSet();
 
 		while (zipEntry != null) {
 			String projectName = zipEntry.getName().split("/")[0];
 
-			IProject project = createProject(ResourcesPlugin.getWorkspace()
-					.newProjectDescription(projectName), monitor);
-			projects.add(project);
+			IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
+					projectName);
+			projectDescription.setLocation(new Path(ResourcesPlugin.getWorkspace().getRoot().getLocation()
+					+ "/" + projectName));
+			projectsToCreate.add(projectDescription);
+			createProject(projectName, monitor, false);
 
-			final File file = new File(project.getLocation().toString(), zipEntry.getName().replaceFirst(
-					projectName + "/", "")); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+			final File file = new File(projectDescription.getLocation().toString(), zipEntry.getName()
+					.replaceFirst(projectName + "/", "")); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 
 			if (!zipEntry.isDirectory()) {
 
@@ -145,11 +166,16 @@ public final class WorkspaceUtils {
 		}
 
 		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+
+		Collection<IProject> projects = Sets.newLinkedHashSet();
+		for (IProjectDescription projectToCreate : projectsToCreate) {
+			createProject(projectToCreate, new NullProgressMonitor());
+		}
 		return projects;
 	}
 
 	/**
-	 * /** Creates a project using the given project description.
+	 * /** Creates and opens a project using the given project description.
 	 * 
 	 * @param newProjectDescription
 	 *            the project to create description
@@ -165,7 +191,6 @@ public final class WorkspaceUtils {
 				.getProject(newProjectDescription.getName());
 		if (!project.exists()) {
 			project.create(newProjectDescription, monitor);
-			project.open(monitor);
 		}
 		if (!project.isOpen()) {
 			project.open(monitor);
