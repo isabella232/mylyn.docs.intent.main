@@ -322,9 +322,6 @@
 		<activation>
           <activeByDefault>true</activeByDefault>
       </activation>
-		<properties>
-				<platform-version>[4.0,5.0)</platform-version>
-		</properties>
   		<repositories>			
 			<repository><id>kepler</id><layout>p2</layout>
 				<url>http://download.eclipse.org/releases/kepler</url>
