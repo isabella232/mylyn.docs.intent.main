@@ -115,7 +115,7 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 	 * @param elements
 	 *            the elements
 	 */
-	private void internalCreate(final ModelingUnit modelingUnit, final List<EObject> elements) {
+	protected void internalCreate(final ModelingUnit modelingUnit, final List<EObject> elements) {
 		setNewObjects(getAllNewObjects(elements));
 		newInstanciations = new HashMap<EObject, InstanciationInstruction>();
 		for (EObject workingCopyObject : elements) {

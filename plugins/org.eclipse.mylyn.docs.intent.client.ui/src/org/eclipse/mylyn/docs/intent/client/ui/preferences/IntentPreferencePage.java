@@ -30,6 +30,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  */
 public class IntentPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
+	public static final String LINK_DROPPED_ELEMENTS_USING_EXTERNAL_REFERENCES = "Link dropped elements using External References";
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -45,6 +47,7 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 			parent.setLayout(gridLayout);
 		}
 		addUIFieds(parent);
+		addDnDFieds(parent);
 		addLogFields(parent);
 	}
 
@@ -67,6 +70,23 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		Label fontInfo = new Label(uiGroup, SWT.NONE);
 		fontInfo.setText("Note: Intent fonts can be customized using the 'General>Appearance>Colors and Fonts' preference page");
 
+	}
+
+	/**
+	 * Configure fields related to Drag and Drop in the given parent composite.
+	 * 
+	 * @param parent
+	 *            the parent composite
+	 */
+	private void addDnDFieds(Composite parent) {
+		// All preferences relative to UI
+		Composite uiGroup = createGroup(parent, "Drag and Drop Support'");
+		Label fontInfo = new Label(uiGroup, SWT.NONE);
+		fontInfo.setText("These preferences allow to specify how should Intent react when dropping elements (e.g. a Java class) inside an Intent editor");
+		addField(new BooleanFieldEditor(IntentPreferenceConstants.DND_DISPLAY_POP_UP, "Always ask",
+				new Composite(uiGroup, SWT.NONE)));
+		addField(new BooleanFieldEditor(IntentPreferenceConstants.DND_USE_EXTERNAL_REFERENCES,
+				LINK_DROPPED_ELEMENTS_USING_EXTERNAL_REFERENCES, new Composite(uiGroup, SWT.NONE)));
 	}
 
 	/**

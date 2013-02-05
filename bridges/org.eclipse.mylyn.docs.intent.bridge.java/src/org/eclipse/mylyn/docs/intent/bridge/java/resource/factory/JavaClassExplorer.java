@@ -115,7 +115,7 @@ public class JavaClassExplorer {
 	 */
 	private Method getMethodAsModel(IMethod method) throws JavaModelException {
 		Method eMethod = null;
-		String methodSignature = method.getElementName() + "(";
+
 		if (method.isConstructor()) {
 			eMethod = JavaFactory.eINSTANCE.createConstructor();
 		} else {
@@ -132,9 +132,7 @@ public class JavaClassExplorer {
 		for (ILocalVariable parameter : method.getParameters()) {
 			Parameter eParameter = JavaFactory.eINSTANCE.createParameter();
 			eParameter.setName(parameter.getElementName());
-			String parameterType = getTypeFromTypeSignature(parameter.getTypeSignature());
-			methodSignature += "," + parameterType;
-			eParameter.setType(parameterType);
+			eParameter.setType(getTypeFromTypeSignature(parameter.getTypeSignature()));
 			String attachedJavadoc = parameter.getAttachedJavadoc(new NullProgressMonitor());
 			if (attachedJavadoc != null && attachedJavadoc.length() > 0) {
 				Javadoc paramJavaDoc = JavaFactory.eINSTANCE.createJavadoc();
@@ -170,7 +168,7 @@ public class JavaClassExplorer {
 			methodContent = methodContent.trim();
 			eMethod.setContent(methodContent);
 		}
-		eMethod.setName(methodSignature.replaceFirst(",", "") + ")");
+		eMethod.setName(getMethodID(method));
 		return eMethod;
 	}
 
@@ -261,7 +259,42 @@ public class JavaClassExplorer {
 	 *            the type signature as given by JDT
 	 * @return the normalized form of the given type signature
 	 */
-	private String getTypeFromTypeSignature(String typeSignature) {
+	public static String getTypeFromTypeSignature(String typeSignature) {
 		return Signature.toString(typeSignature);
+	}
+
+	/**
+	 * Returns the identifier used to identify the given {@link IMember}.
+	 * 
+	 * @param member
+	 *            the {@link IMember} to inspect
+	 * @return the identifier used to identify the given {@link IMember}
+	 * @throws JavaModelException
+	 *             if errors occur while querying the member
+	 */
+	public static String getMemberID(IMember member) throws JavaModelException {
+		if (member instanceof IMethod) {
+			return getMethodID((IMethod)member);
+		} else {
+			return member.getElementName();
+		}
+	}
+
+	/**
+	 * Returns the identifier used to identify the given {@link IMethod}.
+	 * 
+	 * @param method
+	 *            the {@link IMethod} to inspect
+	 * @return the identifier used to identify the given {@link IMethod}
+	 * @throws JavaModelException
+	 *             if errors occur while querying the member
+	 */
+	public static String getMethodID(IMethod method) throws JavaModelException {
+		String methodSignature = method.getElementName() + "(";
+		for (ILocalVariable parameter : method.getParameters()) {
+			methodSignature += "," + getTypeFromTypeSignature(parameter.getTypeSignature());
+		}
+		methodSignature = methodSignature.replaceFirst(",", "") + ")";
+		return methodSignature;
 	}
 }

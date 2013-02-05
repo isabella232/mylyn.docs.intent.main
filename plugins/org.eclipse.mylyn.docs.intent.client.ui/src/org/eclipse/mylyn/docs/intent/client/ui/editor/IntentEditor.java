@@ -43,6 +43,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditorConfiguration;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.drop.IntentEditorDropSupport;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentOutlinePage;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentQuickOutlineControl;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.QuickOutlineInformationProvider;

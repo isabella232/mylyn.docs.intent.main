@@ -20,13 +20,39 @@ public interface IntentPreferenceConstants {
 	/*
 	 * Logging-relative preferences
 	 */
+	/**
+	 * When advanced logging is active, each Intent repository client logs its activity.
+	 */
 	String ACTIVATE_ADVANCE_LOGGING = "org.eclipse.mylyn.docs.intent.client.ui.preferences.advanced_logging";
 
 	/*
 	 * UI-relative preferences.
 	 */
+	/**
+	 * Indicates whether matching brackets should be displayed.
+	 */
 	String MATCHING_BRACKETS = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets";
 
+	/**
+	 * When matching brackets are displayed, specifies their color.
+	 */
 	String MATCHING_BRACKETS_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets_color";
+
+	/*
+	 * Drag and drop preferences.
+	 */
+	/**
+	 * Indicates whether we should display a pop-up letting the end-user choose which drop mode should be
+	 * used.
+	 */
+	String DND_DISPLAY_POP_UP = "org.eclipse.mylyn.docs.intent.client.ui.preferences.dnd_display_popup";
+
+	/**
+	 * Indicates if by default, when dropping an artifact (e.g. a Java class) inside an
+	 * {@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument} , the link should be represented
+	 * using an {@link org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference} or a full
+	 * copy.
+	 */
+	String DND_USE_EXTERNAL_REFERENCES = "org.eclipse.mylyn.docs.intent.client.ui.preferences.dnd_use_external_refs";
 
 }

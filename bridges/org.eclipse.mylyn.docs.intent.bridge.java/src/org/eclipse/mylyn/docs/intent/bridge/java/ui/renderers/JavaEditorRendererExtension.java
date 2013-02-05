@@ -12,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.bridge.java.ui.renderers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 import org.eclipse.core.resources.IFile;
@@ -20,7 +21,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceReference;
 import org.eclipse.jdt.core.IType;
@@ -28,9 +31,12 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.TextSelection;
+import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.mylyn.docs.intent.bridge.java.Classifier;
 import org.eclipse.mylyn.docs.intent.bridge.java.Field;
 import org.eclipse.mylyn.docs.intent.bridge.java.Method;
+import org.eclipse.mylyn.docs.intent.bridge.java.resource.factory.JavaClassExplorer;
 import org.eclipse.mylyn.docs.intent.bridge.java.resource.factory.JavaResourceFactory;
 import org.eclipse.mylyn.docs.intent.bridge.java.util.JavaBridgeUtils;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension;
@@ -150,6 +156,7 @@ public class JavaEditorRendererExtension implements IEditorRendererExtension {
 		// Adding the Resource transfer to be able to directly drop java files inside the Intent editor
 		Collection<Transfer> transfers = new ArrayList<Transfer>();
 		transfers.add(ResourceTransfer.getInstance());
+		transfers.add(LocalSelectionTransfer.getTransfer());
 		return transfers;
 	}
 
@@ -160,14 +167,63 @@ public class JavaEditorRendererExtension implements IEditorRendererExtension {
 	 */
 	public Collection<? extends EObject> getEObjectsFromDropTargetEvent(DropTargetEvent event) {
 		Collection<EObject> eObjects = new LinkedHashSet<EObject>();
-		if (event.data instanceof IResource[]) {
-			IResource[] droppedResources = ((IResource[])event.data);
-			for (int i = 0; i < droppedResources.length; i++) {
-				eObjects.add(new JavaResourceFactory()
-						.createResource(URI.createURI(droppedResources[i].getFullPath().toString()))
-						.getContents().iterator().next());
+		try {
+			// If directly dropping an IFile
+			if (event.data instanceof IResource[]) {
+				IResource[] droppedResources = ((IResource[])event.data);
+				for (int i = 0; i < droppedResources.length; i++) {
+					eObjects.add(getJavaFactoryResourceFromIResource(droppedResources[i]).getContents()
+							.iterator().next());
+				}
+			} else if (event.data instanceof IStructuredSelection) {
+				// If dropping a selection of IMember or ICompilation Unit
+				Iterator iterator = ((IStructuredSelection)event.data).iterator();
+				while (iterator.hasNext()) {
+					Object element = iterator.next();
+
+					if (element instanceof IMember) {
+						String elementID = JavaClassExplorer.getMemberID((IMember)element);
+						String elementFragment = "//";
+						if (element instanceof IMethod) {
+							elementFragment += "@methods";
+						} else {
+							elementFragment += "@fields";
+						}
+						elementFragment += "[name='" + elementID + "']";
+						Resource javaResource = getJavaFactoryResourceFromIResource(((IMember)element)
+								.getResource());
+						if (elementID != null) {
+							eObjects.add(javaResource.getEObject(elementFragment));
+						} else {
+							eObjects.add(javaResource.getContents().iterator().next());
+						}
+
+					} else if (element instanceof ICompilationUnit) {
+						eObjects.add(getJavaFactoryResourceFromIResource(
+								((ICompilationUnit)element).getResource()).getContents().iterator().next());
+					}
+				}
 			}
+		} catch (IllegalArgumentException e) {
+			// Nothing to do, the drop event was not valid for this java extension
+		} catch (JavaModelException e) {
+			IntentUiLogger.logError(e);
 		}
 		return eObjects;
+	}
+
+	/**
+	 * Returns the {@link Resource} corresponding to the given java {@link IFile}.
+	 * 
+	 * @param resource
+	 *            the {@link IResource}
+	 * @return the {@link Resource} corresponding to the given java {@link IFile}
+	 */
+	Resource getJavaFactoryResourceFromIResource(IResource resource) {
+		if (!"java".equals(resource.getFileExtension())) {
+			throw new IllegalArgumentException();
+		}
+		return new JavaResourceFactory().createResource(URI.createURI(resource.getFullPath().toString()
+				.replaceFirst("/", "")));
 	}
 }

@@ -39,5 +39,7 @@ public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 		node.put(IntentPreferenceConstants.MATCHING_BRACKETS, Boolean.TRUE.toString());
 		node.put(IntentPreferenceConstants.MATCHING_BRACKETS_COLOR,
 				StringConverter.asString(MATCHING_BRACKET_COLOR));
+		node.put(IntentPreferenceConstants.DND_DISPLAY_POP_UP, Boolean.FALSE.toString());
+		node.put(IntentPreferenceConstants.DND_USE_EXTERNAL_REFERENCES, Boolean.TRUE.toString());
 	}
 }

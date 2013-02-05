@@ -16,7 +16,6 @@
 <unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.7.0.201212181556"/>
 <unit id="org.eclipse.jdt.feature.group" version="3.9.0.v20121210-132935-8-8tFyYFNOfwKDedebWWejRS5834"/>
 <unit id="org.eclipse.acceleo.feature.group" version="3.3.100.201212181427"/>
-<unit id="org.eclipse.pde.feature.group" version="3.9.0.v20120730-104211-7c7xFsGFFt6Zr5lOwAL3vKoET"/>
 <repository location="http://download.eclipse.org/releases/kepler"/>
 </location>
 </locations>
