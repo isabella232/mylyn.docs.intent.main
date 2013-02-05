@@ -13,7 +13,6 @@ package org.eclipse.mylyn.docs.intent.client.ui.ide.repository;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
-import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.DefaultWorkspaceRepositoryStructurer;
@@ -53,11 +52,11 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	@Override
 	public void structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
 		super.structure(repositoryAdapter);
-		WorkspaceAdapter workspaceAdapter = (WorkspaceAdapter)repositoryAdapter;
 
-		// We start splitting the elements from the IntentDocument
-		IntentDocument document = new IntentDocumentQuery(workspaceAdapter).getOrCreateIntentDocument();
-		splitElementAndSons(workspaceAdapter, document);
+		// To split the document, uncomment the following code
+		// WorkspaceAdapter workspaceAdapter = (WorkspaceAdapter)repositoryAdapter;
+		// IntentDocument document = new IntentDocumentQuery(workspaceAdapter).getOrCreateIntentDocument();
+		// splitElementAndSons(workspaceAdapter, document);
 	}
 
 	/**
