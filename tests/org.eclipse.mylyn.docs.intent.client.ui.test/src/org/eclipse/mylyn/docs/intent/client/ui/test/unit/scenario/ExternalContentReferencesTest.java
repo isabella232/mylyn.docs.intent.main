@@ -264,8 +264,7 @@ public class ExternalContentReferencesTest extends AbstractIntentUITest {
 	 *             if test files cannot be properly accessed
 	 */
 	@Test
-	// TODO activate this test
-	public void _testJavaClassSynchronizationThroughExternalContentReference() throws IOException {
+	public void testJavaClassSynchronizationThroughExternalContentReference() throws IOException {
 		// Step 1: import a java project
 		WorkspaceUtils.importJavaProject("data/unit/java/java.example01.zip");
 
@@ -311,8 +310,7 @@ public class ExternalContentReferencesTest extends AbstractIntentUITest {
 	 *             if test files cannot be properly accessed
 	 */
 	@Test
-	// TODO activate this test
-	public void _testJavaMethodSynchronizationThroughExternalContentReference() throws IOException {
+	public void testJavaMethodSynchronizationThroughExternalContentReference() throws IOException {
 		// Step 1: import a java project
 		WorkspaceUtils.importJavaProject("data/unit/java/java.example01.zip");
 
