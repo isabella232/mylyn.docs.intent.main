@@ -42,6 +42,7 @@ public class IntentURITest extends AbstractIntentUITest {
 	public void testIntentURIHandlerOnIntentDocument() {
 		setUpIntentProject("intentProject", "data/unit/documents/scenario/abstract_resources.intent");
 		ResourceSetImpl rs = new ResourceSetImpl();
+		waitForCompiler();
 
 		// Check 1: URI like intent:/intentProject should return a Resource containing the intent document
 		URI intentDocumentResourceURI = URI.createURI("intent:/intentProject");

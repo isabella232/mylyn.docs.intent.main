@@ -10,15 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.java;
 
-import java.io.IOException;
-
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Diff;
@@ -44,27 +37,7 @@ public class JavaResourceFactoryTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		try {
-			// Deactivate the auto build to avoid problem of test before build is
-			// finish.
-			ResourcesPlugin.getWorkspace().getDescription().setAutoBuilding(false);
-			// Importing java project through an archive file
-			WorkspaceUtils.unzipAllProjects("org.eclipse.mylyn.docs.intent.client.ui.test",
-					"data/unit/java/java.example01.zip", new NullProgressMonitor());
-			// Launch a manual build and wait the end of the workspace build
-			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD,
-					new NullProgressMonitor());
-		} catch (IOException e) {
-			AssertionFailedError assertionFailedError = new AssertionFailedError(
-					"Could not import java project in test workspace");
-			assertionFailedError.setStackTrace(e.getStackTrace());
-			throw assertionFailedError;
-		} catch (CoreException e) {
-			AssertionFailedError assertionFailedError = new AssertionFailedError(
-					"Could not import java project in test workspace");
-			assertionFailedError.setStackTrace(e.getStackTrace());
-			throw assertionFailedError;
-		}
+		WorkspaceUtils.importJavaProject("data/unit/java/java.example01.zip");
 	}
 
 	/**

@@ -22,8 +22,12 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import junit.framework.AssertionFailedError;
+
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -81,13 +85,14 @@ public final class WorkspaceUtils {
 	 *            the zip location inside of the bundle
 	 * @param monitor
 	 *            the progress monitor
+	 * @return
 	 * @throws IOException
 	 *             if there is an issue copying a file from the zip
 	 * @throws CoreException
 	 *             if there is an issue creating one of the projects
 	 */
-	public static void unzipAllProjects(String bundleName, String zipLocation, IProgressMonitor monitor)
-			throws IOException, CoreException {
+	public static Set<IProject> unzipAllProjects(String bundleName, String zipLocation,
+			IProgressMonitor monitor) throws IOException, CoreException {
 		final URL interpreterZipUrl = FileLocator.find(Platform.getBundle(bundleName), new Path(zipLocation),
 				null);
 		final ZipInputStream zipFileStream = new ZipInputStream(interpreterZipUrl.openStream());
@@ -98,7 +103,8 @@ public final class WorkspaceUtils {
 		while (zipEntry != null) {
 			String projectName = zipEntry.getName().split("/")[0];
 
-			IProject project = createProject(projectName, monitor);
+			IProject project = createProject(ResourcesPlugin.getWorkspace()
+					.newProjectDescription(projectName), monitor);
 			projects.add(project);
 
 			final File file = new File(project.getLocation().toString(), zipEntry.getName().replaceFirst(
@@ -139,6 +145,63 @@ public final class WorkspaceUtils {
 		}
 
 		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+		return projects;
+	}
+
+	/**
+	 * /** Creates a project using the given project description.
+	 * 
+	 * @param newProjectDescription
+	 *            the project to create description
+	 * @param monitor
+	 *            the progress monitor
+	 * @return the newly created project or the existing one if present
+	 * @throws CoreException
+	 *             if there is an issue creating the project
+	 */
+	private static IProject createProject(IProjectDescription newProjectDescription, IProgressMonitor monitor)
+			throws CoreException {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot()
+				.getProject(newProjectDescription.getName());
+		if (!project.exists()) {
+			project.create(newProjectDescription, monitor);
+			project.open(monitor);
+		}
+		if (!project.isOpen()) {
+			project.open(monitor);
+		}
+		return project;
+	}
+
+	/**
+	 * Imports a java project in the test workspace.
+	 * 
+	 * @param zipLocation
+	 *            the location of the archive containing the project to import (e.g.
+	 *            'data/unit/java/java.example01.zip')
+	 */
+	public static void importJavaProject(String zipLocation) {
+		try {
+			// Deactivate the auto build to avoid problem of test before build is
+			// finish.
+			ResourcesPlugin.getWorkspace().getDescription().setAutoBuilding(false);
+			unzipAllProjects("org.eclipse.mylyn.docs.intent.client.ui.test", zipLocation,
+					new NullProgressMonitor());
+			// Launch a manual build and wait the end of the workspace build
+			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD,
+					new NullProgressMonitor());
+			ResourcesPlugin.getWorkspace().getDescription().setAutoBuilding(true);
+		} catch (IOException e) {
+			AssertionFailedError assertionFailedError = new AssertionFailedError(
+					"Could not import java project in test workspace");
+			assertionFailedError.setStackTrace(e.getStackTrace());
+			throw assertionFailedError;
+		} catch (CoreException e) {
+			AssertionFailedError assertionFailedError = new AssertionFailedError(
+					"Could not import java project in test workspace");
+			assertionFailedError.setStackTrace(e.getStackTrace());
+			throw assertionFailedError;
+		}
 	}
 
 	/**

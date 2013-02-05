@@ -28,6 +28,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.ExternalConten
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.synchronizer.SynchronizerTest;
 
 /**
  * This suite will launch all tests requiring to launch an Intent runtime.
@@ -104,7 +105,7 @@ public class IntentPluginTestSuite extends TestCase {
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
 		basicTestSuite.addTestSuite(SimpleOrderTests.class);
 		basicTestSuite.addTestSuite(CompletionTest.class);
-		// basicTestSuite.addTestSuite(SynchronizerTest.class); // TODO reactivate when 391798 fixed
+		basicTestSuite.addTestSuite(SynchronizerTest.class);
 		return basicTestSuite;
 	}
 

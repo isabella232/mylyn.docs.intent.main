@@ -20,7 +20,6 @@ import java.io.Reader;
 import junit.framework.AssertionFailedError;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -267,7 +266,7 @@ public class ExternalContentReferencesTest extends AbstractIntentUITest {
 	@Test
 	public void testJavaClassSynchronizationThroughExternalContentReference() throws IOException {
 		// Step 1: import a java project
-		importJavaProject();
+		WorkspaceUtils.importJavaProject("data/unit/java/java.example01.zip");
 
 		// Step 2: reference a java class inside the intent document
 		String javaFilePath = JAVA_EXAMPLE_PACKAGE_PATH + EXAMPLE_JAVA_CLASS_NAME;
@@ -313,7 +312,7 @@ public class ExternalContentReferencesTest extends AbstractIntentUITest {
 	@Test
 	public void testJavaMethodSynchronizationThroughExternalContentReference() throws IOException {
 		// Step 1: import a java project
-		importJavaProject();
+		WorkspaceUtils.importJavaProject("data/unit/java/java.example01.zip");
 
 		// Step 2: reference a java class inside the intent document
 		String javaMethodURIAsString = "ExampleJavaClass.java#//@methods[name='protectedMethodWithParameters(ExampleJavaClass,Object)']";
@@ -403,32 +402,6 @@ public class ExternalContentReferencesTest extends AbstractIntentUITest {
 			fail("Could not create test model " + e.getMessage());
 		}
 		return model;
-	}
-
-	/**
-	 * Imports a java project in the test workspace.
-	 */
-	private void importJavaProject() {
-		try {
-			// Deactivate the auto build to avoid problem of test before build is
-			// finish.
-			ResourcesPlugin.getWorkspace().getDescription().setAutoBuilding(false);
-			WorkspaceUtils.unzipAllProjects("org.eclipse.mylyn.docs.intent.client.ui.test",
-					"data/unit/java/java.example01.zip", new NullProgressMonitor());
-			// Launch a manual build and wait the end of the workspace build
-			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD,
-					new NullProgressMonitor());
-		} catch (IOException e) {
-			AssertionFailedError assertionFailedError = new AssertionFailedError(
-					"Could not import java project in test workspace");
-			assertionFailedError.setStackTrace(e.getStackTrace());
-			throw assertionFailedError;
-		} catch (CoreException e) {
-			AssertionFailedError assertionFailedError = new AssertionFailedError(
-					"Could not import java project in test workspace");
-			assertionFailedError.setStackTrace(e.getStackTrace());
-			throw assertionFailedError;
-		}
 	}
 
 	/**

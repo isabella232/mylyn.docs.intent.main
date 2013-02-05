@@ -629,5 +629,5 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			}
 		}
 	}
-
+	
 }
