@@ -18,11 +18,13 @@ import junit.textui.TestRunner;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.SimpleOrderTests;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.editor.CompletionTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.hyperlink.IntentHyperLinkDetetectorTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.java.JavaResourceFactoryTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.refresher.RefresherTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentURITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.CompilerNotificationsTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.ExternalContentReferencesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentAbstractResourceTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.IntentProjectReopeningTest;
@@ -120,7 +122,8 @@ public class IntentPluginTestSuite extends TestCase {
 		scenarioSuite.addTestSuite(IntentAbstractResourceTest.class);
 		scenarioSuite.addTestSuite(IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest.class);
 		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
-		// scenarioSuite.addTestSuite(ExternalContentReferencesTest.class);
+		scenarioSuite.addTestSuite(ExternalContentReferencesTest.class);
+		scenarioSuite.addTestSuite(IntentHyperLinkDetetectorTest.class);
 		return scenarioSuite;
 	}
 

@@ -1,0 +1,15 @@
+Document {
+	Chapter Title {
+		Section Title {			
+			@M
+				@ref "org.eclipse.mylyn.docs.intent.java.example/src/org/eclipse/myly/docs/intent/java/example/ExampleJavaClass.java#//@methods[name='protectedMethodWithParameters(ExampleJavaClass,Object)']"
+			M@
+			
+			
+			@M
+				@ref "intent:/intentProject/internalresource.ecore"
+			M@
+			
+		}
+	}
+}
