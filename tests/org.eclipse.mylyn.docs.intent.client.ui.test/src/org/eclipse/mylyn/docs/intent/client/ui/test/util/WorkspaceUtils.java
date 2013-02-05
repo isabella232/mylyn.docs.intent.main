@@ -76,19 +76,18 @@ public final class WorkspaceUtils {
 	 *            the project name
 	 * @param monitor
 	 *            the progress monitor
-	 * @param openProject
-	 *            indicates whether created project should be opened
+	 * @param && createaAndOpenProject indicates whether project should be create and opened
 	 * @return the newly created project or the existing one if present
 	 * @throws CoreException
 	 *             if there is an issue creating the project
 	 */
-	public static IProject createProject(String projectName, IProgressMonitor monitor, boolean openProject)
-			throws CoreException {
+	public static IProject createProject(String projectName, IProgressMonitor monitor,
+			boolean createaAndOpenProject) throws CoreException {
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		if (!project.exists()) {
+		if (!project.exists() && createaAndOpenProject) {
 			project.create(monitor);
 		}
-		if (!project.isOpen() && openProject) {
+		if (!project.isOpen() && createaAndOpenProject) {
 			project.open(monitor);
 		}
 		return project;
@@ -124,7 +123,7 @@ public final class WorkspaceUtils {
 			IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
 					projectName);
 			projectDescription.setLocation(new Path(ResourcesPlugin.getWorkspace().getRoot().getLocation()
-					+ "/" + projectName));
+					+ "/" + projectName + "/.project"));
 			projectsToCreate.add(projectDescription);
 			createProject(projectName, monitor, false);
 
