@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 public class DropModeDialog extends MessageDialogWithToggle {
 
 	private static final String DIALOG_MESSAGE = "You have dropped new artifacts to associate to the Intent document. Should we use External References to link these artifacts, or do you want to make a Full Copy?";
+
 	private static final String DIALOG_TITLE = "Linking documentation with new artifacts";
 
 	/**
@@ -34,12 +35,8 @@ public class DropModeDialog extends MessageDialogWithToggle {
 	 *            the {@link Shell} on which this pop-up will be displayed
 	 */
 	public DropModeDialog(Shell parentShell) {
-		super(
-				parentShell,
-				DIALOG_TITLE,
-				null,
-				DIALOG_MESSAGE,
-				MessageDialog.QUESTION, getButtons(), 0, "Always apply this choice", false);
+		super(parentShell, DIALOG_TITLE, null, DIALOG_MESSAGE, MessageDialog.QUESTION, getButtons(), 0,
+				"Always apply this choice", false);
 	}
 
 	/**
@@ -60,8 +57,13 @@ public class DropModeDialog extends MessageDialogWithToggle {
 		setButtons(buttons);
 	}
 
-	private static final String[] getButtons() {
-		return new String[] {"External references", "Full Copy", "Cancel"
+	/**
+	 * Returns the buttons that should be displayed by this dialog.
+	 * 
+	 * @return the buttons that should be displayed by this dialog
+	 */
+	private static String[] getButtons() {
+		return new String[] {"External references", "Full Copy", "Cancel",
 		};
 	}
 

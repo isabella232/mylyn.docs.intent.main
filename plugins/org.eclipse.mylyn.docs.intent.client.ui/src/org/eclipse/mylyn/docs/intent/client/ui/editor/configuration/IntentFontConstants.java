@@ -11,7 +11,9 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor.configuration;
 
 import org.eclipse.jface.resource.FontRegistry;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.themes.ITheme;
 import org.eclipse.ui.themes.IThemeManager;
@@ -30,6 +32,8 @@ public final class IntentFontConstants {
 	private static final String MODEL_FRAGMENT_FONT_PREFERENCE_ID = "org.eclipse.mylyn.docs.intent.editor.font.modelfragment";
 
 	private static FontRegistry fontRegistry;
+
+	private static Font imageReferenceFont;
 
 	/**
 	 * IntentFontConstants constructor.
@@ -77,6 +81,18 @@ public final class IntentFontConstants {
 			fontRegistry = currentTheme.getFontRegistry();
 		}
 		return fontRegistry;
+	}
+
+	/**
+	 * Returns the {@link Font} used as reference to fill a line with images.
+	 * 
+	 * @return the {@link Font} used as reference to fill a line with images
+	 */
+	public static Font getImageReferenceFont() {
+		if (imageReferenceFont == null) {
+			imageReferenceFont = new Font(Display.getDefault(), "Verdana", 1, SWT.NONE);
+		}
+		return imageReferenceFont;
 	}
 
 }

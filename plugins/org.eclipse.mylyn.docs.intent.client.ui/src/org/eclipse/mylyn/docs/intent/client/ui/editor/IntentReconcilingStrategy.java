@@ -27,7 +27,9 @@ import org.eclipse.jface.text.reconciler.IReconcilingStrategy;
 import org.eclipse.jface.text.reconciler.IReconcilingStrategyExtension;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotation;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -147,6 +149,7 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 			int startOffset = offset;
 			while (!eof) {
 				offset++;
+				// Case 1: Structural Content folding
 				if (document.getLineOfOffset(startOffset) > 0
 						&& document.getContentType(startOffset).equals(
 								IntentPartitionScanner.INTENT_STRUCTURAL_CONTENT)) {
@@ -156,6 +159,18 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 						if (document.getNumberOfLines(startOffset, endOffset - startOffset) > 2) {
 							createOrUpdateAnnotation(startOffset, endOffset - startOffset, false);
 						}
+					}
+				}
+				// Case 2: Modeling Unit folding
+				else if (document.getLineOfOffset(startOffset) > 0
+						&& document.getContentType(startOffset).equals(
+								IntentPartitionScanner.INTENT_MODELINGUNIT)) {
+					// Search for modeling unit end
+					String documentZone = document.get().substring(startOffset);
+					int endOffset = documentZone.indexOf("M@") + 2;
+					if (endOffset > -1) {
+						createOrUpdateAnnotation(startOffset - 1, endOffset,
+								shouldCollapseModelingUnitByDefault());
 					}
 				}
 				eof = seekBlockStart();
@@ -178,11 +193,15 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 	 */
 	private boolean seekBlockStart() throws BadLocationException {
 		char next = document.getChar(offset);
+		char previous = ' ';
 		boolean eof = offset + 1 >= document.getLength();
-		while (!eof && next != '{') {
+		boolean foundModelingUnit = false;
+		while (!eof && next != '{' && !foundModelingUnit) {
 			offset++;
+			previous = next;
 			next = document.getChar(offset);
 			eof = offset + 1 == document.getLength();
+			foundModelingUnit = next == 'M' && previous == '@';
 		}
 		return eof;
 	}
@@ -207,7 +226,6 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 		final String text = document.get(newOffset, newLength);
 		for (Iterator<Entry<Annotation, Position>> iterator = copy.entrySet().iterator(); iterator.hasNext();) {
 			Entry<Annotation, Position> entry = iterator.next();
-			// if (entry.getKey().getText().equals(text)) {
 			// added checking to avoid same text elements to bo ignored
 			if (entry.getKey().getText().equals(text) && entry.getValue().getOffset() == newOffset) {
 				createAnnotation = false;
@@ -240,6 +258,16 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 				editor.updateFoldingStructure(addedAnnotations, deletedAnnotations, modifiedAnnotations);
 			}
 		});
+	}
+
+	/**
+	 * Indicates whether Modeling units should be initially collapsed in the Intent editor.
+	 * 
+	 * @return true if Modeling units should be initially collapsed in the Intent editor, false otherwise
+	 */
+	private boolean shouldCollapseModelingUnitByDefault() {
+		return IntentEditorActivator.getDefault().getPreferenceStore()
+				.getBoolean(IntentPreferenceConstants.COLLAPSE_MODELING_UNITS);
 	}
 
 }

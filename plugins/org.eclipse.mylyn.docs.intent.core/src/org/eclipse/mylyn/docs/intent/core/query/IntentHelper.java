@@ -10,15 +10,26 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.core.query;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
+import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 
 /**
  * Class that provides useful services on Intent element.
@@ -39,8 +50,8 @@ public final class IntentHelper {
 	 * 
 	 * @param element
 	 *            the element to determine if it can be opened by an IntentEditor
-	 * @return true if the given element is an Intent element that can be hold by an IntentEditor,
-	 *         false otherwise
+	 * @return true if the given element is an Intent element that can be hold by an IntentEditor, false
+	 *         otherwise
 	 */
 	public static boolean canBeOpenedByIntentEditor(Object element) {
 		return (element instanceof IntentStructuredElement) || (element instanceof GenericUnit);
@@ -85,5 +96,38 @@ public final class IntentHelper {
 			}
 		}
 		return containsElement;
+	}
+
+	/**
+	 * Returns all {@link ExternalContentReference}s contained in the given root.
+	 * 
+	 * @return all {@link ExternalContentReference}s contained in the given root
+	 */
+	public static Collection<ExternalContentReference> getAllExternalContentReferences(
+			IntentGenericElement root) {
+		Collection<ExternalContentReference> externalContentReferences = new LinkedHashSet<ExternalContentReference>();
+		if (root instanceof IntentDocument) {
+			for (IntentChapter chapter : ((IntentDocument)root).getChapters()) {
+				externalContentReferences.addAll(getAllExternalContentReferences(chapter));
+			}
+		} else {
+			if (root instanceof IntentSubSectionContainer) {
+				for (IntentSection section : ((IntentSubSectionContainer)root).getSubSections()) {
+					externalContentReferences.addAll(getAllExternalContentReferences(section));
+				}
+			}
+
+			if (root instanceof IntentSection) {
+				for (ModelingUnit unit : ((IntentSection)root).getModelingUnits()) {
+					externalContentReferences.addAll(getAllExternalContentReferences(unit));
+				}
+			}
+
+			if (root instanceof ModelingUnit) {
+				externalContentReferences.addAll(Sets.newLinkedHashSet(Iterables.filter(
+						((ModelingUnit)root).getInstructions(), ExternalContentReference.class)));
+			}
+		}
+		return externalContentReferences;
 	}
 }

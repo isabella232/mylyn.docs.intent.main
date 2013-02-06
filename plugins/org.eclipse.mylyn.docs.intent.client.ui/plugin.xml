@@ -27,7 +27,13 @@ Contributors:
             description="Show Quick Outline View"
             id="org.eclipse.mylyn.docs.intent.client.ui.show.outline"
             name="Show QuickOutline">
-	</command>
+	  </command>
+	  <command
+            categoryId="org.eclipse.ui.category.navigate"
+            description="Open corresponding artifact"
+            id="org.eclipse.mylyn.docs.intent.client.ui.hyperlink"
+            name="Open corresponding artifact">
+	  </command>
    </extension>
    
    
@@ -47,6 +53,16 @@ Contributors:
                label="Show Quick Outline View"
                retarget="false"
                tooltip="Show Quick Outline View">
+         </action>
+         <action
+               allowLabelUpdate="true"
+               class="org.eclipse.mylyn.docs.intent.client.ui.actions.HyperlinkAction"
+               definitionId="org.eclipse.mylyn.docs.intent.client.ui.hyperlink"
+               enablesFor="*"
+               id="org.eclipse.mylyn.docs.intent.client.ui.editor.hyperlink"
+               label="Open corresponding artifact"
+               retarget="false"
+               tooltip="Open corresponding artifact">
          </action>
       </actionSet>
    </extension>
@@ -286,6 +302,12 @@ Contributors:
             contextId="org.eclipse.mylyn.docs.intent.client.ui.editor.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M1+O">
+      </key>
+      <key
+            commandId="org.eclipse.mylyn.docs.intent.client.ui.hyperlink"
+            contextId="org.eclipse.mylyn.docs.intent.client.ui.editor.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="F3">
       </key>
    </extension>
    <extension

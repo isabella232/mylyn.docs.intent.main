@@ -22,6 +22,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
@@ -38,12 +41,17 @@ import org.eclipse.mylyn.docs.intent.bridge.java.Field;
 import org.eclipse.mylyn.docs.intent.bridge.java.Method;
 import org.eclipse.mylyn.docs.intent.bridge.java.resource.factory.JavaClassExplorer;
 import org.eclipse.mylyn.docs.intent.bridge.java.resource.factory.JavaResourceFactory;
+import org.eclipse.mylyn.docs.intent.bridge.java.util.JavaBridgeSerializer;
 import org.eclipse.mylyn.docs.intent.bridge.java.util.JavaBridgeUtils;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
@@ -58,6 +66,10 @@ import org.eclipse.ui.part.ResourceTransfer;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class JavaEditorRendererExtension implements IEditorRendererExtension {
+
+	private static final int JAVA_IMAGE_HEIGHT_MARGIN = 5;
+
+	private static final int JAVA_IMAGE_WIDTH = 800;
 
 	/**
 	 * Default constructor.
@@ -170,7 +182,7 @@ public class JavaEditorRendererExtension implements IEditorRendererExtension {
 		try {
 			// If directly dropping an IFile
 			if (event.data instanceof IResource[]) {
-				IResource[] droppedResources = ((IResource[])event.data);
+				IResource[] droppedResources = (IResource[])event.data;
 				for (int i = 0; i < droppedResources.length; i++) {
 					eObjects.add(getJavaFactoryResourceFromIResource(droppedResources[i]).getContents()
 							.iterator().next());
@@ -225,5 +237,55 @@ public class JavaEditorRendererExtension implements IEditorRendererExtension {
 		}
 		return new JavaResourceFactory().createResource(URI.createURI(resource.getFullPath().toString()
 				.replaceFirst("/", "")));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension#getImage(org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference)
+	 */
+	public Image getImage(ExternalContentReference externalContentReference) {
+		Image image = null;
+		if (externalContentReference.getExternalContent() != null) {
+
+			String javaFileAsText = new JavaBridgeSerializer().doSwitch(externalContentReference
+					.getExternalContent());
+			Display display = Display.getDefault();
+			int fontHeight = new GC(new Image(display, 1, 1)).getFontMetrics().getHeight();
+			int imageHeight = fontHeight * javaFileAsText.split("\n").length + JAVA_IMAGE_HEIGHT_MARGIN;
+			image = new Image(display, JAVA_IMAGE_WIDTH, imageHeight);
+
+			GC gc = new GC(image);
+
+			// Render javadoc
+			int textHeight = 5;
+			if (javaFileAsText.startsWith("/**")) {
+				gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
+				String javadoc = javaFileAsText.substring(0, javaFileAsText.indexOf("*/") + 3);
+				javaFileAsText = javaFileAsText.replace(javadoc, "");
+				javadoc = javadoc.replace("/**", "").replace("*/", "").trim();
+				gc.drawText(javadoc, 2, 5);
+				textHeight = (javadoc.split("\n").length + 1) * fontHeight;
+
+			}
+
+			// Render text
+			gc.setForeground(display.getSystemColor(SWT.COLOR_DARK_GRAY));
+			IItemLabelProvider labeProvider = (IItemLabelProvider)new ComposedAdapterFactory(
+					ComposedAdapterFactory.Descriptor.Registry.INSTANCE).adapt(
+					externalContentReference.getExternalContent(), IItemLabelProvider.class);
+			Object iconURL = labeProvider.getImage(externalContentReference.getExternalContent());
+			Image icon = ExtendedImageRegistry.getInstance().getImage(iconURL);
+			int iconWidth = 5;
+			if (icon != null) {
+				gc.drawImage(icon, 0, textHeight);
+				iconWidth += icon.getImageData().width + 2;
+			}
+			gc.drawText(javaFileAsText, iconWidth, textHeight);
+
+			gc.dispose();
+		}
+
+		return image;
 	}
 }

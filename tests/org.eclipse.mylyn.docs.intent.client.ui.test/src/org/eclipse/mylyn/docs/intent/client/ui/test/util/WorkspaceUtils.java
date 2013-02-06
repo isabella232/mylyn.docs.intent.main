@@ -47,6 +47,8 @@ import org.eclipse.ui.PlatformUI;
  */
 public final class WorkspaceUtils {
 
+	private static final String SLASH = "/";
+
 	/**
 	 * Prevents instantiation.
 	 */
@@ -118,17 +120,17 @@ public final class WorkspaceUtils {
 		Set<IProjectDescription> projectsToCreate = Sets.newLinkedHashSet();
 
 		while (zipEntry != null) {
-			String projectName = zipEntry.getName().split("/")[0];
+			String projectName = zipEntry.getName().split(SLASH)[0];
 
 			IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
 					projectName);
 			projectDescription.setLocation(new Path(ResourcesPlugin.getWorkspace().getRoot().getLocation()
-					+ "/" + projectName + "/.project"));
+					+ SLASH + projectName + "/.project"));
 			projectsToCreate.add(projectDescription);
 			createProject(projectName, monitor, false);
 
 			final File file = new File(projectDescription.getLocation().toString(), zipEntry.getName()
-					.replaceFirst(projectName + "/", "")); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+					.replaceFirst(projectName + SLASH, "")); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 
 			if (!zipEntry.isDirectory()) {
 

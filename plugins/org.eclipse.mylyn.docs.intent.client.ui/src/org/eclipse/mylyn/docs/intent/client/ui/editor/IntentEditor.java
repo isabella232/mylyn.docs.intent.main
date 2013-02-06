@@ -30,6 +30,7 @@ import org.eclipse.jface.text.information.IInformationPresenter;
 import org.eclipse.jface.text.information.IInformationProvider;
 import org.eclipse.jface.text.information.InformationPresenter;
 import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.jface.text.source.AnnotationPainter;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
@@ -41,6 +42,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotationPainter;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditorConfiguration;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.drop.IntentEditorDropSupport;
@@ -111,6 +113,12 @@ public class IntentEditor extends TextEditor {
 	private IntentPairMatcher blockMatcher;
 
 	private IntentEditorConfiguration sourceViewerConfiguration;
+
+	/**
+	 * Indicates if the {@link IntentEditor} has already collapsed structures that should be collapsed at
+	 * opening. Typically used to determine whether Images should be painted.
+	 */
+	private boolean isInitialFoldingStructureComplete;
 
 	/**
 	 * Default constructor.
@@ -192,6 +200,10 @@ public class IntentEditor extends TextEditor {
 		// ensure decoration support has been created and configured.
 		getSourceViewerDecorationSupport(viewer);
 
+		// registering the annotation painter allowing to paint images
+		AnnotationPainter imagePainter = new IntentImageAnnotationPainter(this, viewer);
+		((ProjectionViewer)viewer).addPainter(imagePainter);
+		((ProjectionViewer)viewer).addTextPresentationListener(imagePainter);
 		return viewer;
 	}
 
@@ -208,6 +220,7 @@ public class IntentEditor extends TextEditor {
 	 */
 	public void updateFoldingStructure(Map<Annotation, Position> addedAnnotations,
 			List<Annotation> deletedAnnotations, Map<Annotation, Position> modifiedAnnotations) {
+
 		Annotation[] deleted = new Annotation[deletedAnnotations.size() + modifiedAnnotations.size()];
 		for (int i = 0; i < deletedAnnotations.size(); i++) {
 			deleted[i] = deletedAnnotations.get(i);
@@ -220,6 +233,18 @@ public class IntentEditor extends TextEditor {
 		if (annotationModel != null) {
 			annotationModel.modifyAnnotations(deleted, addedAnnotations, null);
 		}
+		isInitialFoldingStructureComplete = true;
+	}
+
+	/**
+	 * Indicates if the {@link IntentEditor} has already collapsed structures that should be collapsed at
+	 * opening. Typically used to determine whether Images should be painted.
+	 * 
+	 * @return true if the {@link IntentEditor} has already collapsed structures that should be collapsed at
+	 *         opening, false otherwise
+	 */
+	public boolean isInitialFoldingStructureComplete() {
+		return isInitialFoldingStructureComplete;
 	}
 
 	/**

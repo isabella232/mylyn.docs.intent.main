@@ -63,6 +63,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
@@ -160,6 +161,8 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	protected IAnnotationModel createAnnotationModel(Object element) throws CoreException {
 		// We use an AnnotationModelManager to handle the create annotationModel
 		Assert.isNotNull(annotationModelManager);
+
+		// Step 1: create annotations for all compilation statuses
 		for (CompilationStatus status : IntentHelper.getAllStatus((IntentGenericElement)documentRoot)) {
 
 			List<IntentEditorDocument> list = elementsToDocuments.get(listenedElementsHandler
@@ -178,6 +181,13 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 							new Position(posit.getOffset(), posit.getDeclarationLength()));
 				}
 			}
+		}
+
+		// Step 2: create annotations for all ExternalContentReferences
+		for (ExternalContentReference reference : IntentHelper
+				.getAllExternalContentReferences((IntentGenericElement)documentRoot)) {
+			annotationModelManager.addAnnotationFromExternalContentReference(reference,
+					createdDocument.getIntentPosition(reference));
 		}
 		return annotationModelManager.getAnnotationModel();
 	}

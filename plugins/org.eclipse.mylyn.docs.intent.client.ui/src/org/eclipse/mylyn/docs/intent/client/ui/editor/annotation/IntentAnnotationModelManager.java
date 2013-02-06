@@ -21,6 +21,8 @@ import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
+import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
 
 /**
  * Handles the management of annotation models used by an IntentDocumentProvider.
@@ -190,5 +192,23 @@ public class IntentAnnotationModelManager {
 				|| IntentAnnotationFactory.INTENT_ANNOT_COMPILER_WARNING.equals(type)
 				|| IntentAnnotationFactory.INTENT_ANNOT_GENERAL_INFO.equals(type)
 				|| IntentAnnotationFactory.INTENT_ANNOT_SYNC_WARNING.equals(type);
+	}
+
+	/**
+	 * Creates an
+	 * {@link org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotation}
+	 * corresponding to the given {@link ExternalContentReference}.
+	 * 
+	 * @param reference
+	 *            the {@link ExternalContentReference} to render
+	 * @param intentPosition
+	 *            the {@link ParsedElementPosition} of this instruction
+	 */
+	public void addAnnotationFromExternalContentReference(ExternalContentReference reference,
+			ParsedElementPosition intentPosition) {
+		if (intentPosition != null) {
+			getAnnotationModel().addAnnotation(IntentAnnotationFactory.createImageAnnotation(reference),
+					new Position(intentPosition.getOffset() + intentPosition.getLength(), 0));
+		}
 	}
 }

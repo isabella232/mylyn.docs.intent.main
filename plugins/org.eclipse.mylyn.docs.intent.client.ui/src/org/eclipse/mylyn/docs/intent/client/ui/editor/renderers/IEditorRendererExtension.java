@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.Transfer;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * An extension allowing to:
@@ -71,5 +72,15 @@ public interface IEditorRendererExtension {
 	 * @return the {@link EObject}s corresponding to the given {@link DropTargetEvent}
 	 */
 	Collection<? extends EObject> getEObjectsFromDropTargetEvent(DropTargetEvent event);
+
+	/**
+	 * Returns an image corresponding to the given {@link ExternalContentReference} (e.g. the content of a
+	 * java class as an image), or null if no image should be displayed.
+	 * 
+	 * @param reference
+	 *            the {@link ExternalContentReference} to render as image
+	 * @return
+	 */
+	Image getImage(ExternalContentReference reference);
 
 }

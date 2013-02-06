@@ -30,7 +30,6 @@ import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConst
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.ExternalContentReferencesMergeUpdater;
@@ -128,12 +127,13 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 	}
 
 	/**
-	 * Reacts to the drop by updating the {@link IntentDocument}.
+	 * Reacts to the drop by updating the {@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument}.
 	 * 
 	 * @param repositoryAdapter
 	 *            the repository adapter
 	 * @param parent
-	 *            the parent {@link IntentDocument} element in which creating dropped elements
+	 *            the parent {@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument} element in
+	 *            which creating dropped elements
 	 * @param droppedEObjects
 	 *            the dropped {@link EObject}s
 	 * @throws CancellationException
@@ -207,7 +207,7 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 
 	/**
 	 * Indicates whether we should use external content references to link the dropped elements with the
-	 * {@link IntentDocument}, according to preferences.
+	 * {@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument}, according to preferences.
 	 * 
 	 * @return true if we should use external content references to link the dropped elements, false otherwise
 	 */

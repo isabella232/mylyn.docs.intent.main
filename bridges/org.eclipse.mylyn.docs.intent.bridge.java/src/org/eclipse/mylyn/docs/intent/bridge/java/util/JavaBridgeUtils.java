@@ -36,4 +36,5 @@ public final class JavaBridgeUtils {
 	public static boolean isHandledByJavaBridge(URI uri) {
 		return "java".equals(uri.fileExtension());
 	}
+
 }

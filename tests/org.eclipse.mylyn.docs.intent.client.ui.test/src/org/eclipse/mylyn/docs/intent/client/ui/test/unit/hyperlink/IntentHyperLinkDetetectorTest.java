@@ -35,6 +35,8 @@ import org.eclipse.ui.PlatformUI;
  */
 public class IntentHyperLinkDetetectorTest extends AbstractIntentUITest {
 
+	private static final int JAVA_METHOD_OFFSET = 1704;
+
 	private static final String JAVA_PROJECT_PATH = "data/unit/java/java.example01.zip";
 
 	private static final String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/java/doc_with_java.intent";
@@ -70,7 +72,7 @@ public class IntentHyperLinkDetetectorTest extends AbstractIntentUITest {
 				.get()
 				.indexOf(
 						"ExampleJavaClass.java#//@methods[name='protectedMethodWithParameters(ExampleJavaClass,Object)']");
-		doTestHyperLink(offset, "org.eclipse.jdt.ui.CompilationUnitEditor", 1704);
+		doTestHyperLink(offset, "org.eclipse.jdt.ui.CompilationUnitEditor", JAVA_METHOD_OFFSET);
 	}
 
 	/**

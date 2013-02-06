@@ -11,8 +11,10 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor.annotation;
 
 import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotation;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 
 /**
  * Factory for creating Annotations used in the text editor.
@@ -45,6 +47,12 @@ public final class IntentAnnotationFactory {
 	 * String that symbolizes a synchronization warning.
 	 */
 	public static final String INTENT_ANNOT_SYNC_WARNING = "org.eclipse.mylyn.docs.intent.client.ui.annotation.sync.warning";
+
+	/**
+	 * String that symbolizes an {@link IntentImageAnnotation} allowing to display images directly inside the
+	 * {@link org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor}.
+	 */
+	public static final String INTENT_IMAGE = "org.eclipse.mylyn.docs.intent.client.ui.annotation.image";
 
 	/**
 	 * IntentAnnotationFactory constructor.
@@ -100,6 +108,18 @@ public final class IntentAnnotationFactory {
 		annotation.setType(INTENT_ANNOT_SYNTAX_ERROR);
 		annotation.setMessageType(IntentAnnotationMessageType.PARSER_ERROR);
 		return annotation;
+	}
+
+	/**
+	 * Creates an {@link IntentImageAnnotation} allowing to paint the given image.
+	 * 
+	 * @param reference
+	 *            the {@link ExternalContentReference} to paint
+	 * @return an {@link IntentImageAnnotation} allowing to paint the given image
+	 */
+	public static IntentImageAnnotation createImageAnnotation(ExternalContentReference reference) {
+		IntentImageAnnotation imageAnnotation = new IntentImageAnnotation(reference);
+		return imageAnnotation;
 	}
 
 }

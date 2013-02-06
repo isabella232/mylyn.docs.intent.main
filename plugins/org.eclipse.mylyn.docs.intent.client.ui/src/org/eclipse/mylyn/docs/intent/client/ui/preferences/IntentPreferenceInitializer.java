@@ -36,6 +36,7 @@ public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 		IEclipsePreferences node = DefaultScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
 		node.put(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, Boolean.FALSE.toString());
+		node.put(IntentPreferenceConstants.COLLAPSE_MODELING_UNITS, Boolean.TRUE.toString());
 		node.put(IntentPreferenceConstants.MATCHING_BRACKETS, Boolean.TRUE.toString());
 		node.put(IntentPreferenceConstants.MATCHING_BRACKETS_COLOR,
 				StringConverter.asString(MATCHING_BRACKET_COLOR));

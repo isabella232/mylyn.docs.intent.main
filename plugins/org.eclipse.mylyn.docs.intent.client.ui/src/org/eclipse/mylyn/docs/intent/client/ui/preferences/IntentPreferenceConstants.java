@@ -38,6 +38,11 @@ public interface IntentPreferenceConstants {
 	 */
 	String MATCHING_BRACKETS_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets_color";
 
+	/**
+	 * Indicates whether Modeling units should be initially collapsed in the Intent editor.
+	 */
+	String COLLAPSE_MODELING_UNITS = "org.eclipse.mylyn.docs.intent.client.ui.preferences.collapse_mu";
+
 	/*
 	 * Drag and drop preferences.
 	 */
