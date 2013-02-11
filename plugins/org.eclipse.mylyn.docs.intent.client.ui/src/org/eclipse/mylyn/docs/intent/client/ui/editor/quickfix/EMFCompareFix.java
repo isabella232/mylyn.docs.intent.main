@@ -67,26 +67,33 @@ public class EMFCompareFix extends AbstractIntentFix {
 	 */
 	@Override
 	protected void applyFix(RepositoryAdapter repositoryAdapter, IntentEditorDocument document) {
-		String workingCopyResourceURI = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
-				.getWorkingCopyResourceURI().replace("\"", "");
-		String generatedResourceURI = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
+		URI workingCopyElementURI = URI.createURI(((SynchronizerCompilationStatus)syncAnnotation
+				.getCompilationStatus()).getWorkingCopyResourceURI().replace("\"", ""));
+		String generatedResourcePath = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
 				.getCompiledResourceURI().replace("\"", "");
 
 		// launch comparison
-		Resource generatedResource = repositoryAdapter.getResource(generatedResourceURI);
+		EObject generatedElement = repositoryAdapter.getResource(generatedResourcePath).getContents()
+				.iterator().next();
 		ResourceSetImpl rs = new ResourceSetImpl();
-		Resource workingCopyResource = rs.getResource(URI.createURI(workingCopyResourceURI), true);
-		final Comparison comparison = EMFCompareUtils.compare(generatedResource, workingCopyResource);
+		Resource workingCopyResource = rs.getResource(workingCopyElementURI.trimFragment(), true);
+		EObject workingCopyElement = null;
+		if (workingCopyElementURI.hasFragment()) {
+			workingCopyElement = workingCopyResource.getEObject(workingCopyElementURI.fragment());
+		} else {
+			workingCopyElement = workingCopyResource.getContents().iterator().next();
+		}
+		final Comparison comparison = EMFCompareUtils.compare(generatedElement, workingCopyElement);
 
 		// prepare configuration & open dialog
-		final CompareConfiguration compareConfig = new IntentCompareConfiguration(generatedResource,
-				workingCopyResource);
+		final CompareConfiguration compareConfig = new IntentCompareConfiguration(generatedElement,
+				workingCopyElement);
 		compareConfig.setProperty(EMFCompareConstants.COMPARE_RESULT, comparison);
 		compareConfig.setProperty(EMFCompareConstants.EDITING_DOMAIN,
-				EMFCompareEditingDomain.create(generatedResource, workingCopyResource, null));
+				EMFCompareEditingDomain.create(generatedElement, workingCopyElement, null));
 		CompareEditorInput input = new IntentCompareEditorInput(compareConfig, comparison);
 		compareConfig.setContainer(input);
-		input.setTitle(COMPARE_EDITOR_TITLE + " (" + workingCopyResourceURI + ")");
+		input.setTitle(COMPARE_EDITOR_TITLE + " (" + workingCopyElementURI + ")");
 		CompareUI.openCompareDialog(input);
 	}
 
@@ -120,10 +127,10 @@ public class EMFCompareFix extends AbstractIntentFix {
 			if (status instanceof StructuralFeatureChangeStatus) {
 				EObject element = ((StructuralFeatureChangeStatus)status).getCompiledElement();
 				Match match = comparison.getMatch(element);
-				if (match != null && !match.getDifferences().isEmpty()) {
+				if (match != null && match.getDifferences().size() == 1) {
 					// TODO improve, find a way to accurately rely status original difference with comparison
 					// (use message ?)
-					this.selection = match.getDifferences().get(0);
+					// this.selection = match.getDifferences().get(0);
 				}
 			}
 		}

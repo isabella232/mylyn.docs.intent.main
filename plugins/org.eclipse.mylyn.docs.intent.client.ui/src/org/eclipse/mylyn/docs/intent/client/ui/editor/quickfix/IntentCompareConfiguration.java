@@ -12,7 +12,11 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
 import org.eclipse.compare.CompareConfiguration;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.swt.graphics.Image;
 
@@ -23,7 +27,7 @@ import org.eclipse.swt.graphics.Image;
  */
 public class IntentCompareConfiguration extends CompareConfiguration {
 
-	private Resource workingCopyResource;
+	private EObject workingCopyResource;
 
 	/**
 	 * Default constructor.
@@ -33,7 +37,7 @@ public class IntentCompareConfiguration extends CompareConfiguration {
 	 * @param workingCopyResource
 	 *            the resource to compare (used by user in working copy)
 	 */
-	public IntentCompareConfiguration(Resource generatedResource, Resource workingCopyResource) {
+	public IntentCompareConfiguration(EObject generatedResource, EObject workingCopyResource) {
 		this.workingCopyResource = workingCopyResource;
 	}
 
@@ -64,7 +68,23 @@ public class IntentCompareConfiguration extends CompareConfiguration {
 	 */
 	@Override
 	public String getRightLabel(Object element) {
-		return "Working Copy (" + workingCopyResource.getURI() + ")";
+		return "Working Copy (" + EcoreUtil.getURI(workingCopyResource) + ")";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.compare.CompareConfiguration#getRightImage(java.lang.Object)
+	 */
+	@Override
+	public Image getRightImage(Object element) {
+		IItemLabelProvider labeProvider = (IItemLabelProvider)new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE).adapt(element, IItemLabelProvider.class);
+		if (labeProvider != null) {
+			Object iconURL = labeProvider.getImage(element);
+			return ExtendedImageRegistry.getInstance().getImage(iconURL);
+		}
+		return null;
 	}
 
 	/**
@@ -74,7 +94,7 @@ public class IntentCompareConfiguration extends CompareConfiguration {
 	 */
 	@Override
 	public boolean isLeftEditable() {
-		return false; // TODO check consistency
+		return false;
 	}
 
 	/**
