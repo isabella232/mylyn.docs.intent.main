@@ -266,8 +266,15 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 	 * @return true if Modeling units should be initially collapsed in the Intent editor, false otherwise
 	 */
 	private boolean shouldCollapseModelingUnitByDefault() {
-		return IntentEditorActivator.getDefault().getPreferenceStore()
-				.getBoolean(IntentPreferenceConstants.COLLAPSE_MODELING_UNITS);
+		// We should collapse modeling units if
+
+		return
+		// - preference say so
+		IntentEditorActivator.getDefault().getPreferenceStore()
+				.getBoolean(IntentPreferenceConstants.COLLAPSE_MODELING_UNITS)
+				&&
+				// - and this is editor opening
+				!editor.isInitialFoldingStructureComplete();
 	}
 
 }

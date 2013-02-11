@@ -19,7 +19,6 @@ import org.eclipse.jface.text.source.AnnotationPainter.IDrawingStrategy;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentFontConstants;
-import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -73,43 +72,43 @@ public class IntentImageAnnotationDrawingStrategy implements IDrawingStrategy {
 			if (gc != null) {
 				Position position = viewer.getAnnotationModel().getPosition(annotation);
 
-				// Step 1: get the image to paint
-				IntentImageAnnotation imageAnnotation = (IntentImageAnnotation)annotation;
-				Image image = imageAnnotation.getImage();
-				// If image is not available, get the default SWT ICON_QUESTION
-				if (image != null && !image.isDisposed()) {
+				if (position != null) {
+					// Step 1: get the image to paint
+					IntentImageAnnotation imageAnnotation = (IntentImageAnnotation)annotation;
+					Image image = imageAnnotation.getImage();
+					// If image is not available, get the default SWT ICON_QUESTION
+					if (image != null && !image.isDisposed()) {
 
-					// Step 2: get position
-					if (position != null) {
+						// Step 2: get position
 						offset = position.offset;
+						Point imagePosition = computeImagePosition(textWidget, offset, length, position);
+
+						// Step 3: paint the image background as rectangle
+						Color foreground = gc.getForeground();
+						Color background = gc.getBackground();
+						gc.setForeground(textWidget.getForeground());
+						gc.setBackground(textWidget.getBackground());
+						Rectangle bounds = image.getBounds();
+						gc.fillRectangle(new Rectangle(imagePosition.x, imagePosition.y, bounds.width,
+								bounds.height));
+
+						// Step 4: update style range so that the font size is equals to the image height
+						updateStyleRange(textWidget, offset, bounds.height, gc);
+
+						// Step 5: draw image
+						gc.setForeground(foreground);
+						gc.setBackground(background);
+						gc.drawImage(image, imagePosition.x, imagePosition.y);
 					}
-					Point imagePosition = computeImagePosition(textWidget, offset, length, position);
-
-					// Step 3: paint the image background as rectangle
-					Color foreground = gc.getForeground();
-					Color background = gc.getBackground();
-					gc.setForeground(textWidget.getForeground());
-					gc.setBackground(textWidget.getBackground());
-					Rectangle bounds = image.getBounds();
-					gc.fillRectangle(new Rectangle(imagePosition.x, imagePosition.y, bounds.width,
-							bounds.height));
-
-					// Step 4: update style range so that the font size is equals to the image height
-					updateStyleRange(textWidget, offset, bounds.height, gc);
-
-					// Step 5: draw image
-					gc.setForeground(foreground);
-					gc.setBackground(background);
-					gc.drawImage(image, imagePosition.x, imagePosition.y);
 				} else {
 					updateStyleRange(textWidget, offset, 1, gc);
 				}
 			} else {
 				// Calling redraw on the text widget
-				textWidget.redrawRange(offset, length, true);
+				textWidget.redrawRange(offset, 1, true);
 			}
 		} catch (IllegalArgumentException e) {
-			IntentUiLogger.logError(e);
+			// Silent catch
 		}
 	}
 
@@ -155,21 +154,30 @@ public class IntentImageAnnotationDrawingStrategy implements IDrawingStrategy {
 		Iterable<IntentImageStyleRange> newArrayList = Iterables.filter(
 				Lists.newArrayList(textWidget.getStyleRangeAtOffset(offset)), IntentImageStyleRange.class);
 
+		// Step 2: create a new (or get existing) style range at the image offset
 		int length = 1;
+		StyleRange styleRange = null;
 		if (!newArrayList.iterator().hasNext()) {
-			// Step 2: create a new style range at the image offset
-			StyleRange styleRange = new IntentImageStyleRange(offset, length, gc.getForeground(),
-					gc.getBackground(), SWT.NONE);
 
-			// Step 3: create a font having a height allowing to cover the whole image
-			Font oldFont = gc.getFont();
-			Font referenceFont = IntentFontConstants.getImageReferenceFont();
-			gc.setFont(referenceFont);
-			float referenceFontHeightInPX = gc.getFontMetrics().getAscent();
-			float expectedFontSizeFloat = expectedHeight / referenceFontHeightInPX;
-			expectedFontSizeFloat += 0.5;
-			int expectedFontSizeInPoints = Math.round(expectedFontSizeFloat);
-			gc.setFont(oldFont);
+			styleRange = new IntentImageStyleRange(offset, length, gc.getForeground(), gc.getBackground(),
+					SWT.NONE);
+		} else {
+			styleRange = newArrayList.iterator().next();
+		}
+
+		// Step 3: calculate the font size in points required to cover the whole image
+		Font oldFont = gc.getFont();
+		Font referenceFont = IntentFontConstants.getImageReferenceFont();
+		gc.setFont(referenceFont);
+		float referenceFontHeightInPX = gc.getFontMetrics().getAscent();
+		float expectedFontSizeFloat = expectedHeight / referenceFontHeightInPX;
+		expectedFontSizeFloat += 0.5;
+		int expectedFontSizeInPoints = Math.round(expectedFontSizeFloat);
+		gc.setFont(oldFont);
+
+		// Step 4: update style ranges if needed
+		if (styleRange.font == null
+				|| styleRange.font.getFontData()[0].getHeight() != expectedFontSizeInPoints) {
 			Font coverringImageFont = new Font(referenceFont.getDevice(),
 					referenceFont.getFontData()[0].getName(), expectedFontSizeInPoints
 							* referenceFont.getFontData()[0].getHeight(), SWT.NONE);

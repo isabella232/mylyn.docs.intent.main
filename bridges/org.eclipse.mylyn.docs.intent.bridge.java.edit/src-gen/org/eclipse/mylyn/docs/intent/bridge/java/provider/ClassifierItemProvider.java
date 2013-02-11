@@ -16,9 +16,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -28,8 +26,8 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.mylyn.docs.intent.bridge.java.Classifier;
+import org.eclipse.mylyn.docs.intent.bridge.java.ClassifierKind;
 import org.eclipse.mylyn.docs.intent.bridge.java.JavaFactory;
 import org.eclipse.mylyn.docs.intent.bridge.java.JavaPackage;
 
@@ -176,11 +174,17 @@ public class ClassifierItemProvider
 	 * This returns Classifier.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated not
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Classifier"));
+		if (((Classifier)object).getKind() == ClassifierKind.INTERFACE) {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Interface"));
+		} else if (((Classifier)object).getKind() == ClassifierKind.ENUM) {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Enum"));
+		} else {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Classifier"));
+		}
 	}
 
 	/**

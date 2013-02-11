@@ -32,7 +32,16 @@ public class IntentImageAnnotation extends Annotation {
 	 */
 	private Image image;
 
+	/**
+	 * The {@link ExternalContentReference} associated to this {@link IntentImageAnnotation}.
+	 */
 	private ExternalContentReference reference;
+
+	/**
+	 * Indicates whether the next call to getImage() should recalculate the image or not (default value is
+	 * false).
+	 */
+	private boolean imageShouldBeRedrawn;
 
 	/**
 	 * Default constructor.
@@ -51,16 +60,61 @@ public class IntentImageAnnotation extends Annotation {
 	 * @return the {@link Image} that should be displayed by this annotation
 	 */
 	public Image getImage() {
-		if (this.image == null) {
-			// get providing image through IEditorRedenderExtensions
+		return getImage(true);
+	}
+
+	/**
+	 * Returns the {@link Image} that should be displayed by this annotation.
+	 * 
+	 * @param createImageIfNotExists
+	 *            indicates whether the image should be created if not exists
+	 * @return the {@link Image} that should be displayed by this annotation
+	 */
+	public Image getImage(boolean createImageIfNotExists) {
+		// Step 1: if previous image is disposed, setting image to null
+		if (this.image != null && this.image.isDisposed()) {
+			this.image = null;
+		}
+
+		// Step 2: if we should create the image if it does not exists
+		// AND if the image does not exist (is null)
+		// or should be redrawn
+		if (createImageIfNotExists && (imageShouldBeRedrawn || this.image == null)) {
+			// Disposing previous image
+			if (image != null) {
+				image.dispose();
+			}
+
+			// creating image through provided IEditorRedenderExtensions
 			for (IEditorRendererExtension rendererExtension : IEditorRendererExtensionRegistry
 					.getEditorRendererExtensions(reference)) {
 				image = rendererExtension.getImage(reference);
 				if (image != null) {
+					imageShouldBeRedrawn = false;
 					break;
 				}
 			}
 		}
 		return image;
+	}
+
+	/**
+	 * Returns the {@link ExternalContentReference} associated to this {@link IntentImageAnnotation}.
+	 * 
+	 * @return the {@link ExternalContentReference} associated to this {@link IntentImageAnnotation}
+	 */
+	public ExternalContentReference getExternalContentReference() {
+		return reference;
+	}
+
+	/**
+	 * Indicates whether the next call to getImage() should recalculate the image or not (default value is
+	 * false).
+	 * 
+	 * @param imageShouldBeRedrawn
+	 *            whether the next call to getImage() should recalculate the image or not
+	 */
+	public void setImageShouldBeRedrawn(boolean imageShouldBeRedrawn) {
+		this.imageShouldBeRedrawn = imageShouldBeRedrawn;
 	}
 }

@@ -12,6 +12,7 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
@@ -60,7 +61,11 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 				}
 			});
 			// Mark document as dirty
-			document.set(document.get() + " ");
+			try {
+				document.replace(0, 0, "");
+			} catch (BadLocationException e) {
+				// Silent catch
+			}
 		} else {
 			// Otherwise, we use the SyncStatusUpdater to update the modeling unit according to the sync.
 			// issue

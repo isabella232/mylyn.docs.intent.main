@@ -30,7 +30,6 @@ import org.eclipse.jface.text.information.IInformationPresenter;
 import org.eclipse.jface.text.information.IInformationProvider;
 import org.eclipse.jface.text.information.InformationPresenter;
 import org.eclipse.jface.text.source.Annotation;
-import org.eclipse.jface.text.source.AnnotationPainter;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
@@ -201,7 +200,7 @@ public class IntentEditor extends TextEditor {
 		getSourceViewerDecorationSupport(viewer);
 
 		// registering the annotation painter allowing to paint images
-		AnnotationPainter imagePainter = new IntentImageAnnotationPainter(this, viewer);
+		IntentImageAnnotationPainter imagePainter = new IntentImageAnnotationPainter(this, viewer);
 		((ProjectionViewer)viewer).addPainter(imagePainter);
 		((ProjectionViewer)viewer).addTextPresentationListener(imagePainter);
 		return viewer;
@@ -263,6 +262,7 @@ public class IntentEditor extends TextEditor {
 			blockMatcher.dispose();
 			blockMatcher = null;
 		}
+
 		colorManager.dispose();
 	}
 

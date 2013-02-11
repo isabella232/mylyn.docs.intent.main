@@ -118,8 +118,7 @@ public final class IntentAnnotationFactory {
 	 * @return an {@link IntentImageAnnotation} allowing to paint the given image
 	 */
 	public static IntentImageAnnotation createImageAnnotation(ExternalContentReference reference) {
-		IntentImageAnnotation imageAnnotation = new IntentImageAnnotation(reference);
-		return imageAnnotation;
+		return new IntentImageAnnotation(reference);
 	}
 
 }

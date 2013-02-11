@@ -71,7 +71,7 @@ public class IntentImageAnnotationPainter extends AnnotationPainter {
 		 * @see org.eclipse.jface.text.source.IAnnotationAccess#isMultiLine(org.eclipse.jface.text.source.Annotation)
 		 */
 		public boolean isMultiLine(Annotation annotation) {
-			return true;
+			return false;
 		}
 
 		/**

@@ -14,6 +14,7 @@ import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,8 @@ import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationModelManager;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotation;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotationDisposer;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection.EditorElementListAdapter;
@@ -186,9 +189,11 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		// Step 2: create annotations for all ExternalContentReferences
 		for (ExternalContentReference reference : IntentHelper
 				.getAllExternalContentReferences((IntentGenericElement)documentRoot)) {
-			annotationModelManager.addAnnotationFromExternalContentReference(reference,
+			annotationModelManager.updateAnnotationFromExternalContentReference(reference,
 					createdDocument.getIntentPosition(reference));
 		}
+		annotationModelManager.getAnnotationModel().addAnnotationModelListener(
+				new IntentImageAnnotationDisposer());
 		return annotationModelManager.getAnnotationModel();
 	}
 
@@ -380,7 +385,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 					}
 
 				});
-
 			} catch (ParseException e) {
 				this.createSyntaxErrorAnnotation(e.getMessage(), e.getErrorOffset(), e.getErrorLength());
 				hasSyntaxErrors = true;
@@ -481,13 +485,18 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		for (EObject modifiedObject : notification.getImpactedElements()) {
 			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
 					.getIDFromElement(modifiedObject);
-
 			// For all documents that have been opened on this object
 			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
 				handleContentHasChanged(modifiedObject, modifiedObjectIdentifier);
 			} else {
 				// update annotations (if the compilation status manager has changed)
 				handleCompilationStatusHasChanged(modifiedObject);
+				// refreshing images
+				for (ExternalContentReference reference : IntentHelper
+						.getAllExternalContentReferences((IntentGenericElement)documentRoot)) {
+					annotationModelManager.updateAnnotationFromExternalContentReference(reference,
+							createdDocument.getIntentPosition(reference));
+				}
 			}
 		}
 	}
@@ -622,6 +631,16 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			this.listenedElementsHandler.getRepositoryAdapter().closeContext();
 			this.listenedElementsHandler.removeClient(this);
 			this.listenedElementsHandler.stop();
+		}
+		/*
+		 * Dispose images create through IntentImageAnnotations
+		 */
+		Iterator annotationIterator = annotationModelManager.getAnnotationModel().getAnnotationIterator();
+		while (annotationIterator.hasNext()) {
+			Object annotation = annotationIterator.next();
+			if (annotation instanceof IntentImageAnnotation) {
+				IntentImageAnnotationDisposer.disposeImage((IntentImageAnnotation)annotation);
+			}
 		}
 
 	}

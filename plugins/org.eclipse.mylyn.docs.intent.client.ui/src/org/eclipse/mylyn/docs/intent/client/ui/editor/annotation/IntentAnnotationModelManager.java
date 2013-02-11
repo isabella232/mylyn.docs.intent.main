@@ -18,6 +18,7 @@ import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotation;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -195,7 +196,7 @@ public class IntentAnnotationModelManager {
 	}
 
 	/**
-	 * Creates an
+	 * Updates (e.g. creates or redraw) an
 	 * {@link org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotation}
 	 * corresponding to the given {@link ExternalContentReference}.
 	 * 
@@ -204,11 +205,29 @@ public class IntentAnnotationModelManager {
 	 * @param intentPosition
 	 *            the {@link ParsedElementPosition} of this instruction
 	 */
-	public void addAnnotationFromExternalContentReference(ExternalContentReference reference,
+	public void updateAnnotationFromExternalContentReference(ExternalContentReference reference,
 			ParsedElementPosition intentPosition) {
 		if (intentPosition != null) {
-			getAnnotationModel().addAnnotation(IntentAnnotationFactory.createImageAnnotation(reference),
-					new Position(intentPosition.getOffset() + intentPosition.getLength(), 0));
+			// Step 1: search for an already existing annotation
+			boolean foundAlredyExistingAnnotation = false;
+			Iterator annotationIterator = getAnnotationModel().getAnnotationIterator();
+			while (annotationIterator.hasNext() && !foundAlredyExistingAnnotation) {
+				Object annotation = annotationIterator.next();
+				if (annotation instanceof IntentImageAnnotation) {
+					if (((IntentImageAnnotation)annotation).getExternalContentReference().getUri()
+							.equals(reference.getUri())) {
+						// Make sure the matching annotation will be redrawn at next paint
+						foundAlredyExistingAnnotation = true;
+						((IntentImageAnnotation)annotation).setImageShouldBeRedrawn(true);
+					}
+				}
+			}
+
+			// Step 2: create a new annotation if none found
+			if (!foundAlredyExistingAnnotation) {
+				getAnnotationModel().addAnnotation(IntentAnnotationFactory.createImageAnnotation(reference),
+						new Position(intentPosition.getOffset() + intentPosition.getLength(), 0));
+			}
 		}
 	}
 }
