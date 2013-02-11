@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+
+   <!-- Registering a ResourceFactory allowing to represent Java files/classes/methods as model -->
    <extension
-         point="org.eclipse.emf.ecore.content_parser">
+         point="org.eclipse.emf.ecore.extension_parser">
       <parser
             class="org.eclipse.mylyn.docs.intent.bridge.java.resource.factory.JavaResourceFactory"
-            contentTypeIdentifier="org.eclipse.mylyn.docs.intent.bridge.java.javacontent">
+            type="java">
       </parser>
    </extension>
-   <extension
-         point="org.eclipse.core.contenttype.contentTypes">
-      <content-type
-            file-extensions="java"
-            id="org.eclipse.mylyn.docs.intent.bridge.java.javacontent"
-            name="Java content"
-            priority="normal">
-      </content-type>
-   </extension>
+   
+   <!-- Registering a synchronizer extension to detect changes made on java classes in real-time -->
    <extension
          point="org.eclipse.mylyn.docs.intent.client.synchronizer.extension">
       <SynchronizerExtensionDescription
             class="org.eclipse.mylyn.docs.intent.bridge.java.listeners.JavaElementListener">
       </SynchronizerExtensionDescription>
    </extension>
+   
+   <!-- Providing an editor extension to provide advanced DnD, hyperlink detections & image rendering -->
    <extension
          point="org.eclipse.mylyn.docs.intent.client.ui.editorrendererextension">
       <EditorRendererExtension
             class="org.eclipse.mylyn.docs.intent.bridge.java.ui.renderers.JavaEditorRendererExtension">
       </EditorRendererExtension>
    </extension>
+
 
 </plugin>
