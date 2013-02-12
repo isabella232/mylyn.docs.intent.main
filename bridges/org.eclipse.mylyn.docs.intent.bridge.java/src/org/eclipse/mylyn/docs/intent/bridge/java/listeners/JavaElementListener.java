@@ -34,15 +34,6 @@ public class JavaElementListener extends IDEGeneratedElementListener implements 
 		super();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.AbstractGeneratedElementListener#addElementToListen(org.eclipse.emf.common.util.URI)
-	 */
-	@Override
-	public void addElementToListen(URI uri) {
-		super.addElementToListen(uri);
-	}
 
 	/**
 	 * {@inheritDoc}

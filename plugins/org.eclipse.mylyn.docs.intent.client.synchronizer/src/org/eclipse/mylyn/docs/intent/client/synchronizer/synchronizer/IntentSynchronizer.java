@@ -360,7 +360,7 @@ public class IntentSynchronizer {
 	 * @param uri
 	 *            the uri of the resource the synchronizer wants to listen
 	 */
-	private void updateSynchronizedElementsListeners(URI uri) {
+	public void updateSynchronizedElementsListeners(URI uri) {
 
 		boolean foundSpecificSynchronizer = false;
 

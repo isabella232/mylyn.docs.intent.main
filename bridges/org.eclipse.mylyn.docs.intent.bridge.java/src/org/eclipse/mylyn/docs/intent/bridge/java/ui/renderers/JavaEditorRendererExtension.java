@@ -26,6 +26,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceReference;
@@ -193,12 +194,12 @@ public class JavaEditorRendererExtension implements IEditorRendererExtension {
 				while (iterator.hasNext()) {
 					Object element = iterator.next();
 
-					if (element instanceof IMember) {
+					if (element instanceof IMethod || element instanceof IField) {
 						String elementID = JavaClassExplorer.getMemberID((IMember)element);
 						String elementFragment = "//";
 						if (element instanceof IMethod) {
 							elementFragment += "@methods";
-						} else {
+						} else if (element instanceof IField) {
 							elementFragment += "@fields";
 						}
 						elementFragment += "[name='" + elementID + "']";
@@ -213,6 +214,9 @@ public class JavaEditorRendererExtension implements IEditorRendererExtension {
 					} else if (element instanceof ICompilationUnit) {
 						eObjects.add(getJavaFactoryResourceFromIResource(
 								((ICompilationUnit)element).getResource()).getContents().iterator().next());
+					} else if (element instanceof IType) {
+						eObjects.add(getJavaFactoryResourceFromIResource(
+								((IType)element).getResource()).getContents().iterator().next());
 					}
 				}
 			}

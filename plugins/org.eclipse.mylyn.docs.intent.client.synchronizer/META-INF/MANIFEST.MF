@@ -17,6 +17,5 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.mylyn.docs.intent.client.synchronizer,
  org.eclipse.mylyn.docs.intent.client.synchronizer.api.contribution,
- org.eclipse.mylyn.docs.intent.client.synchronizer.launcher,
  org.eclipse.mylyn.docs.intent.client.synchronizer.listeners
 Bundle-Activator: org.eclipse.mylyn.docs.intent.client.synchronizer.internal.SynchronizerPlugin

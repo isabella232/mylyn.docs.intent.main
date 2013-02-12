@@ -21,8 +21,8 @@ import org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection.Compil
 import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverClient;
 import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverCreator;
+import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
-import org.eclipse.mylyn.docs.intent.client.synchronizer.launcher.SynchronizerCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.GeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
