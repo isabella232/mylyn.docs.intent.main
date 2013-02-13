@@ -446,6 +446,8 @@ public class ExternalContentReferencesTest extends AbstractIntentUITest {
 					new NullProgressMonitor());
 
 			// Step 3: waiting for build
+			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.CLEAN_BUILD,
+					new NullProgressMonitor());
 			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD,
 					new NullProgressMonitor());
 		} catch (CoreException e) {

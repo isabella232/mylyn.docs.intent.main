@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.ide.notification;
 
+import com.google.common.collect.Sets;
+
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -66,7 +68,7 @@ public class WorkspaceTypeListener {
 		boolean changesDetected = false;
 
 		// We determine if any of the roots contained in the resource is a listened type
-		Iterator<EObject> contentIterator = resource.getContents().iterator();
+		Iterator<EObject> contentIterator = Sets.newLinkedHashSet(resource.getContents()).iterator();
 		while (contentIterator.hasNext() && !changesDetected) {
 			EObject nextRoot = contentIterator.next();
 

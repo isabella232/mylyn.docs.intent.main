@@ -10,11 +10,15 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.internal.renderers;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,7 +82,7 @@ public final class IEditorRendererExtensionRegistry {
 
 	/**
 	 * Returns all the registered {@link IEditorRendererExtension}s defined for the given
-	 * {@link ExternalContentReference}.
+	 * {@link ExternalContentReference}, sorted by priority.
 	 * 
 	 * @param externalContentReference
 	 *            the {@link ExternalContentReference} to render
@@ -87,15 +91,32 @@ public final class IEditorRendererExtensionRegistry {
 	 */
 	public static Collection<IEditorRendererExtension> getEditorRendererExtensions(
 			ExternalContentReference externalContentReference) {
-		Set<IEditorRendererExtension> registeredExtensions = Sets.newHashSet();
+		List<IEditorRendererExtensionDescriptor> registeredExtensions = Lists.newArrayList();
+
+		// Step 1: get all valid extension
 		for (Collection<IEditorRendererExtensionDescriptor> extensions : EXTENSIONS.values()) {
 			for (IEditorRendererExtensionDescriptor descriptor : extensions) {
 				if (descriptor.getEditorRendererExtension().isRendererFor(externalContentReference)) {
-					registeredExtensions.add(descriptor.getEditorRendererExtension());
+					registeredExtensions.add(descriptor);
 				}
 			}
 		}
-		return registeredExtensions;
+
+		// Step 2: sort by priority
+		Collections.sort(registeredExtensions, new Comparator<IEditorRendererExtensionDescriptor>() {
+
+			public int compare(IEditorRendererExtensionDescriptor o1, IEditorRendererExtensionDescriptor o2) {
+				return o1.getPriority() - o2.getPriority();
+			}
+		});
+
+		// Step 3: return corresponding editor render
+		Collection<IEditorRendererExtension> editorRenders = Sets.newLinkedHashSet();
+		for (IEditorRendererExtensionDescriptor descriptor : registeredExtensions) {
+			editorRenders.add(descriptor.getEditorRendererExtension());
+		}
+
+		return editorRenders;
 	}
 
 	/**

@@ -23,7 +23,8 @@
    <extension
          point="org.eclipse.mylyn.docs.intent.client.ui.editorrendererextension">
       <EditorRendererExtension
-            class="org.eclipse.mylyn.docs.intent.bridge.java.ui.renderers.JavaEditorRendererExtension">
+            class="org.eclipse.mylyn.docs.intent.bridge.java.ui.renderers.JavaEditorRendererExtension"
+            priority="2">
       </EditorRendererExtension>
    </extension>
 

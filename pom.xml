@@ -85,6 +85,7 @@
 	<module>examples/org.eclipse.mylyn.docs.intent.example.cdo.server</module>
 	
 	<!-- Intent bridges -->
+	<module>bridges/org.eclipse.mylyn.docs.intent.bridge.ide.default</module>
 	<module>bridges/org.eclipse.mylyn.docs.intent.bridge.java</module>
 	<module>bridges/org.eclipse.mylyn.docs.intent.bridge.java.edit</module>
 	<module>bridges/org.eclipse.mylyn.docs.intent.bridge.java.editor</module>

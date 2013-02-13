@@ -59,6 +59,13 @@
                </appInfo>
             </annotation>
          </attribute>
+         <attribute name="priority" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The priority of this bridge (1 is the lowest)
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

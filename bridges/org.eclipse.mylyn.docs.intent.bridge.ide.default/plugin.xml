@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.mylyn.docs.intent.client.ui.editorrendererextension">
+      <EditorRendererExtension
+            class="org.eclipse.mylyn.docs.intent.bridge.ide.ui.DefaultIDEEditorRendererExtension"
+            priority="1">
+      </EditorRendererExtension>
+   </extension>
+</plugin>
