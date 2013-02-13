@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Java Bridge for Intent
+Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.bridge.java;singleton:=true
 Bundle-Version: 0.8.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
@@ -20,3 +20,4 @@ Export-Package: org.eclipse.mylyn.docs.intent.bridge.java,
  org.eclipse.mylyn.docs.intent.bridge.java.listeners,
  org.eclipse.mylyn.docs.intent.bridge.java.resource.factory,
  org.eclipse.mylyn.docs.intent.bridge.java.util
+Bundle-Vendor: %providerName

@@ -20,6 +20,7 @@ import java.io.Reader;
 import junit.framework.AssertionFailedError;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -442,6 +443,10 @@ public class ExternalContentReferencesTest extends AbstractIntentUITest {
 			// Step 2: replace code
 			String modifiedContent = originalFileContent.replace(regexp, replacement);
 			file.setContents(new ByteArrayInputStream(modifiedContent.getBytes()), true, true,
+					new NullProgressMonitor());
+
+			// Step 3: waiting for build
+			ResourcesPlugin.getWorkspace().build(IncrementalProjectBuilder.FULL_BUILD,
 					new NullProgressMonitor());
 		} catch (CoreException e) {
 			AssertionFailedError assertionFailedError = new AssertionFailedError("Could not modify java code");

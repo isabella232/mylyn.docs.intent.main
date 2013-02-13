@@ -34,7 +34,6 @@ public class JavaElementListener extends IDEGeneratedElementListener implements 
 		super();
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -54,8 +53,7 @@ public class JavaElementListener extends IDEGeneratedElementListener implements 
 			Set<URI> listenedElementsURIs) {
 		this.synchronizer = synchronizerClient;
 		for (URI listenedElementURI : listenedElementsURIs) {
-			addElementToListen(URI.createPlatformResourceURI(listenedElementURI.toString(), false)
-					.trimFragment());
+			addElementToListen(transformToJavaURI(listenedElementURI));
 		}
 	}
 
@@ -68,9 +66,26 @@ public class JavaElementListener extends IDEGeneratedElementListener implements 
 	public void removeListenedElements(SynchronizerRepositoryClient synchronizer,
 			Set<URI> listenedElementsURIs) {
 		for (URI listenedElementURI : listenedElementsURIs) {
-			removeElementToListen(URI.createPlatformResourceURI(listenedElementURI.toString(), false)
-					.trimFragment());
+			removeElementToListen(transformToJavaURI(listenedElementURI));
 		}
+	}
+
+	/**
+	 * Returns the {@link URI} corresponding to the .class of the java element to listen (we only want to be
+	 * notified once the class has been compiled).
+	 * 
+	 * @param listenedElementURI
+	 *            the listenedElementURI as defined in the Resource or ExternalContentReference
+	 * @return the {@link URI} corresponding to the .class of the java element to listen (we only want to be
+	 *         notified once the class has been compiled)
+	 */
+	private URI transformToJavaURI(URI listenedElementURI) {
+		URI javaFileURI = URI.createPlatformResourceURI(listenedElementURI.toString(), false).trimFragment();
+		String javaClassURI = javaFileURI.toString().replace("src", "bin");
+		if (javaClassURI.lastIndexOf(".java") != -1) {
+			javaClassURI = javaClassURI.substring(0, javaClassURI.length() - 5) + ".class";
+		}
+		return URI.createURI(javaClassURI);
 	}
 
 }

@@ -87,6 +87,7 @@
 	<!-- Intent bridges -->
 	<module>bridges/org.eclipse.mylyn.docs.intent.bridge.java</module>
 	<module>bridges/org.eclipse.mylyn.docs.intent.bridge.java.edit</module>
+	<module>bridges/org.eclipse.mylyn.docs.intent.bridge.java.editor</module>
 	
 	<!-- Intent features -->
     <module>features/org.eclipse.mylyn.docs.intent.update</module>

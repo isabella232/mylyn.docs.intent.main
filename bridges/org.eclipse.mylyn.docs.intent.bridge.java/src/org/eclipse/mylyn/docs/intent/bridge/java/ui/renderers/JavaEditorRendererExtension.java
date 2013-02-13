@@ -215,8 +215,8 @@ public class JavaEditorRendererExtension implements IEditorRendererExtension {
 						eObjects.add(getJavaFactoryResourceFromIResource(
 								((ICompilationUnit)element).getResource()).getContents().iterator().next());
 					} else if (element instanceof IType) {
-						eObjects.add(getJavaFactoryResourceFromIResource(
-								((IType)element).getResource()).getContents().iterator().next());
+						eObjects.add(getJavaFactoryResourceFromIResource(((IType)element).getResource())
+								.getContents().iterator().next());
 					}
 				}
 			}
@@ -252,40 +252,49 @@ public class JavaEditorRendererExtension implements IEditorRendererExtension {
 		Image image = null;
 		if (externalContentReference.getExternalContent() != null) {
 
+			// Determine string to render
 			String javaFileAsText = new JavaBridgeSerializer().doSwitch(externalContentReference
 					.getExternalContent());
+			String javadoc = "";
+
 			Display display = Display.getDefault();
 			int fontHeight = new GC(new Image(display, 1, 1)).getFontMetrics().getHeight();
-			int imageHeight = fontHeight * javaFileAsText.split("\n").length + JAVA_IMAGE_HEIGHT_MARGIN;
+			if (javaFileAsText.startsWith("/**")) {
+				javadoc = javaFileAsText.substring(0, javaFileAsText.indexOf("*/") + 3);
+				javaFileAsText = javaFileAsText.replace(javadoc, "");
+				javadoc = javadoc.replace("/**", "").replace("*/", "").trim();
+			}
+			int textWithoutJavaDocHeight = fontHeight + JAVA_IMAGE_HEIGHT_MARGIN;
+			int imageHeight = fontHeight * (javadoc.split("\n").length) + textWithoutJavaDocHeight;
 			image = new Image(display, JAVA_IMAGE_WIDTH, imageHeight);
 
 			GC gc = new GC(image);
 
-			// Render javadoc
-			int textHeight = 5;
-			if (javaFileAsText.startsWith("/**")) {
-				gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
-				String javadoc = javaFileAsText.substring(0, javaFileAsText.indexOf("*/") + 3);
-				javaFileAsText = javaFileAsText.replace(javadoc, "");
-				javadoc = javadoc.replace("/**", "").replace("*/", "").trim();
-				gc.drawText(javadoc, 2, 5);
-				textHeight = (javadoc.split("\n").length + 1) * fontHeight;
-
-			}
-
-			// Render text
+			// Render icon
+			int iconWidth = 5;
 			gc.setForeground(display.getSystemColor(SWT.COLOR_DARK_GRAY));
 			IItemLabelProvider labeProvider = (IItemLabelProvider)new ComposedAdapterFactory(
 					ComposedAdapterFactory.Descriptor.Registry.INSTANCE).adapt(
 					externalContentReference.getExternalContent(), IItemLabelProvider.class);
-			Object iconURL = labeProvider.getImage(externalContentReference.getExternalContent());
-			Image icon = ExtendedImageRegistry.getInstance().getImage(iconURL);
-			int iconWidth = 5;
-			if (icon != null) {
-				gc.drawImage(icon, 0, textHeight);
-				iconWidth += icon.getImageData().width + 2;
+			if (labeProvider != null) {
+				Object iconURL = labeProvider.getImage(externalContentReference.getExternalContent());
+				Image icon = ExtendedImageRegistry.getInstance().getImage(iconURL);
+
+				if (icon != null) {
+					gc.drawImage(icon, 0, 5);
+					iconWidth += icon.getImageData().width + 2;
+				}
 			}
-			gc.drawText(javaFileAsText, iconWidth, textHeight);
+
+			// Render text
+			gc.drawText(javaFileAsText, iconWidth, 5);
+
+			// Render javadoc
+			if (javadoc.length() > 1) {
+				gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
+				gc.drawText(javadoc, 2, textWithoutJavaDocHeight);
+
+			}
 
 			gc.dispose();
 		}

@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -26,9 +25,9 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.mylyn.docs.intent.bridge.java.Field;
 import org.eclipse.mylyn.docs.intent.bridge.java.JavaPackage;
+import org.eclipse.mylyn.docs.intent.bridge.java.VisibilityKind;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.mylyn.docs.intent.bridge.java.Field} object.
@@ -96,11 +95,17 @@ public class FieldItemProvider
 	 * This returns Field.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Field"));
+		if (((Field)object).getVisibility() == VisibilityKind.PROTECTED) {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Field_protected"));
+		} else if (((Field)object).getVisibility() ==  VisibilityKind.PUBLIC) {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Field_public"));
+		} else {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Field_private"));
+		}
 	}
 
 	/**

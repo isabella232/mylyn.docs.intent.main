@@ -16,9 +16,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -28,10 +26,10 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.mylyn.docs.intent.bridge.java.JavaFactory;
 import org.eclipse.mylyn.docs.intent.bridge.java.JavaPackage;
 import org.eclipse.mylyn.docs.intent.bridge.java.Method;
+import org.eclipse.mylyn.docs.intent.bridge.java.VisibilityKind;
 
 /**
  * This is the item provider adapter for a {@link org.eclipse.mylyn.docs.intent.bridge.java.Method} object.
@@ -198,11 +196,17 @@ public class MethodItemProvider
 	 * This returns Method.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/Method"));
+		if (((Method)object).getVisibility() == VisibilityKind.PROTECTED) {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Method_protected"));
+		} else if (((Method)object).getVisibility() ==  VisibilityKind.PUBLIC) {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Method_public"));
+		} else {
+			return overlayImage(object, getResourceLocator().getImage("full/obj16/Method_private"));
+		}
 	}
 
 	/**
