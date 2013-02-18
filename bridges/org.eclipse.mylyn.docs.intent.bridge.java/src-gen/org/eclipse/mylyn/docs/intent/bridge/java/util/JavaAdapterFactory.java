@@ -127,11 +127,14 @@ public class JavaAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @param target the object to adapt.
 	 * @return the adapter for the <code>target</code>.
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
-		return modelSwitch.doSwitch((EObject)target);
+		if (target instanceof EObject) {
+			return modelSwitch.doSwitch((EObject)target);
+		}
+		return null;
 	}
 
 

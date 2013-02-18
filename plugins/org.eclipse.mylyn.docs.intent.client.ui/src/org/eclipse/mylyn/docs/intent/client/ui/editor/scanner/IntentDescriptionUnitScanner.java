@@ -49,7 +49,7 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 	 */
 	public IntentDescriptionUnitScanner(ColorManager colorManager) {
 		super(colorManager);
-		Color backgroundColor = null;
+		Color backgroundColor = colorManager.getColor(IntentColorConstants.getDuBackground());
 
 		Color defaultforeGroundColor = colorManager.getColor(IntentColorConstants.getDuDefaultForeground());
 		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, backgroundColor, SWT.NONE,

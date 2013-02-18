@@ -100,7 +100,7 @@ public class SSection extends IntentSubSectionContainerState {
 	 * 
 	 * @return the parser to use for parsing Modeling Units
 	 */
-	private ModelingUnitParser getModelingUnitParser() {
+	private static final ModelingUnitParser getModelingUnitParser() {
 		if (modelingUnitParser == null) {
 			modelingUnitParser = new ModelingUnitParserImpl();
 		}

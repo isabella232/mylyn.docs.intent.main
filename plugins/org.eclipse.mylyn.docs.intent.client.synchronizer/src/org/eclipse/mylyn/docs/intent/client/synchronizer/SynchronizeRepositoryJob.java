@@ -106,7 +106,7 @@ public class SynchronizeRepositoryJob extends Job {
 			try {
 				// We add these status to the targets Element
 				client.addAllStatusToTargetElement(statusList);
-				if (monitor != null && !monitor.isCanceled()) {
+				if (!monitor.isCanceled()) {
 
 					// A warning should be sent to the session so that the compiler cannot be notified of
 					// changes made by the synchronizer on modeling units

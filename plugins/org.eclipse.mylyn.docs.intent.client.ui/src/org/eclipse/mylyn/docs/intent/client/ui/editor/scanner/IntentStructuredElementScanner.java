@@ -53,7 +53,7 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 	public IntentStructuredElementScanner(ColorManager colorManager) {
 		super(colorManager);
 
-		Color backgroundColor = null;
+		Color backgroundColor = colorManager.getColor(IntentColorConstants.getDuBackground());
 
 		Color duForeGroundColor = colorManager.getColor(IntentColorConstants.getDuDefaultForeground());
 		IToken duToken = new Token(new TextAttribute(duForeGroundColor, backgroundColor, SWT.NONE,

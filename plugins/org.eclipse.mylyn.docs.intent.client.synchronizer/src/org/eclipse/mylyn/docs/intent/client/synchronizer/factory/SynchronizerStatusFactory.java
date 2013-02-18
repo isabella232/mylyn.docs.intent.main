@@ -126,14 +126,12 @@ public final class SynchronizerStatusFactory {
 		}
 
 		// target setting: if affectation not found (or not available), use the parent compiled element
-		if (status != null) {
-			if (target == null) {
-				if (compiledElement != null) {
-					target = getInstructionFromCompiledElement(indexEntry, compiledElement);
-				}
+		if (target == null) {
+			if (compiledElement != null) {
+				target = getInstructionFromCompiledElement(indexEntry, compiledElement);
 			}
-			status.setTarget(target);
 		}
+		status.setTarget(target);
 
 		return status;
 	}
@@ -161,14 +159,12 @@ public final class SynchronizerStatusFactory {
 				difference.getValue());
 
 		// target setting: if affectation not found (or not available), use the parent compiled element
-		if (status != null) {
-			if (target == null) {
-				if (compiledElement != null) {
-					target = getInstructionFromCompiledElement(indexEntry, compiledElement);
-				}
+		if (target == null) {
+			if (compiledElement != null) {
+				target = getInstructionFromCompiledElement(indexEntry, compiledElement);
 			}
-			status.setTarget(target);
 		}
+		status.setTarget(target);
 		return status;
 	}
 

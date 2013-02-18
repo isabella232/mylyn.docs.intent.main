@@ -267,7 +267,7 @@ public class SBlock extends BuilderState {
 		BuilderState returnState = null;
 
 		// If the spanType is LINK
-		if (type == SpanType.LINK) {
+		if (type == SpanType.LINK && attributes instanceof LinkAttributes) {
 			// we create a new Link with the given attributes
 			LinkAttributes linkAttributes = (LinkAttributes)attributes;
 			Link link = MarkupFactory.eINSTANCE.createLink();

@@ -212,7 +212,7 @@ public class IntentQuickOutlineControl extends PopupDialog implements IInformati
 
 		// If then IntentDocument cannot been found (could happen as we use containment proxies)
 		if (container == null) {
-			container = getSuperRootFromIndex(container);
+			container = getSuperRootFromIndex(null);
 
 		}
 		return container;

@@ -52,7 +52,9 @@ public class CDOAdapter implements RepositoryAdapter {
 
 	private static final CDOInvalidationPolicy INTENT_CDO_INVALIDATION_POLICY = new CDOInvalidationPolicy() {
 		public void handleInvalidation(CDOObject object, CDORevisionKey key) {
-			((InternalCDOObject)object).cdoInternalSetRevision(null);
+			if (object instanceof InternalCDOObject) {
+				((InternalCDOObject)object).cdoInternalSetRevision(null);
+			}
 		}
 
 		public void handleInvalidObject(CDOObject object) {

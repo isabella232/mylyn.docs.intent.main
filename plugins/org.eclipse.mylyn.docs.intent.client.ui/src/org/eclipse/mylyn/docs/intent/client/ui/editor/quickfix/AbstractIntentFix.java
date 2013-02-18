@@ -43,6 +43,11 @@ public abstract class AbstractIntentFix implements ICompletionProposal {
 	 *            the {@link IntentAnnotation} describing the synchronization issue.
 	 */
 	public AbstractIntentFix(Annotation annotation) {
+		if (!(annotation instanceof IntentAnnotation)) {
+			throw new IllegalArgumentException(
+					"Cannot apply an Intent fix on the given annotation: should be an IntentAnnotation "
+							+ annotation.toString());
+		}
 		this.syncAnnotation = (IntentAnnotation)annotation;
 	}
 
@@ -52,6 +57,11 @@ public abstract class AbstractIntentFix implements ICompletionProposal {
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#apply(org.eclipse.jface.text.IDocument)
 	 */
 	public void apply(IDocument document) {
+		if (!(document instanceof IntentEditorDocument)) {
+			throw new IllegalArgumentException(
+					"Cannot apply an Intent fix on the given document: should be an IntentEditorDocument "
+							+ document.toString());
+		}
 		IntentEditorDocument intentEditorDocument = (IntentEditorDocument)document;
 		IntentEditor editor = intentEditorDocument.getIntentEditor();
 		IntentDocumentProvider documentProvider = (IntentDocumentProvider)editor.getDocumentProvider();

@@ -39,7 +39,7 @@ public final class IntentColorConstants {
 	// -----------------------------------
 	// Color constant for DECRIPTION UNITS
 	// ----------------------------------
-	private static final RGB DU_BACKGROUND = null;
+	private static final RGB DU_BACKGROUND = new RGB(255, 255, 255);
 
 	private static final RGB DU_KEYWORD_FOREGROUND = new RGB(139, 10, 80);
 

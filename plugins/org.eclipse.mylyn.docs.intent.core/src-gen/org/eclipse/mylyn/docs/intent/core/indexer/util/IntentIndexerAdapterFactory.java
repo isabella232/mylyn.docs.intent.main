@@ -100,6 +100,9 @@ public class IntentIndexerAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
+		if (target instanceof EObject) {
+			return modelSwitch.doSwitch((EObject)target);
+		}
 		return modelSwitch.doSwitch((EObject)target);
 	}
 

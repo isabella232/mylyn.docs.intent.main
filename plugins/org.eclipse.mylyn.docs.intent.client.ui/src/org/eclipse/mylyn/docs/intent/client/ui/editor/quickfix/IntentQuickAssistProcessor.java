@@ -83,10 +83,10 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 		Iterator<?> iter = model.getAnnotationIterator();
 		while (iter.hasNext()) {
 			Annotation annotation = (Annotation)iter.next();
-			if (canFix(annotation)) {
+			if (canFix(annotation) && annotation instanceof IntentAnnotation) {
 				Position pos = model.getPosition(annotation);
 				if (pos != null && pos.includes(offset)) {
-					List<ICompletionProposal> proposals = computeProposalsFromStatus(annotation);
+					List<ICompletionProposal> proposals = computeProposalsFromStatus((IntentAnnotation)annotation);
 					return proposals.toArray(new ICompletionProposal[proposals.size()]);
 				}
 			}
@@ -101,8 +101,8 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 	 *            the annotation
 	 * @return the proposals according to the given annotation status
 	 */
-	private List<ICompletionProposal> computeProposalsFromStatus(Annotation annotation) {
-		SynchronizerCompilationStatus status = (SynchronizerCompilationStatus)((IntentAnnotation)annotation)
+	private List<ICompletionProposal> computeProposalsFromStatus(IntentAnnotation annotation) {
+		SynchronizerCompilationStatus status = (SynchronizerCompilationStatus)annotation
 				.getCompilationStatus();
 		List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
 		if (status instanceof ResourceChangeStatus) {

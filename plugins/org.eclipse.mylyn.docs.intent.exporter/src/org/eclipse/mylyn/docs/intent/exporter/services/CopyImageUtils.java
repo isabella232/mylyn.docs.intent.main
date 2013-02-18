@@ -68,7 +68,7 @@ public class CopyImageUtils {
 		// Step 1: getting the image URL thanks to the item delegator
 		Object imageURL = getImageURL(any);
 
-		if (imageURL instanceof URL) {
+		if (imageURL instanceof URL && any instanceof EClassifier) {
 			try {
 				// Step 2: resolve URL
 				URL resolvedURL = FileLocator.resolve((URL)imageURL);
@@ -199,7 +199,6 @@ public class CopyImageUtils {
 		}
 
 		FileOutputStream outputStream = new FileOutputStream(destFile);
-		FileChannel destination = null;
 		try {
 			byte[] buf = new byte[1024];
 
@@ -217,9 +216,6 @@ public class CopyImageUtils {
 		} finally {
 			if (sourceStream != null) {
 				sourceStream.close();
-			}
-			if (destination != null) {
-				destination.close();
 			}
 		}
 	}
