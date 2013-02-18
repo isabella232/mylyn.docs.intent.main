@@ -106,7 +106,7 @@ public final class IEditorRendererExtensionRegistry {
 		Collections.sort(registeredExtensions, new Comparator<IEditorRendererExtensionDescriptor>() {
 
 			public int compare(IEditorRendererExtensionDescriptor o1, IEditorRendererExtensionDescriptor o2) {
-				return o1.getPriority() - o2.getPriority();
+				return o2.getPriority() - o1.getPriority();
 			}
 		});
 
