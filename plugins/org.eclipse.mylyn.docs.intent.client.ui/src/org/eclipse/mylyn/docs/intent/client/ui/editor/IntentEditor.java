@@ -52,6 +52,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererE
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.ModelingUnitDecorationPainter;
 import org.eclipse.mylyn.docs.intent.client.ui.internal.renderers.IEditorRendererExtensionRegistry;
+import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
@@ -528,7 +529,18 @@ public class IntentEditor extends TextEditor {
 		// Adding transfers provided by contributed IEditorRendererExtensions
 		for (IEditorRendererExtension editorRendererExtension : IEditorRendererExtensionRegistry
 				.getEditorRendererExtensions()) {
-			supportedTransfers.addAll(editorRendererExtension.getAdditionalTransfers());
+			if (editorRendererExtension != null && editorRendererExtension.getAdditionalTransfers() != null) {
+				supportedTransfers.addAll(editorRendererExtension.getAdditionalTransfers());
+			} else {
+				String errorMessage = "An error occured during Intent Editor's Drag and drop initialization ";
+				if (editorRendererExtension == null) {
+					errorMessage += "extension was not correctly loaded";
+				} else {
+					errorMessage += "extension " + editorRendererExtension
+							+ " provides an invalid value for additional transfers";
+				}
+				IntentUiLogger.logError(errorMessage, new IllegalArgumentException());
+			}
 		}
 
 		IDragAndDropService service = (IDragAndDropService)getSite().getService(IDragAndDropService.class);
