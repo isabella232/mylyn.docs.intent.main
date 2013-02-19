@@ -129,15 +129,16 @@ public class DescriptionUnitSerializer {
 		this.descriptionUnitDispatcher.setTabulationPrefix(tabulationPrefix);
 		this.genericDispatcher.setTabulationPrefix(tabulationPrefix);
 		// We calculate the prefix of this description unit
-		String renderedDescriptionUnit = "";
+		StringBuilder renderedDescriptionUnit = new StringBuilder();
 
 		// TODO make a better strategy for indentation
 		// fix for when an instruction is first (instead of a description block)
 		// String prefixForDescriptionUnit = IntentKeyWords.INTENT_LINEBREAK + tabulationPrefix;
-		String prefixForDescriptionUnit = IntentKeyWords.INTENT_LINEBREAK;
+		StringBuilder prefixForDescriptionUnit = new StringBuilder();
+		prefixForDescriptionUnit.append(IntentKeyWords.INTENT_LINEBREAK);
 		if (!elementToSerialize.getInstructions().isEmpty()) {
 			if (elementToSerialize.getInstructions().get(0) instanceof DescriptionUnitInstruction) {
-				prefixForDescriptionUnit += tabulationPrefix;
+				prefixForDescriptionUnit.append(tabulationPrefix);
 			}
 		}
 
@@ -147,19 +148,19 @@ public class DescriptionUnitSerializer {
 		for (UnitInstruction instruction : elementToSerialize.getInstructions()) {
 			this.setCurrentOffset(renderedDescriptionUnit.length() + declarationOffset);
 			if (instruction instanceof DescriptionUnitInstruction) {
-				renderedDescriptionUnit += descriptionUnitDispatcher.doSwitch(instruction);
+				renderedDescriptionUnit.append(descriptionUnitDispatcher.doSwitch(instruction));
 			} else {
 				String serializedInstruction = genericDispatcher.doSwitch(instruction);
 				this.getPositionManager().setPositionForInstruction(instruction, getCurrentOffset(),
 						serializedInstruction.length());
-				renderedDescriptionUnit += serializedInstruction;
+				renderedDescriptionUnit.append(serializedInstruction);
 
 				// TODO make a better strategy for indentation
 				// fix for when an instruction is last
 				if (instruction.isLineBreak()
 						&& elementToSerialize.getInstructions().indexOf(instruction) != (elementToSerialize
 								.getInstructions().size() - 1)) {
-					renderedDescriptionUnit += tabulationPrefix;
+					renderedDescriptionUnit.append(tabulationPrefix);
 				}
 			}
 		}
@@ -168,8 +169,7 @@ public class DescriptionUnitSerializer {
 				renderedDescriptionUnit.length());
 
 		// We finally add the prefix calculated before
-		renderedDescriptionUnit = prefixForDescriptionUnit + renderedDescriptionUnit;
-		return renderedDescriptionUnit;
+		return prefixForDescriptionUnit.toString() + renderedDescriptionUnit.toString();
 
 	}
 

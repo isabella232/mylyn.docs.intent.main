@@ -75,7 +75,7 @@ public final class ModelingUnitFormatter {
 	public static String indentAccordingToBrackets(ModelingUnitSerializer serializer,
 			String modelingUnitToFormat, int initialIndentLevel, int initialOffset) {
 
-		String indented = "";
+		StringBuilder indented = new StringBuilder();
 		String[] lines = modelingUnitToFormat.split(IntentKeyWords.INTENT_LINEBREAK);
 		int currentOffset = 0;
 		int nbTabulate = initialIndentLevel;
@@ -98,7 +98,7 @@ public final class ModelingUnitFormatter {
 			if (lines[i].contains(IntentKeyWords.INTENT_KEYWORD_OPEN) || lines[i].contains("@M")) {
 				nbTabulate++;
 			}
-			indented += lines[i] + IntentKeyWords.INTENT_LINEBREAK;
+			indented.append(lines[i] + IntentKeyWords.INTENT_LINEBREAK);
 
 			if (lines[i].contains(IntentKeyWords.INTENT_KEYWORD_CLOSE)
 					&& (lines[i].contains(IntentKeyWords.INTENT_KEYWORD_OPEN))) {
@@ -107,6 +107,6 @@ public final class ModelingUnitFormatter {
 			currentOffset = indented.length();
 
 		}
-		return indented;
+		return indented.toString();
 	}
 }

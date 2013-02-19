@@ -202,11 +202,11 @@ public class IntentElementSerializer {
 	 * @return a String representing the indentation level with tabulations
 	 */
 	public String tabulation() {
-		String lineJump = "";
+		StringBuilder lineJump = new StringBuilder();
 		for (int i = 0; i < getCurrentIndendationLevel(); i++) {
-			lineJump += "\t";
+			lineJump.append("\t");
 		}
-		return lineJump;
+		return lineJump.toString();
 	}
 
 	/**

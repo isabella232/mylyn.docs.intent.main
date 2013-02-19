@@ -66,13 +66,14 @@ public final class AnnotationDeclarationLinker {
 
 		// Step 3 : if no target has been found, we throw a parse Exception
 		if (targetForAnnotation == null) {
-			String errorMessage = "Can't attach the Annotation of type "
-					+ annotationDeclaration.getAnnotationID() + " (values : ";
+			StringBuilder errorMessage = new StringBuilder();
+			errorMessage.append("Can't attach the Annotation of type "
+					+ annotationDeclaration.getAnnotationID() + " (values : ");
 			for (Entry<String, String> keyVal : annotationDeclaration.getMap()) {
-				errorMessage += keyVal.getKey() + "=" + keyVal.getValue() + " ";
+				errorMessage.append(keyVal.getKey() + "=" + keyVal.getValue() + " ");
 			}
-			errorMessage += ") to any element.";
-			throw new ParseException(errorMessage);
+			errorMessage.append(") to any element.");
+			throw new ParseException(errorMessage.toString());
 		}
 
 		// Step 4 : hre we can attach the given Annotation to its target

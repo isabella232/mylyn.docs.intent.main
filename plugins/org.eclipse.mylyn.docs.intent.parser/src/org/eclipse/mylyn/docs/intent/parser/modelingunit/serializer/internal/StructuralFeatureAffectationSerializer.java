@@ -42,10 +42,11 @@ public final class StructuralFeatureAffectationSerializer {
 			ModelingUnitElementDispatcher dispatcher) {
 
 		int initialOffset = dispatcher.getCurrentOffset();
-		String renderedForm = structuralFeatureAffectation.getName();
+		StringBuilder renderedForm = new StringBuilder();
+		renderedForm.append(structuralFeatureAffectation.getName());
 		int declarationLength = renderedForm.length();
 
-		renderedForm += ModelingUnitSerializer.WHITESPACE;
+		renderedForm.append(ModelingUnitSerializer.WHITESPACE);
 		String affectationSymbol = "=";
 		if (structuralFeatureAffectation.getUsedOperator().equals(
 				AffectationOperator.MULTI_VALUED_AFFECTATION)) {
@@ -54,33 +55,34 @@ public final class StructuralFeatureAffectationSerializer {
 
 		boolean isMultiValued = structuralFeatureAffectation.getValues().size() > 1;
 		if (isMultiValued) {
-			renderedForm += affectationSymbol + ModelingUnitSerializer.WHITESPACE + "[";
+			renderedForm.append(affectationSymbol + ModelingUnitSerializer.WHITESPACE + "[");
 		} else {
-			renderedForm += affectationSymbol;
+			renderedForm.append(affectationSymbol);
 		}
-		renderedForm += ModelingUnitSerializer.WHITESPACE;
+		renderedForm.append(ModelingUnitSerializer.WHITESPACE);
 		int nbValues = 0;
 		for (ValueForStructuralFeature value : structuralFeatureAffectation.getValues()) {
 			if (nbValues > 0) {
-				renderedForm += ModelingUnitSerializer.WHITESPACE + "," + ModelingUnitSerializer.WHITESPACE;
+				renderedForm.append(ModelingUnitSerializer.WHITESPACE + ","
+						+ ModelingUnitSerializer.WHITESPACE);
 			}
 
 			dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
-			renderedForm += dispatcher.doSwitch(value);
+			renderedForm.append(dispatcher.doSwitch(value));
 			nbValues++;
 		}
 		if (isMultiValued) {
-			renderedForm += ModelingUnitSerializer.WHITESPACE + "]";
+			renderedForm.append(ModelingUnitSerializer.WHITESPACE + "]");
 		}
-		renderedForm += ";";
+		renderedForm.append(";");
 
 		if (structuralFeatureAffectation.isLineBreak()) {
-			renderedForm += ModelingUnitSerializer.LINE_BREAK;
+			renderedForm.append(ModelingUnitSerializer.LINE_BREAK);
 		}
 
-		dispatcher.getPositionManager().setPositionForInstruction(structuralFeatureAffectation, initialOffset,
-				renderedForm.length(),declarationLength);
+		dispatcher.getPositionManager().setPositionForInstruction(structuralFeatureAffectation,
+				initialOffset, renderedForm.length(), declarationLength);
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
-		return renderedForm;
+		return renderedForm.toString();
 	}
 }

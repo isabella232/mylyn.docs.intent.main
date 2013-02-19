@@ -39,30 +39,29 @@ public final class ContributionInstructionSerializer {
 	 */
 	public static String render(ContributionInstruction contributionInstruction,
 			ModelingUnitElementDispatcher dispatcher) {
-
+		StringBuilder renderedForm = new StringBuilder();
 		int initialOffset = dispatcher.getCurrentOffset();
 
-		String renderedForm = "";
 		if (contributionInstruction.getContributionReference() != null) {
-			renderedForm += dispatcher.doSwitch(contributionInstruction.getContributionReference());
+			renderedForm.append(dispatcher.doSwitch(contributionInstruction.getContributionReference()));
 		}
 		int declarationLength = renderedForm.length();
-		renderedForm += ModelingUnitSerializer.WHITESPACE + "{" + ModelingUnitSerializer.LINE_BREAK;
+		renderedForm.append(ModelingUnitSerializer.WHITESPACE + "{" + ModelingUnitSerializer.LINE_BREAK);
 
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 		for (UnitInstruction instruction : contributionInstruction.getContributions()) {
-			renderedForm += dispatcher.doSwitch(instruction);
+			renderedForm.append(dispatcher.doSwitch(instruction));
 
 		}
-		renderedForm += "}";
+		renderedForm.append("}");
 		if (contributionInstruction.isLineBreak()) {
-			renderedForm += ModelingUnitSerializer.LINE_BREAK;
+			renderedForm.append(ModelingUnitSerializer.LINE_BREAK);
 		}
 
 		dispatcher.getPositionManager().setPositionForInstruction(contributionInstruction, initialOffset,
 				renderedForm.length(), declarationLength);
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 
-		return renderedForm;
+		return renderedForm.toString();
 	}
 }

@@ -40,20 +40,21 @@ public final class AnnotationDeclarationSerializer {
 	 */
 	public static String render(AnnotationDeclaration annotationDeclaration,
 			ModelingUnitElementDispatcher modelingUnitElementDispatcher) {
-		String renderedForm = "@Annotation" + ModelingUnitSerializer.WHITESPACE;
-		renderedForm += annotationDeclaration.getAnnotationID() + ModelingUnitSerializer.WHITESPACE;
+		StringBuilder renderedForm = new StringBuilder();
+		renderedForm.append("@Annotation" + ModelingUnitSerializer.WHITESPACE);
+		renderedForm.append(annotationDeclaration.getAnnotationID() + ModelingUnitSerializer.WHITESPACE);
 
 		int nbVals = 0;
 		for (Entry<String, String> keyVal : annotationDeclaration.getMap()) {
 			if (nbVals > 0) {
-				renderedForm += "," + ModelingUnitSerializer.WHITESPACE;
+				renderedForm.append("," + ModelingUnitSerializer.WHITESPACE);
 			}
-			renderedForm += keyVal.getKey() + "=" + keyVal.getValue();
+			renderedForm.append(keyVal.getKey() + "=" + keyVal.getValue());
 			nbVals++;
 		}
 
 		if (annotationDeclaration.isLineBreak()) {
-			renderedForm += ModelingUnitSerializer.LINE_BREAK;
+			renderedForm.append(ModelingUnitSerializer.LINE_BREAK);
 		}
 
 		modelingUnitElementDispatcher.getPositionManager().setPositionForInstruction(annotationDeclaration,
@@ -61,6 +62,6 @@ public final class AnnotationDeclarationSerializer {
 		modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
 				+ renderedForm.length());
 
-		return renderedForm;
+		return renderedForm.toString();
 	}
 }

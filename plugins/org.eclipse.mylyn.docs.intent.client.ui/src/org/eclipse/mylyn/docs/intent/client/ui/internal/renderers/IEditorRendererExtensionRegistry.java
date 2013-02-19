@@ -138,7 +138,7 @@ public final class IEditorRendererExtensionRegistry {
 	public static void removeExtension(String extensionClassName) {
 		for (IEditorRendererExtensionDescriptor extension : getRegisteredExtensions()) {
 			if (extension.getExtensionClassName().equals(extensionClassName)) {
-				EXTENSIONS.get(extension).clear();
+				EXTENSIONS.get(extension.getEditorRendererExtension()).clear();
 			}
 		}
 	}

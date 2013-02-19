@@ -16,6 +16,7 @@ import com.google.common.collect.Sets;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.util.Collection;
@@ -114,69 +115,80 @@ public final class WorkspaceUtils {
 			IProgressMonitor monitor) throws IOException, CoreException {
 		final URL interpreterZipUrl = FileLocator.find(Platform.getBundle(bundleName), new Path(zipLocation),
 				null);
-		final ZipInputStream zipFileStream = new ZipInputStream(interpreterZipUrl.openStream());
-		ZipEntry zipEntry = zipFileStream.getNextEntry();
+		InputStream zipURLStream = interpreterZipUrl.openStream();
+		try {
+			final ZipInputStream zipFileStream = new ZipInputStream(zipURLStream);
+			try {
+				ZipEntry zipEntry = zipFileStream.getNextEntry();
 
-		Set<IProjectDescription> projectsToCreate = Sets.newLinkedHashSet();
+				Set<IProjectDescription> projectsToCreate = Sets.newLinkedHashSet();
 
-		while (zipEntry != null) {
-			String projectName = zipEntry.getName().split(SLASH)[0];
+				while (zipEntry != null) {
+					String projectName = zipEntry.getName().split(SLASH)[0];
 
-			IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().newProjectDescription(
-					projectName);
-			projectDescription.setLocation(new Path(ResourcesPlugin.getWorkspace().getRoot().getLocation()
-					+ SLASH + projectName + "/.project"));
-			projectsToCreate.add(projectDescription);
-			createProject(projectName, monitor, false);
+					IProjectDescription projectDescription = ResourcesPlugin.getWorkspace()
+							.newProjectDescription(projectName);
+					projectDescription.setLocation(new Path(ResourcesPlugin.getWorkspace().getRoot()
+							.getLocation()
+							+ SLASH + projectName + "/.project"));
+					projectsToCreate.add(projectDescription);
+					createProject(projectName, monitor, false);
 
-			final File file = new File(projectDescription.getLocation().toString(), zipEntry.getName()
-					.replaceFirst(projectName + SLASH, "")); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+					final File file = new File(projectDescription.getLocation().toString(), zipEntry
+							.getName().replaceFirst(projectName + SLASH, "")); //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 
-			if (!zipEntry.isDirectory()) {
+					if (!zipEntry.isDirectory()) {
 
-				/*
-				 * Copy files (and make sure parent directory exist)
-				 */
-				final File parentFile = file.getParentFile();
-				if (null != parentFile && !parentFile.exists()) {
-					parentFile.mkdirs();
-				}
-
-				OutputStream os = null;
-
-				try {
-					os = new FileOutputStream(file);
-
-					final int bufferSize = 102400;
-					final byte[] buffer = new byte[bufferSize];
-					while (true) {
-						final int len = zipFileStream.read(buffer);
-						if (zipFileStream.available() == 0) {
-							break;
+						/*
+						 * Copy files (and make sure parent directory exist)
+						 */
+						final File parentFile = file.getParentFile();
+						if (null != parentFile && !parentFile.exists()) {
+							parentFile.mkdirs();
 						}
-						os.write(buffer, 0, len);
+
+						OutputStream os = null;
+
+						try {
+							os = new FileOutputStream(file);
+
+							final int bufferSize = 102400;
+							final byte[] buffer = new byte[bufferSize];
+							while (true) {
+								final int len = zipFileStream.read(buffer);
+								if (zipFileStream.available() == 0) {
+									break;
+								}
+								os.write(buffer, 0, len);
+							}
+						} finally {
+							if (null != os) {
+								os.close();
+							}
+						}
 					}
-				} finally {
-					if (null != os) {
-						os.close();
-					}
+					zipFileStream.closeEntry();
+					zipEntry = zipFileStream.getNextEntry();
 				}
+
+				ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
+
+				Collection<IProject> projects = Sets.newLinkedHashSet();
+				for (IProjectDescription projectToCreate : projectsToCreate) {
+					createProject(projectToCreate, new NullProgressMonitor());
+				}
+
+				return projects;
+			} finally {
+				zipFileStream.close();
 			}
-			zipFileStream.closeEntry();
-			zipEntry = zipFileStream.getNextEntry();
+		} finally {
+			zipURLStream.close();
 		}
-
-		ResourcesPlugin.getWorkspace().getRoot().refreshLocal(IResource.DEPTH_INFINITE, monitor);
-
-		Collection<IProject> projects = Sets.newLinkedHashSet();
-		for (IProjectDescription projectToCreate : projectsToCreate) {
-			createProject(projectToCreate, new NullProgressMonitor());
-		}
-		return projects;
 	}
 
 	/**
-	 * /** Creates and opens a project using the given project description.
+	 * Creates and opens a project using the given project description.
 	 * 
 	 * @param newProjectDescription
 	 *            the project to create description

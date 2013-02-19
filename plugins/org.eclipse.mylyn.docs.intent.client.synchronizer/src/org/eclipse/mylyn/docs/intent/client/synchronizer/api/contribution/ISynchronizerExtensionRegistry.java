@@ -106,7 +106,7 @@ public final class ISynchronizerExtensionRegistry {
 	public static void removeExtension(String extensionClassName) {
 		for (ISynchronizerExtensionDescriptor extension : getRegisteredExtensions()) {
 			if (extension.getExtensionClassName().equals(extensionClassName)) {
-				EXTENSIONS.get(extension).clear();
+				EXTENSIONS.get(extension.getSynchronizerExtension()).clear();
 			}
 		}
 	}

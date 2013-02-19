@@ -105,29 +105,30 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 	@Override
 	public String caseModelingUnit(ModelingUnit object) {
 		positionManager.clear();
-
+		StringBuilder renderedForm = new StringBuilder();
 		int initialOffset = this.getCurrentOffset();
-		String renderedForm = ModelingUnitParser.MODELING_UNIT_PREFIX;
+		renderedForm.append(ModelingUnitParser.MODELING_UNIT_PREFIX);
 
 		if (object.getUnitName() != null && object.getUnitName().length() > 0) {
-			renderedForm += ModelingUnitSerializer.WHITESPACE + object.getUnitName()
-					+ ModelingUnitSerializer.WHITESPACE;
+			renderedForm.append(ModelingUnitSerializer.WHITESPACE + object.getUnitName()
+					+ ModelingUnitSerializer.WHITESPACE);
 		}
 
 		if (object.getResource() != null) {
-			renderedForm += doSwitch(object.getResource());
+			renderedForm.append(doSwitch(object.getResource()));
 		}
-		renderedForm += IntentKeyWords.INTENT_LINEBREAK;
+		renderedForm.append(IntentKeyWords.INTENT_LINEBREAK);
 		this.setCurrentOffset(initialOffset + renderedForm.length());
 		for (UnitInstruction instruction : object.getInstructions()) {
-			renderedForm += doSwitch(instruction);
+			renderedForm.append(doSwitch(instruction));
 		}
 
 		this.setCurrentOffset(initialOffset + renderedForm.length());
 		this.getPositionManager().setPositionForInstruction(object, initialOffset, renderedForm.length());
 
 		// Adding the suffix
-		return renderedForm + ModelingUnitParser.MODELING_UNIT_SUFFIX + IntentKeyWords.INTENT_LINEBREAK;
+		renderedForm.append(ModelingUnitParser.MODELING_UNIT_SUFFIX + IntentKeyWords.INTENT_LINEBREAK);
+		return renderedForm.toString();
 
 	}
 

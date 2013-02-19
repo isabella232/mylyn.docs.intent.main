@@ -250,12 +250,15 @@ public class CompilerInformationsSaver {
 		Set<IntentGenericElement> handledInstructions = Sets.newLinkedHashSet();
 
 		// For each compiled resource
-		for (ResourceDeclaration resourceDeclaration : resourceToGeneratedPath.keySet()) {
+		for (Entry<ResourceDeclaration, String> resourceToGeneratedPathEntry : resourceToGeneratedPath
+				.entrySet()) {
+			ResourceDeclaration resourceDeclaration = resourceToGeneratedPathEntry.getKey();
+			String resourcePath = resourceToGeneratedPathEntry.getValue();
 
 			// We create a traceability entry
 			TraceabilityIndexEntry entry = CompilerFactory.eINSTANCE.createTraceabilityIndexEntry();
 			entry.setCompilationTime(BigInteger.valueOf(System.currentTimeMillis()));
-			entry.setGeneratedResourcePath(resourceToGeneratedPath.get(resourceDeclaration));
+			entry.setGeneratedResourcePath(resourcePath);
 			entry.setResourceDeclaration(resourceDeclaration);
 			EMap<EObject, EList<InstructionTraceabilityEntry>> entryElementsMap = entry
 					.getContainedElementToInstructions();

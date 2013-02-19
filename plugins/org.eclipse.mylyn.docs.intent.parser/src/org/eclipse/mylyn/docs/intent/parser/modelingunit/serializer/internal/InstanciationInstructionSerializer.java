@@ -41,33 +41,35 @@ public final class InstanciationInstructionSerializer {
 			ModelingUnitElementDispatcher dispatcher) {
 
 		int initialOffset = dispatcher.getCurrentOffset();
-		String renderedForm = "new" + ModelingUnitSerializer.WHITESPACE;
+		StringBuilder renderedForm = new StringBuilder();
+		renderedForm.append("new" + ModelingUnitSerializer.WHITESPACE);
 
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
-		renderedForm += dispatcher.doSwitch(instanciationInstruction.getMetaType())
-				+ ModelingUnitSerializer.WHITESPACE;
+		renderedForm.append(dispatcher.doSwitch(instanciationInstruction.getMetaType())
+				+ ModelingUnitSerializer.WHITESPACE);
 		if (instanciationInstruction.getName() != null) {
-			renderedForm += instanciationInstruction.getName() + ModelingUnitSerializer.WHITESPACE;
+			renderedForm.append(instanciationInstruction.getName() + ModelingUnitSerializer.WHITESPACE);
 		}
 		int declarationLength = renderedForm.length();
 
-		renderedForm += "{";
+		renderedForm.append("{");
 		if (instanciationInstruction.getStructuralFeatures().size() > 0) {
-			renderedForm += ModelingUnitSerializer.LINE_BREAK;
+			renderedForm.append(ModelingUnitSerializer.LINE_BREAK);
 		}
 
 		for (StructuralFeatureAffectation affectation : instanciationInstruction.getStructuralFeatures()) {
 			dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
-			renderedForm += dispatcher.doSwitch(affectation);
+			renderedForm.append(dispatcher.doSwitch(affectation));
 		}
-		renderedForm += "}";
+		renderedForm.append("}");
 		if (instanciationInstruction.isLineBreak()) {
-			renderedForm += ModelingUnitSerializer.LINE_BREAK;
+			renderedForm.append(ModelingUnitSerializer.LINE_BREAK);
 		}
 
-		dispatcher.getPositionManager().setPositionForInstruction(instanciationInstruction, initialOffset, renderedForm.length(), declarationLength);
+		dispatcher.getPositionManager().setPositionForInstruction(instanciationInstruction, initialOffset,
+				renderedForm.length(), declarationLength);
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
 
-		return renderedForm;
+		return renderedForm.toString();
 	}
 }

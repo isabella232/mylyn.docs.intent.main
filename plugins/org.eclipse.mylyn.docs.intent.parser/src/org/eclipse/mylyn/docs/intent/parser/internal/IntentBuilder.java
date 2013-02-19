@@ -272,7 +272,7 @@ public class IntentBuilder {
 	 * @return the given content from which we removed any non-relevant tabulations
 	 */
 	private String formatUsingImbricationLevel(String content, boolean isModelingUnit) {
-		String intentContent = "";
+		StringBuilder intentContent = new StringBuilder();
 		String[] lines = content.split("\n");
 
 		// If the content is a Modeling Unit, we must temporary increase the imbrication level
@@ -292,9 +292,9 @@ public class IntentBuilder {
 					currentLine = currentLine.replaceFirst("\t", "");
 				}
 			}
-			intentContent += currentLine + "\n";
+			intentContent.append(currentLine + "\n");
 		}
-		return intentContent;
+		return intentContent.toString();
 	}
 
 	/**

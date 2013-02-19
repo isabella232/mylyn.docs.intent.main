@@ -39,46 +39,45 @@ public final class ResourceDeclarationSerializer {
 	 */
 	public static String render(ResourceDeclaration resourceDeclaration,
 			ModelingUnitElementDispatcher dispatcher) {
-
+		StringBuilder renderedForm = new StringBuilder();
 		int initialOffset = dispatcher.getCurrentOffset();
-		String renderedForm = "Resource" + ModelingUnitSerializer.WHITESPACE;
+		renderedForm.append("Resource" + ModelingUnitSerializer.WHITESPACE);
 		int declarationLength = renderedForm.length();
 		if (resourceDeclaration.getName() != null && resourceDeclaration.getName().length() > 0) {
-			renderedForm += resourceDeclaration.getName();
+			renderedForm.append(resourceDeclaration.getName());
 			declarationLength = renderedForm.length();
-			renderedForm += ModelingUnitSerializer.WHITESPACE;
+			renderedForm.append(ModelingUnitSerializer.WHITESPACE);
 		}
 
-		renderedForm += "{" + ModelingUnitSerializer.LINE_BREAK;
+		renderedForm.append("{" + ModelingUnitSerializer.LINE_BREAK);
 
 		if (resourceDeclaration.getUri() != null) {
-			renderedForm += "URI" + ModelingUnitSerializer.WHITESPACE + "="
+			renderedForm.append("URI" + ModelingUnitSerializer.WHITESPACE + "="
 					+ ModelingUnitSerializer.WHITESPACE + resourceDeclaration.getUri() + ';'
-					+ ModelingUnitSerializer.LINE_BREAK;
+					+ ModelingUnitSerializer.LINE_BREAK);
 		}
 
 		if (resourceDeclaration.getContentType() != null) {
-			renderedForm += "contentType" + ModelingUnitSerializer.WHITESPACE + "="
+			renderedForm.append("contentType" + ModelingUnitSerializer.WHITESPACE + "="
 					+ ModelingUnitSerializer.WHITESPACE + resourceDeclaration.getContentType() + ';'
-					+ ModelingUnitSerializer.LINE_BREAK;
+					+ ModelingUnitSerializer.LINE_BREAK);
 		}
 
 		for (ModelingUnitInstructionReference content : resourceDeclaration.getContent()) {
-			renderedForm += "content" + ModelingUnitSerializer.WHITESPACE + "+="
-					+ ModelingUnitSerializer.WHITESPACE;
+			renderedForm.append("content" + ModelingUnitSerializer.WHITESPACE + "+="
+					+ ModelingUnitSerializer.WHITESPACE);
 
 			dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
-			renderedForm += dispatcher.doSwitch(content) + ';' + ModelingUnitSerializer.LINE_BREAK;
+			renderedForm.append(dispatcher.doSwitch(content) + ';' + ModelingUnitSerializer.LINE_BREAK);
 		}
 
-		renderedForm += "}";
+		renderedForm.append("}");
 		if (resourceDeclaration.isLineBreak()) {
-			renderedForm += ModelingUnitSerializer.LINE_BREAK;
+			renderedForm.append(ModelingUnitSerializer.LINE_BREAK);
 		}
-
 		dispatcher.getPositionManager().setPositionForInstruction(resourceDeclaration, initialOffset,
 				renderedForm.length(), declarationLength);
 		dispatcher.setCurrentOffset(initialOffset + renderedForm.length());
-		return renderedForm;
+		return renderedForm.toString();
 	}
 }

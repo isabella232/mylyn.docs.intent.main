@@ -53,7 +53,7 @@ public final class Logger {
 
 		String a = obj.toString().replace("org.eclipse.mylyn.docs.intent.markup.markup.impl.", "")
 				.replace("Impl", "");
-		a.replaceAll("@[[0-9]*[a-b]*]+", " ");
+		a = a.replaceAll("@[[0-9]*[a-b]*]+", " ");
 		log += a + "\n";
 		for (EObject objSons : obj.eContents()) {
 			log += inspectAndLog(objSons, level + 1);

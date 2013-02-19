@@ -40,35 +40,37 @@ public final class IntentDocumentSerializer {
 	 * @return the serialized form of the given element
 	 */
 	public static String serialize(IntentDocument document, IntentElementSerializer serializer) {
-		String renderedForm = serializer.tabulation();
+		StringBuilder renderedForm = new StringBuilder();
+		renderedForm.append(serializer.tabulation());
+
 		serializer.setCurrentIndendationLevel(serializer.getCurrentIndendationLevel() + 1);
 		int initalOffset = serializer.getCurrentOffset();
 
-		renderedForm += IntentKeyWords.INTENT_KEYWORD_DOCUMENT;
+		renderedForm.append(IntentKeyWords.INTENT_KEYWORD_DOCUMENT);
 		int initialLength = renderedForm.length();
-		renderedForm += IntentKeyWords.INTENT_WHITESPACE;
+		renderedForm.append(IntentKeyWords.INTENT_WHITESPACE);
 
 		if (document.getTitle() != null) {
 			DescriptionUnitSerializer descriptionUnitSerializer = new DescriptionUnitSerializer();
-			renderedForm += descriptionUnitSerializer.serializeSectionTitle(document.getTitle(), initalOffset
-					+ renderedForm.length());
+			renderedForm.append(descriptionUnitSerializer.serializeSectionTitle(document.getTitle(),
+					initalOffset + renderedForm.length()));
 			serializer.getPositionManager().addIntentPositionManagerInformations(
 					descriptionUnitSerializer.getPositionManager());
-			renderedForm += IntentKeyWords.INTENT_WHITESPACE;
+			renderedForm.append(IntentKeyWords.INTENT_WHITESPACE);
 		}
-		renderedForm += IntentKeyWords.INTENT_KEYWORD_OPEN + IntentKeyWords.INTENT_LINEBREAK;
+		renderedForm.append(IntentKeyWords.INTENT_KEYWORD_OPEN + IntentKeyWords.INTENT_LINEBREAK);
 
 		// Contents : chapters
 		for (EObject content : document.getChapters()) {
 			serializer.setCurrentOffset(initalOffset + renderedForm.length());
-			renderedForm += serializer.serialize(content);
+			renderedForm.append(serializer.serialize(content));
 		}
 		serializer.setCurrentIndendationLevel(serializer.getCurrentIndendationLevel() - 1);
-		renderedForm += serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE
-				+ IntentKeyWords.INTENT_LINEBREAK;
+		renderedForm.append(serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE
+				+ IntentKeyWords.INTENT_LINEBREAK);
 		serializer.setCurrentOffset(initalOffset + renderedForm.length());
 		serializer.setPositionForElement(document, initalOffset, renderedForm.length(), initialLength);
-		return renderedForm;
+		return renderedForm.toString();
 	}
 
 }

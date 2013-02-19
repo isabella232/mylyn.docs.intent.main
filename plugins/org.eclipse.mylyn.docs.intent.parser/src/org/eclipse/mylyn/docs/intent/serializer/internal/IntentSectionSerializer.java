@@ -41,48 +41,48 @@ public final class IntentSectionSerializer {
 	 * @return the serialized form of the given element
 	 */
 	public static String serialize(IntentSection section, IntentElementSerializer serializer) {
-		String renderedForm = serializer.tabulation();
+		StringBuilder renderedForm = new StringBuilder();
+		renderedForm.append(serializer.tabulation());
 
 		int initalOffset = serializer.getCurrentOffset();
 
 		// Visibility declaration
 		if (!section.getVisibility().equals(IntentSectionVisibility.PUBLIC)) {
-			renderedForm += section.getVisibility().getLiteral().toLowerCase()
-					+ IntentKeyWords.INTENT_WHITESPACE;
+			renderedForm.append(section.getVisibility().getLiteral().toLowerCase()
+					+ IntentKeyWords.INTENT_WHITESPACE);
 		}
 
-		renderedForm += IntentKeyWords.INTENT_KEYWORD_SECTION;
+		renderedForm.append(IntentKeyWords.INTENT_KEYWORD_SECTION);
 		int initialLength = renderedForm.length();
-		renderedForm += IntentKeyWords.INTENT_WHITESPACE;
+		renderedForm.append(IntentKeyWords.INTENT_WHITESPACE);
 
 		// Section Title
 		if (section.getTitle() != null) {
 			DescriptionUnitSerializer descriptionUnitSerializer = new DescriptionUnitSerializer();
-			renderedForm += descriptionUnitSerializer.serializeSectionTitle(section.getTitle(), initalOffset
-					+ renderedForm.length());
+			renderedForm.append(descriptionUnitSerializer.serializeSectionTitle(section.getTitle(),
+					initalOffset + renderedForm.length()));
 			serializer.getPositionManager().addIntentPositionManagerInformations(
 					descriptionUnitSerializer.getPositionManager());
-			renderedForm += IntentKeyWords.INTENT_WHITESPACE;
+			renderedForm.append(IntentKeyWords.INTENT_WHITESPACE);
 		}
-		renderedForm += IntentKeyWords.INTENT_KEYWORD_OPEN;
+		renderedForm.append(IntentKeyWords.INTENT_KEYWORD_OPEN);
 
 		serializer.setCurrentIndendationLevel(serializer.getCurrentIndendationLevel() + 1);
 
 		// Contents : subSection and Units
 		for (EObject content : section.getIntentContent()) {
 			if (content instanceof IntentSection) {
-				renderedForm += IntentKeyWords.INTENT_LINEBREAK;
+				renderedForm.append(IntentKeyWords.INTENT_LINEBREAK);
 			}
 			serializer.setCurrentOffset(initalOffset + renderedForm.length());
-			renderedForm += serializer.serialize(content);
+			renderedForm.append(serializer.serialize(content));
 		}
 
 		serializer.setCurrentIndendationLevel(serializer.getCurrentIndendationLevel() - 1);
-		renderedForm += serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE
-				+ IntentKeyWords.INTENT_LINEBREAK;
+		renderedForm.append(serializer.tabulation() + IntentKeyWords.INTENT_KEYWORD_CLOSE
+				+ IntentKeyWords.INTENT_LINEBREAK);
 		serializer.setCurrentOffset(initalOffset + renderedForm.length());
-		serializer.setPositionForElement(section, initalOffset, renderedForm.length(),
-				initialLength);
-		return renderedForm;
+		serializer.setPositionForElement(section, initalOffset, renderedForm.length(), initialLength);
+		return renderedForm.toString();
 	}
 }

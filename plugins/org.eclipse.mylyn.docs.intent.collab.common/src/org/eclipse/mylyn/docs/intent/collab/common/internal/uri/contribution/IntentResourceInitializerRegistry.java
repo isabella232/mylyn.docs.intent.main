@@ -104,7 +104,7 @@ public final class IntentResourceInitializerRegistry {
 	public static void removeExtension(String extensionClassName) {
 		for (IntentResourceInitializerDescriptor extension : getRegisteredExtensions()) {
 			if (extension.getExtensionClassName().equals(extensionClassName)) {
-				EXTENSIONS.get(extension).clear();
+				EXTENSIONS.get(extension.getIntentResourceInitializer()).clear();
 			}
 		}
 	}

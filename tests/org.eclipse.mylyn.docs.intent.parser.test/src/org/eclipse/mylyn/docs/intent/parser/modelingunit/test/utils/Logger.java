@@ -45,10 +45,6 @@ public final class Logger {
 			log += "|---";
 		}
 
-		String a = obj.toString().replace("org.eclipse.mylyn.docs.intent.markup.markup.impl.", "")
-				.replace("Impl", "");
-		a.replaceAll("@[[0-9]*[a-b]*]+", "  ");
-
 		log += obj.eClass().getName() + " ";
 		for (EAttribute att : obj.eClass().getEAllAttributes()) {
 			log += obj.eGet(att) + " ";
