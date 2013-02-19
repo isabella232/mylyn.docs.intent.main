@@ -157,7 +157,9 @@ public class DefaultIDEEditorRendererExtension implements IEditorRendererExtensi
 		URI resourceURI = URI.createPlatformResourceURI(iResource.getFullPath().toString(), true);
 		try {
 			return new ResourceSetImpl().getResource(resourceURI, true);
+			// CHECKSTYLE:OFF
 		} catch (Exception e) {
+			// CHECKSTYLE:ON
 			IntentUiLogger.logError("Could not perform drop of the resource at URI " + resourceURI
 					+ " because a bridge to represent such files as models is missing", e);
 		}

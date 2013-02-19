@@ -529,16 +529,12 @@ public class IntentEditor extends TextEditor {
 		// Adding transfers provided by contributed IEditorRendererExtensions
 		for (IEditorRendererExtension editorRendererExtension : IEditorRendererExtensionRegistry
 				.getEditorRendererExtensions()) {
-			if (editorRendererExtension != null && editorRendererExtension.getAdditionalTransfers() != null) {
+			if (editorRendererExtension.getAdditionalTransfers() != null) {
 				supportedTransfers.addAll(editorRendererExtension.getAdditionalTransfers());
 			} else {
 				String errorMessage = "An error occured during Intent Editor's Drag and drop initialization ";
-				if (editorRendererExtension == null) {
-					errorMessage += "extension was not correctly loaded";
-				} else {
-					errorMessage += "extension " + editorRendererExtension
-							+ " provides an invalid value for additional transfers";
-				}
+				errorMessage += "extension " + editorRendererExtension
+						+ " provides an invalid value for additional transfers";
 				IntentUiLogger.logError(errorMessage, new IllegalArgumentException());
 			}
 		}
