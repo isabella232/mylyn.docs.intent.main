@@ -13,8 +13,8 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
@@ -36,7 +36,7 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 	 * @param annotation
 	 *            the annotation describing the synchronization issue.
 	 */
-	public UpdateModelingUnitFix(Annotation annotation) {
+	public UpdateModelingUnitFix(IntentAnnotation annotation) {
 		super(annotation);
 	}
 

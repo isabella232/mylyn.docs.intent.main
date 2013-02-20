@@ -27,9 +27,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
@@ -55,7 +55,7 @@ public class EMFCompareFix extends AbstractIntentFix {
 	 * @param annotation
 	 *            the annotation describing the synchronization issue.
 	 */
-	public EMFCompareFix(Annotation annotation) {
+	public EMFCompareFix(IntentAnnotation annotation) {
 		super(annotation);
 	}
 

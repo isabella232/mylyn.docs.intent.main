@@ -14,7 +14,6 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContextInformation;
-import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
@@ -25,7 +24,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 
 /**
- * {@link ICompletionProposal} used to fix a Synchronization issue.
+ * {@link ICompletionProposal} used to fix an Intent issue.
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
@@ -42,7 +41,7 @@ public abstract class AbstractIntentFix implements ICompletionProposal {
 	 * @param annotation
 	 *            the {@link IntentAnnotation} describing the synchronization issue.
 	 */
-	public AbstractIntentFix(Annotation annotation) {
+	public AbstractIntentFix(IntentAnnotation annotation) {
 		if (!(annotation instanceof IntentAnnotation)) {
 			throw new IllegalArgumentException(
 					"Cannot apply an Intent fix on the given annotation: should be an IntentAnnotation "
@@ -56,7 +55,7 @@ public abstract class AbstractIntentFix implements ICompletionProposal {
 	 * 
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#apply(org.eclipse.jface.text.IDocument)
 	 */
-	public void apply(IDocument document) {
+	public final void apply(IDocument document) {
 		if (!(document instanceof IntentEditorDocument)) {
 			throw new IllegalArgumentException(
 					"Cannot apply an Intent fix on the given document: should be an IntentEditorDocument "
@@ -85,7 +84,7 @@ public abstract class AbstractIntentFix implements ICompletionProposal {
 	 * 
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getSelection(org.eclipse.jface.text.IDocument)
 	 */
-	public Point getSelection(IDocument document) {
+	public final Point getSelection(IDocument document) {
 		return null;
 	}
 
@@ -112,7 +111,7 @@ public abstract class AbstractIntentFix implements ICompletionProposal {
 	 * 
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getContextInformation()
 	 */
-	public IContextInformation getContextInformation() {
+	public final IContextInformation getContextInformation() {
 		return null;
 	}
 

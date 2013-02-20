@@ -16,8 +16,8 @@ import java.io.IOException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
@@ -35,7 +35,7 @@ public class ClearResourceFix extends AbstractIntentFix {
 	 * @param annotation
 	 *            the annotation describing the synchronization issue.
 	 */
-	public ClearResourceFix(Annotation annotation) {
+	public ClearResourceFix(IntentAnnotation annotation) {
 		super(annotation);
 	}
 

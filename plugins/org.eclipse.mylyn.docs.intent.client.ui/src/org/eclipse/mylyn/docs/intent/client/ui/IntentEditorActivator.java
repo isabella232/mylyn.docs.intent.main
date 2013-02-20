@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.mylyn.docs.intent.client.ui.internal.quickfix.provider.IntentQuickFixProviderRegistryListener;
 import org.eclipse.mylyn.docs.intent.client.ui.internal.renderers.IEditorRendererExtensionRegistryListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.internal.util.BundleUtility;
@@ -53,6 +54,8 @@ public class IntentEditorActivator extends AbstractUIPlugin {
 
 	private IEditorRendererExtensionRegistryListener editorRendererExtensionsListener = new IEditorRendererExtensionRegistryListener();
 
+	private IntentQuickFixProviderRegistryListener intentFixRegistryListener = new IntentQuickFixProviderRegistryListener();
+
 	/**
 	 * IntentEditorActivator constructor.
 	 */
@@ -70,6 +73,7 @@ public class IntentEditorActivator extends AbstractUIPlugin {
 
 		// Initializing registry listener for all extension points
 		editorRendererExtensionsListener.init();
+		intentFixRegistryListener.init();
 	}
 
 	/**
@@ -121,6 +125,7 @@ public class IntentEditorActivator extends AbstractUIPlugin {
 
 		// Disposing registry listener for all extension points
 		editorRendererExtensionsListener.dispose();
+		intentFixRegistryListener.dispose();
 
 		super.stop(context);
 		Iterator<Image> imageIterator = imageMap.values().iterator();
