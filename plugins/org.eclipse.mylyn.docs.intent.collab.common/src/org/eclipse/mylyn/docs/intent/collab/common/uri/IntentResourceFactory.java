@@ -14,8 +14,10 @@ import java.io.IOException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.mylyn.docs.intent.collab.common.internal.uri.contribution.IntentResourceInitializerRegistry;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
@@ -61,30 +63,29 @@ public class IntentResourceFactory implements Resource.Factory {
 	 * @see org.eclipse.emf.ecore.resource.Resource.Factory#createResource(org.eclipse.emf.common.util.URI)
 	 */
 	public Resource createResource(URI uri) {
+		// Step 1: extract from URI repository identifier & rerenced resource path
 		boolean createResourceIFNeeded = uri.toString().endsWith(getCreateResourceIfNeededTag());
 		URI intentURI = URI.createURI(uri.toString().replace(getCreateResourceIfNeededTag(), ""));
 		String intentRepositoryIdentifier = extractRepositoryIdentifier(intentURI);
 
+		String compiledResourceIdentifier = extractCompiledResourceIdentifier(intentURI);
+		String referencedResourcePath = null;
+		// Get the repository path of the referenced resource to load
+		// if the URI contains a resource identifier
+		if (compiledResourceIdentifier != null && compiledResourceIdentifier.length() > 0) {
+			// we return the compiled resource corresponding to this fragment
+			referencedResourcePath = IntentLocations.GENERATED_RESOURCES_FOLDER_PATH
+					+ compiledResourceIdentifier;
+		} else {
+			// otherwise, we return the document
+			referencedResourcePath = IntentLocations.INTENT_INDEX;
+		}
 		try {
-			// Step 1: get the Intent repository indicated by this URI
+			// Step 2: get the Intent repository indicated by this URI
 			Repository repository = IntentRepositoryManager.INSTANCE
 					.getRepository(intentRepositoryIdentifier);
 
-			// Step 2: open a repository adapter
-			String compiledResourceIdentifier = extractCompiledResourceIdentifier(intentURI);
-			String referencedResourcePath = null;
-			// Step 3: get the repository path of the referenced resource to load
-			// if the URI contains a resource identifier
-			if (compiledResourceIdentifier != null && compiledResourceIdentifier.length() > 0) {
-				// we return the compiled resource corresponding to this fragment
-				referencedResourcePath = IntentLocations.GENERATED_RESOURCES_FOLDER_PATH
-						+ compiledResourceIdentifier;
-			} else {
-				// otherwise, we return the document
-				referencedResourcePath = IntentLocations.INTENT_INDEX;
-			}
-
-			// Step 4: load the resource and return it
+			// Step 3: load the resource and return it
 			RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();
 			Resource resource = null;
 			if (createResourceIFNeeded) {
@@ -102,7 +103,15 @@ public class IntentResourceFactory implements Resource.Factory {
 			}
 			return resource;
 		} catch (RepositoryConnectionException e) {
-			throw new RuntimeException(e);
+			// If no Intent repository with the given identifier was found, looking for Intent projects
+			// embedded in plugins
+			try {
+				URI platformPluginURI = URI.createPlatformPluginURI(intentRepositoryIdentifier
+						+ "/.repository" + referencedResourcePath + ".repomodel", true);
+				return new ResourceSetImpl().getResource(platformPluginURI, true);
+			} catch (WrappedException wrapped) {
+				throw new RuntimeException(e);
+			}
 		} catch (CoreException e) {
 			throw new RuntimeException(e);
 		} catch (ReadOnlyException e) {
