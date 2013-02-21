@@ -68,6 +68,14 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 */
 	private ColorManager colorManager;
 
+	private int previousX;
+
+	private int previousY;
+
+	private int previousWidht;
+
+	private int previousHeight;
+
 	/**
 	 * Creates a new painter for the given text viewer.
 	 * 
@@ -146,6 +154,12 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	public void paintControl(PaintEvent event) {
 		if (fTextWidget != null) {
 			handleDrawRequest(event.gc, event.x, event.y, event.width, event.height);
+
+			// launch a redrawn to avoid leaving old painted decorations when editor is resized
+			if (!isEqualToLastDrawRequest(event.x, event.y, event.width, event.height)) {
+				fTextWidget.redraw(fTextWidget.getClientArea().x, fTextWidget.getClientArea().y,
+						fTextWidget.getClientArea().width, fTextWidget.getClientArea().height, false);
+			}
 		}
 	}
 
@@ -320,7 +334,8 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 */
 	private void drawDecorationRectangle(GC gc, int beginOffset, int endOffset, int maxMuLineSizeOffset,
 			boolean usingAlpha) {
-		int decorationLineLength = fTextWidget.getSize().x;
+		int decorationLineLength = Math.max(fTextWidget.getSize().x, fTextWidget.getHorizontalBar()
+				.getMaximum());
 		gc.setAlpha(100);
 		gc.setForeground(colorManager.getColor(IntentColorConstants.getMuDecorationLineForeground()));
 		gc.setBackground(colorManager.getColor(IntentColorConstants.getMuDecorationBackground()));
@@ -329,5 +344,23 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 		gc.drawRoundRectangle(beginPos.x - LEFT_DECORATION_PADDING, beginPos.y, decorationLineLength
 				- beginPos.x - RIGHT_DECORATION_PADDING, endPos.y - beginPos.y, 10, 10);
 
+	}
+
+	/**
+	 * Indicates if the given draw request is equal to the previous one.
+	 * 
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @return true if the given draw request is equal to the previous one, false otherwise
+	 */
+	private boolean isEqualToLastDrawRequest(int x, int y, int width, int height) {
+		boolean isEqualToLastDrawRequest = (previousX == x && previousY == y && previousWidht == width && previousHeight == height);
+		this.previousX = x;
+		this.previousY = y;
+		this.previousWidht = width;
+		this.previousHeight = height;
+		return isEqualToLastDrawRequest;
 	}
 }
