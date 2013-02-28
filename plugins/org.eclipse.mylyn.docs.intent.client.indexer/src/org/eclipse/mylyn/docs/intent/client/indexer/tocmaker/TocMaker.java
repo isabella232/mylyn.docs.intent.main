@@ -83,9 +83,12 @@ public class TocMaker {
 			IntentIndexEntry candidateChapterEntry = null;
 			// Step 4.1: we use an existing index entry if any
 			for (IntentIndexEntry candidate : documentIndexEntry.getSubEntries()) {
-				if (((IntentStructuredElement)candidate.getReferencedElement()).getCompleteLevel().equals(
-						chapter.getCompleteLevel())) {
-					candidateChapterEntry = candidate;
+				if (((IntentStructuredElement)candidate.getReferencedElement()) != null) {
+					String completeLevel = ((IntentStructuredElement)candidate.getReferencedElement())
+							.getCompleteLevel();
+					if (completeLevel != null && completeLevel.equals(chapter.getCompleteLevel())) {
+						candidateChapterEntry = candidate;
+					}
 				}
 			}
 			// Step 4.2: and compute the entry for this chapter
@@ -129,9 +132,12 @@ public class TocMaker {
 			// Step 4.1: we use an existing index entry if any
 			IntentIndexEntry candidateSectionEntry = null;
 			for (IntentIndexEntry candidate : chapterEntry.getSubEntries()) {
-				if (((IntentStructuredElement)candidate.getReferencedElement()).getCompleteLevel().equals(
-						section.getCompleteLevel())) {
-					candidateSectionEntry = candidate;
+				if (((IntentStructuredElement)candidate.getReferencedElement()) != null) {
+					String completeLevel = ((IntentStructuredElement)candidate.getReferencedElement())
+							.getCompleteLevel();
+					if (completeLevel != null && completeLevel.equals(section.getCompleteLevel())) {
+						candidateSectionEntry = candidate;
+					}
 				}
 			}
 
@@ -178,8 +184,10 @@ public class TocMaker {
 			IntentIndexEntry candidateSubSectionEntry = null;
 
 			for (IntentIndexEntry candidate : sectionEntry.getSubEntries()) {
-				if (((IntentStructuredElement)candidate.getReferencedElement()).getCompleteLevel().equals(
-						subSection.getCompleteLevel())) {
+				IntentStructuredElement referencedElement = (IntentStructuredElement)candidate
+						.getReferencedElement();
+				if (referencedElement != null
+						&& referencedElement.getCompleteLevel().equals(subSection.getCompleteLevel())) {
 					candidateSubSectionEntry = candidate;
 				}
 			}
