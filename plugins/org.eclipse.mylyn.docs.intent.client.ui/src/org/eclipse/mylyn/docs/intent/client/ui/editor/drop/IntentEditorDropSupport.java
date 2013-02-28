@@ -30,6 +30,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConst
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.ExternalContentReferencesMergeUpdater;
@@ -78,7 +80,9 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 			EObject intentElement = document.getElementAtOffset(editor.getProjectionViewer().getTextWidget()
 					.getCaretOffset());
 			EObject parent = intentElement;
-			while (parent != null && !(parent instanceof ModelingUnit || parent instanceof IntentSection)) {
+			while (parent != null
+					&& !(parent instanceof ModelingUnit || parent instanceof IntentSection
+							|| parent instanceof IntentDocument || parent instanceof IntentChapter)) {
 				parent = parent.eContainer();
 			}
 
@@ -159,8 +163,13 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 			updater.create((ModelingUnit)parent, droppedEObjects);
 		} else if (parent instanceof IntentSection) {
 			updater.create((IntentSection)parent, droppedEObjects);
+		} else if (parent instanceof IntentDocument) {
+			updater.create((IntentDocument)parent, droppedEObjects);
+		} else if (parent instanceof IntentChapter) {
+			updater.create((IntentChapter)parent, droppedEObjects);
 		} else {
-			IntentLogger.getInstance().log(LogType.ERROR, "Only modeling units & sections support drops.");
+			IntentLogger.getInstance().log(LogType.ERROR,
+					"Can't drop external references in this container:" + parent);
 		}
 	}
 

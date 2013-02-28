@@ -28,6 +28,9 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
@@ -35,6 +38,9 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
+import org.eclipse.mylyn.docs.intent.markup.markup.MarkupFactory;
+import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
+import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
 /**
  * Utility which updates modeling units by merging elements into an existing model.
@@ -105,6 +111,84 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 				}
 			}
 		});
+	}
+
+	/**
+	 * Creates instanciations for the given elements.
+	 * 
+	 * @param parent
+	 *            the modeling unit where to create the instanciations
+	 * @param elements
+	 *            the elements to instanciate
+	 */
+	public void create(final IntentChapter parent, final List<EObject> elements) {
+		repositoryAdapter.execute(new IntentCommand() {
+			public void execute() {
+				internalCreate(parent, elements);
+				try {
+					repositoryAdapter.save();
+				} catch (ReadOnlyException e) {
+					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				} catch (SaveException e) {
+					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				}
+			}
+
+		});
+	}
+
+	/**
+	 * Creates instanciations for the given elements.
+	 * 
+	 * @param parent
+	 *            the modeling unit where to create the instanciations
+	 * @param elements
+	 *            the elements to instanciate
+	 */
+	public void create(final IntentDocument parent, final List<EObject> elements) {
+		repositoryAdapter.execute(new IntentCommand() {
+			public void execute() {
+				IntentChapter newChapter = IntentDocumentFactory.eINSTANCE.createIntentChapter();
+				Paragraph title = MarkupFactory.eINSTANCE.createParagraph();
+				Text titleData = MarkupFactory.eINSTANCE.createText();
+				titleData.setData("Title");
+				title.getContent().add(titleData);
+				newChapter.setTitle(title);
+				parent.getChapters().add(newChapter);
+				internalCreate(newChapter, elements);
+				try {
+					repositoryAdapter.save();
+				} catch (ReadOnlyException e) {
+					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				} catch (SaveException e) {
+					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create a list of elements inside of the given chapter.
+	 * 
+	 * @param parent
+	 *            the chapter
+	 * @param elements
+	 *            the elements
+	 */
+	private void internalCreate(final IntentChapter parent, final List<EObject> elements) {
+		Paragraph title = MarkupFactory.eINSTANCE.createParagraph();
+		Text titleData = MarkupFactory.eINSTANCE.createText();
+		titleData.setData("Title");
+		title.getContent().add(titleData);
+
+		IntentSection newSec = IntentDocumentFactory.eINSTANCE.createIntentSection();
+		newSec.setTitle(title);
+
+		ModelingUnit modelingUnit = ModelingUnitFactory.eINSTANCE.createModelingUnit();
+		newSec.getIntentContent().add(modelingUnit);
+
+		parent.getIntentContent().add(newSec);
+		internalCreate(modelingUnit, elements);
 	}
 
 	/**
