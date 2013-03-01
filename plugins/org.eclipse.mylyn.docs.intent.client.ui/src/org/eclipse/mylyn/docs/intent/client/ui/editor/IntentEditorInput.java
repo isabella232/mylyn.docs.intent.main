@@ -166,8 +166,9 @@ public class IntentEditorInput extends URIEditorInput {
 	protected void loadState(IMemento memento) {
 		super.loadState(memento);
 		Resource resource = getResource();
-		if (resource != null) {
-			element = resource.getEObject(memento.getString(URI_FRAGMENT_TAG));
+		String uriFragment = memento.getString(URI_FRAGMENT_TAG);
+		if (resource != null && uriFragment != null) {
+			element = resource.getEObject(uriFragment);
 			elementTitle = getTitleFromElement(element);
 		}
 	}
