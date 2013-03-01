@@ -2,6 +2,13 @@
 <?eclipse version="3.4"?>
 <plugin>
 
+  <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.eclipse.org/intent/bridges/java/0.8"
+            class="org.eclipse.mylyn.docs.intent.bridge.java.JavaPackage"
+            genModel="model/java.genmodel"/>
+   </extension>
+
    <!-- Registering a ResourceFactory allowing to represent Java files/classes/methods as model -->
    <extension
          point="org.eclipse.emf.ecore.extension_parser">
