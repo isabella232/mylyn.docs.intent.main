@@ -48,7 +48,7 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		}
 		addUIFieds(parent);
 		addDnDFieds(parent);
-		addLogFields(parent);
+		addOtherFields(parent);
 	}
 
 	/**
@@ -92,16 +92,21 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 	}
 
 	/**
-	 * Configure intent logger fields in the given parent composite.
+	 * Configure intent other fields in the given parent composite.
 	 * 
 	 * @param parent
 	 *            the parent composite
 	 */
-	private void addLogFields(Composite parent) {
+	private void addOtherFields(Composite parent) {
 		// All preferences relative to logging
-		Composite logGroup = createGroup(parent, "Logging");
+		Composite otherGroup = createGroup(parent, "Other");
 		addField(new BooleanFieldEditor(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING,
-				"Advanced logging", new Composite(logGroup, SWT.NONE)));
+				"Advanced logging", new Composite(otherGroup, SWT.NONE)));
+		addField(new BooleanFieldEditor(IntentPreferenceConstants.ACTIVATE_BACKUP,
+				"Activate back-up mechanism", new Composite(otherGroup, SWT.NONE)));
+		Label fontInfo = new Label(otherGroup, SWT.NONE);
+		fontInfo.setText("If back-up is activated, Intent documents will be stored in text files (only in Workspace mode)");
+
 	}
 
 	/**

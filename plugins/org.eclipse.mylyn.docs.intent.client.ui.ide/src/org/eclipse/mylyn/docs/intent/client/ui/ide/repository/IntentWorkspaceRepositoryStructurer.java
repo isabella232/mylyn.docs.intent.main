@@ -10,18 +10,35 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.repository;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Scanner;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.DefaultWorkspaceRepositoryStructurer;
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter;
+import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceConfig;
+import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceRepository;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 /**
  * Structurer for a Workspace repository containing Intent informations.
@@ -40,6 +57,17 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceRepositoryStructurer {
 
 	/**
+	 * The name of the file in which we store a textual backup of the Intent document.
+	 */
+	private static final String INTENT_BACKUP_FILE_NAME = ".intentbackup";
+
+	/**
+	 * Indicates the minimum delay between 2 back-ups. If file is saved before this delay, backup will not be
+	 * done (even if they are differences with previous backup).
+	 */
+	private static final int INTENT_BACKUP_DELAY = 10000;
+
+	/**
 	 * A separator used to compute identifer (e.g. 5.3.2).
 	 */
 	private static final String IDENTIFIER_SEPARATOR = ".";
@@ -52,11 +80,83 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	@Override
 	public void structure(RepositoryAdapter repositoryAdapter) throws ReadOnlyException {
 		super.structure(repositoryAdapter);
+		WorkspaceAdapter workspaceAdapter = (WorkspaceAdapter)repositoryAdapter;
+		IntentDocument document = new IntentDocumentQuery(workspaceAdapter).getOrCreateIntentDocument();
+
+		// We save a textual back-up of the document
+		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		boolean backUpModeIsActive = node.getBoolean(IntentPreferenceConstants.ACTIVATE_BACKUP, false);
+		if (backUpModeIsActive) {
+			saveTextualSerialization(workspaceAdapter, document);
+		}
 
 		// To split the document, uncomment the following code
-		// WorkspaceAdapter workspaceAdapter = (WorkspaceAdapter)repositoryAdapter;
-		// IntentDocument document = new IntentDocumentQuery(workspaceAdapter).getOrCreateIntentDocument();
 		// splitElementAndSons(workspaceAdapter, document);
+	}
+
+	/**
+	 * Saves a textual serialization of the given {@link IntentDocument}.
+	 * 
+	 * @param workspaceAdapter
+	 * @param document
+	 *            the {@link IntentDocument} to serialize
+	 */
+	private void saveTextualSerialization(WorkspaceAdapter workspaceAdapter, IntentDocument document) {
+		// Step 1: get backup file
+		WorkspaceConfig workspaceConfig = ((WorkspaceRepository)workspaceAdapter.getRepository())
+				.getWorkspaceConfig();
+		String projectName = workspaceConfig.getRepositoryAbsolutePath()
+				.replace(workspaceConfig.getRepositoryRelativePath(), "").replaceFirst("/", "");
+		IFile backUpFile = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName)
+				.getFile(INTENT_BACKUP_FILE_NAME);
+
+		// Step 2: if file has been modified for longer that a certain delay
+		try {
+			if (!backUpFile.exists()
+					|| System.currentTimeMillis() > backUpFile.getLocalTimeStamp() + INTENT_BACKUP_DELAY) {
+				String newSerialization = new IntentSerializer().serialize(document);
+
+				// and if the serialization has actually changed since last back-up
+				boolean backupFileShouldBeUpdated = !backUpFile.exists();
+				if (!backupFileShouldBeUpdated) {
+					InputStream previousContent;
+					previousContent = backUpFile.getContents();
+					try {
+						StringBuilder previousContentAsString = new StringBuilder();
+						Scanner previousContentScanner = new Scanner(previousContent);
+						while (previousContentScanner.hasNext()) {
+							previousContentAsString.append(previousContentScanner.nextLine() + "\n");
+						}
+						backupFileShouldBeUpdated = !previousContentAsString.toString().equals(
+								newSerialization);
+					} finally {
+						previousContent.close();
+					}
+				}
+
+				// Step 3: update back-up file
+				if (backupFileShouldBeUpdated) {
+					ByteArrayInputStream intentDocumentAsText = new ByteArrayInputStream(
+							newSerialization.getBytes());
+					try {
+						if (!backUpFile.exists()) {
+							backUpFile.create(intentDocumentAsText, true, new NullProgressMonitor());
+						} else {
+							if (!backUpFile.getContents().equals(intentDocumentAsText)) {
+								backUpFile.setContents(intentDocumentAsText, true, true,
+										new NullProgressMonitor());
+							}
+						}
+					} finally {
+						intentDocumentAsText.close();
+					}
+				}
+			}
+		} catch (CoreException e) {
+			// Silent Catch
+		} catch (IOException e) {
+			// Silent Catch
+		}
 	}
 
 	/**
