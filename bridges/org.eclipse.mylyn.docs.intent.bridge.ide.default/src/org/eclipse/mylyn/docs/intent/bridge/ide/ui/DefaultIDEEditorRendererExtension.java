@@ -16,16 +16,20 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
+import org.eclipse.emf.validation.marker.MarkerUtil;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension;
@@ -38,8 +42,10 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorDescriptor;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ResourceTransfer;
 
@@ -77,18 +83,43 @@ public class DefaultIDEEditorRendererExtension implements IEditorRendererExtensi
 		if (resourceToOpenURI.isPlatformResource()) {
 			String filePath = resourceToOpenURI.toPlatformString(true);
 
-			// Open editor with a file editor input
+			// Step 1: Open editor with a file editor input
 			IFile resourceFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(filePath));
 			FileEditorInput editorInput = new FileEditorInput(resourceFile);
 			IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry()
 					.getDefaultEditor(resourceToOpenURI.lastSegment());
-
+			IEditorPart openedEditor = null;
 			if (desc != null) {
 				try {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					openedEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 							.openEditor(editorInput, desc.getId());
 				} catch (PartInitException e) {
 					IntentUiLogger.logError(e);
+				}
+			}
+
+			// Step 2: Update selection using a shadow marker
+			if (openedEditor instanceof IGotoMarker) {
+				IMarker shadowMarker = null;
+				try {
+					// We create a shadow marker that will be deleted
+					shadowMarker = resourceFile.createMarker(MarkerUtil.VALIDATION_MARKER_TYPE);
+					shadowMarker.setAttribute(EValidator.URI_ATTRIBUTE, externalContentReference.getUri()
+							.toString());
+
+					// Update selection using the gotoMarker method
+					((IGotoMarker)openedEditor).gotoMarker(shadowMarker);
+
+				} catch (CoreException e) {
+					// Silent catch
+				} finally {
+					if (shadowMarker != null) {
+						try {
+							shadowMarker.delete();
+						} catch (CoreException e) {
+							// Silent catch
+						}
+					}
 				}
 			}
 			return true;
