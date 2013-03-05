@@ -21,6 +21,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
@@ -187,7 +188,7 @@ public class OutlineContentProvider extends AdapterFactoryContentProvider {
 
 		// An object has children if it's a Genericelement and contains at least one IntentGenericElement.
 		if (!filter(object)) {
-			if (object instanceof ResourceDeclaration) {
+			if (object instanceof ResourceDeclaration && !(object instanceof ExternalContentReference)) {
 				hasChildren = true;
 			}
 			Iterator<EObject> contentIterator = ((EObject)object).eContents().iterator();

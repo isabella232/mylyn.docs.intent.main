@@ -16,6 +16,8 @@ import java.util.LinkedHashSet;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.ReflectiveItemProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.DecorationOverlayIcon;
@@ -38,6 +40,7 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
 import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
@@ -101,6 +104,18 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 	public Object getImage(Object object) {
 		String imagePath = null;
 		Image returnedImage = null;
+
+		if (object instanceof ExternalContentReference) {
+			EObject externalContent = ((ExternalContentReference)object).getExternalContent();
+			if (externalContent != null) {
+				IItemLabelProvider labeProvider = (IItemLabelProvider)new ComposedAdapterFactory(
+						ComposedAdapterFactory.Descriptor.Registry.INSTANCE).adapt(externalContent,
+						IItemLabelProvider.class);
+				if (labeProvider != null) {
+					return labeProvider.getImage(externalContent);
+				}
+			}
+		}
 
 		imagePath = getImageForStructureElement(object);
 
@@ -452,6 +467,10 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 
 			case ModelingUnitPackage.CONTRIBUTION_INSTRUCTION:
 				text.append(((ContributionInstruction)eObject).getContributionReference().getIntentHref());
+				break;
+
+			case ModelingUnitPackage.EXTERNAL_CONTENT_REFERENCE:
+				text.append(((ExternalContentReference)eObject).getUri());
 				break;
 
 			case ModelingUnitPackage.RESOURCE_DECLARATION:
