@@ -307,8 +307,38 @@ Contributors:
        </repositorymanagercontribution>
     </extension>
    
-   
-   
-   
+    <extension
+        point="org.eclipse.ui.navigator.linkHelper">
+     <linkHelper
+           class="org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.IntentLinkHelper"
+           id="org.eclipse.mylyn.docs.intent.client.ui.ide.linkhelper">
+        <editorInputEnablement>
+           <instanceof
+                 value="org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput">
+           </instanceof>
+        </editorInputEnablement>
+        <selectionEnablement>
+                 <or>
+                    <instanceof
+                          value="org.eclipse.core.resources.IProject">
+                    </instanceof>
+                    <instanceof
+                          value="org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry">
+                    </instanceof>
+                 </or>
+        </selectionEnablement>
+     </linkHelper>
+  </extension>
+     <extension
+        point="org.eclipse.ui.navigator.viewer">
+     <viewerContentBinding
+           viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+        <includes>
+           <contentExtension
+                 pattern="org.eclipse.mylyn.docs.intent.client.ui.ide.*">
+           </contentExtension>
+        </includes>
+     </viewerContentBinding>   
+  </extension>
 
 </plugin>
