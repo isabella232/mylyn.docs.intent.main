@@ -63,7 +63,7 @@ public class DragAndDropTest extends AbstractUpdateTest {
 		Resource resource = new ResourceSetImpl().getResource(
 				URI.createURI("platform:/resource/dragdrop/test.ecore"), true);
 		EObject root = resource.getContents().get(0);
-		new MergeUpdater(repositoryAdapter).create(modelingUnit, root.eContents());
+		new MergeUpdater(repositoryAdapter).create(modelingUnit, null, root.eContents());
 		document.set(new IntentSerializer().serialize((EObject)document.getAST()));
 		editor.doSave(new NullProgressMonitor());
 		waitForCompiler();

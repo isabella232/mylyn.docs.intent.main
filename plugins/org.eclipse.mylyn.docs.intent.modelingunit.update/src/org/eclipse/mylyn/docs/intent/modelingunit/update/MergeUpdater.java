@@ -12,7 +12,9 @@
 package org.eclipse.mylyn.docs.intent.modelingunit.update;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -28,10 +30,14 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
+import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
@@ -69,62 +75,44 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 	 * 
 	 * @param section
 	 *            the section where to create a new modeling unit
+	 * @param sibling
+	 *            the Intent element located right before the elements to create
 	 * @param elements
 	 *            the elements to instanciate
 	 */
-	public void create(final IntentSection section, final List<EObject> elements) {
+	public void create(final IntentSection section, final EObject sibling, final List<EObject> elements) {
 		repositoryAdapter.execute(new IntentCommand() {
 			public void execute() {
 				ModelingUnit modelingUnit = ModelingUnitFactory.eINSTANCE.createModelingUnit();
-				section.getIntentContent().add(modelingUnit);
-				internalCreate(modelingUnit, elements);
-				try {
-					repositoryAdapter.save();
-				} catch (ReadOnlyException e) {
-					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
-				} catch (SaveException e) {
-					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+
+				// Splitting a description unit in several if dropping inside a description unit
+				EObject previousSibling = sibling;
+				DescriptionUnit rightUnit = null;
+				if (previousSibling instanceof DescriptionBloc) {
+					DescriptionUnit leftUnit = (DescriptionUnit)previousSibling.eContainer();
+					rightUnit = DescriptionUnitFactory.eINSTANCE.createDescriptionUnit();
+					Collection<UnitInstruction> descriptionInstructionsToMove = new LinkedHashSet<UnitInstruction>();
+					for (int i = leftUnit.getInstructions().indexOf(previousSibling) + 1; i < leftUnit
+							.getInstructions().size(); i++) {
+						descriptionInstructionsToMove.add(leftUnit.getInstructions().get(i));
+					}
+					leftUnit.getInstructions().removeAll(descriptionInstructionsToMove);
+					rightUnit.getInstructions().addAll(descriptionInstructionsToMove);
+					previousSibling = leftUnit;
 				}
-			}
-
-		});
-	}
-
-	/**
-	 * Creates instanciations for the given elements.
-	 * 
-	 * @param modelingUnit
-	 *            the modeling unit where to create the instanciations
-	 * @param elements
-	 *            the elements to instanciate
-	 */
-	public void create(final ModelingUnit modelingUnit, final List<EObject> elements) {
-		repositoryAdapter.execute(new IntentCommand() {
-			public void execute() {
-				internalCreate(modelingUnit, elements);
-				try {
-					repositoryAdapter.save();
-				} catch (ReadOnlyException e) {
-					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
-				} catch (SaveException e) {
-					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				int siblingIndex = section.getIntentContent().indexOf(previousSibling);
+				if (siblingIndex != -1) {
+					section.getIntentContent().add(siblingIndex + 1, modelingUnit);
+					if (rightUnit != null) {
+						section.getIntentContent().add(siblingIndex + 2, rightUnit);
+					}
+				} else {
+					section.getIntentContent().add(0, modelingUnit);
+					if (rightUnit != null) {
+						section.getIntentContent().add(1, rightUnit);
+					}
 				}
-			}
-		});
-	}
-
-	/**
-	 * Creates instanciations for the given elements.
-	 * 
-	 * @param parent
-	 *            the modeling unit where to create the instanciations
-	 * @param elements
-	 *            the elements to instanciate
-	 */
-	public void create(final IntentChapter parent, final List<EObject> elements) {
-		repositoryAdapter.execute(new IntentCommand() {
-			public void execute() {
-				internalCreate(parent, elements);
+				internalCreate(modelingUnit, previousSibling, elements);
 				try {
 					repositoryAdapter.save();
 				} catch (ReadOnlyException e) {
@@ -142,10 +130,63 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 	 * 
 	 * @param parent
 	 *            the modeling unit where to create the instanciations
+	 * @param sibling
+	 *            the Intent element located right before the elements to create
 	 * @param elements
 	 *            the elements to instanciate
 	 */
-	public void create(final IntentDocument parent, final List<EObject> elements) {
+	public void create(final ModelingUnit modelingUnit, final EObject sibling, final List<EObject> elements) {
+		repositoryAdapter.execute(new IntentCommand() {
+			public void execute() {
+				internalCreate(modelingUnit, sibling, elements);
+				try {
+					repositoryAdapter.save();
+				} catch (ReadOnlyException e) {
+					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				} catch (SaveException e) {
+					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				}
+			}
+		});
+	}
+
+	/**
+	 * Creates instanciations for the given elements.
+	 * 
+	 * @param parent
+	 *            the modeling unit where to create the instanciations
+	 * @param sibling
+	 *            the Intent element located right before the elements to create
+	 * @param elements
+	 *            the elements to instanciate
+	 */
+	public void create(final IntentChapter parent, final EObject sibling, final List<EObject> elements) {
+		repositoryAdapter.execute(new IntentCommand() {
+			public void execute() {
+				internalCreate(parent, sibling, elements);
+				try {
+					repositoryAdapter.save();
+				} catch (ReadOnlyException e) {
+					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				} catch (SaveException e) {
+					IntentLogger.getInstance().log(LogType.ERROR, e.getMessage());
+				}
+			}
+
+		});
+	}
+
+	/**
+	 * Creates instanciations for the given elements.
+	 * 
+	 * @param parent
+	 *            the modeling unit where to create the instanciations
+	 * @param sibling
+	 *            the Intent element located right before the elements to create
+	 * @param elements
+	 *            the elements to instanciate
+	 */
+	public void create(final IntentDocument parent, final EObject sibling, final List<EObject> elements) {
 		repositoryAdapter.execute(new IntentCommand() {
 			public void execute() {
 				IntentChapter newChapter = IntentDocumentFactory.eINSTANCE.createIntentChapter();
@@ -155,7 +196,7 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 				title.getContent().add(titleData);
 				newChapter.setTitle(title);
 				parent.getChapters().add(newChapter);
-				internalCreate(newChapter, elements);
+				internalCreate(newChapter, sibling, elements);
 				try {
 					repositoryAdapter.save();
 				} catch (ReadOnlyException e) {
@@ -172,10 +213,12 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 	 * 
 	 * @param parent
 	 *            the chapter
+	 * @param sibling
+	 *            the Intent element located right before the elements to create
 	 * @param elements
 	 *            the elements
 	 */
-	private void internalCreate(final IntentChapter parent, final List<EObject> elements) {
+	private void internalCreate(final IntentChapter parent, EObject sibling, final List<EObject> elements) {
 		Paragraph title = MarkupFactory.eINSTANCE.createParagraph();
 		Text titleData = MarkupFactory.eINSTANCE.createText();
 		titleData.setData("Title");
@@ -187,8 +230,16 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 		ModelingUnit modelingUnit = ModelingUnitFactory.eINSTANCE.createModelingUnit();
 		newSec.getIntentContent().add(modelingUnit);
 
-		parent.getIntentContent().add(newSec);
-		internalCreate(modelingUnit, elements);
+		if (sibling instanceof DescriptionBloc) {
+			sibling = sibling.eContainer();
+		}
+		int siblingIndex = parent.getIntentContent().indexOf(sibling);
+		if (siblingIndex != -1) {
+			parent.getIntentContent().add(siblingIndex, newSec);
+		} else {
+			parent.getIntentContent().add(0, newSec);
+		}
+		internalCreate(modelingUnit, sibling, elements);
 	}
 
 	/**
@@ -196,10 +247,13 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 	 * 
 	 * @param modelingUnit
 	 *            the modeling unit
+	 * @param sibling
+	 *            the Intent element located right before the elements to create
 	 * @param elements
 	 *            the elements
 	 */
-	protected void internalCreate(final ModelingUnit modelingUnit, final List<EObject> elements) {
+	protected void internalCreate(final ModelingUnit modelingUnit, EObject sibling,
+			final List<EObject> elements) {
 		setNewObjects(getAllNewObjects(elements));
 		newInstanciations = new HashMap<EObject, InstanciationInstruction>();
 		for (EObject workingCopyObject : elements) {

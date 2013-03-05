@@ -19,6 +19,7 @@ import java.util.concurrent.CancellationException;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
@@ -30,6 +31,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConst
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -77,9 +80,27 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 			IntentDocumentProvider documentProvider = (IntentDocumentProvider)editor.getDocumentProvider();
 			final RepositoryAdapter repositoryAdapter = documentProvider.getListenedElementsHandler()
 					.getRepositoryAdapter();
-			EObject intentElement = document.getElementAtOffset(editor.getProjectionViewer().getTextWidget()
-					.getCaretOffset());
+			int carretOffset = editor.getProjectionViewer().getTextWidget().getCaretOffset();
+
+			// Step 2.1: get element at dropped offset (that will be the created elements previous sibling
+			EObject intentElement = document.getElementAtOffset(carretOffset);
 			EObject parent = intentElement;
+			try {
+				// if the dropped offset is an empty line, get the previous line
+				while (!(intentElement instanceof DescriptionBloc)
+						&& !((intentElement instanceof DescriptionUnit))
+						&& document
+								.get(carretOffset,
+										document.getLineLength(document.getLineOfOffset(carretOffset)))
+								.trim().length() < 1 && carretOffset > -1) {
+					carretOffset--;
+				}
+				intentElement = document.getElementAtOffset(carretOffset);
+			} catch (BadLocationException e1) {
+				// Silent catch
+			}
+
+			// get parent in which element will be created
 			while (parent != null
 					&& !(parent instanceof ModelingUnit || parent instanceof IntentSection
 							|| parent instanceof IntentDocument || parent instanceof IntentChapter)) {
@@ -87,7 +108,8 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 			}
 
 			try {
-				reactToDrop(repositoryAdapter, parent, droppedEObjects);
+				// Step 2.2: create elements
+				reactToDrop(repositoryAdapter, parent, intentElement, droppedEObjects);
 				document.reloadFromAST();
 			} catch (CancellationException e) {
 				// Nothing to do, drop was cancelled
@@ -138,12 +160,14 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 	 * @param parent
 	 *            the parent {@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument} element in
 	 *            which creating dropped elements
+	 * @param sibling
+	 *            the Intent element located right before the elements to create
 	 * @param droppedEObjects
 	 *            the dropped {@link EObject}s
 	 * @throws CancellationException
 	 *             if the drop was cancelled
 	 */
-	private void reactToDrop(RepositoryAdapter repositoryAdapter, EObject parent,
+	private void reactToDrop(RepositoryAdapter repositoryAdapter, EObject parent, EObject sibling,
 			List<EObject> droppedEObjects) throws CancellationException {
 		boolean shouldUseExternalContentReferencesDropMode = shouldUseExternalContentReferencesDropMode();
 		// Step 1: display (if needed) a pop-up allowing end-user to choose which drop mode should be used
@@ -160,13 +184,13 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 			updater = new MergeUpdater(repositoryAdapter);
 		}
 		if (parent instanceof ModelingUnit) {
-			updater.create((ModelingUnit)parent, droppedEObjects);
+			updater.create((ModelingUnit)parent, sibling, droppedEObjects);
 		} else if (parent instanceof IntentSection) {
-			updater.create((IntentSection)parent, droppedEObjects);
+			updater.create((IntentSection)parent, sibling, droppedEObjects);
 		} else if (parent instanceof IntentDocument) {
-			updater.create((IntentDocument)parent, droppedEObjects);
+			updater.create((IntentDocument)parent, sibling, droppedEObjects);
 		} else if (parent instanceof IntentChapter) {
-			updater.create((IntentChapter)parent, droppedEObjects);
+			updater.create((IntentChapter)parent, sibling, droppedEObjects);
 		} else {
 			IntentLogger.getInstance().log(LogType.ERROR,
 					"Can't drop external references in this container:" + parent);

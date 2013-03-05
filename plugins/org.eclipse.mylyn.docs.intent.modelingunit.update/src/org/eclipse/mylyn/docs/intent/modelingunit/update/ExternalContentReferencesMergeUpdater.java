@@ -41,15 +41,20 @@ public class ExternalContentReferencesMergeUpdater extends MergeUpdater {
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.mylyn.docs.intent.modelingunit.update.MergeUpdater#internalCreate(org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit,
-	 *      java.util.List)
+	 *      org.eclipse.emf.ecore.EObject, java.util.List)
 	 */
 	@Override
-	protected void internalCreate(ModelingUnit modelingUnit, List<EObject> elements) {
+	protected void internalCreate(ModelingUnit modelingUnit, EObject sibling, List<EObject> elements) {
 		for (EObject element : elements) {
 			ExternalContentReference externalContentRef = ModelingUnitFactory.eINSTANCE
 					.createExternalContentReference();
 			externalContentRef.setUri(EcoreUtil.getURI(element).toString());
-			modelingUnit.getInstructions().add(externalContentRef);
+			int siblingIndex = modelingUnit.getInstructions().indexOf(sibling);
+			if (siblingIndex != -1) {
+				modelingUnit.getInstructions().add(siblingIndex, externalContentRef);
+			} else {
+				modelingUnit.getInstructions().add(0, externalContentRef);
+			}
 		}
 	}
 
