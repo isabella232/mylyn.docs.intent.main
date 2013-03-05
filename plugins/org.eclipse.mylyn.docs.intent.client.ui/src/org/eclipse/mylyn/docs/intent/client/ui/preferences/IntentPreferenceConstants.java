@@ -60,4 +60,9 @@ public interface IntentPreferenceConstants {
 	 */
 	String DND_USE_EXTERNAL_REFERENCES = "org.eclipse.mylyn.docs.intent.client.ui.preferences.dnd_use_external_refs";
 
+	/**
+	 * Indicates if Intent should perform a textual back-up of the Intent documents.
+	 */
+	String ACTIVATE_BACKUP = "org.eclipse.mylyn.docs.intent.client.ui.preferences.activate_backup";
+
 }
