@@ -19,6 +19,7 @@ import org.eclipse.jface.text.GapTextStore;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
@@ -184,6 +185,19 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 	 */
 	public ParsedElementPosition getIntentPosition(EObject element) {
 		ParsedElementPosition positionForElement = getPositionManager().getPositionForElement(element);
+
+		// If element is an External Content Reference, recalculate length according to
+		// current indentation level
+		if (element instanceof ExternalContentReference) {
+			try {
+				int lineID = getLineOfOffset(positionForElement.getOffset());
+				int followingLineLength = getLineLength(lineID + 1);
+				positionForElement.setLength(positionForElement.getDeclarationLength() + followingLineLength
+						- 1);
+			} catch (BadLocationException e) {
+				// Silent catch
+			}
+		}
 		return positionForElement;
 	}
 

@@ -484,7 +484,9 @@ public class IntentEditor extends TextEditor {
 	 *            the new AST to compute the title from
 	 */
 	public void refreshTitle(EObject newAST) {
-		String titleFromElement = ((IntentEditorInput)this.getEditorInput()).getTitleFromElement(newAST);
+		String titleFromElement = ((IntentEditorInput)this.getEditorInput()).getTitleFromElement(
+				((IntentDocumentProvider)this.getDocumentProvider()).getListenedElementsHandler()
+						.getRepositoryAdapter(), newAST);
 		setPartName(titleFromElement);
 	}
 

@@ -11,10 +11,13 @@
 package org.eclipse.mylyn.docs.intent.client.ui.ide.navigator;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
@@ -52,9 +55,11 @@ public class IntentLinkHelper implements ILinkHelper {
 		// To avoid expanding the whole document hierarchy, always return the IndexEntry referencing the
 		// document
 		RepositoryAdapter repositoryAdapter = ((IntentEditorInput)anInput).getRepositoryAdapter();
+		URI editorURI = ((IntentEditorInput)anInput).getURI();
 		Object[] index = new IndexQuery(repositoryAdapter).getOrCreateIntentIndex().getEntries().toArray();
 		for (int i = 0; i < index.length; i++) {
-			elementsToSelect.add(index[i]);
+			elementsToSelect.addAll(getIndexEntryToSelectionFromEditorURI((IntentIndexEntry)index[i],
+					editorURI));
 		}
 
 		// Also add the Intent project to the selection
@@ -69,6 +74,19 @@ public class IntentLinkHelper implements ILinkHelper {
 			}
 		}
 		return new StructuredSelection(elementsToSelect.toArray(new Object[elementsToSelect.size()]));
+	}
+
+	private Collection<? extends Object> getIndexEntryToSelectionFromEditorURI(IntentIndexEntry indexEntry,
+			URI editorURI) {
+		ArrayList<Object> elementsToSelect = new ArrayList<Object>();
+		if (editorURI.equals(EcoreUtil.getURI(indexEntry.getReferencedElement()))) {
+			elementsToSelect.add(indexEntry);
+		} else {
+			for (IntentIndexEntry subEntry : indexEntry.getSubEntries()) {
+				elementsToSelect.addAll(getIndexEntryToSelectionFromEditorURI(subEntry, editorURI));
+			}
+		}
+		return elementsToSelect;
 	}
 
 	/**

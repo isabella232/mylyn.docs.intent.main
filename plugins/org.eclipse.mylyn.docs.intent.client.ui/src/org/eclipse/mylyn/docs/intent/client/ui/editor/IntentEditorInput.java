@@ -18,6 +18,7 @@ import org.eclipse.emf.common.ui.CommonUIPlugin;
 import org.eclipse.emf.common.ui.URIEditorInput;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
@@ -28,6 +29,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.query.DescriptionUnitHelper;
@@ -73,9 +75,9 @@ public class IntentEditorInput extends URIEditorInput {
 	 *            the repository adapter to use
 	 */
 	public IntentEditorInput(EObject elementToOpen, RepositoryAdapter repositoryAdapter) {
-		super(elementToOpen.eResource().getURI());
+		super(EcoreUtil.getURI(elementToOpen));
 		this.element = elementToOpen;
-		this.elementTitle = getTitleFromElement(elementToOpen);
+		this.elementTitle = getTitleFromElement(repositoryAdapter, elementToOpen);
 		this.repositoryAdapter = repositoryAdapter;
 	}
 
@@ -105,7 +107,7 @@ public class IntentEditorInput extends URIEditorInput {
 	 *            the element to compute the title from
 	 * @return the new title of the editor
 	 */
-	public String getTitleFromElement(EObject newElement) {
+	public String getTitleFromElement(RepositoryAdapter adapter, EObject newElement) {
 		String newTitle = "";
 		if (newElement instanceof ModelingUnit) {
 			newTitle = ((ModelingUnit)newElement).getUnitName();
@@ -117,12 +119,15 @@ public class IntentEditorInput extends URIEditorInput {
 			newTitle = DescriptionUnitHelper.getDescriptionUnitTitle((DescriptionUnit)newElement,
 					MAX_TITLE_SIZE);
 		}
-		if (newElement instanceof IntentStructuredElement) {
+		if (newElement instanceof IntentDocument) {
+			newTitle = adapter.getRepository().getIdentifier();
+		} else if (newElement instanceof IntentStructuredElement) {
 			newTitle = StructuredElementHelper.getTitle((IntentStructuredElement)newElement);
 			if ((newTitle == null) || (newTitle.length() < 1)) {
 				newTitle = newElement.eClass().getName();
 			}
 		}
+
 		if (newTitle.length() > MAX_TITLE_SIZE) {
 			newTitle = newTitle.substring(0, MAX_TITLE_SIZE);
 		}
@@ -166,10 +171,15 @@ public class IntentEditorInput extends URIEditorInput {
 	protected void loadState(IMemento memento) {
 		super.loadState(memento);
 		Resource resource = getResource();
-		String uriFragment = memento.getString(URI_FRAGMENT_TAG);
-		if (resource != null && uriFragment != null) {
-			element = resource.getEObject(uriFragment);
-			elementTitle = getTitleFromElement(element);
+		if (resource != null) {
+			String uriFragment = memento.getString(URI_FRAGMENT_TAG);
+
+			if (uriFragment != null) {
+				element = resource.getEObject(uriFragment);
+			} else {
+				element = resource.getContents().iterator().next();
+			}
+			elementTitle = getTitleFromElement(repositoryAdapter, element);
 		}
 	}
 
@@ -193,7 +203,7 @@ public class IntentEditorInput extends URIEditorInput {
 			}
 		}
 		if (repositoryAdapter != null) {
-			return repositoryAdapter.getResource(repositoryAdapter.getResourcePath(getURI()));
+			return repositoryAdapter.getResource(repositoryAdapter.getResourcePath(getURI().trimFragment()));
 		}
 		return null;
 	}

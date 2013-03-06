@@ -37,9 +37,10 @@ public final class ExternalContentReferenceSerializer {
 	 */
 	public static String render(ExternalContentReference instruction,
 			ModelingUnitElementDispatcher modelingUnitElementDispatcher) {
-		String renderedForm = "@ref \"" + instruction.getUri().toString() + "\"\n \n";
+		String renderedForm = "@ref \"" + instruction.getUri().toString() + "\"";
 		modelingUnitElementDispatcher.getPositionManager().setPositionForInstruction(instruction,
-				modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length() - 6);
+				modelingUnitElementDispatcher.getCurrentOffset(), renderedForm.length());
+		renderedForm += "\n \n";
 		modelingUnitElementDispatcher.setCurrentOffset(modelingUnitElementDispatcher.getCurrentOffset()
 				+ renderedForm.length());
 		return renderedForm;

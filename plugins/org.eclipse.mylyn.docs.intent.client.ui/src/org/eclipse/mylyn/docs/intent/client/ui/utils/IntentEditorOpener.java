@@ -147,19 +147,6 @@ public final class IntentEditorOpener {
 				page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				openedEditor = IntentEditorOpener.openEditor(repositoryAdapter, page,
 						elementToOpenLoadedFromAdapter);
-				EObject container = elementToSelectRangeWithLoadedFromAdapter;
-				while (container != null && !(container instanceof IntentGenericElement)) {
-					container = container.eContainer();
-				}
-				if (container instanceof IntentGenericElement && !(container instanceof IntentDocument)) {
-					openedEditor.selectRange((IntentGenericElement)container);
-				} else {
-					if (elementToOpenLoadedFromAdapter instanceof IntentGenericElement
-							&& !(container instanceof IntentDocument)) {
-						openedEditor.selectRange((IntentGenericElement)elementToOpenLoadedFromAdapter);
-					}
-				}
-
 			} catch (NullPointerException e) {
 				status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
 						"An unexpected error has occured");
