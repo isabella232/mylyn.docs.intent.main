@@ -153,8 +153,11 @@ public final class IntentCompilerInformationHolder {
 	 * @return the instruction that declared the given element
 	 */
 	public UnitInstruction getInstanciationInstructionByCreatedElement(EObject createdElement) {
-		return this.informationHolder.getCreatedElementsToInstructions().get(createdElement).iterator()
-				.next();
+		if (this.informationHolder.getCreatedElementsToInstructions().get(createdElement) != null) {
+			return this.informationHolder.getCreatedElementsToInstructions().get(createdElement).iterator()
+					.next();
+		}
+		return null;
 	}
 
 	/**

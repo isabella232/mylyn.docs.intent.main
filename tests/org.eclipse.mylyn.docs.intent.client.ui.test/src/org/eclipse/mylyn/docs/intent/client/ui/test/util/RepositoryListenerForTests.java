@@ -120,17 +120,23 @@ public class RepositoryListenerForTests implements ILogListener {
 	 * Waits for a message sent by the given client. Returns true if the message was sent, false if it did not
 	 * after a certain delay.
 	 * 
+	 * @param shouldBeNotified
+	 *            if client is expected to be notified
 	 * @param clientIdentifier
 	 *            the client identifier (e.g. "Indexer", "Compiler")
 	 * @return true if the message was sent by the expected client, false if it did not after a certain delay
 	 */
-	public boolean waitForModificationOn(String clientIdentifier) {
+	public boolean waitForModificationOn(boolean shouldBeNotified, String clientIdentifier) {
 		long startTime = System.currentTimeMillis();
 		boolean timeOutDetected = false;
+		long timeOutDelay = TIME_OUT_DELAY;
+		if (shouldBeNotified) {
+			timeOutDelay = timeOutDelay * 4;
+		}
 		try {
 			while (!hasReceivedMessage(clientIdentifier) && !timeOutDetected) {
 				Thread.sleep(WAITING_STEP_DELAY);
-				timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
+				timeOutDetected = System.currentTimeMillis() - startTime > timeOutDelay;
 			}
 			Thread.sleep(WAITING_STEP_DELAY);
 			return !timeOutDetected;

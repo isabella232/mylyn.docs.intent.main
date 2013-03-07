@@ -42,7 +42,6 @@ public class IntentURITest extends AbstractIntentUITest {
 	public void testIntentURIHandlerOnIntentDocument() {
 		setUpIntentProject("intentProject", "data/unit/documents/scenario/abstract_resources.intent");
 		ResourceSetImpl rs = new ResourceSetImpl();
-		waitForCompiler();
 
 		// Check 1: URI like intent:/intentProject should return a Resource containing the intent document
 		URI intentDocumentResourceURI = URI.createURI("intent:/intentProject");
@@ -115,4 +114,14 @@ public class IntentURITest extends AbstractIntentUITest {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest#additionalSetUpOperations()
+	 */
+	@Override
+	protected void additionalSetUpOperations() {
+		waitForCompiler();
+		waitForSynchronizer();
+	}
 }

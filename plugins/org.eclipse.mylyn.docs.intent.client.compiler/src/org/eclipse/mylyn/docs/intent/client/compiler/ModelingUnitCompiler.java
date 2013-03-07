@@ -378,17 +378,21 @@ public class ModelingUnitCompiler {
 	private boolean validateGeneratedElement(EObject generatedElement) {
 		UnitInstruction instanciation = informationHolder
 				.getInstanciationInstructionByCreatedElement(generatedElement);
-		GeneratedElementValidator validator = new GeneratedElementValidator(instanciation, generatedElement);
-		Diagnostic diagnostic;
-		boolean hasErrors = false;
-		try {
-			diagnostic = validator.validate();
-			informationHolder.registerDiagnosticAsCompilationStatusList(generatedElement, diagnostic);
-		} catch (CompilationException e) {
-			informationHolder.registerCompilationExceptionAsCompilationStatus(e);
-			hasErrors = true;
+		if (instanciation != null) {
+			GeneratedElementValidator validator = new GeneratedElementValidator(instanciation,
+					generatedElement);
+			Diagnostic diagnostic;
+			boolean hasErrors = false;
+			try {
+				diagnostic = validator.validate();
+				informationHolder.registerDiagnosticAsCompilationStatusList(generatedElement, diagnostic);
+			} catch (CompilationException e) {
+				informationHolder.registerCompilationExceptionAsCompilationStatus(e);
+				hasErrors = true;
+			}
+			return !hasErrors;
 		}
-		return !hasErrors;
+		return false;
 	}
 
 }

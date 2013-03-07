@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.impl.InternalTransactionalEditingDomain;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -613,16 +614,31 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#execute(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand)
 	 */
 	public void execute(final IntentCommand command) {
+		// Step 1: create a recording command encapsulating the Intent command
 		final TransactionalEditingDomain editingDomain = repository.getEditingDomain();
-		RecordingCommand recordingCommand = new RecordingCommand(editingDomain) {
+		final RecordingCommand recordingCommand = new RecordingCommand(editingDomain) {
 			@Override
 			protected void doExecute() {
 				command.execute();
 			}
 		};
-		// first we check that the repository has not been disposed
+
+		// Step 2: make sure a command is not already running
 		final CommandStack commandStack = editingDomain.getCommandStack();
+		// Check that the repository has not been disposed
 		if (commandStack != null) {
+			// Check that change recorder is not already recording
+			long timeout = System.currentTimeMillis();
+			while (((InternalTransactionalEditingDomain)editingDomain).getChangeRecorder().isRecording()
+					&& System.currentTimeMillis() < timeout + 15000) {
+				try {
+					Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
+				} catch (InterruptedException e) {
+					// Command will be executed
+				}
+			}
+
+			// Step 3: execute command
 			try {
 				commandStack.execute(recordingCommand);
 			} catch (NullPointerException e) {

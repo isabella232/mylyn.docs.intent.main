@@ -39,7 +39,6 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.DefaultSynchro
 import org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
-import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
@@ -250,14 +249,8 @@ public class IntentSynchronizer {
 		if (internalResource == null) {
 			final List<Resource> result = new ArrayList<Resource>();
 			final Resource finalExternalResource = externalResource;
-			adapter.execute(new IntentCommand() {
-
-				public void execute() {
-					result.add(synchronizerStrategy.handleNullInternalResource(
-							indexEntry.getGeneratedResourcePath(), finalExternalResource));
-
-				}
-			});
+			result.add(synchronizerStrategy.handleNullInternalResource(indexEntry.getGeneratedResourcePath(),
+					finalExternalResource));
 			if (!result.isEmpty()) {
 				internalResource = result.get(0);
 			}
@@ -268,18 +261,12 @@ public class IntentSynchronizer {
 		if (externalResource == null) {
 			final List<Resource> result = new ArrayList<Resource>();
 			final Resource finalInternalResource = internalResource;
-			adapter.execute(new IntentCommand() {
-
-				public void execute() {
-					Resource handleNullExternalResource = synchronizerStrategy.handleNullExternalResource(
-							indexEntry.getResourceDeclaration(), finalInternalResource, (String)indexEntry
-									.getResourceDeclaration().getUri());
-					if (handleNullExternalResource != null) {
-						result.add(handleNullExternalResource);
-					}
-
-				}
-			});
+			Resource handleNullExternalResource = synchronizerStrategy.handleNullExternalResource(indexEntry
+					.getResourceDeclaration(), finalInternalResource, (String)indexEntry
+					.getResourceDeclaration().getUri());
+			if (handleNullExternalResource != null) {
+				result.add(handleNullExternalResource);
+			}
 			if (!result.isEmpty()) {
 				externalResource = result.get(0);
 			} else {
