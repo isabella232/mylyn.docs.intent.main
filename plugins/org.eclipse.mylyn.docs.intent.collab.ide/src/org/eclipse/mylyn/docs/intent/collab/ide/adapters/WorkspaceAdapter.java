@@ -212,46 +212,50 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		SaveException saveException = null;
 		try {
 			for (Resource resource : resources) {
+				if (isRepositoryResource(resource.getURI())) {
+					try {
+						if (!removeDanglingElements(resource) && hasDifferentSerialization(resource)) {
+							try {
+								// We make sure the session isn't still reacting to previous saves
+								while (((WorkspaceSession)this.repository.getOrCreateSession())
+										.isProcessingDelta()) {
+									Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
+								}
 
-				try {
-					if (!removeDanglingElements(resource) && hasDifferentSerialization(resource)) {
-						try {
-							// We make sure the session isn't still reacting to previous saves
-							while (((WorkspaceSession)this.repository.getOrCreateSession())
-									.isProcessingDelta()) {
-								Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
+								// Step 2: we send a warning to the WorkspaceSession if necessary
+								treatSessionWarning(resource);
+
+								// Step 3: save the resource
+
+								if (resource.getContents().isEmpty()) {
+									// if the resource is empty, we delete it
+									resource.delete(getSaveOptions());
+								} else {
+									resource.save(getSaveOptions());
+								}
+							} catch (IOException e) {
+								removeDanglingElements(resource);
+							} catch (RepositoryConnectionException e) {
+								saveException = new SaveException(e.getMessage());
 							}
-
-							// Step 2: we send a warning to the WorkspaceSession if necessary
-							treatSessionWarning(resource);
-
-							// Step 3: save the resource
-
-							if (resource.getContents().isEmpty()) {
-								// if the resource is empty, we delete it
-								resource.delete(getSaveOptions());
-							} else {
-								resource.save(getSaveOptions());
-							}
-						} catch (IOException e) {
-							removeDanglingElements(resource);
-						} catch (RepositoryConnectionException e) {
-							saveException = new SaveException(e.getMessage());
 						}
+					} catch (RepositoryConnectionException e) {
+						saveException = new SaveException(e.getMessage());
+					} catch (IOException e) {
+						saveException = new SaveException(e.getMessage());
+					} catch (InterruptedException e) {
+						throw new SaveException(e.getMessage());
+					} catch (UnsupportedOperationException e) {
+						// Silently removing resource : it is not saveable
+						this.repository.getResourceSet().getResources().remove(resource);
 					}
-				} catch (RepositoryConnectionException e) {
-					saveException = new SaveException(e.getMessage());
-				} catch (IOException e) {
-					saveException = new SaveException(e.getMessage());
-				} catch (InterruptedException e) {
-					throw new SaveException(e.getMessage());
-				} catch (UnsupportedOperationException e) {
-					// Silently removing resource : it is not saveable
+
+				} else {
+					// If repository generated elements reference external content, then we should not save
+					// them: the save method purpose is to commit the modification made on the repository
 					this.repository.getResourceSet().getResources().remove(resource);
 				}
-
 			}
-
 		} catch (ConcurrentModificationException cme) {
 			// If there were a concurrent modification, we simply retry
 			// FIXME : can we make a better choice ? The causes of this exception don't seem obvious
@@ -633,9 +637,24 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 * @see org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter#getResourcePath(org.eclipse.emf.common.util.URI)
 	 */
 	public String getResourcePath(URI resourceURI) {
-		return resourceURI.toString().replace("." + resourceURI.fileExtension(), "")
-				.replace("platform:/resource", "")
-				.replace(this.repository.getWorkspaceConfig().getRepositoryAbsolutePath(), "");
+		if (isRepositoryResource(resourceURI)) {
+			return resourceURI.toString().replace("." + resourceURI.fileExtension(), "")
+					.replace("platform:/resource", "")
+					.replace(this.repository.getWorkspaceConfig().getRepositoryAbsolutePath(), "");
+		}
+		return null;
+	}
+
+	/**
+	 * Indicates if the given URI describe a resource contained in the repository
+	 * 
+	 * @param resourceURI
+	 *            the resource URI
+	 * @return true if the given URI describe a resource contained in the repository, false otherwise
+	 */
+	private boolean isRepositoryResource(URI resourceURI) {
+		return resourceURI.toString().contains(
+				this.repository.getWorkspaceConfig().getRepositoryAbsolutePath());
 	}
 
 	/**

@@ -33,6 +33,8 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationMessageType;
@@ -41,6 +43,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.AnnotationUtils;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.WorkspaceUtils;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.junit.Test;
 
 /**
@@ -195,8 +198,12 @@ public class ExternalContentReferencesTest extends AbstractIntentUITest {
 		repositoryListener.clearPreviousEntries();
 		((EClass)testModel.getEClassifiers().get(1)).getEStructuralFeatures().add(
 				EcoreFactory.eINSTANCE.createEAttribute());
+		assertEquals(1, ((EClass)testModel.getEClassifiers().get(1)).getEStructuralFeatures().size());
 		testModel.eResource().save(null);
 		waitForSynchronizer();
+		assertEquals("It should be possible de modify the working copy model", 1,
+				((EClass)((EPackage)new ResourceSetImpl().getEObject(EcoreUtil.getURI(testModel), true))
+						.getEClassifiers().get(1)).getEStructuralFeatures().size());
 		waitForAllOperationsInUIThread();
 		assertEquals(
 				"Synchronizer should not detect any change as the modification does not concern a synchronized element",
