@@ -70,6 +70,9 @@ Contributors:
           <actionProvider
                 class="org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.RepositoryActionProvider">
           </actionProvider>
+          <commonSorter
+                class="org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.RepositoryContentSorter">
+          </commonSorter>
        </navigatorContent>
     </extension>
     <extension
