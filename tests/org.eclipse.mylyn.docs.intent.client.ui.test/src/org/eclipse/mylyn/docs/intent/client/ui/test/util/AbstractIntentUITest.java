@@ -487,10 +487,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 				repositoryListener);
 		if (synchronizerShouldBeNotified) {
 			assertTrue("Time out : synchronizer should have handle changes but did not",
-					repositoryListener.waitForModificationOn("Synchronizer"));
+					repositoryListener.waitForModificationOn(synchronizerShouldBeNotified, "Synchronizer"));
 		} else {
 			assertFalse("Synchonizer should not have been notifed",
-					repositoryListener.waitForModificationOn("Synchronizer"));
+					repositoryListener.waitForModificationOn(synchronizerShouldBeNotified, "Synchronizer"));
 		}
 		try {
 			Thread.sleep(WAITING_DELAY_MILLIS);
@@ -513,10 +513,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 				repositoryListener);
 		if (indexerShouldBeNotified) {
 			assertTrue("Time out : indexer should have handle changes but did not",
-					repositoryListener.waitForModificationOn("Indexer"));
+					repositoryListener.waitForModificationOn(indexerShouldBeNotified, "Indexer"));
 		} else {
 			assertFalse("Indexer should not have been notifed",
-					repositoryListener.waitForModificationOn("Indexer"));
+					repositoryListener.waitForModificationOn(indexerShouldBeNotified, "Indexer"));
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -534,10 +534,12 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 				repositoryListener);
 		if (refresherShouldBeNotified) {
 			assertTrue("Time out : Project Explorer Refresher should have handle changes but did not",
-					repositoryListener.waitForModificationOn("Project Explorer Refresher"));
+					repositoryListener.waitForModificationOn(refresherShouldBeNotified,
+							"Project Explorer Refresher"));
 		} else {
 			assertFalse("Project Explorer Refresher should not have been notifed",
-					repositoryListener.waitForModificationOn("Project Explorer Refresher"));
+					repositoryListener.waitForModificationOn(refresherShouldBeNotified,
+							"Project Explorer Refresher"));
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -555,10 +557,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 				repositoryListener);
 		if (compilerShouldBeNotified) {
 			assertTrue("Time out : compiler should have handle changes but did not",
-					repositoryListener.waitForModificationOn("Compiler"));
+					repositoryListener.waitForModificationOn(compilerShouldBeNotified, "Compiler"));
 		} else {
 			assertFalse("Compiler should not have been notifed",
-					repositoryListener.waitForModificationOn("Compiler"));
+					repositoryListener.waitForModificationOn(compilerShouldBeNotified, "Compiler"));
 		}
 		try {
 			Thread.sleep(WAITING_DELAY_MILLIS);
@@ -629,5 +631,5 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			}
 		}
 	}
-	
+
 }
