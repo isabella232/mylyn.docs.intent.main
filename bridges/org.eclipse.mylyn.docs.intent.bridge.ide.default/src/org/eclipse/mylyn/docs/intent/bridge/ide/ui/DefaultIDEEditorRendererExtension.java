@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.ui.provider.ExtendedImageRegistry;
@@ -77,17 +78,23 @@ public class DefaultIDEEditorRendererExtension implements IEditorRendererExtensi
 	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension#openEditor(org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference)
 	 */
 	public boolean openEditor(ExternalContentReference externalContentReference) {
-		URI resourceToOpenURI = URI.createURI(externalContentReference.getUri().toString().trim())
-				.trimFragment();
-
+		URI resourceToOpenURI = URI.createURI(externalContentReference.getUri().toString().trim());
+		if ("intent".equals(resourceToOpenURI.scheme())
+				&& externalContentReference.getExternalContent() != null) {
+			resourceToOpenURI = EcoreUtil.getURI(externalContentReference.getExternalContent())
+					.trimFragment();
+		}
 		if (resourceToOpenURI.isPlatformResource()) {
-			String filePath = resourceToOpenURI.toPlatformString(true);
+			String filePath = resourceToOpenURI.trimFragment().toPlatformString(true);
 
 			// Step 1: Open editor with a file editor input
 			IFile resourceFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(filePath));
 			FileEditorInput editorInput = new FileEditorInput(resourceFile);
+			if ("repomodel".equals(resourceToOpenURI.fileExtension())) {
+				resourceToOpenURI = resourceToOpenURI.trimFileExtension();
+			}
 			IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry()
-					.getDefaultEditor(resourceToOpenURI.lastSegment());
+					.getDefaultEditor(resourceToOpenURI.trimFragment().lastSegment());
 			IEditorPart openedEditor = null;
 			if (desc != null) {
 				try {
@@ -99,19 +106,19 @@ public class DefaultIDEEditorRendererExtension implements IEditorRendererExtensi
 			}
 
 			// Step 2: Update selection using a shadow marker
-			if (openedEditor instanceof IGotoMarker) {
+			if (openedEditor instanceof IGotoMarker && resourceToOpenURI.hasFragment()) {
 				IMarker shadowMarker = null;
 				try {
 					// We create a shadow marker that will be deleted
 					shadowMarker = resourceFile.createMarker(MarkerUtil.VALIDATION_MARKER_TYPE);
-					shadowMarker.setAttribute(EValidator.URI_ATTRIBUTE, externalContentReference.getUri()
-							.toString());
+					shadowMarker.setAttribute(EValidator.URI_ATTRIBUTE, resourceToOpenURI.toString());
 
 					// Update selection using the gotoMarker method
 					((IGotoMarker)openedEditor).gotoMarker(shadowMarker);
 
 				} catch (CoreException e) {
 					// Silent catch
+					e.printStackTrace();
 				} finally {
 					if (shadowMarker != null) {
 						try {

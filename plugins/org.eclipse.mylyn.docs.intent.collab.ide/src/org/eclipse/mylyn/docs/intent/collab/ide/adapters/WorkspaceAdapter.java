@@ -654,9 +654,13 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	public String getResourcePath(URI resourceURI) {
 		if (isRepositoryResource(resourceURI)) {
-			return resourceURI.toString().replace("." + resourceURI.fileExtension(), "")
-					.replace("platform:/resource", "")
-					.replace(this.repository.getWorkspaceConfig().getRepositoryAbsolutePath(), "");
+			String resourcePath = resourceURI.toString();
+			resourcePath = resourcePath.replace("platform:/resource", "").replace(
+					this.repository.getWorkspaceConfig().getRepositoryAbsolutePath(), "");
+			if (this.repository.shouldHaveWorkspaceResourceExtension(resourcePath)) {
+				resourcePath = resourcePath.replace("." + resourceURI.fileExtension(), "");
+			}
+			return resourcePath;
 		}
 		return null;
 	}

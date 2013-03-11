@@ -48,7 +48,13 @@ public class IntentWorkspaceRepositoryCreator implements RepositoryCreator {
 			WorkspaceConfig configurationInformations = new WorkspaceConfig((IProject)artifact,
 					IntentLocations.INDEXES_LIST);
 			Repository repository = new WorkspaceRepository((WorkspaceConfig)configurationInformations,
-					IntentIndexerPackage.eINSTANCE.getIntentIndex());
+					IntentIndexerPackage.eINSTANCE.getIntentIndex()) {
+				@Override
+				public boolean shouldHaveWorkspaceResourceExtension(String path) {
+					return super.shouldHaveWorkspaceResourceExtension(path)
+							&& (!path.contains(IntentLocations.GENERATED_RESOURCES_FOLDER_PATH));
+				}
+			};
 
 			// Initialize the Notification Factory
 			if (RepositoryChangeNotificationFactoryHolder.getChangeNotificationFactory() == null) {

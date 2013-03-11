@@ -15,7 +15,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
@@ -36,7 +36,7 @@ public class JavaResourceFactory implements Resource.Factory {
 	 * @see org.eclipse.emf.ecore.resource.Resource.Factory#createResource(org.eclipse.emf.common.util.URI)
 	 */
 	public Resource createResource(URI uri) {
-		Resource resource = new ResourceImpl(uri);
+		Resource resource = new XMIResourceImpl(uri);
 		IFile file = ResourcesPlugin.getWorkspace().getRoot()
 				.getFile(new Path(uri.trimFragment().toString()));
 		if (file != null && file.exists()) {

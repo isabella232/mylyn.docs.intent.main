@@ -244,12 +244,25 @@ public class WorkspaceRepository implements Repository {
 	public URI getURIMatchingPath(String path) {
 		String completePath = this.getWorkspaceConfig().getRepositoryAbsolutePath() + path;
 		// If the path don't ends with '/' (i.e isn't a folder), we add the file extension
-		if (!path.endsWith("/")) {
+		if (shouldHaveWorkspaceResourceExtension(completePath)) {
 			completePath += "." + WORKSPACE_RESOURCE_EXTENSION;
 		}
 		completePath = completePath.trim();
 		URI uri = URI.createPlatformResourceURI(completePath, false);
 		return uri;
+	}
+
+	/**
+	 * Indicates if the Repository resource located at the given path should be association with the
+	 * {@link WorkspaceRepository#WORKSPACE_RESOURCE_EXTENSION} extension.
+	 * 
+	 * @param path
+	 *            the path of the Repository resource
+	 * @return true if the Repository resource located at the given path should be association with the
+	 *         {@link WorkspaceRepository#WORKSPACE_RESOURCE_EXTENSION} extension, false otherwise
+	 */
+	public boolean shouldHaveWorkspaceResourceExtension(String path) {
+		return !path.endsWith("/");
 	}
 
 	/**

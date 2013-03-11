@@ -107,7 +107,7 @@ public class IntentResourceFactory implements Resource.Factory {
 			// embedded in plugins
 			try {
 				URI platformPluginURI = URI.createPlatformPluginURI(intentRepositoryIdentifier
-						+ "/.repository" + referencedResourcePath + ".repomodel", true);
+						+ "/.repository" + referencedResourcePath, true);
 				return new ResourceSetImpl().getResource(platformPluginURI, true);
 			} catch (WrappedException wrapped) {
 				throw new RuntimeException(e);

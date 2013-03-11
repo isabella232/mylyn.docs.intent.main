@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter;
 
@@ -78,11 +79,8 @@ public class WorkspaceSessionDeltaVisitor implements IResourceDeltaVisitor {
 		if (isRelevantModification(delta) && delta.getResource().isAccessible()) {
 
 			// We first calculate the repository relative path for this resource
-			String repositoryRelativePath = delta.getFullPath().removeFileExtension().toString();
-			repositoryRelativePath = repositoryRelativePath.replaceFirst(repositoryPath, "");
-
-			// TODO check for regressions
-			// was: Resource resource = repositoryAdapter.getResource(repositoryRelativePath, false);
+			URI platformResourceURI = URI.createPlatformResourceURI(delta.getFullPath().toString(), true);
+			String repositoryRelativePath = repositoryAdapter.getResourcePath(platformResourceURI);
 			Resource resource = repositoryAdapter.getResource(repositoryRelativePath, true);
 			if (resource != null) {
 				switch (delta.getKind()) {

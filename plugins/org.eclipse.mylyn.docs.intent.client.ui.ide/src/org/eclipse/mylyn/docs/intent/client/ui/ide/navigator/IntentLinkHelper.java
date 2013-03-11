@@ -79,11 +79,13 @@ public class IntentLinkHelper implements ILinkHelper {
 	private Collection<? extends Object> getIndexEntryToSelectionFromEditorURI(IntentIndexEntry indexEntry,
 			URI editorURI) {
 		ArrayList<Object> elementsToSelect = new ArrayList<Object>();
-		if (editorURI.equals(EcoreUtil.getURI(indexEntry.getReferencedElement()))) {
-			elementsToSelect.add(indexEntry);
-		} else {
-			for (IntentIndexEntry subEntry : indexEntry.getSubEntries()) {
-				elementsToSelect.addAll(getIndexEntryToSelectionFromEditorURI(subEntry, editorURI));
+		if (indexEntry.getReferencedElement() != null) {
+			if (editorURI.equals(EcoreUtil.getURI(indexEntry.getReferencedElement()))) {
+				elementsToSelect.add(indexEntry);
+			} else {
+				for (IntentIndexEntry subEntry : indexEntry.getSubEntries()) {
+					elementsToSelect.addAll(getIndexEntryToSelectionFromEditorURI(subEntry, editorURI));
+				}
 			}
 		}
 		return elementsToSelect;
