@@ -85,33 +85,7 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 			public void execute() {
 				ModelingUnit modelingUnit = ModelingUnitFactory.eINSTANCE.createModelingUnit();
 
-				// Splitting a description unit in several if dropping inside a description unit
-				EObject previousSibling = sibling;
-				DescriptionUnit rightUnit = null;
-				if (previousSibling instanceof DescriptionBloc) {
-					DescriptionUnit leftUnit = (DescriptionUnit)previousSibling.eContainer();
-					rightUnit = DescriptionUnitFactory.eINSTANCE.createDescriptionUnit();
-					Collection<UnitInstruction> descriptionInstructionsToMove = new LinkedHashSet<UnitInstruction>();
-					for (int i = leftUnit.getInstructions().indexOf(previousSibling) + 1; i < leftUnit
-							.getInstructions().size(); i++) {
-						descriptionInstructionsToMove.add(leftUnit.getInstructions().get(i));
-					}
-					leftUnit.getInstructions().removeAll(descriptionInstructionsToMove);
-					rightUnit.getInstructions().addAll(descriptionInstructionsToMove);
-					previousSibling = leftUnit;
-				}
-				int siblingIndex = section.getIntentContent().indexOf(previousSibling);
-				if (siblingIndex != -1) {
-					section.getIntentContent().add(siblingIndex + 1, modelingUnit);
-					if (rightUnit != null) {
-						section.getIntentContent().add(siblingIndex + 2, rightUnit);
-					}
-				} else {
-					section.getIntentContent().add(0, modelingUnit);
-					if (rightUnit != null) {
-						section.getIntentContent().add(1, rightUnit);
-					}
-				}
+				EObject previousSibling = addModelingUnitInContainer(section, sibling, modelingUnit);
 				internalCreate(modelingUnit, previousSibling, elements);
 				try {
 					repositoryAdapter.save();
@@ -230,8 +204,9 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 		ModelingUnit modelingUnit = ModelingUnitFactory.eINSTANCE.createModelingUnit();
 		newSec.getIntentContent().add(modelingUnit);
 
-		if (sibling instanceof DescriptionBloc) {
-			sibling = sibling.eContainer();
+		EObject actualSibling = sibling;
+		if (actualSibling instanceof DescriptionBloc) {
+			actualSibling = actualSibling.eContainer();
 		}
 		int siblingIndex = parent.getIntentContent().indexOf(sibling);
 		if (siblingIndex != -1) {
@@ -321,4 +296,35 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 		return null;
 	}
 
+	private EObject addModelingUnitInContainer(final IntentSection section, final EObject sibling,
+			ModelingUnit modelingUnit) {
+		// Splitting a description unit in several if dropping inside a description unit
+		EObject previousSibling = sibling;
+		DescriptionUnit rightUnit = null;
+		if (previousSibling instanceof DescriptionBloc) {
+			DescriptionUnit leftUnit = (DescriptionUnit)previousSibling.eContainer();
+			rightUnit = DescriptionUnitFactory.eINSTANCE.createDescriptionUnit();
+			Collection<UnitInstruction> descriptionInstructionsToMove = new LinkedHashSet<UnitInstruction>();
+			for (int i = leftUnit.getInstructions().indexOf(previousSibling) + 1; i < leftUnit
+					.getInstructions().size(); i++) {
+				descriptionInstructionsToMove.add(leftUnit.getInstructions().get(i));
+			}
+			leftUnit.getInstructions().removeAll(descriptionInstructionsToMove);
+			rightUnit.getInstructions().addAll(descriptionInstructionsToMove);
+			previousSibling = leftUnit;
+		}
+		int siblingIndex = section.getIntentContent().indexOf(previousSibling);
+		if (siblingIndex != -1) {
+			section.getIntentContent().add(siblingIndex + 1, modelingUnit);
+			if (rightUnit != null) {
+				section.getIntentContent().add(siblingIndex + 2, rightUnit);
+			}
+		} else {
+			section.getIntentContent().add(0, modelingUnit);
+			if (rightUnit != null) {
+				section.getIntentContent().add(1, rightUnit);
+			}
+		}
+		return previousSibling;
+	}
 }

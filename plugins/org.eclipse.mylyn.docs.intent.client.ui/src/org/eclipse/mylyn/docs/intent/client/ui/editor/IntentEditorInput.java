@@ -120,7 +120,7 @@ public class IntentEditorInput extends URIEditorInput {
 					MAX_TITLE_SIZE);
 		}
 		if (newElement instanceof IntentDocument) {
-			newTitle = adapter.getRepository().getIdentifier();
+			newTitle = adapter.getRepository().getIdentifier().replace(".idoc", "");
 		} else if (newElement instanceof IntentStructuredElement) {
 			newTitle = StructuredElementHelper.getTitle((IntentStructuredElement)newElement);
 			if ((newTitle == null) || (newTitle.length() < 1)) {

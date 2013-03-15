@@ -67,6 +67,8 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	private static final long TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA = 5;
 
+	private static final long TIMEOUT = 15000;
+
 	/**
 	 * The save options that have to be used for saving resources of this repository.
 	 */
@@ -213,7 +215,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		SaveException saveException = null;
 		try {
 			for (Resource resource : resources) {
-				if (isRepositoryResource(resource.getURI())) {
+				if (resource != null && isRepositoryResource(resource.getURI())) {
 					try {
 						if (!removeDanglingElements(resource) && hasDifferentSerialization(resource)) {
 							try {
@@ -249,6 +251,8 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 					} catch (UnsupportedOperationException e) {
 						// Silently removing resource : it is not saveable
 						this.repository.getResourceSet().getResources().remove(resource);
+					} catch (IllegalStateException e) {
+						e.printStackTrace();
 					}
 
 				} else {
@@ -630,7 +634,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 			// Check that change recorder is not already recording
 			long timeout = System.currentTimeMillis();
 			while (((InternalTransactionalEditingDomain)editingDomain).getChangeRecorder().isRecording()
-					&& System.currentTimeMillis() < timeout + 15000) {
+					&& System.currentTimeMillis() < timeout + TIMEOUT) {
 				try {
 					Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
 				} catch (InterruptedException e) {
@@ -666,7 +670,7 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	}
 
 	/**
-	 * Indicates if the given URI describe a resource contained in the repository
+	 * Indicates if the given URI describe a resource contained in the repository.
 	 * 
 	 * @param resourceURI
 	 *            the resource URI

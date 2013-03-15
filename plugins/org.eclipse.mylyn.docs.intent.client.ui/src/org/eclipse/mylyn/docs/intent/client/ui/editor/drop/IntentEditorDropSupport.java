@@ -36,6 +36,7 @@ import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
+import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.ExternalContentReferencesMergeUpdater;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.MergeUpdater;
@@ -102,8 +103,7 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 
 			// get parent in which element will be created
 			while (parent != null
-					&& !(parent instanceof ModelingUnit || parent instanceof IntentSection
-							|| parent instanceof IntentDocument || parent instanceof IntentChapter)) {
+					&& !(parent instanceof ModelingUnit || parent instanceof IntentSubSectionContainer || parent instanceof IntentDocument)) {
 				parent = parent.eContainer();
 			}
 

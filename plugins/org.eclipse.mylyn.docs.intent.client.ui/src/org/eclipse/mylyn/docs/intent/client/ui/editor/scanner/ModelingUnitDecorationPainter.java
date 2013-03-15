@@ -356,7 +356,8 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 * @return true if the given draw request is equal to the previous one, false otherwise
 	 */
 	private boolean isEqualToLastDrawRequest(int x, int y, int width, int height) {
-		boolean isEqualToLastDrawRequest = (previousX == x && previousY == y && previousWidht == width && previousHeight == height);
+		boolean isEqualToLastDrawRequest = previousX == x && previousY == y && previousWidht == width
+				&& previousHeight == height;
 		this.previousX = x;
 		this.previousY = y;
 		this.previousWidht = width;

@@ -27,7 +27,6 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 
@@ -54,7 +53,7 @@ public final class IntentHelper {
 	 *         otherwise
 	 */
 	public static boolean canBeOpenedByIntentEditor(Object element) {
-		return (element instanceof IntentStructuredElement) || (element instanceof GenericUnit);
+		return element instanceof IntentStructuredElement;
 	}
 
 	/**

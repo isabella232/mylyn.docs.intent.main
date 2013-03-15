@@ -37,6 +37,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
+import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.query.IndexQuery;
@@ -397,7 +398,9 @@ public class IntentQuickOutlineControl extends PopupDialog implements IInformati
 					Object selected = selection[0].getData();
 					if (selected instanceof IntentGenericElement) {
 						IntentGenericElement element = (IntentGenericElement)selection[0].getData();
-						editor.selectRange(element);
+						IntentEditorOpener.openIntentEditor(
+								((IntentDocumentProvider)editor.getDocumentProvider()).getRepository(),
+								element, false, element, false);
 						dispose();
 					}
 				} else {
@@ -422,7 +425,9 @@ public class IntentQuickOutlineControl extends PopupDialog implements IInformati
 
 					if (selection[0].getData() instanceof IntentGenericElement) {
 						IntentGenericElement element = (IntentGenericElement)selection[0].getData();
-						editor.selectRange(element);
+						IntentEditorOpener.openIntentEditor(
+								((IntentDocumentProvider)editor.getDocumentProvider()).getRepository(),
+								element, false, element, false);
 						dispose();
 					}
 				}

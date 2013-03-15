@@ -53,6 +53,8 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private static final String RESOURCE_DECLARATION_KEYWORD = "Resource";
 
+	private static final String REF_KEYWORD = "@ref";
+
 	private static final String MODELINGUNIT_NEW_ELEMENT_ICON = "icon/outline/modelingunit_new_element.png";
 
 	private static final String MODELINGUNIT_RESOURCE_ICON = "icon/outline/modelingunit_resource.gif";
@@ -177,12 +179,18 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		if (text.length() == 0 || RESOURCE_DECLARATION_KEYWORD.startsWith(text)) {
 			proposals.add(createResourceDeclarationProposal(prefix));
 		}
+
 		// Second proposal : new entity
 		if (text.length() == 0 || NEW_ENTITY_KEYWORD.startsWith(text)) {
 			proposals.add(createNewEntityProposal(prefix));
 		}
 
-		// Third proposal : contribute to an existing entity
+		// Third proposal : new internal resource
+		if (text.length() == 0 || REF_KEYWORD.startsWith(text)) {
+			proposals.add(createNewInternalRefProposal(prefix));
+		}
+
+		// Fourth proposal : contribute to an existing entity
 		for (InstanciationInstruction instruction : traceabilityInfoQuery.getInstanciations()) {
 			if (instruction.getName() != null
 					&& (text.length() == 0 || instruction.getName().startsWith(text))) {
@@ -422,10 +430,10 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 			// Propose to create a new Element of the feature type
 			if (!isResourceContribution) {
 				proposals.add(createTemplateProposal("new Element (of type "
-						+ featureToConsider.getEType().getName() + RIGHT_PAR, "Set this new Element as value for "
-						+ featureToConsider.getName(), "new "
-						+ getQualifiedName(featureToConsider.getEType().getEPackage()) + DOT
-						+ featureToConsider.getEType().getName() + "{\n\t${}\n};",
+						+ featureToConsider.getEType().getName() + RIGHT_PAR,
+						"Set this new Element as value for " + featureToConsider.getName(), "new "
+								+ getQualifiedName(featureToConsider.getEType().getEPackage()) + DOT
+								+ featureToConsider.getEType().getName() + "{\n\t${}\n};",
 						MODELINGUNIT_NEW_ELEMENT_ICON));
 			}
 
@@ -710,6 +718,20 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	private ICompletionProposal createResourceDeclarationProposal(String prefix) {
 		return createTemplateProposal(RESOURCE_DECLARATION_KEYWORD, "Declaration of a new Resource", prefix
 				+ "Resource myResource {\n\t\tURI = \"${}\";\n\t}", MODELINGUNIT_RESOURCE_ICON);
+	}
+
+	/**
+	 * Creates a {@link ICompletionProposal} allowing to create a new internal ref.
+	 * 
+	 * @param prefix
+	 *            the prefix to use
+	 * @return a {@link ICompletionProposal} allowing to create a new internal ref.
+	 */
+	private ICompletionProposal createNewInternalRefProposal(String prefix) {
+		return createTemplateProposal(REF_KEYWORD,
+				"Declaration of a new internal entity (stored only inside the intent repository)", prefix
+						+ REF_KEYWORD + " \"intent:/" + repositoryAdapter.getRepository().getIdentifier()
+						+ "/${newElementPath}\"", MODELINGUNIT_NEW_ELEMENT_ICON);
 	}
 
 	/**
