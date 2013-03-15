@@ -42,6 +42,8 @@ public class CompletionTest extends AbstractIntentUITest {
 
 	private static final String TEMPLATE_DESC_INST = "new - Declaration of a new entity";
 
+	private static final String TEMPLATE_DESC_REF = "@ref - Declaration of a new internal entity (stored only inside the intent repository)";
+
 	private static final String TEMPLATE_DESC_URI = "Resource URI - URI indicating the Resource location";
 
 	private static final String TEMPLATE_DESC_CONTENT = "Resource Content - Add content to the Resource";
@@ -179,10 +181,11 @@ public class CompletionTest extends AbstractIntentUITest {
 	}
 
 	private void assertIsExpectedProposalsForEmptyModelingUnit(ICompletionProposal[] proposals) {
-		assertEquals(14, proposals.length);
+		assertEquals(15, proposals.length);
 		assertEquals(TEMPLATE_DESC_RESOURCE, proposals[0].getDisplayString());
 		assertEquals(TEMPLATE_DESC_INST, proposals[1].getDisplayString());
-		for (int i = 2; i < proposals.length; i++) {
+		assertEquals(TEMPLATE_DESC_REF, proposals[2].getDisplayString());
+		for (int i = 3; i < proposals.length; i++) {
 			assertTrue("We should propose to contribute to an existing element", proposals[i]
 					.getDisplayString().contains("(contribution"));
 		}
