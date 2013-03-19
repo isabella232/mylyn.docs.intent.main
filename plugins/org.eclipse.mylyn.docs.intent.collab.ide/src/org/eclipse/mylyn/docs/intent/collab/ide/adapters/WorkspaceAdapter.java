@@ -633,17 +633,17 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 		if (commandStack != null) {
 			// Check that change recorder is not already recording
 			long timeout = System.currentTimeMillis();
-			while (((InternalTransactionalEditingDomain)editingDomain).getChangeRecorder().isRecording()
-					&& System.currentTimeMillis() < timeout + TIMEOUT) {
-				try {
-					Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
-				} catch (InterruptedException e) {
-					// Command will be executed
-				}
-			}
-
-			// Step 3: execute command
 			try {
+				while (((InternalTransactionalEditingDomain)editingDomain).getChangeRecorder().isRecording()
+						&& System.currentTimeMillis() < timeout + TIMEOUT) {
+					try {
+						Thread.sleep(TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA);
+					} catch (InterruptedException e) {
+						// Command will be executed
+					}
+				}
+
+				// Step 3: execute command
 				commandStack.execute(recordingCommand);
 			} catch (NullPointerException e) {
 				// can happen when TED is disposed

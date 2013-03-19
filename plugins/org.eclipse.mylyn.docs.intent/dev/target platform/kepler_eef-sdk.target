@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 
-<target name="Kepler - EEF SDK" sequenceNumber="6">
+<target name="Kepler - EEF SDK" sequenceNumber="8">
 <locations>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.8.0.I20130205-1655"/>
@@ -41,8 +41,9 @@
 <repository location="http://download.eclipse.org/eclipse/updates/3.8"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.emf.compare.source.feature.group" version="2.1.0.201303181730"/>
-<unit id="org.eclipse.emf.compare.ide.ui.source.feature.group" version="2.1.0.201303181730"/>
+<unit id="org.eclipse.emf.compare.feature.group" version="2.1.0.201303191211"/>
+<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="2.1.0.201303191211"/>
+<unit id="org.eclipse.emf.compare.rcp.ui.feature.group" version="2.1.0.201303191211"/>
 <repository location="https://hudson.eclipse.org/hudson/job/emf-compare-master/lastSuccessfulBuild/artifact/packaging/org.eclipse.emf.compare.update/target/repository/"/>
 </location>
 </locations>
