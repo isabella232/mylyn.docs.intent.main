@@ -151,14 +151,8 @@ public final class EMFCompareUtils {
 	 * @return a {@link Registry} always returning the given {@link IMatchEngine}
 	 */
 	private static Registry createMatchEngineRegistryFromMatchEngine(final IMatchEngine matchEngineToUse) {
-		Registry matchEngineFactoryRegistry = MatchEngineFactoryRegistryImpl.createStandaloneInstance();
+		Registry matchEngineFactoryRegistry = new MatchEngineFactoryRegistryImpl();
 		MatchEngineFactoryImpl matchEngineFactory = new MatchEngineFactoryImpl() {
-
-			@Override
-			public int getRanking() {
-				return 99;
-			}
-
 			@Override
 			public IMatchEngine getMatchEngine() {
 				return matchEngineToUse;
