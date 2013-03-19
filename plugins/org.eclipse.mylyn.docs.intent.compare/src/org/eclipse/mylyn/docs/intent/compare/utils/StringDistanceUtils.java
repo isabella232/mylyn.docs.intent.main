@@ -19,7 +19,7 @@ import org.eclipse.emf.compare.utils.DiffUtil;
  */
 public final class StringDistanceUtils {
 
-	private static final int DEFAULT_MAX_STRING_DISTANCE = 500;
+	private static final double DEFAULT_MAX_STRING_DISTANCE = 500;
 
 	private static final double DEFAULT_STRING_SIZE_DISTANCE_IMPACT = 0.7;
 
@@ -40,7 +40,7 @@ public final class StringDistanceUtils {
 	 *            the second string
 	 * @return the distance between two strings
 	 */
-	public static int getStringDistance(String a, String b) {
+	public static Double getStringDistance(String a, String b) {
 		return getStringDistance(a, b, DEFAULT_STRING_DICE_DISTANCE_IMPACT,
 				DEFAULT_STRING_SIZE_DISTANCE_IMPACT);
 	}
@@ -58,20 +58,20 @@ public final class StringDistanceUtils {
 	 *            the impact of the size distance
 	 * @return the distance between two strings
 	 */
-	public static int getStringDistance(String a, String b, double diceDistanceImpact,
+	public static Double getStringDistance(String a, String b, double diceDistanceImpact,
 			double sizeDistanceImpact) {
 		if (diceDistanceImpact + sizeDistanceImpact != 1) {
 			throw new AssertionError("dice and size impacts sum must be equal to 1, currently "
 					+ diceDistanceImpact + sizeDistanceImpact);
 		}
-		int res = DEFAULT_MAX_STRING_DISTANCE;
+		Double res = DEFAULT_MAX_STRING_DISTANCE;
 		if (a != null && b != null) {
 			double sizeCoeff = 1 - (2d * Math.abs(a.length() - b.length())) / (a.length() + b.length());
 			double diceCoefficient = DiffUtil.diceCoefficient(a, b);
 			double average = diceCoefficient * diceDistanceImpact + sizeCoeff * sizeDistanceImpact;
-			res = (int)((1 - average) * DEFAULT_MAX_STRING_DISTANCE);
+			res = (double)((1 - average) * DEFAULT_MAX_STRING_DISTANCE);
 		} else if (a == null && b == null) {
-			res = 0;
+			res = new Double(0);
 		}
 		return res;
 	}

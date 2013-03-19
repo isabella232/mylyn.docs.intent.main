@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.match;
 
+import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.CountingDiffEngine;
 import org.eclipse.mylyn.docs.intent.compare.utils.LocationDistanceUtils;
@@ -48,43 +49,43 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 *            the max distance
 	 */
 	public IntentCountingDiffEngine(
-			org.eclipse.mylyn.docs.intent.compare.match.EditionDistance editionDistance, int maxDistance) {
-		editionDistance.super(maxDistance);
+			org.eclipse.mylyn.docs.intent.compare.match.EditionDistance editionDistance, double maxDistance) {
+		editionDistance.super(maxDistance, editionDistance.fakeComparison);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.CountingDiffEngine#measureDifferences(org.eclipse.emf.ecore.EObject,
-	 *      org.eclipse.emf.ecore.EObject)
+	 * @see org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.CountingDiffEngine#measureDifferences(org.eclipse.emf.compare.Comparison,
+	 *      org.eclipse.emf.ecore.EObject, org.eclipse.emf.ecore.EObject)
 	 */
 	@Override
-	public int measureDifferences(EObject a, EObject b) {
+	public double measureDifferences(Comparison comparisonInProgress, EObject a, EObject b) {
 		if (a instanceof IntentDocument && b instanceof IntentDocument) {
 			return 0; // root element
 		}
 
-		Integer distance = null;
+		Double distance = null;
 
 		// the default localization distance
-		Integer locationDistance = getLocationDistance(a, b);
+		Double locationDistance = getLocationDistance(a, b);
 
 		// the semantic distance: in the best case, a title or feature id. If not available, the
 		// element serialization
-		Integer identifierDistance = getIdentifierDistance(a, b);
+		Double identifierDistance = getIdentifierDistance(a, b);
 		if (identifierDistance == null) {
 			identifierDistance = getSerializationDistance(a, b);
 		}
 
 		if (identifierDistance != null && locationDistance != null) {
-			distance = (int)(identifierDistance * IDENTIFIER_DISTANCE_WEIGHT + locationDistance
+			distance = (double)(identifierDistance * IDENTIFIER_DISTANCE_WEIGHT + locationDistance
 					* LOCALIZATION_DISTANCE_WEIGHT);
 		} else if (identifierDistance != null) {
 			distance = identifierDistance;
 		} else if (locationDistance != null) {
 			distance = locationDistance;
 		} else {
-			distance = super.measureDifferences(a, b);
+			distance = super.measureDifferences(comparisonInProgress, a, b);
 		}
 		return distance;
 	}
@@ -98,8 +99,8 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 *            the second element
 	 * @return the distance between two strings
 	 */
-	private Integer getLocationDistance(EObject a, EObject b) {
-		Integer distance = null;
+	private Double getLocationDistance(EObject a, EObject b) {
+		Double distance = null;
 		String fragmentA = LocationDistanceUtils.computeLevel(a);
 		String fragmentB = LocationDistanceUtils.computeLevel(b);
 		if (fragmentA != null && fragmentB != null) {
@@ -117,8 +118,8 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 *            the second element
 	 * @return the distance between two strings
 	 */
-	private Integer getIdentifierDistance(EObject a, EObject b) {
-		Integer distance = null;
+	private Double getIdentifierDistance(EObject a, EObject b) {
+		Double distance = null;
 		String identifierA = null;
 		String identifierB = null;
 		if (a instanceof IntentStructuredElement && b instanceof IntentStructuredElement) {
@@ -149,8 +150,8 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 *            the second element
 	 * @return the distance between two strings
 	 */
-	private Integer getSerializationDistance(EObject a, EObject b) {
-		Integer distance = null;
+	private Double getSerializationDistance(EObject a, EObject b) {
+		Double distance = null;
 		String serializedA = serialize(a);
 		String serializedB = serialize(b);
 		if (serializedA != null && serializedB != null) {

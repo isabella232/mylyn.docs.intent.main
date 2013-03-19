@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 
-<target name="Kepler - EEF SDK" sequenceNumber="5">
+<target name="Kepler - EEF SDK" sequenceNumber="6">
 <locations>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.8.0.I20130205-1655"/>
@@ -13,8 +13,6 @@
 <unit id="org.eclipse.xtext.xbase.feature.group" version="2.4.0.v201302051002"/>
 <unit id="org.eclipse.xtext.examples.feature.group" version="2.4.0.v201302051002"/>
 <unit id="org.eclipse.acceleo.feature.group" version="3.4.0.201302050830"/>
-<unit id="org.eclipse.emf.compare.feature.group" version="2.1.0.201302050831"/>
-<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="2.1.0.201212180932"/>
 <repository location="http://download.eclipse.org/releases/kepler"/>
 </location>
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -41,6 +39,11 @@
 <location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.platform.ide" version="3.8.1.M20120914-1540"/>
 <repository location="http://download.eclipse.org/eclipse/updates/3.8"/>
+</location>
+<location includeAllPlatforms="true" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.emf.compare.source.feature.group" version="2.1.0.201303181730"/>
+<unit id="org.eclipse.emf.compare.ide.ui.source.feature.group" version="2.1.0.201303181730"/>
+<repository location="https://hudson.eclipse.org/hudson/job/emf-compare-master/lastSuccessfulBuild/artifact/packaging/org.eclipse.emf.compare.update/target/repository/"/>
 </location>
 </locations>
 </target>

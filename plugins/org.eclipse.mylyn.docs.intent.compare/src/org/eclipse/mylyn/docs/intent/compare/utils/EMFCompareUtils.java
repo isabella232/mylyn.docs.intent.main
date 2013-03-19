@@ -85,7 +85,7 @@ public final class EMFCompareUtils {
 				Predicates.instanceOf(CompilationStatus.class),
 				Predicates.instanceOf(SynchronizerCompilationStatus.class))));
 
-		IEObjectMatcher matcher = new ProximityEObjectMatcher(new EditionDistance(left, right));
+		IEObjectMatcher matcher = new ProximityEObjectMatcher(EditionDistance.builder(left, right).build());
 		final IComparisonFactory comparisonFactory = new DefaultComparisonFactory(
 				new DefaultEqualityHelperFactory());
 		IMatchEngine matchEngine = new DefaultMatchEngine(matcher, comparisonFactory);
