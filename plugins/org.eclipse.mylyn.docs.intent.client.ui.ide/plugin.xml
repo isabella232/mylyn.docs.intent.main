@@ -144,8 +144,8 @@ Contributors:
     <extension
           point="org.eclipse.mylyn.docs.intent.client.ui.ide.template.extension">
        <IntentDocumentTemplate
-             description="This templates helps initializing a documentation of a standard software."
-             name="Standard Software Template"
+             description="This templates helps initializing a documentation of a standard software (based on the TUFTE template)."
+             name="Standard Software Documentation Template"
              template="templates/software.intent">
        </IntentDocumentTemplate>
     </extension>

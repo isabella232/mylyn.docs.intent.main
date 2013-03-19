@@ -1,25 +1,289 @@
 Document {
-	Chapter Software requirements {
-		Gather the functional requirements, or demands, for the product.
+	Chapter Functional {
+		Section Context {
+			What is this all about ?
+			How does this fit in the existing environment ?
+			You may include *rough and simple* block diagram describing the system and how
+			it interfaces with all the other system.
+		}
+
+		Section System purpose {
+			What does the system do ?
+		}
+
+		Section Key Functions {
+			What are the key functions of the system ?
+		}
+
+		Section Related Business Processes {
+			Does the software implement a given business process ? How does it
+			integrates with other business processes.
+		}
+
+		Section Actor and Roles {
+			Who are they and how the system caters their need ?
+		}
+
+		Section Significant Scenarios {
+			What are the use and functions which are significant for the architecture
+			?
+			Those should be described as scenarios in the form of "Given
+			[CONTEXT], then
+		}
 	}
-	Chapter High level design {
-		A basic layout of the product. This means the setup of different modules and how they communicate with each other. 
-		This design does not contain very much detail about the modules.
+	Chapter Non-functional {
+		Section {		}
 	}
-	Chapter Module design {
-		The different modules present in the High level design are designed separately. 
-		The modules are designed in as much detail as possible.
+	Chapter Architecture {
+		Section Constraints {
+			If you have constraints, how do they affect the architecture?
+			Constraints might be related to Time, budget, resource, approved
+			technology lists, standards, skill profile of the development team.
+		}
+		Section Principles {
+			What principles do you want to adopt ?
+			
+			Example principles include; architectural layering, use of frameworks
+			and libraries, common design patterns and templates for
+			building components and common approaches (e.g. error handling,
+			logging, etc)		
+		}
+		Section Logical {
+			This section purpose is to describe your software big picture.
+
+			Typically, you should document here major components, 
+			interfaces or models.
+		}
+		Section Key Internal Interfaces {
+			Synchronous or asynchronous, who has the ownership of the interfaces?
+		}
+		Section Key External Interfaces {
+			Synchronous or asynchronous, who has the ownership of the interfaces?
+
+			Is the interface always available or do you (e.g.) need to cache data
+			locally?
+		}
+		Section Evolutions and Versioning {
+			How often does the interface change and how is versioning handled?
+		}
 	}
-	Chapter Module testing {
-		The different modules are tested for correct functioning. 
-		Describe the module tests.
+	Chapter Design Guidelines {
+		Section {		}
 	}
-	Chapter Integration testing {
-		The communication between modules is tested for correct functioning. 
-		Describe the integration tests.
+	Chapter Operational {
+		Section {		}
 	}
-	Chapter System testing {
-		This test checks whether all functional requirements are present in the product. 
-		Describe the system tests.
+	Chapter Architecture Justification {
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		Section {		}
+		
 	}
 }
