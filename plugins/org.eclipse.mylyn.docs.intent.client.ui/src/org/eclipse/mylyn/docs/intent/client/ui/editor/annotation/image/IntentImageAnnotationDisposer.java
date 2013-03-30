@@ -22,7 +22,7 @@ import org.eclipse.jface.text.source.IAnnotationModelListenerExtension;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * In charge of disposing the images drawn by {@link IntentImageAnnotation}s.
+ * In charge of disposing the images drawn by {@link AbstractIntentImageAnnotation}s.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
@@ -43,20 +43,20 @@ public class IntentImageAnnotationDisposer implements IAnnotationModelListener, 
 	 * @see org.eclipse.jface.text.source.IAnnotationModelListenerExtension#modelChanged(org.eclipse.jface.text.source.AnnotationModelEvent)
 	 */
 	public void modelChanged(AnnotationModelEvent event) {
-		Iterator<IntentImageAnnotation> removedImageAnnotations = Iterables.filter(
-				Lists.newArrayList(event.getRemovedAnnotations()), IntentImageAnnotation.class).iterator();
+		Iterator<AbstractIntentImageAnnotation> removedImageAnnotations = Iterables.filter(
+				Lists.newArrayList(event.getRemovedAnnotations()), AbstractIntentImageAnnotation.class).iterator();
 		while (removedImageAnnotations.hasNext()) {
 			disposeImage(removedImageAnnotations.next());
 		}
 	}
 
 	/**
-	 * Disposes the image held by the given {@link IntentImageAnnotation}.
+	 * Disposes the image held by the given {@link AbstractIntentImageAnnotation}.
 	 * 
 	 * @param annotation
-	 *            the {@link IntentImageAnnotation} helding the image to dispose
+	 *            the {@link AbstractIntentImageAnnotation} helding the image to dispose
 	 */
-	public static void disposeImage(IntentImageAnnotation annotation) {
+	public static void disposeImage(AbstractIntentImageAnnotation annotation) {
 		Image image = annotation.getImage(false);
 		if (image != null) {
 			image.dispose();

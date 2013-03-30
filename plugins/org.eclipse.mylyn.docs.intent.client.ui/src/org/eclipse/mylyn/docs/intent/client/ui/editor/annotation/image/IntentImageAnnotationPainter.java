@@ -18,7 +18,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationFactory;
 
 /**
- * An {@link AnnotationPainter} allowing to paint {@link IntentImageAnnotation}s.
+ * An {@link AnnotationPainter} allowing to paint {@link AbstractIntentImageAnnotation}s.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */

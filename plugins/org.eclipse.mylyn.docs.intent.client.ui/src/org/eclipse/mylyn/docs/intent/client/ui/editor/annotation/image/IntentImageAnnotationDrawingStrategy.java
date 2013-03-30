@@ -30,7 +30,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
 /**
- * An {@link IDrawingStrategy} used to display images as described in {@link IntentImageAnnotation}s.
+ * An {@link IDrawingStrategy} used to display images as described in {@link AbstractIntentImageAnnotation}s.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
@@ -44,9 +44,9 @@ public class IntentImageAnnotationDrawingStrategy implements IDrawingStrategy {
 	 * Default constructor.
 	 * 
 	 * @param editor
-	 *            the {@link IntentEditor} holding the {@link IntentImageAnnotation}s to paint
+	 *            the {@link IntentEditor} holding the {@link AbstractIntentImageAnnotation}s to paint
 	 * @param viewer
-	 *            the {@link ISourceViewer} holding the {@link IntentImageAnnotation}s to paint
+	 *            the {@link ISourceViewer} holding the {@link AbstractIntentImageAnnotation}s to paint
 	 */
 	public IntentImageAnnotationDrawingStrategy(IntentEditor editor, ISourceViewer viewer) {
 		this.editor = editor;
@@ -64,7 +64,7 @@ public class IntentImageAnnotationDrawingStrategy implements IDrawingStrategy {
 			Color color) {
 		// If the Intent editor has not yet initiated its folding structure, we do not paint images (only
 		// paint annotations that will actually be displayed to the end-user)
-		if (!(annotation instanceof IntentImageAnnotation) || !editor.isInitialFoldingStructureComplete()) {
+		if (!(annotation instanceof AbstractIntentImageAnnotation) || !editor.isInitialFoldingStructureComplete()) {
 			return;
 		}
 		try {
@@ -74,7 +74,7 @@ public class IntentImageAnnotationDrawingStrategy implements IDrawingStrategy {
 
 				if (position != null) {
 					// Step 1: get the image to paint
-					IntentImageAnnotation imageAnnotation = (IntentImageAnnotation)annotation;
+					AbstractIntentImageAnnotation imageAnnotation = (AbstractIntentImageAnnotation)annotation;
 					Image image = imageAnnotation.getImage();
 					// If image is not available, get the default SWT ICON_QUESTION
 					if (image != null && !image.isDisposed()) {

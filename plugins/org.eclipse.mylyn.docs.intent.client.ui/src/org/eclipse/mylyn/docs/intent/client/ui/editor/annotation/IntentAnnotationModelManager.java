@@ -14,15 +14,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.Position;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.IAnnotationModel;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.AbstractIntentImageAnnotation;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentExternalContentReferenceImageAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotation;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
+import org.eclipse.mylyn.docs.intent.markup.markup.Image;
 import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
 
 /**
@@ -197,15 +201,15 @@ public class IntentAnnotationModelManager {
 
 	/**
 	 * Updates (e.g. creates or redraw) an
-	 * {@link org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotation}
-	 * corresponding to the given {@link ExternalContentReference}.
+	 * {@link org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.AbstractIntentImageAnnotation}
+	 * corresponding to the given {@link ExternalContentReference} or {@link Image}.
 	 * 
 	 * @param reference
-	 *            the {@link ExternalContentReference} to render
+	 *            the {@link ExternalContentReference} or {@link Image} to render
 	 * @param intentPosition
 	 *            the {@link ParsedElementPosition} of this instruction
 	 */
-	public void updateAnnotationFromExternalContentReference(ExternalContentReference reference,
+	public void updateAnnotationFromElementToRender(EObject elementToRender,
 			ParsedElementPosition intentPosition) {
 		if (intentPosition != null) {
 			// Step 1: search for an already existing annotation
@@ -213,20 +217,35 @@ public class IntentAnnotationModelManager {
 			Iterator annotationIterator = getAnnotationModel().getAnnotationIterator();
 			while (annotationIterator.hasNext() && !foundAlredyExistingAnnotation) {
 				Object annotation = annotationIterator.next();
-				if (annotation instanceof IntentImageAnnotation) {
-					if (((IntentImageAnnotation)annotation).getExternalContentReference().getUri()
-							.equals(reference.getUri())) {
+				if (annotation instanceof IntentExternalContentReferenceImageAnnotation
+						&& elementToRender instanceof ExternalContentReference) {
+					if (((IntentExternalContentReferenceImageAnnotation)annotation)
+							.getExternalContentReference().getUri()
+							.equals(((ExternalContentReference)elementToRender).getUri())) {
 						// Make sure the matching annotation will be redrawn at next paint
 						foundAlredyExistingAnnotation = true;
-						((IntentImageAnnotation)annotation).setImageShouldBeRedrawn(true);
+						((AbstractIntentImageAnnotation)annotation).setImageShouldBeRedrawn(true);
 					}
+				} else if (annotation instanceof IntentImageAnnotation && elementToRender instanceof Image) {
+					// Make sure the matching annotation will be redrawn at next paint
+					foundAlredyExistingAnnotation = true;
+					((AbstractIntentImageAnnotation)annotation).setImageShouldBeRedrawn(true);
 				}
 			}
 
 			// Step 2: create a new annotation if none found
 			if (!foundAlredyExistingAnnotation) {
-				getAnnotationModel().addAnnotation(IntentAnnotationFactory.createImageAnnotation(reference),
-						new Position(intentPosition.getOffset() + intentPosition.getLength(), 0));
+				if (elementToRender instanceof ExternalContentReference) {
+					getAnnotationModel()
+							.addAnnotation(
+									IntentAnnotationFactory
+											.createImageAnnotation((ExternalContentReference)elementToRender),
+									new Position(intentPosition.getOffset() + intentPosition.getLength(), 0));
+				} else if (elementToRender instanceof Image) {
+					getAnnotationModel().addAnnotation(
+							IntentAnnotationFactory.createImageAnnotation((Image)elementToRender),
+							new Position(intentPosition.getOffset() + intentPosition.getLength(), 0));
+				}
 			}
 		}
 	}

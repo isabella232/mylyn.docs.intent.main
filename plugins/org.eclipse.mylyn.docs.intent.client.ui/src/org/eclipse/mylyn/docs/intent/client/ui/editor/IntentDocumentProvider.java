@@ -35,7 +35,7 @@ import org.eclipse.jface.text.rules.FastPartitioner;
 import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotationModelManager;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotation;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.AbstractIntentImageAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotationDisposer;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
@@ -68,6 +68,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
+import org.eclipse.mylyn.docs.intent.markup.markup.Image;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
@@ -187,10 +188,17 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		}
 
 		// Step 2: create annotations for all ExternalContentReferences
-		for (ExternalContentReference reference : IntentHelper
-				.getAllExternalContentReferences((IntentGenericElement)documentRoot)) {
-			annotationModelManager.updateAnnotationFromExternalContentReference(reference,
+		for (ExternalContentReference reference : IntentHelper.getAllContainedElements(
+				ExternalContentReference.class, (IntentGenericElement)documentRoot)) {
+			annotationModelManager.updateAnnotationFromElementToRender(reference,
 					createdDocument.getIntentPosition(reference));
+		}
+
+		// Step 3: create annotations for all images links
+		for (Image imageLink : IntentHelper.getAllContainedElements(Image.class,
+				(IntentGenericElement)documentRoot)) {
+			annotationModelManager.updateAnnotationFromElementToRender(imageLink,
+					createdDocument.getIntentPosition(imageLink));
 		}
 		annotationModelManager.getAnnotationModel().addAnnotationModelListener(
 				new IntentImageAnnotationDisposer());
@@ -492,10 +500,17 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				// update annotations (if the compilation status manager has changed)
 				handleCompilationStatusHasChanged(modifiedObject);
 				// refreshing images
-				for (ExternalContentReference reference : IntentHelper
-						.getAllExternalContentReferences((IntentGenericElement)documentRoot)) {
-					annotationModelManager.updateAnnotationFromExternalContentReference(reference,
+				for (ExternalContentReference reference : IntentHelper.getAllContainedElements(
+						ExternalContentReference.class, (IntentGenericElement)documentRoot)) {
+					annotationModelManager.updateAnnotationFromElementToRender(reference,
 							createdDocument.getIntentPosition(reference));
+				}
+				for (Image imageLink : IntentHelper.getAllContainedElements(Image.class,
+						(IntentGenericElement)documentRoot)) {
+					annotationModelManager.updateAnnotationFromElementToRender(
+							imageLink,
+							createdDocument.getIntentPosition(imageLink.eContainer().eContainer()
+									.eContainer()));
 				}
 			}
 		}
@@ -638,8 +653,8 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		Iterator annotationIterator = annotationModelManager.getAnnotationModel().getAnnotationIterator();
 		while (annotationIterator.hasNext()) {
 			Object annotation = annotationIterator.next();
-			if (annotation instanceof IntentImageAnnotation) {
-				IntentImageAnnotationDisposer.disposeImage((IntentImageAnnotation)annotation);
+			if (annotation instanceof AbstractIntentImageAnnotation) {
+				IntentImageAnnotationDisposer.disposeImage((AbstractIntentImageAnnotation)annotation);
 			}
 		}
 

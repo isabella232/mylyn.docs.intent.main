@@ -15,20 +15,22 @@ import com.google.common.collect.Sets;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
+import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
+import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
 
 /**
  * Class that provides useful services on Intent element.
@@ -98,35 +100,54 @@ public final class IntentHelper {
 	}
 
 	/**
-	 * Returns all {@link ExternalContentReference}s contained in the given root.
+	 * Returns all model elements instance of the given class contained in the given root.
 	 * 
-	 * @return all {@link ExternalContentReference}s contained in the given root
+	 * @return all model elements instance of the given class contained in the given root
 	 */
-	public static Collection<ExternalContentReference> getAllExternalContentReferences(
-			IntentGenericElement root) {
-		Collection<ExternalContentReference> externalContentReferences = new LinkedHashSet<ExternalContentReference>();
+	public static <T> Collection<T> getAllContainedElements(Class<T> clazz, IntentGenericElement root) {
+		Collection<T> containedElements = Sets.newLinkedHashSet();
 		if (root instanceof IntentDocument) {
 			for (IntentChapter chapter : ((IntentDocument)root).getChapters()) {
-				externalContentReferences.addAll(getAllExternalContentReferences(chapter));
-			}
-		} else {
-			if (root instanceof IntentSubSectionContainer) {
-				for (IntentSection section : ((IntentSubSectionContainer)root).getSubSections()) {
-					externalContentReferences.addAll(getAllExternalContentReferences(section));
-				}
-			}
-
-			if (root instanceof IntentSection) {
-				for (ModelingUnit unit : ((IntentSection)root).getModelingUnits()) {
-					externalContentReferences.addAll(getAllExternalContentReferences(unit));
-				}
-			}
-
-			if (root instanceof ModelingUnit) {
-				externalContentReferences.addAll(Sets.newLinkedHashSet(Iterables.filter(
-						((ModelingUnit)root).getInstructions(), ExternalContentReference.class)));
+				containedElements.addAll(getAllContainedElements(clazz, chapter));
 			}
 		}
-		return externalContentReferences;
+		if (root instanceof IntentSubSectionContainer) {
+			for (IntentSection section : ((IntentSubSectionContainer)root).getSubSections()) {
+				containedElements.addAll(getAllContainedElements(clazz, section));
+			}
+			for (DescriptionUnit descriptionUnit : ((IntentSubSectionContainer)root).getDescriptionUnits()) {
+				containedElements.addAll(getAllContainedElements(clazz, descriptionUnit));
+			}
+		}
+
+		if (root instanceof IntentSection) {
+			for (ModelingUnit unit : ((IntentSection)root).getModelingUnits()) {
+				containedElements.addAll(getAllContainedElements(clazz, unit));
+			}
+		}
+
+		if (root instanceof ModelingUnit) {
+			containedElements.addAll(Sets.newLinkedHashSet(Iterables.filter(
+					((ModelingUnit)root).getInstructions(), clazz)));
+		}
+		if (root instanceof DescriptionUnit) {
+			for (UnitInstruction bloc : ((DescriptionUnit)root).getInstructions()) {
+				if (bloc instanceof DescriptionBloc) {
+					for (Paragraph paragraph : Iterables.filter(((DescriptionBloc)bloc).getDescriptionBloc()
+							.getContent(), Paragraph.class)) {
+						containedElements.addAll(Sets.newLinkedHashSet(Iterables.filter(
+								((Paragraph)paragraph).getContent(), clazz)));
+					}
+
+				}
+			}
+		}
+
+		return containedElements;
+	}
+
+	public static Object getAllImageLinks(IntentGenericElement documentRoot) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

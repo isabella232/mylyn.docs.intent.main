@@ -11,10 +11,13 @@
 package org.eclipse.mylyn.docs.intent.client.ui.editor.annotation;
 
 import org.eclipse.jface.text.source.Annotation;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.AbstractIntentImageAnnotation;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentExternalContentReferenceImageAnnotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.IntentImageAnnotation;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
+import org.eclipse.mylyn.docs.intent.markup.markup.Image;
 
 /**
  * Factory for creating Annotations used in the text editor.
@@ -49,8 +52,8 @@ public final class IntentAnnotationFactory {
 	public static final String INTENT_ANNOT_SYNC_WARNING = "org.eclipse.mylyn.docs.intent.client.ui.annotation.sync.warning";
 
 	/**
-	 * String that symbolizes an {@link IntentImageAnnotation} allowing to display images directly inside the
-	 * {@link org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor}.
+	 * String that symbolizes an {@link AbstractIntentImageAnnotation} allowing to display images directly
+	 * inside the {@link org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor}.
 	 */
 	public static final String INTENT_IMAGE = "org.eclipse.mylyn.docs.intent.client.ui.annotation.image";
 
@@ -111,14 +114,25 @@ public final class IntentAnnotationFactory {
 	}
 
 	/**
-	 * Creates an {@link IntentImageAnnotation} allowing to paint the given image.
+	 * Creates an {@link AbstractIntentImageAnnotation} allowing to paint the given image.
 	 * 
 	 * @param reference
 	 *            the {@link ExternalContentReference} to paint
-	 * @return an {@link IntentImageAnnotation} allowing to paint the given image
+	 * @return an {@link AbstractIntentImageAnnotation} allowing to paint the given image
 	 */
-	public static IntentImageAnnotation createImageAnnotation(ExternalContentReference reference) {
-		return new IntentImageAnnotation(reference);
+	public static AbstractIntentImageAnnotation createImageAnnotation(ExternalContentReference reference) {
+		return new IntentExternalContentReferenceImageAnnotation(reference);
+	}
+
+	/**
+	 * Creates an {@link AbstractIntentImageAnnotation} allowing to paint the given image.
+	 * 
+	 * @param image
+	 *            the {@link Image} to paint
+	 * @return an {@link AbstractIntentImageAnnotation} allowing to paint the given image
+	 */
+	public static AbstractIntentImageAnnotation createImageAnnotation(Image image) {
+		return new IntentImageAnnotation(image);
 	}
 
 }
