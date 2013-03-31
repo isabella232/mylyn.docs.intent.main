@@ -81,12 +81,19 @@ public interface Repository {
 	void setRepositoryStructurer(RepositoryStructurer structurer);
 
 	/**
-	 * Returns the identier of this repository (e.g. 'myRepository' for a workspace repository,
+	 * Returns the identifier of this repository (e.g. 'myRepository' for a workspace repository,
 	 * 'cdo:/myRepository' for a cdo repository...).
 	 * 
-	 * @return the identier of this repository (e.g. 'myRepository' for a workspace repository,
+	 * @return the identifier of this repository (e.g. 'myRepository' for a workspace repository,
 	 *         'cdo:/myRepository' for a cdo repository...)
 	 */
 	String getIdentifier();
+
+	/**
+	 * Returns the location of the repository.
+	 * 
+	 * @return the location of the repository
+	 */
+	String getRepositoryLocation();
 
 }

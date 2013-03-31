@@ -246,4 +246,13 @@ public class CDORepository implements Repository {
 		return CDO_REPOSITORY_IDENTIFIER + repositoryConfiguration.getRepositoryName();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#getRepositoryLocation()
+	 */
+	public String getRepositoryLocation() {
+		return getIdentifier();
+	}
+
 }

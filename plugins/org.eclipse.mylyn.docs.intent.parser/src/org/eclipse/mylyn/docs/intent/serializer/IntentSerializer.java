@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitFormatter;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.DescriptionUnitSerializer;
@@ -116,13 +117,17 @@ public class IntentSerializer {
 					.addIntentPositionManagerInformations(documentSerializer.getPositionManager());
 
 		}
-		if (elementToSerialize instanceof DescriptionUnit) {
+		if (elementToSerialize instanceof DescriptionUnit || elementToSerialize instanceof Paragraph) {
 			// In the other cases, we consider that the given contentToParse is a DescriptionUnit
 			documentSerializer.setCurrentOffset(0);
 			documentSerializer.setCurrentIndendationLevel(0);
-			serializedForm = descriptionUnitSerializer.serialize((DescriptionUnit)elementToSerialize);
-			this.positionManager.addIntentPositionManagerInformations(descriptionUnitSerializer
-					.getPositionManager());
+			if (elementToSerialize instanceof DescriptionUnit) {
+				serializedForm = descriptionUnitSerializer.serialize((DescriptionUnit)elementToSerialize);
+				this.positionManager.addIntentPositionManagerInformations(descriptionUnitSerializer
+						.getPositionManager());
+			} else {
+				serializedForm = descriptionUnitSerializer.serialize((Paragraph)elementToSerialize);
+			}
 
 		}
 

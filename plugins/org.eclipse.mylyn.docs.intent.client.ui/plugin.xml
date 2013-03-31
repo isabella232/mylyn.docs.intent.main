@@ -71,7 +71,7 @@ Contributors:
       <extension
          point="org.eclipse.ui.editors">
       <editor
-            class="org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor"
+            class="org.eclipse.mylyn.docs.intent.client.ui.editor.IntentMultiPageEditor"
             default="false"
             icon="icon/outline/document.gif"
             id="org.eclipse.mylyn.docs.intent.client.ui.IntentEditor"

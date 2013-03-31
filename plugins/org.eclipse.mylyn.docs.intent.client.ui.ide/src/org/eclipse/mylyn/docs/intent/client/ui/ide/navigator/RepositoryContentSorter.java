@@ -22,6 +22,8 @@ import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
  */
 public class RepositoryContentSorter extends ViewerSorter {
 
+	private static final String DOT = ".";
+
 	/**
 	 * Default constructor.
 	 */
@@ -40,12 +42,12 @@ public class RepositoryContentSorter extends ViewerSorter {
 		if (e1 instanceof IntentIndexEntry && e2 instanceof IntentIndexEntry) {
 			IntentIndexEntry entry1 = (IntentIndexEntry)e1;
 			IntentIndexEntry entry2 = (IntentIndexEntry)e2;
-			if (entry1.eContainer() == entry2.eContainer()) {
+			if (entry1.eContainer() != entry2.eContainer()) {
 				String entry1Level = entry1.getName().substring(0, entry1.getName().indexOf(" "));
-				entry1Level = entry1Level.substring(entry1.getName().lastIndexOf(".") + 1);
+				entry1Level = entry1Level.substring(entry1.getName().lastIndexOf(DOT) + 1);
 				String entry2Level = entry2.getName().substring(0, entry2.getName().indexOf(" "));
-				if (entry1.getName().contains(".")) {
-					entry2Level = entry2Level.substring(entry1.getName().lastIndexOf("."));
+				if (entry1.getName().contains(DOT)) {
+					entry2Level = entry2Level.substring(entry1.getName().lastIndexOf(DOT));
 					int compareResult;
 					if (entry1Level.length() != entry2Level.length()) {
 						compareResult = entry1Level.length() - entry2Level.length();

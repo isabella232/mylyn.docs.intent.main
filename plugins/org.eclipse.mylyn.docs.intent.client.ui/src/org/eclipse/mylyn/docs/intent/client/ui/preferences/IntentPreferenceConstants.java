@@ -48,6 +48,11 @@ public interface IntentPreferenceConstants {
 	 */
 	String COLLAPSE_MODELING_UNITS = "org.eclipse.mylyn.docs.intent.client.ui.preferences.collapse_mu";
 
+	/**
+	 * Indicates whether the Intent editor should display the preview page.
+	 */
+	String SHOW_PREVIEW_PAGE = "org.eclipse.mylyn.docs.intent.client.ui.preferences.show_preview_page";
+
 	/*
 	 * Drag and drop preferences.
 	 */

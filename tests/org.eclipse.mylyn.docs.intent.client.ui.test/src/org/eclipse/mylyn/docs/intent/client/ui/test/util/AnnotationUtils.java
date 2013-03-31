@@ -183,7 +183,7 @@ public final class AnnotationUtils {
 	 *            the editor
 	 */
 	public static void displayAnnotations(IntentEditor intentEditor) {
-		System.err.println("Annotations in \"" + intentEditor.getPartName() + "\":");
+		System.err.println("Annotations in \"" + intentEditor.getEditorInput().getName() + "\":");
 		Iterator<?> annotationIterator = ((IntentDocumentProvider)intentEditor.getDocumentProvider())
 				.getAnnotationModel(null).getAnnotationIterator();
 		while (annotationIterator.hasNext()) {

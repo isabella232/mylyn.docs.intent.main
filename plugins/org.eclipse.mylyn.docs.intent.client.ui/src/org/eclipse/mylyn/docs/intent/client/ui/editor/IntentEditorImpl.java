@@ -81,7 +81,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class IntentEditor extends TextEditor {
+public class IntentEditorImpl extends TextEditor implements IntentEditor {
 
 	/**
 	 * The String representing this Editor context.
@@ -125,7 +125,7 @@ public class IntentEditor extends TextEditor {
 	/**
 	 * Default constructor.
 	 */
-	public IntentEditor() {
+	public IntentEditorImpl() {
 		super();
 		colorManager = new ColorManager();
 		blockMatcher = new IntentPairMatcher();
@@ -184,6 +184,11 @@ public class IntentEditor extends TextEditor {
 		viewer.addPainter(new ModelingUnitDecorationPainter(viewer, colorManager));
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#getProjectionViewer()
+	 */
 	public ProjectionViewer getProjectionViewer() {
 		return (ProjectionViewer)getSourceViewer();
 	}
@@ -215,15 +220,10 @@ public class IntentEditor extends TextEditor {
 	}
 
 	/**
-	 * Updates the folding structure of the template. This will be called from the Atl template reconciler in
-	 * order to allow the folding of blocks to the user.
+	 * {@inheritDoc}
 	 * 
-	 * @param addedAnnotations
-	 *            These annotations have been added since the last reconciling operation.
-	 * @param deletedAnnotations
-	 *            This list represents the annotations that were deleted since we last reconciled.
-	 * @param modifiedAnnotations
-	 *            These annotations have seen their positions updated.
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#updateFoldingStructure(java.util.Map,
+	 *      java.util.List, java.util.Map)
 	 */
 	public void updateFoldingStructure(Map<Annotation, Position> addedAnnotations,
 			List<Annotation> deletedAnnotations, Map<Annotation, Position> modifiedAnnotations) {
@@ -244,11 +244,9 @@ public class IntentEditor extends TextEditor {
 	}
 
 	/**
-	 * Indicates if the {@link IntentEditor} has already collapsed structures that should be collapsed at
-	 * opening. Typically used to determine whether Images should be painted.
+	 * {@inheritDoc}
 	 * 
-	 * @return true if the {@link IntentEditor} has already collapsed structures that should be collapsed at
-	 *         opening, false otherwise
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#isInitialFoldingStructureComplete()
 	 */
 	public boolean isInitialFoldingStructureComplete() {
 		return isInitialFoldingStructureComplete;
@@ -333,20 +331,20 @@ public class IntentEditor extends TextEditor {
 	}
 
 	/**
-	 * Returns the color manager of this editor.
+	 * {@inheritDoc}
 	 * 
-	 * @return the color manager of this editor
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#getColorManager()
 	 */
 	public ColorManager getColorManager() {
 		return colorManager;
 	}
 
 	/**
-	 * This will create the quick outline presenter and install it on this editor.
+	 * {@inheritDoc}
 	 * 
-	 * @return The quick outline presenter.
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#createQuickOutlinePresenter()
 	 */
-	public IInformationPresenter getQuickOutlinePresenter() {
+	public IInformationPresenter createQuickOutlinePresenter() {
 
 		InformationPresenter informationPresenter = new InformationPresenter(
 				new IInformationControlCreator() {
@@ -357,7 +355,7 @@ public class IntentEditor extends TextEditor {
 					 */
 					public IInformationControl createInformationControl(Shell parent) {
 						// We active the context
-						return new IntentQuickOutlineControl(parent, SWT.RESIZE, IntentEditor.this, true);
+						return new IntentQuickOutlineControl(parent, SWT.RESIZE, IntentEditorImpl.this, true);
 					}
 
 				});
@@ -378,9 +376,9 @@ public class IntentEditor extends TextEditor {
 	}
 
 	/**
-	 * Returns the current quick Outline associated to this editor.
+	 * {@inheritDoc}
 	 * 
-	 * @return the current quick Outline associated to this editor (can be null)
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#getCurrentQuickOutline()
 	 */
 	public IntentQuickOutlineControl getCurrentQuickOutline() {
 		return currentQuickOutline;
@@ -398,9 +396,9 @@ public class IntentEditor extends TextEditor {
 	}
 
 	/**
-	 * Return the content of this editor as an Intent AST.
+	 * {@inheritDoc}
 	 * 
-	 * @return the content of this editor as an Intent AST
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#getIntentContent()
 	 */
 	public EObject getIntentContent() {
 		IDocument document = this.getDocumentProvider().getDocument(this.getEditorInput());
@@ -411,11 +409,9 @@ public class IntentEditor extends TextEditor {
 	}
 
 	/**
-	 * Sets the highlighted range of this text editor to the specified element.
+	 * {@inheritDoc}
 	 * 
-	 * @param element
-	 *            the element to highlight
-	 * @return true if the editor was able to select the given element, false otherwise
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#selectRange(org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement)
 	 */
 	public boolean selectRange(final IntentGenericElement element) {
 
@@ -462,21 +458,18 @@ public class IntentEditor extends TextEditor {
 	}
 
 	/**
-	 * Refresh the outline view.
+	 * {@inheritDoc}
 	 * 
-	 * @param newAST
-	 *            the new value of the AST to use for refreshing this view
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#refreshOutlineView(org.eclipse.emf.ecore.EObject)
 	 */
 	public void refreshOutlineView(EObject newAST) {
 		((IntentOutlinePage)getOutlinePage()).refresh(newAST);
 	}
 
 	/**
-	 * Indicates if this editor contains the given element.
+	 * {@inheritDoc}
 	 * 
-	 * @param elementToOpen
-	 *            the element to determine if it's contained in this editor
-	 * @return true if this editor contains the given element, false otherwise
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#containsElement(org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement)
 	 */
 	public boolean containsElement(IntentGenericElement elementToOpen) {
 		boolean containsElement = IntentHelper.containsElement((IntentGenericElement)this.getIntentContent(),
@@ -485,10 +478,9 @@ public class IntentEditor extends TextEditor {
 	}
 
 	/**
-	 * Refreshes the title according to the new AST.
+	 * {@inheritDoc}
 	 * 
-	 * @param newAST
-	 *            the new AST to compute the title from
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#refreshTitle(org.eclipse.emf.ecore.EObject)
 	 */
 	public void refreshTitle(EObject newAST) {
 		String titleFromElement = ((IntentEditorInput)this.getEditorInput()).getTitleFromElement(
@@ -497,10 +489,20 @@ public class IntentEditor extends TextEditor {
 		setPartName(titleFromElement);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#getBlockMatcher()
+	 */
 	public IntentPairMatcher getBlockMatcher() {
 		return blockMatcher;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#getViewerConfiguration()
+	 */
 	public SourceViewerConfiguration getViewerConfiguration() {
 		return sourceViewerConfiguration;
 	}

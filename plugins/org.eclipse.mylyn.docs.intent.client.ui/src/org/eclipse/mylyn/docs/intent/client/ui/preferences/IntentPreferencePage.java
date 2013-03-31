@@ -68,6 +68,8 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 				new Composite(uiGroup, SWT.NONE)));
 		addField(new ColorFieldEditor(IntentPreferenceConstants.MATCHING_BRACKETS_COLOR, "Brackets color",
 				new Composite(uiGroup, SWT.NONE)));
+		addField(new BooleanFieldEditor(IntentPreferenceConstants.SHOW_PREVIEW_PAGE,
+				"Show HTML Preview page", new Composite(uiGroup, SWT.NONE)));
 
 		// Adding a label explaining that Intent font preferences can be customized through the General >
 		// Appearance > Colors and Fonts preference page

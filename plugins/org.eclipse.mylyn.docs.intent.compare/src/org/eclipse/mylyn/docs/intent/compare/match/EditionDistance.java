@@ -55,6 +55,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * 
  * @author <a href="mailto:cedric.brun@obeo.fr">Cedric Brun</a>
  */
+// CHECKSTYLE:OFF
 public class EditionDistance implements DistanceFunction {
 
 	/**
@@ -190,6 +191,7 @@ public class EditionDistance implements DistanceFunction {
 
 	/**
 	 * Create a new builder to instantiate and configure an EditionDistance.
+	 * 
 	 * @param leftRoot
 	 *            the left root of the comparison
 	 * @param rightRoot

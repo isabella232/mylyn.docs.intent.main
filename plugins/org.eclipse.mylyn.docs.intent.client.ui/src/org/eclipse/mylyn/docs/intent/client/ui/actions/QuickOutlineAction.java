@@ -74,7 +74,7 @@ public class QuickOutlineAction extends Action implements IWorkbenchWindowAction
 		IntentEditor currentEditor = getCurrentEditor();
 		IntentQuickOutlineControl currentQuickOutline = currentEditor.getCurrentQuickOutline();
 		if (currentQuickOutline == null) {
-			IInformationPresenter presenter = getCurrentEditor().getQuickOutlinePresenter();
+			IInformationPresenter presenter = getCurrentEditor().createQuickOutlinePresenter();
 			presenter.showInformation();
 		}
 	}

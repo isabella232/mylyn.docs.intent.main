@@ -349,4 +349,14 @@ public class WorkspaceRepository implements Repository {
 		return workspaceConfig.getProject().getName();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#getRepositoryLocation()
+	 */
+	public String getRepositoryLocation() {
+		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toPortableString()
+				+ getWorkspaceConfig().getRepositoryAbsolutePath().replace(".repository", "");
+	}
+
 }

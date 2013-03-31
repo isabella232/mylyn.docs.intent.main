@@ -13,13 +13,13 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * An {@link Annotation} allowing the {@link org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor} to
- * display images corresponding to an image link in pure documentation zones.
+ * An {@link org.eclipse.jface.text.source.Annotation} allowing the
+ * {@link org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor} to display images corresponding to an
+ * image link in pure documentation zones.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */

@@ -29,6 +29,7 @@ import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorImpl;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditorConfiguration;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.Activator;
@@ -98,7 +99,7 @@ public class IntentTemplateWizardPage extends WizardPage {
 		Label infoLabel2 = new Label(control, SWT.NONE);
 		infoLabel2.setText("Preview: ");
 
-		IntentEditor editor = new IntentEditor();
+		IntentEditor editor = new IntentEditorImpl();
 		document = new IntentEditorDocument(editor);
 		IDocumentPartitioner partitioner = new FastPartitioner(new IntentPartitionScanner(),
 				IntentPartitionScanner.LEGAL_CONTENT_TYPES);

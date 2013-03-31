@@ -10,15 +10,14 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image;
 
-import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension;
 import org.eclipse.mylyn.docs.intent.client.ui.internal.renderers.IEditorRendererExtensionRegistry;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * An {@link Annotation} allowing the {@link org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor} to
- * display images corresponding to
+ * An {@link org.eclipse.jface.text.source.Annotation} allowing the
+ * {@link org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor} to display images corresponding to
  * {@link org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference}s (e.g the text of a java
  * file).
  * 

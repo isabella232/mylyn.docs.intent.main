@@ -11,8 +11,8 @@
 package org.eclipse.mylyn.docs.intent.client.ui.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
-import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.swt.graphics.RGB;
@@ -34,7 +34,7 @@ public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 	 */
 	@Override
 	public void initializeDefaultPreferences() {
-		IEclipsePreferences node = DefaultScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
 		node.put(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, Boolean.FALSE.toString());
 		node.put(IntentPreferenceConstants.ACTIVATE_BACKUP, Boolean.FALSE.toString());
 		node.put(IntentPreferenceConstants.TEXT_WRAP, Boolean.TRUE.toString());
@@ -42,6 +42,7 @@ public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 		node.put(IntentPreferenceConstants.MATCHING_BRACKETS, Boolean.TRUE.toString());
 		node.put(IntentPreferenceConstants.MATCHING_BRACKETS_COLOR,
 				StringConverter.asString(MATCHING_BRACKET_COLOR));
+		node.put(IntentPreferenceConstants.SHOW_PREVIEW_PAGE, Boolean.TRUE.toString());
 		node.put(IntentPreferenceConstants.DND_DISPLAY_POP_UP, Boolean.FALSE.toString());
 		node.put(IntentPreferenceConstants.DND_USE_EXTERNAL_REFERENCES, Boolean.TRUE.toString());
 	}

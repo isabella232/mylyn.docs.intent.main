@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
 import org.eclipse.mylyn.docs.intent.markup.serializer.WikiTextSerializer;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
@@ -205,5 +206,16 @@ public class DescriptionUnitSerializer {
 	 */
 	public IntentPositionManager getPositionManager() {
 		return this.positionManager;
+	}
+
+	/**
+	 * Serializes the given {@link Paragraph}.
+	 * 
+	 * @param elementToSerialize
+	 *            the {@link Paragraph} to serialize
+	 * @return the serialized form of the given {@link Paragraph}
+	 */
+	public String serialize(Paragraph elementToSerialize) {
+		return serializeSectionTitle(elementToSerialize, 0);
 	}
 }

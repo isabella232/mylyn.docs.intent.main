@@ -13,6 +13,8 @@ package org.eclipse.mylyn.docs.intent.client.ui.ide.projectmanager;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.mylyn.docs.intent.client.compiler.launcher.CompilerCreator;
 import org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection.CompilerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
@@ -21,17 +23,21 @@ import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolver
 import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.generatedelementlistener.IDEGeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.ProjectExplorerRefresher;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
+import org.eclipse.mylyn.docs.intent.exporter.client.IntentExporterClient;
+import org.eclipse.mylyn.docs.intent.exporter.client.IntentExporterClientCreator;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -59,6 +65,8 @@ public final class IntentProjectManager {
 	private ProjectExplorerRefresher refresher;
 
 	private LinkResolverClient linkResolverClient;
+
+	private IntentExporterClient exporterClient;
 
 	/**
 	 * The project associated to this IntentProjectManager (must be associated to the Intent nature).
@@ -127,6 +135,14 @@ public final class IntentProjectManager {
 					refresher = ProjectExplorerRefresher.createProjectExplorerRefresher(project);
 				}
 
+				// Exporter client: no need to create it if preview page is hidden in the intent editor
+				IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+				boolean shouldDisplayPReviewPage = node.getBoolean(
+						IntentPreferenceConstants.SHOW_PREVIEW_PAGE, false);
+				if (shouldDisplayPReviewPage && exporterClient == null) {
+					exporterClient = IntentExporterClientCreator.createIntentExporterClient(repository);
+				}
+
 				// notifies the clients
 
 				// launch the indexer in order to allow navigation within the document
@@ -137,6 +153,11 @@ public final class IntentProjectManager {
 
 				// launch the link resolver to detect eventual existing issues
 				linkResolverClient.handleChangeNotification(null);
+
+				// launch exporter in case external changes occurred
+				if (exporterClient != null) {
+					exporterClient.handleChangeNotification(null);
+				}
 
 			} else {
 				throw new RepositoryConnectionException("Cannot create Repository on project "
@@ -179,6 +200,11 @@ public final class IntentProjectManager {
 			if (refresher != null) {
 				refresher.dispose();
 				refresher = null;
+			}
+
+			if (exporterClient != null) {
+				exporterClient.dispose();
+				exporterClient = null;
 			}
 
 			repository.closeSession();

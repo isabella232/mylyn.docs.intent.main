@@ -112,7 +112,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		WorkspaceUtils.closeWelcomePage();
 		waitForAllOperationsInUIThread();
 		IntentEditorActivator.getDefault().getLog().addLogListener(this);
-
 		openedEditors = new ArrayList<IntentEditor>();
 	}
 
@@ -218,6 +217,9 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	protected void setUpIntentProject(final String projectName, String intentDocumentPath,
 			boolean listenForRepository) {
+		// Disabling preview mechanism for performances improvements
+		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		node.putBoolean(IntentPreferenceConstants.SHOW_PREVIEW_PAGE, false);
 		try {
 			// Step 1: getting the content of the intent document located at the given path.
 			File file = new File(intentDocumentPath);

@@ -73,6 +73,7 @@
 	
 	<!-- Intent export -->
 	<module>plugins/org.eclipse.mylyn.docs.intent.exporter</module>
+	<module>plugins/org.eclipse.mylyn.docs.intent.exporter.client</module>
 	<module>plugins/org.eclipse.mylyn.docs.intent.exporter.ui</module>
 
 	<!-- Intent Markup -->   

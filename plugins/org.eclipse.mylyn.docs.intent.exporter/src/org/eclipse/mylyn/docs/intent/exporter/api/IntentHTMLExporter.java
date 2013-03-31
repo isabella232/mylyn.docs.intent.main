@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.eclipse.acceleo.common.preference.AcceleoPreferences;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
@@ -72,15 +73,18 @@ public class IntentHTMLExporter {
 				targetFolder.mkdirs();
 			}
 
-			// Step 3: make sure that the target folder contains all required resources (css,
-			// javascript...)
-			copyRequiredResourcesToGenerationFolder(targetFolder);
-
-			// Step 4: launch generation
+			// Step 3: launch generation
+			// Disabling acceleo graphical notification mechanism to avoid pop-ups display
+			boolean oldNotificationsPref = AcceleoPreferences.areNotificationsForcedDisabled();
+			AcceleoPreferences.switchForceDeactivationNotifications(true);
 			HTMLBootstrapGenDocument generator = new HTMLBootstrapGenDocument(intentElement, targetFolder,
 					new ArrayList<Object>());
 			generator.doGenerate(progressMonitor, documentName, showTableOfContents, repositoryAdapter);
+			AcceleoPreferences.switchForceDeactivationNotifications(oldNotificationsPref);
 
+			// Step 4: make sure that the target folder contains all required resources (css,
+			// javascript...)
+			copyRequiredResourcesToGenerationFolder(targetFolder);
 			repositoryAdapter.closeContext();
 		} catch (IOException e) {
 			IntentUiLogger.logError(e);
