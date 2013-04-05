@@ -7,6 +7,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.exporter.api.IntentHTMLExporter;
+import org.eclipse.mylyn.docs.intent.exporter.ui.IntentPreviewView;
 
 /*******************************************************************************
  * Copyright (c) 2010, 2011 Obeo. All rights reserved. This program and the accompanying materials are made
@@ -46,9 +47,13 @@ public class IntentExporterJob extends Job {
 	 */
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
+		// Step 1: launch the export
 		htmlExporter.exportIntentDocumentation(intentDocument, targetFolderLocation, "IntentDocumentation",
 				false, BasicMonitor.toMonitor(monitor));
+
+		// Step 2: if the Intent Preview view is currently active, refresh it
+		IntentPreviewView.refreshPreviewView();
+
 		return Status.OK_STATUS;
 	}
-
 }

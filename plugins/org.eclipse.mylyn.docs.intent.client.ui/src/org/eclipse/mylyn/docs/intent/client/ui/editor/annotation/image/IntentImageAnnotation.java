@@ -12,7 +12,16 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
+import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
+import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
@@ -46,17 +55,45 @@ public class IntentImageAnnotation extends AbstractIntentImageAnnotation {
 	@Override
 	protected Image doCreateImage() {
 		String imagePath = imageLink.getUrl();
+		// TODO enable this live rendering of images once position of markup.Image will be exact
+		// return doCreateImageFromURL(imagePath);
+		return null;
+	}
 
-		// TODO handle
-		// - path relative to project
-		// - URL images
-		FileInputStream fileInputStream;
+	private Image doCreateImageFromURL(String imagePath) {
+		// Case 1: URL is a web URL
 		try {
-			fileInputStream = new FileInputStream(imagePath);
+			InputStream fileInputStream;
+			if (imagePath.startsWith("http")) {
+				fileInputStream = new URL(imagePath).openStream();
+			} else {
+				// Case 2: URL is project-relative
+
+				if (imagePath.startsWith("./")) {
+					URI uri = imageLink.eResource().getURI();
+					if (uri.isPlatformResource()) {
+						Repository repository = IntentRepositoryManager.INSTANCE
+								.getRepository(uri.segment(1));
+						imagePath = repository.getRepositoryLocation() + imagePath.replaceFirst("./", "");
+					}
+				}
+				// Case 3 (default): URL is absolute
+				fileInputStream = new FileInputStream(imagePath);
+
+			}
 			return new Image(Display.getDefault(), fileInputStream);
 		} catch (FileNotFoundException e) {
+			// Silent catch: image will not be created
+		} catch (RepositoryConnectionException e) {
+			// Silent catch: image will not be created
+		} catch (CoreException e) {
+			// Silent catch: image will not be created
+		} catch (MalformedURLException e) {
+			// Silent catch: image will not be created
+		} catch (IOException e) {
 			// Silent catch: image will not be created
 		}
 		return null;
 	}
+
 }

@@ -16,3 +16,4 @@ Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.mylyn.docs.intent.exporter.ui.Activator
 Bundle-Vendor: %providerName
+Export-Package: org.eclipse.mylyn.docs.intent.exporter.ui

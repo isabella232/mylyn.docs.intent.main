@@ -30,4 +30,19 @@
          name="Export Intent Documentation as HTML">
    </command>
 </extension>
+<extension
+      point="org.eclipse.ui.views">
+   <view
+         allowMultiple="false"
+         category="org.eclipse.mylyn.docs.intent.ui.intentviews"
+         class="org.eclipse.mylyn.docs.intent.exporter.ui.IntentPreviewView"
+         icon="icon/html_tag_obj.gif"
+         id="org.eclipse.mylyn.docs.intent.exporter.ui.preview"
+         name="Intent Preview"
+         restorable="true">
+      <description>
+         A view allowing to get an HTML Preview of the currently opened Intent documentation part.
+      </description>
+   </view>
+</extension>
 </plugin>

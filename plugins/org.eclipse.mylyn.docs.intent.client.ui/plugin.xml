@@ -393,4 +393,11 @@ Contributors:
 			</fontDefinition>
 			
 	</extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.mylyn.docs.intent.ui.intentviews"
+            name="Intent">
+      </category>
+   </extension>
 </plugin>
