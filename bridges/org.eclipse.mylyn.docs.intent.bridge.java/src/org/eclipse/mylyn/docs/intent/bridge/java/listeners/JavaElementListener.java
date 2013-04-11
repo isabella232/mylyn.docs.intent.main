@@ -80,7 +80,7 @@ public class JavaElementListener extends IDEGeneratedElementListener implements 
 	 *         notified once the class has been compiled)
 	 */
 	private URI transformToJavaURI(URI listenedElementURI) {
-		URI javaFileURI = URI.createPlatformResourceURI(listenedElementURI.toString(), false).trimFragment();
+		URI javaFileURI = URI.createPlatformResourceURI(listenedElementURI.trimFragment().toString(), false);
 		String javaClassURI = javaFileURI.toString().replace("src", "bin");
 		if (javaClassURI.lastIndexOf(".java") != -1) {
 			javaClassURI = javaClassURI.substring(0, javaClassURI.length() - 5) + ".class";
