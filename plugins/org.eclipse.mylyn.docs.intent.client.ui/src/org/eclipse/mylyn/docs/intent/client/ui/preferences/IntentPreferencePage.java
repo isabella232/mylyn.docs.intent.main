@@ -60,6 +60,8 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 	private void addUIFieds(Composite parent) {
 		// All preferences relative to UI
 		Composite uiGroup = createGroup(parent, "Intent editor");
+		addField(new BooleanFieldEditor(IntentPreferenceConstants.TEXT_WRAP,
+				"Autowrap (line are automatically wrapped)", new Composite(uiGroup, SWT.NONE)));
 		addField(new BooleanFieldEditor(IntentPreferenceConstants.COLLAPSE_MODELING_UNITS,
 				"Collapse ModelingUnits at editor opening", new Composite(uiGroup, SWT.NONE)));
 		addField(new BooleanFieldEditor(IntentPreferenceConstants.MATCHING_BRACKETS, "Brackets matching",

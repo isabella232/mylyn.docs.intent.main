@@ -334,8 +334,11 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 */
 	private void drawDecorationRectangle(GC gc, int beginOffset, int endOffset, int maxMuLineSizeOffset,
 			boolean usingAlpha) {
-		int decorationLineLength = Math.max(fTextWidget.getSize().x, fTextWidget.getHorizontalBar()
-				.getMaximum());
+		int horizontalBarMaximum = 0;
+		if (fTextWidget.getHorizontalBar() != null) {
+			horizontalBarMaximum = fTextWidget.getHorizontalBar().getMaximum();
+		}
+		int decorationLineLength = Math.max(fTextWidget.getSize().x, horizontalBarMaximum);
 		gc.setAlpha(100);
 		gc.setForeground(colorManager.getColor(IntentColorConstants.getMuDecorationLineForeground()));
 		gc.setBackground(colorManager.getColor(IntentColorConstants.getMuDecorationBackground()));

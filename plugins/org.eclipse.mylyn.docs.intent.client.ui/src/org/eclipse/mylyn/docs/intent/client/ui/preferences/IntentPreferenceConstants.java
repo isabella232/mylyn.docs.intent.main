@@ -29,6 +29,11 @@ public interface IntentPreferenceConstants {
 	 * UI-relative preferences.
 	 */
 	/**
+	 * Indicates whether the Intent editor should automatically wrap lines.
+	 */
+	String TEXT_WRAP = "org.eclipse.mylyn.docs.intent.client.ui.preferences.text_wrap";
+
+	/**
 	 * Indicates whether matching brackets should be displayed.
 	 */
 	String MATCHING_BRACKETS = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets";

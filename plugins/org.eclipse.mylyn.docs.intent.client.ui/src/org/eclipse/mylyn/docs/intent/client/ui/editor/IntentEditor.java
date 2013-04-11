@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -194,8 +196,13 @@ public class IntentEditor extends TextEditor {
 	 */
 	@Override
 	protected ISourceViewer createSourceViewer(Composite parent, IVerticalRuler ruler, int styles) {
+		// activate text wrapping or not, according to preferences
+		int stylesToApply = styles;
+		if (isTextWrapActivated()) {
+			stylesToApply = styles | SWT.WRAP;
+		}
 		ISourceViewer viewer = new ProjectionViewer(parent, ruler, getOverviewRuler(),
-				isOverviewRulerVisible(), styles);
+				isOverviewRulerVisible(), stylesToApply);
 
 		// ensure decoration support has been created and configured.
 		getSourceViewerDecorationSupport(viewer);
@@ -545,5 +552,15 @@ public class IntentEditor extends TextEditor {
 		service.addMergedDropTarget(text, operations,
 				supportedTransfers.toArray(new Transfer[supportedTransfers.size()]),
 				new IntentEditorDropSupport(this));
+	}
+
+	/**
+	 * Indicates if text-wrap should be activated or not, according to preferences.
+	 * 
+	 * @return true if text-wrap should be activated, false otherwise
+	 */
+	private boolean isTextWrapActivated() {
+		IEclipsePreferences preferences = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		return preferences.getBoolean(IntentPreferenceConstants.TEXT_WRAP, false);
 	}
 }
