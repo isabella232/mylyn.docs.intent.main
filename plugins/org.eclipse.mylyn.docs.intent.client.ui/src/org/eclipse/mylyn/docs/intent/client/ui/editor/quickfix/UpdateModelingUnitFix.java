@@ -89,7 +89,12 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
 	 */
 	public String getDisplayString() {
-		return "Update modeling unit";
+		if (syncAnnotation.getCompilationStatus() != null
+				&& syncAnnotation.getCompilationStatus().getTarget() instanceof ExternalContentReference) {
+			return "Mark Documentation as updated";
+		} else {
+			return "Update modeling unit";
+		}
 	}
 
 }

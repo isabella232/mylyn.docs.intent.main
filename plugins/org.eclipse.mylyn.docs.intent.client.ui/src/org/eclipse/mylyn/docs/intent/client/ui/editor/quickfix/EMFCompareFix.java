@@ -11,31 +11,26 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareEditorInput;
 import org.eclipse.compare.CompareUI;
-import org.eclipse.compare.structuremergeviewer.IDiffElement;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
-import org.eclipse.emf.compare.Match;
+import org.eclipse.emf.compare.domain.ICompareEditingDomain;
 import org.eclipse.emf.compare.domain.impl.EMFCompareEditingDomain;
-import org.eclipse.emf.compare.ide.ui.internal.EMFCompareConstants;
+import org.eclipse.emf.compare.ide.ui.internal.editor.ComparisonEditorInput;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
-import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * Proposal used to fix a Synchronization issue by opening the compare Editor.
@@ -67,14 +62,13 @@ public class EMFCompareFix extends AbstractIntentFix {
 	 */
 	@Override
 	protected void applyFix(RepositoryAdapter repositoryAdapter, IntentEditorDocument document) {
+		// Step 1: get the elements to compare
 		URI workingCopyElementURI = URI.createURI(((SynchronizerCompilationStatus)syncAnnotation
 				.getCompilationStatus()).getWorkingCopyResourceURI().replace("\"", ""));
 		String generatedResourcePath = ((SynchronizerCompilationStatus)syncAnnotation.getCompilationStatus())
 				.getCompiledResourceURI().replace("\"", "");
-
-		// launch comparison
-		EObject generatedElement = repositoryAdapter.getResource(generatedResourcePath).getContents()
-				.iterator().next();
+		EObject docElement = EcoreUtil.copy(repositoryAdapter.getResource(generatedResourcePath)
+				.getContents().iterator().next());
 		ResourceSetImpl rs = new ResourceSetImpl();
 		Resource workingCopyResource = rs.getResource(workingCopyElementURI.trimFragment(), true);
 		EObject workingCopyElement = null;
@@ -83,17 +77,19 @@ public class EMFCompareFix extends AbstractIntentFix {
 		} else {
 			workingCopyElement = workingCopyResource.getContents().iterator().next();
 		}
-		final Comparison comparison = EMFCompareUtils.compare(generatedElement, workingCopyElement);
 
-		// prepare configuration & open dialog
-		final CompareConfiguration compareConfig = new IntentCompareConfiguration(generatedElement,
+		// Step 2: prepare compare dialog configuration
+		final Comparison comparison = EMFCompareUtils.compare(docElement, workingCopyElement);
+		final CompareConfiguration compareConfig = new IntentCompareConfiguration(docElement,
 				workingCopyElement);
-		compareConfig.setProperty(EMFCompareConstants.COMPARE_RESULT, comparison);
-		compareConfig.setProperty(EMFCompareConstants.EDITING_DOMAIN,
-				EMFCompareEditingDomain.create(generatedElement, workingCopyElement, null));
-		CompareEditorInput input = new IntentCompareEditorInput(compareConfig, comparison);
-		compareConfig.setContainer(input);
+		ICompareEditingDomain domain = EMFCompareEditingDomain.create(docElement, workingCopyElement, null);
+		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		CompareEditorInput input = new ComparisonEditorInput(compareConfig, comparison, domain,
+				adapterFactory);
 		input.setTitle(COMPARE_EDITOR_TITLE + " (" + workingCopyElementURI + ")");
+
+		// Step 3: open comparaison dialog
 		CompareUI.openCompareDialog(input);
 	}
 
@@ -103,58 +99,16 @@ public class EMFCompareFix extends AbstractIntentFix {
 	 * @see org.eclipse.jface.text.contentassist.ICompletionProposal#getDisplayString()
 	 */
 	public String getDisplayString() {
-		return "See differences in Compare Editor";
+		return "See all differences in Compare Editor";
 	}
 
 	/**
-	 * A custom implementation of the editor input.
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix.AbstractIntentFix#getImage()
 	 */
-	class IntentCompareEditorInput extends CompareEditorInput {
-		private Object selection;
+	public Image getImage() {
+		return IntentEditorActivator.getDefault().getImage("icon/annotation/compare_dialog.gif");
 
-		/**
-		 * Constructor.
-		 * 
-		 * @param configuration
-		 *            the compare configuration
-		 * @param comparison
-		 *            the comparison
-		 */
-		public IntentCompareEditorInput(CompareConfiguration configuration, Comparison comparison) {
-			super(configuration);
-			this.selection = comparison;
-			CompilationStatus status = syncAnnotation.getCompilationStatus();
-			if (status instanceof StructuralFeatureChangeStatus) {
-				EObject element = ((StructuralFeatureChangeStatus)status).getCompiledElement();
-				Match match = comparison.getMatch(element);
-				if (match != null && match.getDifferences().size() == 1) {
-					// TODO improve, find a way to accurately rely status original difference with comparison
-					// (use message ?)
-					// this.selection = match.getDifferences().get(0);
-				}
-			}
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#prepareInput(org.eclipse.core.runtime.IProgressMonitor)
-		 */
-		@Override
-		protected Object prepareInput(IProgressMonitor monitor) throws InvocationTargetException,
-				InterruptedException {
-			return (IDiffElement)adapterFactory.adapt(this.selection, IDiffElement.class);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.compare.CompareEditorInput#createDiffViewer(org.eclipse.swt.widgets.Composite)
-		 */
-		@Override
-		public Viewer createDiffViewer(Composite parent) {
-			// return new EMFCompareStructureMergeViewer(parent, getCompareConfiguration());
-			return super.createDiffViewer(parent);
-		};
 	}
 }

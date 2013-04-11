@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -33,6 +34,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.internal.quickfix.provider.Intent
 import org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerResourceState;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 
 /**
  * {@link IntentQuickAssistProcessor} used by Intent to fix any issues.
@@ -89,7 +91,7 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 		List<ICompletionProposal> proposals = Lists.newArrayList();
 		// Automatically compute quick-fixes for Synchronization issues
 		for (IntentAnnotation annotation : synchronizationIssues) {
-			proposals.addAll(computeProposalsFromSynchronizationIssue(annotation));
+			proposals.addAll(computeProposalsFromSynchronizationIssue(annotation, proposals));
 		}
 
 		// Adding all provided quick-fixes
@@ -105,9 +107,12 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 	 * 
 	 * @param annotation
 	 *            the annotation containing a synchronization status
+	 * @param currentlyComputedProposals
+	 *            the proposals that have already been calculated
 	 * @return the proposals according to the given annotation containing a synchronization status
 	 */
-	private List<ICompletionProposal> computeProposalsFromSynchronizationIssue(IntentAnnotation annotation) {
+	private List<ICompletionProposal> computeProposalsFromSynchronizationIssue(IntentAnnotation annotation,
+			List<ICompletionProposal> currentlyComputedProposals) {
 		List<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
 		SynchronizerCompilationStatus status = (SynchronizerCompilationStatus)annotation
 				.getCompilationStatus();
@@ -125,8 +130,17 @@ public class IntentQuickAssistProcessor implements IQuickAssistProcessor {
 				proposals.add(new CreateResourceFix(annotation));
 			}
 		} else {
-			proposals.add(new EMFCompareFix(annotation));
-			proposals.add(new UpdateModelingUnitFix(annotation));
+			// Only adding one EMFcompareFix per sync. status target
+			if (!Iterables.filter(currentlyComputedProposals, EMFCompareFix.class).iterator().hasNext()) {
+				proposals.add(new EMFCompareFix(annotation));
+			}
+			// If the sync. status target is an ExternalContentReference, only adding one
+			// UpdateModelingUnitFix
+			if (!(status.getTarget() instanceof ExternalContentReference)
+					|| !Iterables.filter(currentlyComputedProposals, UpdateModelingUnitFix.class).iterator()
+							.hasNext()) {
+				proposals.add(new UpdateModelingUnitFix(annotation));
+			}
 		}
 		return proposals;
 	}
