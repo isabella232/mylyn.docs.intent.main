@@ -79,10 +79,10 @@ public class EMFCompareFix extends AbstractIntentFix {
 		}
 
 		// Step 2: prepare compare dialog configuration
-		final Comparison comparison = EMFCompareUtils.compare(docElement, workingCopyElement);
-		final CompareConfiguration compareConfig = new IntentCompareConfiguration(docElement,
-				workingCopyElement);
-		ICompareEditingDomain domain = EMFCompareEditingDomain.create(docElement, workingCopyElement, null);
+		final Comparison comparison = EMFCompareUtils.compare(workingCopyElement, docElement);
+		final CompareConfiguration compareConfig = new IntentCompareConfiguration(workingCopyElement,
+				docElement);
+		ICompareEditingDomain domain = EMFCompareEditingDomain.create(workingCopyElement, docElement, null);
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
 				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		CompareEditorInput input = new ComparisonEditorInput(compareConfig, comparison, domain,
