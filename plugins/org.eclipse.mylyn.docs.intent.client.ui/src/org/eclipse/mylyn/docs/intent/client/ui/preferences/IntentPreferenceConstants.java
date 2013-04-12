@@ -34,16 +34,6 @@ public interface IntentPreferenceConstants {
 	String TEXT_WRAP = "org.eclipse.mylyn.docs.intent.client.ui.preferences.text_wrap";
 
 	/**
-	 * Indicates whether matching brackets should be displayed.
-	 */
-	String MATCHING_BRACKETS = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets";
-
-	/**
-	 * When matching brackets are displayed, specifies their color.
-	 */
-	String MATCHING_BRACKETS_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets_color";
-
-	/**
 	 * Indicates whether Modeling units should be initially collapsed in the Intent editor.
 	 */
 	String COLLAPSE_MODELING_UNITS = "org.eclipse.mylyn.docs.intent.client.ui.preferences.collapse_mu";
@@ -52,6 +42,16 @@ public interface IntentPreferenceConstants {
 	 * Indicates whether the Intent editor should display the preview page.
 	 */
 	String SHOW_PREVIEW_PAGE = "org.eclipse.mylyn.docs.intent.client.ui.preferences.show_preview_page";
+
+	/**
+	 * Indicates whether matching brackets should be displayed.
+	 */
+	String MATCHING_BRACKETS = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets";
+
+	/**
+	 * When matching brackets are displayed, specifies their color.
+	 */
+	String MATCHING_BRACKETS_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets_color";
 
 	/*
 	 * Drag and drop preferences.

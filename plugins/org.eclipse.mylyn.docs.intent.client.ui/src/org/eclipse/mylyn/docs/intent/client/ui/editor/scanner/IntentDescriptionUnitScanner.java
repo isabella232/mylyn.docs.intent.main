@@ -15,9 +15,9 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jface.text.TextAttribute;
+import org.eclipse.jface.text.rules.EndOfLineRule;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.rules.WhitespaceRule;
@@ -52,7 +52,7 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 		Color backgroundColor = colorManager.getColor(IntentColorConstants.getDuBackground());
 
 		Color defaultforeGroundColor = colorManager.getColor(IntentColorConstants.getDuDefaultForeground());
-		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, backgroundColor, SWT.NONE,
+		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, null, SWT.NONE,
 				IntentFontConstants.getDescriptionFont()));
 
 		Color keyWordForeGroundColor = colorManager.getColor(IntentColorConstants.getDuKeywordForeground());
@@ -62,10 +62,10 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 
 		setDefaultReturnToken(defaultToken);
 		List<IRule> rules = new ArrayList<IRule>();
+		rules.addAll(computeCustomRules(defaultforeGroundColor));
 		rules.add(computeKeyWordRule(defaultToken, keyWordToken));
 		rules.addAll(computeStringRules(stringforeGroundColor));
 		rules.add(new WhitespaceRule(new IntentWhiteSpaceDetector()));
-		rules.addAll(computeCustomRules(defaultforeGroundColor));
 		setRules(rules.toArray(new IRule[rules.size()]));
 	}
 
@@ -91,7 +91,6 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 		IToken stringToken = new Token(new TextAttribute(stringforeGroundColor, null, SWT.ITALIC));
 		List<IRule> rules = new ArrayList<IRule>();
 		rules.add(new SingleLineRule("\"", "\"", stringToken, '\\'));
-		rules.add(new MultiLineRule("'", "'", stringToken, '\\'));
 		return rules;
 	}
 
@@ -100,12 +99,41 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 	 * 
 	 * @return a list containing all the rules
 	 */
-	private Collection<? extends IRule> computeCustomRules(Color stringforeGroundColor) {
+	private Collection<? extends IRule> computeCustomRules(Color foreGroundColor) {
 		List<IRule> rules = new ArrayList<IRule>();
-		rules.add(new SingleLineRule("_", "_", new Token(new TextAttribute(stringforeGroundColor, null,
-				SWT.ITALIC)), '\\'));
-		rules.add(new SingleLineRule("*", "*", new Token(new TextAttribute(stringforeGroundColor, null,
-				SWT.BOLD)), '\\'));
+		// Italic
+		rules.add(new SingleLinePatternRule("_", "_", new Token(new TextAttribute(foreGroundColor, null,
+				SWT.ITALIC))));
+		rules.add(new SingleLinePatternRule("__", "__", new Token(new TextAttribute(foreGroundColor, null,
+				SWT.ITALIC))));
+		// Bold
+		rules.add(new SingleLinePatternRule("*", "*", new Token(new TextAttribute(foreGroundColor, null,
+				SWT.BOLD))));
+		rules.add(new SingleLinePatternRule("**", "**", new Token(new TextAttribute(foreGroundColor, null,
+				SWT.BOLD))));
+		// Underline
+		rules.add(new SingleLinePatternRule("+", "+", new Token(new TextAttribute(foreGroundColor, null,
+				TextAttribute.UNDERLINE, IntentFontConstants.getDescriptionFont()))));
+		rules.add(new SingleLinePatternRule("-", "-", new Token(new TextAttribute(foreGroundColor, null,
+				TextAttribute.STRIKETHROUGH, IntentFontConstants.getDescriptionFont()))));
+		// Lists
+		rules.add(new EndOfLineRule("#", new Token(new TextAttribute(foreGroundColor, null, SWT.NONE)), '\\'));
+		rules.add(new EndOfLineRule("*", new Token(new TextAttribute(foreGroundColor, null, SWT.NONE,
+				IntentFontConstants.getDescriptionFont())), '\\'));
+		// Other font decorations
+		rules.add(new SingleLinePatternRule("^", "^", new Token(new TextAttribute(foreGroundColor, null,
+				SWT.ITALIC))));
+		rules.add(new SingleLinePatternRule("%", "%", new Token(new TextAttribute(foreGroundColor, null,
+				SWT.ITALIC))));
+		rules.add(new SingleLinePatternRule("??", "??", new Token(new TextAttribute(foreGroundColor, null,
+				SWT.ITALIC))));
+		rules.add(new SingleLinePatternRule("@", "@", new Token(new TextAttribute(colorManager
+				.getColor(IntentColorConstants.getMuStringForeground()), null, SWT.NONE, IntentFontConstants
+				.getModelingUnitFont()))));
+
+		// Images
+		rules.add(new SingleLinePatternRule("!", "!", new Token(new TextAttribute(foreGroundColor, null,
+				SWT.NONE, IntentFontConstants.getModelingUnitFont()))));
 		return rules;
 	}
 
@@ -118,5 +146,4 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 	public String getConfiguredContentType() {
 		return IntentPartitionScanner.INTENT_DESCRIPTIONUNIT;
 	}
-
 }
