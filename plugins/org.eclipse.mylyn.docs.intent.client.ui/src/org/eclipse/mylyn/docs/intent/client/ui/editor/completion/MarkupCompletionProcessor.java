@@ -45,13 +45,13 @@ public class MarkupCompletionProcessor extends AbstractIntentCompletionProcessor
 		proposals.add(createFontDecorationProposal("Emphasis", "_"));
 		proposals.add(createFontDecorationProposal("Strong", "*"));
 		proposals.add(createFontDecorationProposal("Image", "!", "imagePath", true));
-		proposals.add(createFontDecorationProposal("List (buletted)", "*"));
-		proposals.add(createFontDecorationProposal("List (numeric)", "#"));
+		proposals.add(createFontDecorationProposal("List (buletted)", "*", "", false));
+		proposals.add(createFontDecorationProposal("List (numeric)", "#", "", false));
 		proposals.add(createFontDecorationProposal("Code", "@"));
 		proposals.add(createFontDecorationProposal("Italic", "__"));
 		proposals.add(createFontDecorationProposal("Bold", "**"));
-		proposals.add(createFontDecorationProposal("List (level 2, buletted)", "*"));
-		proposals.add(createFontDecorationProposal("List (level 2, numeric)", "#"));
+		proposals.add(createFontDecorationProposal("List (level 2, buletted)", "**", "", false));
+		proposals.add(createFontDecorationProposal("List (level 2, numeric)", "##", "", false));
 		proposals.add(createFontDecorationProposal("Citation", "??"));
 		proposals.add(createFontDecorationProposal("Deleted", "-"));
 		proposals.add(createFontDecorationProposal("Inserted", "+"));
