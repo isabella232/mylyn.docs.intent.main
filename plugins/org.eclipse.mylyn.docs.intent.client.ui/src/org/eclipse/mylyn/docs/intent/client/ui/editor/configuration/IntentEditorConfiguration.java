@@ -35,6 +35,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentDescriptionU
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentModelingUnitScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentStructuredElementScanner;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.ui.editors.text.TextSourceViewerConfiguration;
 
 /**
@@ -147,21 +148,27 @@ public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
 	@Override
 	public IContentAssistant getContentAssistant(ISourceViewer sourceViewer) {
 		ContentAssistant ca = new ContentAssistant();
-		final IntentCompletionProcessor intentDefaultCompletionProcessor = new IntentCompletionProcessor(
-				editor.getBlockMatcher());
-		ca.setContentAssistProcessor(intentDefaultCompletionProcessor,
-				IntentPartitionScanner.INTENT_DESCRIPTIONUNIT);
-		ca.setContentAssistProcessor(intentDefaultCompletionProcessor,
-				IntentPartitionScanner.INTENT_STRUCTURAL_CONTENT);
 
 		if (editor.getDocumentProvider() instanceof IntentDocumentProvider
 				&& ((IntentDocumentProvider)editor.getDocumentProvider()).getListenedElementsHandler() != null) {
-			final ModelingUnitCompletionProcessor modelingUnitCompletionProcessor = new ModelingUnitCompletionProcessor(
-					((IntentDocumentProvider)editor.getDocumentProvider()).getListenedElementsHandler()
-							.getRepositoryAdapter());
+			RepositoryAdapter repositoryAdapter = ((IntentDocumentProvider)editor.getDocumentProvider())
+					.getListenedElementsHandler().getRepositoryAdapter();
 
+			// Completion for structural content (new Chapters, sections...)
+			// and for description units
+			final IntentCompletionProcessor intentDefaultCompletionProcessor = new IntentCompletionProcessor(
+					editor.getBlockMatcher(), repositoryAdapter);
+			ca.setContentAssistProcessor(intentDefaultCompletionProcessor,
+					IntentPartitionScanner.INTENT_STRUCTURAL_CONTENT);
+			ca.setContentAssistProcessor(intentDefaultCompletionProcessor,
+					IntentPartitionScanner.INTENT_DESCRIPTIONUNIT);
+
+			// Completion for modeling units
+			final ModelingUnitCompletionProcessor modelingUnitCompletionProcessor = new ModelingUnitCompletionProcessor(
+					repositoryAdapter);
 			ca.setContentAssistProcessor(modelingUnitCompletionProcessor,
 					IntentPartitionScanner.INTENT_MODELINGUNIT);
+
 		}
 
 		ca.setInformationControlCreator(getInformationControlCreator(sourceViewer));

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.completion;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,11 +19,13 @@ import java.util.regex.Pattern;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentPairMatcher;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.IntentPartitionScanner;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 
 /**
  * Computes the completion proposals.
@@ -68,14 +72,22 @@ public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor
 
 	private IntentPairMatcher blockMatcher;
 
+	private MarkupCompletionProcessor markupCompletionProcessor;
+
+	private DescriptionUnitCompletionProcessor descriptionUnitCompletionProcessor;
+
 	/**
 	 * Creates a new {@link IntentCompletionProcessor} with the given {@link IntentPairMatcher}.
 	 * 
 	 * @param matcher
 	 *            the block matcher
+	 * @param repositoryAdapter
 	 */
-	public IntentCompletionProcessor(IntentPairMatcher matcher) {
+	public IntentCompletionProcessor(IntentPairMatcher matcher, RepositoryAdapter repositoryAdapter) {
+		super(repositoryAdapter);
 		this.blockMatcher = matcher;
+		this.markupCompletionProcessor = new MarkupCompletionProcessor(repositoryAdapter);
+		this.descriptionUnitCompletionProcessor = new DescriptionUnitCompletionProcessor(repositoryAdapter);
 	}
 
 	/**
@@ -102,6 +114,23 @@ public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor
 			}
 		}
 		accurateContext = res;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.completion.AbstractIntentCompletionProcessor#computeCompletionProposals(org.eclipse.jface.text.ITextViewer,
+	 *      int)
+	 */
+	@Override
+	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int currentOffset) {
+		ArrayList<ICompletionProposal> proposals = Lists.newArrayList();
+		proposals.addAll(Lists.newArrayList(super.computeCompletionProposals(viewer, currentOffset)));
+		proposals.addAll(Lists.newArrayList(descriptionUnitCompletionProcessor.computeCompletionProposals(
+				viewer, currentOffset)));
+		proposals.addAll(Lists.newArrayList(markupCompletionProcessor.computeCompletionProposals(viewer,
+				currentOffset)));
+		return proposals.toArray(new ICompletionProposal[proposals.size()]);
 	}
 
 	/**

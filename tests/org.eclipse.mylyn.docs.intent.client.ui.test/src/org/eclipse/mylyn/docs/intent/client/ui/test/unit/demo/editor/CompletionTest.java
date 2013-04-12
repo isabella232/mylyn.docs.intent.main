@@ -95,25 +95,26 @@ public class CompletionTest extends AbstractIntentUITest {
 		 */
 		// inside a document
 		proposals = getCompletionProposals(12);
-		assertEquals(1, proposals.length);
+		int numberOfMarkupProposals = 15;
+		assertEquals(1 + numberOfMarkupProposals, proposals.length);
 		assertEquals(TEMPLATE_DESC_CHAPTER, proposals[0].getDisplayString());
 		proposals = getCompletionProposals(15);
-		assertEquals(2, proposals.length);
+		assertEquals(2 + numberOfMarkupProposals, proposals.length);
 		assertEquals(KW_CHAPTER, proposals[0].getDisplayString());
 		assertEquals(TEMPLATE_DESC_CHAPTER, proposals[1].getDisplayString());
 
 		// inside a chapter
 		proposals = getCompletionProposals(741);
-		assertEquals(1, proposals.length);
+		assertEquals(1 + numberOfMarkupProposals, proposals.length);
 		assertEquals(TEMPLATE_DESC_SECTION, proposals[0].getDisplayString());
 		proposals = getCompletionProposals(745);
-		assertEquals(2, proposals.length);
+		assertEquals(2 + numberOfMarkupProposals, proposals.length);
 		assertEquals(KW_SECTION, proposals[0].getDisplayString());
 		assertEquals(TEMPLATE_DESC_SECTION, proposals[1].getDisplayString());
 
 		// inside a section
 		proposals = getCompletionProposals(773);
-		assertEquals(2, proposals.length);
+		assertEquals(2 + numberOfMarkupProposals, proposals.length);
 		assertEquals(TEMPLATE_DESC_SECTION, proposals[0].getDisplayString());
 		assertEquals(TEMPLATE_DESC_MU, proposals[1].getDisplayString());
 

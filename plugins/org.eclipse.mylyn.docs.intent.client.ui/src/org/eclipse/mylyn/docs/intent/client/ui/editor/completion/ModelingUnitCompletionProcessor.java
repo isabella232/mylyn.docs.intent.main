@@ -65,8 +65,6 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 
 	private TraceabilityInformationsQuery traceabilityInfoQuery;
 
-	private RepositoryAdapter repositoryAdapter;
-
 	/**
 	 * Creates the completion processor.
 	 * 
@@ -74,7 +72,7 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 	 *            the repository adapter
 	 */
 	public ModelingUnitCompletionProcessor(RepositoryAdapter repositoryAdapter) {
-		this.repositoryAdapter = repositoryAdapter;
+		super(repositoryAdapter);
 	}
 
 	/**

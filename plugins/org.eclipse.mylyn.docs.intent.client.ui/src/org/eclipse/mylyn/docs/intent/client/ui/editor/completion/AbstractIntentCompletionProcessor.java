@@ -30,6 +30,7 @@ import org.eclipse.jface.text.templates.TemplateContextType;
 import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -61,6 +62,21 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	 * The current indentation.
 	 */
 	private String indentation;
+
+	/**
+	 * The repository adapter to use to query the documentation.
+	 */
+	protected RepositoryAdapter repositoryAdapter;
+
+	/**
+	 * Default constructor.
+	 * 
+	 * @param repositoryAdapter
+	 *            the repository adapter
+	 */
+	public AbstractIntentCompletionProcessor(RepositoryAdapter repositoryAdapter) {
+		this.repositoryAdapter = repositoryAdapter;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -225,7 +241,10 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 		TemplateContext context = new DocumentTemplateContext(type, document, offset - startLength,
 				startLength);
 		Region region = new Region(offset - startLength, startLength);
-		Image image = IntentEditorActivator.getDefault().getImage(templateImagePath);
+		Image image = null;
+		if (templateImagePath != null) {
+			image = IntentEditorActivator.getDefault().getImage(templateImagePath);
+		}
 		return new TemplateProposal(template, context, region, image);
 	}
 
