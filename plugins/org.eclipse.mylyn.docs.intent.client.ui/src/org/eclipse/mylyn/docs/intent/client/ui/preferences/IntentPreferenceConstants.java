@@ -48,10 +48,27 @@ public interface IntentPreferenceConstants {
 	 */
 	String MATCHING_BRACKETS = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets";
 
+	/*
+	 * Colors preferences.
+	 */
 	/**
 	 * When matching brackets are displayed, specifies their color.
 	 */
 	String MATCHING_BRACKETS_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets_color";
+
+	String MU_KEYWORD_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.mu_keyword_color";
+
+	String MU_DEFAULT_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.mu_default_color";
+
+	String STRING_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.string_color";
+
+	String DU_KEYWORD_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.du_keyword_color";
+
+	String DU_DEFAULT_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.du_default_color";
+
+	String DU_TITLE_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.du_title_color";
+
+	String DU_LIST_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.du_list_color";
 
 	/*
 	 * Drag and drop preferences.

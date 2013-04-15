@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.configuration;
 
+import org.eclipse.jface.preference.PreferenceConverter;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.swt.graphics.RGB;
 
 /**
@@ -24,12 +27,6 @@ public final class IntentColorConstants {
 	// ----------------------------------
 	private static final RGB MU_BACKGROUND = new RGB(221, 221, 221);
 
-	private static final RGB MU_KEYWORD_FOREGROUND = new RGB(139, 10, 80);
-
-	private static final RGB MU_DEFAULT_FOREGROUND = new RGB(0, 0, 0);
-
-	private static final RGB MU_STRING_FOREGROUND = new RGB(0, 0, 180);
-
 	private static final RGB MU_DECORATION_LINE_FOREGROUND = new RGB(84, 84, 84);
 
 	private static final RGB MU_DECORATION_BACKGROUND = new RGB(195, 195, 195);
@@ -40,12 +37,6 @@ public final class IntentColorConstants {
 	// Color constant for DECRIPTION UNITS
 	// ----------------------------------
 	private static final RGB DU_BACKGROUND = new RGB(255, 255, 255);
-
-	private static final RGB DU_KEYWORD_FOREGROUND = new RGB(139, 10, 80);
-
-	private static final RGB DU_DEFAULT_FOREGROUND = new RGB(0, 0, 0);
-
-	private static final RGB DU_TITLE_FOREGROUND = new RGB(0, 0, 0);
 
 	/**
 	 * IntentColorConstant constructor.
@@ -66,15 +57,31 @@ public final class IntentColorConstants {
 	}
 
 	public static RGB getDuDefaultForeground() {
-		return DU_DEFAULT_FOREGROUND;
+		return getRGBFromPreferences(IntentPreferenceConstants.DU_DEFAULT_FOREGROUND);
 	}
 
 	public static RGB getDuKeywordForeground() {
-		return DU_KEYWORD_FOREGROUND;
+		return getRGBFromPreferences(IntentPreferenceConstants.DU_KEYWORD_FOREGROUND);
 	}
 
 	public static RGB getDuTitleForeground() {
-		return DU_TITLE_FOREGROUND;
+		return getRGBFromPreferences(IntentPreferenceConstants.DU_TITLE_FOREGROUND);
+	}
+
+	public static RGB getDUListForeground() {
+		return getRGBFromPreferences(IntentPreferenceConstants.DU_LIST_FOREGROUND);
+	}
+
+	public static RGB getMuDefaultForeground() {
+		return getRGBFromPreferences(IntentPreferenceConstants.MU_DEFAULT_COLOR);
+	}
+
+	public static RGB getMuKeywordForeground() {
+		return getRGBFromPreferences(IntentPreferenceConstants.MU_KEYWORD_COLOR);
+	}
+
+	public static RGB getMuStringForeground() {
+		return getRGBFromPreferences(IntentPreferenceConstants.STRING_COLOR);
 	}
 
 	public static RGB getMuBackground() {
@@ -93,16 +100,10 @@ public final class IntentColorConstants {
 		return MU_DECORATION_LINE_WIDTH;
 	}
 
-	public static RGB getMuDefaultForeground() {
-		return MU_DEFAULT_FOREGROUND;
-	}
+	private static RGB getRGBFromPreferences(String preferenceKey) {
+		return PreferenceConverter.getColor(IntentEditorActivator.getDefault().getPreferenceStore(),
+				preferenceKey);
 
-	public static RGB getMuKeywordForeground() {
-		return MU_KEYWORD_FOREGROUND;
-	}
-
-	public static RGB getMuStringForeground() {
-		return MU_STRING_FOREGROUND;
 	}
 
 }
