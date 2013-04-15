@@ -20,7 +20,6 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.SimpleOrderTest
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.editor.CompletionTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.hyperlink.IntentHyperLinkDetetectorTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.java.JavaResourceFactoryTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.refresher.RefresherTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.repository.IntentURITest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario.CompilerNotificationsTest;
@@ -102,7 +101,7 @@ public class IntentPluginTestSuite extends TestCase {
 		// TODO: reactivate this test once the IntentWorkspaceRepositoryStructurer will be modified to
 		// correctly split the Intent Document
 		// basicTestSuite.addTestSuite(IntentRepositoryStructurerTest.class);
-		basicTestSuite.addTestSuite(ProjectTest.class);
+		// basicTestSuite.addTestSuite(ProjectTest.class);
 		basicTestSuite.addTestSuite(RefresherTest.class);
 		basicTestSuite.addTestSuite(ChangeEditorUpdateTest.class);
 		basicTestSuite.addTestSuite(SimpleOrderTests.class);
