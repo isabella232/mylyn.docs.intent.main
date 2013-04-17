@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.IRegion;
@@ -106,7 +106,7 @@ public class IntentMultiPageEditor extends MultiPageEditorPart implements Intent
 	}
 
 	private boolean shouldDisplayPreviewPage() {
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		IEclipsePreferences node = ConfigurationScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
 		return node.getBoolean(IntentPreferenceConstants.SHOW_PREVIEW_PAGE, false);
 	}
 

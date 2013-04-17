@@ -40,7 +40,7 @@ public class IntentURITest extends AbstractIntentUITest {
 	 * Ensures that {@link URI}s of the form 'intent:/' return the expected content. Also checks error cases.
 	 */
 	public void testIntentURIHandlerOnIntentDocument() {
-		setUpIntentProject("intentProject", "data/unit/documents/scenario/abstract_resources.intent");
+		setUpIntentProject("intentProject", "data/unit/documents/scenario/abstract_resources.intent", true);
 		ResourceSetImpl rs = new ResourceSetImpl();
 
 		// Check 1: URI like intent:/intentProject should return a Resource containing the intent document

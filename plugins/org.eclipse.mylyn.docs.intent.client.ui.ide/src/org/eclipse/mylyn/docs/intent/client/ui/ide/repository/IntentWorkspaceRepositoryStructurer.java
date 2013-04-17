@@ -19,8 +19,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
@@ -84,7 +84,7 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 		IntentDocument document = new IntentDocumentQuery(workspaceAdapter).getOrCreateIntentDocument();
 
 		// We save a textual back-up of the document
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		IEclipsePreferences node = ConfigurationScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
 		boolean backUpModeIsActive = node.getBoolean(IntentPreferenceConstants.ACTIVATE_BACKUP, false);
 		if (backUpModeIsActive) {
 			saveTextualSerialization(workspaceAdapter, document);

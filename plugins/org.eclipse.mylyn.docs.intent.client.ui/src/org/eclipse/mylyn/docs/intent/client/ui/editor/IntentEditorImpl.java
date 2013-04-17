@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -562,7 +562,8 @@ public class IntentEditorImpl extends TextEditor implements IntentEditor {
 	 * @return true if text-wrap should be activated, false otherwise
 	 */
 	private boolean isTextWrapActivated() {
-		IEclipsePreferences preferences = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		IEclipsePreferences preferences = ConfigurationScope.INSTANCE
+				.getNode(IntentEditorActivator.PLUGIN_ID);
 		return preferences.getBoolean(IntentPreferenceConstants.TEXT_WRAP, false);
 	}
 }

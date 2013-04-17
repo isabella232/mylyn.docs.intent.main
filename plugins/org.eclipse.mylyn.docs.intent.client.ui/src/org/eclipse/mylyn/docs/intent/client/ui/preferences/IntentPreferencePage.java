@@ -21,7 +21,6 @@ import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
-import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorImpl;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentEditorConfiguration;
@@ -59,7 +58,17 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 
 	public static final String LINK_DROPPED_ELEMENTS_USING_EXTERNAL_REFERENCES = "Link dropped elements using External References";
 
-	private static final String INTENT_PREVIEW_EXAMPLE = "Section Title {\n\t Default text \n\t\"Strings\"\n\t* lists\n\t@M\n\t\tnew Element{}\n\tM@\n}";
+	private static final String INTENT_PREVIEW_EXAMPLE = "Section Title {\n\t Default text \n\t\"Strings\"\n\t* lists\n\t!images!\n\t\n\t@M\n\t\tnew Element{}\n\tM@\n}";
+
+	private RefreshPreviewEditorListener refreshPreviewEditorListener;
+
+	private SourceViewer sourceViewer;
+
+	private IntentEditorConfiguration viewerConfiguration;
+
+	private IDocumentPartitioner partitioner;
+
+	private IntentEditorImpl editor;
 
 	/**
 	 * {@inheritDoc}
@@ -150,6 +159,9 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		ColorFieldEditor textColor = new ColorFieldEditor(IntentPreferenceConstants.DU_DEFAULT_FOREGROUND,
 				"Text color", colorComposite);
 		addField(textColor);
+		ColorFieldEditor codeColor = new ColorFieldEditor(IntentPreferenceConstants.CODE_FOREGROUND,
+				"Code color", colorComposite);
+		addField(codeColor);
 		ColorFieldEditor duKeyWordColor = new ColorFieldEditor(
 				IntentPreferenceConstants.DU_KEYWORD_FOREGROUND, "Keyword color", colorComposite);
 		addField(duKeyWordColor);
@@ -172,13 +184,8 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		IntentEditorDocument document = createIntentPreviewViewer(colorComposite);
 
 		// Add change listener so that preview is refreshed when changing a color
-		bracketsColor.getColorSelector().addListener(new RefreshPreviewEditorListener(document));
-		stringColor.getColorSelector().addListener(new RefreshPreviewEditorListener(document));
-		duKeyWordColor.getColorSelector().addListener(new RefreshPreviewEditorListener(document));
-		titleColor.getColorSelector().addListener(new RefreshPreviewEditorListener(document));
-		listColor.getColorSelector().addListener(new RefreshPreviewEditorListener(document));
-		muDefaultColor.getColorSelector().addListener(new RefreshPreviewEditorListener(document));
-		muKeywordColor.getColorSelector().addListener(new RefreshPreviewEditorListener(document));
+		this.refreshPreviewEditorListener = new RefreshPreviewEditorListener(document);
+		getPreferenceStore().addPropertyChangeListener(refreshPreviewEditorListener);
 		return colorComposite;
 	}
 
@@ -259,21 +266,21 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 	 * @return a source viewer allowing to preview an Intent document (to see impact of color changes)
 	 */
 	private IntentEditorDocument createIntentPreviewViewer(Composite parent) {
-		IntentEditor editor = new IntentEditorImpl();
+		editor = new IntentEditorImpl();
 		IntentEditorDocument document = new IntentEditorDocument(editor);
-		IDocumentPartitioner partitioner = new FastPartitioner(new IntentPartitionScanner(),
+		partitioner = new FastPartitioner(new IntentPartitionScanner(),
 				IntentPartitionScanner.LEGAL_CONTENT_TYPES);
 		partitioner.connect(document);
 		document.setDocumentPartitioner(partitioner);
 
-		IntentEditorConfiguration viewerConfiguration = new IntentEditorConfiguration(editor, null);
+		viewerConfiguration = new IntentEditorConfiguration(editor, null);
 		int styles = SWT.V_SCROLL;
 		styles |= SWT.H_SCROLL;
 		styles |= SWT.MULTI;
 		styles |= SWT.BORDER;
 		styles |= SWT.FULL_SELECTION;
 		new Label(parent, SWT.NONE);
-		SourceViewer sourceViewer = new SourceViewer(parent, null, null, false, styles);
+		sourceViewer = new SourceViewer(parent, null, null, false, styles);
 		StyledText styledText = sourceViewer.getTextWidget();
 		styledText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		sourceViewer.configure(viewerConfiguration);
@@ -382,6 +389,18 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 			for (int i = 0; i < children.length; i++) {
 				children[i].setBounds(rect);
 			}
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#dispose()
+	 */
+	@Override
+	public void dispose() {
+		if (refreshPreviewEditorListener != null) {
+			getPreferenceStore().removePropertyChangeListener(refreshPreviewEditorListener);
 		}
 	}
 

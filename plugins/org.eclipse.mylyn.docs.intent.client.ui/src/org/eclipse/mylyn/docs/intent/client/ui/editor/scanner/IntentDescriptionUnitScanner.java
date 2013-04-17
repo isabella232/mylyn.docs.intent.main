@@ -129,12 +129,13 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 		rules.add(new SingleLinePatternRule("??", "??", new Token(new TextAttribute(foreGroundColor, null,
 				SWT.ITALIC))));
 		rules.add(new SingleLinePatternRule("@", "@", new Token(new TextAttribute(colorManager
-				.getColor(IntentColorConstants.getMuStringForeground()), null, SWT.NONE, IntentFontConstants
+				.getColor(IntentColorConstants.getCodeForeground()), null, SWT.NONE, IntentFontConstants
 				.getModelingUnitFont()))));
 
 		// Images
-		rules.add(new SingleLinePatternRule("!", "!", new Token(new TextAttribute(foreGroundColor, null,
-				SWT.NONE, IntentFontConstants.getModelingUnitFont()))));
+		rules.add(new SingleLinePatternRule("!", "!", new Token(new TextAttribute(colorManager
+				.getColor(IntentColorConstants.getCodeForeground()), null, SWT.NONE, IntentFontConstants
+				.getModelingUnitFont()))));
 		return rules;
 	}
 

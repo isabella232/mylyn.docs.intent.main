@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
@@ -233,7 +234,7 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 	 * @return true if the pop-up should be displayed, false otherwise
 	 */
 	private boolean shouldDisplayDropModePopUp() {
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
+		IEclipsePreferences node = ConfigurationScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
 				.getBundle().getSymbolicName());
 		return node.getBoolean(IntentPreferenceConstants.DND_DISPLAY_POP_UP, true);
 	}
@@ -245,7 +246,7 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 	 * @return true if we should use external content references to link the dropped elements, false otherwise
 	 */
 	private boolean shouldUseExternalContentReferencesDropMode() {
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
+		IEclipsePreferences node = ConfigurationScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
 				.getBundle().getSymbolicName());
 		return node.getBoolean(IntentPreferenceConstants.DND_USE_EXTERNAL_REFERENCES, true);
 	}

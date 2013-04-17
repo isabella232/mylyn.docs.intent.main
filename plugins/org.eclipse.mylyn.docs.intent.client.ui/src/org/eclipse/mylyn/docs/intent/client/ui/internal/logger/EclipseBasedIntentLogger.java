@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.internal.logger;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
@@ -48,12 +49,12 @@ public class EclipseBasedIntentLogger implements IIntentLogger, IPreferenceChang
 	public EclipseBasedIntentLogger() {
 		// Step 1: register a preference change listener so that if user decide to activate/deactive advanced
 		// logging, this logger can be notified
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
-				.getBundle().getSymbolicName());
+		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
 		if (node != null) {
 			node.addPreferenceChangeListener(this);
 
 			// Step 2 : initializing the shouldDisplayLifecycleInformations according to preferences
+			node = ConfigurationScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
 			shouldDisplayLifecycleInformations = node.getBoolean(
 					IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, false);
 		} else {

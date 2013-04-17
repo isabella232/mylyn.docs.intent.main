@@ -176,6 +176,9 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	protected final void registerRepositoryListener() {
 		this.repositoryListener = new RepositoryListenerForTests();
+		// Changing preferences : activating logging
+		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		node.putBoolean(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, true);
 		Platform.addLogListener(repositoryListener);
 	}
 
@@ -233,8 +236,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			}
 
 			// Step 3: registering the repository listener
-			registerRepositoryListener();
-			repositoryListener.clearPreviousEntries();
+			if (listenForRepository) {
+				registerRepositoryListener();
+				repositoryListener.clearPreviousEntries();
+			}
 
 			// Step 4: additional setup operations
 			additionalSetUpOperations();
@@ -601,8 +606,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * Additional operations performed at the end of set-up.
 	 */
 	protected void additionalSetUpOperations() {
-		// waiting for synchronizer to pass
-		waitForSynchronizer();
+		if (this.repositoryListener != null) {
+			// waiting for synchronizer to pass
+			waitForSynchronizer();
+		}
 	}
 
 	/**

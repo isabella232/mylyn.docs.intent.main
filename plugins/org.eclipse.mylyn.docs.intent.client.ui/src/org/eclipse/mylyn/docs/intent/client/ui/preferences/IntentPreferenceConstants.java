@@ -70,6 +70,8 @@ public interface IntentPreferenceConstants {
 
 	String DU_LIST_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.du_list_color";
 
+	String CODE_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.code";
+
 	/*
 	 * Drag and drop preferences.
 	 */

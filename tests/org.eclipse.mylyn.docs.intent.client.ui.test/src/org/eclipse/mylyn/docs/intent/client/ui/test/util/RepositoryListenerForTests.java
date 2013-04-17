@@ -19,10 +19,6 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
-import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
-import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 
 /**
  * A listener used to detect if an event happened or not on the repository.
@@ -62,11 +58,6 @@ public class RepositoryListenerForTests implements ILogListener {
 	 */
 	public void clearPreviousEntries() {
 		isRecording = true;
-		// Changing preferences : activating logging
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
-				.getBundle().getSymbolicName());
-		node.putBoolean(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, true);
-
 		clientsMessages.clear();
 		clientsMessages.put("Indexer", Lists.<String> newArrayList());
 		clientIdentifierToEndMessage.put("Indexer", "Index saved");

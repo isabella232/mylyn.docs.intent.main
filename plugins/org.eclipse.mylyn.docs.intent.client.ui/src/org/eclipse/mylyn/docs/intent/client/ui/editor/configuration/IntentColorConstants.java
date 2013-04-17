@@ -84,6 +84,10 @@ public final class IntentColorConstants {
 		return getRGBFromPreferences(IntentPreferenceConstants.STRING_COLOR);
 	}
 
+	public static RGB getCodeForeground() {
+		return getRGBFromPreferences(IntentPreferenceConstants.CODE_FOREGROUND);
+	}
+
 	public static RGB getMuBackground() {
 		return MU_BACKGROUND;
 	}

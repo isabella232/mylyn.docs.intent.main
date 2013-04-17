@@ -11,8 +11,8 @@
 package org.eclipse.mylyn.docs.intent.client.ui.preferences;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
+import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.resource.StringConverter;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.swt.graphics.RGB;
@@ -41,6 +41,8 @@ public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 
 	private static final RGB DU_LIST_COLOR = new RGB(84, 84, 84);
 
+	private static final RGB CODE_COLOR = STRING_COLOR;
+
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -48,25 +50,55 @@ public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 	 */
 	@Override
 	public void initializeDefaultPreferences() {
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
-		node.put(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, Boolean.FALSE.toString());
-		node.put(IntentPreferenceConstants.ACTIVATE_BACKUP, Boolean.FALSE.toString());
-		node.put(IntentPreferenceConstants.TEXT_WRAP, Boolean.TRUE.toString());
-		node.put(IntentPreferenceConstants.COLLAPSE_MODELING_UNITS, Boolean.FALSE.toString());
-		node.put(IntentPreferenceConstants.MATCHING_BRACKETS, Boolean.TRUE.toString());
-		node.put(IntentPreferenceConstants.SHOW_PREVIEW_PAGE, Boolean.TRUE.toString());
-		node.put(IntentPreferenceConstants.DND_DISPLAY_POP_UP, Boolean.FALSE.toString());
-		node.put(IntentPreferenceConstants.DND_USE_EXTERNAL_REFERENCES, Boolean.TRUE.toString());
+		IEclipsePreferences defaultScope = DefaultScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING,
+				Boolean.FALSE.toString());
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.ACTIVATE_BACKUP, Boolean.FALSE.toString());
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.TEXT_WRAP, Boolean.TRUE.toString());
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.COLLAPSE_MODELING_UNITS,
+				Boolean.FALSE.toString());
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.MATCHING_BRACKETS,
+				Boolean.TRUE.toString());
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.SHOW_PREVIEW_PAGE,
+				Boolean.TRUE.toString());
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.DND_DISPLAY_POP_UP,
+				Boolean.FALSE.toString());
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.DND_USE_EXTERNAL_REFERENCES,
+				Boolean.TRUE.toString());
 
 		// Colors
-		node.put(IntentPreferenceConstants.MATCHING_BRACKETS_COLOR,
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.MATCHING_BRACKETS_COLOR,
 				StringConverter.asString(MATCHING_BRACKET_COLOR));
-		node.put(IntentPreferenceConstants.DU_DEFAULT_FOREGROUND, StringConverter.asString(DU_DEFAULT_COLOR));
-		node.put(IntentPreferenceConstants.DU_KEYWORD_FOREGROUND, StringConverter.asString(DU_KEYWORD_COLOR));
-		node.put(IntentPreferenceConstants.DU_TITLE_FOREGROUND, StringConverter.asString(DU_TITLE_COLOR));
-		node.put(IntentPreferenceConstants.DU_LIST_FOREGROUND, StringConverter.asString(DU_LIST_COLOR));
-		node.put(IntentPreferenceConstants.MU_DEFAULT_COLOR, StringConverter.asString(MU_DEFAULT_COLOR));
-		node.put(IntentPreferenceConstants.MU_KEYWORD_COLOR, StringConverter.asString(MU_KEYWORD_COLOR));
-		node.put(IntentPreferenceConstants.STRING_COLOR, StringConverter.asString(STRING_COLOR));
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.DU_DEFAULT_FOREGROUND,
+				StringConverter.asString(DU_DEFAULT_COLOR));
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.DU_KEYWORD_FOREGROUND,
+				StringConverter.asString(DU_KEYWORD_COLOR));
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.DU_TITLE_FOREGROUND,
+				StringConverter.asString(DU_TITLE_COLOR));
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.DU_LIST_FOREGROUND,
+				StringConverter.asString(DU_LIST_COLOR));
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.MU_DEFAULT_COLOR,
+				StringConverter.asString(MU_DEFAULT_COLOR));
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.MU_KEYWORD_COLOR,
+				StringConverter.asString(MU_KEYWORD_COLOR));
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.STRING_COLOR,
+				StringConverter.asString(STRING_COLOR));
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.CODE_FOREGROUND,
+				StringConverter.asString(CODE_COLOR));
+
+	}
+
+	/**
+	 * Sets the default value for the preference with the given id.
+	 * 
+	 * @param defaultScope
+	 *            default preference node
+	 * @param prefKey
+	 *            the preference key
+	 * @param defaultValue
+	 *            the default value for this preference
+	 */
+	private void setDefaultPrefValue(IEclipsePreferences defaultScope, String prefKey, String defaultValue) {
+		defaultScope.put(prefKey, defaultValue);
 	}
 }
