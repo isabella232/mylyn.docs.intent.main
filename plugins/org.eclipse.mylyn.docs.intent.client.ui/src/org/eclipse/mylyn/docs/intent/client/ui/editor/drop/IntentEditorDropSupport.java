@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
@@ -29,6 +28,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.renderers.IEditorRendererExtension;
 import org.eclipse.mylyn.docs.intent.client.ui.internal.renderers.IEditorRendererExtensionRegistry;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceService;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -234,9 +234,7 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 	 * @return true if the pop-up should be displayed, false otherwise
 	 */
 	private boolean shouldDisplayDropModePopUp() {
-		IEclipsePreferences node = ConfigurationScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
-				.getBundle().getSymbolicName());
-		return node.getBoolean(IntentPreferenceConstants.DND_DISPLAY_POP_UP, true);
+		return IntentPreferenceService.getBoolean(IntentPreferenceConstants.DND_DISPLAY_POP_UP);
 	}
 
 	/**
@@ -246,8 +244,6 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 	 * @return true if we should use external content references to link the dropped elements, false otherwise
 	 */
 	private boolean shouldUseExternalContentReferencesDropMode() {
-		IEclipsePreferences node = ConfigurationScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
-				.getBundle().getSymbolicName());
-		return node.getBoolean(IntentPreferenceConstants.DND_USE_EXTERNAL_REFERENCES, true);
+		return IntentPreferenceService.getBoolean(IntentPreferenceConstants.DND_USE_EXTERNAL_REFERENCES);
 	}
 }

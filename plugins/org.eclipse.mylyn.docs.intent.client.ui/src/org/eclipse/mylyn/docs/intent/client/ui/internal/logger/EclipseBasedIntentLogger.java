@@ -13,7 +13,6 @@ package org.eclipse.mylyn.docs.intent.client.ui.internal.logger;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.IPreferenceChangeListener;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent;
@@ -21,6 +20,7 @@ import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceService;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.swt.widgets.Display;
@@ -54,9 +54,8 @@ public class EclipseBasedIntentLogger implements IIntentLogger, IPreferenceChang
 			node.addPreferenceChangeListener(this);
 
 			// Step 2 : initializing the shouldDisplayLifecycleInformations according to preferences
-			node = ConfigurationScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
-			shouldDisplayLifecycleInformations = node.getBoolean(
-					IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, false);
+			shouldDisplayLifecycleInformations = IntentPreferenceService
+					.getBoolean(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING);
 		} else {
 			getBundleLogger().log(
 					new Status(IStatus.WARNING, IntentEditorActivator.EDITOR_ID,

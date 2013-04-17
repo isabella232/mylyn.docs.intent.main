@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.IRegion;
@@ -30,6 +28,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager
 import org.eclipse.mylyn.docs.intent.client.ui.editor.outline.IntentQuickOutlineControl;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceService;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
@@ -106,8 +105,7 @@ public class IntentMultiPageEditor extends MultiPageEditorPart implements Intent
 	}
 
 	private boolean shouldDisplayPreviewPage() {
-		IEclipsePreferences node = ConfigurationScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
-		return node.getBoolean(IntentPreferenceConstants.SHOW_PREVIEW_PAGE, false);
+		return IntentPreferenceService.getBoolean(IntentPreferenceConstants.SHOW_PREVIEW_PAGE);
 	}
 
 	private String getHTMLPreviewURL() {

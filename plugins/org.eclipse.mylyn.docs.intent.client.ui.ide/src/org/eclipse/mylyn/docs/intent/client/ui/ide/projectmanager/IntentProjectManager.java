@@ -13,8 +13,6 @@ package org.eclipse.mylyn.docs.intent.client.ui.ide.projectmanager;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.mylyn.docs.intent.client.compiler.launcher.CompilerCreator;
 import org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection.CompilerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
@@ -23,13 +21,13 @@ import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolver
 import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
-import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.generatedelementlistener.IDEGeneratedElementListener;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.ProjectExplorerRefresher;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceService;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
@@ -136,10 +134,8 @@ public final class IntentProjectManager {
 				}
 
 				// Exporter client: no need to create it if preview page is hidden in the intent editor
-				IEclipsePreferences node = ConfigurationScope.INSTANCE
-						.getNode(IntentEditorActivator.PLUGIN_ID);
-				boolean shouldDisplayPReviewPage = node.getBoolean(
-						IntentPreferenceConstants.SHOW_PREVIEW_PAGE, false);
+				boolean shouldDisplayPReviewPage = IntentPreferenceService
+						.getBoolean(IntentPreferenceConstants.SHOW_PREVIEW_PAGE);
 				if (shouldDisplayPReviewPage && exporterClient == null) {
 					exporterClient = IntentExporterClientCreator.createIntentExporterClient(repository);
 				}

@@ -19,12 +19,10 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceService;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
@@ -84,8 +82,8 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 		IntentDocument document = new IntentDocumentQuery(workspaceAdapter).getOrCreateIntentDocument();
 
 		// We save a textual back-up of the document
-		IEclipsePreferences node = ConfigurationScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
-		boolean backUpModeIsActive = node.getBoolean(IntentPreferenceConstants.ACTIVATE_BACKUP, false);
+		boolean backUpModeIsActive = IntentPreferenceService
+				.getBoolean(IntentPreferenceConstants.ACTIVATE_BACKUP);
 		if (backUpModeIsActive) {
 			saveTextualSerialization(workspaceAdapter, document);
 		}

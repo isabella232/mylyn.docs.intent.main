@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.preferences.ConfigurationScope;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.dnd.LocalTransfer;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -56,6 +54,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.scanner.ModelingUnitDecora
 import org.eclipse.mylyn.docs.intent.client.ui.internal.renderers.IEditorRendererExtensionRegistry;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceService;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
@@ -562,8 +561,6 @@ public class IntentEditorImpl extends TextEditor implements IntentEditor {
 	 * @return true if text-wrap should be activated, false otherwise
 	 */
 	private boolean isTextWrapActivated() {
-		IEclipsePreferences preferences = ConfigurationScope.INSTANCE
-				.getNode(IntentEditorActivator.PLUGIN_ID);
-		return preferences.getBoolean(IntentPreferenceConstants.TEXT_WRAP, false);
+		return IntentPreferenceService.getBoolean(IntentPreferenceConstants.TEXT_WRAP);
 	}
 }
