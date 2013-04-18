@@ -12,6 +12,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.builder;
 
+import com.google.common.collect.Sets;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,11 +26,18 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.projectmanager.IntentProjectManager;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * A {@link IResourceChangeListener} that reacts to the creation or opening of Intent projects by creating
@@ -156,6 +166,41 @@ public class IntentProjectListener implements IResourceChangeListener {
 	 */
 	public void handleClosedProject(IProject project) {
 		IntentProjectManager projectManager = getIntentProjectManager(project);
+		// Closing all intent editors opened of this project
+		IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if (activeWorkbenchWindow == null && PlatformUI.getWorkbench().getWorkbenchWindowCount() == 1) {
+			activeWorkbenchWindow = PlatformUI.getWorkbench().getWorkbenchWindows()[0];
+		}
+		if (activeWorkbenchWindow != null) {
+			final IWorkbenchPage activePage = activeWorkbenchWindow.getActivePage();
+			if (activePage != null) {
+				final Collection<IEditorReference> activeEditorsToClose = Sets.newLinkedHashSet();
+				for (IEditorReference activeEditor : activePage.getEditorReferences()) {
+					try {
+						if (activeEditor.getEditorInput() instanceof IntentEditorInput) {
+							if (project.getName().equals(
+									((IntentEditorInput)activeEditor.getEditorInput()).getRepository()
+											.getIdentifier())) {
+								activeEditorsToClose.add(activeEditor);
+							}
+						}
+					} catch (PartInitException e) {
+						// Silent catch
+					}
+				}
+				Display.getDefault().asyncExec(new Runnable() {
+
+					public void run() {
+						activePage.closeEditors(activeEditorsToClose
+								.toArray(new IEditorReference[activeEditorsToClose.size()]), false);
+					}
+
+				});
+
+			}
+		}
+
+		// Closing project manager
 		if (projectManager != null) { // should not happen
 			try {
 				projectManager.disconnect();
