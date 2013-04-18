@@ -187,9 +187,17 @@ th.specalt {
 <pre>[content.toHTML()/]</pre>[/template]
 
 [template public toHTML(e : List)  ]
+[if (e.listType = ListType::NUMERIC)]
+<ol>
+[else]
 <ul>
+[/if]
 [content.toHTML()/] [items.toHTML()/]	
+[if (e.listType = ListType::NUMERIC)]
+</ol>
+[else]
 </ul>
+[/if]
 [/template]
 
 [template public toHTML(e : Table)]
@@ -208,7 +216,23 @@ th.specalt {
 [/template]
 
 [template public toHTML(e : ListItem)  ]
-	<li>[e.items.toHTML()/][content.toHTML()/]</li>	
+	[if (content->size() > 0)] 
+	<li>[content.toHTML()/]</li>	
+	[/if]
+	[if (e.items->size() > 0)]
+		[if (e.listType = ListType::NUMERIC)]
+		<ol>
+		[else]
+		<ul>
+		[/if]
+			[e.items.toHTML()/]	
+		[if (e.listType = ListType::NUMERIC)]
+		</ol>
+		[else]
+		</ul>
+		[/if]
+	
+	[/if]
 [/template]
 
 [template public toHTML(e : Quote)  ]
