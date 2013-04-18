@@ -106,7 +106,10 @@ public final class IntentAcceleoServices {
 	}
 
 	public static String getIndex(IntentStructuredElement structuredElement) {
-		String index = structuredElement.getCompleteLevel().replace(".", "_");
+		String index = "";
+		if (structuredElement.getCompleteLevel() != null) {
+			index = structuredElement.getCompleteLevel().replace(".", "_");
+		}
 		return index;
 	}
 

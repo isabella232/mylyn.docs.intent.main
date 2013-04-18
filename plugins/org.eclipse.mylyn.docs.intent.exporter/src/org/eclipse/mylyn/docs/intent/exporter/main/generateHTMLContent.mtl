@@ -133,6 +133,18 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 </li>
 [/template]
 
+[template public generateHTMLContent(externalContent : ExternalContentReference)]
+<li class="jstree-open">
+	[if (externalContent.externalContent->size() >0)]
+	<img src="[getQualifiedImageId(externalContent.externalContent)/]"/>
+	[/if]
+
+	[if externalContent.uri->isEmpty()._not()]
+		(<i>Reference to</i> <code style="color:blue; border:0px solid black;">[externalContent.uri.toString()/])</code>
+	[/if]
+</li>
+[/template]
+
 [template public generateHTMLContent(resourceDeclaration : ResourceDeclaration)]
 <li class="jstree-open">
 	<img src="../icons/modelingunit_resource.gif"/>

@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.channels.FileChannel;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -68,21 +67,28 @@ public class CopyImageUtils {
 		// Step 1: getting the image URL thanks to the item delegator
 		Object imageURL = getImageURL(any);
 
-		if (imageURL instanceof URL && any instanceof EClassifier) {
+		if (imageURL instanceof URL) {
 			try {
 				// Step 2: resolve URL
 				URL resolvedURL = FileLocator.resolve((URL)imageURL);
+				EClassifier classifier = null;
+				if (any instanceof EClassifier) {
+					classifier = (EClassifier)any;
+				} else {
+					classifier = any.eClass();
+				}
+
 				// If default "Item" image has been
 				if (resolvedURL.toString().contains("org.eclipse.emf.edit")
 						&& resolvedURL.toString().endsWith("/icons/full/obj16/Item.gif")) {
 					// we search for an "edit" plugin in the workspace
-					if ((imageURL = getImageFromWorkspace((EClassifier)any, repositoryAdapter)) != null) {
+					if ((imageURL = getImageFromWorkspace(classifier, repositoryAdapter)) != null) {
 						resolvedURL = (URL)imageURL;
 					}
 				}
 
 				// Step 3: copy image in the exported documentation
-				qualifiedImageID = copyImageIfNeeded((EClassifier)any, outputFolder, resolvedURL,
+				qualifiedImageID = copyImageIfNeeded(classifier, outputFolder, resolvedURL,
 						resolvedURL.openStream());
 			} catch (IOException e) {
 				IntentUiLogger.logError(e);
@@ -155,7 +161,7 @@ public class CopyImageUtils {
 		if (any instanceof EClass) {
 			EObject instance = ((EClassifier)any).getEPackage().getEFactoryInstance().create((EClass)any);
 			imageURL = getItemDelegator(any).getImage(instance);
-		} else if (any instanceof EClassifier) {
+		} else {
 			imageURL = getItemDelegator(any).getImage(any);
 		}
 
