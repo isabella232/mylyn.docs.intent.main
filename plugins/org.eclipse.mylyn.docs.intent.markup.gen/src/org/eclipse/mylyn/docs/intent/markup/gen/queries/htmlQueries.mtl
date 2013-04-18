@@ -9,3 +9,7 @@
 [query public fileName(d : GenHtmlDocument) : String = 
   eResourceName().replace('textile','html')
 /]
+
+[query public copyImageAndGetPath(img : Image) : String = 
+invoke('org.eclipse.mylyn.docs.intent.markup.gen.services.ImageServices', 'copyImage(org.eclipse.mylyn.docs.intent.markup.markup.Image)', Sequence{img})
+/]

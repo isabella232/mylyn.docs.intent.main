@@ -21,6 +21,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.markup.gen.services.ImageServices;
 
 /**
  * Regroups all services use during doc export.
@@ -123,6 +124,9 @@ public final class IntentAcceleoServices {
 		outputFolder = generationOutputFolder;
 		shouldShowTableOfContents = showTableOfContents;
 		repositoryAdapter = adapter;
+		ImageServices.setDestinationFolder(outputFolder.getAbsolutePath());
+		ImageServices.setRelativeURLBase(repositoryAdapter.getRepository().getRepositoryLocation());
+		ImageServices.setImageFolderRelativePath("images");
 	}
 
 	public static void dispose() {

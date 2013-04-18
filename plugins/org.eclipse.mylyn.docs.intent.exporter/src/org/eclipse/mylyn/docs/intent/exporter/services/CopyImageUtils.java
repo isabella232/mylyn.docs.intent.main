@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.exporter.services;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -38,6 +37,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
+import org.eclipse.mylyn.docs.intent.markup.gen.services.ImageServices;
 
 /**
  * Utility class allowing to determine the images associated to some EObject, and copy them inside the
@@ -192,38 +192,11 @@ public class CopyImageUtils {
 		new File(outputFolder.getAbsolutePath() + "/icons/generated/" + classifier.getEPackage().getName())
 				.mkdirs();
 		if (!targetFile.exists()) {
-			copyFile(sourceStream, targetFile);
+			ImageServices.copyFile(sourceStream, targetFile);
 		}
 		String copiedImagePath = targetFile.getAbsolutePath().toString();
 		String outputFolderPath = outputFolder.getAbsolutePath();
 		return "../" + copiedImagePath.substring(outputFolderPath.length());
-	}
-
-	private static void copyFile(final InputStream sourceStream, final File destFile) throws IOException {
-		if (!destFile.exists()) {
-			destFile.createNewFile();
-		}
-
-		FileOutputStream outputStream = new FileOutputStream(destFile);
-		try {
-			byte[] buf = new byte[1024];
-
-			int len;
-
-			while ((len = sourceStream.read(buf)) > 0) {
-
-				outputStream.write(buf, 0, len);
-
-			}
-
-			sourceStream.close();
-
-			outputStream.close();
-		} finally {
-			if (sourceStream != null) {
-				sourceStream.close();
-			}
-		}
 	}
 
 	/**

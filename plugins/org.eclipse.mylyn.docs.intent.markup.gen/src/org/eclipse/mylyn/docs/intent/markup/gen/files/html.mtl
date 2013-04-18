@@ -246,7 +246,7 @@ th.specalt {
 
 
 [template public toHTML(e : Image)  ] 
-	<p><img src="[e.url/]"/></p>
+	<p><img src="[e.copyImageAndGetPath()/]"/></p>
 [/template]
 
 [template public toHTML(e : Text)  ]
