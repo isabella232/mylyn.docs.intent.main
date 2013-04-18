@@ -284,12 +284,8 @@ th.specalt {
 &[e.data/]; 
 [/template]
 
-[template public toHTML(e : Link) ?(e.hasBeenDeclaredWithHTMLSyntax and e.target <> null) ]
-<a href="[e.hrefOrHashName/]">[e.name/]</a>	
-[/template]
-
-[template public toHTML(e : Link) ?(not e.hasBeenDeclaredWithHTMLSyntax and e.target <> null) ]
-<span>->[e.name.toHTML()/]</span>
+[template public toHTML(e : Link)]
+<a href="[e.hrefOrHashName/]">[e.name.toHTML()/]</a>	
 [/template]
 
 
