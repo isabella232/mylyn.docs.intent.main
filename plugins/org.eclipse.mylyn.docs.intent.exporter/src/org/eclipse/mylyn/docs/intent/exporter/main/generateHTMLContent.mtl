@@ -89,11 +89,15 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 
 
 [template public generateHTMLContent(modelingUnit :ModelingUnit, index : String )]
+[if (not(shouldDisplayExternalRefInline()))]
 <div  class="mu" id="index">
 	<ul>
-		[modelingUnit.instructions.generateHTMLContent()->sep(lineSeparator())/]
+[/if]
+[modelingUnit.instructions.generateHTMLContent()->sep(lineSeparator())/]
+[if (not(shouldDisplayExternalRefInline()))]
 	</ul>
 </div>
+[/if]
 [/template]
 
 [template public generateHTMLContent(instancation : InstanciationInstruction)]
@@ -134,6 +138,11 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 [/template]
 
 [template public generateHTMLContent(externalContent : ExternalContentReference)]
+[if shouldDisplayExternalRefInline()]
+	[if (externalContent.externalContent->size() >0)]
+	see <a href="[externalContent.uri.toString()/]"> <img src="[getQualifiedImageId(externalContent.externalContent)/]"/> [getName(externalContent)/]</a><br/>
+	[/if]
+[else]
 <li class="jstree-open">
 	[if (externalContent.externalContent->size() >0)]
 	<img src="[getQualifiedImageId(externalContent.externalContent)/]"/>
@@ -143,6 +152,7 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 		(<i>Reference to</i> <code style="color:blue; border:0px solid black;">[externalContent.uri.toString()/])</code>
 	[/if]
 </li>
+[/if]
 [/template]
 
 [template public generateHTMLContent(resourceDeclaration : ResourceDeclaration)]

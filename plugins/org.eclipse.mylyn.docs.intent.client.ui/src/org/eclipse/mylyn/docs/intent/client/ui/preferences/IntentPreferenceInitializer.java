@@ -51,19 +51,13 @@ public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 	@Override
 	public void initializeDefaultPreferences() {
 		IEclipsePreferences defaultScope = DefaultScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
-		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING,
-				Boolean.FALSE.toString());
-		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.ACTIVATE_BACKUP, Boolean.FALSE.toString());
+		// Appearance
 		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.TEXT_WRAP, Boolean.TRUE.toString());
 		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.COLLAPSE_MODELING_UNITS,
 				Boolean.FALSE.toString());
 		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.MATCHING_BRACKETS,
 				Boolean.TRUE.toString());
 		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.SHOW_PREVIEW_PAGE,
-				Boolean.TRUE.toString());
-		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.DND_DISPLAY_POP_UP,
-				Boolean.FALSE.toString());
-		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.DND_USE_EXTERNAL_REFERENCES,
 				Boolean.TRUE.toString());
 
 		// Colors
@@ -85,6 +79,21 @@ public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 				StringConverter.asString(STRING_COLOR));
 		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.CODE_FOREGROUND,
 				StringConverter.asString(CODE_COLOR));
+
+		// Drag and drop
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.DND_DISPLAY_POP_UP,
+				Boolean.FALSE.toString());
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.DND_USE_EXTERNAL_REFERENCES,
+				Boolean.TRUE.toString());
+
+		// Export
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.EXPORT_DISPLAY_REFERENCES_INLINE,
+				Boolean.FALSE.toString());
+
+		// Other
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING,
+				Boolean.FALSE.toString());
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.ACTIVATE_BACKUP, Boolean.FALSE.toString());
 
 	}
 

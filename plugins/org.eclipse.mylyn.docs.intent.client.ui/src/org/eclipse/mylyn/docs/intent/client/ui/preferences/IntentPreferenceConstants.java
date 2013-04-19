@@ -18,14 +18,6 @@ package org.eclipse.mylyn.docs.intent.client.ui.preferences;
 public interface IntentPreferenceConstants {
 
 	/*
-	 * Logging-relative preferences
-	 */
-	/**
-	 * When advanced logging is active, each Intent repository client logs its activity.
-	 */
-	String ACTIVATE_ADVANCE_LOGGING = "org.eclipse.mylyn.docs.intent.client.ui.preferences.advanced_logging";
-
-	/*
 	 * UI-relative preferences.
 	 */
 	/**
@@ -89,9 +81,23 @@ public interface IntentPreferenceConstants {
 	 */
 	String DND_USE_EXTERNAL_REFERENCES = "org.eclipse.mylyn.docs.intent.client.ui.preferences.dnd_use_external_refs";
 
+	/*
+	 * Export preferences.
+	 */
+
+	String EXPORT_DISPLAY_REFERENCES_INLINE = "org.eclipse.mylyn.docs.intent.client.ui.preferences.export_display_references_inline";
+
+	/*
+	 * Other preferences.
+	 */
 	/**
 	 * Indicates if Intent should perform a textual back-up of the Intent documents.
 	 */
 	String ACTIVATE_BACKUP = "org.eclipse.mylyn.docs.intent.client.ui.preferences.activate_backup";
+
+	/**
+	 * When advanced logging is active, each Intent repository client logs its activity.
+	 */
+	String ACTIVATE_ADVANCE_LOGGING = "org.eclipse.mylyn.docs.intent.client.ui.preferences.advanced_logging";
 
 }

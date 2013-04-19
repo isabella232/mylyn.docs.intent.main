@@ -13,7 +13,12 @@ package org.eclipse.mylyn.docs.intent.exporter.services;
 import java.io.File;
 import java.util.Collection;
 
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.IItemLabelProvider;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceService;
 import org.eclipse.mylyn.docs.intent.collab.common.query.TraceabilityInformationsQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
@@ -21,6 +26,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.markup.gen.services.ImageServices;
 
 /**
@@ -39,6 +45,8 @@ public final class IntentAcceleoServices {
 	private static TraceabilityIndex traceabilityIndex;
 
 	private static boolean shouldShowTableOfContents;
+
+	private static ComposedAdapterFactory adapterFactory;
 
 	/**
 	 * Returns the header size to apply to the section with the given ID. For example,
@@ -106,6 +114,36 @@ public final class IntentAcceleoServices {
 		return traceabilityIndex;
 	}
 
+	/**
+	 * Indicates whether ExternalContentReference should be displayed inline or not (according to intent
+	 * preferences).
+	 * 
+	 * @return true {@link ExternalContentReference} should be displayed inline or not (according to intent
+	 *         preferences), false otherwise
+	 */
+	public static boolean shouldDisplayExternalRefInline() {
+		return IntentPreferenceService.getBoolean(IntentPreferenceConstants.EXPORT_DISPLAY_REFERENCES_INLINE);
+	}
+
+	/**
+	 * Returns the name to display for an {@link ExternalContentReference}.
+	 * 
+	 * @param ref
+	 *            the {@link ExternalContentReference}
+	 * @return the name to display for an {@link ExternalContentReference}
+	 */
+	public static String getName(ExternalContentReference ref) {
+		String displayedName = ref.getUri().toString();
+		if (ref.getExternalContent() != null) {
+			Adapter labelProvider = getAdapterFactory().adapt(ref.getExternalContent(),
+					IItemLabelProvider.class);
+			if (labelProvider instanceof IItemLabelProvider) {
+				displayedName = ((IItemLabelProvider)labelProvider).getText(ref.getExternalContent());
+			}
+		}
+		return displayedName;
+	}
+
 	public static String getIndex(IntentStructuredElement structuredElement) {
 		String index = "";
 		if (structuredElement.getCompleteLevel() != null) {
@@ -131,10 +169,18 @@ public final class IntentAcceleoServices {
 
 	public static void dispose() {
 		CopyImageUtils.dispose();
+		adapterFactory.dispose();
+		adapterFactory = null;
 		outputFolder = null;
 		repositoryAdapter = null;
 		traceabilityIndex = null;
 		repositoryAdapter = null;
 	}
 
+	private static ComposedAdapterFactory getAdapterFactory() {
+		if (adapterFactory == null) {
+			adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		}
+		return adapterFactory;
+	}
 }

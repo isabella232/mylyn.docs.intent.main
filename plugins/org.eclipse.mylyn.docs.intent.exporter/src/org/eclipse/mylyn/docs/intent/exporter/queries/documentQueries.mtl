@@ -30,3 +30,10 @@ invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 
 [query public shouldShowTableOfContents() : Boolean = 
 invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'shouldShowTableOfContents()', Sequence{})
 /]
+
+[query public shouldDisplayExternalRefInline() : Boolean = 
+invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'shouldDisplayExternalRefInline()', Sequence{})
+/]
+[query public getName(externalContent : ExternalContentReference) : String = 
+invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getName(org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference)', Sequence{externalContent})
+/]

@@ -154,19 +154,23 @@ public class JavaClassExplorer {
 						method.getJavadocRange().getLength());
 			}
 			String methodContentWithoutDeclaration = methodContentWithoutJavaDoc.trim();
-			methodContentWithoutDeclaration = methodContentWithoutJavaDoc
-					.substring(methodContentWithoutJavaDoc.indexOf("{") + 1);
-			methodContentWithoutDeclaration = methodContentWithoutDeclaration.substring(0,
-					methodContentWithoutDeclaration.lastIndexOf("}")).trim();
 
-			// Normalize line delimiters and tabulations
-			String methodContent = "";
-			String[] methodLines = methodContentWithoutDeclaration.split("\n");
-			for (int i = 0; i < methodLines.length; i++) {
-				methodContent += methodLines[i].trim().replace("\t", "") + "\n";
+			if (methodContentWithoutDeclaration.contains("{")
+					&& methodContentWithoutDeclaration.contains("}")) {
+				methodContentWithoutDeclaration = methodContentWithoutJavaDoc
+						.substring(methodContentWithoutJavaDoc.indexOf("{") + 1);
+				methodContentWithoutDeclaration = methodContentWithoutDeclaration.substring(0,
+						methodContentWithoutDeclaration.lastIndexOf("}")).trim();
+
+				// Normalize line delimiters and tabulations
+				String methodContent = "";
+				String[] methodLines = methodContentWithoutDeclaration.split("\n");
+				for (int i = 0; i < methodLines.length; i++) {
+					methodContent += methodLines[i].trim().replace("\t", "") + "\n";
+				}
+				methodContent = methodContent.trim();
+				eMethod.setContent(methodContent);
 			}
-			methodContent = methodContent.trim();
-			eMethod.setContent(methodContent);
 		}
 		eMethod.setName(getMethodID(method));
 		return eMethod;

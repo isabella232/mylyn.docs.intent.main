@@ -104,6 +104,10 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		item.setControl(createUIBehaviorPage(folder));
 
 		item = new TabItem(folder, SWT.NONE);
+		item.setText("Export");
+		item.setControl(createCodeGenerationPage(folder));
+
+		item = new TabItem(folder, SWT.NONE);
 		item.setText("Other");
 		item.setControl(createOtherPage(folder));
 	}
@@ -204,6 +208,15 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 				LINK_DROPPED_ELEMENTS_USING_EXTERNAL_REFERENCES,
 				"There are 2 ways of linking dropped elements (see documentation for further details)",
 				dragAndDropGroup));
+		return composite;
+	}
+
+	private Control createCodeGenerationPage(Composite parent) {
+		Composite composite = createComposite(parent);
+
+		addField(createBooleanFieldEditor(IntentPreferenceConstants.EXPORT_DISPLAY_REFERENCES_INLINE,
+				"Display references inline", "Intent Export should display references to artifacts inline",
+				composite));
 		return composite;
 	}
 

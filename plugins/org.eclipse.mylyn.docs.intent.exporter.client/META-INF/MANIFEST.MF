@@ -8,5 +8,6 @@ Require-Bundle: org.eclipse.mylyn.docs.intent.exporter,
  org.eclipse.mylyn.docs.intent.collab,
  org.eclipse.mylyn.docs.intent.collab.common,
  org.eclipse.ui,
- org.eclipse.mylyn.docs.intent.exporter.ui
+ org.eclipse.mylyn.docs.intent.exporter.ui,
+ org.eclipse.mylyn.docs.intent.client.ui
 Export-Package: org.eclipse.mylyn.docs.intent.exporter.client
