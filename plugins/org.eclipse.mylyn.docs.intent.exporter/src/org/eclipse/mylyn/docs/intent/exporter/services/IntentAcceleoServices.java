@@ -169,7 +169,9 @@ public final class IntentAcceleoServices {
 
 	public static void dispose() {
 		CopyImageUtils.dispose();
-		adapterFactory.dispose();
+		if (adapterFactory != null) {
+			adapterFactory.dispose();
+		}
 		adapterFactory = null;
 		outputFolder = null;
 		repositoryAdapter = null;
