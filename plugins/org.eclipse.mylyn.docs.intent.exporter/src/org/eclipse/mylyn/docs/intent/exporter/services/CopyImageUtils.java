@@ -158,7 +158,7 @@ public class CopyImageUtils {
 	private static Object getImageURL(EObject any) {
 		Object imageURL = null;
 		// Step 1: getting the image URL thanks to the item delegator
-		if (any instanceof EClass) {
+		if (any instanceof EClass && ((EClassifier)any).getEPackage() != null) {
 			EObject instance = ((EClassifier)any).getEPackage().getEFactoryInstance().create((EClass)any);
 			imageURL = getItemDelegator(any).getImage(instance);
 		} else {
@@ -185,12 +185,14 @@ public class CopyImageUtils {
 
 	private static String copyImageIfNeeded(EClassifier classifier, File outputFolder, URL imageURL,
 			InputStream sourceStream) throws IOException {
-		File targetFile = new File(outputFolder.getAbsolutePath() + "/icons/generated/"
-				+ classifier.getEPackage().getName()
+		String packageName = "";
+		if (classifier.getEPackage() != null) {
+			packageName = classifier.getEPackage().getName();
+		}
+		File targetFile = new File(outputFolder.getAbsolutePath() + "/icons/generated/" + packageName
 				+ imageURL.getFile().substring(imageURL.getFile().lastIndexOf('/')));
 		// create folders if needed :
-		new File(outputFolder.getAbsolutePath() + "/icons/generated/" + classifier.getEPackage().getName())
-				.mkdirs();
+		new File(outputFolder.getAbsolutePath() + "/icons/generated/" + packageName).mkdirs();
 		if (!targetFile.exists()) {
 			ImageServices.copyFile(sourceStream, targetFile);
 		}

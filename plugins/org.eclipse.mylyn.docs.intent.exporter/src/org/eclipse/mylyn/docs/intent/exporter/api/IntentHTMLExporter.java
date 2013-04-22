@@ -44,6 +44,8 @@ import org.osgi.framework.Bundle;
  */
 public class IntentHTMLExporter {
 
+	private HTMLBootstrapGenDocument generator;
+
 	/**
 	 * Creates an HTML export of the Intent document located inside the given intent project.
 	 * 
@@ -77,9 +79,9 @@ public class IntentHTMLExporter {
 			// Disabling acceleo graphical notification mechanism to avoid pop-ups display
 			boolean oldNotificationsPref = AcceleoPreferences.areNotificationsForcedDisabled();
 			AcceleoPreferences.switchForceDeactivationNotifications(true);
-			HTMLBootstrapGenDocument generator = new HTMLBootstrapGenDocument(intentElement, targetFolder,
-					new ArrayList<Object>());
-			generator.doGenerate(progressMonitor, documentName, showTableOfContents, repositoryAdapter);
+
+			getAcceleoGenerator(intentElement, targetFolder).doGenerate(progressMonitor, documentName,
+					showTableOfContents, repositoryAdapter);
 			AcceleoPreferences.switchForceDeactivationNotifications(oldNotificationsPref);
 
 			// Step 4: make sure that the target folder contains all required resources (css,
@@ -95,6 +97,17 @@ public class IntentHTMLExporter {
 		} catch (ReadOnlyException e) {
 			IntentUiLogger.logError(e);
 		}
+	}
+
+	private HTMLBootstrapGenDocument getAcceleoGenerator(IntentStructuredElement intentElement,
+			File targetFolder) throws IOException {
+		if (generator == null) {
+			generator = new HTMLBootstrapGenDocument(intentElement, targetFolder, new ArrayList<Object>());
+		} else {
+			generator.setModel(intentElement);
+			generator.setTargetFolder(targetFolder);
+		}
+		return generator;
 	}
 
 	/**
