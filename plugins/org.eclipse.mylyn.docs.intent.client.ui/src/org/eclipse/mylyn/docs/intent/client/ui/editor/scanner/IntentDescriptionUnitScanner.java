@@ -118,8 +118,8 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 				TextAttribute.STRIKETHROUGH, IntentFontConstants.getDescriptionFont()))));
 		// Lists
 		Color listColor = colorManager.getColor(IntentColorConstants.getDUListForeground());
-		rules.add(new EndOfLineRule("#", new Token(new TextAttribute(listColor, null, SWT.NONE)), '\\'));
-		rules.add(new EndOfLineRule("*", new Token(new TextAttribute(listColor, null, SWT.NONE,
+		rules.add(new EndOfLineRule("# ", new Token(new TextAttribute(listColor, null, SWT.NONE)), '\\'));
+		rules.add(new EndOfLineRule("* ", new Token(new TextAttribute(listColor, null, SWT.NONE,
 				IntentFontConstants.getDescriptionFont())), '\\'));
 		// Other font decorations
 		rules.add(new SingleLinePatternRule("^", "^", new Token(new TextAttribute(foreGroundColor, null,

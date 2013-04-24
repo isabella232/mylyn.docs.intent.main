@@ -60,6 +60,10 @@ public class UpdateModelingUnitFix extends AbstractIntentFix {
 							.setMarkedAsMerged(true);
 				}
 			});
+			// Remove sync. annotation
+			document.getIntentEditor().getDocumentProvider().getAnnotationModel(null)
+					.removeAnnotation(syncAnnotation);
+
 			// Mark document as dirty
 			try {
 				document.replace(0, 0, "");
