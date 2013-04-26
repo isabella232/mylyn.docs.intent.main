@@ -87,7 +87,7 @@ public final class IntentHelper {
 	 */
 	public static boolean containsElement(IntentGenericElement root, IntentGenericElement searchedElement) {
 		boolean containsElement = root == searchedElement;
-		if (!containsElement) {
+		if (!containsElement && root != null) {
 			Iterator<EObject> containedElementsIterator = root.eContents().iterator();
 			while (!containsElement && containedElementsIterator.hasNext()) {
 				EObject containedElement = containedElementsIterator.next();

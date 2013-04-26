@@ -300,7 +300,8 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 					}
 				}
 			}
-			if (matchingTraceabilityEntry != null) {
+			if (matchingTraceabilityEntry != null
+					&& matchingTraceabilityEntry.getResourceDeclaration() != null) {
 				// Step 2: get the working copy resource URI from the resource declaration (if any)
 				if (matchingTraceabilityEntry.getResourceDeclaration().getUri() != null) {
 					workingCopyResourceURI = URI.createURI(matchingTraceabilityEntry.getResourceDeclaration()

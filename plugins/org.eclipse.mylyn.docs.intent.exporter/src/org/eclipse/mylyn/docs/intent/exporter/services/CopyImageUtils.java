@@ -88,8 +88,10 @@ public class CopyImageUtils {
 				}
 
 				// Step 3: copy image in the exported documentation
-				qualifiedImageID = copyImageIfNeeded(classifier, outputFolder, resolvedURL,
-						resolvedURL.openStream());
+				if (resolvedURL != null) {
+					qualifiedImageID = copyImageIfNeeded(classifier, outputFolder, resolvedURL,
+							resolvedURL.openStream());
+				}
 			} catch (IOException e) {
 				IntentUiLogger.logError(e);
 			}
