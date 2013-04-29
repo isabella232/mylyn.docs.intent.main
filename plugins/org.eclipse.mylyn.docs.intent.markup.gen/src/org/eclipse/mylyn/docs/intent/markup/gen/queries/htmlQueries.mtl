@@ -4,7 +4,7 @@
 
 
 [query public eResourceName(cur : OclAny) : String =
-  invoke('org.eclipse.mylyn.docs.intent.markup.gen.services.ResourceService', 'eResourceName(org.eclipse.emf.ecore.EObject)', Sequence{}) /]
+  invoke('org.eclipse.mylyn.docs.intent.markup.gen.services.ResourceService', 'eResourceName(org.eclipse.emf.ecore.EObject)', Sequence{cur}) /]
 
 [query public fileName(d : GenHtmlDocument) : String = 
   eResourceName().replace('textile','html')
