@@ -67,6 +67,7 @@
    
     <!-- Intent Workspace mode specifics-->   
 	<module>plugins/org.eclipse.mylyn.docs.intent.client.ui.ide</module>
+	<module>doc/org.eclipse.mylyn.docs.intent.idoc</module>
 	 
 	<!-- Intent CDO mode specifics -->
 	<module>plugins/org.eclipse.mylyn.docs.intent.client.ui.cdo</module>

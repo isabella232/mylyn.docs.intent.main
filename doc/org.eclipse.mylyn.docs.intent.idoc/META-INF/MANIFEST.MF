@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Idoc
+Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.idoc;singleton:=true
+Bundle-Version: 0.8.0.qualifier
+Require-Bundle: org.eclipse.help
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

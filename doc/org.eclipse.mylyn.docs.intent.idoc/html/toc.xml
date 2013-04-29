@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<toc label="Intent" link_to="../org.eclipse.mylyn.help.ui/primary-toc.xml#additions" topic="html/index.html">
+	<topic href="html/user/User Guide.html" label="Intent User Guide">
+		<topic href="html/user/Getting Started.html" label="Getting Started" />
+	</topic>
+</toc>
