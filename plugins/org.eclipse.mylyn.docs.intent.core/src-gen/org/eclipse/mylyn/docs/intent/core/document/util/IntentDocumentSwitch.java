@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,23 +7,16 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.document.util;
-
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.util.Switch;
+
 import org.eclipse.mylyn.docs.intent.core.document.*;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
+
 import org.eclipse.mylyn.docs.intent.markup.markup.Container;
 import org.eclipse.mylyn.docs.intent.markup.markup.HasAttributes;
 import org.eclipse.mylyn.docs.intent.markup.markup.Section;
@@ -110,78 +103,9 @@ public class IntentDocumentSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case IntentDocumentPackage.ANNOTATION_MAPPING: {
-				@SuppressWarnings("unchecked")
-				Map.Entry<String, Object> annotationMapping = (Map.Entry<String, Object>)theEObject;
-				T result = caseAnnotationMapping(annotationMapping);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case IntentDocumentPackage.INTENT_DOCUMENT: {
-				IntentDocument intentDocument = (IntentDocument)theEObject;
-				T result = caseIntentDocument(intentDocument);
-				if (result == null)
-					result = caseIntentStructuredElement(intentDocument);
-				if (result == null)
-					result = caseSection(intentDocument);
-				if (result == null)
-					result = caseIntentGenericElement(intentDocument);
-				if (result == null)
-					result = caseStructureElement(intentDocument);
-				if (result == null)
-					result = caseContainer(intentDocument);
-				if (result == null)
-					result = caseHasAttributes(intentDocument);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case IntentDocumentPackage.INTENT_SUB_SECTION_CONTAINER: {
-				IntentSubSectionContainer intentSubSectionContainer = (IntentSubSectionContainer)theEObject;
-				T result = caseIntentSubSectionContainer(intentSubSectionContainer);
-				if (result == null)
-					result = caseIntentStructuredElement(intentSubSectionContainer);
-				if (result == null)
-					result = caseSection(intentSubSectionContainer);
-				if (result == null)
-					result = caseIntentGenericElement(intentSubSectionContainer);
-				if (result == null)
-					result = caseStructureElement(intentSubSectionContainer);
-				if (result == null)
-					result = caseContainer(intentSubSectionContainer);
-				if (result == null)
-					result = caseHasAttributes(intentSubSectionContainer);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case IntentDocumentPackage.INTENT_CHAPTER: {
-				IntentChapter intentChapter = (IntentChapter)theEObject;
-				T result = caseIntentChapter(intentChapter);
-				if (result == null)
-					result = caseIntentSubSectionContainer(intentChapter);
-				if (result == null)
-					result = caseIntentStructuredElement(intentChapter);
-				if (result == null)
-					result = caseSection(intentChapter);
-				if (result == null)
-					result = caseIntentGenericElement(intentChapter);
-				if (result == null)
-					result = caseStructureElement(intentChapter);
-				if (result == null)
-					result = caseContainer(intentChapter);
-				if (result == null)
-					result = caseHasAttributes(intentChapter);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
 			case IntentDocumentPackage.INTENT_SECTION: {
 				IntentSection intentSection = (IntentSection)theEObject;
 				T result = caseIntentSection(intentSection);
-				if (result == null)
-					result = caseIntentSubSectionContainer(intentSection);
 				if (result == null)
 					result = caseIntentStructuredElement(intentSection);
 				if (result == null)
@@ -198,9 +122,85 @@ public class IntentDocumentSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case IntentDocumentPackage.INTENT_HEADER_DECLARATION: {
-				IntentHeaderDeclaration intentHeaderDeclaration = (IntentHeaderDeclaration)theEObject;
-				T result = caseIntentHeaderDeclaration(intentHeaderDeclaration);
+			case IntentDocumentPackage.INTENT_DOCUMENT: {
+				IntentDocument intentDocument = (IntentDocument)theEObject;
+				T result = caseIntentDocument(intentDocument);
+				if (result == null)
+					result = caseIntentSection(intentDocument);
+				if (result == null)
+					result = caseIntentStructuredElement(intentDocument);
+				if (result == null)
+					result = caseSection(intentDocument);
+				if (result == null)
+					result = caseIntentGenericElement(intentDocument);
+				if (result == null)
+					result = caseStructureElement(intentDocument);
+				if (result == null)
+					result = caseContainer(intentDocument);
+				if (result == null)
+					result = caseHasAttributes(intentDocument);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case IntentDocumentPackage.GENERIC_UNIT: {
+				GenericUnit genericUnit = (GenericUnit)theEObject;
+				T result = caseGenericUnit(genericUnit);
+				if (result == null)
+					result = caseIntentGenericElement(genericUnit);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case IntentDocumentPackage.UNIT_INSTRUCTION: {
+				UnitInstruction unitInstruction = (UnitInstruction)theEObject;
+				T result = caseUnitInstruction(unitInstruction);
+				if (result == null)
+					result = caseIntentGenericElement(unitInstruction);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case IntentDocumentPackage.INTENT_REFERENCE_INSTRUCTION: {
+				IntentReferenceInstruction intentReferenceInstruction = (IntentReferenceInstruction)theEObject;
+				T result = caseIntentReferenceInstruction(intentReferenceInstruction);
+				if (result == null)
+					result = caseUnitInstruction(intentReferenceInstruction);
+				if (result == null)
+					result = caseIntentReference(intentReferenceInstruction);
+				if (result == null)
+					result = caseIntentGenericElement(intentReferenceInstruction);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case IntentDocumentPackage.LABEL_DECLARATION: {
+				LabelDeclaration labelDeclaration = (LabelDeclaration)theEObject;
+				T result = caseLabelDeclaration(labelDeclaration);
+				if (result == null)
+					result = caseUnitInstruction(labelDeclaration);
+				if (result == null)
+					result = caseIntentGenericElement(labelDeclaration);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case IntentDocumentPackage.LABEL_REFERENCE_INSTRUCTION: {
+				LabelReferenceInstruction labelReferenceInstruction = (LabelReferenceInstruction)theEObject;
+				T result = caseLabelReferenceInstruction(labelReferenceInstruction);
+				if (result == null)
+					result = caseUnitInstruction(labelReferenceInstruction);
+				if (result == null)
+					result = caseIntentReference(labelReferenceInstruction);
+				if (result == null)
+					result = caseIntentGenericElement(labelReferenceInstruction);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case IntentDocumentPackage.INTENT_REFERENCE: {
+				IntentReference intentReference = (IntentReference)theEObject;
+				T result = caseIntentReference(intentReference);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -226,21 +226,6 @@ public class IntentDocumentSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Annotation Mapping</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Annotation Mapping</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseAnnotationMapping(Map.Entry<String, Object> object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Intent Structured Element</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -252,51 +237,6 @@ public class IntentDocumentSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseIntentStructuredElement(IntentStructuredElement object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Document</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Document</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIntentDocument(IntentDocument object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Sub Section Container</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Sub Section Container</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIntentSubSectionContainer(IntentSubSectionContainer object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Chapter</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Chapter</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIntentChapter(IntentChapter object) {
 		return null;
 	}
 
@@ -316,17 +256,107 @@ public class IntentDocumentSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Header Declaration</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Intent Document</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Header Declaration</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Intent Document</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseIntentHeaderDeclaration(IntentHeaderDeclaration object) {
+	public T caseIntentDocument(IntentDocument object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Generic Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Generic Unit</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGenericUnit(GenericUnit object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Unit Instruction</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Unit Instruction</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUnitInstruction(UnitInstruction object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Intent Reference Instruction</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Intent Reference Instruction</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIntentReferenceInstruction(IntentReferenceInstruction object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label Declaration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label Declaration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelDeclaration(LabelDeclaration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label Reference Instruction</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label Reference Instruction</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelReferenceInstruction(LabelReferenceInstruction object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Intent Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Intent Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIntentReference(IntentReference object) {
 		return null;
 	}
 

@@ -34,13 +34,13 @@ import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 
 /**
@@ -253,15 +253,15 @@ public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 			}
 		} else if (mostSpecificInstruction instanceof StructuralFeatureAffectation) {
 			if (((StructuralFeatureAffectation)mostSpecificInstruction).getValues().size() > 0
-					&& ((StructuralFeatureAffectation)mostSpecificInstruction).getValues().iterator().next() instanceof ReferenceValueForStructuralFeature) {
-				mostSpecificInstruction = (ReferenceValueForStructuralFeature)((StructuralFeatureAffectation)instruction)
+					&& ((StructuralFeatureAffectation)mostSpecificInstruction).getValues().iterator().next() instanceof ReferenceValue) {
+				mostSpecificInstruction = (ReferenceValue)((StructuralFeatureAffectation)instruction)
 						.getValues().iterator().next();
 			}
 		}
-		if (mostSpecificInstruction instanceof ReferenceValueForStructuralFeature
-				&& ((ReferenceValueForStructuralFeature)mostSpecificInstruction).getInstanciationReference() instanceof InstanciationInstructionReference) {
-			instancationInstruction = ((ReferenceValueForStructuralFeature)mostSpecificInstruction)
-					.getInstanciationReference().getInstanciation();
+		if (mostSpecificInstruction instanceof ReferenceValue
+				&& ((ReferenceValue)mostSpecificInstruction).getInstanciationReference() instanceof InstanciationInstructionReference) {
+			instancationInstruction = ((ReferenceValue)mostSpecificInstruction).getInstanciationReference()
+					.getInstanciation();
 		}
 		return instancationInstruction;
 	}

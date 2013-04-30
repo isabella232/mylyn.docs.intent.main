@@ -15,8 +15,6 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 
@@ -44,50 +42,11 @@ public final class IntentStructuredElementGetter {
 	 */
 	public static EList<IntentStructuredElement> getAllStructuredElement(EObject element) {
 		EList<IntentStructuredElement> containedStructuredElements = new BasicEList<IntentStructuredElement>();
-		if (element instanceof IntentDocument) {
-			containedStructuredElements.add((IntentDocument)element);
-			containedStructuredElements
-					.addAll(getAllStructuredElementContainedInIntentDocument((IntentDocument)element));
-		}
-		if (element instanceof IntentChapter) {
-			containedStructuredElements.addAll(getAllStructuredElementContainedInChapter((IntentChapter)element));
-		}
 		if (element instanceof IntentSection) {
-			containedStructuredElements.addAll(getAllStructuredElementContainedInSection((IntentSection)element));
+			containedStructuredElements
+					.addAll(getAllStructuredElementContainedInSection((IntentSection)element));
 		}
 		return containedStructuredElements;
-	}
-
-	/**
-	 * Returns all the structured elements contained in the given IntentDocument.
-	 * 
-	 * @param document
-	 *            the IntentDocument to inspect
-	 * @return a list containing all the structured elements contained in the given IntentDocument
-	 */
-	private static EList<IntentStructuredElement> getAllStructuredElementContainedInIntentDocument(
-			IntentDocument document) {
-		EList<IntentStructuredElement> containedIntentStructuredElements = new BasicEList<IntentStructuredElement>();
-		for (IntentChapter chapter : document.getChapters()) {
-			containedIntentStructuredElements.addAll(getAllStructuredElementContainedInChapter(chapter));
-		}
-		return containedIntentStructuredElements;
-	}
-
-	/**
-	 * Returns all the structured elements contained in the given Chapter.
-	 * 
-	 * @param chapter
-	 *            the Chapter to inspect
-	 * @return a list containing all the structured elements contained in the given Chapter
-	 */
-	private static EList<IntentStructuredElement> getAllStructuredElementContainedInChapter(IntentChapter chapter) {
-		EList<IntentStructuredElement> containedIntentStructuredElements = new BasicEList<IntentStructuredElement>();
-		containedIntentStructuredElements.add(chapter);
-		for (IntentSection section : chapter.getSubSections()) {
-			containedIntentStructuredElements.addAll(getAllStructuredElementContainedInSection(section));
-		}
-		return containedIntentStructuredElements;
 	}
 
 	/**

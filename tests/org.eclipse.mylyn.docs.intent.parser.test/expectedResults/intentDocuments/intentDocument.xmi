@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<intentDocument:IntentDocument xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intentDU="http://www.eclipse.org/intent/descriptionunit/0.7" xmlns:intentDocument="http://www.eclipse.org/intent/intentdocument/0.7" xmlns:intentGU="http://www.eclipse.org/intent/genericunit/0.7" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.7" xmlns:markup="http://www.eclipse.org/intent/markup/0.7" xsi:schemaLocation="http://www.eclipse.org/intent/descriptionunit/0.7 expectedResults/packagesModels/descriptionUnit.ecore http://www.eclipse.org/intent/intentdocument/0.7 expectedResults/packagesModels/org.eclipse.mylyn.docs.intent.core.document.ecore http://www.eclipse.org/intent/genericunit/0.7 expectedResults/packagesModels/genericUnit.ecore http://www.eclipse.org/intent/modelingunit/0.7 expectedResults/packagesModels/org.eclipse.mylyn.docs.intent.core.modelingunit.ecore http://www.eclipse.org/intent/markup/0.7 expectedResults/packagesModels/markup.ecore">
+<intentDocument:IntentDocument xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:intentDU="http://www.eclipse.org/intent/descriptionunit/0.8" xmlns:intentDocument="http://www.eclipse.org/intent/intentdocument/0.8" xmlns:intentGU="http://www.eclipse.org/intent/genericunit/0.8" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.8" xmlns:markup="http://www.eclipse.org/intent/markup/0.8" xsi:schemaLocation="http://www.eclipse.org/intent/descriptionunit/0.8 expectedResults/packagesModels/descriptionUnit.ecore http://www.eclipse.org/intent/intentdocument/0.8 expectedResults/packagesModels/org.eclipse.mylyn.docs.intent.core.document.ecore http://www.eclipse.org/intent/genericunit/0.8 expectedResults/packagesModels/genericUnit.ecore http://www.eclipse.org/intent/modelingunit/0.8 expectedResults/packagesModels/org.eclipse.mylyn.docs.intent.core.modelingunit.ecore http://www.eclipse.org/intent/markup/0.8 expectedResults/packagesModels/markup.ecore">
   <chapters completeLevel="1">
     <title xmi:type="markup:Paragraph">
       <attributes/>
@@ -147,10 +147,10 @@
         <instructions xmi:type="intentMU:InstanciationInstruction" lineBreak="true" name="extlibrary">
           <metaType typeName="EPackage"/>
           <structuralFeatures lineBreak="true" name="nsURI">
-            <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;http://www.eclipse.org/Intent/Extlibrary/1.0.0&quot;"/>
+            <values xmi:type="intentMU:NativeValue" value="&quot;http://www.eclipse.org/Intent/Extlibrary/1.0.0&quot;"/>
           </structuralFeatures>
           <structuralFeatures lineBreak="true" name="nsPrefix">
-            <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;extlib&quot;"/>
+            <values xmi:type="intentMU:NativeValue" value="&quot;extlib&quot;"/>
           </structuralFeatures>
         </instructions>
       </intentContent>
@@ -194,53 +194,53 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="Book">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;title&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;title&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EString"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value name="book_writer">
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;author&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;author&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Writer"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="lowerBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eOpposite">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="writer_books"/>
                         </values>
                       </structuralFeatures>
@@ -269,25 +269,25 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="Book"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value>
                 <metaType typeName="EAttribute"/>
                 <structuralFeatures lineBreak="true" name="name">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;pages&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;pages&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eType">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="EInt"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="changeable">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="defaultValueLiteral">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;100&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;100&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="ordered">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
               </value>
             </values>
@@ -333,56 +333,56 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="BookCategory">
                 <metaType typeName="EEnum"/>
                 <structuralFeatures lineBreak="true" name="serializable">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eLiterals" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EEnumLiteral"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;Mystery&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;Mystery&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="literal">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;Mystery&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;Mystery&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="value">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;0&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;0&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eLiterals" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EEnumLiteral"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;ScienceFiction&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;ScienceFiction&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="literal">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;ScienceFiction&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;ScienceFiction&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="value">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;1&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eLiterals" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EEnumLiteral"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;Biography&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;Biography&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="literal">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;Biography&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;Biography&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="value">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;2&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;2&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
@@ -445,31 +445,31 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="Book"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value>
                 <metaType typeName="EAttribute"/>
                 <structuralFeatures lineBreak="true" name="name">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;category&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;category&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eType">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="BookCategory"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="changeable">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="ordered">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="unsettable">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
               </value>
             </values>
           </contributions>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+            <values xmi:type="intentMU:ReferenceValue">
               <instanciationReference instanceName="CirculatingItem"/>
             </values>
           </contributions>
@@ -528,130 +528,130 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="Library">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Addressable"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;name&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;name&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EString"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;writers&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;writers&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Writer"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="containment">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="resolveProxies">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;false&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;false&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="upperBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="derived">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="transient">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="volatile">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;stock&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;stock&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Item"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="containment">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="resolveProxies">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;false&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;false&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="upperBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;false&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;false&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;books&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;books&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Book"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="upperBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="derived">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="transient">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;false&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;false&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
@@ -676,103 +676,103 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="Library"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value>
                 <metaType typeName="EReference"/>
                 <structuralFeatures lineBreak="true" name="name">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;employees&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;employees&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eType">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Employee"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="containment">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="resolveProxies">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;false&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;false&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="upperBound">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="changeable">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="derived">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="ordered">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="transient">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="volatile">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
               </value>
             </values>
           </contributions>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value>
                 <metaType typeName="EReference"/>
                 <structuralFeatures lineBreak="true" name="name">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;borrowers&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;borrowers&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eType">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Borrower"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="containment">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="resolveProxies">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;false&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;false&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="upperBound">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="changeable">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="derived">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="ordered">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;false&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;false&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="transient">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="volatile">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
               </value>
             </values>
           </contributions>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value>
                 <metaType typeName="EAttribute"/>
                 <structuralFeatures lineBreak="true" name="name">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;people&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;people&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eType">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="EFeatureMapEntry"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="upperBound">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="changeable">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="ordered">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
               </value>
             </values>
@@ -793,31 +793,31 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="Library"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="lib_branches">
                 <metaType typeName="EReference"/>
                 <structuralFeatures lineBreak="true" name="name">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;branches&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;branches&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eType">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Library"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="containment">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="upperBound">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="changeable">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="ordered">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eOpposite">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="lib_parentBranch"/>
                   </values>
                 </structuralFeatures>
@@ -825,28 +825,28 @@
             </values>
           </contributions>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="lib_parentBranch">
                 <metaType typeName="EReference"/>
                 <structuralFeatures lineBreak="true" name="name">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;parentBranch&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;parentBranch&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eType">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Library"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="container">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="changeable">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="ordered">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eOpposite">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="lib_branches"/>
                   </values>
                 </structuralFeatures>
@@ -908,64 +908,64 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="Writer">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Person"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;name&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;name&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EString"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="transient">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="volatile">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value name="writer_books">
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;books&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;books&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Book"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="upperBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eOpposite">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="book_writer"/>
                         </values>
                       </structuralFeatures>
@@ -1030,29 +1030,29 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="Item">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="abstract">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;publicationDate&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;publicationDate&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EDate"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
@@ -1115,64 +1115,64 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="Lendable">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="abstract">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="interface">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;copies&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;copies&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EInt"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="lowerBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value name="lendable_borrowers">
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;borrowers&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;borrowers&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Borrower"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="upperBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eOpposite">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="borrowed"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
@@ -1235,17 +1235,17 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="CirculatingItem">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="abstract">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Item"/>
                   </values>
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Lendable"/>
                   </values>
                 </structuralFeatures>
@@ -1307,58 +1307,58 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="Periodical">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="abstract">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Item"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;title&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;title&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EString"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;issuesPerYear&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;issuesPerYear&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EInt"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="lowerBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
@@ -1421,79 +1421,79 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="AudioVisualItem">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="CirculatingItem"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="abstract">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;title&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;title&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EString"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;minutesLength&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;minutesLength&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EInt"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="lowerBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;damaged&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;damaged&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EBoolean"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
@@ -1556,52 +1556,52 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="BookOnTape">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="AudioVisualItem"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;reader&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;reader&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Person"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;author&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;author&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Writer"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
@@ -1664,34 +1664,34 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="VideoCassette">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="AudioVisualItem"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;cast&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;cast&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Person"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="upperBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
@@ -1754,37 +1754,37 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="Borrower">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Person"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value name="borrowed">
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;borrowed&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;borrowed&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Lendable"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="upperBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;-1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;-1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eOpposite">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="lendable_borrowers"/>
                         </values>
                       </structuralFeatures>
@@ -1865,58 +1865,58 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="Person">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Addressable"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;firstName&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;firstName&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EString"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="lowerBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;lastName&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;lastName&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EString"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="lowerBound">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;1&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;1&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
@@ -1979,31 +1979,31 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="Employee">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="eSuperTypes" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                  <values xmi:type="intentMU:ReferenceValue">
                     <instanciationReference instanceName="Person"/>
                   </values>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EReference"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;manager&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;manager&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="Employee"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>
@@ -2066,32 +2066,32 @@
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
           <contributionReference intentHref="extlibrary"/>
           <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="eClassifiers" usedOperator="MULTI_VALUED_AFFECTATION">
-            <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+            <values xmi:type="intentMU:NewObjectValue">
               <value name="Addressable">
                 <metaType typeName="EClass"/>
                 <structuralFeatures lineBreak="true" name="abstract">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="interface">
-                  <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                  <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                 </structuralFeatures>
                 <structuralFeatures lineBreak="true" name="eStructuralFeatures" usedOperator="MULTI_VALUED_AFFECTATION">
-                  <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+                  <values xmi:type="intentMU:NewObjectValue">
                     <value>
                       <metaType typeName="EAttribute"/>
                       <structuralFeatures lineBreak="true" name="name">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;address&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;address&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="eType">
-                        <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+                        <values xmi:type="intentMU:ReferenceValue">
                           <instanciationReference instanceName="EString"/>
                         </values>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="changeable">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                       <structuralFeatures lineBreak="true" name="ordered">
-                        <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;true&quot;"/>
+                        <values xmi:type="intentMU:NativeValue" value="&quot;true&quot;"/>
                       </structuralFeatures>
                     </value>
                   </values>

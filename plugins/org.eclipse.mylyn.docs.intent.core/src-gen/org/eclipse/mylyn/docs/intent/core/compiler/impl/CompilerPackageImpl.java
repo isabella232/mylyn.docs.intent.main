@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import java.util.Map;
@@ -39,12 +39,10 @@ import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.impl.DescriptionUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.impl.DescriptionUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
 import org.eclipse.mylyn.docs.intent.core.indexer.impl.IntentIndexerPackageImpl;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
@@ -277,15 +275,12 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		IntentDocumentPackageImpl theIntentDocumentPackage = (IntentDocumentPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) instanceof IntentDocumentPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI) : IntentDocumentPackage.eINSTANCE);
-		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
-		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
 		DescriptionUnitPackageImpl theDescriptionUnitPackage = (DescriptionUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) instanceof DescriptionUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) : DescriptionUnitPackage.eINSTANCE);
+		IntentIndexerPackageImpl theIntentIndexerPackage = (IntentIndexerPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) instanceof IntentIndexerPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentIndexerPackage.eNS_URI) : IntentIndexerPackage.eINSTANCE);
 		ModelingUnitPackageImpl theModelingUnitPackage = (ModelingUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(ModelingUnitPackage.eNS_URI) instanceof ModelingUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(ModelingUnitPackage.eNS_URI) : ModelingUnitPackage.eINSTANCE);
@@ -293,17 +288,15 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		// Create package meta-data objects
 		theCompilerPackage.createPackageContents();
 		theIntentDocumentPackage.createPackageContents();
-		theIntentIndexerPackage.createPackageContents();
-		theGenericUnitPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
+		theIntentIndexerPackage.createPackageContents();
 		theModelingUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theCompilerPackage.initializePackageContents();
 		theIntentDocumentPackage.initializePackageContents();
-		theIntentIndexerPackage.initializePackageContents();
-		theGenericUnitPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
+		theIntentIndexerPackage.initializePackageContents();
 		theModelingUnitPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
@@ -982,16 +975,16 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceURI() {
-		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(1);
+	public EAttribute getSynchronizerCompilationStatus_CompiledResourceURI() {
+		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSynchronizerCompilationStatus_CompiledResourceURI() {
-		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(0);
+	public EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceURI() {
+		return (EAttribute)synchronizerCompilationStatusEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -1216,8 +1209,6 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		// Obtain other dependent packages
 		ModelingUnitPackage theModelingUnitPackage = (ModelingUnitPackage)EPackage.Registry.INSTANCE
 				.getEPackage(ModelingUnitPackage.eNS_URI);
-		GenericUnitPackage theGenericUnitPackage = (GenericUnitPackage)EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI);
 		IntentDocumentPackage theIntentDocumentPackage = (IntentDocumentPackage)EPackage.Registry.INSTANCE
 				.getEPackage(IntentDocumentPackage.eNS_URI);
 
@@ -1305,7 +1296,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 				null, 0, 1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCreatedElementToInstructionMapEntry_Value(),
-				theGenericUnitPackage.getUnitInstruction(), null, "value", null, 0, -1, Map.Entry.class,
+				theIntentDocumentPackage.getUnitInstruction(), null, "value", null, 0, -1, Map.Entry.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1318,7 +1309,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 				"containmentReference", null, 1, 1, UnresolvedReferenceHolder.class, !IS_TRANSIENT,
 				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUnresolvedReferenceHolder_InstructionContainer(),
-				theGenericUnitPackage.getUnitInstruction(), null, "instructionContainer", null, 1, 1,
+				theIntentDocumentPackage.getUnitInstruction(), null, "instructionContainer", null, 1, 1,
 				UnresolvedReferenceHolder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
 				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getUnresolvedReferenceHolder_ConcernedFeature(), ecorePackage.getEStructuralFeature(),
@@ -1446,10 +1437,9 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		initEAttribute(getFeatureToAffectationEntry_Key(), ecorePackage.getEString(), "key", null, 0, 1,
 				Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getFeatureToAffectationEntry_Value(),
-				theModelingUnitPackage.getValueForStructuralFeature(), null, "value", null, 1, -1,
-				Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE,
-				IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getFeatureToAffectationEntry_Value(), theModelingUnitPackage.getAbstractValue(), null,
+				"value", null, 1, -1, Map.Entry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE,
+				!IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(resourceChangeStatusEClass, ResourceChangeStatus.class, "ResourceChangeStatus",
 				!IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

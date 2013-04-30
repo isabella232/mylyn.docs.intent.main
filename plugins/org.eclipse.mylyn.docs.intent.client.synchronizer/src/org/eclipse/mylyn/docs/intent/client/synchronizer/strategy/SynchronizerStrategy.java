@@ -12,6 +12,7 @@ package org.eclipse.mylyn.docs.intent.client.synchronizer.strategy;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
@@ -32,12 +33,12 @@ public interface SynchronizerStrategy {
 	 *            the resourceDeclaration associated to the given internal Resource
 	 * @param internalResource
 	 *            the internal (repository) compiled resource
-	 * @param externalResourceURI
+	 * @param uri
 	 *            the URI of the external (local or repository or http...) compiled resource
 	 * @return the modified external resource (the synchronizer will stop if it's null)
 	 */
 	Resource handleNullExternalResource(ResourceDeclaration resourceDeclaration, Resource internalResource,
-			String externalResourceURI);
+			URI uri);
 
 	/**
 	 * Handles the case of a null external resource (can decide to copy the internal Resource or put a new
@@ -52,7 +53,7 @@ public interface SynchronizerStrategy {
 	 * @return the modified external resource (the synchronizer will stop if it's null)
 	 */
 	Resource handleEmptyExternalResource(ResourceDeclaration resourceDeclaration, Resource internalResource,
-			String externalResourceURI);
+			URI externalResourceURI);
 
 	/**
 	 * Handles the case of a null internal resource (can decide to stop for example).
@@ -63,7 +64,7 @@ public interface SynchronizerStrategy {
 	 *            the external (local or repository or http...) compiled resource
 	 * @return the modified internal resource (the synchronizer will stop if it's null)
 	 */
-	Resource handleNullInternalResource(String internalResourceURI, Resource externalResource);
+	Resource handleNullInternalResource(String internalResourcePath, Resource externalResource);
 
 	/**
 	 * Returns the resource that should be considered has the left Resource during comparison (see EMFCompare

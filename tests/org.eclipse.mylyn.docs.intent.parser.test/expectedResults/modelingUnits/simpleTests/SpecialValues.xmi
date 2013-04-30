@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ASCII"?>
-<intentMU:ModelingUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.7">
+<intentMU:ModelingUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.8">
   <instructions xmi:type="intentMU:InstanciationInstruction" lineBreak="true" name="myA">
     <metaType typeName="A"/>
     <structuralFeatures lineBreak="true" name="myAtt1">
-      <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;41&quot;"/>
+      <values xmi:type="intentMU:NativeValue" value="&quot;41&quot;"/>
     </structuralFeatures>
     <structuralFeatures lineBreak="true" name="myAtt2">
-      <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;string with ; : ! %  } { characters&quot;"/>
+      <values xmi:type="intentMU:NativeValue" value="&quot;string with ; : ! %  } { characters&quot;"/>
     </structuralFeatures>
     <structuralFeatures lineBreak="true" name="myAtt3">
-      <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;string with ; : ! %  }  characters&quot;"/>
+      <values xmi:type="intentMU:NativeValue" value="&quot;string with ; : ! %  }  characters&quot;"/>
     </structuralFeatures>
   </instructions>
 </intentMU:ModelingUnit>

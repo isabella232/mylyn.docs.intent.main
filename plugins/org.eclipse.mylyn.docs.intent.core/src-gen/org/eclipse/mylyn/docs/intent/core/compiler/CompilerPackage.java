@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -17,13 +17,14 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 /**
- * <!-- begin-user-doc --> The <b>Package</b> for the model. It contains accessors for the meta objects to
- * represent
+ * <!-- begin-user-doc -->
+ * The <b>Package</b> for the model.
+ * It contains accessors for the meta objects to represent
  * <ul>
- * <li>each class,</li>
- * <li>each feature of each class,</li>
- * <li>each enum,</li>
- * <li>and each data type</li>
+ *   <li>each class,</li>
+ *   <li>each feature of each class,</li>
+ *   <li>each enum,</li>
+ *   <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
  * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory
@@ -33,35 +34,40 @@ import org.eclipse.emf.ecore.EReference;
 public interface CompilerPackage extends EPackage {
 	/**
 	 * The package name.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNAME = "compiler";
 
 	/**
 	 * The package namespace URI.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.eclipse.org/intent/compilerinfos/0.7";
+	String eNS_URI = "http://www.eclipse.org/intent/compilerinfos/0.8";
 
 	/**
 	 * The package namespace name.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNS_PREFIX = "intentCompilerInfos";
 
 	/**
 	 * The singleton instance of the package.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	CompilerPackage eINSTANCE = org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl.init();
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.EStringToEObjectImpl <em>EString To EObject</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.EStringToEObjectImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getEStringToEObject()
 	 * @generated
@@ -70,7 +76,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -78,7 +85,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -95,7 +103,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.TextualReferenceToContributionsImpl <em>Textual Reference To Contributions</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.TextualReferenceToContributionsImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getTextualReferenceToContributions()
 	 * @generated
@@ -104,7 +113,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -112,17 +122,17 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference list.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int TEXTUAL_REFERENCE_TO_CONTRIBUTIONS__VALUE = 1;
 
 	/**
-	 * The number of structural features of the '<em>Textual Reference To Contributions</em>' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the '<em>Textual Reference To Contributions</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -130,7 +140,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.StringToEObjectMapImpl <em>String To EObject Map</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.StringToEObjectMapImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getStringToEObjectMap()
 	 * @generated
@@ -138,9 +149,9 @@ public interface CompilerPackage extends EPackage {
 	int STRING_TO_EOBJECT_MAP = 2;
 
 	/**
-	 * The feature id for the '<em><b>Name To Element</b></em>' map. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * The feature id for the '<em><b>Name To Element</b></em>' map.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -148,8 +159,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The number of structural features of the '<em>String To EObject Map</em>' class.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -157,7 +168,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ETypeToStringToEObjectMapImpl <em>EType To String To EObject Map</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ETypeToStringToEObjectMapImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getETypeToStringToEObjectMap()
 	 * @generated
@@ -166,7 +178,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -174,16 +187,17 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int ETYPE_TO_STRING_TO_EOBJECT_MAP__VALUE = 1;
 
 	/**
-	 * The number of structural features of the '<em>EType To String To EObject Map</em>' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the '<em>EType To String To EObject Map</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -191,7 +205,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.EObjectToUnresolvedReferencesListImpl <em>EObject To Unresolved References List</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.EObjectToUnresolvedReferencesListImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getEObjectToUnresolvedReferencesList()
 	 * @generated
@@ -200,7 +215,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -208,28 +224,26 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' containment reference list.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int EOBJECT_TO_UNRESOLVED_REFERENCES_LIST__VALUE = 1;
 
 	/**
-	 * The number of structural features of the '<em>EObject To Unresolved References List</em>' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the '<em>EObject To Unresolved References List</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int EOBJECT_TO_UNRESOLVED_REFERENCES_LIST_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ResourceToContainedElementsMapEntryImpl
-	 * <em>Resource To Contained Elements Map Entry</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ResourceToContainedElementsMapEntryImpl <em>Resource To Contained Elements Map Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ResourceToContainedElementsMapEntryImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getResourceToContainedElementsMapEntry()
 	 * @generated
@@ -238,7 +252,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -246,8 +261,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -255,7 +270,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The number of structural features of the '<em>Resource To Contained Elements Map Entry</em>' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -263,7 +279,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ModelingUnitToStatusListImpl <em>Modeling Unit To Status List</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ModelingUnitToStatusListImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getModelingUnitToStatusList()
 	 * @generated
@@ -272,7 +289,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -280,28 +298,26 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int MODELING_UNIT_TO_STATUS_LIST__VALUE = 1;
 
 	/**
-	 * The number of structural features of the '<em>Modeling Unit To Status List</em>' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the '<em>Modeling Unit To Status List</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int MODELING_UNIT_TO_STATUS_LIST_FEATURE_COUNT = 2;
 
 	/**
-	 * The meta object id for the '
-	 * {@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CreatedElementToInstructionMapEntryImpl
-	 * <em>Created Element To Instruction Map Entry</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CreatedElementToInstructionMapEntryImpl <em>Created Element To Instruction Map Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CreatedElementToInstructionMapEntryImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCreatedElementToInstructionMapEntry()
 	 * @generated
@@ -310,7 +326,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Key</b></em>' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -318,7 +335,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Value</b></em>' reference list.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -326,7 +344,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The number of structural features of the '<em>Created Element To Instruction Map Entry</em>' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -334,7 +353,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.UnresolvedReferenceHolderImpl <em>Unresolved Reference Holder</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.UnresolvedReferenceHolderImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getUnresolvedReferenceHolder()
 	 * @generated
@@ -343,8 +363,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Textual Reference</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -352,8 +372,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Containment Reference</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -361,8 +381,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Instruction Container</b></em>' reference.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -370,17 +390,17 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Concerned Feature</b></em>' reference.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int UNRESOLVED_REFERENCE_HOLDER__CONCERNED_FEATURE = 3;
 
 	/**
-	 * The number of structural features of the '<em>Unresolved Reference Holder</em>' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the '<em>Unresolved Reference Holder</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -388,7 +408,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusImpl <em>Compilation Status</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationStatus()
 	 * @generated
@@ -396,27 +417,27 @@ public interface CompilerPackage extends EPackage {
 	int COMPILATION_STATUS = 9;
 
 	/**
-	 * The feature id for the '<em><b>Target</b></em>' reference. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * The feature id for the '<em><b>Target</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int COMPILATION_STATUS__TARGET = 0;
 
 	/**
-	 * The feature id for the '<em><b>Message</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * The feature id for the '<em><b>Message</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int COMPILATION_STATUS__MESSAGE = 1;
 
 	/**
-	 * The feature id for the '<em><b>Severity</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * The feature id for the '<em><b>Severity</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -424,7 +445,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -441,7 +463,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl <em>Compilation Status Manager</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationStatusManager()
 	 * @generated
@@ -450,8 +473,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Compilation Status List</b></em>' reference list.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -459,8 +482,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Modeling Unit To Status List</b></em>' map.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -476,9 +499,9 @@ public interface CompilerPackage extends EPackage {
 	int COMPILATION_STATUS_MANAGER__VALIDATION_TIME = 2;
 
 	/**
-	 * The number of structural features of the '<em>Compilation Status Manager</em>' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the '<em>Compilation Status Manager</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -486,7 +509,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationInformationHolderImpl <em>Compilation Information Holder</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationInformationHolderImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationInformationHolder()
 	 * @generated
@@ -494,9 +518,9 @@ public interface CompilerPackage extends EPackage {
 	int COMPILATION_INFORMATION_HOLDER = 11;
 
 	/**
-	 * The feature id for the '<em><b>Generated Element List</b></em>' containment reference list. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Generated Element List</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -504,8 +528,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Element To Unresolved Reference Map</b></em>' map.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -513,8 +537,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Type To Name To Elements Map</b></em>' map.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -530,9 +554,9 @@ public interface CompilerPackage extends EPackage {
 	int COMPILATION_INFORMATION_HOLDER__CREATED_ELEMENTS_TO_INSTRUCTIONS = 3;
 
 	/**
-	 * The feature id for the '<em><b>Current Generated Element List</b></em>' reference list. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The feature id for the '<em><b>Current Generated Element List</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -549,17 +573,17 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The feature id for the '<em><b>Unresolved Contributions</b></em>' map.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
 	int COMPILATION_INFORMATION_HOLDER__UNRESOLVED_CONTRIBUTIONS = 6;
 
 	/**
-	 * The number of structural features of the '<em>Compilation Information Holder</em>' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the '<em>Compilation Information Holder</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -567,7 +591,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.UnresolvedContributionHolderImpl <em>Unresolved Contribution Holder</em>}' class.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.UnresolvedContributionHolderImpl
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getUnresolvedContributionHolder()
 	 * @generated
@@ -575,9 +600,9 @@ public interface CompilerPackage extends EPackage {
 	int UNRESOLVED_CONTRIBUTION_HOLDER = 12;
 
 	/**
-	 * The feature id for the '<em><b>Resolved</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * The feature id for the '<em><b>Resolved</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -593,9 +618,9 @@ public interface CompilerPackage extends EPackage {
 	int UNRESOLVED_CONTRIBUTION_HOLDER__REFERENCED_CONTRIBUTION = 1;
 
 	/**
-	 * The number of structural features of the '<em>Unresolved Contribution Holder</em>' class. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the '<em>Unresolved Contribution Holder</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -1424,7 +1449,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}' enum.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationStatusSeverity()
 	 * @generated
@@ -1433,7 +1459,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType <em>Compilation Message Type</em>}' enum.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationMessageType()
 	 * @generated
@@ -1461,20 +1488,21 @@ public interface CompilerPackage extends EPackage {
 	int SYNCHRONIZER_CHANGE_STATE = 27;
 
 	/**
-	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To EObject</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EString To EObject</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>EString To EObject</em>'.
 	 * @see java.util.Map.Entry
-	 * @model keyDataType="org.eclipse.emf.ecore.EString" valueType="org.eclipse.emf.ecore.EObject"
+	 * @model keyDataType="org.eclipse.emf.ecore.EString"
+	 *        valueType="org.eclipse.emf.ecore.EObject"
 	 * @generated
 	 */
 	EClass getEStringToEObject();
 
 	/**
-	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Key</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getEStringToEObject()
@@ -1483,9 +1511,9 @@ public interface CompilerPackage extends EPackage {
 	EAttribute getEStringToEObject_Key();
 
 	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Value</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getEStringToEObject()
@@ -1495,7 +1523,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Textual Reference To Contributions</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Textual Reference To Contributions</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyDataType="org.eclipse.emf.ecore.EString"
@@ -1505,9 +1534,9 @@ public interface CompilerPackage extends EPackage {
 	EClass getTextualReferenceToContributions();
 
 	/**
-	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Key</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getTextualReferenceToContributions()
@@ -1517,7 +1546,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link java.util.Map.Entry <em>Value</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Value</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getTextualReferenceToContributions()
@@ -1527,7 +1557,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap <em>String To EObject Map</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>String To EObject Map</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap
 	 * @generated
@@ -1536,7 +1567,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap#getNameToElement <em>Name To Element</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the map '<em>Name To Element</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap#getNameToElement()
 	 * @see #getStringToEObjectMap()
@@ -1546,7 +1578,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EType To String To EObject Map</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>EType To String To EObject Map</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyType="org.eclipse.emf.ecore.EClassifier"
@@ -1556,9 +1589,9 @@ public interface CompilerPackage extends EPackage {
 	EClass getETypeToStringToEObjectMap();
 
 	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Key</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getETypeToStringToEObjectMap()
@@ -1567,9 +1600,9 @@ public interface CompilerPackage extends EPackage {
 	EReference getETypeToStringToEObjectMap_Key();
 
 	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Value</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getETypeToStringToEObjectMap()
@@ -1579,7 +1612,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>EObject To Unresolved References List</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>EObject To Unresolved References List</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyType="org.eclipse.emf.ecore.EObject"
@@ -1589,9 +1623,9 @@ public interface CompilerPackage extends EPackage {
 	EClass getEObjectToUnresolvedReferencesList();
 
 	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Key</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getEObjectToUnresolvedReferencesList()
@@ -1601,7 +1635,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link java.util.Map.Entry <em>Value</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Value</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getEObjectToUnresolvedReferencesList()
@@ -1611,7 +1646,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Resource To Contained Elements Map Entry</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Resource To Contained Elements Map Entry</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyType="org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration" keyRequired="true"
@@ -1621,9 +1657,9 @@ public interface CompilerPackage extends EPackage {
 	EClass getResourceToContainedElementsMapEntry();
 
 	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Key</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getResourceToContainedElementsMapEntry()
@@ -1632,9 +1668,9 @@ public interface CompilerPackage extends EPackage {
 	EReference getResourceToContainedElementsMapEntry_Key();
 
 	/**
-	 * Returns the meta object for the reference list '{@link java.util.Map.Entry <em>Value</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the reference list '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Value</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getResourceToContainedElementsMapEntry()
@@ -1644,7 +1680,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Modeling Unit To Status List</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Modeling Unit To Status List</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyType="org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit"
@@ -1654,9 +1691,9 @@ public interface CompilerPackage extends EPackage {
 	EClass getModelingUnitToStatusList();
 
 	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Key</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getModelingUnitToStatusList()
@@ -1665,9 +1702,9 @@ public interface CompilerPackage extends EPackage {
 	EReference getModelingUnitToStatusList_Key();
 
 	/**
-	 * Returns the meta object for the reference list '{@link java.util.Map.Entry <em>Value</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the reference list '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Value</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getModelingUnitToStatusList()
@@ -1677,19 +1714,20 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Created Element To Instruction Map Entry</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Created Element To Instruction Map Entry</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyType="org.eclipse.emf.ecore.EObject"
-	 *        valueType="org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction" valueMany="true"
+	 *        valueType="org.eclipse.mylyn.docs.intent.core.document.UnitInstruction" valueMany="true"
 	 * @generated
 	 */
 	EClass getCreatedElementToInstructionMapEntry();
 
 	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Key</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Key</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getCreatedElementToInstructionMapEntry()
@@ -1698,10 +1736,10 @@ public interface CompilerPackage extends EPackage {
 	EReference getCreatedElementToInstructionMapEntry_Key();
 
 	/**
-	 * Returns the meta object for the reference '{@link java.util.Map.Entry <em>Value</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the reference '<em>Value</em>'.
+	 * Returns the meta object for the reference list '{@link java.util.Map.Entry <em>Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Value</em>'.
 	 * @see java.util.Map.Entry
 	 * @see #getCreatedElementToInstructionMapEntry()
 	 * @generated
@@ -1710,7 +1748,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder <em>Unresolved Reference Holder</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Unresolved Reference Holder</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder
 	 * @generated
@@ -1719,7 +1758,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#getTextualReference <em>Textual Reference</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Textual Reference</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#getTextualReference()
 	 * @see #getUnresolvedReferenceHolder()
@@ -1729,7 +1769,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#isContainmentReference <em>Containment Reference</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Containment Reference</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#isContainmentReference()
 	 * @see #getUnresolvedReferenceHolder()
@@ -1739,7 +1780,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#getInstructionContainer <em>Instruction Container</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Instruction Container</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#getInstructionContainer()
 	 * @see #getUnresolvedReferenceHolder()
@@ -1749,7 +1791,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#getConcernedFeature <em>Concerned Feature</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Concerned Feature</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#getConcernedFeature()
 	 * @see #getUnresolvedReferenceHolder()
@@ -1759,7 +1802,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus <em>Compilation Status</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Compilation Status</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus
 	 * @generated
@@ -1767,11 +1811,10 @@ public interface CompilerPackage extends EPackage {
 	EClass getCompilationStatus();
 
 	/**
-	 * Returns the meta object for the reference '
-	 * {@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getTarget <em>Target</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
-	 * @return the meta object for the reference '<em>Target</em>'.
+	 * Returns the meta object for the container reference '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Target</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getTarget()
 	 * @see #getCompilationStatus()
 	 * @generated
@@ -1780,7 +1823,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getMessage <em>Message</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Message</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getMessage()
 	 * @see #getCompilationStatus()
@@ -1790,7 +1834,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getSeverity <em>Severity</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Severity</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getSeverity()
 	 * @see #getCompilationStatus()
@@ -1799,10 +1844,9 @@ public interface CompilerPackage extends EPackage {
 	EAttribute getCompilationStatus_Severity();
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getType <em>Type</em>}'. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Type</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getType()
 	 * @see #getCompilationStatus()
@@ -1812,7 +1856,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager <em>Compilation Status Manager</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Compilation Status Manager</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager
 	 * @generated
@@ -1821,7 +1866,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getCompilationStatusList <em>Compilation Status List</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Compilation Status List</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getCompilationStatusList()
 	 * @see #getCompilationStatusManager()
@@ -1831,7 +1877,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getModelingUnitToStatusList <em>Modeling Unit To Status List</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the map '<em>Modeling Unit To Status List</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getModelingUnitToStatusList()
 	 * @see #getCompilationStatusManager()
@@ -1852,7 +1899,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder <em>Compilation Information Holder</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Compilation Information Holder</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder
 	 * @generated
@@ -1861,7 +1909,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getGeneratedElementList <em>Generated Element List</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the containment reference list '<em>Generated Element List</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getGeneratedElementList()
 	 * @see #getCompilationInformationHolder()
@@ -1871,7 +1920,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getElementToUnresolvedReferenceMap <em>Element To Unresolved Reference Map</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the map '<em>Element To Unresolved Reference Map</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getElementToUnresolvedReferenceMap()
 	 * @see #getCompilationInformationHolder()
@@ -1881,7 +1931,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getTypeToNameToElementsMap <em>Type To Name To Elements Map</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the map '<em>Type To Name To Elements Map</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getTypeToNameToElementsMap()
 	 * @see #getCompilationInformationHolder()
@@ -1891,7 +1942,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getCreatedElementsToInstructions <em>Created Elements To Instructions</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the map '<em>Created Elements To Instructions</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getCreatedElementsToInstructions()
 	 * @see #getCompilationInformationHolder()
@@ -1901,7 +1953,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getCurrentGeneratedElementList <em>Current Generated Element List</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference list '<em>Current Generated Element List</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getCurrentGeneratedElementList()
 	 * @see #getCompilationInformationHolder()
@@ -1911,7 +1964,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getResourceToContainedElements <em>Resource To Contained Elements</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the map '<em>Resource To Contained Elements</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getResourceToContainedElements()
 	 * @see #getCompilationInformationHolder()
@@ -1921,7 +1975,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the map '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getUnresolvedContributions <em>Unresolved Contributions</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the map '<em>Unresolved Contributions</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder#getUnresolvedContributions()
 	 * @see #getCompilationInformationHolder()
@@ -1931,7 +1986,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder <em>Unresolved Contribution Holder</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Unresolved Contribution Holder</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder
 	 * @generated
@@ -1940,7 +1996,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder#isResolved <em>Resolved</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Resolved</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder#isResolved()
 	 * @see #getUnresolvedContributionHolder()
@@ -1950,7 +2007,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder#getReferencedContribution <em>Referenced Contribution</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Referenced Contribution</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder#getReferencedContribution()
 	 * @see #getUnresolvedContributionHolder()
@@ -2106,7 +2164,7 @@ public interface CompilerPackage extends EPackage {
 	 * @return the meta object for class '<em>Feature To Affectation Entry</em>'.
 	 * @see java.util.Map.Entry
 	 * @model keyDataType="org.eclipse.emf.ecore.EString"
-	 *        valueType="org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature" valueRequired="true" valueMany="true"
+	 *        valueType="org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue" valueRequired="true" valueMany="true"
 	 * @generated
 	 */
 	EClass getFeatureToAffectationEntry();
@@ -2337,17 +2395,6 @@ public interface CompilerPackage extends EPackage {
 	EClass getSynchronizerCompilationStatus();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceURI <em>Working Copy Resource URI</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Working Copy Resource URI</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceURI()
-	 * @see #getSynchronizerCompilationStatus()
-	 * @generated
-	 */
-	EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceURI();
-
-	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getCompiledResourceURI <em>Compiled Resource URI</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2359,8 +2406,20 @@ public interface CompilerPackage extends EPackage {
 	EAttribute getSynchronizerCompilationStatus_CompiledResourceURI();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceURI <em>Working Copy Resource URI</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Working Copy Resource URI</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus#getWorkingCopyResourceURI()
+	 * @see #getSynchronizerCompilationStatus()
+	 * @generated
+	 */
+	EAttribute getSynchronizerCompilationStatus_WorkingCopyResourceURI();
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for enum '<em>Compilation Status Severity</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity
 	 * @generated
@@ -2369,7 +2428,8 @@ public interface CompilerPackage extends EPackage {
 
 	/**
 	 * Returns the meta object for enum '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType <em>Compilation Message Type</em>}'.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the meta object for enum '<em>Compilation Message Type</em>'.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType
 	 * @generated
@@ -2397,21 +2457,22 @@ public interface CompilerPackage extends EPackage {
 	EEnum getSynchronizerChangeState();
 
 	/**
-	 * Returns the factory that creates the instances of the model. <!-- begin-user-doc --> <!-- end-user-doc
-	 * -->
-	 * 
+	 * Returns the factory that creates the instances of the model.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the factory that creates the instances of the model.
 	 * @generated
 	 */
 	CompilerFactory getCompilerFactory();
 
 	/**
-	 * <!-- begin-user-doc --> Defines literals for the meta objects that represent
+	 * <!-- begin-user-doc -->
+	 * Defines literals for the meta objects that represent
 	 * <ul>
-	 * <li>each class,</li>
-	 * <li>each feature of each class,</li>
-	 * <li>each enum,</li>
-	 * <li>and each data type</li>
+	 *   <li>each class,</li>
+	 *   <li>each feature of each class,</li>
+	 *   <li>each enum,</li>
+	 *   <li>and each data type</li>
 	 * </ul>
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -2419,7 +2480,8 @@ public interface CompilerPackage extends EPackage {
 	interface Literals {
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.EStringToEObjectImpl <em>EString To EObject</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.EStringToEObjectImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getEStringToEObject()
 		 * @generated
@@ -2444,7 +2506,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.TextualReferenceToContributionsImpl <em>Textual Reference To Contributions</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.TextualReferenceToContributionsImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getTextualReferenceToContributions()
 		 * @generated
@@ -2461,9 +2524,9 @@ public interface CompilerPackage extends EPackage {
 				.getTextualReferenceToContributions_Key();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' containment reference list feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Value</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference TEXTUAL_REFERENCE_TO_CONTRIBUTIONS__VALUE = eINSTANCE
@@ -2471,7 +2534,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.StringToEObjectMapImpl <em>String To EObject Map</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.StringToEObjectMapImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getStringToEObjectMap()
 		 * @generated
@@ -2480,15 +2544,16 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Name To Element</b></em>' map feature.
-		 * <!-- begin-user-doc
-		 * --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference STRING_TO_EOBJECT_MAP__NAME_TO_ELEMENT = eINSTANCE.getStringToEObjectMap_NameToElement();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ETypeToStringToEObjectMapImpl <em>EType To String To EObject Map</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ETypeToStringToEObjectMapImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getETypeToStringToEObjectMap()
 		 * @generated
@@ -2512,11 +2577,9 @@ public interface CompilerPackage extends EPackage {
 		EReference ETYPE_TO_STRING_TO_EOBJECT_MAP__VALUE = eINSTANCE.getETypeToStringToEObjectMap_Value();
 
 		/**
-		 * The meta object literal for the '
-		 * {@link org.eclipse.mylyn.docs.intent.core.compiler.impl.EObjectToUnresolvedReferencesListImpl
-		 * <em>EObject To Unresolved References List</em>}' class. <!-- begin-user-doc --> <!-- end-user-doc
-		 * -->
-		 * 
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.EObjectToUnresolvedReferencesListImpl <em>EObject To Unresolved References List</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.EObjectToUnresolvedReferencesListImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getEObjectToUnresolvedReferencesList()
 		 * @generated
@@ -2533,9 +2596,9 @@ public interface CompilerPackage extends EPackage {
 				.getEObjectToUnresolvedReferencesList_Key();
 
 		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' containment reference list feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Value</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference EOBJECT_TO_UNRESOLVED_REFERENCES_LIST__VALUE = eINSTANCE
@@ -2543,8 +2606,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ResourceToContainedElementsMapEntryImpl <em>Resource To Contained Elements Map Entry</em>}' class.
-		 * <!-- begin-user-doc --> <!--
-		 * end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ResourceToContainedElementsMapEntryImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getResourceToContainedElementsMapEntry()
 		 * @generated
@@ -2562,8 +2625,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
-		 * <!-- begin-user-doc
-		 * --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference RESOURCE_TO_CONTAINED_ELEMENTS_MAP_ENTRY__VALUE = eINSTANCE
@@ -2571,7 +2634,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.ModelingUnitToStatusListImpl <em>Modeling Unit To Status List</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.ModelingUnitToStatusListImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getModelingUnitToStatusList()
 		 * @generated
@@ -2588,16 +2652,16 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Value</b></em>' reference list feature.
-		 * <!-- begin-user-doc
-		 * --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference MODELING_UNIT_TO_STATUS_LIST__VALUE = eINSTANCE.getModelingUnitToStatusList_Value();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CreatedElementToInstructionMapEntryImpl <em>Created Element To Instruction Map Entry</em>}' class.
-		 * <!-- begin-user-doc --> <!--
-		 * end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CreatedElementToInstructionMapEntryImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCreatedElementToInstructionMapEntry()
 		 * @generated
@@ -2624,7 +2688,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.UnresolvedReferenceHolderImpl <em>Unresolved Reference Holder</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.UnresolvedReferenceHolderImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getUnresolvedReferenceHolder()
 		 * @generated
@@ -2632,36 +2697,36 @@ public interface CompilerPackage extends EPackage {
 		EClass UNRESOLVED_REFERENCE_HOLDER = eINSTANCE.getUnresolvedReferenceHolder();
 
 		/**
-		 * The meta object literal for the '<em><b>Textual Reference</b></em>' attribute feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Textual Reference</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute UNRESOLVED_REFERENCE_HOLDER__TEXTUAL_REFERENCE = eINSTANCE
 				.getUnresolvedReferenceHolder_TextualReference();
 
 		/**
-		 * The meta object literal for the '<em><b>Containment Reference</b></em>' attribute feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Containment Reference</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute UNRESOLVED_REFERENCE_HOLDER__CONTAINMENT_REFERENCE = eINSTANCE
 				.getUnresolvedReferenceHolder_ContainmentReference();
 
 		/**
-		 * The meta object literal for the '<em><b>Instruction Container</b></em>' reference feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Instruction Container</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference UNRESOLVED_REFERENCE_HOLDER__INSTRUCTION_CONTAINER = eINSTANCE
 				.getUnresolvedReferenceHolder_InstructionContainer();
 
 		/**
-		 * The meta object literal for the '<em><b>Concerned Feature</b></em>' reference feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Concerned Feature</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference UNRESOLVED_REFERENCE_HOLDER__CONCERNED_FEATURE = eINSTANCE
@@ -2669,7 +2734,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusImpl <em>Compilation Status</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationStatus()
 		 * @generated
@@ -2686,16 +2752,16 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Message</b></em>' attribute feature.
-		 * <!-- begin-user-doc
-		 * --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute COMPILATION_STATUS__MESSAGE = eINSTANCE.getCompilationStatus_Message();
 
 		/**
 		 * The meta object literal for the '<em><b>Severity</b></em>' attribute feature.
-		 * <!-- begin-user-doc
-		 * --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute COMPILATION_STATUS__SEVERITY = eINSTANCE.getCompilationStatus_Severity();
@@ -2710,7 +2776,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl <em>Compilation Status Manager</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationStatusManager()
 		 * @generated
@@ -2719,16 +2786,17 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Compilation Status List</b></em>' reference list feature.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPILATION_STATUS_MANAGER__COMPILATION_STATUS_LIST = eINSTANCE
 				.getCompilationStatusManager_CompilationStatusList();
 
 		/**
-		 * The meta object literal for the '<em><b>Modeling Unit To Status List</b></em>' map feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Modeling Unit To Status List</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPILATION_STATUS_MANAGER__MODELING_UNIT_TO_STATUS_LIST = eINSTANCE
@@ -2745,7 +2813,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationInformationHolderImpl <em>Compilation Information Holder</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationInformationHolderImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationInformationHolder()
 		 * @generated
@@ -2754,7 +2823,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Generated Element List</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPILATION_INFORMATION_HOLDER__GENERATED_ELEMENT_LIST = eINSTANCE
@@ -2762,16 +2832,17 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Element To Unresolved Reference Map</b></em>' map feature.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPILATION_INFORMATION_HOLDER__ELEMENT_TO_UNRESOLVED_REFERENCE_MAP = eINSTANCE
 				.getCompilationInformationHolder_ElementToUnresolvedReferenceMap();
 
 		/**
-		 * The meta object literal for the '<em><b>Type To Name To Elements Map</b></em>' map feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Type To Name To Elements Map</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPILATION_INFORMATION_HOLDER__TYPE_TO_NAME_TO_ELEMENTS_MAP = eINSTANCE
@@ -2779,7 +2850,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Created Elements To Instructions</b></em>' map feature.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPILATION_INFORMATION_HOLDER__CREATED_ELEMENTS_TO_INSTRUCTIONS = eINSTANCE
@@ -2787,25 +2859,26 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Current Generated Element List</b></em>' reference list feature.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPILATION_INFORMATION_HOLDER__CURRENT_GENERATED_ELEMENT_LIST = eINSTANCE
 				.getCompilationInformationHolder_CurrentGeneratedElementList();
 
 		/**
-		 * The meta object literal for the '<em><b>Resource To Contained Elements</b></em>' map feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Resource To Contained Elements</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPILATION_INFORMATION_HOLDER__RESOURCE_TO_CONTAINED_ELEMENTS = eINSTANCE
 				.getCompilationInformationHolder_ResourceToContainedElements();
 
 		/**
-		 * The meta object literal for the '<em><b>Unresolved Contributions</b></em>' map feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Unresolved Contributions</b></em>' map feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPILATION_INFORMATION_HOLDER__UNRESOLVED_CONTRIBUTIONS = eINSTANCE
@@ -2813,7 +2886,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.UnresolvedContributionHolderImpl <em>Unresolved Contribution Holder</em>}' class.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.UnresolvedContributionHolderImpl
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getUnresolvedContributionHolder()
 		 * @generated
@@ -2822,17 +2896,17 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '<em><b>Resolved</b></em>' attribute feature.
-		 * <!-- begin-user-doc
-		 * --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute UNRESOLVED_CONTRIBUTION_HOLDER__RESOLVED = eINSTANCE
 				.getUnresolvedContributionHolder_Resolved();
 
 		/**
-		 * The meta object literal for the '<em><b>Referenced Contribution</b></em>' reference feature. <!--
-		 * begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Referenced Contribution</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference UNRESOLVED_CONTRIBUTION_HOLDER__REFERENCED_CONTRIBUTION = eINSTANCE
@@ -3162,15 +3236,6 @@ public interface CompilerPackage extends EPackage {
 		EClass SYNCHRONIZER_COMPILATION_STATUS = eINSTANCE.getSynchronizerCompilationStatus();
 
 		/**
-		 * The meta object literal for the '<em><b>Working Copy Resource URI</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI = eINSTANCE
-				.getSynchronizerCompilationStatus_WorkingCopyResourceURI();
-
-		/**
 		 * The meta object literal for the '<em><b>Compiled Resource URI</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -3180,8 +3245,18 @@ public interface CompilerPackage extends EPackage {
 				.getSynchronizerCompilationStatus_CompiledResourceURI();
 
 		/**
+		 * The meta object literal for the '<em><b>Working Copy Resource URI</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI = eINSTANCE
+				.getSynchronizerCompilationStatus_WorkingCopyResourceURI();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity <em>Compilation Status Severity</em>}' enum.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationStatusSeverity()
 		 * @generated
@@ -3190,7 +3265,8 @@ public interface CompilerPackage extends EPackage {
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType <em>Compilation Message Type</em>}' enum.
-		 * <!-- begin-user-doc --> <!-- end-user-doc -->
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType
 		 * @see org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl#getCompilationMessageType()
 		 * @generated
@@ -3219,4 +3295,4 @@ public interface CompilerPackage extends EPackage {
 
 	}
 
-} // CompilerPackage
+} //CompilerPackage

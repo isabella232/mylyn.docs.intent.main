@@ -60,8 +60,7 @@ public final class IndexerCreator {
 		// Step 2 : creating the handler
 		RepositoryObjectHandler handler = new ReadWriteRepositoryObjectHandlerImpl(repositoryAdapter);
 		Set<EStructuralFeature> listenedFeatures = new LinkedHashSet<EStructuralFeature>();
-		listenedFeatures.add(IntentDocumentPackage.eINSTANCE.getIntentDocument_Chapters());
-		listenedFeatures.add(IntentDocumentPackage.eINSTANCE.getIntentSubSectionContainer_SubSections());
+		listenedFeatures.add(IntentDocumentPackage.eINSTANCE.getIntentSection_SubSections());
 
 		Notificator listenedElementsNotificator = new TypeNotificator(listenedFeatures);
 		handler.addNotificator(listenedElementsNotificator);

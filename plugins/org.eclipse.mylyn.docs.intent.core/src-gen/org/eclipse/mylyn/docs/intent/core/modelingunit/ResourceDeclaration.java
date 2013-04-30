@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,10 +7,11 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.modelingunit;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,12 +42,12 @@ public interface ResourceDeclaration extends ModelingUnitInstruction {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Uri</em>' attribute.
-	 * @see #setUri(String)
+	 * @see #setUri(URI)
 	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#getResourceDeclaration_Uri()
 	 * @model dataType="org.eclipse.mylyn.docs.intent.core.document.URI"
 	 * @generated
 	 */
-	Object getUri();
+	URI getUri();
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration#getUri <em>Uri</em>}' attribute.
@@ -56,7 +57,7 @@ public interface ResourceDeclaration extends ModelingUnitInstruction {
 	 * @see #getUri()
 	 * @generated
 	 */
-	void setUri(Object value);
+	void setUri(URI value);
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.

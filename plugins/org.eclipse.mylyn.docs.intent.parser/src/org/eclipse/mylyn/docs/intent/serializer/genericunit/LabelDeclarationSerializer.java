@@ -10,8 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.serializer.genericunit;
 
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
-import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
+import org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration;
+import org.eclipse.mylyn.docs.intent.core.document.TypeLabel;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 
 /**

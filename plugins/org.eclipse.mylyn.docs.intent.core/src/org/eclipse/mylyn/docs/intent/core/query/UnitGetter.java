@@ -13,11 +13,9 @@ package org.eclipse.mylyn.docs.intent.core.query;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
+import org.eclipse.mylyn.docs.intent.core.document.GenericUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 
 /**
@@ -57,46 +55,8 @@ public final class UnitGetter {
 		if (element instanceof IntentSection) {
 			containedModelingUnits.addAll(getAllModelingUnitsContainedInSection((IntentSection)element));
 		}
-		// If the given element is a Chapter
-		if (element instanceof IntentChapter) {
-			containedModelingUnits.addAll(getAllModelingUnitsContainedInChapter((IntentChapter)element));
-		}
-		// If the given element is a IntentDocument
-		if (element instanceof IntentDocument) {
-			containedModelingUnits.addAll(getAllModelingUnitsContainedInIntentDocument((IntentDocument)element));
-		}
 		// In all other cases, we simply return an empty list
 
-		return containedModelingUnits;
-	}
-
-	/**
-	 * Returns all the modeling units contained in the given IntentDocument.
-	 * 
-	 * @param document
-	 *            the IntentDocument to inspect
-	 * @return a list containing all the modeling units contained in the given IntentDocument
-	 */
-	private static EList<ModelingUnit> getAllModelingUnitsContainedInIntentDocument(IntentDocument document) {
-		EList<ModelingUnit> containedModelingUnits = new BasicEList<ModelingUnit>();
-		for (IntentChapter chapter : document.getChapters()) {
-			containedModelingUnits.addAll(getAllModelingUnitsContainedInChapter(chapter));
-		}
-		return containedModelingUnits;
-	}
-
-	/**
-	 * Returns all the modeling units contained in the given Chapter.
-	 * 
-	 * @param chapter
-	 *            the Chapter to inspect
-	 * @return a list containing all the modeling units contained in the given Chapter
-	 */
-	private static EList<ModelingUnit> getAllModelingUnitsContainedInChapter(IntentChapter chapter) {
-		EList<ModelingUnit> containedModelingUnits = new BasicEList<ModelingUnit>();
-		for (IntentSection section : chapter.getSubSections()) {
-			containedModelingUnits.addAll(getAllModelingUnitsContainedInSection(section));
-		}
 		return containedModelingUnits;
 	}
 
@@ -146,51 +106,11 @@ public final class UnitGetter {
 		}
 		// If the given element is a Section
 		if (element instanceof IntentSection) {
-			containedDescriptionUnits.addAll(getAllDescriptionUnitsContainedInSection((IntentSection)element));
-		}
-		// If the given element is a Chapter
-		if (element instanceof IntentChapter) {
-			containedDescriptionUnits.addAll(getAllDescriptionUnitsContainedInChapter((IntentChapter)element));
-		}
-		// If the given element is a IntentDocument
-		if (element instanceof IntentDocument) {
 			containedDescriptionUnits
-					.addAll(getAllDescriptionUnitsContainedInIntentDocument((IntentDocument)element));
+					.addAll(getAllDescriptionUnitsContainedInSection((IntentSection)element));
 		}
 		// In all other cases, we simply return an empty list
 
-		return containedDescriptionUnits;
-	}
-
-	/**
-	 * Returns all the Description units contained in the given IntentDocument.
-	 * 
-	 * @param document
-	 *            the IntentDocument to inspect
-	 * @return a list containing all the Description units contained in the given IntentDocument
-	 */
-	private static EList<DescriptionUnit> getAllDescriptionUnitsContainedInIntentDocument(IntentDocument document) {
-		EList<DescriptionUnit> containedDescriptionUnits = new BasicEList<DescriptionUnit>();
-		for (IntentChapter chapter : document.getChapters()) {
-			containedDescriptionUnits.addAll(getAllDescriptionUnitsContainedInChapter(chapter));
-		}
-		return containedDescriptionUnits;
-	}
-
-	/**
-	 * Returns all the Description units contained in the given Chapter.
-	 * 
-	 * @param chapter
-	 *            the Chapter to inspect
-	 * @return a list containing all the Description units contained in the given Chapter
-	 */
-	private static EList<DescriptionUnit> getAllDescriptionUnitsContainedInChapter(IntentChapter chapter) {
-		EList<DescriptionUnit> containedDescriptionUnits = new BasicEList<DescriptionUnit>();
-
-		containedDescriptionUnits.addAll(chapter.getDescriptionUnits());
-		for (IntentSection section : chapter.getSubSections()) {
-			containedDescriptionUnits.addAll(getAllDescriptionUnitsContainedInSection(section));
-		}
 		return containedDescriptionUnits;
 	}
 

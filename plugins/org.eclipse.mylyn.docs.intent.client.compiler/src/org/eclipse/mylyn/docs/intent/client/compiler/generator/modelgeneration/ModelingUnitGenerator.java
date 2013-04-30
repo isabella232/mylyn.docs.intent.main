@@ -23,17 +23,17 @@ import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.Mode
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceInModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch;
 
@@ -247,13 +247,13 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNativeValueForStructuralFeature(org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNativeValue(org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue)
 	 */
 	@Override
-	public List<Object> caseNativeValueForStructuralFeature(NativeValueForStructuralFeature value) {
+	public List<Object> caseNativeValue(NativeValue value) {
 		List<Object> createdObject = new ArrayList<Object>();
 		try {
-			createdObject.add(NativeValueForStructuralFeatureGenerator.generate(value, linkResolver, this));
+			createdObject.add(NativeValueGenerator.generate(value, linkResolver, this));
 		} catch (InvalidValueException e) {
 			this.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
 					new CompilationException(e.getInvalidInstruction(),
@@ -265,25 +265,23 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseReferenceValueForStructuralFeature(org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseReferenceValue(org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue)
 	 */
 	@Override
-	public List<Object> caseReferenceValueForStructuralFeature(
-			ReferenceValueForStructuralFeature referenceValue) {
+	public List<Object> caseReferenceValue(ReferenceValue referenceValue) {
 		List<Object> createdObject = new ArrayList<Object>();
 
-		createdObject.add(ReferenceValueForStructuralFeatureGenerator.generate(referenceValue, linkResolver,
-				this));
+		createdObject.add(ReferenceValueGenerator.generate(referenceValue, linkResolver, this));
 		return createdObject;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNewObjectValueForStructuralFeature(org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNewObjectValue(org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue)
 	 */
 	@Override
-	public List<Object> caseNewObjectValueForStructuralFeature(NewObjectValueForStructuralFeature value) {
+	public List<Object> caseNewObjectValue(NewObjectValue value) {
 		List<Object> createdObjects = new ArrayList<Object>();
 		createdObjects.addAll(doSwitch(value.getValue()));
 		return createdObjects;
@@ -328,7 +326,7 @@ public class ModelingUnitGenerator extends ModelingUnitSwitch<List<Object>> {
 	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseIntentReferenceinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit)
 	 */
 	@Override
-	public List<Object> caseIntentReferenceinModelingUnit(IntentReferenceinModelingUnit object) {
+	public List<Object> caseIntentReferenceInModelingUnit(IntentReferenceInModelingUnit object) {
 		return new ArrayList<Object>();
 	}
 

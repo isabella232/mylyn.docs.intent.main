@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler;
 
 import java.util.Arrays;
@@ -17,10 +17,10 @@ import java.util.List;
 import org.eclipse.emf.common.util.Enumerator;
 
 /**
- * <!-- begin-user-doc --> A representation of the literals of the enumeration '
- * <em><b>Compilation Status Severity</b></em>', and utility methods for working with them. <!-- end-user-doc
- * -->
- * 
+ * <!-- begin-user-doc -->
+ * A representation of the literals of the enumeration '<em><b>Compilation Status Severity</b></em>',
+ * and utility methods for working with them.
+ * <!-- end-user-doc -->
  * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage#getCompilationStatusSeverity()
  * @model
  * @generated
@@ -28,7 +28,8 @@ import org.eclipse.emf.common.util.Enumerator;
 public enum CompilationStatusSeverity implements Enumerator {
 	/**
 	 * The '<em><b>WARNING</b></em>' literal object.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #WARNING_VALUE
 	 * @generated
 	 * @ordered
@@ -37,7 +38,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 
 	/**
 	 * The '<em><b>ERROR</b></em>' literal object.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #ERROR_VALUE
 	 * @generated
 	 * @ordered
@@ -46,7 +48,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 
 	/**
 	 * The '<em><b>INFO</b></em>' literal object.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #INFO_VALUE
 	 * @generated
 	 * @ordered
@@ -55,7 +58,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 
 	/**
 	 * The '<em><b>OK</b></em>' literal object.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @see #OK_VALUE
 	 * @generated
 	 * @ordered
@@ -66,8 +70,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 	 * The '<em><b>WARNING</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>WARNING</b></em>' literal object isn't clear, there really should be more of
-	 * a description here...
+	 * If the meaning of '<em><b>WARNING</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #WARNING
@@ -81,8 +85,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 	 * The '<em><b>ERROR</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>ERROR</b></em>' literal object isn't clear, there really should be more of a
-	 * description here...
+	 * If the meaning of '<em><b>ERROR</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ERROR
@@ -96,8 +100,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 	 * The '<em><b>INFO</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>INFO</b></em>' literal object isn't clear, there really should be more of a
-	 * description here...
+	 * If the meaning of '<em><b>INFO</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #INFO
@@ -111,8 +115,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 	 * The '<em><b>OK</b></em>' literal value.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>OK</b></em>' literal object isn't clear, there really should be more of a
-	 * description here...
+	 * If the meaning of '<em><b>OK</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OK
@@ -133,9 +137,9 @@ public enum CompilationStatusSeverity implements Enumerator {
 	};
 
 	/**
-	 * A public read-only list of all the '<em><b>Compilation Status Severity</b></em>' enumerators. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * A public read-only list of all the '<em><b>Compilation Status Severity</b></em>' enumerators.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static final List<CompilationStatusSeverity> VALUES = Collections.unmodifiableList(Arrays
@@ -143,7 +147,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 
 	/**
 	 * Returns the '<em><b>Compilation Status Severity</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static CompilationStatusSeverity get(String literal) {
@@ -157,9 +162,9 @@ public enum CompilationStatusSeverity implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Compilation Status Severity</b></em>' literal with the specified name. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the '<em><b>Compilation Status Severity</b></em>' literal with the specified name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static CompilationStatusSeverity getByName(String name) {
@@ -174,7 +179,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 
 	/**
 	 * Returns the '<em><b>Compilation Status Severity</b></em>' literal with the specified integer value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public static CompilationStatusSeverity get(int value) {
@@ -192,26 +198,30 @@ public enum CompilationStatusSeverity implements Enumerator {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private final int value;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private final String name;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
 	 * Only this class can construct instances.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	private CompilationStatusSeverity(int value, String name, String literal) {
@@ -221,7 +231,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public int getValue() {
@@ -229,7 +240,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getName() {
@@ -237,7 +249,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getLiteral() {
@@ -246,8 +259,8 @@ public enum CompilationStatusSeverity implements Enumerator {
 
 	/**
 	 * Returns the literal value of the enumerator, which is its string representation.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -255,4 +268,4 @@ public enum CompilationStatusSeverity implements Enumerator {
 		return literal;
 	}
 
-} // CompilationStatusSeverity
+} //CompilationStatusSeverity

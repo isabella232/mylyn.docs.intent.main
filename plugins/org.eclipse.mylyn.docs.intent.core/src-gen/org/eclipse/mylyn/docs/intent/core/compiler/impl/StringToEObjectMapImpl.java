@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,19 +7,23 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>String To EObject Map</b></em>'. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>String To EObject Map</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -31,7 +35,8 @@ import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
  */
 public class StringToEObjectMapImpl extends CDOObjectImpl implements StringToEObjectMap {
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected StringToEObjectMapImpl() {
@@ -39,7 +44,8 @@ public class StringToEObjectMapImpl extends CDOObjectImpl implements StringToEOb
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -48,7 +54,8 @@ public class StringToEObjectMapImpl extends CDOObjectImpl implements StringToEOb
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -57,7 +64,8 @@ public class StringToEObjectMapImpl extends CDOObjectImpl implements StringToEOb
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -66,4 +74,4 @@ public class StringToEObjectMapImpl extends CDOObjectImpl implements StringToEOb
 				true);
 	}
 
-} // StringToEObjectMapImpl
+} //StringToEObjectMapImpl

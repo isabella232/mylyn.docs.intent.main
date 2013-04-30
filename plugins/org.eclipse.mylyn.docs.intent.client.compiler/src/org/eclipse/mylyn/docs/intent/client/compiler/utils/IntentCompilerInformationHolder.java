@@ -35,7 +35,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;

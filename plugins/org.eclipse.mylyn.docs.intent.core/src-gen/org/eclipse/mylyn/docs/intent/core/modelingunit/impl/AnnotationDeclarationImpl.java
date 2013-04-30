@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,14 +7,17 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
+
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
+import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 
@@ -60,7 +63,7 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 	 * @generated
 	 */
 	public String getIntentHref() {
-		return (String)eGet(GenericUnitPackage.Literals.INTENT_REFERENCE__INTENT_HREF, true);
+		return (String)eGet(IntentDocumentPackage.Literals.INTENT_REFERENCE__INTENT_HREF, true);
 	}
 
 	/**
@@ -69,7 +72,7 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 	 * @generated
 	 */
 	public void setIntentHref(String newIntentHref) {
-		eSet(GenericUnitPackage.Literals.INTENT_REFERENCE__INTENT_HREF, newIntentHref);
+		eSet(IntentDocumentPackage.Literals.INTENT_REFERENCE__INTENT_HREF, newIntentHref);
 	}
 
 	/**
@@ -78,7 +81,7 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 	 * @generated
 	 */
 	public EObject getReferencedElement() {
-		return (EObject)eGet(GenericUnitPackage.Literals.INTENT_REFERENCE__REFERENCED_ELEMENT, true);
+		return (EObject)eGet(IntentDocumentPackage.Literals.INTENT_REFERENCE__REFERENCED_ELEMENT, true);
 	}
 
 	/**
@@ -87,7 +90,7 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 	 * @generated
 	 */
 	public void setReferencedElement(EObject newReferencedElement) {
-		eSet(GenericUnitPackage.Literals.INTENT_REFERENCE__REFERENCED_ELEMENT, newReferencedElement);
+		eSet(IntentDocumentPackage.Literals.INTENT_REFERENCE__REFERENCED_ELEMENT, newReferencedElement);
 	}
 
 	/**
@@ -128,9 +131,9 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 		if (baseClass == IntentReference.class) {
 			switch (derivedFeatureID) {
 				case ModelingUnitPackage.ANNOTATION_DECLARATION__INTENT_HREF:
-					return GenericUnitPackage.INTENT_REFERENCE__INTENT_HREF;
+					return IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF;
 				case ModelingUnitPackage.ANNOTATION_DECLARATION__REFERENCED_ELEMENT:
-					return GenericUnitPackage.INTENT_REFERENCE__REFERENCED_ELEMENT;
+					return IntentDocumentPackage.INTENT_REFERENCE__REFERENCED_ELEMENT;
 				default:
 					return -1;
 			}
@@ -147,9 +150,9 @@ public class AnnotationDeclarationImpl extends ModelingUnitInstructionImpl imple
 	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
 		if (baseClass == IntentReference.class) {
 			switch (baseFeatureID) {
-				case GenericUnitPackage.INTENT_REFERENCE__INTENT_HREF:
+				case IntentDocumentPackage.INTENT_REFERENCE__INTENT_HREF:
 					return ModelingUnitPackage.ANNOTATION_DECLARATION__INTENT_HREF;
-				case GenericUnitPackage.INTENT_REFERENCE__REFERENCED_ELEMENT:
+				case IntentDocumentPackage.INTENT_REFERENCE__REFERENCED_ELEMENT:
 					return ModelingUnitPackage.ANNOTATION_DECLARATION__REFERENCED_ELEMENT;
 				default:
 					return -1;

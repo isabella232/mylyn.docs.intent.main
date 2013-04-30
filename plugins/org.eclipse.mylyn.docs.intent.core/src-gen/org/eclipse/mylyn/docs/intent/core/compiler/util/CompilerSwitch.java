@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,57 +7,53 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.util;
 
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.util.Switch;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.*;
-import org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
-import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
-import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
-import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
-import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
-import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
-import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+
+import org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
- * <!-- begin-user-doc --> The <b>Switch</b> for the model's inheritance hierarchy. It supports the call
- * {@link #doSwitch(EObject) doSwitch(object)} to invoke the <code>caseXXX</code> method for each class of the
- * model, starting with the actual class of the object and proceeding up the inheritance hierarchy until a
- * non-null result is returned, which is the result of the switch. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * The <b>Switch</b> for the model's inheritance hierarchy.
+ * It supports the call {@link #doSwitch(EObject) doSwitch(object)}
+ * to invoke the <code>caseXXX</code> method for each class of the model,
+ * starting with the actual class of the object
+ * and proceeding up the inheritance hierarchy
+ * until a non-null result is returned,
+ * which is the result of the switch.
+ * <!-- end-user-doc -->
  * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage
  * @generated
  */
 public class CompilerSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected static CompilerPackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public CompilerSwitch() {
@@ -81,7 +77,8 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
@@ -217,7 +214,7 @@ public class CompilerSwitch<T> extends Switch<T> {
 			}
 			case CompilerPackage.FEATURE_TO_AFFECTATION_ENTRY: {
 				@SuppressWarnings("unchecked")
-				Map.Entry<String, EList<ValueForStructuralFeature>> featureToAffectationEntry = (Map.Entry<String, EList<ValueForStructuralFeature>>)theEObject;
+				Map.Entry<String, EList<AbstractValue>> featureToAffectationEntry = (Map.Entry<String, EList<AbstractValue>>)theEObject;
 				T result = caseFeatureToAffectationEntry(featureToAffectationEntry);
 				if (result == null)
 					result = defaultCase(theEObject);
@@ -297,12 +294,12 @@ public class CompilerSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>EString To EObject</em>'. <!--
-	 * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the
-	 * switch. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
+	 * Returns the result of interpreting the object as an instance of '<em>EString To EObject</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>EString To EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
@@ -313,8 +310,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Textual Reference To Contributions</em>'.
-	 * <!-- begin-user-doc --> This implementation returns null;
-	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Textual Reference To Contributions</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -325,12 +324,12 @@ public class CompilerSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>String To EObject Map</em>'. <!--
-	 * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the
-	 * switch. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
+	 * Returns the result of interpreting the object as an instance of '<em>String To EObject Map</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>String To EObject Map</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
@@ -341,8 +340,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>EType To String To EObject Map</em>'.
-	 * <!-- begin-user-doc --> This implementation returns null;
-	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>EType To String To EObject Map</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -354,8 +355,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>EObject To Unresolved References List</em>'.
-	 * <!-- begin-user-doc --> This implementation returns
-	 * null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>EObject To Unresolved References List</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -367,8 +370,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Resource To Contained Elements Map Entry</em>'.
-	 * <!-- begin-user-doc --> This implementation returns
-	 * null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Resource To Contained Elements Map Entry</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -380,8 +385,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Modeling Unit To Status List</em>'.
-	 * <!-- begin-user-doc --> This implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Modeling Unit To Status List</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -393,8 +400,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Created Element To Instruction Map Entry</em>'.
-	 * <!-- begin-user-doc --> This implementation returns
-	 * null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Created Element To Instruction Map Entry</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -406,8 +415,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Unresolved Reference Holder</em>'.
-	 * <!-- begin-user-doc --> This implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Unresolved Reference Holder</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -418,12 +429,12 @@ public class CompilerSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Compilation Status</em>'. <!--
-	 * begin-user-doc --> This implementation returns null; returning a non-null result will terminate the
-	 * switch. <!-- end-user-doc -->
-	 * 
-	 * @param object
-	 *            the target of the switch.
+	 * Returns the result of interpreting the object as an instance of '<em>Compilation Status</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Compilation Status</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
@@ -434,8 +445,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Compilation Status Manager</em>'.
-	 * <!-- begin-user-doc --> This implementation returns null; returning a non-null result will terminate
-	 * the switch. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Compilation Status Manager</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -447,8 +460,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Compilation Information Holder</em>'.
-	 * <!-- begin-user-doc --> This implementation returns null;
-	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Compilation Information Holder</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -460,8 +475,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Unresolved Contribution Holder</em>'.
-	 * <!-- begin-user-doc --> This implementation returns null;
-	 * returning a non-null result will terminate the switch. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>Unresolved Contribution Holder</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
@@ -543,7 +560,7 @@ public class CompilerSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseFeatureToAffectationEntry(Map.Entry<String, EList<ValueForStructuralFeature>> object) {
+	public T caseFeatureToAffectationEntry(Map.Entry<String, EList<AbstractValue>> object) {
 		return null;
 	}
 
@@ -639,9 +656,10 @@ public class CompilerSwitch<T> extends Switch<T> {
 
 	/**
 	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
-	 * <!-- begin-user-doc
-	 * --> This implementation returns null; returning a non-null result will terminate the switch, but this
-	 * is the last case anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch, but this is the last case anyway.
+	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
 	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
@@ -652,4 +670,4 @@ public class CompilerSwitch<T> extends Switch<T> {
 		return null;
 	}
 
-} // CompilerSwitch
+} //CompilerSwitch

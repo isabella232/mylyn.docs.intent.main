@@ -33,14 +33,14 @@ import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * This factory is in charge of creating {@link CompilationStatus} from different elements ( {@link Diff} of a
@@ -118,7 +118,7 @@ public final class SynchronizerStatusFactory {
 		target = getInstructionFromAffectation(indexEntry, compiledElement, difference.getReference(),
 				difference.getValue());
 
-		if (target instanceof NewObjectValueForStructuralFeature && !target.eContents().isEmpty()) {
+		if (target instanceof NewObjectValue && !target.eContents().isEmpty()) {
 			EObject content = target.eContents().get(0);
 			if (content instanceof InstanciationInstruction) {
 				target = (InstanciationInstruction)content;
@@ -219,14 +219,14 @@ public final class SynchronizerStatusFactory {
 			}
 
 			for (InstructionTraceabilityEntry entry : instructionEntries) {
-				EList<ValueForStructuralFeature> values = entry.getFeatures().get(feature.getName());
+				EList<AbstractValue> values = entry.getFeatures().get(feature.getName());
 				if (values != null) {
-					for (ValueForStructuralFeature value : values) {
+					for (AbstractValue value : values) {
 						Object compiledValue = getCompiledValue(indexEntry, value);
-						boolean isNativeValueEquals = value instanceof NativeValueForStructuralFeature
-								&& diffValue != null && diffValue.toString().equals(compiledValue);
-						boolean isRefValue = value instanceof ReferenceValueForStructuralFeature
-								|| value instanceof NewObjectValueForStructuralFeature;
+						boolean isNativeValueEquals = value instanceof NativeValue && diffValue != null
+								&& diffValue.toString().equals(compiledValue);
+						boolean isRefValue = value instanceof ReferenceValue
+								|| value instanceof NewObjectValue;
 						boolean refValueEquals = (diffValue == null && compiledValue == null)
 								|| (diffValue != null && diffValue.equals(compiledValue));
 						boolean isRefValueEquals = isRefValue && refValueEquals;
@@ -242,7 +242,7 @@ public final class SynchronizerStatusFactory {
 	}
 
 	/**
-	 * Computes the compiled value from a given {@link ValueForStructuralFeature}.
+	 * Computes the compiled value from a given {@link AbstractValue}.
 	 * 
 	 * @param indexEntry
 	 *            the index entry
@@ -250,24 +250,23 @@ public final class SynchronizerStatusFactory {
 	 *            the modeling unit value
 	 * @return the compiled value
 	 */
-	private static Object getCompiledValue(TraceabilityIndexEntry indexEntry, ValueForStructuralFeature value) {
+	private static Object getCompiledValue(TraceabilityIndexEntry indexEntry, AbstractValue value) {
 		Object res = null;
 		switch (value.eClass().getClassifierID()) {
-			case ModelingUnitPackage.NATIVE_VALUE_FOR_STRUCTURAL_FEATURE:
-				res = ((NativeValueForStructuralFeature)value).getValue().replaceAll("\"", "");
+			case ModelingUnitPackage.NATIVE_VALUE:
+				res = ((NativeValue)value).getValue().replaceAll("\"", "");
 				break;
-			case ModelingUnitPackage.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE:
-				InstanciationInstruction referencedInstanciation = ((ReferenceValueForStructuralFeature)value)
+			case ModelingUnitPackage.REFERENCE_VALUE:
+				InstanciationInstruction referencedInstanciation = ((ReferenceValue)value)
 						.getInstanciationReference().getInstanciation();
 				if (referencedInstanciation != null) {
 					res = getCompiledElement(indexEntry, referencedInstanciation);
 				} else {
-					res = ((ReferenceValueForStructuralFeature)value).getReferencedMetaType();
+					res = ((ReferenceValue)value).getReferenceType();
 				}
 				break;
-			case ModelingUnitPackage.NEW_OBJECT_VALUE_FOR_STRUCTURAL_FEATURE:
-				InstanciationInstruction instanciation = ((NewObjectValueForStructuralFeature)value)
-						.getValue();
+			case ModelingUnitPackage.NEW_OBJECT_VALUE:
+				InstanciationInstruction instanciation = ((NewObjectValue)value).getValue();
 				if (instanciation != null) {
 					res = getCompiledElement(indexEntry, instanciation);
 				}

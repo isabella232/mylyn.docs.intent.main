@@ -33,7 +33,7 @@ public class OpenEditorTest extends AbstractDemoTest {
 		openIntentEditor();
 
 		// Opens a chapter in a separate editor
-		openIntentEditor(getIntentChapter(2)); // "2. Architecture"
+		openIntentEditor(getIntentSection(2)); // "2. Architecture"
 
 		// Opens a section in a separate editor
 		openIntentEditor(getIntentSection(2, 1)); // "2.1 Comparison process"

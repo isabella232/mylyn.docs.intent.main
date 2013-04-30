@@ -65,7 +65,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.query.IntentHelper;
 import org.eclipse.mylyn.docs.intent.markup.markup.Image;

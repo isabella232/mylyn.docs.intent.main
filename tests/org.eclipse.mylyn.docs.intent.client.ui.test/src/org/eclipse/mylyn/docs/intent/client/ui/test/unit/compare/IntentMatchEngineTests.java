@@ -22,11 +22,9 @@ import org.eclipse.emf.compare.DifferenceKind;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 
@@ -115,13 +113,13 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 
 		// Create a copy with a new chapter
 		IntentDocument copy = EcoreUtil.copy(getIntentDocument());
-		IntentChapter newChapter;
+		IntentSection newChapter;
 		try {
-			newChapter = (IntentChapter)new IntentParser().parse("Chapter {\n\tChapter 1\n\tChaper1\n\t");
+			newChapter = (IntentSection)new IntentParser().parse("Chapter {\n\tChapter 1\n\tChaper1\n\t");
 
 			// according to where the chapter is added, we should have the following results :
-			for (int position = 0; position <= getIntentDocument().getChapters().size(); position++) {
-				copy.getChapters().add(position, newChapter);
+			for (int position = 0; position <= getIntentDocument().getIntentContent().size(); position++) {
+				copy.getSubSections().add(position, newChapter);
 				List<Diff> differences = EMFCompareUtils.compareDocuments(copy, getIntentDocument())
 						.getDifferences();
 				String message = "One new chapter should be detected at position " + position;
@@ -137,7 +135,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 				} catch (AssertionFailedError e) {
 					errors.add(e);
 				}
-				copy.getChapters().remove(newChapter);
+				copy.getSubSections().remove(newChapter);
 
 			}
 		} catch (ParseException e) {
@@ -152,10 +150,10 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 		// Create a copy in which a chapter is removed
 		IntentDocument copy = EcoreUtil.copy(getIntentDocument());
 		// according to where the chapter is added, we should have the following results :
-		for (int position = 0; position < getIntentDocument().getChapters().size(); position++) {
-			IntentChapter chapterToRemoveInOriginal = getIntentDocument().getChapters().get(position);
-			IntentChapter chapterToRemoveinCopy = copy.getChapters().get(position);
-			copy.getChapters().remove(chapterToRemoveinCopy);
+		for (int position = 0; position < getIntentDocument().getSubSections().size(); position++) {
+			IntentSection chapterToRemoveInOriginal = getIntentDocument().getSubSections().get(position);
+			IntentSection chapterToRemoveinCopy = copy.getSubSections().get(position);
+			copy.getIntentContent().remove(chapterToRemoveinCopy);
 			String message = "A Chapter deletion should be detected at " + position;
 			try {
 				List<Diff> differences = EMFCompareUtils.compareDocuments(copy, getIntentDocument())
@@ -171,7 +169,7 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 			} catch (AssertionFailedError e) {
 				errors.add(e);
 			}
-			copy.getChapters().add(position, chapterToRemoveinCopy);
+			copy.getSubSections().add(position, chapterToRemoveinCopy);
 
 		}
 
@@ -185,17 +183,17 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 		IntentDocument copy = EcoreUtil.copy(getIntentDocument());
 
 		// For each chapter of the document
-		for (int chapterID = 0; chapterID < getIntentDocument().getChapters().size(); chapterID++) {
-			doTestAddingSectionsRecursive(copy, getIntentDocument().getChapters().get(chapterID), copy
-					.getChapters().get(chapterID), 3);
+		for (int chapterID = 0; chapterID < getIntentDocument().getSubSections().size(); chapterID++) {
+			doTestAddingSectionsRecursive(copy, getIntentDocument().getSubSections().get(chapterID), copy
+					.getSubSections().get(chapterID), 3);
 		}
 	}
 
 	/**
 	 * Ensures that the creation of any section/subsection in the Intent document is correctly detected.
 	 */
-	private void doTestAddingSectionsRecursive(IntentDocument copy, IntentSubSectionContainer container,
-			IntentSubSectionContainer containerCopy, int containerLevel) {
+	private void doTestAddingSectionsRecursive(IntentDocument copy, IntentSection container,
+			IntentSection containerCopy, int containerLevel) {
 		IntentSection newSection;
 		try {
 			newSection = (IntentSection)new IntentParser().parse("Section {\n\tSection 1\n\tSection1\n\t");
@@ -242,9 +240,9 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 		IntentDocument copy = EcoreUtil.copy(getIntentDocument());
 
 		// For each chapter of the document
-		for (int chapterID = 0; chapterID < getIntentDocument().getChapters().size(); chapterID++) {
-			doTestRemovingSectionsRecursive(copy, getIntentDocument().getChapters().get(chapterID), copy
-					.getChapters().get(chapterID), 3);
+		for (int chapterID = 0; chapterID < getIntentDocument().getSubSections().size(); chapterID++) {
+			doTestRemovingSectionsRecursive(copy, getIntentDocument().getSubSections().get(chapterID), copy
+					.getSubSections().get(chapterID), 3);
 		}
 
 	}
@@ -252,8 +250,8 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 	/**
 	 * Ensures that the deletion of any section/subsection in the Intent document is correctly detected.
 	 */
-	private void doTestRemovingSectionsRecursive(IntentDocument copy, IntentSubSectionContainer container,
-			IntentSubSectionContainer containerCopy, int containerLevel) {
+	private void doTestRemovingSectionsRecursive(IntentDocument copy, IntentSection container,
+			IntentSection containerCopy, int containerLevel) {
 
 		// Delete each subsection
 		for (int sectionID = 0; sectionID < container.getSubSections().size(); sectionID++) {

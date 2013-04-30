@@ -49,7 +49,6 @@ import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryMa
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
@@ -377,17 +376,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	}
 
 	/**
-	 * Return the chapter at the given number.
-	 * 
-	 * @param number
-	 *            the number of the chapter
-	 * @return the chapter
-	 */
-	protected final IntentChapter getIntentChapter(int number) {
-		return getIntentDocument().getChapters().get(number - 1);
-	}
-
-	/**
 	 * Return the section at the given number.
 	 * 
 	 * @param number
@@ -395,10 +383,13 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * @return the section
 	 */
 	protected final IntentSection getIntentSection(int... number) {
-		IntentSection section = getIntentChapter(number[0]).getSubSections().get(number[1] - 1);
-		if (number.length > 2) {
-			for (int i = 2; i < number.length; i++) {
-				section = section.getSubSections().get(number[i] - 1);
+		IntentSection section = getIntentDocument().getSubSections().get(number[0] - 1);
+		if (number.length > 1) {
+			section.getSubSections().get(number[1] - 1);
+			if (number.length > 2) {
+				for (int i = 2; i < number.length; i++) {
+					section = section.getSubSections().get(number[i] - 1);
+				}
 			}
 		}
 		return section;

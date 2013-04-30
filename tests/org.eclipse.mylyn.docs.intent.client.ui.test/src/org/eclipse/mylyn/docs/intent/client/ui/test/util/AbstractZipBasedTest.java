@@ -10,19 +10,16 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
-import java.math.BigInteger;
-
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.util.WrappedException;
-import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
-import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
-import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 
 /**
  * Tests the Intent demo, part 1: navigation behavior.
@@ -37,7 +34,7 @@ public abstract class AbstractZipBasedTest extends AbstractIntentUITest {
 
 	private static final int RECENT_COMPILATION_DELAY = 60000;
 
-	private static final long TIME_OUT_DELAY = 10000;
+	private static final long TIME_OUT_DELAY = 60000;
 
 	private String location;
 
@@ -63,6 +60,12 @@ public abstract class AbstractZipBasedTest extends AbstractIntentUITest {
 	 */
 	@Override
 	protected void setUp() throws Exception {
+		// Disabling preview mechanism for performances improvements
+		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		node.putBoolean(IntentPreferenceConstants.SHOW_PREVIEW_PAGE, false);
+		// activate logging
+		node.putBoolean(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, true);
+
 		super.setUp();
 
 		// Step 1 : import the demo projects
@@ -80,27 +83,6 @@ public abstract class AbstractZipBasedTest extends AbstractIntentUITest {
 		// Step 2 : setting the intent repository
 		// and wait its complete initialization
 		setUpRepository(intentProject);
-		boolean repositoryInitialized = false;
-		long startTime = System.currentTimeMillis();
-		boolean timeOutDetected = false;
-		while (!repositoryInitialized && !timeOutDetected) {
-			try {
-				Resource resource = repositoryAdapter
-						.getResource(IntentLocations.TRACEABILITY_INFOS_INDEX_PATH);
-				// We ensure that the compiler did its work less that one minute ago
-				repositoryInitialized = resource != null
-						&& !resource.getContents().isEmpty()
-						&& isRecentTraceabilityIndex((TraceabilityIndex)resource.getContents().iterator()
-								.next());
-				timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
-				Thread.sleep(TIME_TO_WAIT);
-			} catch (WrappedException e) {
-				// Try again
-			}
-		}
-
-		assertFalse("The Intent clients have not been launched although the project has been imported",
-				timeOutDetected);
 		registerRepositoryListener();
 		repositoryListener.clearPreviousEntries();
 		waitForSynchronizer();
@@ -118,19 +100,15 @@ public abstract class AbstractZipBasedTest extends AbstractIntentUITest {
 	}
 
 	/**
-	 * Indicates if the given traceability index is recent or is old.
+	 * {@inheritDoc}
 	 * 
-	 * @param traceabilityIndex
-	 *            the traceability index to test
-	 * @return true if the given traceability index has been compiled less than a minute ago, false otherwise
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest#tearDown()
 	 */
-	private boolean isRecentTraceabilityIndex(TraceabilityIndex traceabilityIndex) {
-		if (traceabilityIndex.getEntries().size() > 0) {
-			final TraceabilityIndexEntry entry = traceabilityIndex.getEntries().iterator().next();
-			BigInteger compilationTime = entry.getCompilationTime();
-			return compilationTime.doubleValue() > (System.currentTimeMillis() - RECENT_COMPILATION_DELAY);
-		}
-		return false;
+	@Override
+	protected void tearDown() throws Exception {
+		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID);
+		node.putBoolean(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, false);
+		super.tearDown();
 	}
 
 }

@@ -51,11 +51,9 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 	 *      org.eclipse.emf.ecore.resource.Resource, java.lang.String)
 	 */
 	public Resource handleNullExternalResource(ResourceDeclaration resourceDeclaration,
-			Resource internalResource, String externalResourceURI) {
+			Resource internalResource, URI externalResourceURI) {
 		ResourceSet resourceSet = new ResourceSetImpl();
-		String uri = externalResourceURI.replace("\"", "");
-		URI externalURI = URI.createURI(uri);
-		Resource externalResource = resourceSet.createResource(externalURI);
+		Resource externalResource = resourceSet.createResource(externalResourceURI);
 		for (EObject root : internalResource.getContents()) {
 			externalResource.getContents().add(EcoreUtil.copy(root));
 		}
@@ -80,7 +78,7 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#handleNullInternalResource(java.lang.String,
 	 *      org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public Resource handleNullInternalResource(String internalResourceURI, Resource externalResource) {
+	public Resource handleNullInternalResource(String internalResourcePath, Resource externalResource) {
 		// We just stop the synchronization on these resources
 		return null;
 	}
@@ -133,9 +131,8 @@ public class CopyInternalResourceStrategy implements SynchronizerStrategy {
 	 *      org.eclipse.emf.ecore.resource.Resource, java.lang.String)
 	 */
 	public Resource handleEmptyExternalResource(ResourceDeclaration resourceDeclaration,
-			Resource internalResource, String externalResourceURI) {
-		// TODO Auto-generated method stub
-		return null;
+			Resource internalResource, URI externalResourceURI) {
+		return handleNullExternalResource(resourceDeclaration, internalResource, externalResourceURI);
 	}
 
 	/**

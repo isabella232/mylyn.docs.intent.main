@@ -23,7 +23,6 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 
 /**
@@ -55,12 +54,10 @@ public final class LinkResolverCreator {
 
 		// Step 1: initialize the listened types
 		Set<EStructuralFeature> listenedTypes = new LinkedHashSet<EStructuralFeature>();
-		listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass(GenericUnitPackage.eINSTANCE
+		listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass(IntentDocumentPackage.eINSTANCE
 				.getIntentReference()));
 		listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass(IntentDocumentPackage.eINSTANCE
 				.getIntentSection()));
-		listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass(IntentDocumentPackage.eINSTANCE
-				.getIntentChapter()));
 		listenedTypes.addAll(TypeNotificator.getStructuralFeaturesForEClass(ModelingUnitPackage.eINSTANCE
 				.getModelingUnit()));
 

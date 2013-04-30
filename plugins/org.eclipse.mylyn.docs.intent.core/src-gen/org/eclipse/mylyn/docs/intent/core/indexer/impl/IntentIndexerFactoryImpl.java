@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,21 +7,19 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.indexer.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.mylyn.docs.intent.core.indexer.*;
-import org.eclipse.mylyn.docs.intent.core.indexer.INDEX_ENTRY_TYPE;
-import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
-import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
-import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerFactory;
-import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +37,7 @@ public class IntentIndexerFactoryImpl extends EFactoryImpl implements IntentInde
 	public static IntentIndexerFactory init() {
 		try {
 			IntentIndexerFactory theIntentIndexerFactory = (IntentIndexerFactory)EPackage.Registry.INSTANCE
-					.getEFactory("http://www.eclipse.org/intent/indexer/0.7");
+					.getEFactory("http://www.eclipse.org/intent/indexer/0.8");
 			if (theIntentIndexerFactory != null) {
 				return theIntentIndexerFactory;
 			}

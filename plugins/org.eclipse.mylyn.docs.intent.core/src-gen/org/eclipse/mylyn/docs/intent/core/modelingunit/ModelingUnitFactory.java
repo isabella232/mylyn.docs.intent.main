@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.modelingunit;
 
 import org.eclipse.emf.ecore.EFactory;
@@ -40,33 +40,6 @@ public interface ModelingUnitFactory extends EFactory {
 	ModelingUnit createModelingUnit();
 
 	/**
-	 * Returns a new object of class '<em>Resource Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Resource Reference</em>'.
-	 * @generated
-	 */
-	ResourceReference createResourceReference();
-
-	/**
-	 * Returns a new object of class '<em>Instruction Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Instruction Reference</em>'.
-	 * @generated
-	 */
-	ModelingUnitInstructionReference createModelingUnitInstructionReference();
-
-	/**
-	 * Returns a new object of class '<em>Instanciation Instruction Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Instanciation Instruction Reference</em>'.
-	 * @generated
-	 */
-	InstanciationInstructionReference createInstanciationInstructionReference();
-
-	/**
 	 * Returns a new object of class '<em>Resource Declaration</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -74,33 +47,6 @@ public interface ModelingUnitFactory extends EFactory {
 	 * @generated
 	 */
 	ResourceDeclaration createResourceDeclaration();
-
-	/**
-	 * Returns a new object of class '<em>Intent Referencein Modeling Unit</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Intent Referencein Modeling Unit</em>'.
-	 * @generated
-	 */
-	IntentReferenceinModelingUnit createIntentReferenceinModelingUnit();
-
-	/**
-	 * Returns a new object of class '<em>Labelin Modeling Unit</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Labelin Modeling Unit</em>'.
-	 * @generated
-	 */
-	LabelinModelingUnit createLabelinModelingUnit();
-
-	/**
-	 * Returns a new object of class '<em>Annotation Declaration</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Annotation Declaration</em>'.
-	 * @generated
-	 */
-	AnnotationDeclaration createAnnotationDeclaration();
 
 	/**
 	 * Returns a new object of class '<em>Type Reference</em>'.
@@ -130,31 +76,40 @@ public interface ModelingUnitFactory extends EFactory {
 	StructuralFeatureAffectation createStructuralFeatureAffectation();
 
 	/**
-	 * Returns a new object of class '<em>Native Value For Structural Feature</em>'.
+	 * Returns a new object of class '<em>Native Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Native Value For Structural Feature</em>'.
+	 * @return a new object of class '<em>Native Value</em>'.
 	 * @generated
 	 */
-	NativeValueForStructuralFeature createNativeValueForStructuralFeature();
+	NativeValue createNativeValue();
 
 	/**
-	 * Returns a new object of class '<em>New Object Value For Structural Feature</em>'.
+	 * Returns a new object of class '<em>New Object Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>New Object Value For Structural Feature</em>'.
+	 * @return a new object of class '<em>New Object Value</em>'.
 	 * @generated
 	 */
-	NewObjectValueForStructuralFeature createNewObjectValueForStructuralFeature();
+	NewObjectValue createNewObjectValue();
 
 	/**
-	 * Returns a new object of class '<em>Reference Value For Structural Feature</em>'.
+	 * Returns a new object of class '<em>Reference Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Reference Value For Structural Feature</em>'.
+	 * @return a new object of class '<em>Reference Value</em>'.
 	 * @generated
 	 */
-	ReferenceValueForStructuralFeature createReferenceValueForStructuralFeature();
+	ReferenceValue createReferenceValue();
+
+	/**
+	 * Returns a new object of class '<em>Instanciation Instruction Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Instanciation Instruction Reference</em>'.
+	 * @generated
+	 */
+	InstanciationInstructionReference createInstanciationInstructionReference();
 
 	/**
 	 * Returns a new object of class '<em>Contribution Instruction</em>'.
@@ -173,6 +128,42 @@ public interface ModelingUnitFactory extends EFactory {
 	 * @generated
 	 */
 	ExternalContentReference createExternalContentReference();
+
+	/**
+	 * Returns a new object of class '<em>Instruction Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Instruction Reference</em>'.
+	 * @generated
+	 */
+	ModelingUnitInstructionReference createModelingUnitInstructionReference();
+
+	/**
+	 * Returns a new object of class '<em>Intent Reference In Modeling Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Intent Reference In Modeling Unit</em>'.
+	 * @generated
+	 */
+	IntentReferenceInModelingUnit createIntentReferenceInModelingUnit();
+
+	/**
+	 * Returns a new object of class '<em>Annotation Declaration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Annotation Declaration</em>'.
+	 * @generated
+	 */
+	AnnotationDeclaration createAnnotationDeclaration();
+
+	/**
+	 * Returns a new object of class '<em>Label In Modeling Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Label In Modeling Unit</em>'.
+	 * @generated
+	 */
+	LabelInModelingUnit createLabelInModelingUnit();
 
 	/**
 	 * Returns the package supported by this factory.

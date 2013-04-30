@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.modelingunit;
 
 import org.eclipse.emf.common.util.EList;
@@ -30,7 +30,7 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface StructuralFeatureAffectation extends InstanceLevelInstruction {
+public interface StructuralFeatureAffectation extends AbstractMetaTypeInstruction {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -89,7 +89,7 @@ public interface StructuralFeatureAffectation extends InstanceLevelInstruction {
 
 	/**
 	 * Returns the value of the '<em><b>Values</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature}.
+	 * The list contents are of type {@link org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Values</em>' containment reference list isn't clear,
@@ -101,6 +101,6 @@ public interface StructuralFeatureAffectation extends InstanceLevelInstruction {
 	 * @model containment="true" resolveProxies="true" required="true"
 	 * @generated
 	 */
-	EList<ValueForStructuralFeature> getValues();
+	EList<AbstractValue> getValues();
 
 } // StructuralFeatureAffectation

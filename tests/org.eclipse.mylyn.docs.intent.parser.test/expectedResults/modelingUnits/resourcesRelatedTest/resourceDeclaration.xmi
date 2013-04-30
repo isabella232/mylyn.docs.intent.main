@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<intentMU:ModelingUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.7">
+<intentMU:ModelingUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.8">
   <instructions xmi:type="intentMU:ResourceDeclaration" lineBreak="true" uri="&quot;cdo:/repo1/myResource&quot;" name="myCompleteRes" contentType="&quot;ECore&quot;">
     <content intentHref="myRoot1"/>
     <content intentHref="myRoot2"/>
@@ -15,8 +15,8 @@
   <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="ResourceDeclaration?" referencedElement="//@instructions.5" annotationID="annotationID">
     <map key="cle" value="&quot;val1&quot;"/>
   </instructions>
-  <instructions xmi:type="intentMU:LabelinModelingUnit" lineBreak="true" labelValue="&quot;testLabel&quot;" textToPrint="&quot;myPrettyResource&quot;" type="EXPLICIT"/>
+  <instructions xmi:type="intentMU:LabelInModelingUnit" lineBreak="true" labelValue="&quot;testLabel&quot;" textToPrint="&quot;myPrettyResource&quot;" type="EXPLICIT"/>
   <instructions xmi:type="intentMU:ResourceDeclaration" lineBreak="true" uri="&quot;file:/D:/MyResourceFolder/myResource&quot;" name="myResWithoutContent" contentType="&quot;ECore&quot;"/>
-  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="TestSectionReference"/>
+  <instructions xmi:type="intentMU:IntentReferenceInModelingUnit" lineBreak="true" intentHref="TestSectionReference"/>
   <instructions xmi:type="intentMU:ResourceDeclaration" lineBreak="true" name="emptyResource"/>
 </intentMU:ModelingUnit>

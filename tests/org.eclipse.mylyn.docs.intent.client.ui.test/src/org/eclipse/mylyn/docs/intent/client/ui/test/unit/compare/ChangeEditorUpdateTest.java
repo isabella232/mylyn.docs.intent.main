@@ -66,7 +66,7 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	protected void setUp() throws Exception {
 		super.setUp();
 		setUpIntentProject("intentProject", INTENT_DOCUMENT_EXAMPLE_PATH);
-		section = getIntentDocument().getChapters().iterator().next().getSubSections().iterator().next();
+		section = getIntentDocument().getSubSections().iterator().next().getSubSections().iterator().next();
 
 	}
 
@@ -76,7 +76,7 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	 */
 	public void testAddParagraphToMiddleOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
 		// opening an editor on the second chapter
-		editor = openIntentEditor(getIntentChapter(2));
+		editor = openIntentEditor(getIntentSection(2));
 
 		genericUpdateTest("The 2.1 Section.\n\t}", "\n\n\t" + A_NEW_DESCRIPTION_UNIT);
 	}
@@ -87,7 +87,7 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	 */
 	public void testAddParagraphToBeginningOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
 		// opening an editor on the second chapter
-		editor = openIntentEditor(getIntentChapter(2));
+		editor = openIntentEditor(getIntentSection(2));
 
 		genericUpdateTest("Chapter {", "\n\t" + A_NEW_DESCRIPTION_UNIT + "\n");
 	}
@@ -98,7 +98,7 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	 */
 	public void testAddParagraphToBottomOfChapterWithoutDescriptionUnitsWithFocusOnChapter() {
 		// opening an editor on the second chapter
-		editor = openIntentEditor(getIntentChapter(2));
+		editor = openIntentEditor(getIntentSection(2));
 
 		genericUpdateTest("The 2.2 Section.\n\t}", "\n\n\t" + A_NEW_DESCRIPTION_UNIT);
 	}
@@ -151,7 +151,7 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	 */
 	public void testAddModelingUnitBySplittingADescriptionUnitWithFocusOnChapter() {
 		// opening an editor on the chapter
-		editor = openIntentEditor(getIntentChapter(1));
+		editor = openIntentEditor(getIntentSection(1));
 
 		genericUpdateTest(MIDDLE_OF_DESCRIPTION_UNIT, SAMPLE_MODELING_CONTENT, 2);
 	}

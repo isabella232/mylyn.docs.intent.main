@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,56 +7,50 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.util;
 
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.*;
-import org.eclipse.mylyn.docs.intent.core.compiler.AttributeChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
-import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
-import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
-import org.eclipse.mylyn.docs.intent.core.compiler.ModelElementChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.ReferenceChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.ResourceChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
-import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
-import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
-import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
-import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+
+import org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
- * <!-- begin-user-doc --> The <b>Adapter Factory</b> for the model. It provides an adapter
- * <code>createXXX</code> method for each class of the model. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * The <b>Adapter Factory</b> for the model.
+ * It provides an adapter <code>createXXX</code> method for each class of the model.
+ * <!-- end-user-doc -->
  * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage
  * @generated
  */
 public class CompilerAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected static CompilerPackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public CompilerAdapterFactory() {
@@ -67,9 +61,9 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Returns whether this factory is applicable for the type of the object.
-	 * <!-- begin-user-doc --> This
-	 * implementation returns <code>true</code> if the object is either the model's package or is an instance
-	 * object of the model. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This implementation returns <code>true</code> if the object is either the model's package or is an instance object of the model.
+	 * <!-- end-user-doc -->
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
@@ -86,8 +80,8 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * The switch that delegates to the <code>createXXX</code> methods.
-	 * <!-- begin-user-doc --> <!--
-	 * end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected CompilerSwitch<Adapter> modelSwitch = new CompilerSwitch<Adapter>() {
@@ -182,8 +176,7 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseFeatureToAffectationEntry(
-				Map.Entry<String, EList<ValueForStructuralFeature>> object) {
+		public Adapter caseFeatureToAffectationEntry(Map.Entry<String, EList<AbstractValue>> object) {
 			return createFeatureToAffectationEntryAdapter();
 		}
 
@@ -225,7 +218,8 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates an adapter for the <code>target</code>.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param target the object to adapt.
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
@@ -237,8 +231,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EString To EObject</em>}'.
-	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see java.util.Map.Entry
 	 * @generated
@@ -249,9 +245,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Textual Reference To Contributions</em>}'.
-	 * <!-- begin-user-doc --> This default implementation
-	 * returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance will
-	 * catch all the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see java.util.Map.Entry
 	 * @generated
@@ -262,8 +259,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap <em>String To EObject Map</em>}'.
-	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap
 	 * @generated
@@ -274,9 +273,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EType To String To EObject Map</em>}'.
-	 * <!-- begin-user-doc --> This default implementation returns
-	 * null so that we can easily ignore cases; it's useful to ignore a case when inheritance will catch all
-	 * the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see java.util.Map.Entry
 	 * @generated
@@ -287,9 +287,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>EObject To Unresolved References List</em>}'.
-	 * <!-- begin-user-doc --> This default implementation
-	 * returns null so that we can easily ignore cases; it's useful to ignore a case when inheritance will
-	 * catch all the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see java.util.Map.Entry
 	 * @generated
@@ -300,9 +301,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Resource To Contained Elements Map Entry</em>}'.
-	 * <!-- begin-user-doc --> This default
-	 * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
-	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see java.util.Map.Entry
 	 * @generated
@@ -313,9 +315,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Modeling Unit To Status List</em>}'.
-	 * <!-- begin-user-doc --> This default implementation returns
-	 * null so that we can easily ignore cases; it's useful to ignore a case when inheritance will catch all
-	 * the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see java.util.Map.Entry
 	 * @generated
@@ -326,9 +329,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Created Element To Instruction Map Entry</em>}'.
-	 * <!-- begin-user-doc --> This default
-	 * implementation returns null so that we can easily ignore cases; it's useful to ignore a case when
-	 * inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see java.util.Map.Entry
 	 * @generated
@@ -339,9 +343,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder <em>Unresolved Reference Holder</em>}'.
-	 * <!-- begin-user-doc --> This default implementation returns
-	 * null so that we can easily ignore cases; it's useful to ignore a case when inheritance will catch all
-	 * the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder
 	 * @generated
@@ -352,8 +357,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus <em>Compilation Status</em>}'.
-	 * <!-- begin-user-doc --> This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus
 	 * @generated
@@ -364,9 +371,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager <em>Compilation Status Manager</em>}'.
-	 * <!-- begin-user-doc --> This default implementation returns null
-	 * so that we can easily ignore cases; it's useful to ignore a case when inheritance will catch all the
-	 * cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager
 	 * @generated
@@ -377,9 +385,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder <em>Compilation Information Holder</em>}'.
-	 * <!-- begin-user-doc --> This default implementation returns
-	 * null so that we can easily ignore cases; it's useful to ignore a case when inheritance will catch all
-	 * the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder
 	 * @generated
@@ -390,9 +399,10 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder <em>Unresolved Contribution Holder</em>}'.
-	 * <!-- begin-user-doc --> This default implementation returns
-	 * null so that we can easily ignore cases; it's useful to ignore a case when inheritance will catch all
-	 * the cases anyway. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder
 	 * @generated
@@ -557,8 +567,9 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 
 	/**
 	 * Creates a new adapter for the default case.
-	 * <!-- begin-user-doc --> This default implementation returns
-	 * null. <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null.
+	 * <!-- end-user-doc -->
 	 * @return the new adapter.
 	 * @generated
 	 */
@@ -566,4 +577,4 @@ public class CompilerAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} // CompilerAdapterFactory
+} //CompilerAdapterFactory

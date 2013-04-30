@@ -51,7 +51,8 @@ public final class IntentDocumentSerializer {
 		renderedForm.append(IntentKeyWords.INTENT_WHITESPACE);
 
 		if (document.getTitle() != null) {
-			DescriptionUnitSerializer descriptionUnitSerializer = new DescriptionUnitSerializer();
+			DescriptionUnitSerializer descriptionUnitSerializer = new DescriptionUnitSerializer(
+					new IntentDocumentSerializerSwitch(serializer));
 			renderedForm.append(descriptionUnitSerializer.serializeSectionTitle(document.getTitle(),
 					initalOffset + renderedForm.length()));
 			serializer.getPositionManager().addIntentPositionManagerInformations(
@@ -61,7 +62,7 @@ public final class IntentDocumentSerializer {
 		renderedForm.append(IntentKeyWords.INTENT_KEYWORD_OPEN + IntentKeyWords.INTENT_LINEBREAK);
 
 		// Contents : chapters
-		for (EObject content : document.getChapters()) {
+		for (EObject content : document.getSubSections()) {
 			serializer.setCurrentOffset(initalOffset + renderedForm.length());
 			renderedForm.append(serializer.serialize(content));
 		}

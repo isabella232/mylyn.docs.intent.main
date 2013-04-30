@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 

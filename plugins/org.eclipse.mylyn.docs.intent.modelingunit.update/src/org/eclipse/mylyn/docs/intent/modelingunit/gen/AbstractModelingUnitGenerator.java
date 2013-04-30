@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
@@ -30,12 +31,11 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionR
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * Utility which generates modeling units from existing models.
@@ -175,7 +175,7 @@ public abstract class AbstractModelingUnitGenerator {
 			} else {
 				affectation.setUsedOperator(AffectationOperator.SINGLE_VALUED_AFFECTATION);
 			}
-			ValueForStructuralFeature generateValue = generateValue(feature, workingCopyValue);
+			AbstractValue generateValue = generateValue(feature, workingCopyValue);
 			if (generateValue != null) {
 				affectation.getValues().add(generateValue);
 			} else {
@@ -194,30 +194,26 @@ public abstract class AbstractModelingUnitGenerator {
 	 *            the value to set
 	 * @return true if the value has been set
 	 */
-	public boolean setValue(ValueForStructuralFeature valueInstruction, Object newValue) {
+	public boolean setValue(AbstractValue valueInstruction, Object newValue) {
 		boolean res = true;
 		switch (valueInstruction.eClass().getClassifierID()) {
-			case ModelingUnitPackage.NATIVE_VALUE_FOR_STRUCTURAL_FEATURE:
-				((NativeValueForStructuralFeature)valueInstruction).setValue("\"" + newValue.toString()
-						+ "\"");
+			case ModelingUnitPackage.NATIVE_VALUE:
+				((NativeValue)valueInstruction).setValue("\"" + newValue.toString() + "\"");
 				break;
-			case ModelingUnitPackage.NEW_OBJECT_VALUE_FOR_STRUCTURAL_FEATURE:
-				((NewObjectValueForStructuralFeature)valueInstruction)
-						.setValue(generateInstanciation((EObject)newValue));
+			case ModelingUnitPackage.NEW_OBJECT_VALUE:
+				((NewObjectValue)valueInstruction).setValue(generateInstanciation((EObject)newValue));
 				break;
-			case ModelingUnitPackage.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE:
+			case ModelingUnitPackage.REFERENCE_VALUE:
 				if (newValue instanceof EDataType) {
 					InstanciationInstructionReference instanciationRef = ModelingUnitFactory.eINSTANCE
 							.createInstanciationInstructionReference();
 					instanciationRef.setInstanceName(((EDataType)newValue).getName());
-					((ReferenceValueForStructuralFeature)valueInstruction)
-							.setReferencedMetaType((EDataType)newValue);
-					((ReferenceValueForStructuralFeature)valueInstruction)
-							.setInstanciationReference(instanciationRef);
+					((ReferenceValue)valueInstruction).setReferenceType((EDataType)newValue);
+					((ReferenceValue)valueInstruction).setInstanciationReference(instanciationRef);
 				} else {
 					InstanciationInstructionReference reference = ModelingUnitFactory.eINSTANCE
 							.createInstanciationInstructionReference();
-	
+
 					InstanciationInstruction instanciation = getExistingInstanciationFor((EObject)newValue);
 					if (instanciation != null) {
 						if (instanciation.getName() == null) {
@@ -225,12 +221,10 @@ public abstract class AbstractModelingUnitGenerator {
 							instanciation.setName(getReferenceName(getGeneratedElement(instanciation)));
 						}
 						reference.setInstanceName(instanciation.getName());
-						((ReferenceValueForStructuralFeature)valueInstruction)
-								.setInstanciationReference(reference);
+						((ReferenceValue)valueInstruction).setInstanciationReference(reference);
 					} else if (newObjects != null && newObjects.contains(newValue)) {
 						reference.setInstanceName(getReferenceName((EObject)newValue));
-						((ReferenceValueForStructuralFeature)valueInstruction)
-								.setInstanciationReference(reference);
+						((ReferenceValue)valueInstruction).setInstanciationReference(reference);
 					} else {
 						res = false;
 					}
@@ -243,7 +237,7 @@ public abstract class AbstractModelingUnitGenerator {
 	}
 
 	/**
-	 * Generates the {@link ValueForStructuralFeature} which build the value.
+	 * Generates the {@link Value} which build the value.
 	 * 
 	 * @param feature
 	 *            the feature to set
@@ -251,15 +245,15 @@ public abstract class AbstractModelingUnitGenerator {
 	 *            the value
 	 * @return the value instruction
 	 */
-	private ValueForStructuralFeature generateValue(EStructuralFeature feature, Object value) {
-		ValueForStructuralFeature res = null;
+	private AbstractValue generateValue(EStructuralFeature feature, Object value) {
+		AbstractValue res = null;
 		if (feature instanceof EAttribute) {
-			res = ModelingUnitFactory.eINSTANCE.createNativeValueForStructuralFeature();
+			res = ModelingUnitFactory.eINSTANCE.createNativeValue();
 		} else if (feature instanceof EReference) {
 			if (((EReference)feature).isContainment()) {
-				res = ModelingUnitFactory.eINSTANCE.createNewObjectValueForStructuralFeature();
+				res = ModelingUnitFactory.eINSTANCE.createNewObjectValue();
 			} else {
-				res = ModelingUnitFactory.eINSTANCE.createReferenceValueForStructuralFeature();
+				res = ModelingUnitFactory.eINSTANCE.createReferenceValue();
 			}
 		}
 		if (setValue(res, value)) {

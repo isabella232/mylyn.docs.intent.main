@@ -42,7 +42,7 @@ public class CDOIntegrationTest extends AbstractIntentCDOTest {
 		setUpIntentProject("myIntentProject", INTENT_ABSTRACT_RESOURCE_DOCUMENT_PATH, false);
 		final IntentDocument cdoIntentDocument = getIntentDocument();
 		repositoryAdapter.save();
-		final int initialChapterNumber = cdoIntentDocument.getChapters().size();
+		final int initialChapterNumber = cdoIntentDocument.getSubSections().size();
 		assertNotNull("Intent document has not been correctly created on the repository", cdoIntentDocument);
 
 		// Some remote user modifies the intent document by adding a chapter
@@ -59,20 +59,20 @@ public class CDOIntegrationTest extends AbstractIntentCDOTest {
 							.next();
 					assertFalse("Remote and Local user should not share the same instance",
 							remoteIntentDocument == cdoIntentDocument);
-					remoteIntentDocument.getChapters().add(
-							IntentDocumentFactory.eINSTANCE.createIntentChapter());
+					remoteIntentDocument.getIntentContent().add(
+							IntentDocumentFactory.eINSTANCE.createIntentSection());
 				} catch (ReadOnlyException e) {
 					fail(e.getMessage());
 				}
 			}
 		});
 		assertEquals("Remote modification should not have been received by the local user",
-				initialChapterNumber, cdoIntentDocument.getChapters().size());
+				initialChapterNumber, cdoIntentDocument.getSubSections().size());
 		remoteUser.save();
 		remoteUser.closeContext();
 
 		assertEquals("Remote modification should have been received by the local user",
-				initialChapterNumber + 1, cdoIntentDocument.getChapters().size());
+				initialChapterNumber + 1, cdoIntentDocument.getSubSections().size());
 	}
 
 	/**

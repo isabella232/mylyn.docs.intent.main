@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,10 +7,11 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.modelingunit;
 
 import org.eclipse.emf.cdo.CDOObject;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**
@@ -32,7 +33,6 @@ import org.eclipse.emf.ecore.EClass;
  * @generated
  */
 public interface TypeReference extends CDOObject {
-
 	/**
 	 * Returns the value of the '<em><b>Type Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -84,4 +84,5 @@ public interface TypeReference extends CDOObject {
 	 * @generated
 	 */
 	void setResolvedType(EClass value);
+
 } // TypeReference

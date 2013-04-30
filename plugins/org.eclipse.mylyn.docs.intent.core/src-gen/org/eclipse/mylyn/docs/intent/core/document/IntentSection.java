@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,10 +7,12 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.document;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 
 /**
@@ -21,10 +23,11 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getVisibility <em>Visibility</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getIntentContent <em>Intent Content</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getSubSections <em>Sub Sections</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getUnits <em>Units</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getDescriptionUnits <em>Description Units</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getModelingUnits <em>Modeling Units</em>}</li>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getImportedHeaders <em>Imported Headers</em>}</li>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getDeclaredHeaders <em>Declared Headers</em>}</li>
  * </ul>
  * </p>
  *
@@ -32,35 +35,70 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  * @model
  * @generated
  */
-public interface IntentSection extends IntentSubSectionContainer {
+public interface IntentSection extends IntentStructuredElement {
 	/**
-	 * Returns the value of the '<em><b>Visibility</b></em>' attribute.
-	 * The literals are from the enumeration {@link org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility}.
+	 * Returns the value of the '<em><b>Intent Content</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Visibility</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Intent Content</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Visibility</em>' attribute.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility
-	 * @see #setVisibility(IntentSectionVisibility)
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage#getIntentSection_Visibility()
-	 * @model
+	 * @return the value of the '<em>Intent Content</em>' containment reference list.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage#getIntentSection_IntentContent()
+	 * @model containment="true" resolveProxies="true"
 	 * @generated
 	 */
-	IntentSectionVisibility getVisibility();
+	EList<EObject> getIntentContent();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getVisibility <em>Visibility</em>}' attribute.
+	 * Returns the value of the '<em><b>Sub Sections</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.mylyn.docs.intent.core.document.IntentSection}.
 	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Sub Sections</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Visibility</em>' attribute.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility
-	 * @see #getVisibility()
+	 * @return the value of the '<em>Sub Sections</em>' reference list.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage#getIntentSection_SubSections()
+	 * @model volatile="true" derived="true"
 	 * @generated
 	 */
-	void setVisibility(IntentSectionVisibility value);
+	EList<IntentSection> getSubSections();
+
+	/**
+	 * Returns the value of the '<em><b>Units</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.mylyn.docs.intent.core.document.GenericUnit}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Units</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Units</em>' reference list.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage#getIntentSection_Units()
+	 * @model volatile="true"
+	 * @generated
+	 */
+	EList<GenericUnit> getUnits();
+
+	/**
+	 * Returns the value of the '<em><b>Description Units</b></em>' reference list.
+	 * The list contents are of type {@link org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Description Units</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Description Units</em>' reference list.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage#getIntentSection_DescriptionUnits()
+	 * @model volatile="true" derived="true"
+	 * @generated
+	 */
+	EList<DescriptionUnit> getDescriptionUnits();
 
 	/**
 	 * Returns the value of the '<em><b>Modeling Units</b></em>' reference list.
@@ -77,37 +115,5 @@ public interface IntentSection extends IntentSubSectionContainer {
 	 * @generated
 	 */
 	EList<ModelingUnit> getModelingUnits();
-
-	/**
-	 * Returns the value of the '<em><b>Imported Headers</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.String}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Imported Headers</em>' attribute list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Imported Headers</em>' attribute list.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage#getIntentSection_ImportedHeaders()
-	 * @model
-	 * @generated
-	 */
-	EList<String> getImportedHeaders();
-
-	/**
-	 * Returns the value of the '<em><b>Declared Headers</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Declared Headers</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Declared Headers</em>' containment reference list.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage#getIntentSection_DeclaredHeaders()
-	 * @model containment="true" resolveProxies="true"
-	 * @generated
-	 */
-	EList<IntentHeaderDeclaration> getDeclaredHeaders();
 
 } // IntentSection

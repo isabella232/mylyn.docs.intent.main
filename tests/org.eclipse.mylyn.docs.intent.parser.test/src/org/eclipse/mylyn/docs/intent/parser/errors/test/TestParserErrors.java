@@ -37,13 +37,4 @@ public class TestParserErrors extends AbstractTestParserErrors {
 				"Cannot handle any description unit here : only in sections or chapters.",
 				expectedErrorposition, expectedErrorLength));
 	}
-
-	@Test
-	public void testMisplacedModelingUnit() {
-		final int expectedErrorposition = 40;
-		final int expectedErrorLength = 7;
-		testErrorsOnFile("dataTests/intentDocuments/errors/misplacedModelingUnit.intent", new ParseException(
-				"Cannot handle any modeling unit here : only in sections.", expectedErrorposition,
-				expectedErrorLength));
-	}
 }

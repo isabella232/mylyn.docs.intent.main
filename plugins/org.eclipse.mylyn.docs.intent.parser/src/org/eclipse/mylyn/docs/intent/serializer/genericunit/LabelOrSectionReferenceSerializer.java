@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.serializer.genericunit;
 
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelReferenceInstruction;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.LabelReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 
 /**

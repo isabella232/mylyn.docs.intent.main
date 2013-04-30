@@ -32,12 +32,12 @@ import org.eclipse.mylyn.docs.intent.core.compiler.StructuralFeatureChangeStatus
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerChangeState;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * Utility which updates modeling units according to synchronization status.
@@ -190,7 +190,7 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 
 		switch (status.getChangeState().getValue()) {
 			case SynchronizerChangeState.UPDATE_VALUE:
-				if (status.getTarget() instanceof ValueForStructuralFeature) {
+				if (status.getTarget() instanceof AbstractValue) {
 					if (newValue == null) {
 						EObject affectation = getContainer(status.getTarget(),
 								ModelingUnitPackage.STRUCTURAL_FEATURE_AFFECTATION);
@@ -198,7 +198,7 @@ public class SyncStatusUpdater extends AbstractModelingUnitUpdater {
 							removeFromContainer((StructuralFeatureAffectation)affectation);
 						}
 					} else {
-						setValue((ValueForStructuralFeature)status.getTarget(), newValue);
+						setValue((AbstractValue)status.getTarget(), newValue);
 					}
 				} else if (status.getTarget() instanceof InstanciationInstruction) {
 					addAffectations(status.getTarget(), generateAffectations(feature, newValue));

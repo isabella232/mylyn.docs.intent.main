@@ -33,11 +33,11 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * Associates the correct value to structural features described by a structural feature affectation.
@@ -77,7 +77,8 @@ public final class StructuralFeatureGenerator {
 			if (feature == null || feature.getEType() == null) {
 				modelingUnitGenerator.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
 						new CompilationException(affectation, CompilationErrorType.INVALID_REFERENCE_ERROR,
-								COMPILATION_EXCEPTION_MESSAGE_FEATURE + feature.getName() + " is derived and cannot be set."));
+								COMPILATION_EXCEPTION_MESSAGE_FEATURE + feature.getName()
+										+ " is derived and cannot be set."));
 				// TODO externalize message
 				feature.setEType(EcorePackage.eINSTANCE.getEString());
 			}
@@ -89,7 +90,7 @@ public final class StructuralFeatureGenerator {
 				// Step 2 : we get the values to generate and assign to this structural feature thanks to
 				// the modelingUnit generator.
 				List<Object> generatedValues = new ArrayList<Object>();
-				for (ValueForStructuralFeature value : affectation.getValues()) {
+				for (AbstractValue value : affectation.getValues()) {
 					for (Object generatedValue : modelingUnitGenerator.doSwitch(value)) {
 
 						// If the value is an instance of UnresolvedReferenceHolder,
@@ -122,8 +123,8 @@ public final class StructuralFeatureGenerator {
 
 			} else {
 				CompilationStatus status = CompilerFactory.eINSTANCE.createCompilationStatus();
-				status.setMessage(COMPILATION_EXCEPTION_MESSAGE_FEATURE + affectation.getName() + " is undefined for type "
-						+ eClass.eClass());
+				status.setMessage(COMPILATION_EXCEPTION_MESSAGE_FEATURE + affectation.getName()
+						+ " is undefined for type " + eClass.eClass());
 				status.setTarget(affectation);
 				status.setSeverity(CompilationStatusSeverity.ERROR);
 				status.setType(CompilationMessageType.VALIDATION_ERROR);
@@ -217,13 +218,15 @@ public final class StructuralFeatureGenerator {
 			if (value instanceof Collection) {
 				for (Object element : (Collection<?>)value) {
 					if (element instanceof EObject && !isInstanceOf((EObject)element, type)) {
-						throw new InvalidValueException(unitInstruction, COMPILATION_EXCEPTION_MESSAGE_FEATURE + feature.getName()
-								+ " cannot handle type " + element.getClass().getSimpleName() + ". ");
+						throw new InvalidValueException(unitInstruction,
+								COMPILATION_EXCEPTION_MESSAGE_FEATURE + feature.getName()
+										+ " cannot handle type " + element.getClass().getSimpleName() + ". ");
 					}
 				}
 			} else if (value instanceof EObject && !isInstanceOf((EObject)value, type)) {
-				throw new InvalidValueException(unitInstruction, COMPILATION_EXCEPTION_MESSAGE_FEATURE + feature.getName()
-						+ " cannot handle type " + value.getClass().getSimpleName() + ". ");
+				throw new InvalidValueException(unitInstruction, COMPILATION_EXCEPTION_MESSAGE_FEATURE
+						+ feature.getName() + " cannot handle type " + value.getClass().getSimpleName()
+						+ ". ");
 			}
 		}
 	}

@@ -13,14 +13,14 @@ package org.eclipse.mylyn.docs.intent.parser.descriptionunit;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitFactory;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitFactory;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
-import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
+import org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration;
+import org.eclipse.mylyn.docs.intent.core.document.TypeLabel;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionBloc;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnitFactory;
 import org.eclipse.mylyn.docs.intent.markup.builder.ModelDocumentBuilder;
 import org.eclipse.mylyn.docs.intent.markup.markup.Block;
 import org.eclipse.mylyn.docs.intent.markup.markup.Container;
@@ -242,7 +242,7 @@ public class DescriptionUnitParser {
 		String textToPrint = extractFirstString(parsendSentenceWithoutReferenceValue);
 
 		// We consider that it is a SectionReference
-		referenceInstruction = GenericUnitFactory.eINSTANCE.createIntentReferenceInstruction();
+		referenceInstruction = IntentDocumentFactory.eINSTANCE.createIntentReferenceInstruction();
 		((IntentReferenceInstruction)referenceInstruction).setTextToPrint(textToPrint);
 		((IntentReferenceInstruction)referenceInstruction).setIntentHref(referenceValue);
 
@@ -276,7 +276,7 @@ public class DescriptionUnitParser {
 		String parsendSentenceWithoutLabelValueDeclaration = parsedSentence.substring(offSet - initialOffset);
 		String textToPrint = extractFirstString(parsendSentenceWithoutLabelValueDeclaration);
 
-		LabelDeclaration labelDeclaration = GenericUnitFactory.eINSTANCE.createLabelDeclaration();
+		LabelDeclaration labelDeclaration = IntentDocumentFactory.eINSTANCE.createLabelDeclaration();
 		labelDeclaration.setType(typeLabel);
 		labelDeclaration.setLabelValue(labelValue);
 		if (textToPrint != null) {

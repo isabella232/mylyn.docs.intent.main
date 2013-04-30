@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,19 +7,23 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Unresolved Reference Holder</b></em>
- * '. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Unresolved Reference Holder</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -34,7 +38,8 @@ import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
  */
 public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements UnresolvedReferenceHolder {
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected UnresolvedReferenceHolderImpl() {
@@ -42,7 +47,8 @@ public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements Unre
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -51,7 +57,8 @@ public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements Unre
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -60,7 +67,8 @@ public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements Unre
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getTextualReference() {
@@ -68,7 +76,8 @@ public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements Unre
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setTextualReference(String newTextualReference) {
@@ -76,7 +85,8 @@ public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements Unre
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean isContainmentReference() {
@@ -85,7 +95,8 @@ public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements Unre
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setContainmentReference(boolean newContainmentReference) {
@@ -94,7 +105,8 @@ public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements Unre
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public UnitInstruction getInstructionContainer() {
@@ -103,7 +115,8 @@ public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements Unre
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setInstructionContainer(UnitInstruction newInstructionContainer) {
@@ -112,7 +125,8 @@ public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements Unre
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EStructuralFeature getConcernedFeature() {
@@ -121,11 +135,12 @@ public class UnresolvedReferenceHolderImpl extends CDOObjectImpl implements Unre
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setConcernedFeature(EStructuralFeature newConcernedFeature) {
 		eSet(CompilerPackage.Literals.UNRESOLVED_REFERENCE_HOLDER__CONCERNED_FEATURE, newConcernedFeature);
 	}
 
-} // UnresolvedReferenceHolderImpl
+} //UnresolvedReferenceHolderImpl

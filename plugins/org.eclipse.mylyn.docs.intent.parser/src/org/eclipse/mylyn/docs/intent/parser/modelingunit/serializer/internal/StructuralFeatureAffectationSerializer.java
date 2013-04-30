@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
+import org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 
 /**
@@ -61,7 +61,7 @@ public final class StructuralFeatureAffectationSerializer {
 		}
 		renderedForm.append(ModelingUnitSerializer.WHITESPACE);
 		int nbValues = 0;
-		for (ValueForStructuralFeature value : structuralFeatureAffectation.getValues()) {
+		for (AbstractValue value : structuralFeatureAffectation.getValues()) {
 			if (nbValues > 0) {
 				renderedForm.append(ModelingUnitSerializer.WHITESPACE + ","
 						+ ModelingUnitSerializer.WHITESPACE);

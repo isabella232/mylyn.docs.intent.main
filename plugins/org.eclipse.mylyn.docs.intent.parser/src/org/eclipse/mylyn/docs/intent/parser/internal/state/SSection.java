@@ -11,7 +11,6 @@
 package org.eclipse.mylyn.docs.intent.parser.internal.state;
 
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParser;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitParserImpl;
@@ -59,26 +58,6 @@ public class SSection extends IntentSubSectionContainerState {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#sectionOptions(java.lang.String)
-	 */
-	@Override
-	public IntentGenericState sectionOptions(String visibility) {
-		// Visibility creation
-		if (visibility != null) {
-			if ("hidden".equals(visibility)) {
-				((IntentSection)currentElement).setVisibility(IntentSectionVisibility.HIDDEN);
-			} else {
-				((IntentSection)currentElement).setVisibility(IntentSectionVisibility.INTERNAL);
-			}
-		} else {
-			((IntentSection)currentElement).setVisibility(IntentSectionVisibility.PUBLIC);
-		}
-		return this;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.mylyn.docs.intent.parser.internal.state.IntentGenericState#modelingUnitContent(int,
 	 *      int, java.lang.String)
 	 */
@@ -114,6 +93,6 @@ public class SSection extends IntentSubSectionContainerState {
 	 */
 	@Override
 	public String toString() {
-		return "SSection - " + ((IntentSection)this.currentElement).getVisibility();
+		return "SSection - ";
 	}
 }

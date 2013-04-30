@@ -18,12 +18,12 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryContentProvider;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 
@@ -135,8 +135,8 @@ public class OutlineContentProvider extends AdapterFactoryContentProvider {
 		EObject valueForChildren = null;
 		// If the instruction is a new Object value, we directly render the contained
 		// instantiation instruction
-		if (children instanceof NewObjectValueForStructuralFeature) {
-			valueForChildren = ((NewObjectValueForStructuralFeature)children).getValue();
+		if (children instanceof NewObjectValue) {
+			valueForChildren = ((NewObjectValue)children).getValue();
 		} else {
 			valueForChildren = children;
 		}

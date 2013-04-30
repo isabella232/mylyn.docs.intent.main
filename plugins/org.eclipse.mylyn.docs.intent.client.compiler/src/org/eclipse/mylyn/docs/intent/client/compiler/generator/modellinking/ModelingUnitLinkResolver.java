@@ -24,12 +24,12 @@ import org.eclipse.mylyn.docs.intent.client.compiler.errors.PackageNotFoundResol
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.PackageRegistrationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.ResolveException;
 import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInformationHolder;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 
@@ -251,8 +251,8 @@ public class ModelingUnitLinkResolver {
 		EClassifier foundClassifier = ePackage.getEClassifier(classifierName);
 		if (foundClassifier != null) {
 			resolvedClass = foundClassifier;
-			if (instruction instanceof ReferenceValueForStructuralFeature) {
-				((ReferenceValueForStructuralFeature)instruction).setReferencedMetaType(resolvedClass);
+			if (instruction instanceof ReferenceValue) {
+				((ReferenceValue)instruction).setReferenceType(resolvedClass);
 			}
 		}
 
@@ -306,12 +306,12 @@ public class ModelingUnitLinkResolver {
 			((ContributionInstruction)instruction).getContributionReference().setReferencedInstruction(
 					(ModelingUnitInstruction)instanciationInstruction);
 		} else if (instanciationInstruction instanceof InstanciationInstruction) {
-			if (instruction instanceof ReferenceValueForStructuralFeature) {
-				((ReferenceValueForStructuralFeature)instruction).getInstanciationReference()
-						.setInstanciation((InstanciationInstruction)instanciationInstruction);
-				((ReferenceValueForStructuralFeature)instruction)
-						.setReferencedMetaType(((InstanciationInstruction)instanciationInstruction)
-								.getMetaType().getResolvedType());
+			if (instruction instanceof ReferenceValue) {
+				((ReferenceValue)instruction).getInstanciationReference().setInstanciation(
+						(InstanciationInstruction)instanciationInstruction);
+				((ReferenceValue)instruction)
+						.setReferenceType(((InstanciationInstruction)instanciationInstruction).getMetaType()
+								.getResolvedType());
 			} else if (instruction instanceof ResourceDeclaration) {
 				ResourceDeclaration resourceDeclaration = (ResourceDeclaration)instruction;
 				for (ModelingUnitInstructionReference reference : resourceDeclaration.getContent()) {

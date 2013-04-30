@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.document;
 
 import org.eclipse.emf.ecore.EFactory;
@@ -40,24 +40,6 @@ public interface IntentDocumentFactory extends EFactory {
 	IntentGenericElement createIntentGenericElement();
 
 	/**
-	 * Returns a new object of class '<em>Intent Document</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Intent Document</em>'.
-	 * @generated
-	 */
-	IntentDocument createIntentDocument();
-
-	/**
-	 * Returns a new object of class '<em>Intent Chapter</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Intent Chapter</em>'.
-	 * @generated
-	 */
-	IntentChapter createIntentChapter();
-
-	/**
 	 * Returns a new object of class '<em>Intent Section</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -67,13 +49,40 @@ public interface IntentDocumentFactory extends EFactory {
 	IntentSection createIntentSection();
 
 	/**
-	 * Returns a new object of class '<em>Intent Header Declaration</em>'.
+	 * Returns a new object of class '<em>Intent Document</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Intent Header Declaration</em>'.
+	 * @return a new object of class '<em>Intent Document</em>'.
 	 * @generated
 	 */
-	IntentHeaderDeclaration createIntentHeaderDeclaration();
+	IntentDocument createIntentDocument();
+
+	/**
+	 * Returns a new object of class '<em>Intent Reference Instruction</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Intent Reference Instruction</em>'.
+	 * @generated
+	 */
+	IntentReferenceInstruction createIntentReferenceInstruction();
+
+	/**
+	 * Returns a new object of class '<em>Label Declaration</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Label Declaration</em>'.
+	 * @generated
+	 */
+	LabelDeclaration createLabelDeclaration();
+
+	/**
+	 * Returns a new object of class '<em>Label Reference Instruction</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Label Reference Instruction</em>'.
+	 * @generated
+	 */
+	LabelReferenceInstruction createLabelReferenceInstruction();
 
 	/**
 	 * Returns the package supported by this factory.

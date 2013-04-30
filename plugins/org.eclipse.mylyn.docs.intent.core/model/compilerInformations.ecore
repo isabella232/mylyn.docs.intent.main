@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="compiler" nsURI="http://www.eclipse.org/intent/compilerinfos/0.7"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="compiler" nsURI="http://www.eclipse.org/intent/compilerinfos/0.8"
     nsPrefix="intentCompilerInfos">
   <eClassifiers xsi:type="ecore:EClass" name="EStringToEObject" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -39,7 +39,7 @@
       instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EReference" name="key" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" upperBound="-1"
-        eType="ecore:EClass genericUnit.ecore#//UnitInstruction"/>
+        eType="ecore:EClass document.ecore#//UnitInstruction"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UnresolvedReferenceHolder">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="textualReference" lowerBound="1"
@@ -47,7 +47,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="containmentReference" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="instructionContainer" lowerBound="1"
-        eType="ecore:EClass genericUnit.ecore#//UnitInstruction"/>
+        eType="ecore:EClass document.ecore#//UnitInstruction"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="concernedFeature" lowerBound="1"
         eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EStructuralFeature"/>
   </eClassifiers>
@@ -134,7 +134,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="FeatureToAffectationEntry" instanceClassName="java.util.Map$Entry">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="value" lowerBound="1" upperBound="-1"
-        eType="ecore:EClass modelingUnit.ecore#//ValueForStructuralFeature"/>
+        eType="ecore:EClass modelingUnit.ecore#//AbstractValue"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ResourceChangeStatus" eSuperTypes="#//SynchronizerCompilationStatus">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="workingCopyResourceState"

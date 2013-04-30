@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,11 +7,13 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.indexer;
 
 import org.eclipse.emf.cdo.CDOObject;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 
 /**
@@ -95,7 +97,7 @@ public interface IntentIndexEntry extends CDOObject {
 	 * It is bidirectional and its opposite is '{@link org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement#getIndexEntry <em>Index Entry</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Referenced Element</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Referenced Element</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

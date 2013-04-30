@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.document;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -48,7 +48,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.eclipse.org/intent/intentdocument/0.7";
+	String eNS_URI = "http://www.eclipse.org/intent/intentdocument/0.8";
 
 	/**
 	 * The package namespace name.
@@ -103,16 +103,6 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @ordered
 	 */
 	int INTENT_GENERIC_ELEMENT_FEATURE_COUNT = 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.AnnotationMappingImpl <em>Annotation Mapping</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.AnnotationMappingImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getAnnotationMapping()
-	 * @generated
-	 */
-	int ANNOTATION_MAPPING = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentStructuredElementImpl <em>Intent Structured Element</em>}' class.
@@ -197,31 +187,131 @@ public interface IntentDocumentPackage extends EPackage {
 	int INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT = MarkupPackage.SECTION_FEATURE_COUNT + 3;
 
 	/**
-	 * The feature id for the '<em><b>Key</b></em>' attribute.
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionImpl <em>Intent Section</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSection()
 	 * @generated
-	 * @ordered
 	 */
-	int ANNOTATION_MAPPING__KEY = 0;
+	int INTENT_SECTION = 2;
 
 	/**
-	 * The feature id for the '<em><b>Value</b></em>' attribute.
+	 * The feature id for the '<em><b>Content</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANNOTATION_MAPPING__VALUE = 1;
+	int INTENT_SECTION__CONTENT = INTENT_STRUCTURED_ELEMENT__CONTENT;
 
 	/**
-	 * The number of structural features of the '<em>Annotation Mapping</em>' class.
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ANNOTATION_MAPPING_FEATURE_COUNT = 2;
+	int INTENT_SECTION__ATTRIBUTES = INTENT_STRUCTURED_ELEMENT__ATTRIBUTES;
+
+	/**
+	 * The feature id for the '<em><b>Title</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__TITLE = INTENT_STRUCTURED_ELEMENT__TITLE;
+
+	/**
+	 * The feature id for the '<em><b>Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__LEVEL = INTENT_STRUCTURED_ELEMENT__LEVEL;
+
+	/**
+	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__COMPILATION_STATUS = INTENT_STRUCTURED_ELEMENT__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__INDEX_ENTRY = INTENT_STRUCTURED_ELEMENT__INDEX_ENTRY;
+
+	/**
+	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__COMPLETE_LEVEL = INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL;
+
+	/**
+	 * The feature id for the '<em><b>Intent Content</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__INTENT_CONTENT = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Sub Sections</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__SUB_SECTIONS = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Units</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__UNITS = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Description Units</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__DESCRIPTION_UNITS = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Modeling Units</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION__MODELING_UNITS = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of structural features of the '<em>Intent Section</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_SECTION_FEATURE_COUNT = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentImpl <em>Intent Document</em>}' class.
@@ -240,7 +330,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_DOCUMENT__CONTENT = INTENT_STRUCTURED_ELEMENT__CONTENT;
+	int INTENT_DOCUMENT__CONTENT = INTENT_SECTION__CONTENT;
 
 	/**
 	 * The feature id for the '<em><b>Attributes</b></em>' containment reference.
@@ -249,7 +339,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_DOCUMENT__ATTRIBUTES = INTENT_STRUCTURED_ELEMENT__ATTRIBUTES;
+	int INTENT_DOCUMENT__ATTRIBUTES = INTENT_SECTION__ATTRIBUTES;
 
 	/**
 	 * The feature id for the '<em><b>Title</b></em>' containment reference.
@@ -258,7 +348,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_DOCUMENT__TITLE = INTENT_STRUCTURED_ELEMENT__TITLE;
+	int INTENT_DOCUMENT__TITLE = INTENT_SECTION__TITLE;
 
 	/**
 	 * The feature id for the '<em><b>Level</b></em>' attribute.
@@ -267,7 +357,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_DOCUMENT__LEVEL = INTENT_STRUCTURED_ELEMENT__LEVEL;
+	int INTENT_DOCUMENT__LEVEL = INTENT_SECTION__LEVEL;
 
 	/**
 	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
@@ -276,7 +366,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_DOCUMENT__COMPILATION_STATUS = INTENT_STRUCTURED_ELEMENT__COMPILATION_STATUS;
+	int INTENT_DOCUMENT__COMPILATION_STATUS = INTENT_SECTION__COMPILATION_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
@@ -285,7 +375,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_DOCUMENT__INDEX_ENTRY = INTENT_STRUCTURED_ELEMENT__INDEX_ENTRY;
+	int INTENT_DOCUMENT__INDEX_ENTRY = INTENT_SECTION__INDEX_ENTRY;
 
 	/**
 	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
@@ -294,107 +384,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_DOCUMENT__COMPLETE_LEVEL = INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL;
-
-	/**
-	 * The feature id for the '<em><b>Chapters</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_DOCUMENT__CHAPTERS = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Headers</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_DOCUMENT__HEADERS = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 1;
-
-	/**
-	 * The number of structural features of the '<em>Intent Document</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_DOCUMENT_FEATURE_COUNT = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSubSectionContainerImpl <em>Intent Sub Section Container</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentSubSectionContainerImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSubSectionContainer()
-	 * @generated
-	 */
-	int INTENT_SUB_SECTION_CONTAINER = 4;
-
-	/**
-	 * The feature id for the '<em><b>Content</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SUB_SECTION_CONTAINER__CONTENT = INTENT_STRUCTURED_ELEMENT__CONTENT;
-
-	/**
-	 * The feature id for the '<em><b>Attributes</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SUB_SECTION_CONTAINER__ATTRIBUTES = INTENT_STRUCTURED_ELEMENT__ATTRIBUTES;
-
-	/**
-	 * The feature id for the '<em><b>Title</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SUB_SECTION_CONTAINER__TITLE = INTENT_STRUCTURED_ELEMENT__TITLE;
-
-	/**
-	 * The feature id for the '<em><b>Level</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SUB_SECTION_CONTAINER__LEVEL = INTENT_STRUCTURED_ELEMENT__LEVEL;
-
-	/**
-	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SUB_SECTION_CONTAINER__COMPILATION_STATUS = INTENT_STRUCTURED_ELEMENT__COMPILATION_STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SUB_SECTION_CONTAINER__INDEX_ENTRY = INTENT_STRUCTURED_ELEMENT__INDEX_ENTRY;
-
-	/**
-	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SUB_SECTION_CONTAINER__COMPLETE_LEVEL = INTENT_STRUCTURED_ELEMENT__COMPLETE_LEVEL;
+	int INTENT_DOCUMENT__COMPLETE_LEVEL = INTENT_SECTION__COMPLETE_LEVEL;
 
 	/**
 	 * The feature id for the '<em><b>Intent Content</b></em>' containment reference list.
@@ -403,7 +393,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SUB_SECTION_CONTAINER__INTENT_CONTENT = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 0;
+	int INTENT_DOCUMENT__INTENT_CONTENT = INTENT_SECTION__INTENT_CONTENT;
 
 	/**
 	 * The feature id for the '<em><b>Sub Sections</b></em>' reference list.
@@ -412,7 +402,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SUB_SECTION_CONTAINER__SUB_SECTIONS = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 1;
+	int INTENT_DOCUMENT__SUB_SECTIONS = INTENT_SECTION__SUB_SECTIONS;
 
 	/**
 	 * The feature id for the '<em><b>Units</b></em>' reference list.
@@ -421,7 +411,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SUB_SECTION_CONTAINER__UNITS = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 2;
+	int INTENT_DOCUMENT__UNITS = INTENT_SECTION__UNITS;
 
 	/**
 	 * The feature id for the '<em><b>Description Units</b></em>' reference list.
@@ -430,252 +420,7 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SUB_SECTION_CONTAINER__DESCRIPTION_UNITS = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 3;
-
-	/**
-	 * The number of structural features of the '<em>Intent Sub Section Container</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT = INTENT_STRUCTURED_ELEMENT_FEATURE_COUNT + 4;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentChapterImpl <em>Intent Chapter</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentChapterImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentChapter()
-	 * @generated
-	 */
-	int INTENT_CHAPTER = 5;
-
-	/**
-	 * The feature id for the '<em><b>Content</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__CONTENT = INTENT_SUB_SECTION_CONTAINER__CONTENT;
-
-	/**
-	 * The feature id for the '<em><b>Attributes</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__ATTRIBUTES = INTENT_SUB_SECTION_CONTAINER__ATTRIBUTES;
-
-	/**
-	 * The feature id for the '<em><b>Title</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__TITLE = INTENT_SUB_SECTION_CONTAINER__TITLE;
-
-	/**
-	 * The feature id for the '<em><b>Level</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__LEVEL = INTENT_SUB_SECTION_CONTAINER__LEVEL;
-
-	/**
-	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__COMPILATION_STATUS = INTENT_SUB_SECTION_CONTAINER__COMPILATION_STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__INDEX_ENTRY = INTENT_SUB_SECTION_CONTAINER__INDEX_ENTRY;
-
-	/**
-	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__COMPLETE_LEVEL = INTENT_SUB_SECTION_CONTAINER__COMPLETE_LEVEL;
-
-	/**
-	 * The feature id for the '<em><b>Intent Content</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__INTENT_CONTENT = INTENT_SUB_SECTION_CONTAINER__INTENT_CONTENT;
-
-	/**
-	 * The feature id for the '<em><b>Sub Sections</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__SUB_SECTIONS = INTENT_SUB_SECTION_CONTAINER__SUB_SECTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Units</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__UNITS = INTENT_SUB_SECTION_CONTAINER__UNITS;
-
-	/**
-	 * The feature id for the '<em><b>Description Units</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER__DESCRIPTION_UNITS = INTENT_SUB_SECTION_CONTAINER__DESCRIPTION_UNITS;
-
-	/**
-	 * The number of structural features of the '<em>Intent Chapter</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_CHAPTER_FEATURE_COUNT = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionImpl <em>Intent Section</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSection()
-	 * @generated
-	 */
-	int INTENT_SECTION = 6;
-
-	/**
-	 * The feature id for the '<em><b>Content</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__CONTENT = INTENT_SUB_SECTION_CONTAINER__CONTENT;
-
-	/**
-	 * The feature id for the '<em><b>Attributes</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__ATTRIBUTES = INTENT_SUB_SECTION_CONTAINER__ATTRIBUTES;
-
-	/**
-	 * The feature id for the '<em><b>Title</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__TITLE = INTENT_SUB_SECTION_CONTAINER__TITLE;
-
-	/**
-	 * The feature id for the '<em><b>Level</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__LEVEL = INTENT_SUB_SECTION_CONTAINER__LEVEL;
-
-	/**
-	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__COMPILATION_STATUS = INTENT_SUB_SECTION_CONTAINER__COMPILATION_STATUS;
-
-	/**
-	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__INDEX_ENTRY = INTENT_SUB_SECTION_CONTAINER__INDEX_ENTRY;
-
-	/**
-	 * The feature id for the '<em><b>Complete Level</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__COMPLETE_LEVEL = INTENT_SUB_SECTION_CONTAINER__COMPLETE_LEVEL;
-
-	/**
-	 * The feature id for the '<em><b>Intent Content</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__INTENT_CONTENT = INTENT_SUB_SECTION_CONTAINER__INTENT_CONTENT;
-
-	/**
-	 * The feature id for the '<em><b>Sub Sections</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__SUB_SECTIONS = INTENT_SUB_SECTION_CONTAINER__SUB_SECTIONS;
-
-	/**
-	 * The feature id for the '<em><b>Units</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__UNITS = INTENT_SUB_SECTION_CONTAINER__UNITS;
-
-	/**
-	 * The feature id for the '<em><b>Description Units</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__DESCRIPTION_UNITS = INTENT_SUB_SECTION_CONTAINER__DESCRIPTION_UNITS;
-
-	/**
-	 * The feature id for the '<em><b>Visibility</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INTENT_SECTION__VISIBILITY = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 0;
+	int INTENT_DOCUMENT__DESCRIPTION_UNITS = INTENT_SECTION__DESCRIPTION_UNITS;
 
 	/**
 	 * The feature id for the '<em><b>Modeling Units</b></em>' reference list.
@@ -684,44 +429,53 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION__MODELING_UNITS = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 1;
+	int INTENT_DOCUMENT__MODELING_UNITS = INTENT_SECTION__MODELING_UNITS;
 
 	/**
-	 * The feature id for the '<em><b>Imported Headers</b></em>' attribute list.
+	 * The number of structural features of the '<em>Intent Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION__IMPORTED_HEADERS = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 2;
+	int INTENT_DOCUMENT_FEATURE_COUNT = INTENT_SECTION_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Declared Headers</b></em>' containment reference list.
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.GenericUnitImpl <em>Generic Unit</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.GenericUnitImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getGenericUnit()
+	 * @generated
+	 */
+	int GENERIC_UNIT = 4;
+
+	/**
+	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION__DECLARED_HEADERS = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 3;
+	int GENERIC_UNIT__COMPILATION_STATUS = INTENT_GENERIC_ELEMENT__COMPILATION_STATUS;
 
 	/**
-	 * The number of structural features of the '<em>Intent Section</em>' class.
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_SECTION_FEATURE_COUNT = INTENT_SUB_SECTION_CONTAINER_FEATURE_COUNT + 4;
+	int GENERIC_UNIT__INDEX_ENTRY = INTENT_GENERIC_ELEMENT__INDEX_ENTRY;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentHeaderDeclarationImpl <em>Intent Header Declaration</em>}' class.
+	 * The feature id for the '<em><b>Instructions</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentHeaderDeclarationImpl
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentHeaderDeclaration()
 	 * @generated
+	 * @ordered
 	 */
-	int INTENT_HEADER_DECLARATION = 7;
+	int GENERIC_UNIT__INSTRUCTIONS = INTENT_GENERIC_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -730,63 +484,374 @@ public interface IntentDocumentPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_HEADER_DECLARATION__NAME = 0;
+	int GENERIC_UNIT__NAME = INTENT_GENERIC_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Imports</b></em>' attribute list.
+	 * The number of structural features of the '<em>Generic Unit</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_HEADER_DECLARATION__IMPORTS = 1;
+	int GENERIC_UNIT_FEATURE_COUNT = INTENT_GENERIC_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Annotation Mappings</b></em>' map.
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.UnitInstructionImpl <em>Unit Instruction</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.UnitInstructionImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getUnitInstruction()
+	 * @generated
+	 */
+	int UNIT_INSTRUCTION = 5;
+
+	/**
+	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_HEADER_DECLARATION__ANNOTATION_MAPPINGS = 2;
+	int UNIT_INSTRUCTION__COMPILATION_STATUS = INTENT_GENERIC_ELEMENT__COMPILATION_STATUS;
 
 	/**
-	 * The feature id for the '<em><b>Resource</b></em>' containment reference.
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_HEADER_DECLARATION__RESOURCE = 3;
+	int UNIT_INSTRUCTION__INDEX_ENTRY = INTENT_GENERIC_ELEMENT__INDEX_ENTRY;
 
 	/**
-	 * The number of structural features of the '<em>Intent Header Declaration</em>' class.
+	 * The feature id for the '<em><b>Unit</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTENT_HEADER_DECLARATION_FEATURE_COUNT = 4;
+	int UNIT_INSTRUCTION__UNIT = INTENT_GENERIC_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility <em>Intent Section Visibility</em>}' enum.
+	 * The feature id for the '<em><b>Line Break</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility
-	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSectionVisibility()
+	 * @generated
+	 * @ordered
+	 */
+	int UNIT_INSTRUCTION__LINE_BREAK = INTENT_GENERIC_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Unit Instruction</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int UNIT_INSTRUCTION_FEATURE_COUNT = INTENT_GENERIC_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceInstructionImpl <em>Intent Reference Instruction</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceInstructionImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentReferenceInstruction()
 	 * @generated
 	 */
-	int INTENT_SECTION_VISIBILITY = 8;
+	int INTENT_REFERENCE_INSTRUCTION = 6;
+
+	/**
+	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_INSTRUCTION__COMPILATION_STATUS = UNIT_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_INSTRUCTION__INDEX_ENTRY = UNIT_INSTRUCTION__INDEX_ENTRY;
+
+	/**
+	 * The feature id for the '<em><b>Unit</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_INSTRUCTION__UNIT = UNIT_INSTRUCTION__UNIT;
+
+	/**
+	 * The feature id for the '<em><b>Line Break</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_INSTRUCTION__LINE_BREAK = UNIT_INSTRUCTION__LINE_BREAK;
+
+	/**
+	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_INSTRUCTION__INTENT_HREF = UNIT_INSTRUCTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_INSTRUCTION__REFERENCED_ELEMENT = UNIT_INSTRUCTION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Text To Print</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_INSTRUCTION__TEXT_TO_PRINT = UNIT_INSTRUCTION_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Intent Reference Instruction</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_INSTRUCTION_FEATURE_COUNT = UNIT_INSTRUCTION_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.LabelDeclarationImpl <em>Label Declaration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.LabelDeclarationImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getLabelDeclaration()
+	 * @generated
+	 */
+	int LABEL_DECLARATION = 7;
+
+	/**
+	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_DECLARATION__COMPILATION_STATUS = UNIT_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_DECLARATION__INDEX_ENTRY = UNIT_INSTRUCTION__INDEX_ENTRY;
+
+	/**
+	 * The feature id for the '<em><b>Unit</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_DECLARATION__UNIT = UNIT_INSTRUCTION__UNIT;
+
+	/**
+	 * The feature id for the '<em><b>Line Break</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_DECLARATION__LINE_BREAK = UNIT_INSTRUCTION__LINE_BREAK;
+
+	/**
+	 * The feature id for the '<em><b>Label Value</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_DECLARATION__LABEL_VALUE = UNIT_INSTRUCTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Text To Print</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_DECLARATION__TEXT_TO_PRINT = UNIT_INSTRUCTION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_DECLARATION__TYPE = UNIT_INSTRUCTION_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Label Declaration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_DECLARATION_FEATURE_COUNT = UNIT_INSTRUCTION_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.LabelReferenceInstructionImpl <em>Label Reference Instruction</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.LabelReferenceInstructionImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getLabelReferenceInstruction()
+	 * @generated
+	 */
+	int LABEL_REFERENCE_INSTRUCTION = 8;
+
+	/**
+	 * The feature id for the '<em><b>Compilation Status</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_REFERENCE_INSTRUCTION__COMPILATION_STATUS = UNIT_INSTRUCTION__COMPILATION_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Index Entry</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_REFERENCE_INSTRUCTION__INDEX_ENTRY = UNIT_INSTRUCTION__INDEX_ENTRY;
+
+	/**
+	 * The feature id for the '<em><b>Unit</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_REFERENCE_INSTRUCTION__UNIT = UNIT_INSTRUCTION__UNIT;
+
+	/**
+	 * The feature id for the '<em><b>Line Break</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_REFERENCE_INSTRUCTION__LINE_BREAK = UNIT_INSTRUCTION__LINE_BREAK;
+
+	/**
+	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_REFERENCE_INSTRUCTION__INTENT_HREF = UNIT_INSTRUCTION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_REFERENCE_INSTRUCTION__REFERENCED_ELEMENT = UNIT_INSTRUCTION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_REFERENCE_INSTRUCTION__TYPE = UNIT_INSTRUCTION_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Label Reference Instruction</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL_REFERENCE_INSTRUCTION_FEATURE_COUNT = UNIT_INSTRUCTION_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl <em>Intent Reference</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentReference()
+	 * @generated
+	 */
+	int INTENT_REFERENCE = 9;
+
+	/**
+	 * The feature id for the '<em><b>Intent Href</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE__INTENT_HREF = 0;
+
+	/**
+	 * The feature id for the '<em><b>Referenced Element</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE__REFERENCED_ELEMENT = 1;
+
+	/**
+	 * The number of structural features of the '<em>Intent Reference</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTENT_REFERENCE_FEATURE_COUNT = 2;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.document.TypeLabel <em>Type Label</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.mylyn.docs.intent.core.document.TypeLabel
+	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getTypeLabel()
+	 * @generated
+	 */
+	int TYPE_LABEL = 10;
 
 	/**
 	 * The meta object id for the '<em>URI</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see String
+	 * @see org.eclipse.emf.common.util.URI
 	 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getURI()
 	 * @generated
 	 */
-	int URI = 9;
+	int URI = 11;
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement <em>Intent Generic Element</em>}'.
@@ -821,40 +886,6 @@ public interface IntentDocumentPackage extends EPackage {
 	EReference getIntentGenericElement_IndexEntry();
 
 	/**
-	 * Returns the meta object for class '{@link java.util.Map.Entry <em>Annotation Mapping</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Annotation Mapping</em>'.
-	 * @see java.util.Map.Entry
-	 * @model keyDataType="org.eclipse.emf.ecore.EString"
-	 *        valueDataType="org.eclipse.mylyn.docs.intent.core.document.URI"
-	 * @generated
-	 */
-	EClass getAnnotationMapping();
-
-	/**
-	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Key</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Key</em>'.
-	 * @see java.util.Map.Entry
-	 * @see #getAnnotationMapping()
-	 * @generated
-	 */
-	EAttribute getAnnotationMapping_Key();
-
-	/**
-	 * Returns the meta object for the attribute '{@link java.util.Map.Entry <em>Value</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Value</em>'.
-	 * @see java.util.Map.Entry
-	 * @see #getAnnotationMapping()
-	 * @generated
-	 */
-	EAttribute getAnnotationMapping_Value();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement <em>Intent Structured Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -876,102 +907,6 @@ public interface IntentDocumentPackage extends EPackage {
 	EAttribute getIntentStructuredElement_CompleteLevel();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument <em>Intent Document</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Intent Document</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocument
-	 * @generated
-	 */
-	EClass getIntentDocument();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument#getChapters <em>Chapters</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Chapters</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocument#getChapters()
-	 * @see #getIntentDocument()
-	 * @generated
-	 */
-	EReference getIntentDocument_Chapters();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument#getHeaders <em>Headers</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Headers</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocument#getHeaders()
-	 * @see #getIntentDocument()
-	 * @generated
-	 */
-	EReference getIntentDocument_Headers();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer <em>Intent Sub Section Container</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Intent Sub Section Container</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer
-	 * @generated
-	 */
-	EClass getIntentSubSectionContainer();
-
-	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer#getIntentContent <em>Intent Content</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Intent Content</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer#getIntentContent()
-	 * @see #getIntentSubSectionContainer()
-	 * @generated
-	 */
-	EReference getIntentSubSectionContainer_IntentContent();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer#getSubSections <em>Sub Sections</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Sub Sections</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer#getSubSections()
-	 * @see #getIntentSubSectionContainer()
-	 * @generated
-	 */
-	EReference getIntentSubSectionContainer_SubSections();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer#getUnits <em>Units</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Units</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer#getUnits()
-	 * @see #getIntentSubSectionContainer()
-	 * @generated
-	 */
-	EReference getIntentSubSectionContainer_Units();
-
-	/**
-	 * Returns the meta object for the reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer#getDescriptionUnits <em>Description Units</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Description Units</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer#getDescriptionUnits()
-	 * @see #getIntentSubSectionContainer()
-	 * @generated
-	 */
-	EReference getIntentSubSectionContainer_DescriptionUnits();
-
-	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentChapter <em>Intent Chapter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Intent Chapter</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentChapter
-	 * @generated
-	 */
-	EClass getIntentChapter();
-
-	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection <em>Intent Section</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -982,15 +917,48 @@ public interface IntentDocumentPackage extends EPackage {
 	EClass getIntentSection();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getVisibility <em>Visibility</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getIntentContent <em>Intent Content</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Visibility</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSection#getVisibility()
+	 * @return the meta object for the containment reference list '<em>Intent Content</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSection#getIntentContent()
 	 * @see #getIntentSection()
 	 * @generated
 	 */
-	EAttribute getIntentSection_Visibility();
+	EReference getIntentSection_IntentContent();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getSubSections <em>Sub Sections</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Sub Sections</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSection#getSubSections()
+	 * @see #getIntentSection()
+	 * @generated
+	 */
+	EReference getIntentSection_SubSections();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getUnits <em>Units</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Units</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSection#getUnits()
+	 * @see #getIntentSection()
+	 * @generated
+	 */
+	EReference getIntentSection_Units();
+
+	/**
+	 * Returns the meta object for the reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getDescriptionUnits <em>Description Units</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Description Units</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSection#getDescriptionUnits()
+	 * @see #getIntentSection()
+	 * @generated
+	 */
+	EReference getIntentSection_DescriptionUnits();
 
 	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getModelingUnits <em>Modeling Units</em>}'.
@@ -1004,98 +972,213 @@ public interface IntentDocumentPackage extends EPackage {
 	EReference getIntentSection_ModelingUnits();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getImportedHeaders <em>Imported Headers</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument <em>Intent Document</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Imported Headers</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSection#getImportedHeaders()
-	 * @see #getIntentSection()
+	 * @return the meta object for class '<em>Intent Document</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocument
 	 * @generated
 	 */
-	EAttribute getIntentSection_ImportedHeaders();
+	EClass getIntentDocument();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSection#getDeclaredHeaders <em>Declared Headers</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.GenericUnit <em>Generic Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Declared Headers</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSection#getDeclaredHeaders()
-	 * @see #getIntentSection()
+	 * @return the meta object for class '<em>Generic Unit</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.GenericUnit
 	 * @generated
 	 */
-	EReference getIntentSection_DeclaredHeaders();
+	EClass getGenericUnit();
 
 	/**
-	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration <em>Intent Header Declaration</em>}'.
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.mylyn.docs.intent.core.document.GenericUnit#getInstructions <em>Instructions</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Intent Header Declaration</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration
+	 * @return the meta object for the containment reference list '<em>Instructions</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.GenericUnit#getInstructions()
+	 * @see #getGenericUnit()
 	 * @generated
 	 */
-	EClass getIntentHeaderDeclaration();
+	EReference getGenericUnit_Instructions();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration#getName <em>Name</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.GenericUnit#getName <em>Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration#getName()
-	 * @see #getIntentHeaderDeclaration()
+	 * @see org.eclipse.mylyn.docs.intent.core.document.GenericUnit#getName()
+	 * @see #getGenericUnit()
 	 * @generated
 	 */
-	EAttribute getIntentHeaderDeclaration_Name();
+	EAttribute getGenericUnit_Name();
 
 	/**
-	 * Returns the meta object for the attribute list '{@link org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration#getImports <em>Imports</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.UnitInstruction <em>Unit Instruction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute list '<em>Imports</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration#getImports()
-	 * @see #getIntentHeaderDeclaration()
+	 * @return the meta object for class '<em>Unit Instruction</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.UnitInstruction
 	 * @generated
 	 */
-	EAttribute getIntentHeaderDeclaration_Imports();
+	EClass getUnitInstruction();
 
 	/**
-	 * Returns the meta object for the map '{@link org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration#getAnnotationMappings <em>Annotation Mappings</em>}'.
+	 * Returns the meta object for the container reference '{@link org.eclipse.mylyn.docs.intent.core.document.UnitInstruction#getUnit <em>Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the map '<em>Annotation Mappings</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration#getAnnotationMappings()
-	 * @see #getIntentHeaderDeclaration()
+	 * @return the meta object for the container reference '<em>Unit</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.UnitInstruction#getUnit()
+	 * @see #getUnitInstruction()
 	 * @generated
 	 */
-	EReference getIntentHeaderDeclaration_AnnotationMappings();
+	EReference getUnitInstruction_Unit();
 
 	/**
-	 * Returns the meta object for the containment reference '{@link org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration#getResource <em>Resource</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.UnitInstruction#isLineBreak <em>Line Break</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference '<em>Resource</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration#getResource()
-	 * @see #getIntentHeaderDeclaration()
+	 * @return the meta object for the attribute '<em>Line Break</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.UnitInstruction#isLineBreak()
+	 * @see #getUnitInstruction()
 	 * @generated
 	 */
-	EReference getIntentHeaderDeclaration_Resource();
+	EAttribute getUnitInstruction_LineBreak();
 
 	/**
-	 * Returns the meta object for enum '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility <em>Intent Section Visibility</em>}'.
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction <em>Intent Reference Instruction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for enum '<em>Intent Section Visibility</em>'.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility
+	 * @return the meta object for class '<em>Intent Reference Instruction</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction
 	 * @generated
 	 */
-	EEnum getIntentSectionVisibility();
+	EClass getIntentReferenceInstruction();
 
 	/**
-	 * Returns the meta object for data type '{@link String <em>URI</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction#getTextToPrint <em>Text To Print</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Text To Print</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction#getTextToPrint()
+	 * @see #getIntentReferenceInstruction()
+	 * @generated
+	 */
+	EAttribute getIntentReferenceInstruction_TextToPrint();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration <em>Label Declaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Label Declaration</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration
+	 * @generated
+	 */
+	EClass getLabelDeclaration();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration#getLabelValue <em>Label Value</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Label Value</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration#getLabelValue()
+	 * @see #getLabelDeclaration()
+	 * @generated
+	 */
+	EAttribute getLabelDeclaration_LabelValue();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration#getTextToPrint <em>Text To Print</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Text To Print</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration#getTextToPrint()
+	 * @see #getLabelDeclaration()
+	 * @generated
+	 */
+	EAttribute getLabelDeclaration_TextToPrint();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration#getType()
+	 * @see #getLabelDeclaration()
+	 * @generated
+	 */
+	EAttribute getLabelDeclaration_Type();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.LabelReferenceInstruction <em>Label Reference Instruction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Label Reference Instruction</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.LabelReferenceInstruction
+	 * @generated
+	 */
+	EClass getLabelReferenceInstruction();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.LabelReferenceInstruction#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.LabelReferenceInstruction#getType()
+	 * @see #getLabelReferenceInstruction()
+	 * @generated
+	 */
+	EAttribute getLabelReferenceInstruction_Type();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference <em>Intent Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Intent Reference</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReference
+	 * @generated
+	 */
+	EClass getIntentReference();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference#getIntentHref <em>Intent Href</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Intent Href</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReference#getIntentHref()
+	 * @see #getIntentReference()
+	 * @generated
+	 */
+	EAttribute getIntentReference_IntentHref();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference#getReferencedElement <em>Referenced Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Referenced Element</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReference#getReferencedElement()
+	 * @see #getIntentReference()
+	 * @generated
+	 */
+	EReference getIntentReference_ReferencedElement();
+
+	/**
+	 * Returns the meta object for enum '{@link org.eclipse.mylyn.docs.intent.core.document.TypeLabel <em>Type Label</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Type Label</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.TypeLabel
+	 * @generated
+	 */
+	EEnum getTypeLabel();
+
+	/**
+	 * Returns the meta object for data type '{@link org.eclipse.emf.common.util.URI <em>URI</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>URI</em>'.
-	 * @see String
-	 * @model instanceClass="java.lang.Object"
+	 * @see org.eclipse.emf.common.util.URI
+	 * @model instanceClass="org.eclipse.emf.common.util.URI"
 	 * @generated
 	 */
 	EDataType getURI();
@@ -1150,32 +1233,6 @@ public interface IntentDocumentPackage extends EPackage {
 		EReference INTENT_GENERIC_ELEMENT__INDEX_ENTRY = eINSTANCE.getIntentGenericElement_IndexEntry();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.AnnotationMappingImpl <em>Annotation Mapping</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.AnnotationMappingImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getAnnotationMapping()
-		 * @generated
-		 */
-		EClass ANNOTATION_MAPPING = eINSTANCE.getAnnotationMapping();
-
-		/**
-		 * The meta object literal for the '<em><b>Key</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ANNOTATION_MAPPING__KEY = eINSTANCE.getAnnotationMapping_Key();
-
-		/**
-		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ANNOTATION_MAPPING__VALUE = eINSTANCE.getAnnotationMapping_Value();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentStructuredElementImpl <em>Intent Structured Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1195,87 +1252,6 @@ public interface IntentDocumentPackage extends EPackage {
 				.getIntentStructuredElement_CompleteLevel();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentImpl <em>Intent Document</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentDocument()
-		 * @generated
-		 */
-		EClass INTENT_DOCUMENT = eINSTANCE.getIntentDocument();
-
-		/**
-		 * The meta object literal for the '<em><b>Chapters</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INTENT_DOCUMENT__CHAPTERS = eINSTANCE.getIntentDocument_Chapters();
-
-		/**
-		 * The meta object literal for the '<em><b>Headers</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INTENT_DOCUMENT__HEADERS = eINSTANCE.getIntentDocument_Headers();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSubSectionContainerImpl <em>Intent Sub Section Container</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentSubSectionContainerImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSubSectionContainer()
-		 * @generated
-		 */
-		EClass INTENT_SUB_SECTION_CONTAINER = eINSTANCE.getIntentSubSectionContainer();
-
-		/**
-		 * The meta object literal for the '<em><b>Intent Content</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INTENT_SUB_SECTION_CONTAINER__INTENT_CONTENT = eINSTANCE
-				.getIntentSubSectionContainer_IntentContent();
-
-		/**
-		 * The meta object literal for the '<em><b>Sub Sections</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INTENT_SUB_SECTION_CONTAINER__SUB_SECTIONS = eINSTANCE
-				.getIntentSubSectionContainer_SubSections();
-
-		/**
-		 * The meta object literal for the '<em><b>Units</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INTENT_SUB_SECTION_CONTAINER__UNITS = eINSTANCE.getIntentSubSectionContainer_Units();
-
-		/**
-		 * The meta object literal for the '<em><b>Description Units</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference INTENT_SUB_SECTION_CONTAINER__DESCRIPTION_UNITS = eINSTANCE
-				.getIntentSubSectionContainer_DescriptionUnits();
-
-		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentChapterImpl <em>Intent Chapter</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentChapterImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentChapter()
-		 * @generated
-		 */
-		EClass INTENT_CHAPTER = eINSTANCE.getIntentChapter();
-
-		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentSectionImpl <em>Intent Section</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1286,12 +1262,36 @@ public interface IntentDocumentPackage extends EPackage {
 		EClass INTENT_SECTION = eINSTANCE.getIntentSection();
 
 		/**
-		 * The meta object literal for the '<em><b>Visibility</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Intent Content</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute INTENT_SECTION__VISIBILITY = eINSTANCE.getIntentSection_Visibility();
+		EReference INTENT_SECTION__INTENT_CONTENT = eINSTANCE.getIntentSection_IntentContent();
+
+		/**
+		 * The meta object literal for the '<em><b>Sub Sections</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INTENT_SECTION__SUB_SECTIONS = eINSTANCE.getIntentSection_SubSections();
+
+		/**
+		 * The meta object literal for the '<em><b>Units</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INTENT_SECTION__UNITS = eINSTANCE.getIntentSection_Units();
+
+		/**
+		 * The meta object literal for the '<em><b>Description Units</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INTENT_SECTION__DESCRIPTION_UNITS = eINSTANCE.getIntentSection_DescriptionUnits();
 
 		/**
 		 * The meta object literal for the '<em><b>Modeling Units</b></em>' reference list feature.
@@ -1302,30 +1302,32 @@ public interface IntentDocumentPackage extends EPackage {
 		EReference INTENT_SECTION__MODELING_UNITS = eINSTANCE.getIntentSection_ModelingUnits();
 
 		/**
-		 * The meta object literal for the '<em><b>Imported Headers</b></em>' attribute list feature.
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentImpl <em>Intent Document</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentDocument()
 		 * @generated
 		 */
-		EAttribute INTENT_SECTION__IMPORTED_HEADERS = eINSTANCE.getIntentSection_ImportedHeaders();
+		EClass INTENT_DOCUMENT = eINSTANCE.getIntentDocument();
 
 		/**
-		 * The meta object literal for the '<em><b>Declared Headers</b></em>' containment reference list feature.
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.GenericUnitImpl <em>Generic Unit</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.GenericUnitImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getGenericUnit()
 		 * @generated
 		 */
-		EReference INTENT_SECTION__DECLARED_HEADERS = eINSTANCE.getIntentSection_DeclaredHeaders();
+		EClass GENERIC_UNIT = eINSTANCE.getGenericUnit();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentHeaderDeclarationImpl <em>Intent Header Declaration</em>}' class.
+		 * The meta object literal for the '<em><b>Instructions</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentHeaderDeclarationImpl
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentHeaderDeclaration()
 		 * @generated
 		 */
-		EClass INTENT_HEADER_DECLARATION = eINSTANCE.getIntentHeaderDeclaration();
+		EReference GENERIC_UNIT__INSTRUCTIONS = eINSTANCE.getGenericUnit_Instructions();
 
 		/**
 		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
@@ -1333,48 +1335,146 @@ public interface IntentDocumentPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute INTENT_HEADER_DECLARATION__NAME = eINSTANCE.getIntentHeaderDeclaration_Name();
+		EAttribute GENERIC_UNIT__NAME = eINSTANCE.getGenericUnit_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>Imports</b></em>' attribute list feature.
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.UnitInstructionImpl <em>Unit Instruction</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.UnitInstructionImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getUnitInstruction()
+		 * @generated
+		 */
+		EClass UNIT_INSTRUCTION = eINSTANCE.getUnitInstruction();
+
+		/**
+		 * The meta object literal for the '<em><b>Unit</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute INTENT_HEADER_DECLARATION__IMPORTS = eINSTANCE.getIntentHeaderDeclaration_Imports();
+		EReference UNIT_INSTRUCTION__UNIT = eINSTANCE.getUnitInstruction_Unit();
 
 		/**
-		 * The meta object literal for the '<em><b>Annotation Mappings</b></em>' map feature.
+		 * The meta object literal for the '<em><b>Line Break</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference INTENT_HEADER_DECLARATION__ANNOTATION_MAPPINGS = eINSTANCE
-				.getIntentHeaderDeclaration_AnnotationMappings();
+		EAttribute UNIT_INSTRUCTION__LINE_BREAK = eINSTANCE.getUnitInstruction_LineBreak();
 
 		/**
-		 * The meta object literal for the '<em><b>Resource</b></em>' containment reference feature.
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceInstructionImpl <em>Intent Reference Instruction</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceInstructionImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentReferenceInstruction()
+		 * @generated
+		 */
+		EClass INTENT_REFERENCE_INSTRUCTION = eINSTANCE.getIntentReferenceInstruction();
+
+		/**
+		 * The meta object literal for the '<em><b>Text To Print</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference INTENT_HEADER_DECLARATION__RESOURCE = eINSTANCE.getIntentHeaderDeclaration_Resource();
+		EAttribute INTENT_REFERENCE_INSTRUCTION__TEXT_TO_PRINT = eINSTANCE
+				.getIntentReferenceInstruction_TextToPrint();
 
 		/**
-		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility <em>Intent Section Visibility</em>}' enum.
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.LabelDeclarationImpl <em>Label Declaration</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility
-		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentSectionVisibility()
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.LabelDeclarationImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getLabelDeclaration()
 		 * @generated
 		 */
-		EEnum INTENT_SECTION_VISIBILITY = eINSTANCE.getIntentSectionVisibility();
+		EClass LABEL_DECLARATION = eINSTANCE.getLabelDeclaration();
+
+		/**
+		 * The meta object literal for the '<em><b>Label Value</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LABEL_DECLARATION__LABEL_VALUE = eINSTANCE.getLabelDeclaration_LabelValue();
+
+		/**
+		 * The meta object literal for the '<em><b>Text To Print</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LABEL_DECLARATION__TEXT_TO_PRINT = eINSTANCE.getLabelDeclaration_TextToPrint();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LABEL_DECLARATION__TYPE = eINSTANCE.getLabelDeclaration_Type();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.LabelReferenceInstructionImpl <em>Label Reference Instruction</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.LabelReferenceInstructionImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getLabelReferenceInstruction()
+		 * @generated
+		 */
+		EClass LABEL_REFERENCE_INSTRUCTION = eINSTANCE.getLabelReferenceInstruction();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LABEL_REFERENCE_INSTRUCTION__TYPE = eINSTANCE.getLabelReferenceInstruction_Type();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl <em>Intent Reference</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentReferenceImpl
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getIntentReference()
+		 * @generated
+		 */
+		EClass INTENT_REFERENCE = eINSTANCE.getIntentReference();
+
+		/**
+		 * The meta object literal for the '<em><b>Intent Href</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INTENT_REFERENCE__INTENT_HREF = eINSTANCE.getIntentReference_IntentHref();
+
+		/**
+		 * The meta object literal for the '<em><b>Referenced Element</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INTENT_REFERENCE__REFERENCED_ELEMENT = eINSTANCE.getIntentReference_ReferencedElement();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.document.TypeLabel <em>Type Label</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.mylyn.docs.intent.core.document.TypeLabel
+		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getTypeLabel()
+		 * @generated
+		 */
+		EEnum TYPE_LABEL = eINSTANCE.getTypeLabel();
 
 		/**
 		 * The meta object literal for the '<em>URI</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see String
+		 * @see org.eclipse.emf.common.util.URI
 		 * @see org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl#getURI()
 		 * @generated
 		 */

@@ -13,7 +13,8 @@ package org.eclipse.mylyn.docs.intent.core.modelingunit;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>External Content Reference</b></em>'.
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>External Content Reference</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -33,8 +34,8 @@ public interface ExternalContentReference extends ResourceDeclaration {
 	 * Returns the value of the '<em><b>External Content</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>External Content</em>' reference isn't clear, there really should be more of
-	 * a description here...
+	 * If the meaning of the '<em>External Content</em>' reference isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>External Content</em>' reference.
@@ -47,7 +48,8 @@ public interface ExternalContentReference extends ResourceDeclaration {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference#getExternalContent <em>External Content</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>External Content</em>' reference.
 	 * @see #getExternalContent()
 	 * @generated
@@ -58,8 +60,8 @@ public interface ExternalContentReference extends ResourceDeclaration {
 	 * Returns the value of the '<em><b>Marked As Merged</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Marked As Merged</em>' attribute isn't clear, there really should be more of
-	 * a description here...
+	 * If the meaning of the '<em>Marked As Merged</em>' attribute isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Marked As Merged</em>' attribute.
@@ -72,7 +74,8 @@ public interface ExternalContentReference extends ResourceDeclaration {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference#isMarkedAsMerged <em>Marked As Merged</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Marked As Merged</em>' attribute.
 	 * @see #isMarkedAsMerged()
 	 * @generated

@@ -11,8 +11,8 @@
 package org.eclipse.mylyn.docs.intent.serializer.internal;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.DescriptionUnitSerializer;
 
@@ -45,20 +45,18 @@ public final class IntentSectionSerializer {
 		renderedForm.append(serializer.tabulation());
 
 		int initalOffset = serializer.getCurrentOffset();
-
-		// Visibility declaration
-		if (!section.getVisibility().equals(IntentSectionVisibility.PUBLIC)) {
-			renderedForm.append(section.getVisibility().getLiteral().toLowerCase()
-					+ IntentKeyWords.INTENT_WHITESPACE);
+		if (section.eContainer() instanceof IntentDocument) {
+			renderedForm.append(IntentKeyWords.INTENT_KEYWORD_CHAPTER);
+		} else {
+			renderedForm.append(IntentKeyWords.INTENT_KEYWORD_SECTION);
 		}
-
-		renderedForm.append(IntentKeyWords.INTENT_KEYWORD_SECTION);
 		int initialLength = renderedForm.length();
 		renderedForm.append(IntentKeyWords.INTENT_WHITESPACE);
 
 		// Section Title
 		if (section.getTitle() != null) {
-			DescriptionUnitSerializer descriptionUnitSerializer = new DescriptionUnitSerializer();
+			DescriptionUnitSerializer descriptionUnitSerializer = new DescriptionUnitSerializer(
+					new IntentDocumentSerializerSwitch(serializer));
 			renderedForm.append(descriptionUnitSerializer.serializeSectionTitle(section.getTitle(),
 					initalOffset + renderedForm.length()));
 			serializer.getPositionManager().addIntentPositionManagerInformations(

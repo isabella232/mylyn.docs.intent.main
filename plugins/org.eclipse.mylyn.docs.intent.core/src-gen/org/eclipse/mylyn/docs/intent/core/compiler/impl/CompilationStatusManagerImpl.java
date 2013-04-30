@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,22 +7,27 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import java.math.BigInteger;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Compilation Status Manager</b></em>'.
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Compilation Status Manager</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -37,7 +42,8 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  */
 public class CompilationStatusManagerImpl extends CDOObjectImpl implements CompilationStatusManager {
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected CompilationStatusManagerImpl() {
@@ -45,7 +51,8 @@ public class CompilationStatusManagerImpl extends CDOObjectImpl implements Compi
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -54,7 +61,8 @@ public class CompilationStatusManagerImpl extends CDOObjectImpl implements Compi
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -63,7 +71,8 @@ public class CompilationStatusManagerImpl extends CDOObjectImpl implements Compi
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -73,7 +82,8 @@ public class CompilationStatusManagerImpl extends CDOObjectImpl implements Compi
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -100,4 +110,4 @@ public class CompilationStatusManagerImpl extends CDOObjectImpl implements Compi
 		eSet(CompilerPackage.Literals.COMPILATION_STATUS_MANAGER__VALIDATION_TIME, newValidationTime);
 	}
 
-} // CompilationStatusManagerImpl
+} //CompilationStatusManagerImpl

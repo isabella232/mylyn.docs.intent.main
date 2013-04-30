@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import java.util.Map;
@@ -16,27 +16,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.*;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -54,7 +39,7 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 	public static ModelingUnitFactory init() {
 		try {
 			ModelingUnitFactory theModelingUnitFactory = (ModelingUnitFactory)EPackage.Registry.INSTANCE
-					.getEFactory("http://www.eclipse.org/intent/modelingunit/0.7");
+					.getEFactory("http://www.eclipse.org/intent/modelingunit/0.8");
 			if (theModelingUnitFactory != null) {
 				return theModelingUnitFactory;
 			}
@@ -82,40 +67,38 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case ModelingUnitPackage.KEY_VAL_FOR_ANNOTATION:
-				return (EObject)createKeyValForAnnotation();
 			case ModelingUnitPackage.MODELING_UNIT:
 				return (EObject)createModelingUnit();
-			case ModelingUnitPackage.RESOURCE_REFERENCE:
-				return (EObject)createResourceReference();
-			case ModelingUnitPackage.INSTANCIATION_INSTRUCTION_REFERENCE:
-				return (EObject)createInstanciationInstructionReference();
-			case ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE:
-				return (EObject)createModelingUnitInstructionReference();
 			case ModelingUnitPackage.RESOURCE_DECLARATION:
 				return (EObject)createResourceDeclaration();
-			case ModelingUnitPackage.INTENT_REFERENCEIN_MODELING_UNIT:
-				return (EObject)createIntentReferenceinModelingUnit();
-			case ModelingUnitPackage.LABELIN_MODELING_UNIT:
-				return (EObject)createLabelinModelingUnit();
-			case ModelingUnitPackage.ANNOTATION_DECLARATION:
-				return (EObject)createAnnotationDeclaration();
 			case ModelingUnitPackage.TYPE_REFERENCE:
 				return (EObject)createTypeReference();
 			case ModelingUnitPackage.INSTANCIATION_INSTRUCTION:
 				return (EObject)createInstanciationInstruction();
 			case ModelingUnitPackage.STRUCTURAL_FEATURE_AFFECTATION:
 				return (EObject)createStructuralFeatureAffectation();
-			case ModelingUnitPackage.NATIVE_VALUE_FOR_STRUCTURAL_FEATURE:
-				return (EObject)createNativeValueForStructuralFeature();
-			case ModelingUnitPackage.NEW_OBJECT_VALUE_FOR_STRUCTURAL_FEATURE:
-				return (EObject)createNewObjectValueForStructuralFeature();
-			case ModelingUnitPackage.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE:
-				return (EObject)createReferenceValueForStructuralFeature();
+			case ModelingUnitPackage.NATIVE_VALUE:
+				return (EObject)createNativeValue();
+			case ModelingUnitPackage.NEW_OBJECT_VALUE:
+				return (EObject)createNewObjectValue();
+			case ModelingUnitPackage.REFERENCE_VALUE:
+				return (EObject)createReferenceValue();
+			case ModelingUnitPackage.INSTANCIATION_INSTRUCTION_REFERENCE:
+				return (EObject)createInstanciationInstructionReference();
 			case ModelingUnitPackage.CONTRIBUTION_INSTRUCTION:
 				return (EObject)createContributionInstruction();
 			case ModelingUnitPackage.EXTERNAL_CONTENT_REFERENCE:
 				return (EObject)createExternalContentReference();
+			case ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE:
+				return (EObject)createModelingUnitInstructionReference();
+			case ModelingUnitPackage.INTENT_REFERENCE_IN_MODELING_UNIT:
+				return (EObject)createIntentReferenceInModelingUnit();
+			case ModelingUnitPackage.ANNOTATION_DECLARATION:
+				return (EObject)createAnnotationDeclaration();
+			case ModelingUnitPackage.LABEL_IN_MODELING_UNIT:
+				return (EObject)createLabelInModelingUnit();
+			case ModelingUnitPackage.KEY_VAL_FOR_ANNOTATION:
+				return (EObject)createKeyValForAnnotation();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName()
 						+ "' is not a valid classifier");
@@ -159,16 +142,6 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<String, String> createKeyValForAnnotation() {
-		KeyValForAnnotationImpl keyValForAnnotation = new KeyValForAnnotationImpl();
-		return keyValForAnnotation;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public ModelingUnit createModelingUnit() {
 		ModelingUnitImpl modelingUnit = new ModelingUnitImpl();
 		return modelingUnit;
@@ -179,69 +152,9 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ResourceReference createResourceReference() {
-		ResourceReferenceImpl resourceReference = new ResourceReferenceImpl();
-		return resourceReference;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ModelingUnitInstructionReference createModelingUnitInstructionReference() {
-		ModelingUnitInstructionReferenceImpl modelingUnitInstructionReference = new ModelingUnitInstructionReferenceImpl();
-		return modelingUnitInstructionReference;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public InstanciationInstructionReference createInstanciationInstructionReference() {
-		InstanciationInstructionReferenceImpl instanciationInstructionReference = new InstanciationInstructionReferenceImpl();
-		return instanciationInstructionReference;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public ResourceDeclaration createResourceDeclaration() {
 		ResourceDeclarationImpl resourceDeclaration = new ResourceDeclarationImpl();
 		return resourceDeclaration;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IntentReferenceinModelingUnit createIntentReferenceinModelingUnit() {
-		IntentReferenceinModelingUnitImpl intentReferenceinModelingUnit = new IntentReferenceinModelingUnitImpl();
-		return intentReferenceinModelingUnit;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public LabelinModelingUnit createLabelinModelingUnit() {
-		LabelinModelingUnitImpl labelinModelingUnit = new LabelinModelingUnitImpl();
-		return labelinModelingUnit;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public AnnotationDeclaration createAnnotationDeclaration() {
-		AnnotationDeclarationImpl annotationDeclaration = new AnnotationDeclarationImpl();
-		return annotationDeclaration;
 	}
 
 	/**
@@ -279,9 +192,9 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NativeValueForStructuralFeature createNativeValueForStructuralFeature() {
-		NativeValueForStructuralFeatureImpl nativeValueForStructuralFeature = new NativeValueForStructuralFeatureImpl();
-		return nativeValueForStructuralFeature;
+	public NativeValue createNativeValue() {
+		NativeValueImpl nativeValue = new NativeValueImpl();
+		return nativeValue;
 	}
 
 	/**
@@ -289,9 +202,9 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NewObjectValueForStructuralFeature createNewObjectValueForStructuralFeature() {
-		NewObjectValueForStructuralFeatureImpl newObjectValueForStructuralFeature = new NewObjectValueForStructuralFeatureImpl();
-		return newObjectValueForStructuralFeature;
+	public NewObjectValue createNewObjectValue() {
+		NewObjectValueImpl newObjectValue = new NewObjectValueImpl();
+		return newObjectValue;
 	}
 
 	/**
@@ -299,9 +212,19 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ReferenceValueForStructuralFeature createReferenceValueForStructuralFeature() {
-		ReferenceValueForStructuralFeatureImpl referenceValueForStructuralFeature = new ReferenceValueForStructuralFeatureImpl();
-		return referenceValueForStructuralFeature;
+	public ReferenceValue createReferenceValue() {
+		ReferenceValueImpl referenceValue = new ReferenceValueImpl();
+		return referenceValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InstanciationInstructionReference createInstanciationInstructionReference() {
+		InstanciationInstructionReferenceImpl instanciationInstructionReference = new InstanciationInstructionReferenceImpl();
+		return instanciationInstructionReference;
 	}
 
 	/**
@@ -322,6 +245,56 @@ public class ModelingUnitFactoryImpl extends EFactoryImpl implements ModelingUni
 	public ExternalContentReference createExternalContentReference() {
 		ExternalContentReferenceImpl externalContentReference = new ExternalContentReferenceImpl();
 		return externalContentReference;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ModelingUnitInstructionReference createModelingUnitInstructionReference() {
+		ModelingUnitInstructionReferenceImpl modelingUnitInstructionReference = new ModelingUnitInstructionReferenceImpl();
+		return modelingUnitInstructionReference;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IntentReferenceInModelingUnit createIntentReferenceInModelingUnit() {
+		IntentReferenceInModelingUnitImpl intentReferenceInModelingUnit = new IntentReferenceInModelingUnitImpl();
+		return intentReferenceInModelingUnit;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AnnotationDeclaration createAnnotationDeclaration() {
+		AnnotationDeclarationImpl annotationDeclaration = new AnnotationDeclarationImpl();
+		return annotationDeclaration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LabelInModelingUnit createLabelInModelingUnit() {
+		LabelInModelingUnitImpl labelInModelingUnit = new LabelInModelingUnitImpl();
+		return labelInModelingUnit;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Map.Entry<String, String> createKeyValForAnnotation() {
+		KeyValForAnnotationImpl keyValForAnnotation = new KeyValForAnnotationImpl();
+		return keyValForAnnotation;
 	}
 
 	/**

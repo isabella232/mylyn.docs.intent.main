@@ -20,15 +20,12 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionBloc;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
 
@@ -106,21 +103,14 @@ public final class IntentHelper {
 	 */
 	public static <T> Collection<T> getAllContainedElements(Class<T> clazz, IntentGenericElement root) {
 		Collection<T> containedElements = Sets.newLinkedHashSet();
-		if (root instanceof IntentDocument) {
-			for (IntentChapter chapter : ((IntentDocument)root).getChapters()) {
-				containedElements.addAll(getAllContainedElements(clazz, chapter));
-			}
-		}
-		if (root instanceof IntentSubSectionContainer) {
-			for (IntentSection section : ((IntentSubSectionContainer)root).getSubSections()) {
-				containedElements.addAll(getAllContainedElements(clazz, section));
-			}
-			for (DescriptionUnit descriptionUnit : ((IntentSubSectionContainer)root).getDescriptionUnits()) {
-				containedElements.addAll(getAllContainedElements(clazz, descriptionUnit));
-			}
-		}
 
 		if (root instanceof IntentSection) {
+			for (IntentSection section : ((IntentSection)root).getSubSections()) {
+				containedElements.addAll(getAllContainedElements(clazz, section));
+			}
+			for (DescriptionUnit descriptionUnit : ((IntentSection)root).getDescriptionUnits()) {
+				containedElements.addAll(getAllContainedElements(clazz, descriptionUnit));
+			}
 			for (ModelingUnit unit : ((IntentSection)root).getModelingUnits()) {
 				containedElements.addAll(getAllContainedElements(clazz, unit));
 			}

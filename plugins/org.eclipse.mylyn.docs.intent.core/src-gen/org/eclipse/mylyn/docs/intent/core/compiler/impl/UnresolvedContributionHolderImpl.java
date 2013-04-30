@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,18 +7,22 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Unresolved Contribution Holder</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Unresolved Contribution Holder</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -31,7 +35,8 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
  */
 public class UnresolvedContributionHolderImpl extends CDOObjectImpl implements UnresolvedContributionHolder {
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected UnresolvedContributionHolderImpl() {
@@ -39,7 +44,8 @@ public class UnresolvedContributionHolderImpl extends CDOObjectImpl implements U
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -48,7 +54,8 @@ public class UnresolvedContributionHolderImpl extends CDOObjectImpl implements U
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -57,7 +64,8 @@ public class UnresolvedContributionHolderImpl extends CDOObjectImpl implements U
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean isResolved() {
@@ -65,7 +73,8 @@ public class UnresolvedContributionHolderImpl extends CDOObjectImpl implements U
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setResolved(boolean newResolved) {
@@ -73,7 +82,8 @@ public class UnresolvedContributionHolderImpl extends CDOObjectImpl implements U
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public ContributionInstruction getReferencedContribution() {
@@ -82,7 +92,8 @@ public class UnresolvedContributionHolderImpl extends CDOObjectImpl implements U
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setReferencedContribution(ContributionInstruction newReferencedContribution) {
@@ -90,4 +101,4 @@ public class UnresolvedContributionHolderImpl extends CDOObjectImpl implements U
 				newReferencedContribution);
 	}
 
-} // UnresolvedContributionHolderImpl
+} //UnresolvedContributionHolderImpl

@@ -13,9 +13,9 @@ package org.eclipse.mylyn.docs.intent.core.query;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionBloc;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.markup.markup.Block;
 import org.eclipse.mylyn.docs.intent.markup.markup.Section;
 import org.eclipse.mylyn.docs.intent.markup.markup.StructureElement;

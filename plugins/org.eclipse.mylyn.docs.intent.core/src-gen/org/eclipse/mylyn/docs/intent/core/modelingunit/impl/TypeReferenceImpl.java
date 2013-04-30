@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,17 +7,20 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Type Reference</b></em>'. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Type Reference</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -30,7 +33,8 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
  */
 public class TypeReferenceImpl extends CDOObjectImpl implements TypeReference {
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected TypeReferenceImpl() {
@@ -38,7 +42,8 @@ public class TypeReferenceImpl extends CDOObjectImpl implements TypeReference {
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -92,4 +97,4 @@ public class TypeReferenceImpl extends CDOObjectImpl implements TypeReference {
 		eSet(ModelingUnitPackage.Literals.TYPE_REFERENCE__RESOLVED_TYPE, newResolvedType);
 	}
 
-} // TypeReferenceImpl
+} //TypeReferenceImpl

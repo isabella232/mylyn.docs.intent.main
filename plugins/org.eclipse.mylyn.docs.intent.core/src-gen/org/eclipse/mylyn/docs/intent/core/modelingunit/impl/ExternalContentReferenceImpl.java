@@ -12,11 +12,13 @@ package org.eclipse.mylyn.docs.intent.core.modelingunit.impl;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>External Content Reference</b></em>'.
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>External Content Reference</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
@@ -30,7 +32,8 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
  */
 public class ExternalContentReferenceImpl extends ResourceDeclarationImpl implements ExternalContentReference {
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected ExternalContentReferenceImpl() {
@@ -38,7 +41,8 @@ public class ExternalContentReferenceImpl extends ResourceDeclarationImpl implem
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -47,7 +51,8 @@ public class ExternalContentReferenceImpl extends ResourceDeclarationImpl implem
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EObject getExternalContent() {
@@ -55,7 +60,8 @@ public class ExternalContentReferenceImpl extends ResourceDeclarationImpl implem
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setExternalContent(EObject newExternalContent) {
@@ -63,7 +69,8 @@ public class ExternalContentReferenceImpl extends ResourceDeclarationImpl implem
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public boolean isMarkedAsMerged() {
@@ -71,11 +78,12 @@ public class ExternalContentReferenceImpl extends ResourceDeclarationImpl implem
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setMarkedAsMerged(boolean newMarkedAsMerged) {
 		eSet(ModelingUnitPackage.Literals.EXTERNAL_CONTENT_REFERENCE__MARKED_AS_MERGED, newMarkedAsMerged);
 	}
 
-} // ExternalContentReferenceImpl
+} //ExternalContentReferenceImpl

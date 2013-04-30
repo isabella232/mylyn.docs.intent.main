@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,15 +7,18 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler;
 
 import org.eclipse.emf.cdo.CDOObject;
+
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Unresolved Reference Holder</b></em>'.
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Unresolved Reference Holder</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -38,8 +41,8 @@ public interface UnresolvedReferenceHolder extends CDOObject {
 	 * Returns the value of the '<em><b>Textual Reference</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Textual Reference</em>' attribute isn't clear, there really should be more
-	 * of a description here...
+	 * If the meaning of the '<em>Textual Reference</em>' attribute isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Textual Reference</em>' attribute.
@@ -52,7 +55,8 @@ public interface UnresolvedReferenceHolder extends CDOObject {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#getTextualReference <em>Textual Reference</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Textual Reference</em>' attribute.
 	 * @see #getTextualReference()
 	 * @generated
@@ -63,8 +67,8 @@ public interface UnresolvedReferenceHolder extends CDOObject {
 	 * Returns the value of the '<em><b>Containment Reference</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Containment Reference</em>' attribute isn't clear, there really should be
-	 * more of a description here...
+	 * If the meaning of the '<em>Containment Reference</em>' attribute isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Containment Reference</em>' attribute.
@@ -77,7 +81,8 @@ public interface UnresolvedReferenceHolder extends CDOObject {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#isContainmentReference <em>Containment Reference</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Containment Reference</em>' attribute.
 	 * @see #isContainmentReference()
 	 * @generated
@@ -88,8 +93,8 @@ public interface UnresolvedReferenceHolder extends CDOObject {
 	 * Returns the value of the '<em><b>Instruction Container</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Instruction Container</em>' reference isn't clear, there really should be
-	 * more of a description here...
+	 * If the meaning of the '<em>Instruction Container</em>' reference isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Instruction Container</em>' reference.
@@ -102,7 +107,8 @@ public interface UnresolvedReferenceHolder extends CDOObject {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#getInstructionContainer <em>Instruction Container</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Instruction Container</em>' reference.
 	 * @see #getInstructionContainer()
 	 * @generated
@@ -113,8 +119,8 @@ public interface UnresolvedReferenceHolder extends CDOObject {
 	 * Returns the value of the '<em><b>Concerned Feature</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Concerned Feature</em>' reference isn't clear, there really should be more
-	 * of a description here...
+	 * If the meaning of the '<em>Concerned Feature</em>' reference isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Concerned Feature</em>' reference.
@@ -127,7 +133,8 @@ public interface UnresolvedReferenceHolder extends CDOObject {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder#getConcernedFeature <em>Concerned Feature</em>}' reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Concerned Feature</em>' reference.
 	 * @see #getConcernedFeature()
 	 * @generated

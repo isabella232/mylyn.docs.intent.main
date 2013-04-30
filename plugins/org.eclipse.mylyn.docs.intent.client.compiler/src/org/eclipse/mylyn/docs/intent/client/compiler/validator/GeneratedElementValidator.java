@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.EValidator;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.ValidationException;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 
 /**
  * Class used to handle the validation of a generated object.

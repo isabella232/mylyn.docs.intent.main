@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,7 +7,7 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.indexer.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
@@ -15,21 +15,30 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+
 import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilerPackageImpl;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.impl.DescriptionUnitPackageImpl;
+
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
+
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnitPackage;
+
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.impl.DescriptionUnitPackageImpl;
+
 import org.eclipse.mylyn.docs.intent.core.document.impl.IntentDocumentPackageImpl;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.impl.GenericUnitPackageImpl;
+
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerFactory;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.impl.ModelingUnitPackageImpl;
+
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 
 /**
@@ -113,15 +122,12 @@ public class IntentIndexerPackageImpl extends EPackageImpl implements IntentInde
 		MarkupPackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
-		IntentDocumentPackageImpl theIntentDocumentPackage = (IntentDocumentPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(IntentDocumentPackage.eNS_URI) instanceof IntentDocumentPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(IntentDocumentPackage.eNS_URI) : IntentDocumentPackage.eINSTANCE);
 		CompilerPackageImpl theCompilerPackage = (CompilerPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) instanceof CompilerPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(CompilerPackage.eNS_URI) : CompilerPackage.eINSTANCE);
-		GenericUnitPackageImpl theGenericUnitPackage = (GenericUnitPackageImpl)(EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI) instanceof GenericUnitPackageImpl ? EPackage.Registry.INSTANCE
-				.getEPackage(GenericUnitPackage.eNS_URI) : GenericUnitPackage.eINSTANCE);
+		IntentDocumentPackageImpl theIntentDocumentPackage = (IntentDocumentPackageImpl)(EPackage.Registry.INSTANCE
+				.getEPackage(IntentDocumentPackage.eNS_URI) instanceof IntentDocumentPackageImpl ? EPackage.Registry.INSTANCE
+				.getEPackage(IntentDocumentPackage.eNS_URI) : IntentDocumentPackage.eINSTANCE);
 		DescriptionUnitPackageImpl theDescriptionUnitPackage = (DescriptionUnitPackageImpl)(EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) instanceof DescriptionUnitPackageImpl ? EPackage.Registry.INSTANCE
 				.getEPackage(DescriptionUnitPackage.eNS_URI) : DescriptionUnitPackage.eINSTANCE);
@@ -131,17 +137,15 @@ public class IntentIndexerPackageImpl extends EPackageImpl implements IntentInde
 
 		// Create package meta-data objects
 		theIntentIndexerPackage.createPackageContents();
-		theIntentDocumentPackage.createPackageContents();
 		theCompilerPackage.createPackageContents();
-		theGenericUnitPackage.createPackageContents();
+		theIntentDocumentPackage.createPackageContents();
 		theDescriptionUnitPackage.createPackageContents();
 		theModelingUnitPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theIntentIndexerPackage.initializePackageContents();
-		theIntentDocumentPackage.initializePackageContents();
 		theCompilerPackage.initializePackageContents();
-		theGenericUnitPackage.initializePackageContents();
+		theIntentDocumentPackage.initializePackageContents();
 		theDescriptionUnitPackage.initializePackageContents();
 		theModelingUnitPackage.initializePackageContents();
 

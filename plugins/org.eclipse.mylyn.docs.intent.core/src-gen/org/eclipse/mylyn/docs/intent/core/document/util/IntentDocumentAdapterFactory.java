@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,24 +7,18 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.document.util;
-
-import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.mylyn.docs.intent.core.document.*;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
+
 import org.eclipse.mylyn.docs.intent.markup.markup.Container;
 import org.eclipse.mylyn.docs.intent.markup.markup.HasAttributes;
 import org.eclipse.mylyn.docs.intent.markup.markup.Section;
@@ -96,8 +90,8 @@ public class IntentDocumentAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseAnnotationMapping(Map.Entry<String, Object> object) {
-			return createAnnotationMappingAdapter();
+		public Adapter caseIntentSection(IntentSection object) {
+			return createIntentSectionAdapter();
 		}
 
 		@Override
@@ -106,23 +100,33 @@ public class IntentDocumentAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseIntentSubSectionContainer(IntentSubSectionContainer object) {
-			return createIntentSubSectionContainerAdapter();
+		public Adapter caseGenericUnit(GenericUnit object) {
+			return createGenericUnitAdapter();
 		}
 
 		@Override
-		public Adapter caseIntentChapter(IntentChapter object) {
-			return createIntentChapterAdapter();
+		public Adapter caseUnitInstruction(UnitInstruction object) {
+			return createUnitInstructionAdapter();
 		}
 
 		@Override
-		public Adapter caseIntentSection(IntentSection object) {
-			return createIntentSectionAdapter();
+		public Adapter caseIntentReferenceInstruction(IntentReferenceInstruction object) {
+			return createIntentReferenceInstructionAdapter();
 		}
 
 		@Override
-		public Adapter caseIntentHeaderDeclaration(IntentHeaderDeclaration object) {
-			return createIntentHeaderDeclarationAdapter();
+		public Adapter caseLabelDeclaration(LabelDeclaration object) {
+			return createLabelDeclarationAdapter();
+		}
+
+		@Override
+		public Adapter caseLabelReferenceInstruction(LabelReferenceInstruction object) {
+			return createLabelReferenceInstructionAdapter();
+		}
+
+		@Override
+		public Adapter caseIntentReference(IntentReference object) {
+			return createIntentReferenceAdapter();
 		}
 
 		@Override
@@ -179,20 +183,6 @@ public class IntentDocumentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Annotation Mapping</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see java.util.Map.Entry
-	 * @generated
-	 */
-	public Adapter createAnnotationMappingAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement <em>Intent Structured Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -203,48 +193,6 @@ public class IntentDocumentAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIntentStructuredElementAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument <em>Intent Document</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocument
-	 * @generated
-	 */
-	public Adapter createIntentDocumentAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer <em>Intent Sub Section Container</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer
-	 * @generated
-	 */
-	public Adapter createIntentSubSectionContainerAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentChapter <em>Intent Chapter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentChapter
-	 * @generated
-	 */
-	public Adapter createIntentChapterAdapter() {
 		return null;
 	}
 
@@ -263,16 +211,100 @@ public class IntentDocumentAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration <em>Intent Header Declaration</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument <em>Intent Document</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentDocument
 	 * @generated
 	 */
-	public Adapter createIntentHeaderDeclarationAdapter() {
+	public Adapter createIntentDocumentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.GenericUnit <em>Generic Unit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.GenericUnit
+	 * @generated
+	 */
+	public Adapter createGenericUnitAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.UnitInstruction <em>Unit Instruction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.UnitInstruction
+	 * @generated
+	 */
+	public Adapter createUnitInstructionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction <em>Intent Reference Instruction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction
+	 * @generated
+	 */
+	public Adapter createIntentReferenceInstructionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration <em>Label Declaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration
+	 * @generated
+	 */
+	public Adapter createLabelDeclarationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.LabelReferenceInstruction <em>Label Reference Instruction</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.LabelReferenceInstruction
+	 * @generated
+	 */
+	public Adapter createLabelReferenceInstructionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference <em>Intent Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReference
+	 * @generated
+	 */
+	public Adapter createIntentReferenceAdapter() {
 		return null;
 	}
 

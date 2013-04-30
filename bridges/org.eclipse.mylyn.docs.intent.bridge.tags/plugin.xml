@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.emf.ecore.content_parser">
+      <parser
+            class="org.eclipse.mylyn.docs.intent.bridge.tags.TagResourceFactory"
+            contentTypeIdentifier="org.eclipse.mylyn.docs.intent.bridge.tags.taggedcontent">
+      </parser>
+   </extension>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            file-extensions="java"
+            id="org.eclipse.mylyn.docs.intent.bridge.tags.taggedcontent"
+            name="Tagged content"
+            priority="normal">
+      </content-type>
+   </extension>
+
+</plugin>

@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,40 +7,24 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.modelingunit.util;
 
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.util.Switch;
+
+import org.eclipse.mylyn.docs.intent.core.document.GenericUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
+import org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.*;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanceLevelInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * <!-- begin-user-doc -->
@@ -99,14 +83,6 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case ModelingUnitPackage.KEY_VAL_FOR_ANNOTATION: {
-				@SuppressWarnings("unchecked")
-				Map.Entry<String, String> keyValForAnnotation = (Map.Entry<String, String>)theEObject;
-				T result = caseKeyValForAnnotation(keyValForAnnotation);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
 			case ModelingUnitPackage.MODELING_UNIT: {
 				ModelingUnit modelingUnit = (ModelingUnit)theEObject;
 				T result = caseModelingUnit(modelingUnit);
@@ -129,27 +105,6 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelingUnitPackage.RESOURCE_REFERENCE: {
-				ResourceReference resourceReference = (ResourceReference)theEObject;
-				T result = caseResourceReference(resourceReference);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelingUnitPackage.INSTANCIATION_INSTRUCTION_REFERENCE: {
-				InstanciationInstructionReference instanciationInstructionReference = (InstanciationInstructionReference)theEObject;
-				T result = caseInstanciationInstructionReference(instanciationInstructionReference);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE: {
-				ModelingUnitInstructionReference modelingUnitInstructionReference = (ModelingUnitInstructionReference)theEObject;
-				T result = caseModelingUnitInstructionReference(modelingUnitInstructionReference);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
 			case ModelingUnitPackage.RESOURCE_DECLARATION: {
 				ResourceDeclaration resourceDeclaration = (ResourceDeclaration)theEObject;
 				T result = caseResourceDeclaration(resourceDeclaration);
@@ -163,51 +118,15 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelingUnitPackage.INTENT_REFERENCEIN_MODELING_UNIT: {
-				IntentReferenceinModelingUnit intentReferenceinModelingUnit = (IntentReferenceinModelingUnit)theEObject;
-				T result = caseIntentReferenceinModelingUnit(intentReferenceinModelingUnit);
+			case ModelingUnitPackage.ABSTRACT_META_TYPE_INSTRUCTION: {
+				AbstractMetaTypeInstruction abstractMetaTypeInstruction = (AbstractMetaTypeInstruction)theEObject;
+				T result = caseAbstractMetaTypeInstruction(abstractMetaTypeInstruction);
 				if (result == null)
-					result = caseIntentReferenceInstruction(intentReferenceinModelingUnit);
+					result = caseModelingUnitInstruction(abstractMetaTypeInstruction);
 				if (result == null)
-					result = caseModelingUnitInstruction(intentReferenceinModelingUnit);
+					result = caseUnitInstruction(abstractMetaTypeInstruction);
 				if (result == null)
-					result = caseUnitInstruction(intentReferenceinModelingUnit);
-				if (result == null)
-					result = caseIntentReference(intentReferenceinModelingUnit);
-				if (result == null)
-					result = caseIntentGenericElement(intentReferenceinModelingUnit);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelingUnitPackage.LABELIN_MODELING_UNIT: {
-				LabelinModelingUnit labelinModelingUnit = (LabelinModelingUnit)theEObject;
-				T result = caseLabelinModelingUnit(labelinModelingUnit);
-				if (result == null)
-					result = caseLabelDeclaration(labelinModelingUnit);
-				if (result == null)
-					result = caseModelingUnitInstruction(labelinModelingUnit);
-				if (result == null)
-					result = caseIntentReference(labelinModelingUnit);
-				if (result == null)
-					result = caseUnitInstruction(labelinModelingUnit);
-				if (result == null)
-					result = caseIntentGenericElement(labelinModelingUnit);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelingUnitPackage.ANNOTATION_DECLARATION: {
-				AnnotationDeclaration annotationDeclaration = (AnnotationDeclaration)theEObject;
-				T result = caseAnnotationDeclaration(annotationDeclaration);
-				if (result == null)
-					result = caseModelingUnitInstruction(annotationDeclaration);
-				if (result == null)
-					result = caseIntentReference(annotationDeclaration);
-				if (result == null)
-					result = caseUnitInstruction(annotationDeclaration);
-				if (result == null)
-					result = caseIntentGenericElement(annotationDeclaration);
+					result = caseIntentGenericElement(abstractMetaTypeInstruction);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -219,24 +138,11 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelingUnitPackage.INSTANCE_LEVEL_INSTRUCTION: {
-				InstanceLevelInstruction instanceLevelInstruction = (InstanceLevelInstruction)theEObject;
-				T result = caseInstanceLevelInstruction(instanceLevelInstruction);
-				if (result == null)
-					result = caseModelingUnitInstruction(instanceLevelInstruction);
-				if (result == null)
-					result = caseUnitInstruction(instanceLevelInstruction);
-				if (result == null)
-					result = caseIntentGenericElement(instanceLevelInstruction);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
 			case ModelingUnitPackage.INSTANCIATION_INSTRUCTION: {
 				InstanciationInstruction instanciationInstruction = (InstanciationInstruction)theEObject;
 				T result = caseInstanciationInstruction(instanciationInstruction);
 				if (result == null)
-					result = caseInstanceLevelInstruction(instanciationInstruction);
+					result = caseAbstractMetaTypeInstruction(instanciationInstruction);
 				if (result == null)
 					result = caseModelingUnitInstruction(instanciationInstruction);
 				if (result == null)
@@ -251,7 +157,7 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 				StructuralFeatureAffectation structuralFeatureAffectation = (StructuralFeatureAffectation)theEObject;
 				T result = caseStructuralFeatureAffectation(structuralFeatureAffectation);
 				if (result == null)
-					result = caseInstanceLevelInstruction(structuralFeatureAffectation);
+					result = caseAbstractMetaTypeInstruction(structuralFeatureAffectation);
 				if (result == null)
 					result = caseModelingUnitInstruction(structuralFeatureAffectation);
 				if (result == null)
@@ -262,60 +168,67 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelingUnitPackage.VALUE_FOR_STRUCTURAL_FEATURE: {
-				ValueForStructuralFeature valueForStructuralFeature = (ValueForStructuralFeature)theEObject;
-				T result = caseValueForStructuralFeature(valueForStructuralFeature);
+			case ModelingUnitPackage.ABSTRACT_VALUE: {
+				AbstractValue abstractValue = (AbstractValue)theEObject;
+				T result = caseAbstractValue(abstractValue);
 				if (result == null)
-					result = caseModelingUnitInstruction(valueForStructuralFeature);
+					result = caseModelingUnitInstruction(abstractValue);
 				if (result == null)
-					result = caseUnitInstruction(valueForStructuralFeature);
+					result = caseUnitInstruction(abstractValue);
 				if (result == null)
-					result = caseIntentGenericElement(valueForStructuralFeature);
-				if (result == null)
-					result = defaultCase(theEObject);
-				return result;
-			}
-			case ModelingUnitPackage.NATIVE_VALUE_FOR_STRUCTURAL_FEATURE: {
-				NativeValueForStructuralFeature nativeValueForStructuralFeature = (NativeValueForStructuralFeature)theEObject;
-				T result = caseNativeValueForStructuralFeature(nativeValueForStructuralFeature);
-				if (result == null)
-					result = caseValueForStructuralFeature(nativeValueForStructuralFeature);
-				if (result == null)
-					result = caseModelingUnitInstruction(nativeValueForStructuralFeature);
-				if (result == null)
-					result = caseUnitInstruction(nativeValueForStructuralFeature);
-				if (result == null)
-					result = caseIntentGenericElement(nativeValueForStructuralFeature);
+					result = caseIntentGenericElement(abstractValue);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelingUnitPackage.NEW_OBJECT_VALUE_FOR_STRUCTURAL_FEATURE: {
-				NewObjectValueForStructuralFeature newObjectValueForStructuralFeature = (NewObjectValueForStructuralFeature)theEObject;
-				T result = caseNewObjectValueForStructuralFeature(newObjectValueForStructuralFeature);
+			case ModelingUnitPackage.NATIVE_VALUE: {
+				NativeValue nativeValue = (NativeValue)theEObject;
+				T result = caseNativeValue(nativeValue);
 				if (result == null)
-					result = caseValueForStructuralFeature(newObjectValueForStructuralFeature);
+					result = caseAbstractValue(nativeValue);
 				if (result == null)
-					result = caseModelingUnitInstruction(newObjectValueForStructuralFeature);
+					result = caseModelingUnitInstruction(nativeValue);
 				if (result == null)
-					result = caseUnitInstruction(newObjectValueForStructuralFeature);
+					result = caseUnitInstruction(nativeValue);
 				if (result == null)
-					result = caseIntentGenericElement(newObjectValueForStructuralFeature);
+					result = caseIntentGenericElement(nativeValue);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
 			}
-			case ModelingUnitPackage.REFERENCE_VALUE_FOR_STRUCTURAL_FEATURE: {
-				ReferenceValueForStructuralFeature referenceValueForStructuralFeature = (ReferenceValueForStructuralFeature)theEObject;
-				T result = caseReferenceValueForStructuralFeature(referenceValueForStructuralFeature);
+			case ModelingUnitPackage.NEW_OBJECT_VALUE: {
+				NewObjectValue newObjectValue = (NewObjectValue)theEObject;
+				T result = caseNewObjectValue(newObjectValue);
 				if (result == null)
-					result = caseValueForStructuralFeature(referenceValueForStructuralFeature);
+					result = caseAbstractValue(newObjectValue);
 				if (result == null)
-					result = caseModelingUnitInstruction(referenceValueForStructuralFeature);
+					result = caseModelingUnitInstruction(newObjectValue);
 				if (result == null)
-					result = caseUnitInstruction(referenceValueForStructuralFeature);
+					result = caseUnitInstruction(newObjectValue);
 				if (result == null)
-					result = caseIntentGenericElement(referenceValueForStructuralFeature);
+					result = caseIntentGenericElement(newObjectValue);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelingUnitPackage.REFERENCE_VALUE: {
+				ReferenceValue referenceValue = (ReferenceValue)theEObject;
+				T result = caseReferenceValue(referenceValue);
+				if (result == null)
+					result = caseAbstractValue(referenceValue);
+				if (result == null)
+					result = caseModelingUnitInstruction(referenceValue);
+				if (result == null)
+					result = caseUnitInstruction(referenceValue);
+				if (result == null)
+					result = caseIntentGenericElement(referenceValue);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelingUnitPackage.INSTANCIATION_INSTRUCTION_REFERENCE: {
+				InstanciationInstructionReference instanciationInstructionReference = (InstanciationInstructionReference)theEObject;
+				T result = caseInstanciationInstructionReference(instanciationInstructionReference);
 				if (result == null)
 					result = defaultCase(theEObject);
 				return result;
@@ -348,24 +261,73 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 					result = defaultCase(theEObject);
 				return result;
 			}
+			case ModelingUnitPackage.MODELING_UNIT_INSTRUCTION_REFERENCE: {
+				ModelingUnitInstructionReference modelingUnitInstructionReference = (ModelingUnitInstructionReference)theEObject;
+				T result = caseModelingUnitInstructionReference(modelingUnitInstructionReference);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelingUnitPackage.INTENT_REFERENCE_IN_MODELING_UNIT: {
+				IntentReferenceInModelingUnit intentReferenceInModelingUnit = (IntentReferenceInModelingUnit)theEObject;
+				T result = caseIntentReferenceInModelingUnit(intentReferenceInModelingUnit);
+				if (result == null)
+					result = caseIntentReferenceInstruction(intentReferenceInModelingUnit);
+				if (result == null)
+					result = caseModelingUnitInstruction(intentReferenceInModelingUnit);
+				if (result == null)
+					result = caseUnitInstruction(intentReferenceInModelingUnit);
+				if (result == null)
+					result = caseIntentReference(intentReferenceInModelingUnit);
+				if (result == null)
+					result = caseIntentGenericElement(intentReferenceInModelingUnit);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelingUnitPackage.ANNOTATION_DECLARATION: {
+				AnnotationDeclaration annotationDeclaration = (AnnotationDeclaration)theEObject;
+				T result = caseAnnotationDeclaration(annotationDeclaration);
+				if (result == null)
+					result = caseModelingUnitInstruction(annotationDeclaration);
+				if (result == null)
+					result = caseIntentReference(annotationDeclaration);
+				if (result == null)
+					result = caseUnitInstruction(annotationDeclaration);
+				if (result == null)
+					result = caseIntentGenericElement(annotationDeclaration);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelingUnitPackage.LABEL_IN_MODELING_UNIT: {
+				LabelInModelingUnit labelInModelingUnit = (LabelInModelingUnit)theEObject;
+				T result = caseLabelInModelingUnit(labelInModelingUnit);
+				if (result == null)
+					result = caseLabelDeclaration(labelInModelingUnit);
+				if (result == null)
+					result = caseModelingUnitInstruction(labelInModelingUnit);
+				if (result == null)
+					result = caseIntentReference(labelInModelingUnit);
+				if (result == null)
+					result = caseUnitInstruction(labelInModelingUnit);
+				if (result == null)
+					result = caseIntentGenericElement(labelInModelingUnit);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
+			case ModelingUnitPackage.KEY_VAL_FOR_ANNOTATION: {
+				@SuppressWarnings("unchecked")
+				Map.Entry<String, String> keyValForAnnotation = (Map.Entry<String, String>)theEObject;
+				T result = caseKeyValForAnnotation(keyValForAnnotation);
+				if (result == null)
+					result = defaultCase(theEObject);
+				return result;
+			}
 			default:
 				return defaultCase(theEObject);
 		}
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Key Val For Annotation</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Key Val For Annotation</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseKeyValForAnnotation(Map.Entry<String, String> object) {
-		return null;
 	}
 
 	/**
@@ -399,51 +361,6 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Resource Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Resource Reference</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseResourceReference(ResourceReference object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Instruction Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Instruction Reference</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseModelingUnitInstructionReference(ModelingUnitInstructionReference object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Instanciation Instruction Reference</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Instanciation Instruction Reference</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseInstanciationInstructionReference(InstanciationInstructionReference object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Resource Declaration</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -459,47 +376,17 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Intent Referencein Modeling Unit</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Meta Type Instruction</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Intent Referencein Modeling Unit</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Meta Type Instruction</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseIntentReferenceinModelingUnit(IntentReferenceinModelingUnit object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Labelin Modeling Unit</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Labelin Modeling Unit</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseLabelinModelingUnit(LabelinModelingUnit object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Annotation Declaration</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Annotation Declaration</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseAnnotationDeclaration(AnnotationDeclaration object) {
+	public T caseAbstractMetaTypeInstruction(AbstractMetaTypeInstruction object) {
 		return null;
 	}
 
@@ -515,21 +402,6 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseTypeReference(TypeReference object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Instance Level Instruction</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Instance Level Instruction</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseInstanceLevelInstruction(InstanceLevelInstruction object) {
 		return null;
 	}
 
@@ -564,62 +436,77 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Value For Structural Feature</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Abstract Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Value For Structural Feature</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Abstract Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseValueForStructuralFeature(ValueForStructuralFeature object) {
+	public T caseAbstractValue(AbstractValue object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Native Value For Structural Feature</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Native Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Native Value For Structural Feature</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Native Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNativeValueForStructuralFeature(NativeValueForStructuralFeature object) {
+	public T caseNativeValue(NativeValue object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>New Object Value For Structural Feature</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>New Object Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>New Object Value For Structural Feature</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>New Object Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNewObjectValueForStructuralFeature(NewObjectValueForStructuralFeature object) {
+	public T caseNewObjectValue(NewObjectValue object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Reference Value For Structural Feature</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Reference Value</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Reference Value For Structural Feature</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Reference Value</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseReferenceValueForStructuralFeature(ReferenceValueForStructuralFeature object) {
+	public T caseReferenceValue(ReferenceValue object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Instanciation Instruction Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Instanciation Instruction Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInstanciationInstructionReference(InstanciationInstructionReference object) {
 		return null;
 	}
 
@@ -650,6 +537,81 @@ public class ModelingUnitSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseExternalContentReference(ExternalContentReference object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Instruction Reference</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Instruction Reference</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseModelingUnitInstructionReference(ModelingUnitInstructionReference object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Intent Reference In Modeling Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Intent Reference In Modeling Unit</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIntentReferenceInModelingUnit(IntentReferenceInModelingUnit object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Annotation Declaration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Annotation Declaration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAnnotationDeclaration(AnnotationDeclaration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Label In Modeling Unit</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Label In Modeling Unit</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLabelInModelingUnit(LabelInModelingUnit object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Key Val For Annotation</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Key Val For Annotation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseKeyValForAnnotation(Map.Entry<String, String> object) {
 		return null;
 	}
 

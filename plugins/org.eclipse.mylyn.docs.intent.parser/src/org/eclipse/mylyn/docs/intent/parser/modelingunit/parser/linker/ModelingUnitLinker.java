@@ -17,7 +17,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
@@ -96,7 +96,7 @@ public class ModelingUnitLinker extends ModelingUnitSwitch<Object> {
 	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNewObjectValueForStructuralFeature(org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature)
 	 */
 	@Override
-	public Object caseNewObjectValueForStructuralFeature(NewObjectValueForStructuralFeature object) {
+	public Object caseNewObjectValue(NewObjectValue object) {
 		return doSwitch(object.getValue());
 	}
 

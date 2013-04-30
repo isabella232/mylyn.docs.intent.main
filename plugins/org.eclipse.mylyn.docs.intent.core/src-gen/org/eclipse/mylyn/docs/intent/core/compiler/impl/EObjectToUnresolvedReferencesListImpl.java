@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,21 +7,25 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>EObject To Unresolved References List</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>EObject To Unresolved References List</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -34,7 +38,8 @@ import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
  */
 public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl implements BasicEMap.Entry<EObject, EList<UnresolvedReferenceHolder>> {
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected EObjectToUnresolvedReferencesListImpl() {
@@ -42,7 +47,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -51,7 +57,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -60,7 +67,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EObject getTypedKey() {
@@ -68,7 +76,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setTypedKey(EObject newKey) {
@@ -76,7 +85,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -86,13 +96,15 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected int hash = -1;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public int getHash() {
@@ -104,7 +116,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setHash(int hash) {
@@ -112,7 +125,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EObject getKey() {
@@ -120,7 +134,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setKey(EObject key) {
@@ -128,7 +143,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<UnresolvedReferenceHolder> getValue() {
@@ -136,7 +152,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<UnresolvedReferenceHolder> setValue(EList<UnresolvedReferenceHolder> value) {
@@ -147,7 +164,8 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -157,4 +175,4 @@ public class EObjectToUnresolvedReferencesListImpl extends CDOObjectImpl impleme
 				.eGet(eContainmentFeature());
 	}
 
-} // EObjectToUnresolvedReferencesListImpl
+} //EObjectToUnresolvedReferencesListImpl

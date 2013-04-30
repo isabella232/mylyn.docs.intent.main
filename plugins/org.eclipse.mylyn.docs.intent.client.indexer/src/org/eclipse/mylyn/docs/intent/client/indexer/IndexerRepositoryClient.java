@@ -72,7 +72,7 @@ public class IndexerRepositoryClient extends AbstractRepositoryClient {
 						final IntentDocument document = new IntentDocumentQuery(repositoryAdapter)
 								.getOrCreateIntentDocument();
 						IntentLogger.getInstance().log(LogType.LIFECYCLE,
-								"[Indexer] Indexing " + document.getChapters().size() + " chapters");
+								"[Indexer] Indexing " + document.getSubSections().size() + " chapters");
 
 						indexComputor.computeIndex(index, document);
 

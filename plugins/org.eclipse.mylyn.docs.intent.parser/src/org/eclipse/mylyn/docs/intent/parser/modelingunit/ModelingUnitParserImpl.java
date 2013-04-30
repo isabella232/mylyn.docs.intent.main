@@ -19,30 +19,30 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.TypeLabel;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
+import org.eclipse.mylyn.docs.intent.core.document.TypeLabel;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AffectationOperator;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceInModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelInModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.linker.ModelingUnitLinker;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils.Location;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils.ModelingUnitContentManager;
@@ -101,7 +101,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	 * Register the EPackages needed by the parser.
 	 */
 	private void registerEPackages() {
-		GenericUnitPackage.eINSTANCE.eClass();
+		IntentDocumentPackage.eINSTANCE.eClass();
 	}
 
 	/**
@@ -127,13 +127,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 		Matcher matcher = modelingUnitPattern.matcher(stringToParse);
 		matcher.find();
 		if (matcher.group(2) != null) {
-			modelingUnit.setUnitName(matcher.group(2));
-		}
-		if (matcher.group(4) != null) {
-			ResourceReference ref = ModelingUnitFactory.eINSTANCE.createResourceReference();
-			ref.setLineBreak(true);
-			ref.setResourceName(matcher.group(4));
-			modelingUnit.setResource(ref);
+			modelingUnit.setName(matcher.group(2));
 		}
 
 		int startOffset = matcher.group().length();
@@ -310,7 +304,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 				ModelingUnitContentManager<Object> manager = new ModelingUnitContentManager<Object>();
 				for (Affectation affectation : getAllAffectations(rootOffset + index, stringContent)) {
 					if ("URI".equals(affectation.key)) { //$NON-NLS-1$
-						instance.setUri(affectation.values.get(0));
+						instance.setUri(URI.createURI(affectation.values.get(0).replace(QUOTE, "")));
 						manager.addContent(affectation.location, "URI");
 					} else if ("contentType".equals(affectation.key)) { //$NON-NLS-1$
 						instance.setContentType(affectation.values.get(0));
@@ -351,8 +345,8 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 		Matcher matcher = pattern.matcher(string);
 
 		while (matcher.find()) {
-			IntentReferenceinModelingUnit ref = ModelingUnitFactory.eINSTANCE
-					.createIntentReferenceinModelingUnit();
+			IntentReferenceInModelingUnit ref = ModelingUnitFactory.eINSTANCE
+					.createIntentReferenceInModelingUnit();
 			ref.setLineBreak(true); // fixed by default
 			ref.setIntentHref(matcher.group(1).replaceAll(QUOTE, ""));
 			if (matcher.group(3) != null) {
@@ -378,7 +372,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 		Matcher matcher = pattern.matcher(string);
 
 		while (matcher.find()) {
-			LabelinModelingUnit instance = ModelingUnitFactory.eINSTANCE.createLabelinModelingUnit();
+			LabelInModelingUnit instance = ModelingUnitFactory.eINSTANCE.createLabelInModelingUnit();
 			instance.setLabelValue(matcher.group(2));
 
 			instance.setLineBreak(true); // fixed by default
@@ -443,7 +437,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 					.createExternalContentReference();
 
 			instance.setLineBreak(true); // fixed by default
-			instance.setUri(matcher.group(1).replace(QUOTE, ""));
+			instance.setUri(URI.createURI(matcher.group(1).replace(QUOTE, "")));
 
 			res.put(new Location(matcher.start(), matcher.end()), instance);
 		}
@@ -473,8 +467,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 				instance.setUsedOperator(AffectationOperator.MULTI_VALUED_AFFECTATION);
 			}
 			for (String valueContent : affectation.values) {
-				ValueForStructuralFeature value = getValueForStructuralFeature(rootOffset
-						+ affectation.keyLength, valueContent);
+				AbstractValue value = getValue(rootOffset + affectation.keyLength, valueContent);
 				if (value != null) {
 					instance.getValues().add(value);
 				}
@@ -485,7 +478,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	}
 
 	/**
-	 * Detects and instantiates {@link ValueForStructuralFeature} occurrences in the given string.
+	 * Detects and instantiates {@link AbstractValue} occurrences in the given string.
 	 * 
 	 * @param rootOffset
 	 *            the root offset, used to compute errors locations
@@ -495,17 +488,14 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	 * @throws ParseException
 	 *             if there is an unclosed block
 	 */
-	private ValueForStructuralFeature getValueForStructuralFeature(int rootOffset, String string)
-			throws ParseException {
-		ValueForStructuralFeature res = null;
+	private AbstractValue getValue(int rootOffset, String string) throws ParseException {
+		AbstractValue res = null;
 		if (Pattern.compile(STRING_WITH_QUOTES_REGEX).matcher(string).matches()) {
-			NativeValueForStructuralFeature nativeValue = ModelingUnitFactory.eINSTANCE
-					.createNativeValueForStructuralFeature();
+			NativeValue nativeValue = ModelingUnitFactory.eINSTANCE.createNativeValue();
 			nativeValue.setValue(string.trim());
 			res = nativeValue;
 		} else if (Pattern.compile(STRING_REGEX).matcher(string).matches()) {
-			ReferenceValueForStructuralFeature referenceValue = ModelingUnitFactory.eINSTANCE
-					.createReferenceValueForStructuralFeature();
+			ReferenceValue referenceValue = ModelingUnitFactory.eINSTANCE.createReferenceValue();
 			InstanciationInstructionReference referencedInstanciation = ModelingUnitFactory.eINSTANCE
 					.createInstanciationInstructionReference();
 			referencedInstanciation.setInstanceName(string);
@@ -515,8 +505,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			Map<Location, UnitInstruction> instructions = getInstanciationInstructions(rootOffset, string,
 					false);
 			if (!instructions.isEmpty()) {
-				NewObjectValueForStructuralFeature newValue = ModelingUnitFactory.eINSTANCE
-						.createNewObjectValueForStructuralFeature();
+				NewObjectValue newValue = ModelingUnitFactory.eINSTANCE.createNewObjectValue();
 				newValue.setValue((InstanciationInstruction)instructions.values().iterator().next());
 				res = newValue;
 			}

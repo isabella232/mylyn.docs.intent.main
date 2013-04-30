@@ -25,7 +25,7 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;

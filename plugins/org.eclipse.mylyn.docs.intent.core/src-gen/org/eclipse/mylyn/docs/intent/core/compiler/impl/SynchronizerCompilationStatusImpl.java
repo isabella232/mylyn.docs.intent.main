@@ -1,12 +1,17 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
+ * Copyright (c) 2010, 2012 Obeo.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Obeo - initial API and implementation
  */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 
@@ -49,26 +54,6 @@ public abstract class SynchronizerCompilationStatusImpl extends CompilationStatu
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getWorkingCopyResourceURI() {
-		return (String)eGet(
-				CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI, true);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setWorkingCopyResourceURI(String newWorkingCopyResourceURI) {
-		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI,
-				newWorkingCopyResourceURI);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public String getCompiledResourceURI() {
 		return (String)eGet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI,
 				true);
@@ -82,6 +67,26 @@ public abstract class SynchronizerCompilationStatusImpl extends CompilationStatu
 	public void setCompiledResourceURI(String newCompiledResourceURI) {
 		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__COMPILED_RESOURCE_URI,
 				newCompiledResourceURI);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getWorkingCopyResourceURI() {
+		return (String)eGet(
+				CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI, true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWorkingCopyResourceURI(String newWorkingCopyResourceURI) {
+		eSet(CompilerPackage.Literals.SYNCHRONIZER_COMPILATION_STATUS__WORKING_COPY_RESOURCE_URI,
+				newWorkingCopyResourceURI);
 	}
 
 } //SynchronizerCompilationStatusImpl

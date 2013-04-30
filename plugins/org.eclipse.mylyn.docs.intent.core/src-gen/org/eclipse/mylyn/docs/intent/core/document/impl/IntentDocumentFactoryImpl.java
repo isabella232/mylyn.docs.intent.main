@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,26 +7,21 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.document.impl;
 
-import java.util.Map;
+import org.eclipse.emf.common.util.URI;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+
 import org.eclipse.mylyn.docs.intent.core.document.*;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentHeaderDeclaration;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSectionVisibility;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,7 +39,7 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	public static IntentDocumentFactory init() {
 		try {
 			IntentDocumentFactory theIntentDocumentFactory = (IntentDocumentFactory)EPackage.Registry.INSTANCE
-					.getEFactory("http://www.eclipse.org/intent/intentdocument/0.7");
+					.getEFactory("http://www.eclipse.org/intent/intentdocument/0.8");
 			if (theIntentDocumentFactory != null) {
 				return theIntentDocumentFactory;
 			}
@@ -74,16 +69,16 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 		switch (eClass.getClassifierID()) {
 			case IntentDocumentPackage.INTENT_GENERIC_ELEMENT:
 				return (EObject)createIntentGenericElement();
-			case IntentDocumentPackage.ANNOTATION_MAPPING:
-				return (EObject)createAnnotationMapping();
-			case IntentDocumentPackage.INTENT_DOCUMENT:
-				return (EObject)createIntentDocument();
-			case IntentDocumentPackage.INTENT_CHAPTER:
-				return (EObject)createIntentChapter();
 			case IntentDocumentPackage.INTENT_SECTION:
 				return (EObject)createIntentSection();
-			case IntentDocumentPackage.INTENT_HEADER_DECLARATION:
-				return (EObject)createIntentHeaderDeclaration();
+			case IntentDocumentPackage.INTENT_DOCUMENT:
+				return (EObject)createIntentDocument();
+			case IntentDocumentPackage.INTENT_REFERENCE_INSTRUCTION:
+				return (EObject)createIntentReferenceInstruction();
+			case IntentDocumentPackage.LABEL_DECLARATION:
+				return (EObject)createLabelDeclaration();
+			case IntentDocumentPackage.LABEL_REFERENCE_INSTRUCTION:
+				return (EObject)createLabelReferenceInstruction();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName()
 						+ "' is not a valid classifier");
@@ -98,8 +93,8 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	@Override
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		switch (eDataType.getClassifierID()) {
-			case IntentDocumentPackage.INTENT_SECTION_VISIBILITY:
-				return createIntentSectionVisibilityFromString(eDataType, initialValue);
+			case IntentDocumentPackage.TYPE_LABEL:
+				return createTypeLabelFromString(eDataType, initialValue);
 			case IntentDocumentPackage.URI:
 				return createURIFromString(eDataType, initialValue);
 			default:
@@ -116,8 +111,8 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	@Override
 	public String convertToString(EDataType eDataType, Object instanceValue) {
 		switch (eDataType.getClassifierID()) {
-			case IntentDocumentPackage.INTENT_SECTION_VISIBILITY:
-				return convertIntentSectionVisibilityToString(eDataType, instanceValue);
+			case IntentDocumentPackage.TYPE_LABEL:
+				return convertTypeLabelToString(eDataType, instanceValue);
 			case IntentDocumentPackage.URI:
 				return convertURIToString(eDataType, instanceValue);
 			default:
@@ -141,9 +136,9 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Map.Entry<String, Object> createAnnotationMapping() {
-		AnnotationMappingImpl annotationMapping = new AnnotationMappingImpl();
-		return annotationMapping;
+	public IntentSection createIntentSection() {
+		IntentSectionImpl intentSection = new IntentSectionImpl();
+		return intentSection;
 	}
 
 	/**
@@ -161,9 +156,9 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntentChapter createIntentChapter() {
-		IntentChapterImpl intentChapter = new IntentChapterImpl();
-		return intentChapter;
+	public IntentReferenceInstruction createIntentReferenceInstruction() {
+		IntentReferenceInstructionImpl intentReferenceInstruction = new IntentReferenceInstructionImpl();
+		return intentReferenceInstruction;
 	}
 
 	/**
@@ -171,9 +166,9 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntentSection createIntentSection() {
-		IntentSectionImpl intentSection = new IntentSectionImpl();
-		return intentSection;
+	public LabelDeclaration createLabelDeclaration() {
+		LabelDeclarationImpl labelDeclaration = new LabelDeclarationImpl();
+		return labelDeclaration;
 	}
 
 	/**
@@ -181,9 +176,9 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntentHeaderDeclaration createIntentHeaderDeclaration() {
-		IntentHeaderDeclarationImpl intentHeaderDeclaration = new IntentHeaderDeclarationImpl();
-		return intentHeaderDeclaration;
+	public LabelReferenceInstruction createLabelReferenceInstruction() {
+		LabelReferenceInstructionImpl labelReferenceInstruction = new LabelReferenceInstructionImpl();
+		return labelReferenceInstruction;
 	}
 
 	/**
@@ -191,9 +186,8 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IntentSectionVisibility createIntentSectionVisibilityFromString(EDataType eDataType,
-			String initialValue) {
-		IntentSectionVisibility result = IntentSectionVisibility.get(initialValue);
+	public TypeLabel createTypeLabelFromString(EDataType eDataType, String initialValue) {
+		TypeLabel result = TypeLabel.get(initialValue);
 		if (result == null)
 			throw new IllegalArgumentException("The value '" + initialValue
 					+ "' is not a valid enumerator of '" + eDataType.getName() + "'");
@@ -205,17 +199,17 @@ public class IntentDocumentFactoryImpl extends EFactoryImpl implements IntentDoc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertIntentSectionVisibilityToString(EDataType eDataType, Object instanceValue) {
+	public String convertTypeLabelToString(EDataType eDataType, Object instanceValue) {
 		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
-	public Object createURIFromString(EDataType eDataType, String initialValue) {
-		return (String)super.createFromString(eDataType, initialValue);
+	public URI createURIFromString(EDataType eDataType, String initialValue) {
+		return URI.createURI(initialValue);
 	}
 
 	/**

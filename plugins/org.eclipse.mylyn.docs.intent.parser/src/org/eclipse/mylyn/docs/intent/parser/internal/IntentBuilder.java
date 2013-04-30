@@ -18,7 +18,6 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
@@ -158,9 +157,9 @@ public class IntentBuilder {
 	public void beginChapter(int offset, int declarationLength, String title) throws ParseException {
 		increaseImbricationLevel();
 		if (currentState == null) {
-			currentRoot = IntentDocumentFactory.eINSTANCE.createIntentChapter();
+			currentRoot = IntentDocumentFactory.eINSTANCE.createIntentSection();
 			roots.add(currentRoot);
-			currentState = new SChapter(offset, declarationLength, null, (IntentChapter)currentRoot,
+			currentState = new SChapter(offset, declarationLength, null, (IntentSection)currentRoot,
 					positionManager, title, rootCompleteLevel);
 
 		} else {

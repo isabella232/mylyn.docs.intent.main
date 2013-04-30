@@ -1,0 +1,271 @@
+h1. Intent : Coarse grained synchronization
+
+h2. Overview
+
+For the time being, if you want to synchronize content with Intent, you have to describe the whole content inside Model fragments. This allows you to have a fine-grained synchronization, where you can associate each model element/feature to a dedicated section to have precise synchronization informations.
+
+This can be a burden, especially when you describe a whole file/model or an important piece of code inside a paragraph.
+
+This document specifies how Intent can handle coarse grained synchronization. Note that Intent must allow to use coarse-grained synchronization with models directly stored in the Intent repository.
+
+h2. End-user scenarios
+
+The following scenarios must be allowed by Intent once this feature is implemented:
+
+h3. 1) Specify a new requirements using Intent & Jnario-like syntax
+
+*As a* specifier
+*I want to* specify a feature 'Create a class' (with Jnario-like syntax when possible)
+*So that*
+* developpers can code feature
+* tests can be generated an written
+* [user guide can be produced] (requirement considered as out of scope of the 2 first iterations)
+*Given* a requirement
+*When*
+* I create a Section named 'Create a class'
+* Optional :  I add explanations in the section
+* I create a Model fragment pointing to a new Jnario file 
+@M
+ @ref "intent:/myIntentProject/createaclass.jnario"
+M@
+
+*Then*
+* When ctrl-clicking on the @ref instruction, the default editor associated to this extension should be opened
+* When editing the jnario file, no synchronization issue should be raised (of course changes should be persisted)
+
+h3. 2) Implement a requirement specified in Intent (through VSM edition)
+
+*As a* developper
+*I want to* implement the feature specified in 1)
+*So that* my modeler fulfills this new requirement
+*Given* the intent section as specified in 1)
+*When*
+* I create a new tool in my VSM to implement the feature
+* I drag the created tool in the Intent Section
+*Then*
+* If a @ResourceDeclaration@ matching the given element's URI has already been defined, then the standard intent behavior will be applied (creation of all model fragments instructions allowing to describe the dropped element)
+* If not, a pop-up asking me whether I want to *create* or *reference* the dragged element will be displayed:
+** I should be able to check an 'Always apply this choice' checkbox, avoiding the pop-up to appear again (preference should be editable in Intent UI preferences)
+** if I select 'create', then the standard intent behavior will be applied
+** if I select 'reference':
+***  then the following instruction will be created : @ref "platform:/resource/myVSMProject/description/myVSM.odesign#//FRAGMENT_OF_THE_DRAGGED_ELEMENT"
+*** When ctrl-clicking on the @ref instruction, the default editor associated to this extension should be opened *on the working copy version of this file*
+*** When modifying the VSM, Intent should detect synchronization issues in real-time, that can be displayed as usual. To fix a synchronization issue, I apply the "Update ModelingUnit" quick-fix (maybe in that case the quick-fix should be entitled _'mark as merged'_ ?).
+
+h3. 3) Write tests for the implemented feature
+
+We identified 2 ways for writing the test: 
+* *3.1* by generating a junit test skeleton and edit it
+* *3.2* by defining a scenario model that then will be interpreted (Doc Driven Testing)
+
+*As a* tester
+*I want to* test the feature specified in 1) and implemented in 2)
+
+h4. 3.1) Test implementation
+
+*When*
+* I generate my Test implementation
+* I edit my generated test to test the feature
+* I drag the created java method  (@testCreateAClass()@) in the Intent Section (notice that this step may be automated during test generation)
+*Then*
+* Same pop-up behavior as specified above
+* If I chose 'reference':
+** then the following instruction will be created : @ref "my.java.project/src/my/java/project/CreateAType.java#//@methods[name='testCreateAClass']" (syntax is provisional)
+** When ctrl-clicking on the @ref instruction, the java editor should be opened and focused on the method
+** When modifying this method, Intent should detect synchronization issues in real-time, that can be displayed as usual. To fix a synchronization issue, I apply the "Update ModelingUnit" quick-fix (maybe in that case the quick-fix should be entitled _'mark as merged'_ ?).
+
+h4. 3.2) Scenario interpretation
+
+*When*
+* I create a link to a new scenario model @ref "intent:/myIntentProject/createaclass.scenario"
+* I generate a junit test testing this scenario
+Then
+* Same behavior as with the jnario file in 1) and java file in 3.1.
+
+h2. Technical specification
+
+Through this specification, we will take the example of the following java test file : 
+
+bc.. 
+package my.java.project;
+
+/**
+  Javadoc1.
+*/
+public class CreateAType {
+
+    /**
+       Javadoc 2.    
+    */
+	@Test
+	public void createAClass() throws Exception {
+		// some piece of code
+	}
+	
+	// MIDDLE COMMENT
+	
+	/**
+	  Javadoc 3.
+	*/
+	@Test
+	public void createAnEnumeration() throws Exception {
+		// some piece of code
+	}
+}
+
+h3. Syntax & parsing
+
+We will name this concept *External Content Reference*, as the content to synchronize is not described directly inside the document, but through a reference to an external file.
+
+h4. ExternalReference Syntax 
+
+We propose the following syntax for referencing the content of an external file:
+
+bc.. @ref "<FILE_LOCATION>"
+@ref "<FILE_LOCATION>#<FRAGMENT>" 
+
+p. For example : 
+
+bc.. @ref "my.java.project/src/my/java/project/CreateAType.java"
+p. > Describes the content of the whole class  (including the class javadoc & annotations)
+
+bc.. @ref "my.java.project/src/my/java/project/CreateAType.java#//@methods[name='createAnEnumeration()']"
+p. > Describes the content of the 'createAnEnumeration()' method (including this method javadoc & annotations)
+
+bc.. @ref "platform:/resource/myVSMProject/description/myVSM.odesign#<URI_FRAGMENT>"
+p. > Describes the model element of the myVSM.odesign resource having the given fragment 
+
+h4. ExternalContentReference parsing
+
+The ModelingUnit parser will be modified to accept the described syntax.
+It will represent an external content as an instance of the following EClass :
+
+bc.. 
+EClass ExternalContentReference extends ResourceDeclaration {
+	// The inherited field "URI" will store the reference URI
+}
+
+p. The External Content Reference extends ResourceDeclaration so that the compiler can create a resource to store the external content reference, and mainting traceability informations (see "following section":#ExternalContentReferenceCompilation ).
+
+bc.. 
+ExternalContentReference {
+    eStructuralFeatures += new EAttributes markedAsMerged {
+         eType = EBoolean;
+    };
+}
+p. This attribute will allow to determine whether the external content should be overridden with the last working copy value (if true) or not (see "following section":#ExternalContentReferenceCompilation .
+
+
+bc.. 
+ExternalContentReference {
+     eStructuralFeatures += new EReference externalContent {
+        eType = EObject;
+     };
+}
+p. This reference stores the last sync value for the external content (set by the compiler).
+
+h3. ExternalContentReference Compilation
+
+h4. Compilation
+
+We will add a new case to the @ModelingUnitGenerator@ when having to compile and @ExternalContentReference@, that will call a new @ExternalContentReferenceGenerator@.
+
+* If the ExternalContentReference's externalContent reference is null (i.e. not initialized) or if it is marked as merge (i.e. we should get the latest working copy value), then we have to get the working copy value of this external Content. To do so, we get the external content EObject using the compiler's resource set (extensible through a "Resource Factory":#Extensibility ).
+* Otherwise, we use the value of this reference
+
+We will register this external reference contribution in the compiler's information holder, so that : 
+* the external content can be saved as any other Intent resource (the only difference is that instead of defining it inside model fragments, the generated element has been copied from working copy)
+* traceability informations can be registered (and used e.g. for hyperlink detections)
+
+h4. Extensibility
+
+We saw that the compiler uses the ResourceSet to get the External Content. So for instance : 
+
+bc.. @ref "platform:/resource/myProject/myEcore.ecore"
+p. will be resolved with the default resource factories.
+
+If we want to provide a way to get the java files external content (in our example, as models with a method granularity), we will have to create a new Resource factory allowing to represent a java file as a model and associate it to the @.java@ file extension.
+
+h3. ExternalContentReference Synchronization
+
+h4. Synchronization
+
+The Intent synchronizer will still compare the resource generated by Intent (that was calculated using the ExternalContentReference's externalContent) and the working copy value (recalculated using the provided resource factories). It will raise synchronization issues on the ExternalContentReference if differences are found.
+
+The only modifications on the IntentSynchronizer will be relative to the synchronization granularity: although EMF Compare 1 made compare 2 whole resources, we can now compare EObjects (and we have that need for partial external content references).
+
+To fix an issue related to an ExternalContentReference, we just have to mark it as merged (set the attribute to true): then the compiler will get the latest working copy version and the synchronization issue will be fixed.
+
+h5. Dealing with references out of scope
+
+If you are synchronizing a model element referencing other model elements, the compiled copy element will reference the working copy elements.
+
+For instance, with the following ecore model : 
+
+bc.. Package p1 {
+ EClass c1 extends c2
+ EClass c2
+}
+
+p. if you are only referencing c1, 
+
+bc.. @ref "platform:/resource/my.java.project/test.ecore#//c1"
+p. then the copy c1 will extends the working copy version of c2.
+
+
+h3. Drag and drop support
+
+To drop for instance a new java file, user will have to:
+* open it with the sample reflective editor
+* drop the content inside the Intent document.
+
+If a ResourceDeclaration matching this java file's URI is found, we will drop it as a ModelFragment (existing dropping mechanism). If not, we will display a pop-up allowing the end-user to choose between fine and coarse-grained synchronization.
+
+A new UI preference editable through the Intent UI Preferences will be created, allowing to specify how drag-and-drop is handled:
+* reference an existing element
+* create a copy in a model fragment
+* always ask user
+
+This pop-up should display a 'Always apply this choice' checkbox, allowing to set this preference to the expected value.
+
+h3. Hyperlink support
+
+To open some kind of editors (e.g. a Java editor), we will have to create a FileEditorInput (instead of a URIEditorInput which is the default). As the IntentEditor plugin does not depends on org.eclipse.core.resource, we will not be able to do so. Hence we will add the following method to the @IExternalContentGraphicalRendered@ : 
+* @boolean openEditor(ExternalContentReference externalContentReference)@. If false is returned, then the default URIEditorInput-based opening mechanism will be used.
+
+h3. Java bridge (iteration 1)
+
+To prove the extensibility of this approach, we will provide an extension allowing to make external references to java files.
+
+This task includes all possible extension at this point (resource factory & hyperlink detectors).
+
+h3. Tests
+
+2 kind of tests will be written: 
+* Test the external references with models
+* Test the external references using the Java files bridge
+
+h2. Iteration 2: display and export
+
+h3. Displaying file content in Model Fragments
+
+We want to display the content associated to the external content reference inside the Modeling Fragment (for instance the java file).
+
+To do so, we will provide an extension point in the IntentEditor plugin, allowing to provide an @IExternalContentGraphicalRenderer@ defined as below:
+* @boolean isRenderedFrom(EObject externalContent)@ :  This methods indicates whether this IExternalContentGraphicalRenderer can be applied on the given externalContent, according for example to  the externalContent's EClass.
+* @void render(EObject externalContent, IntentEditor editor)@.This could draw the text of a Java file, or the image of diagram.
+
+h3. Documentation Export
+
+When exporting the documentation, we will add a boolean allowing to specify whether external content should be rendered or not.
+
+Each contribution will be able to override the export of the ExternalContent (with guards to avoid overriding the behavior when not relevant), and for instance : 
+* override the header template to add a new javascript library to handle java syntaxic coloring
+* override the ExternalContent export to print the java file
+* override the ExternalContent export to copy and reference an image (e.g. for diagrams)
+
+h3. Performances 
+
+After a first implementation, we will analyse the performances of this mechanism, and add, if required:
+* Caching mechanisms (for example using hashcodes/timestamps to determine if a java file has changed and needs to be compared, cache parsed java tags...)
+* Provide a fine grained synchronization, to only compare the files that have changed

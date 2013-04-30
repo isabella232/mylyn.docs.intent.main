@@ -10,21 +10,20 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.internal;
 
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceInModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelInModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch;
@@ -93,8 +92,8 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseLabelinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit)
 	 */
 	@Override
-	public String caseLabelinModelingUnit(LabelinModelingUnit object) {
-		return LabelinModelingUnitSerializer.render(object, this);
+	public String caseLabelInModelingUnit(LabelInModelingUnit object) {
+		return LabelInModelingUnitSerializer.render(object, this);
 	}
 
 	/**
@@ -109,14 +108,11 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 		int initialOffset = this.getCurrentOffset();
 		renderedForm.append(ModelingUnitParser.MODELING_UNIT_PREFIX);
 
-		if (object.getUnitName() != null && object.getUnitName().length() > 0) {
-			renderedForm.append(ModelingUnitSerializer.WHITESPACE + object.getUnitName()
+		if (object.getName() != null && object.getName().length() > 0) {
+			renderedForm.append(ModelingUnitSerializer.WHITESPACE + object.getName()
 					+ ModelingUnitSerializer.WHITESPACE);
 		}
 
-		if (object.getResource() != null) {
-			renderedForm.append(doSwitch(object.getResource()));
-		}
 		renderedForm.append(IntentKeyWords.INTENT_LINEBREAK);
 		this.setCurrentOffset(initialOffset + renderedForm.length());
 		for (UnitInstruction instruction : object.getInstructions()) {
@@ -145,31 +141,31 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNativeValueForStructuralFeature(org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNativeValue(org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue)
 	 */
 	@Override
-	public String caseNativeValueForStructuralFeature(NativeValueForStructuralFeature object) {
-		return NativeValueForStructuralFeatureSerializer.render(object, this);
+	public String caseNativeValue(NativeValue object) {
+		return NativeValueSerializer.render(object, this);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNewObjectValueForStructuralFeature(org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseNewObjectValue(org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue)
 	 */
 	@Override
-	public String caseNewObjectValueForStructuralFeature(NewObjectValueForStructuralFeature object) {
-		return NewObjectValueForStructuralFeatureSerializer.render(object, this);
+	public String caseNewObjectValue(NewObjectValue object) {
+		return NewObjectValueSerializer.render(object, this);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseReferenceValueForStructuralFeature(org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature)
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseReferenceValue(org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue)
 	 */
 	@Override
-	public String caseReferenceValueForStructuralFeature(ReferenceValueForStructuralFeature object) {
-		return ReferenceValueForStructuralFeatureSerializer.render(object, this);
+	public String caseReferenceValue(ReferenceValue object) {
+		return ReferenceValueSerializer.render(object, this);
 	}
 
 	/**
@@ -185,21 +181,11 @@ public class ModelingUnitElementDispatcher extends ModelingUnitSwitch<String> {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseResourceReference(org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference)
-	 */
-	@Override
-	public String caseResourceReference(ResourceReference object) {
-		return ResourceReferenceSerializer.render(object, this);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
 	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.util.ModelingUnitSwitch#caseIntentReferenceinModelingUnit(org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit)
 	 */
 	@Override
-	public String caseIntentReferenceinModelingUnit(IntentReferenceinModelingUnit object) {
-		return IntentReferenceinModelingUnitSerializer.render(object, this);
+	public String caseIntentReferenceInModelingUnit(IntentReferenceInModelingUnit object) {
+		return IntentReferenceInModelingUnitSerializer.render(object, this);
 	}
 
 	/**

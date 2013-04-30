@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.internal.state;
 
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
+import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 
@@ -20,7 +20,7 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class SChapter extends IntentSubSectionContainerState {
+public class SChapter extends SSection {
 
 	/**
 	 * SChapter constructor.
@@ -42,7 +42,7 @@ public class SChapter extends IntentSubSectionContainerState {
 	 * @throws ParseException
 	 *             if the title cannot be parsed
 	 */
-	public SChapter(int offset, int declarationLength, IntentGenericState previous, IntentChapter chapter,
+	public SChapter(int offset, int declarationLength, IntentGenericState previous, IntentSection chapter,
 			IntentPositionManager positionManager, String title, String containerLevel) throws ParseException {
 		super(offset, declarationLength, previous, chapter, positionManager, title, containerLevel);
 	}

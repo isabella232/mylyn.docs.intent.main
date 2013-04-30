@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,20 +7,25 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler;
 
 import org.eclipse.emf.cdo.CDOObject;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '
- * <em><b>Compilation Information Holder</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Compilation Information Holder</b></em>'.
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
@@ -46,8 +51,8 @@ public interface CompilationInformationHolder extends CDOObject {
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Generated Element List</em>' containment reference list isn't clear, there
-	 * really should be more of a description here...
+	 * If the meaning of the '<em>Generated Element List</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Generated Element List</em>' containment reference list.
@@ -63,8 +68,8 @@ public interface CompilationInformationHolder extends CDOObject {
 	 * and the value is of type list of {@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder},
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Element To Unresolved Reference Map</em>' map isn't clear, there really
-	 * should be more of a description here...
+	 * If the meaning of the '<em>Element To Unresolved Reference Map</em>' map isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Element To Unresolved Reference Map</em>' map.
@@ -80,8 +85,8 @@ public interface CompilationInformationHolder extends CDOObject {
 	 * and the value is of type {@link org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap},
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Type To Name To Elements Map</em>' map isn't clear, there really should be
-	 * more of a description here...
+	 * If the meaning of the '<em>Type To Name To Elements Map</em>' map isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type To Name To Elements Map</em>' map.
@@ -94,16 +99,16 @@ public interface CompilationInformationHolder extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Created Elements To Instructions</b></em>' map.
 	 * The key is of type {@link org.eclipse.emf.ecore.EObject},
-	 * and the value is of type list of {@link org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction},
+	 * and the value is of type list of {@link org.eclipse.mylyn.docs.intent.core.document.UnitInstruction},
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Created Elements To Instructions</em>' map isn't clear, there really should
-	 * be more of a description here...
+	 * If the meaning of the '<em>Created Elements To Instructions</em>' map isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Created Elements To Instructions</em>' map.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage#getCompilationInformationHolder_CreatedElementsToInstructions()
-	 * @model mapType="org.eclipse.mylyn.docs.intent.core.compiler.CreatedElementToInstructionMapEntry<org.eclipse.emf.ecore.EObject, org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction>"
+	 * @model mapType="org.eclipse.mylyn.docs.intent.core.compiler.CreatedElementToInstructionMapEntry<org.eclipse.emf.ecore.EObject, org.eclipse.mylyn.docs.intent.core.document.UnitInstruction>"
 	 * @generated
 	 */
 	EMap<EObject, EList<UnitInstruction>> getCreatedElementsToInstructions();
@@ -113,8 +118,8 @@ public interface CompilationInformationHolder extends CDOObject {
 	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Current Generated Element List</em>' reference list isn't clear, there
-	 * really should be more of a description here...
+	 * If the meaning of the '<em>Current Generated Element List</em>' reference list isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Current Generated Element List</em>' reference list.
@@ -130,8 +135,8 @@ public interface CompilationInformationHolder extends CDOObject {
 	 * and the value is of type list of {@link org.eclipse.emf.ecore.EObject},
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Resource To Contained Elements</em>' map isn't clear, there really should be
-	 * more of a description here...
+	 * If the meaning of the '<em>Resource To Contained Elements</em>' map isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Resource To Contained Elements</em>' map.
@@ -145,11 +150,10 @@ public interface CompilationInformationHolder extends CDOObject {
 	 * Returns the value of the '<em><b>Unresolved Contributions</b></em>' map.
 	 * The key is of type {@link java.lang.String},
 	 * and the value is of type list of {@link org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder},
-	 * <!-- begin-user-doc
-	 * -->
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Unresolved Contributions</em>' map isn't clear, there really should be more
-	 * of a description here...
+	 * If the meaning of the '<em>Unresolved Contributions</em>' map isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Unresolved Contributions</em>' map.

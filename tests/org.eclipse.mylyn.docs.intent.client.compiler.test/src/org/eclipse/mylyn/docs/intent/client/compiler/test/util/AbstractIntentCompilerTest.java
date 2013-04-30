@@ -39,7 +39,6 @@ import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
@@ -80,8 +79,8 @@ public abstract class AbstractIntentCompilerTest implements ILogListener {
 				.put("*", new XMIResourceFactoryImpl());
 
 		resourceSet.getPackageRegistry().put(ModelingUnitPackage.eNS_PREFIX, ModelingUnitPackage.eINSTANCE);
-		resourceSet.getPackageRegistry().put(GenericUnitPackage.eNS_PREFIX, GenericUnitPackage.eINSTANCE);
-		resourceSet.getPackageRegistry().put(IntentDocumentPackage.eNS_PREFIX, GenericUnitPackage.eINSTANCE);
+		resourceSet.getPackageRegistry().put(IntentDocumentPackage.eNS_PREFIX,
+				IntentDocumentPackage.eINSTANCE);
 		resourceSet.getPackageRegistry().put(GenModelPackage.eNS_PREFIX, GenModelPackage.eINSTANCE);
 	}
 

@@ -15,9 +15,8 @@ import org.eclipse.mylyn.docs.intent.collab.cdo.utils.CDORepositoryCreator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
@@ -46,7 +45,6 @@ public final class CDORepositoryCreatorForIntent extends CDORepositoryCreator {
 		repository.getPackageRegistry().put(IntentDocumentPackage.eNS_URI, IntentDocumentPackage.eINSTANCE);
 		repository.getPackageRegistry().put(ModelingUnitPackage.eNS_URI, ModelingUnitPackage.eINSTANCE);
 		repository.getPackageRegistry().put(DescriptionUnitPackage.eNS_URI, DescriptionUnitPackage.eINSTANCE);
-		repository.getPackageRegistry().put(GenericUnitPackage.eNS_URI, GenericUnitPackage.eINSTANCE);
 		repository.getPackageRegistry().put(MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
 		repository.getPackageRegistry().put(CompilerPackage.eNS_URI, CompilerPackage.eINSTANCE);
 		repository.getPackageRegistry().put(IntentDocumentPackage.eNS_URI, IntentDocumentPackage.eINSTANCE);

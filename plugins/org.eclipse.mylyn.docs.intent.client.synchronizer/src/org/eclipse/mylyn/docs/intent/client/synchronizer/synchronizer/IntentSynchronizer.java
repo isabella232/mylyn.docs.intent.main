@@ -262,8 +262,8 @@ public class IntentSynchronizer {
 			final List<Resource> result = new ArrayList<Resource>();
 			final Resource finalInternalResource = internalResource;
 			Resource handleNullExternalResource = synchronizerStrategy.handleNullExternalResource(indexEntry
-					.getResourceDeclaration(), finalInternalResource, (String)indexEntry
-					.getResourceDeclaration().getUri());
+					.getResourceDeclaration(), finalInternalResource, indexEntry.getResourceDeclaration()
+					.getUri());
 			if (handleNullExternalResource != null) {
 				result.add(handleNullExternalResource);
 			}

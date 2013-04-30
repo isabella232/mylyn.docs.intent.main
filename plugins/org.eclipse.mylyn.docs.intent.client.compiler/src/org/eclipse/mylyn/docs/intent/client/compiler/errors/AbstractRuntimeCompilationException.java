@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.errors;
 
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 
 /**
  * Represents any exception that may have occured during the compilation ; must be catch by the Compilator to

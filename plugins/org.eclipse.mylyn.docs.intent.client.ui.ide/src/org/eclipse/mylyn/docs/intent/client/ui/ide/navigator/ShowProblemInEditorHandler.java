@@ -28,7 +28,7 @@ import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
+import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.views.markers.MarkerItem;
 
@@ -89,7 +89,7 @@ public class ShowProblemInEditorHandler extends AbstractHandler {
 				elementToOpen = ((CompilationStatus)elementToOpen).getTarget();
 			}
 			EObject elementToSelect = elementToOpen;
-			while (elementToOpen != null && !(elementToOpen instanceof IntentSubSectionContainer)
+			while (elementToOpen != null && !(elementToOpen instanceof IntentSection)
 					&& !(elementToOpen instanceof IntentDocument)) {
 				elementToOpen = elementToOpen.eContainer();
 			}

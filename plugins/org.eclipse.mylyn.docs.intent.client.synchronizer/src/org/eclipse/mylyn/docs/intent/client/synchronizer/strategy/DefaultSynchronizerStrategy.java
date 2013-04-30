@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 
 import java.util.Collection;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.factory.SynchronizerMessageProvider;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
@@ -42,7 +43,7 @@ public class DefaultSynchronizerStrategy implements SynchronizerStrategy {
 	 *      org.eclipse.emf.ecore.resource.Resource, java.lang.String)
 	 */
 	public Resource handleNullExternalResource(ResourceDeclaration resourceDeclaration,
-			Resource internalResource, String externalResourceURI) {
+			Resource internalResource, URI externalResourceURI) {
 		// We do not return anything
 		return null;
 	}
@@ -54,7 +55,7 @@ public class DefaultSynchronizerStrategy implements SynchronizerStrategy {
 	 *      org.eclipse.emf.ecore.resource.Resource, java.lang.String)
 	 */
 	public Resource handleEmptyExternalResource(ResourceDeclaration resourceDeclaration,
-			Resource internalResource, String externalResourceURI) {
+			Resource internalResource, URI externalResourceURI) {
 		// We do not return anything
 		return null;
 	}
@@ -68,7 +69,7 @@ public class DefaultSynchronizerStrategy implements SynchronizerStrategy {
 	 * @see org.eclipse.mylyn.docs.intent.client.synchronizer.strategy.SynchronizerStrategy#handleNullInternalResource(java.lang.String,
 	 *      org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public Resource handleNullInternalResource(String internalResourceURI, Resource externalResource) {
+	public Resource handleNullInternalResource(String internalResourcePath, Resource externalResource) {
 		// We just stop the synchronization on these resources
 		return null;
 	}

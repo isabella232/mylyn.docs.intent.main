@@ -31,10 +31,8 @@ import org.eclipse.mylyn.docs.intent.collab.ide.adapters.DefaultWorkspaceReposit
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceConfig;
 import org.eclipse.mylyn.docs.intent.collab.ide.repository.WorkspaceRepository;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
@@ -223,20 +221,12 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 			if (container instanceof ModelingUnit) {
 				proposal = (((IntentSection)container.eContainer()).getModelingUnits().indexOf(container) + 1)
 						+ IDENTIFIER_SEPARATOR + proposal;
+			} else if (container instanceof IntentSection) {
+				proposal = (((IntentSection)container.eContainer()).getSubSections().indexOf(container) + 1)
+						+ IDENTIFIER_SEPARATOR + proposal;
 			} else {
-				if (container instanceof IntentSection) {
-					proposal = (((IntentSubSectionContainer)container.eContainer()).getSubSections().indexOf(
-							container) + 1)
-							+ IDENTIFIER_SEPARATOR + proposal;
-				} else {
-					if (container instanceof IntentChapter) {
-						proposal = (((IntentDocument)container.eContainer()).getChapters().indexOf(container) + 1)
-								+ IDENTIFIER_SEPARATOR + proposal;
-					} else {
-						proposal = (container.eContainer().eContents().indexOf(container) + 1)
-								+ IDENTIFIER_SEPARATOR + proposal;
-					}
-				}
+				proposal = (container.eContainer().eContents().indexOf(container) + 1) + IDENTIFIER_SEPARATOR
+						+ proposal;
 			}
 			container = container.eContainer();
 		}
@@ -293,8 +283,6 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	 * @return true if the given element should be placed in its own resource, false otherwise
 	 */
 	protected boolean isElementToSplit(EObject element) {
-		boolean isElementToSplit = (element instanceof IntentDocument) || (element instanceof IntentChapter)
-				|| (element instanceof IntentSection);
-		return isElementToSplit || element instanceof ModelingUnit;
+		return element instanceof IntentSection || element instanceof ModelingUnit;
 	}
 }

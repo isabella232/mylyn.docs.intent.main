@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,20 +7,24 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Compilation Status</b></em>'. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Compilation Status</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -35,7 +39,8 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
  */
 public class CompilationStatusImpl extends CDOObjectImpl implements CompilationStatus {
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected CompilationStatusImpl() {
@@ -43,7 +48,8 @@ public class CompilationStatusImpl extends CDOObjectImpl implements CompilationS
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -52,7 +58,8 @@ public class CompilationStatusImpl extends CDOObjectImpl implements CompilationS
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -61,7 +68,8 @@ public class CompilationStatusImpl extends CDOObjectImpl implements CompilationS
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public IntentGenericElement getTarget() {
@@ -69,7 +77,8 @@ public class CompilationStatusImpl extends CDOObjectImpl implements CompilationS
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setTarget(IntentGenericElement newTarget) {
@@ -77,7 +86,8 @@ public class CompilationStatusImpl extends CDOObjectImpl implements CompilationS
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getMessage() {
@@ -85,7 +95,8 @@ public class CompilationStatusImpl extends CDOObjectImpl implements CompilationS
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setMessage(String newMessage) {
@@ -93,7 +104,8 @@ public class CompilationStatusImpl extends CDOObjectImpl implements CompilationS
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public CompilationStatusSeverity getSeverity() {
@@ -101,7 +113,8 @@ public class CompilationStatusImpl extends CDOObjectImpl implements CompilationS
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setSeverity(CompilationStatusSeverity newSeverity) {
@@ -109,7 +122,8 @@ public class CompilationStatusImpl extends CDOObjectImpl implements CompilationS
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public CompilationMessageType getType() {
@@ -117,11 +131,12 @@ public class CompilationStatusImpl extends CDOObjectImpl implements CompilationS
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setType(CompilationMessageType newType) {
 		eSet(CompilerPackage.Literals.COMPILATION_STATUS__TYPE, newType);
 	}
 
-} // CompilationStatusImpl
+} //CompilationStatusImpl

@@ -1,4 +1,4 @@
-@M completeModelingUnit2 [myResource2]
+@M completeModelingUnit2 
 	@lazylabel "myA" "instance representative de la classe A"
 	new A myA {
 		myAttMulti = "val2";

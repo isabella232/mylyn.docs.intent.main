@@ -10,18 +10,15 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.internal.state;
 
-import java.util.Map;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionBloc;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.markup.markup.Block;
 import org.eclipse.mylyn.docs.intent.markup.markup.StructureElement;
 import org.eclipse.mylyn.docs.intent.parser.descriptionunit.DescriptionUnitParser;
@@ -35,11 +32,6 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentSubSectionContainerState extends IntentDefaultState {
-
-	/**
-	 * Mapping between an identifier and the associated SubSectionContainer.
-	 */
-	private static Map<String, IntentSubSectionContainer> identifiersToSection;
 
 	/**
 	 * IntentSubSectionContainerState constructor.
@@ -91,7 +83,7 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 
 					Block titleBlock = (Block)contents.get(0);
 
-					((IntentSubSectionContainer)this.currentElement).setTitle(titleBlock);
+					((IntentSection)this.currentElement).setTitle(titleBlock);
 				}
 			}
 		}
@@ -107,7 +99,7 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 	public IntentGenericState beginSection(int offset, int declarationLength, String title)
 			throws ParseException {
 		IntentSection subSection = IntentDocumentFactory.eINSTANCE.createIntentSection();
-		((IntentSubSectionContainer)currentElement).getIntentContent().add(subSection);
+		((IntentSection)currentElement).getIntentContent().add(subSection);
 		return new SSection(offset, declarationLength, this, subSection, positionManager, title,
 				((IntentStructuredElement)currentElement).getCompleteLevel() + "." + getIndex(subSection));
 	}
@@ -126,11 +118,10 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 			// We get its position in this document
 			positionInContainer = element.eContainer().eContents().indexOf(element) + 1;
 		} else {
-			// If the element is contained in a SubSectionContainer (i.e. Section or Chapter)
-			if (element.eContainer() instanceof IntentSubSectionContainer) {
+			// If the element is contained in a Section
+			if (element.eContainer() instanceof IntentSection) {
 				// we get its position in this container
-				positionInContainer = ((IntentSubSectionContainer)element.eContainer()).getSubSections()
-						.indexOf(element) + 1;
+				positionInContainer = ((IntentSection)element.eContainer()).getSubSections().indexOf(element) + 1;
 			}
 		}
 		return Integer.toString(positionInContainer);
@@ -153,7 +144,7 @@ public class IntentSubSectionContainerState extends IntentDefaultState {
 		// If the descriptionUnitContent isn't empty
 		if (descriptionUnitDescription.trim().length() > 0) {
 			DescriptionUnit descriptionUnit = new DescriptionUnitParser().parse(descriptionUnitDescription);
-			((IntentSubSectionContainer)this.currentElement).getIntentContent().add(descriptionUnit);
+			((IntentSection)this.currentElement).getIntentContent().add(descriptionUnit);
 			positionManager.setPositionForInstruction(descriptionUnit, offset + titleLength, length
 					- titleLength);
 		}

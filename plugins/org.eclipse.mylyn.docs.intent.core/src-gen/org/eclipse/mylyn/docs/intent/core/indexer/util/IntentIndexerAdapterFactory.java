@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,17 +7,17 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.indexer.util;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.mylyn.docs.intent.core.indexer.*;
-import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
-import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
-import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -100,9 +100,6 @@ public class IntentIndexerAdapterFactory extends AdapterFactoryImpl {
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
-		if (target instanceof EObject) {
-			return modelSwitch.doSwitch((EObject)target);
-		}
 		return modelSwitch.doSwitch((EObject)target);
 	}
 

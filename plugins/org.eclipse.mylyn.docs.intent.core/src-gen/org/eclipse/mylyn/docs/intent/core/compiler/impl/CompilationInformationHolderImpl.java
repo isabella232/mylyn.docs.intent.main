@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,26 +7,32 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.StringToEObjectMap;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Compilation Information Holder</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Compilation Information Holder</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -44,7 +50,8 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
  */
 public class CompilationInformationHolderImpl extends CDOObjectImpl implements CompilationInformationHolder {
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected CompilationInformationHolderImpl() {
@@ -52,7 +59,8 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -61,7 +69,8 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -70,7 +79,8 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -80,7 +90,8 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -91,7 +102,8 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -101,7 +113,8 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -112,7 +125,8 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -122,7 +136,8 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -132,7 +147,8 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -141,4 +157,4 @@ public class CompilationInformationHolderImpl extends CDOObjectImpl implements C
 				CompilerPackage.Literals.COMPILATION_INFORMATION_HOLDER__UNRESOLVED_CONTRIBUTIONS, true);
 	}
 
-} // CompilationInformationHolderImpl
+} //CompilationInformationHolderImpl

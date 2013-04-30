@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2010, 2012 Obeo.&#xD;&#xA;All rights reserved. This program and the accompanying materials&#xD;&#xA;are made available under the terms of the Eclipse Public License v1.0&#xD;&#xA;which accompanies this distribution, and is available at&#xD;&#xA;http://www.eclipse.org/legal/epl-v10.html&#xD;&#xA;&#xD;&#xA;Contributors:&#xD;&#xA;    Obeo - initial API and implementation"
+    modelDirectory="/org.eclipse.mylyn.docs.intent.bridge.tags/src-gen" modelPluginID="org.eclipse.mylyn.docs.intent.bridge.tags"
+    modelName="Tags" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
+    reflectiveDelegation="true" importerID="org.eclipse.emf.importer.cdo" featureDelegation="Reflective"
+    complianceLevel="5.0" copyrightFields="false">
+  <foreignModel>tags.ecore</foreignModel>
+  <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
+  <genPackages prefix="Tags" basePackage="org.eclipse.mylyn.docs.intent.bridge" disposableProviderFactory="true"
+      ecorePackage="tags.ecore#/">
+    <genClasses ecoreClass="tags.ecore#//TaggedBlock">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tags.ecore#//TaggedBlock/tag"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tags.ecore#//TaggedBlock/content"/>
+    </genClasses>
+    <genClasses ecoreClass="tags.ecore#//FileContent">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tags.ecore#//FileContent/blocks"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

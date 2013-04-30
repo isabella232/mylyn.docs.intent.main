@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Java
+Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.bridge.tags;singleton:=true
+Bundle-Version: 0.8.0
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf,
+ org.eclipse.emf.ecore,
+ com.google.guava,
+ org.eclipse.core.resources,
+ org.eclipse.emf.cdo
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy

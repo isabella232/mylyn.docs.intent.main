@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.serializer.descriptionunit.internal;
 
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.DescriptionUnitSerializer;
 

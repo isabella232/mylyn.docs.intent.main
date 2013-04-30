@@ -26,7 +26,6 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.Notificator;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 
 /**
@@ -68,14 +67,13 @@ public final class CompilerCreator {
 			}
 		}
 		listenedTypes.remove(IntentDocumentPackage.eINSTANCE.getIntentGenericElement_CompilationStatus());
-		listenedTypes.remove(GenericUnitPackage.eINSTANCE.getGenericUnit_Instructions());
-		listenedTypes.remove(GenericUnitPackage.eINSTANCE.getGenericUnit_UnitName());
+		listenedTypes.remove(IntentDocumentPackage.eINSTANCE.getGenericUnit_Instructions());
+		listenedTypes.remove(IntentDocumentPackage.eINSTANCE.getGenericUnit_Name());
 		listenedTypes
 				.remove(ModelingUnitPackage.eINSTANCE.getContributionInstruction_ContributionReference());
 		listenedTypes.remove(ModelingUnitPackage.eINSTANCE
 				.getModelingUnitInstructionReference_ReferencedInstruction());
-		listenedTypes.remove(ModelingUnitPackage.eINSTANCE.getResourceReference_Declaration());
-		listenedTypes.remove(ModelingUnitPackage.eINSTANCE.getInstanceLevelInstruction_MetaType());
+		listenedTypes.remove(ModelingUnitPackage.eINSTANCE.getAbstractMetaTypeInstruction_MetaType());
 
 		// Step 2: create the adapter and the handler for these types
 		final RepositoryAdapter repositoryAdapter = repository.createRepositoryAdapter();

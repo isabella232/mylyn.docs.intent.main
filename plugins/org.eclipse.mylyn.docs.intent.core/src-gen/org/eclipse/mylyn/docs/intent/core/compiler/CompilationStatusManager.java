@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,18 +7,21 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler;
 
 import java.math.BigInteger;
 
 import org.eclipse.emf.cdo.CDOObject;
+
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Compilation Status Manager</b></em>'.
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Compilation Status Manager</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
@@ -39,11 +42,10 @@ public interface CompilationStatusManager extends CDOObject {
 	/**
 	 * Returns the value of the '<em><b>Compilation Status List</b></em>' reference list.
 	 * The list contents are of type {@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus}.
-	 * <!-- begin-user-doc
-	 * -->
+	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Compilation Status List</em>' containment reference list isn't clear, there
-	 * really should be more of a description here...
+	 * If the meaning of the '<em>Compilation Status List</em>' reference list isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Compilation Status List</em>' reference list.
@@ -59,8 +61,8 @@ public interface CompilationStatusManager extends CDOObject {
 	 * and the value is of type list of {@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus},
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Modeling Unit To Status List</em>' map isn't clear, there really should be
-	 * more of a description here...
+	 * If the meaning of the '<em>Modeling Unit To Status List</em>' map isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Modeling Unit To Status List</em>' map.

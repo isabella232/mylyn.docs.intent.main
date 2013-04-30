@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
@@ -79,7 +78,7 @@ public class TocMaker {
 		documentIndexEntry.setType(INDEX_ENTRY_TYPE.INTENT_DOCUMENT);
 
 		// Step 4: for each chapter contained in this document
-		for (IntentChapter chapter : document.getChapters()) {
+		for (IntentSection chapter : document.getSubSections()) {
 			IntentIndexEntry candidateChapterEntry = null;
 			// Step 4.1: we use an existing index entry if any
 			for (IntentIndexEntry candidate : documentIndexEntry.getSubEntries()) {
@@ -108,7 +107,7 @@ public class TocMaker {
 	 * @return the entry corresponding to the given chapter's toc
 	 */
 	private IntentIndexEntry computeEntryForChapter(IntentIndexEntry documentIndexEntry,
-			IntentIndexEntry candidateChapterEntry, IntentChapter chapter) {
+			IntentIndexEntry candidateChapterEntry, IntentSection chapter) {
 		// Step 1: use an existing index entry if any
 		IntentIndexEntry chapterEntry = candidateChapterEntry;
 		if (candidateChapterEntry == null) {

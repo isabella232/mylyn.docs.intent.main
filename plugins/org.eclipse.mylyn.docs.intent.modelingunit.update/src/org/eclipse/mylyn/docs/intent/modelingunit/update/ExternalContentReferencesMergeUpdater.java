@@ -48,7 +48,7 @@ public class ExternalContentReferencesMergeUpdater extends MergeUpdater {
 		for (EObject element : elements) {
 			ExternalContentReference externalContentRef = ModelingUnitFactory.eINSTANCE
 					.createExternalContentReference();
-			externalContentRef.setUri(EcoreUtil.getURI(element).toString());
+			externalContentRef.setUri(EcoreUtil.getURI(element));
 			int siblingIndex = modelingUnit.getInstructions().indexOf(sibling);
 			if (siblingIndex != -1) {
 				modelingUnit.getInstructions().add(siblingIndex, externalContentRef);

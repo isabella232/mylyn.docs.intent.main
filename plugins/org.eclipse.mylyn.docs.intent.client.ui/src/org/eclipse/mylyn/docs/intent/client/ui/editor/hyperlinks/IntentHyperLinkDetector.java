@@ -26,8 +26,8 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
+import org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
 import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -85,9 +85,9 @@ public class IntentHyperLinkDetector extends AbstractHyperlinkDetector {
 		EObject mostSpecificElement = element;
 		if (element instanceof StructuralFeatureAffectation) {
 			if (((StructuralFeatureAffectation)element).getValues().size() > 0
-					&& ((StructuralFeatureAffectation)element).getValues().iterator().next() instanceof ReferenceValueForStructuralFeature) {
-				mostSpecificElement = (ReferenceValueForStructuralFeature)((StructuralFeatureAffectation)element)
-						.getValues().iterator().next();
+					&& ((StructuralFeatureAffectation)element).getValues().iterator().next() instanceof ReferenceValue) {
+				mostSpecificElement = (ReferenceValue)((StructuralFeatureAffectation)element).getValues()
+						.iterator().next();
 			}
 		}
 		return mostSpecificElement;

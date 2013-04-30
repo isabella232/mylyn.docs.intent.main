@@ -15,7 +15,7 @@
 	[comment @main /]
 	[file (eResourceName().replace('textile','html'), false, 'UTF-8')]
 	<!doctype html>  
-	<html> 
+	<html>
 		<head> 
 			<link href='http://fonts.googleapis.com/css?family=PT+Sans&subset=latin' rel='stylesheet' type='text/css'>
 		    <style>

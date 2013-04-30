@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,21 +7,25 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.common.util.BasicEMap;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Textual Reference To Contributions</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Textual Reference To Contributions</b></em>'.
+ * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
@@ -34,7 +38,8 @@ import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
  */
 public class TextualReferenceToContributionsImpl extends CDOObjectImpl implements BasicEMap.Entry<String, EList<UnresolvedContributionHolder>> {
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected TextualReferenceToContributionsImpl() {
@@ -42,7 +47,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -51,7 +57,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
@@ -60,7 +67,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getTypedKey() {
@@ -68,7 +76,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setTypedKey(String newKey) {
@@ -76,7 +85,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -86,13 +96,15 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected int hash = -1;
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public int getHash() {
@@ -104,7 +116,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setHash(int hash) {
@@ -112,7 +125,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public String getKey() {
@@ -120,7 +134,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void setKey(String key) {
@@ -128,7 +143,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<UnresolvedContributionHolder> getValue() {
@@ -136,7 +152,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	public EList<UnresolvedContributionHolder> setValue(EList<UnresolvedContributionHolder> value) {
@@ -147,7 +164,8 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
@@ -157,4 +175,4 @@ public class TextualReferenceToContributionsImpl extends CDOObjectImpl implement
 				.eGet(eContainmentFeature());
 	}
 
-} // TextualReferenceToContributionsImpl
+} //TextualReferenceToContributionsImpl

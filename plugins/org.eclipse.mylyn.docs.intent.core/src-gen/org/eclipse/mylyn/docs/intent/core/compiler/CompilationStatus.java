@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,15 +7,17 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.compiler;
 
 import org.eclipse.emf.cdo.CDOObject;
+
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Compilation Status</b></em>'. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Compilation Status</b></em>'.
+ * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
@@ -38,8 +40,8 @@ public interface CompilationStatus extends CDOObject {
 	 * It is bidirectional and its opposite is '{@link org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement#getCompilationStatus <em>Compilation Status</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Target</em>' reference isn't clear, there really should be more of a
-	 * description here...
+	 * If the meaning of the '<em>Target</em>' container reference isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target</em>' container reference.
@@ -53,7 +55,8 @@ public interface CompilationStatus extends CDOObject {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getTarget <em>Target</em>}' container reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Target</em>' container reference.
 	 * @see #getTarget()
 	 * @generated
@@ -64,8 +67,8 @@ public interface CompilationStatus extends CDOObject {
 	 * Returns the value of the '<em><b>Message</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Message</em>' attribute isn't clear, there really should be more of a
-	 * description here...
+	 * If the meaning of the '<em>Message</em>' attribute isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Message</em>' attribute.
@@ -78,7 +81,8 @@ public interface CompilationStatus extends CDOObject {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getMessage <em>Message</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Message</em>' attribute.
 	 * @see #getMessage()
 	 * @generated
@@ -90,8 +94,8 @@ public interface CompilationStatus extends CDOObject {
 	 * The literals are from the enumeration {@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Severity</em>' attribute isn't clear, there really should be more of a
-	 * description here...
+	 * If the meaning of the '<em>Severity</em>' attribute isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Severity</em>' attribute.
@@ -105,7 +109,8 @@ public interface CompilationStatus extends CDOObject {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getSeverity <em>Severity</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Severity</em>' attribute.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity
 	 * @see #getSeverity()
@@ -118,8 +123,8 @@ public interface CompilationStatus extends CDOObject {
 	 * The literals are from the enumeration {@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Type</em>' attribute isn't clear, there really should be more of a
-	 * description here...
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type</em>' attribute.
@@ -133,7 +138,8 @@ public interface CompilationStatus extends CDOObject {
 
 	/**
 	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus#getType <em>Type</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Type</em>' attribute.
 	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationMessageType
 	 * @see #getType()

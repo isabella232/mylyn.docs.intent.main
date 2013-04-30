@@ -1,5 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
+/**
+ * Copyright (c) 2010, 2012 Obeo.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,41 +7,26 @@
  * 
  * Contributors:
  *     Obeo - initial API and implementation
- *******************************************************************************/
+ */
 package org.eclipse.mylyn.docs.intent.core.modelingunit.util;
 
 import java.util.Map;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
+
+import org.eclipse.mylyn.docs.intent.core.document.GenericUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
-import org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.IntentReference;
+import org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+
 import org.eclipse.mylyn.docs.intent.core.modelingunit.*;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanceLevelInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * <!-- begin-user-doc -->
@@ -99,11 +84,6 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	 */
 	protected ModelingUnitSwitch<Adapter> modelSwitch = new ModelingUnitSwitch<Adapter>() {
 		@Override
-		public Adapter caseKeyValForAnnotation(Map.Entry<String, String> object) {
-			return createKeyValForAnnotationAdapter();
-		}
-
-		@Override
 		public Adapter caseModelingUnit(ModelingUnit object) {
 			return createModelingUnitAdapter();
 		}
@@ -114,48 +94,18 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseResourceReference(ResourceReference object) {
-			return createResourceReferenceAdapter();
-		}
-
-		@Override
-		public Adapter caseInstanciationInstructionReference(InstanciationInstructionReference object) {
-			return createInstanciationInstructionReferenceAdapter();
-		}
-
-		@Override
-		public Adapter caseModelingUnitInstructionReference(ModelingUnitInstructionReference object) {
-			return createModelingUnitInstructionReferenceAdapter();
-		}
-
-		@Override
 		public Adapter caseResourceDeclaration(ResourceDeclaration object) {
 			return createResourceDeclarationAdapter();
 		}
 
 		@Override
-		public Adapter caseIntentReferenceinModelingUnit(IntentReferenceinModelingUnit object) {
-			return createIntentReferenceinModelingUnitAdapter();
-		}
-
-		@Override
-		public Adapter caseLabelinModelingUnit(LabelinModelingUnit object) {
-			return createLabelinModelingUnitAdapter();
-		}
-
-		@Override
-		public Adapter caseAnnotationDeclaration(AnnotationDeclaration object) {
-			return createAnnotationDeclarationAdapter();
+		public Adapter caseAbstractMetaTypeInstruction(AbstractMetaTypeInstruction object) {
+			return createAbstractMetaTypeInstructionAdapter();
 		}
 
 		@Override
 		public Adapter caseTypeReference(TypeReference object) {
 			return createTypeReferenceAdapter();
-		}
-
-		@Override
-		public Adapter caseInstanceLevelInstruction(InstanceLevelInstruction object) {
-			return createInstanceLevelInstructionAdapter();
 		}
 
 		@Override
@@ -169,23 +119,28 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseValueForStructuralFeature(ValueForStructuralFeature object) {
-			return createValueForStructuralFeatureAdapter();
+		public Adapter caseAbstractValue(AbstractValue object) {
+			return createAbstractValueAdapter();
 		}
 
 		@Override
-		public Adapter caseNativeValueForStructuralFeature(NativeValueForStructuralFeature object) {
-			return createNativeValueForStructuralFeatureAdapter();
+		public Adapter caseNativeValue(NativeValue object) {
+			return createNativeValueAdapter();
 		}
 
 		@Override
-		public Adapter caseNewObjectValueForStructuralFeature(NewObjectValueForStructuralFeature object) {
-			return createNewObjectValueForStructuralFeatureAdapter();
+		public Adapter caseNewObjectValue(NewObjectValue object) {
+			return createNewObjectValueAdapter();
 		}
 
 		@Override
-		public Adapter caseReferenceValueForStructuralFeature(ReferenceValueForStructuralFeature object) {
-			return createReferenceValueForStructuralFeatureAdapter();
+		public Adapter caseReferenceValue(ReferenceValue object) {
+			return createReferenceValueAdapter();
+		}
+
+		@Override
+		public Adapter caseInstanciationInstructionReference(InstanciationInstructionReference object) {
+			return createInstanciationInstructionReferenceAdapter();
 		}
 
 		@Override
@@ -196,6 +151,31 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 		@Override
 		public Adapter caseExternalContentReference(ExternalContentReference object) {
 			return createExternalContentReferenceAdapter();
+		}
+
+		@Override
+		public Adapter caseModelingUnitInstructionReference(ModelingUnitInstructionReference object) {
+			return createModelingUnitInstructionReferenceAdapter();
+		}
+
+		@Override
+		public Adapter caseIntentReferenceInModelingUnit(IntentReferenceInModelingUnit object) {
+			return createIntentReferenceInModelingUnitAdapter();
+		}
+
+		@Override
+		public Adapter caseAnnotationDeclaration(AnnotationDeclaration object) {
+			return createAnnotationDeclarationAdapter();
+		}
+
+		@Override
+		public Adapter caseLabelInModelingUnit(LabelInModelingUnit object) {
+			return createLabelInModelingUnitAdapter();
+		}
+
+		@Override
+		public Adapter caseKeyValForAnnotation(Map.Entry<String, String> object) {
+			return createKeyValForAnnotationAdapter();
 		}
 
 		@Override
@@ -248,20 +228,6 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Key Val For Annotation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see java.util.Map.Entry
-	 * @generated
-	 */
-	public Adapter createKeyValForAnnotationAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit <em>Modeling Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -290,48 +256,6 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference <em>Resource Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceReference
-	 * @generated
-	 */
-	public Adapter createResourceReferenceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference <em>Instruction Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference
-	 * @generated
-	 */
-	public Adapter createModelingUnitInstructionReferenceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference <em>Instanciation Instruction Reference</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference
-	 * @generated
-	 */
-	public Adapter createInstanciationInstructionReferenceAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration <em>Resource Declaration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -346,44 +270,16 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit <em>Intent Referencein Modeling Unit</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractMetaTypeInstruction <em>Abstract Meta Type Instruction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceinModelingUnit
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractMetaTypeInstruction
 	 * @generated
 	 */
-	public Adapter createIntentReferenceinModelingUnitAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit <em>Labelin Modeling Unit</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.LabelinModelingUnit
-	 * @generated
-	 */
-	public Adapter createLabelinModelingUnitAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration <em>Annotation Declaration</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration
-	 * @generated
-	 */
-	public Adapter createAnnotationDeclarationAdapter() {
+	public Adapter createAbstractMetaTypeInstructionAdapter() {
 		return null;
 	}
 
@@ -398,20 +294,6 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createTypeReferenceAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanceLevelInstruction <em>Instance Level Instruction</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.InstanceLevelInstruction
-	 * @generated
-	 */
-	public Adapter createInstanceLevelInstructionAdapter() {
 		return null;
 	}
 
@@ -444,58 +326,72 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature <em>Value For Structural Feature</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue <em>Abstract Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue
 	 * @generated
 	 */
-	public Adapter createValueForStructuralFeatureAdapter() {
+	public Adapter createAbstractValueAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature <em>Native Value For Structural Feature</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue <em>Native Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValueForStructuralFeature
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue
 	 * @generated
 	 */
-	public Adapter createNativeValueForStructuralFeatureAdapter() {
+	public Adapter createNativeValueAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature <em>New Object Value For Structural Feature</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue <em>New Object Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValueForStructuralFeature
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.NewObjectValue
 	 * @generated
 	 */
-	public Adapter createNewObjectValueForStructuralFeatureAdapter() {
+	public Adapter createNewObjectValueAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature <em>Reference Value For Structural Feature</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue <em>Reference Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValueForStructuralFeature
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ReferenceValue
 	 * @generated
 	 */
-	public Adapter createReferenceValueForStructuralFeatureAdapter() {
+	public Adapter createReferenceValueAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference <em>Instanciation Instruction Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstructionReference
+	 * @generated
+	 */
+	public Adapter createInstanciationInstructionReferenceAdapter() {
 		return null;
 	}
 
@@ -528,6 +424,76 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference <em>Instruction Reference</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference
+	 * @generated
+	 */
+	public Adapter createModelingUnitInstructionReferenceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceInModelingUnit <em>Intent Reference In Modeling Unit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceInModelingUnit
+	 * @generated
+	 */
+	public Adapter createIntentReferenceInModelingUnitAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration <em>Annotation Declaration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.AnnotationDeclaration
+	 * @generated
+	 */
+	public Adapter createAnnotationDeclarationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.modelingunit.LabelInModelingUnit <em>Label In Modeling Unit</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.LabelInModelingUnit
+	 * @generated
+	 */
+	public Adapter createLabelInModelingUnitAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link java.util.Map.Entry <em>Key Val For Annotation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see java.util.Map.Entry
+	 * @generated
+	 */
+	public Adapter createKeyValForAnnotationAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement <em>Intent Generic Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -542,13 +508,13 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit <em>Generic Unit</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.GenericUnit <em>Generic Unit</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnit
+	 * @see org.eclipse.mylyn.docs.intent.core.document.GenericUnit
 	 * @generated
 	 */
 	public Adapter createGenericUnitAdapter() {
@@ -556,13 +522,13 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction <em>Unit Instruction</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.UnitInstruction <em>Unit Instruction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction
+	 * @see org.eclipse.mylyn.docs.intent.core.document.UnitInstruction
 	 * @generated
 	 */
 	public Adapter createUnitInstructionAdapter() {
@@ -570,13 +536,13 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference <em>Intent Reference</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReference <em>Intent Reference</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReference
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReference
 	 * @generated
 	 */
 	public Adapter createIntentReferenceAdapter() {
@@ -584,13 +550,13 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction <em>Intent Reference Instruction</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction <em>Intent Reference Instruction</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction
+	 * @see org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction
 	 * @generated
 	 */
 	public Adapter createIntentReferenceInstructionAdapter() {
@@ -598,13 +564,13 @@ public class ModelingUnitAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration <em>Label Declaration</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration <em>Label Declaration</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.eclipse.mylyn.docs.intent.core.genericunit.LabelDeclaration
+	 * @see org.eclipse.mylyn.docs.intent.core.document.LabelDeclaration
 	 * @generated
 	 */
 	public Adapter createLabelDeclarationAdapter() {

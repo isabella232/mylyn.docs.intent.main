@@ -36,7 +36,7 @@ import org.eclipse.mylyn.docs.intent.client.compiler.utils.IntentCompilerInforma
 import org.eclipse.mylyn.docs.intent.client.compiler.validator.GeneratedElementValidator;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedReferenceHolder;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;

@@ -1,0 +1,1845 @@
+diff --git a/plugins/org.eclipse.emf.eef.modelingbot/META-INF/MANIFEST.MF b/plugins/org.eclipse.emf.eef.modelingbot/META-INF/MANIFEST.MF
+index 19f3122..3cdf029 100644
+--- a/plugins/org.eclipse.emf.eef.modelingbot/META-INF/MANIFEST.MF
++++ b/plugins/org.eclipse.emf.eef.modelingbot/META-INF/MANIFEST.MF
+@@ -1,87 +1,88 @@
+-Manifest-Version: 1.0
+-Bundle-ManifestVersion: 2
+-Bundle-Name: %pluginName
+-Bundle-SymbolicName: org.eclipse.emf.eef.modelingbot;singleton:=true
+-Bundle-Version: 1.2.0.qualifier
+-Bundle-ClassPath: .
+-Bundle-Vendor: %providerName
+-Bundle-Localization: plugin
+-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+-Export-Package: org.eclipse.emf.eef.modelingBot;
+-  uses:="org.eclipse.emf.eef.extended.editor,
+-   org.eclipse.emf.ecore.resource,
+-   org.eclipse.emf.ecore,
+-   org.eclipse.emf.eef.components.parts,
+-   org.eclipse.emf.edit.domain",
+- org.eclipse.emf.eef.modelingBot.EEFActions;
+-  uses:="org.eclipse.emf.eef.extended.editor,
+-   org.eclipse.emf.ecore,
+-   org.eclipse.emf.eef.modelingBot,
+-   org.eclipse.emf.eef.components",
+- org.eclipse.emf.eef.modelingBot.EEFActions.impl;
+-  uses:="org.eclipse.emf.eef.extended.editor,
+-   org.eclipse.emf.ecore,
+-   org.eclipse.emf.eef.modelingBot.impl,
+-   org.eclipse.emf.eef.components,
+-   org.eclipse.emf.ecore.impl,
+-   org.eclipse.emf.eef.modelingBot.EEFActions",
+- org.eclipse.emf.eef.modelingBot.EEFActions.util;
+-  uses:="org.eclipse.emf.ecore,
+-   org.eclipse.emf.common.notify.impl,
+-   org.eclipse.emf.eef.modelingBot,
+-   org.eclipse.emf.common.notify,
+-   org.eclipse.emf.eef.modelingBot.EEFActions",
+- org.eclipse.emf.eef.modelingBot.EclipseActions;uses:="org.eclipse.emf.ecore,org.eclipse.emf.eef.modelingBot",
+- org.eclipse.emf.eef.modelingBot.EclipseActions.impl;
+-  uses:="org.eclipse.emf.ecore,
+-   org.eclipse.emf.eef.modelingBot.impl,
+-   org.eclipse.emf.eef.modelingBot.EclipseActions,
+-   org.eclipse.emf.ecore.impl",
+- org.eclipse.emf.eef.modelingBot.EclipseActions.util;
+-  uses:="org.eclipse.emf.ecore,
+-   org.eclipse.emf.common.notify.impl,
+-   org.eclipse.emf.eef.modelingBot,
+-   org.eclipse.emf.eef.modelingBot.EclipseActions,
+-   org.eclipse.emf.common.notify",
+- org.eclipse.emf.eef.modelingBot.batch,
+- org.eclipse.emf.eef.modelingBot.exception,
+- org.eclipse.emf.eef.modelingBot.helper;uses:="org.eclipse.emf.ecore.resource,org.eclipse.core.resources",
+- org.eclipse.emf.eef.modelingBot.impl;
+-  uses:="org.eclipse.emf.ecore,
+-   org.eclipse.emf.common.util,
+-   org.eclipse.emf.eef.modelingBot,
+-   org.eclipse.emf.eef.components,
+-   org.eclipse.emf.ecore.impl,
+-   org.eclipse.emf.common.notify",
+- org.eclipse.emf.eef.modelingBot.interpreter,
+- org.eclipse.emf.eef.modelingBot.menu,
+- org.eclipse.emf.eef.modelingBot.swtbot;
+-  uses:="org.eclipse.emf.eef.extended.editor,
+-   org.eclipse.emf.ecore,
+-   org.eclipse.emf.eef.components.parts,
+-   org.eclipse.emf.eef.modelingBot,
+-   org.eclipse.swtbot.swt.finder.widgets,
+-   org.eclipse.swtbot.swt.finder",
+- org.eclipse.emf.eef.modelingBot.testcase;uses:="org.eclipse.swtbot.eclipse.finder,org.eclipse.emf.eef.modelingBot.swtbot",
+- org.eclipse.emf.eef.modelingBot.uri,
+- org.eclipse.emf.eef.modelingBot.util;
+-  uses:="org.eclipse.emf.ecore,
+-   org.eclipse.emf.common.notify.impl,
+-   org.eclipse.emf.eef.modelingBot,
+-   org.eclipse.emf.common.notify"
+-Require-Bundle: org.eclipse.core.runtime,
+- org.eclipse.emf.ecore;visibility:=reexport,
+- org.eclipse.emf.eef.components;visibility:=reexport,
+- org.eclipse.emf.eef.editor.model;visibility:=reexport,
+- org.eclipse.emf.codegen.ecore;visibility:=reexport,
+- org.eclipse.emf.eef.mapping;visibility:=reexport,
+- org.eclipse.emf.eef.views;visibility:=reexport,
+- org.eclipse.swtbot.eclipse.finder;visibility:=reexport,
+- org.eclipse.swtbot.swt.finder;visibility:=reexport,
+- org.hamcrest,
+- org.junit4,
+- org.eclipse.core.resources,
+- org.apache.log4j,
+- org.eclipse.emf.ecore.xmi,
+- org.eclipse.emf.compare;bundle-version="3.0.0"
+-Bundle-ActivationPolicy: lazy
++Manifest-Version: 1.0
++Bundle-ManifestVersion: 2
++Bundle-Name: %pluginName
++Bundle-SymbolicName: org.eclipse.emf.eef.modelingbot;singleton:=true
++Bundle-Version: 1.2.0.qualifier
++Bundle-ClassPath: .
++Bundle-Vendor: %providerName
++Bundle-Localization: plugin
++Bundle-RequiredExecutionEnvironment: J2SE-1.5
++Export-Package: org.eclipse.emf.eef.modelingBot;
++  uses:="org.eclipse.emf.eef.extended.editor,
++   org.eclipse.emf.ecore.resource,
++   org.eclipse.emf.ecore,
++   org.eclipse.emf.eef.components.parts,
++   org.eclipse.emf.edit.domain",
++ org.eclipse.emf.eef.modelingBot.EEFActions;
++  uses:="org.eclipse.emf.eef.extended.editor,
++   org.eclipse.emf.ecore,
++   org.eclipse.emf.eef.modelingBot,
++   org.eclipse.emf.eef.components",
++ org.eclipse.emf.eef.modelingBot.EEFActions.impl;
++  uses:="org.eclipse.emf.eef.extended.editor,
++   org.eclipse.emf.ecore,
++   org.eclipse.emf.eef.modelingBot.impl,
++   org.eclipse.emf.eef.components,
++   org.eclipse.emf.ecore.impl,
++   org.eclipse.emf.eef.modelingBot.EEFActions",
++ org.eclipse.emf.eef.modelingBot.EEFActions.util;
++  uses:="org.eclipse.emf.ecore,
++   org.eclipse.emf.common.notify.impl,
++   org.eclipse.emf.eef.modelingBot,
++   org.eclipse.emf.common.notify,
++   org.eclipse.emf.eef.modelingBot.EEFActions",
++ org.eclipse.emf.eef.modelingBot.EclipseActions;uses:="org.eclipse.emf.ecore,org.eclipse.emf.eef.modelingBot",
++ org.eclipse.emf.eef.modelingBot.EclipseActions.impl;
++  uses:="org.eclipse.emf.ecore,
++   org.eclipse.emf.eef.modelingBot.impl,
++   org.eclipse.emf.eef.modelingBot.EclipseActions,
++   org.eclipse.emf.ecore.impl",
++ org.eclipse.emf.eef.modelingBot.EclipseActions.util;
++  uses:="org.eclipse.emf.ecore,
++   org.eclipse.emf.common.notify.impl,
++   org.eclipse.emf.eef.modelingBot,
++   org.eclipse.emf.eef.modelingBot.EclipseActions,
++   org.eclipse.emf.common.notify",
++ org.eclipse.emf.eef.modelingBot.batch,
++ org.eclipse.emf.eef.modelingBot.exception,
++ org.eclipse.emf.eef.modelingBot.helper;uses:="org.eclipse.emf.ecore.resource,org.eclipse.core.resources",
++ org.eclipse.emf.eef.modelingBot.impl;
++  uses:="org.eclipse.emf.ecore,
++   org.eclipse.emf.common.util,
++   org.eclipse.emf.eef.modelingBot,
++   org.eclipse.emf.eef.components,
++   org.eclipse.emf.ecore.impl,
++   org.eclipse.emf.common.notify",
++ org.eclipse.emf.eef.modelingBot.interpreter,
++ org.eclipse.emf.eef.modelingBot.menu,
++ org.eclipse.emf.eef.modelingBot.swtbot;
++  uses:="org.eclipse.emf.eef.extended.editor,
++   org.eclipse.emf.ecore,
++   org.eclipse.emf.eef.components.parts,
++   org.eclipse.emf.eef.modelingBot,
++   org.eclipse.swtbot.swt.finder.widgets,
++   org.eclipse.swtbot.swt.finder",
++ org.eclipse.emf.eef.modelingBot.testcase;uses:="org.eclipse.swtbot.eclipse.finder,org.eclipse.emf.eef.modelingBot.swtbot",
++ org.eclipse.emf.eef.modelingBot.uri,
++ org.eclipse.emf.eef.modelingBot.util;
++  uses:="org.eclipse.emf.ecore,
++   org.eclipse.emf.common.notify.impl,
++   org.eclipse.emf.eef.modelingBot,
++   org.eclipse.emf.common.notify",
++ org.eclipse.emf.eef.modelingBot.validation
++Require-Bundle: org.eclipse.core.runtime,
++ org.eclipse.emf.ecore;visibility:=reexport,
++ org.eclipse.emf.eef.components;visibility:=reexport,
++ org.eclipse.emf.eef.editor.model;visibility:=reexport,
++ org.eclipse.emf.codegen.ecore;visibility:=reexport,
++ org.eclipse.emf.eef.mapping;visibility:=reexport,
++ org.eclipse.emf.eef.views;visibility:=reexport,
++ org.eclipse.swtbot.eclipse.finder;visibility:=reexport,
++ org.eclipse.swtbot.swt.finder;visibility:=reexport,
++ org.hamcrest,
++ org.junit4,
++ org.eclipse.core.resources,
++ org.apache.log4j,
++ org.eclipse.emf.ecore.xmi,
++ org.eclipse.emf.compare;bundle-version="3.0.0"
++Bundle-ActivationPolicy: lazy
+diff --git a/plugins/org.eclipse.emf.eef.modelingbot/model/mbot.ecore b/plugins/org.eclipse.emf.eef.modelingbot/model/mbot.ecore
+index f817a95..a820ab2 100644
+--- a/plugins/org.eclipse.emf.eef.modelingbot/model/mbot.ecore
++++ b/plugins/org.eclipse.emf.eef.modelingbot/model/mbot.ecore
+@@ -1,122 +1,126 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="modelingBot" nsURI="http://www.eclipse.org/emf/eef/mbot/1.0.0"
+-    nsPrefix="eef-mbot">
+-  <eClassifiers xsi:type="ecore:EClass" name="Scenario" eSuperTypes="#//Sequence"/>
+-  <eClassifiers xsi:type="ecore:EClass" name="Action" abstract="true" eSuperTypes="#//DocumentedElement #//Processing"/>
+-  <eClassifiers xsi:type="ecore:EClass" name="Sequence" abstract="true" eSuperTypes="#//DocumentedElement #//Processing">
+-    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+-        eType="#//Action" transient="true" derived="true" containment="true"/>
+-    <eStructuralFeatures xsi:type="ecore:EReference" name="sequences" upperBound="-1"
+-        eType="#//Sequence" transient="true" derived="true" containment="true"/>
+-    <eStructuralFeatures xsi:type="ecore:EReference" name="processings" upperBound="-1"
+-        eType="#//Processing" containment="true"/>
+-  </eClassifiers>
+-  <eClassifiers xsi:type="ecore:EClass" name="Wizard" eSuperTypes="#//Sequence">
+-    <eStructuralFeatures xsi:type="ecore:EReference" name="referenceableObject" eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject"/>
+-  </eClassifiers>
+-  <eClassifiers xsi:type="ecore:EClass" name="DocumentedElement" abstract="true">
+-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+-  </eClassifiers>
+-  <eClassifiers xsi:type="ecore:EClass" name="ModelingBot">
+-    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore" references="#//ModelingBot">
+-      <details key="constraints" value="JavaTestExistsConstraint"/>
+-    </eAnnotations>
+-    <eStructuralFeatures xsi:type="ecore:EReference" name="propertiesEditionContext"
+-        eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.components/model/components.ecore#//PropertiesEditionContext"/>
+-    <eStructuralFeatures xsi:type="ecore:EReference" name="sequences" upperBound="-1"
+-        eType="#//Sequence" containment="true"/>
+-  </eClassifiers>
+-  <eClassifiers xsi:type="ecore:EClass" name="DetailsPage" eSuperTypes="#//Sequence"/>
+-  <eClassifiers xsi:type="ecore:EClass" name="PropertiesView" eSuperTypes="#//Sequence">
+-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+-  </eClassifiers>
+-  <eClassifiers xsi:type="ecore:EClass" name="Processing" abstract="true" interface="true"/>
+-  <eClassifiers xsi:type="ecore:EEnum" name="SequenceType">
+-    <eLiterals name="DETAILS_PAGE"/>
+-    <eLiterals name="WIZARD" value="1"/>
+-    <eLiterals name="PROPERTIES_VIEW" value="2"/>
+-  </eClassifiers>
+-  <eSubpackages name="EEFActions" nsURI="http://www.eclipse.org/emf/eef/test/EEFActions/1.0.0"
+-      nsPrefix="eef-test">
+-    <eClassifiers xsi:type="ecore:EClass" name="EEFAction" abstract="true" eSuperTypes="#//Action"/>
+-    <eClassifiers xsi:type="ecore:EClass" name="EditAction" abstract="true" eSuperTypes="#//EEFActions/EEFAction platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject">
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="propertiesEditionElement"
+-          eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.components/model/components.ecore#//PropertiesEditionElement"/>
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="referenceableObject"
+-          eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="Add" eSuperTypes="#//EEFActions/EditAction">
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="eContainingFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="Remove" eSuperTypes="#//EEFActions/EditAction"/>
+-    <eClassifiers xsi:type="ecore:EClass" name="SetAttribute" eSuperTypes="#//EEFActions/EditAction">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" upperBound="-1"
+-          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="eContainingFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="UnsetAttribute" eSuperTypes="#//EEFActions/EditAction">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" upperBound="-1"
+-          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="eContainingFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="Unset" eSuperTypes="#//EEFActions/EditAction">
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="Cancel" eSuperTypes="#//EEFActions/EEFAction">
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="processing" eType="#//Processing"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="Check" eSuperTypes="#//EEFActions/EEFAction"/>
+-    <eClassifiers xsi:type="ecore:EClass" name="OpenEEFEditor" eSuperTypes="#//EEFActions/EEFAction">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="editorName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="SetReference" eSuperTypes="#//EEFActions/EditAction">
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+-          eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject"/>
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="eContainingFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="UnsetReference" eSuperTypes="#//EEFActions/EditAction">
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
+-          eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="MoveUp" eSuperTypes="#//EEFActions/EditAction"/>
+-    <eClassifiers xsi:type="ecore:EClass" name="MoveDown" eSuperTypes="#//EEFActions/EditAction"/>
+-  </eSubpackages>
+-  <eSubpackages name="EclipseActions" nsURI="http://www.eclipse.org/emf/eef/test/EclipseActions/1.0.0"
+-      nsPrefix="eef-test">
+-    <eClassifiers xsi:type="ecore:EClass" name="EclipseAction" abstract="true" eSuperTypes="#//Action"/>
+-    <eClassifiers xsi:type="ecore:EClass" name="CreateProject" eSuperTypes="#//EclipseActions/EclipseAction">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="OpenPerspective" eSuperTypes="#//EclipseActions/EclipseAction">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="CloseProject" eSuperTypes="#//EclipseActions/EclipseAction">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="Save" eSuperTypes="#//EclipseActions/EclipseAction"/>
+-    <eClassifiers xsi:type="ecore:EClass" name="Undo" eSuperTypes="#//EclipseActions/EclipseAction"/>
+-    <eClassifiers xsi:type="ecore:EClass" name="Redo" eSuperTypes="#//EclipseActions/EclipseAction"/>
+-    <eClassifiers xsi:type="ecore:EClass" name="OpenProject" eSuperTypes="#//EclipseActions/EclipseAction">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="RemoveProject" eSuperTypes="#//EclipseActions/EclipseAction">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="CloseEditor" eSuperTypes="#//EclipseActions/EclipseAction">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="OpenEditor" eSuperTypes="#//EclipseActions/EclipseAction">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="editorName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="root" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
+-    </eClassifiers>
+-    <eClassifiers xsi:type="ecore:EClass" name="CreateModel" eSuperTypes="#//EclipseActions/EclipseAction platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject">
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+-      <eStructuralFeatures xsi:type="ecore:EReference" name="root" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
+-    </eClassifiers>
+-  </eSubpackages>
+-</ecore:EPackage>
++<?xml version="1.0" encoding="UTF-8"?>
++<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="modelingBot" nsURI="http://www.eclipse.org/emf/eef/mbot/1.0.0"
++    nsPrefix="eef-mbot">
++  <eClassifiers xsi:type="ecore:EClass" name="Scenario" eSuperTypes="#//Sequence">
++    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore" references="#//Scenario">
++      <details key="constraints" value="JavaTestExistsForScenarioConstraint"/>
++    </eAnnotations>
++  </eClassifiers>
++  <eClassifiers xsi:type="ecore:EClass" name="Action" abstract="true" eSuperTypes="#//DocumentedElement #//Processing"/>
++  <eClassifiers xsi:type="ecore:EClass" name="Sequence" abstract="true" eSuperTypes="#//DocumentedElement #//Processing">
++    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
++        eType="#//Action" transient="true" derived="true" containment="true"/>
++    <eStructuralFeatures xsi:type="ecore:EReference" name="sequences" upperBound="-1"
++        eType="#//Sequence" transient="true" derived="true" containment="true"/>
++    <eStructuralFeatures xsi:type="ecore:EReference" name="processings" upperBound="-1"
++        eType="#//Processing" containment="true"/>
++  </eClassifiers>
++  <eClassifiers xsi:type="ecore:EClass" name="Wizard" eSuperTypes="#//Sequence">
++    <eStructuralFeatures xsi:type="ecore:EReference" name="referenceableObject" eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject"/>
++  </eClassifiers>
++  <eClassifiers xsi:type="ecore:EClass" name="DocumentedElement" abstract="true">
++    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
++    <eStructuralFeatures xsi:type="ecore:EAttribute" name="documentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
++  </eClassifiers>
++  <eClassifiers xsi:type="ecore:EClass" name="ModelingBot">
++    <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore" references="#//ModelingBot">
++      <details key="constraints" value="JavaTestExistsConstraint"/>
++    </eAnnotations>
++    <eStructuralFeatures xsi:type="ecore:EReference" name="propertiesEditionContext"
++        eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.components/model/components.ecore#//PropertiesEditionContext"/>
++    <eStructuralFeatures xsi:type="ecore:EReference" name="sequences" upperBound="-1"
++        eType="#//Sequence" containment="true"/>
++  </eClassifiers>
++  <eClassifiers xsi:type="ecore:EClass" name="DetailsPage" eSuperTypes="#//Sequence"/>
++  <eClassifiers xsi:type="ecore:EClass" name="PropertiesView" eSuperTypes="#//Sequence">
++    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
++  </eClassifiers>
++  <eClassifiers xsi:type="ecore:EClass" name="Processing" abstract="true" interface="true"/>
++  <eClassifiers xsi:type="ecore:EEnum" name="SequenceType">
++    <eLiterals name="DETAILS_PAGE"/>
++    <eLiterals name="WIZARD" value="1"/>
++    <eLiterals name="PROPERTIES_VIEW" value="2"/>
++  </eClassifiers>
++  <eSubpackages name="EEFActions" nsURI="http://www.eclipse.org/emf/eef/test/EEFActions/1.0.0"
++      nsPrefix="eef-test">
++    <eClassifiers xsi:type="ecore:EClass" name="EEFAction" abstract="true" eSuperTypes="#//Action"/>
++    <eClassifiers xsi:type="ecore:EClass" name="EditAction" abstract="true" eSuperTypes="#//EEFActions/EEFAction platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject">
++      <eStructuralFeatures xsi:type="ecore:EReference" name="propertiesEditionElement"
++          eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.components/model/components.ecore#//PropertiesEditionElement"/>
++      <eStructuralFeatures xsi:type="ecore:EReference" name="referenceableObject"
++          eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="Add" eSuperTypes="#//EEFActions/EditAction">
++      <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
++      <eStructuralFeatures xsi:type="ecore:EReference" name="eContainingFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="Remove" eSuperTypes="#//EEFActions/EditAction"/>
++    <eClassifiers xsi:type="ecore:EClass" name="SetAttribute" eSuperTypes="#//EEFActions/EditAction">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" upperBound="-1"
++          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
++      <eStructuralFeatures xsi:type="ecore:EReference" name="eContainingFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="UnsetAttribute" eSuperTypes="#//EEFActions/EditAction">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" upperBound="-1"
++          eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
++      <eStructuralFeatures xsi:type="ecore:EReference" name="eContainingFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="Unset" eSuperTypes="#//EEFActions/EditAction">
++      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="Cancel" eSuperTypes="#//EEFActions/EEFAction">
++      <eStructuralFeatures xsi:type="ecore:EReference" name="processing" eType="#//Processing"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="Check" eSuperTypes="#//EEFActions/EEFAction"/>
++    <eClassifiers xsi:type="ecore:EClass" name="OpenEEFEditor" eSuperTypes="#//EEFActions/EEFAction">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="editorName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="SetReference" eSuperTypes="#//EEFActions/EditAction">
++      <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
++          eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject"/>
++      <eStructuralFeatures xsi:type="ecore:EReference" name="eContainingFeature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="UnsetReference" eSuperTypes="#//EEFActions/EditAction">
++      <eStructuralFeatures xsi:type="ecore:EReference" name="feature" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EStructuralFeature"/>
++      <eStructuralFeatures xsi:type="ecore:EReference" name="values" upperBound="-1"
++          eType="ecore:EClass platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="MoveUp" eSuperTypes="#//EEFActions/EditAction"/>
++    <eClassifiers xsi:type="ecore:EClass" name="MoveDown" eSuperTypes="#//EEFActions/EditAction"/>
++  </eSubpackages>
++  <eSubpackages name="EclipseActions" nsURI="http://www.eclipse.org/emf/eef/test/EclipseActions/1.0.0"
++      nsPrefix="eef-test">
++    <eClassifiers xsi:type="ecore:EClass" name="EclipseAction" abstract="true" eSuperTypes="#//Action"/>
++    <eClassifiers xsi:type="ecore:EClass" name="CreateProject" eSuperTypes="#//EclipseActions/EclipseAction">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="OpenPerspective" eSuperTypes="#//EclipseActions/EclipseAction">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="CloseProject" eSuperTypes="#//EclipseActions/EclipseAction">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="Save" eSuperTypes="#//EclipseActions/EclipseAction"/>
++    <eClassifiers xsi:type="ecore:EClass" name="Undo" eSuperTypes="#//EclipseActions/EclipseAction"/>
++    <eClassifiers xsi:type="ecore:EClass" name="Redo" eSuperTypes="#//EclipseActions/EclipseAction"/>
++    <eClassifiers xsi:type="ecore:EClass" name="OpenProject" eSuperTypes="#//EclipseActions/EclipseAction">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="RemoveProject" eSuperTypes="#//EclipseActions/EclipseAction">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="CloseEditor" eSuperTypes="#//EclipseActions/EclipseAction">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="OpenEditor" eSuperTypes="#//EclipseActions/EclipseAction">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="editorName" eType="ecore:EDataType platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EString"/>
++      <eStructuralFeatures xsi:type="ecore:EReference" name="root" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
++    </eClassifiers>
++    <eClassifiers xsi:type="ecore:EClass" name="CreateModel" eSuperTypes="#//EclipseActions/EclipseAction platform:/plugin/org.eclipse.emf.eef.editor.model/model/extended.ecore#//editor/ReferenceableObject">
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
++      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
++      <eStructuralFeatures xsi:type="ecore:EReference" name="root" eType="ecore:EClass platform:/plugin/org.eclipse.emf.ecore/model/Ecore.ecore#//EClass"/>
++    </eClassifiers>
++  </eSubpackages>
++</ecore:EPackage>
+diff --git a/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/Scenario.java b/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/Scenario.java
+old mode 100755
+new mode 100644
+index 8d2186e..011edf7
+--- a/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/Scenario.java
++++ b/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/Scenario.java
+@@ -1,25 +1,25 @@
+-/*******************************************************************************
+- * Copyright (c) 2008, 2011 Obeo.
+- * All rights reserved. This program and the accompanying materials
+- * are made available under the terms of the Eclipse Public License v1.0
+- * which accompanies this distribution, and is available at
+- * http://www.eclipse.org/legal/epl-v10.html
+- *
+- * Contributors:
+- *     Obeo - initial API and implementation
+- *******************************************************************************/
+-package org.eclipse.emf.eef.modelingBot;
+-
+-
+-/**
+- * <!-- begin-user-doc -->
+- * A representation of the model object '<em><b>Scenario</b></em>'.
+- * <!-- end-user-doc -->
+- *
+- *
+- * @see org.eclipse.emf.eef.modelingBot.ModelingBotPackage#getScenario()
+- * @model
+- * @generated
+- */
+-public interface Scenario extends Sequence {
+-} // Scenario
++/*******************************************************************************
++ * Copyright (c) 2008, 2011 Obeo.
++ * All rights reserved. This program and the accompanying materials
++ * are made available under the terms of the Eclipse Public License v1.0
++ * which accompanies this distribution, and is available at
++ * http://www.eclipse.org/legal/epl-v10.html
++ *
++ * Contributors:
++ *     Obeo - initial API and implementation
++ *******************************************************************************/
++package org.eclipse.emf.eef.modelingBot;
++
++
++/**
++ * <!-- begin-user-doc -->
++ * A representation of the model object '<em><b>Scenario</b></em>'.
++ * <!-- end-user-doc -->
++ *
++ *
++ * @see org.eclipse.emf.eef.modelingBot.ModelingBotPackage#getScenario()
++ * @model annotation="http://www.eclipse.org/emf/2002/Ecore constraints='JavaTestExistsForScenarioConstraint'"
++ * @generated
++ */
++public interface Scenario extends Sequence {
++} // Scenario
+diff --git a/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/impl/ModelingBotPackageImpl.java b/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/impl/ModelingBotPackageImpl.java
+old mode 100755
+new mode 100644
+index ec18728..253d7f5
+--- a/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/impl/ModelingBotPackageImpl.java
++++ b/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/impl/ModelingBotPackageImpl.java
+@@ -1,551 +1,560 @@
+-/*******************************************************************************
+- * Copyright (c) 2008, 2011 Obeo.
+- * All rights reserved. This program and the accompanying materials
+- * are made available under the terms of the Eclipse Public License v1.0
+- * which accompanies this distribution, and is available at
+- * http://www.eclipse.org/legal/epl-v10.html
+- *
+- * Contributors:
+- *     Obeo - initial API and implementation
+- *******************************************************************************/
+-package org.eclipse.emf.eef.modelingBot.impl;
+-
+-import org.eclipse.emf.common.util.URI;
+-import org.eclipse.emf.ecore.EAttribute;
+-import org.eclipse.emf.ecore.EClass;
+-import org.eclipse.emf.ecore.EEnum;
+-import org.eclipse.emf.ecore.EPackage;
+-import org.eclipse.emf.ecore.EReference;
+-
+-import org.eclipse.emf.ecore.EValidator;
+-import org.eclipse.emf.ecore.EcorePackage;
+-import org.eclipse.emf.ecore.impl.EPackageImpl;
+-
+-import org.eclipse.emf.eef.components.ComponentsPackage;
+-
+-import org.eclipse.emf.eef.extended.editor.EditorPackage;
+-
+-import org.eclipse.emf.eef.extended.query.QueryPackage;
+-
+-import org.eclipse.emf.eef.modelingBot.Action;
+-import org.eclipse.emf.eef.modelingBot.DetailsPage;
+-import org.eclipse.emf.eef.modelingBot.DocumentedElement;
+-
+-import org.eclipse.emf.eef.modelingBot.EEFActions.EEFActionsPackage;
+-
+-import org.eclipse.emf.eef.modelingBot.EEFActions.impl.EEFActionsPackageImpl;
+-
+-import org.eclipse.emf.eef.modelingBot.EclipseActions.EclipseActionsPackage;
+-
+-import org.eclipse.emf.eef.modelingBot.EclipseActions.impl.EclipseActionsPackageImpl;
+-
+-import org.eclipse.emf.eef.modelingBot.ModelingBot;
+-import org.eclipse.emf.eef.modelingBot.ModelingBotFactory;
+-import org.eclipse.emf.eef.modelingBot.ModelingBotPackage;
+-import org.eclipse.emf.eef.modelingBot.Processing;
+-import org.eclipse.emf.eef.modelingBot.PropertiesView;
+-import org.eclipse.emf.eef.modelingBot.Scenario;
+-import org.eclipse.emf.eef.modelingBot.Sequence;
+-import org.eclipse.emf.eef.modelingBot.SequenceType;
+-import org.eclipse.emf.eef.modelingBot.Wizard;
+-import org.eclipse.emf.eef.modelingBot.util.ModelingBotValidator;
+-
+-/**
+- * <!-- begin-user-doc -->
+- * An implementation of the model <b>Package</b>.
+- * <!-- end-user-doc -->
+- * @generated
+- */
+-public class ModelingBotPackageImpl extends EPackageImpl implements ModelingBotPackage {
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private EClass scenarioEClass = null;
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private EClass actionEClass = null;
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private EClass sequenceEClass = null;
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private EClass wizardEClass = null;
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private EClass documentedElementEClass = null;
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private EClass modelingBotEClass = null;
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private EClass detailsPageEClass = null;
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private EClass propertiesViewEClass = null;
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private EClass processingEClass = null;
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private EEnum sequenceTypeEEnum = null;
+-
+-	/**
+-	 * Creates an instance of the model <b>Package</b>, registered with
+-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+-	 * package URI value.
+-	 * <p>Note: the correct way to create the package is via the static
+-	 * factory method {@link #init init()}, which also performs
+-	 * initialization of the package, or returns the registered package,
+-	 * if one already exists.
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @see org.eclipse.emf.ecore.EPackage.Registry
+-	 * @see org.eclipse.emf.eef.modelingBot.ModelingBotPackage#eNS_URI
+-	 * @see #init()
+-	 * @generated
+-	 */
+-	private ModelingBotPackageImpl() {
+-		super(eNS_URI, ModelingBotFactory.eINSTANCE);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private static boolean isInited = false;
+-
+-	/**
+-	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
+-	 * 
+-	 * <p>This method is used to initialize {@link ModelingBotPackage#eINSTANCE} when that field is accessed.
+-	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @see #eNS_URI
+-	 * @see #createPackageContents()
+-	 * @see #initializePackageContents()
+-	 * @generated
+-	 */
+-	public static ModelingBotPackage init() {
+-		if (isInited) return (ModelingBotPackage)EPackage.Registry.INSTANCE.getEPackage(ModelingBotPackage.eNS_URI);
+-
+-		// Obtain or create and register package
+-		ModelingBotPackageImpl theModelingBotPackage = (ModelingBotPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ModelingBotPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ModelingBotPackageImpl());
+-
+-		isInited = true;
+-
+-		// Initialize simple dependencies
+-		EditorPackage.eINSTANCE.eClass();
+-		QueryPackage.eINSTANCE.eClass();
+-
+-		// Obtain or create and register interdependencies
+-		EEFActionsPackageImpl theEEFActionsPackage = (EEFActionsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(EEFActionsPackage.eNS_URI) instanceof EEFActionsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(EEFActionsPackage.eNS_URI) : EEFActionsPackage.eINSTANCE);
+-		EclipseActionsPackageImpl theEclipseActionsPackage = (EclipseActionsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(EclipseActionsPackage.eNS_URI) instanceof EclipseActionsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(EclipseActionsPackage.eNS_URI) : EclipseActionsPackage.eINSTANCE);
+-
+-		// Create package meta-data objects
+-		theModelingBotPackage.createPackageContents();
+-		theEEFActionsPackage.createPackageContents();
+-		theEclipseActionsPackage.createPackageContents();
+-
+-		// Initialize created meta-data
+-		theModelingBotPackage.initializePackageContents();
+-		theEEFActionsPackage.initializePackageContents();
+-		theEclipseActionsPackage.initializePackageContents();
+-
+-		// Register package validator
+-		EValidator.Registry.INSTANCE.put
+-			(theModelingBotPackage, 
+-			 new EValidator.Descriptor() {
+-				 public EValidator getEValidator() {
+-					 return ModelingBotValidator.INSTANCE;
+-				 }
+-			 });
+-
+-		// Mark meta-data to indicate it can't be changed
+-		theModelingBotPackage.freeze();
+-
+-  
+-		// Update the registry and return the package
+-		EPackage.Registry.INSTANCE.put(ModelingBotPackage.eNS_URI, theModelingBotPackage);
+-		return theModelingBotPackage;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EClass getScenario() {
+-		return scenarioEClass;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EClass getAction() {
+-		return actionEClass;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EClass getSequence() {
+-		return sequenceEClass;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EReference getSequence_Actions() {
+-		return (EReference)sequenceEClass.getEStructuralFeatures().get(0);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EReference getSequence_Sequences() {
+-		return (EReference)sequenceEClass.getEStructuralFeatures().get(1);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EReference getSequence_Processings() {
+-		return (EReference)sequenceEClass.getEStructuralFeatures().get(2);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EClass getWizard() {
+-		return wizardEClass;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EReference getWizard_ReferenceableObject() {
+-		return (EReference)wizardEClass.getEStructuralFeatures().get(0);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EClass getDocumentedElement() {
+-		return documentedElementEClass;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EAttribute getDocumentedElement_Name() {
+-		return (EAttribute)documentedElementEClass.getEStructuralFeatures().get(0);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EAttribute getDocumentedElement_Documentation() {
+-		return (EAttribute)documentedElementEClass.getEStructuralFeatures().get(1);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EClass getModelingBot() {
+-		return modelingBotEClass;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EReference getModelingBot_PropertiesEditionContext() {
+-		return (EReference)modelingBotEClass.getEStructuralFeatures().get(0);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EReference getModelingBot_Sequences() {
+-		return (EReference)modelingBotEClass.getEStructuralFeatures().get(1);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EClass getDetailsPage() {
+-		return detailsPageEClass;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EClass getPropertiesView() {
+-		return propertiesViewEClass;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EAttribute getPropertiesView_Id() {
+-		return (EAttribute)propertiesViewEClass.getEStructuralFeatures().get(0);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EClass getProcessing() {
+-		return processingEClass;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public EEnum getSequenceType() {
+-		return sequenceTypeEEnum;
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public ModelingBotFactory getModelingBotFactory() {
+-		return (ModelingBotFactory)getEFactoryInstance();
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private boolean isCreated = false;
+-
+-	/**
+-	 * Creates the meta-model objects for the package.  This method is
+-	 * guarded to have no affect on any invocation but its first.
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public void createPackageContents() {
+-		if (isCreated) return;
+-		isCreated = true;
+-
+-		// Create classes and their features
+-		scenarioEClass = createEClass(SCENARIO);
+-
+-		actionEClass = createEClass(ACTION);
+-
+-		sequenceEClass = createEClass(SEQUENCE);
+-		createEReference(sequenceEClass, SEQUENCE__ACTIONS);
+-		createEReference(sequenceEClass, SEQUENCE__SEQUENCES);
+-		createEReference(sequenceEClass, SEQUENCE__PROCESSINGS);
+-
+-		wizardEClass = createEClass(WIZARD);
+-		createEReference(wizardEClass, WIZARD__REFERENCEABLE_OBJECT);
+-
+-		documentedElementEClass = createEClass(DOCUMENTED_ELEMENT);
+-		createEAttribute(documentedElementEClass, DOCUMENTED_ELEMENT__NAME);
+-		createEAttribute(documentedElementEClass, DOCUMENTED_ELEMENT__DOCUMENTATION);
+-
+-		modelingBotEClass = createEClass(MODELING_BOT);
+-		createEReference(modelingBotEClass, MODELING_BOT__PROPERTIES_EDITION_CONTEXT);
+-		createEReference(modelingBotEClass, MODELING_BOT__SEQUENCES);
+-
+-		detailsPageEClass = createEClass(DETAILS_PAGE);
+-
+-		propertiesViewEClass = createEClass(PROPERTIES_VIEW);
+-		createEAttribute(propertiesViewEClass, PROPERTIES_VIEW__ID);
+-
+-		processingEClass = createEClass(PROCESSING);
+-
+-		// Create enums
+-		sequenceTypeEEnum = createEEnum(SEQUENCE_TYPE);
+-	}
+-
+-	/**
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	private boolean isInitialized = false;
+-
+-	/**
+-	 * Complete the initialization of the package and its meta-model.  This
+-	 * method is guarded to have no affect on any invocation but its first.
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	public void initializePackageContents() {
+-		if (isInitialized) return;
+-		isInitialized = true;
+-
+-		// Initialize package
+-		setName(eNAME);
+-		setNsPrefix(eNS_PREFIX);
+-		setNsURI(eNS_URI);
+-
+-		// Obtain other dependent packages
+-		EEFActionsPackage theEEFActionsPackage = (EEFActionsPackage)EPackage.Registry.INSTANCE.getEPackage(EEFActionsPackage.eNS_URI);
+-		EclipseActionsPackage theEclipseActionsPackage = (EclipseActionsPackage)EPackage.Registry.INSTANCE.getEPackage(EclipseActionsPackage.eNS_URI);
+-		EditorPackage theEditorPackage = (EditorPackage)EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI);
+-		ComponentsPackage theComponentsPackage = (ComponentsPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentsPackage.eNS_URI);
+-		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
+-
+-		// Add subpackages
+-		getESubpackages().add(theEEFActionsPackage);
+-		getESubpackages().add(theEclipseActionsPackage);
+-
+-		// Create type parameters
+-
+-		// Set bounds for type parameters
+-
+-		// Add supertypes to classes
+-		scenarioEClass.getESuperTypes().add(this.getSequence());
+-		actionEClass.getESuperTypes().add(this.getDocumentedElement());
+-		actionEClass.getESuperTypes().add(this.getProcessing());
+-		sequenceEClass.getESuperTypes().add(this.getDocumentedElement());
+-		sequenceEClass.getESuperTypes().add(this.getProcessing());
+-		wizardEClass.getESuperTypes().add(this.getSequence());
+-		detailsPageEClass.getESuperTypes().add(this.getSequence());
+-		propertiesViewEClass.getESuperTypes().add(this.getSequence());
+-
+-		// Initialize classes and features; add operations and parameters
+-		initEClass(scenarioEClass, Scenario.class, "Scenario", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+-
+-		initEClass(actionEClass, Action.class, "Action", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+-
+-		initEClass(sequenceEClass, Sequence.class, "Sequence", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+-		initEReference(getSequence_Actions(), this.getAction(), null, "actions", null, 0, -1, Sequence.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+-		initEReference(getSequence_Sequences(), this.getSequence(), null, "sequences", null, 0, -1, Sequence.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+-		initEReference(getSequence_Processings(), this.getProcessing(), null, "processings", null, 0, -1, Sequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+-
+-		initEClass(wizardEClass, Wizard.class, "Wizard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+-		initEReference(getWizard_ReferenceableObject(), theEditorPackage.getReferenceableObject(), null, "referenceableObject", null, 0, 1, Wizard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+-
+-		initEClass(documentedElementEClass, DocumentedElement.class, "DocumentedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+-		initEAttribute(getDocumentedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, DocumentedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+-		initEAttribute(getDocumentedElement_Documentation(), ecorePackage.getEString(), "documentation", null, 0, 1, DocumentedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+-
+-		initEClass(modelingBotEClass, ModelingBot.class, "ModelingBot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+-		initEReference(getModelingBot_PropertiesEditionContext(), theComponentsPackage.getPropertiesEditionContext(), null, "propertiesEditionContext", null, 0, 1, ModelingBot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+-		initEReference(getModelingBot_Sequences(), this.getSequence(), null, "sequences", null, 0, -1, ModelingBot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+-
+-		initEClass(detailsPageEClass, DetailsPage.class, "DetailsPage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+-
+-		initEClass(propertiesViewEClass, PropertiesView.class, "PropertiesView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+-		initEAttribute(getPropertiesView_Id(), theEcorePackage.getEString(), "id", null, 0, 1, PropertiesView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+-
+-		initEClass(processingEClass, Processing.class, "Processing", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+-
+-		// Initialize enums and add enum literals
+-		initEEnum(sequenceTypeEEnum, SequenceType.class, "SequenceType");
+-		addEEnumLiteral(sequenceTypeEEnum, SequenceType.DETAILS_PAGE);
+-		addEEnumLiteral(sequenceTypeEEnum, SequenceType.WIZARD);
+-		addEEnumLiteral(sequenceTypeEEnum, SequenceType.PROPERTIES_VIEW);
+-
+-		// Create resource
+-		createResource(eNS_URI);
+-
+-		// Create annotations
+-		// http://www.eclipse.org/emf/2002/Ecore
+-		createEcoreAnnotations();
+-	}
+-
+-	/**
+-	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
+-	 * <!-- begin-user-doc -->
+-	 * <!-- end-user-doc -->
+-	 * @generated
+-	 */
+-	protected void createEcoreAnnotations() {
+-		String source = "http://www.eclipse.org/emf/2002/Ecore";		
+-		addAnnotation
+-		  (modelingBotEClass, 
+-		   source, 
+-		   new String[] {
+-			 "constraints", "JavaTestExistsConstraint"
+-		   },
+-		   new URI[] {
+-			 URI.createURI(eNS_URI).appendFragment("//ModelingBot")
+-		   });
+-	}
+-
+-} //ModelingBotPackageImpl
++/*******************************************************************************
++ * Copyright (c) 2008, 2011 Obeo.
++ * All rights reserved. This program and the accompanying materials
++ * are made available under the terms of the Eclipse Public License v1.0
++ * which accompanies this distribution, and is available at
++ * http://www.eclipse.org/legal/epl-v10.html
++ *
++ * Contributors:
++ *     Obeo - initial API and implementation
++ *******************************************************************************/
++package org.eclipse.emf.eef.modelingBot.impl;
++
++import org.eclipse.emf.common.util.URI;
++import org.eclipse.emf.ecore.EAttribute;
++import org.eclipse.emf.ecore.EClass;
++import org.eclipse.emf.ecore.EEnum;
++import org.eclipse.emf.ecore.EPackage;
++import org.eclipse.emf.ecore.EReference;
++
++import org.eclipse.emf.ecore.EValidator;
++import org.eclipse.emf.ecore.EcorePackage;
++import org.eclipse.emf.ecore.impl.EPackageImpl;
++
++import org.eclipse.emf.eef.components.ComponentsPackage;
++
++import org.eclipse.emf.eef.extended.editor.EditorPackage;
++
++import org.eclipse.emf.eef.extended.query.QueryPackage;
++
++import org.eclipse.emf.eef.modelingBot.Action;
++import org.eclipse.emf.eef.modelingBot.DetailsPage;
++import org.eclipse.emf.eef.modelingBot.DocumentedElement;
++
++import org.eclipse.emf.eef.modelingBot.EEFActions.EEFActionsPackage;
++
++import org.eclipse.emf.eef.modelingBot.EEFActions.impl.EEFActionsPackageImpl;
++
++import org.eclipse.emf.eef.modelingBot.EclipseActions.EclipseActionsPackage;
++
++import org.eclipse.emf.eef.modelingBot.EclipseActions.impl.EclipseActionsPackageImpl;
++
++import org.eclipse.emf.eef.modelingBot.ModelingBot;
++import org.eclipse.emf.eef.modelingBot.ModelingBotFactory;
++import org.eclipse.emf.eef.modelingBot.ModelingBotPackage;
++import org.eclipse.emf.eef.modelingBot.Processing;
++import org.eclipse.emf.eef.modelingBot.PropertiesView;
++import org.eclipse.emf.eef.modelingBot.Scenario;
++import org.eclipse.emf.eef.modelingBot.Sequence;
++import org.eclipse.emf.eef.modelingBot.SequenceType;
++import org.eclipse.emf.eef.modelingBot.Wizard;
++import org.eclipse.emf.eef.modelingBot.util.ModelingBotValidator;
++
++/**
++ * <!-- begin-user-doc -->
++ * An implementation of the model <b>Package</b>.
++ * <!-- end-user-doc -->
++ * @generated
++ */
++public class ModelingBotPackageImpl extends EPackageImpl implements ModelingBotPackage {
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private EClass scenarioEClass = null;
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private EClass actionEClass = null;
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private EClass sequenceEClass = null;
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private EClass wizardEClass = null;
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private EClass documentedElementEClass = null;
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private EClass modelingBotEClass = null;
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private EClass detailsPageEClass = null;
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private EClass propertiesViewEClass = null;
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private EClass processingEClass = null;
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private EEnum sequenceTypeEEnum = null;
++
++	/**
++	 * Creates an instance of the model <b>Package</b>, registered with
++	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
++	 * package URI value.
++	 * <p>Note: the correct way to create the package is via the static
++	 * factory method {@link #init init()}, which also performs
++	 * initialization of the package, or returns the registered package,
++	 * if one already exists.
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @see org.eclipse.emf.ecore.EPackage.Registry
++	 * @see org.eclipse.emf.eef.modelingBot.ModelingBotPackage#eNS_URI
++	 * @see #init()
++	 * @generated
++	 */
++	private ModelingBotPackageImpl() {
++		super(eNS_URI, ModelingBotFactory.eINSTANCE);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private static boolean isInited = false;
++
++	/**
++	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
++	 * 
++	 * <p>This method is used to initialize {@link ModelingBotPackage#eINSTANCE} when that field is accessed.
++	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @see #eNS_URI
++	 * @see #createPackageContents()
++	 * @see #initializePackageContents()
++	 * @generated
++	 */
++	public static ModelingBotPackage init() {
++		if (isInited) return (ModelingBotPackage)EPackage.Registry.INSTANCE.getEPackage(ModelingBotPackage.eNS_URI);
++
++		// Obtain or create and register package
++		ModelingBotPackageImpl theModelingBotPackage = (ModelingBotPackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ModelingBotPackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ModelingBotPackageImpl());
++
++		isInited = true;
++
++		// Initialize simple dependencies
++		EditorPackage.eINSTANCE.eClass();
++		QueryPackage.eINSTANCE.eClass();
++
++		// Obtain or create and register interdependencies
++		EEFActionsPackageImpl theEEFActionsPackage = (EEFActionsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(EEFActionsPackage.eNS_URI) instanceof EEFActionsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(EEFActionsPackage.eNS_URI) : EEFActionsPackage.eINSTANCE);
++		EclipseActionsPackageImpl theEclipseActionsPackage = (EclipseActionsPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(EclipseActionsPackage.eNS_URI) instanceof EclipseActionsPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(EclipseActionsPackage.eNS_URI) : EclipseActionsPackage.eINSTANCE);
++
++		// Create package meta-data objects
++		theModelingBotPackage.createPackageContents();
++		theEEFActionsPackage.createPackageContents();
++		theEclipseActionsPackage.createPackageContents();
++
++		// Initialize created meta-data
++		theModelingBotPackage.initializePackageContents();
++		theEEFActionsPackage.initializePackageContents();
++		theEclipseActionsPackage.initializePackageContents();
++
++		// Register package validator
++		EValidator.Registry.INSTANCE.put
++			(theModelingBotPackage, 
++			 new EValidator.Descriptor() {
++				 public EValidator getEValidator() {
++					 return ModelingBotValidator.INSTANCE;
++				 }
++			 });
++
++		// Mark meta-data to indicate it can't be changed
++		theModelingBotPackage.freeze();
++
++  
++		// Update the registry and return the package
++		EPackage.Registry.INSTANCE.put(ModelingBotPackage.eNS_URI, theModelingBotPackage);
++		return theModelingBotPackage;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EClass getScenario() {
++		return scenarioEClass;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EClass getAction() {
++		return actionEClass;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EClass getSequence() {
++		return sequenceEClass;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EReference getSequence_Actions() {
++		return (EReference)sequenceEClass.getEStructuralFeatures().get(0);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EReference getSequence_Sequences() {
++		return (EReference)sequenceEClass.getEStructuralFeatures().get(1);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EReference getSequence_Processings() {
++		return (EReference)sequenceEClass.getEStructuralFeatures().get(2);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EClass getWizard() {
++		return wizardEClass;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EReference getWizard_ReferenceableObject() {
++		return (EReference)wizardEClass.getEStructuralFeatures().get(0);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EClass getDocumentedElement() {
++		return documentedElementEClass;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EAttribute getDocumentedElement_Name() {
++		return (EAttribute)documentedElementEClass.getEStructuralFeatures().get(0);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EAttribute getDocumentedElement_Documentation() {
++		return (EAttribute)documentedElementEClass.getEStructuralFeatures().get(1);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EClass getModelingBot() {
++		return modelingBotEClass;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EReference getModelingBot_PropertiesEditionContext() {
++		return (EReference)modelingBotEClass.getEStructuralFeatures().get(0);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EReference getModelingBot_Sequences() {
++		return (EReference)modelingBotEClass.getEStructuralFeatures().get(1);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EClass getDetailsPage() {
++		return detailsPageEClass;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EClass getPropertiesView() {
++		return propertiesViewEClass;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EAttribute getPropertiesView_Id() {
++		return (EAttribute)propertiesViewEClass.getEStructuralFeatures().get(0);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EClass getProcessing() {
++		return processingEClass;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public EEnum getSequenceType() {
++		return sequenceTypeEEnum;
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public ModelingBotFactory getModelingBotFactory() {
++		return (ModelingBotFactory)getEFactoryInstance();
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private boolean isCreated = false;
++
++	/**
++	 * Creates the meta-model objects for the package.  This method is
++	 * guarded to have no affect on any invocation but its first.
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public void createPackageContents() {
++		if (isCreated) return;
++		isCreated = true;
++
++		// Create classes and their features
++		scenarioEClass = createEClass(SCENARIO);
++
++		actionEClass = createEClass(ACTION);
++
++		sequenceEClass = createEClass(SEQUENCE);
++		createEReference(sequenceEClass, SEQUENCE__ACTIONS);
++		createEReference(sequenceEClass, SEQUENCE__SEQUENCES);
++		createEReference(sequenceEClass, SEQUENCE__PROCESSINGS);
++
++		wizardEClass = createEClass(WIZARD);
++		createEReference(wizardEClass, WIZARD__REFERENCEABLE_OBJECT);
++
++		documentedElementEClass = createEClass(DOCUMENTED_ELEMENT);
++		createEAttribute(documentedElementEClass, DOCUMENTED_ELEMENT__NAME);
++		createEAttribute(documentedElementEClass, DOCUMENTED_ELEMENT__DOCUMENTATION);
++
++		modelingBotEClass = createEClass(MODELING_BOT);
++		createEReference(modelingBotEClass, MODELING_BOT__PROPERTIES_EDITION_CONTEXT);
++		createEReference(modelingBotEClass, MODELING_BOT__SEQUENCES);
++
++		detailsPageEClass = createEClass(DETAILS_PAGE);
++
++		propertiesViewEClass = createEClass(PROPERTIES_VIEW);
++		createEAttribute(propertiesViewEClass, PROPERTIES_VIEW__ID);
++
++		processingEClass = createEClass(PROCESSING);
++
++		// Create enums
++		sequenceTypeEEnum = createEEnum(SEQUENCE_TYPE);
++	}
++
++	/**
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	private boolean isInitialized = false;
++
++	/**
++	 * Complete the initialization of the package and its meta-model.  This
++	 * method is guarded to have no affect on any invocation but its first.
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	public void initializePackageContents() {
++		if (isInitialized) return;
++		isInitialized = true;
++
++		// Initialize package
++		setName(eNAME);
++		setNsPrefix(eNS_PREFIX);
++		setNsURI(eNS_URI);
++
++		// Obtain other dependent packages
++		EEFActionsPackage theEEFActionsPackage = (EEFActionsPackage)EPackage.Registry.INSTANCE.getEPackage(EEFActionsPackage.eNS_URI);
++		EclipseActionsPackage theEclipseActionsPackage = (EclipseActionsPackage)EPackage.Registry.INSTANCE.getEPackage(EclipseActionsPackage.eNS_URI);
++		EditorPackage theEditorPackage = (EditorPackage)EPackage.Registry.INSTANCE.getEPackage(EditorPackage.eNS_URI);
++		ComponentsPackage theComponentsPackage = (ComponentsPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentsPackage.eNS_URI);
++		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
++
++		// Add subpackages
++		getESubpackages().add(theEEFActionsPackage);
++		getESubpackages().add(theEclipseActionsPackage);
++
++		// Create type parameters
++
++		// Set bounds for type parameters
++
++		// Add supertypes to classes
++		scenarioEClass.getESuperTypes().add(this.getSequence());
++		actionEClass.getESuperTypes().add(this.getDocumentedElement());
++		actionEClass.getESuperTypes().add(this.getProcessing());
++		sequenceEClass.getESuperTypes().add(this.getDocumentedElement());
++		sequenceEClass.getESuperTypes().add(this.getProcessing());
++		wizardEClass.getESuperTypes().add(this.getSequence());
++		detailsPageEClass.getESuperTypes().add(this.getSequence());
++		propertiesViewEClass.getESuperTypes().add(this.getSequence());
++
++		// Initialize classes and features; add operations and parameters
++		initEClass(scenarioEClass, Scenario.class, "Scenario", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++
++		initEClass(actionEClass, Action.class, "Action", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++
++		initEClass(sequenceEClass, Sequence.class, "Sequence", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++		initEReference(getSequence_Actions(), this.getAction(), null, "actions", null, 0, -1, Sequence.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
++		initEReference(getSequence_Sequences(), this.getSequence(), null, "sequences", null, 0, -1, Sequence.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
++		initEReference(getSequence_Processings(), this.getProcessing(), null, "processings", null, 0, -1, Sequence.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
++
++		initEClass(wizardEClass, Wizard.class, "Wizard", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++		initEReference(getWizard_ReferenceableObject(), theEditorPackage.getReferenceableObject(), null, "referenceableObject", null, 0, 1, Wizard.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
++
++		initEClass(documentedElementEClass, DocumentedElement.class, "DocumentedElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++		initEAttribute(getDocumentedElement_Name(), ecorePackage.getEString(), "name", null, 0, 1, DocumentedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
++		initEAttribute(getDocumentedElement_Documentation(), ecorePackage.getEString(), "documentation", null, 0, 1, DocumentedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
++
++		initEClass(modelingBotEClass, ModelingBot.class, "ModelingBot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++		initEReference(getModelingBot_PropertiesEditionContext(), theComponentsPackage.getPropertiesEditionContext(), null, "propertiesEditionContext", null, 0, 1, ModelingBot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
++		initEReference(getModelingBot_Sequences(), this.getSequence(), null, "sequences", null, 0, -1, ModelingBot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
++
++		initEClass(detailsPageEClass, DetailsPage.class, "DetailsPage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++
++		initEClass(propertiesViewEClass, PropertiesView.class, "PropertiesView", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++		initEAttribute(getPropertiesView_Id(), theEcorePackage.getEString(), "id", null, 0, 1, PropertiesView.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
++
++		initEClass(processingEClass, Processing.class, "Processing", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
++
++		// Initialize enums and add enum literals
++		initEEnum(sequenceTypeEEnum, SequenceType.class, "SequenceType");
++		addEEnumLiteral(sequenceTypeEEnum, SequenceType.DETAILS_PAGE);
++		addEEnumLiteral(sequenceTypeEEnum, SequenceType.WIZARD);
++		addEEnumLiteral(sequenceTypeEEnum, SequenceType.PROPERTIES_VIEW);
++
++		// Create resource
++		createResource(eNS_URI);
++
++		// Create annotations
++		// http://www.eclipse.org/emf/2002/Ecore
++		createEcoreAnnotations();
++	}
++
++	/**
++	 * Initializes the annotations for <b>http://www.eclipse.org/emf/2002/Ecore</b>.
++	 * <!-- begin-user-doc -->
++	 * <!-- end-user-doc -->
++	 * @generated
++	 */
++	protected void createEcoreAnnotations() {
++		String source = "http://www.eclipse.org/emf/2002/Ecore";		
++		addAnnotation
++		  (scenarioEClass, 
++		   source, 
++		   new String[] {
++			 "constraints", "JavaTestExistsForScenarioConstraint"
++		   },
++		   new URI[] {
++			 URI.createURI(eNS_URI).appendFragment("//Scenario")
++		   });		
++		addAnnotation
++		  (modelingBotEClass, 
++		   source, 
++		   new String[] {
++			 "constraints", "JavaTestExistsConstraint"
++		   },
++		   new URI[] {
++			 URI.createURI(eNS_URI).appendFragment("//ModelingBot")
++		   });
++	}
++
++} //ModelingBotPackageImpl
+diff --git a/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/util/ModelingBotValidator.java b/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/util/ModelingBotValidator.java
+index 717c561..01ffda8 100644
+--- a/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/util/ModelingBotValidator.java
++++ b/plugins/org.eclipse.emf.eef.modelingbot/src-gen/org/eclipse/emf/eef/modelingBot/util/ModelingBotValidator.java
+@@ -20,6 +20,7 @@
+ import org.eclipse.emf.eef.modelingBot.Sequence;
+ import org.eclipse.emf.eef.modelingBot.SequenceType;
+ import org.eclipse.emf.eef.modelingBot.Wizard;
++import org.eclipse.emf.eef.modelingBot.validation.ModelingBotValidationUtils;
+ 
+ /**
+  * <!-- begin-user-doc --> The <b>Validator</b> for the model. <!-- end-user-doc -->
+@@ -123,7 +124,44 @@
+ 	 */
+ 	public boolean validateScenario(Scenario scenario, DiagnosticChain diagnostics,
+ 			Map<Object, Object> context) {
+-		return validate_EveryDefaultConstraint(scenario, diagnostics, context);
++		if (!validate_NoCircularContainment(scenario, diagnostics, context))
++			return false;
++		boolean result = validate_EveryMultiplicityConforms(scenario, diagnostics, context);
++		if (result || diagnostics != null)
++			result &= validate_EveryDataValueConforms(scenario, diagnostics, context);
++		if (result || diagnostics != null)
++			result &= validate_EveryReferenceIsContained(scenario, diagnostics, context);
++		if (result || diagnostics != null)
++			result &= validate_EveryProxyResolves(scenario, diagnostics, context);
++		if (result || diagnostics != null)
++			result &= validate_UniqueID(scenario, diagnostics, context);
++		if (result || diagnostics != null)
++			result &= validate_EveryKeyUnique(scenario, diagnostics, context);
++		if (result || diagnostics != null)
++			result &= validate_EveryMapEntryUnique(scenario, diagnostics, context);
++		if (result || diagnostics != null)
++			result &= validateScenario_JavaTestExistsForScenarioConstraint(scenario, diagnostics, context);
++		return result;
++	}
++
++	/**
++	 * Validates the JavaTestExistsForScenarioConstraint constraint of '<em>Scenario</em>'. <!--
++	 * begin-user-doc --> <!-- end-user-doc -->
++	 * 
++	 * @generated NOT
++	 */
++	public boolean validateScenario_JavaTestExistsForScenarioConstraint(Scenario scenario,
++			DiagnosticChain diagnostics, Map<Object, Object> context) {
++		if (diagnostics != null) {
++			if (!ModelingBotValidationUtils.isAssociatedToTest(scenario)) {
++				diagnostics.add(createDiagnostic(Diagnostic.ERROR, DIAGNOSTIC_SOURCE, 0,
++						"_UI_GenericConstraint_diagnostic", new Object[] {"JavaTestExistsConstraint",
++								getObjectLabel(scenario, context)
++						}, new Object[] {scenario
++						}, context));
++			}
++		}
++		return true;
+ 	}
+ 
+ 	/**
+diff --git a/plugins/org.eclipse.emf.eef.modelingbot/src/org/eclipse/emf/eef/modelingBot/validation/ModelingBotValidationUtils.java b/plugins/org.eclipse.emf.eef.modelingbot/src/org/eclipse/emf/eef/modelingBot/validation/ModelingBotValidationUtils.java
+new file mode 100644
+index 0000000..a48e67c
+--- /dev/null
++++ b/plugins/org.eclipse.emf.eef.modelingbot/src/org/eclipse/emf/eef/modelingBot/validation/ModelingBotValidationUtils.java
+@@ -0,0 +1,76 @@
++/*******************************************************************************
++ * Copyright (c) 2010, 2011 Obeo.
++ * All rights reserved. This program and the accompanying materials
++ * are made available under the terms of the Eclipse Public License v1.0
++ * which accompanies this distribution, and is available at
++ * http://www.eclipse.org/legal/epl-v10.html
++ * 
++ * Contributors:
++ *     Obeo - initial API and implementation
++ *******************************************************************************/
++package org.eclipse.emf.eef.modelingBot.validation;
++
++import org.eclipse.core.resources.IProject;
++import org.eclipse.core.resources.ResourcesPlugin;
++import org.eclipse.emf.common.util.URI;
++import org.eclipse.emf.ecore.EObject;
++import org.eclipse.emf.ecore.util.EcoreUtil;
++import org.eclipse.emf.eef.modelingBot.Scenario;
++
++/**
++ * Utility class providing facilities for validating ModelingBot elements.
++ * 
++ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
++ */
++public class ModelingBotValidationUtils {
++
++	/**
++	 * Indicates whether a junit test corresponding to the given element exists.
++	 * 
++	 * @param element
++	 *            the element to test (a Scenario or a ModelingBot)
++	 * @return true if a junit tests corresponding to the given element exists, false otherwise
++	 */
++	public static boolean isAssociatedToTest(EObject element) {
++		boolean isAssociatedToTest = true;
++		URI uri = EcoreUtil.getURI(element);
++		if (element instanceof Scenario) {
++			isAssociatedToTest = false;
++			String projectName = getProjectName(uri);
++			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
++			String expectedPath = getExpectedPath(project, (Scenario)element);
++			return project.getFile(expectedPath).exists();
++		}
++		return isAssociatedToTest;
++	}
++
++	/**
++	 * Returns the relative path (from the project) that indicates where should be located the junit test of
++	 * the given scenario.
++	 * 
++	 * @param project
++	 *            the project helding the scenario
++	 * @param scenario
++	 *            the scenario to query
++	 * @return the relative path (from the project) that indicates where should be located the junit test of
++	 *         the given scenario
++	 */
++	public static String getExpectedPath(IProject project, Scenario scenario) {
++		if (project.exists()) {
++			return "src/" + project.getName().replace(".", "/") + "/scenarios/"
++					+ scenario.getName().trim().replace(" ", "_") + "Test.java";
++		}
++		return null;
++	}
++
++	/**
++	 * Extracts the project name from the given element {@link URI}.
++	 * 
++	 * @param elementURI
++	 *            the element {@link URI}
++	 * @return the project name from the given element {@link URI}
++	 */
++	public static String getProjectName(URI elementURI) {
++		return elementURI.toString().replace("platform:/resource/", "").replace("intent:/", "").split("/")[0];
++	}
++}
+diff --git a/tests/org.eclipse.emf.eef.tests.nonreg.junit/.project b/tests/org.eclipse.emf.eef.tests.nonreg.junit/.project
+index f56548a..54d5de5 100644
+--- a/tests/org.eclipse.emf.eef.tests.nonreg.junit/.project
++++ b/tests/org.eclipse.emf.eef.tests.nonreg.junit/.project
+@@ -1,28 +1,34 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<projectDescription>
+-	<name>org.eclipse.emf.eef.tests.nonreg.junit</name>
+-	<comment></comment>
+-	<projects>
+-	</projects>
+-	<buildSpec>
+-		<buildCommand>
+-			<name>org.eclipse.jdt.core.javabuilder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-		<buildCommand>
+-			<name>org.eclipse.pde.ManifestBuilder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-		<buildCommand>
+-			<name>org.eclipse.pde.SchemaBuilder</name>
+-			<arguments>
+-			</arguments>
+-		</buildCommand>
+-	</buildSpec>
+-	<natures>
+-		<nature>org.eclipse.jdt.core.javanature</nature>
+-		<nature>org.eclipse.pde.PluginNature</nature>
+-	</natures>
+-</projectDescription>
++<?xml version="1.0" encoding="UTF-8"?>
++<projectDescription>
++	<name>org.eclipse.emf.eef.tests.nonreg.junit</name>
++	<comment></comment>
++	<projects>
++	</projects>
++	<buildSpec>
++		<buildCommand>
++			<name>org.eclipse.jdt.core.javabuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.pde.ManifestBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.pde.SchemaBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++		<buildCommand>
++			<name>org.eclipse.xtext.ui.shared.xtextBuilder</name>
++			<arguments>
++			</arguments>
++		</buildCommand>
++	</buildSpec>
++	<natures>
++		<nature>org.eclipse.jdt.core.javanature</nature>
++		<nature>org.eclipse.pde.PluginNature</nature>
++		<nature>org.eclipse.xtext.ui.shared.xtextNature</nature>
++	</natures>
++</projectDescription>
+diff --git a/tests/org.eclipse.emf.eef.tests.nonreg.junit/src-mbot/org/eclipse/emf/eef/tests/nonreg/idoc/ComposedMBotAddAdvTableCompoOnAbstractRef.java b/tests/org.eclipse.emf.eef.tests.nonreg.junit/src-mbot/org/eclipse/emf/eef/tests/nonreg/idoc/ComposedMBotAddAdvTableCompoOnAbstractRef.java
+new file mode 100644
+index 0000000..d5e14d9
+--- /dev/null
++++ b/tests/org.eclipse.emf.eef.tests.nonreg.junit/src-mbot/org/eclipse/emf/eef/tests/nonreg/idoc/ComposedMBotAddAdvTableCompoOnAbstractRef.java
+@@ -0,0 +1,24 @@
++/*******************************************************************************
++ * Copyright (c) 2011, 2012 Obeo.
++ * All rights reserved. This program and the accompanying materials
++ * are made available under the terms of the Eclipse Public License v1.0
++ * which accompanies this distribution, and is available at
++ * http://www.eclipse.org/legal/epl-v10.html
++ *
++ * Contributors:
++ *     Obeo - initial API and implementation
++ *******************************************************************************/
++package org.eclipse.emf.eef.tests.nonreg.idoc;
++
++/**
++ * @author arichard
++ */
++public class ComposedMBotAddAdvTableCompoOnAbstractRef extends org.eclipse.emf.eef.modelingBot.testcase.AbstractComposedModelingBotTestCase {
++
++	public void testModelingBot() throws Exception {
++		bot.runModelingBot("intent:/org.eclipse.emf.eef.scenario.idoc/scenario1.modelingbot");
++	}
++	
++	
++
++}

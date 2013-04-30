@@ -5,7 +5,7 @@ Resource IntentDocument {
 	content += IntentDocumentPackage;
 }
 new EPackage IntentDocumentPackage {
-	nsURI = "http://www.eclipse.org/intent/intentdocument/0.7";
+	nsURI = "http://www.eclipse.org/intent/intentdocument/0.8";
 	nsPrefix = "IntentDocument";
 }
 M@

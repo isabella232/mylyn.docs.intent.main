@@ -13,7 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.outline;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
 import org.eclipse.ui.dialogs.PatternFilter;
 
 /**

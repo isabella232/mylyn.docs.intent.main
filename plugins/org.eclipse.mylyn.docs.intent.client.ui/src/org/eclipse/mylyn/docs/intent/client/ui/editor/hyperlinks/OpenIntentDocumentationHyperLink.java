@@ -15,7 +15,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
-import org.eclipse.mylyn.docs.intent.core.genericunit.IntentReferenceInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.IntentReferenceInstruction;
 
 /**
  * This implementation of an hyperlink allows for the opening of Intent elements declarations.

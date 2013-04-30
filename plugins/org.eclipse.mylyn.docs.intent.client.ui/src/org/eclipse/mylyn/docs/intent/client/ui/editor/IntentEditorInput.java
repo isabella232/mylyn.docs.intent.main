@@ -28,9 +28,9 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.query.DescriptionUnitHelper;
 import org.eclipse.mylyn.docs.intent.core.query.StructuredElementHelper;
@@ -110,9 +110,9 @@ public class IntentEditorInput extends URIEditorInput {
 	public String getTitleFromElement(RepositoryAdapter adapter, EObject newElement) {
 		String newTitle = "";
 		if (newElement instanceof ModelingUnit) {
-			newTitle = ((ModelingUnit)newElement).getUnitName();
+			newTitle = ((ModelingUnit)newElement).getName();
 			if ((newTitle == null) || (newTitle.length() < 1)) {
-				newTitle = "Untitled ModelingUnit";
+				newTitle = "ModelingUnit";
 			}
 		}
 		if (newElement instanceof DescriptionUnit) {

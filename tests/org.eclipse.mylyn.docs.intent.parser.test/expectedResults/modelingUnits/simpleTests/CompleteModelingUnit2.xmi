@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="ASCII"?>
-<intentMU:ModelingUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.7" unitName="completeModelingUnit2">
-  <instructions xmi:type="intentMU:LabelinModelingUnit" lineBreak="true" labelValue="&quot;myA&quot;" textToPrint="&quot;instance representative de la classe A&quot;"/>
+<intentMU:ModelingUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.8" name="completeModelingUnit2">
+  <instructions xmi:type="intentMU:LabelInModelingUnit" lineBreak="true" labelValue="&quot;myA&quot;" textToPrint="&quot;instance representative de la classe A&quot;"/>
   <instructions xmi:type="intentMU:InstanciationInstruction" lineBreak="true" name="myA">
     <metaType typeName="A"/>
     <structuralFeatures lineBreak="true" name="myAttMulti">
-      <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;val2&quot;"/>
+      <values xmi:type="intentMU:NativeValue" value="&quot;val2&quot;"/>
     </structuralFeatures>
     <structuralFeatures lineBreak="true" name="myAtt0">
-      <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;bAtt&quot;"/>
+      <values xmi:type="intentMU:NativeValue" value="&quot;bAtt&quot;"/>
     </structuralFeatures>
   </instructions>
-  <instructions xmi:type="intentMU:LabelinModelingUnit" lineBreak="true" labelValue="&quot;myB&quot;" type="EXPLICIT"/>
+  <instructions xmi:type="intentMU:LabelInModelingUnit" lineBreak="true" labelValue="&quot;myB&quot;" type="EXPLICIT"/>
   <instructions xmi:type="intentMU:InstanciationInstruction" lineBreak="true" name="myB">
     <metaType typeName="B"/>
     <structuralFeatures lineBreak="true" name="myAtt1">
-      <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;41&quot;"/>
+      <values xmi:type="intentMU:NativeValue" value="&quot;41&quot;"/>
     </structuralFeatures>
     <structuralFeatures lineBreak="true" name="myAtt2">
-      <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+      <values xmi:type="intentMU:NewObjectValue">
         <value>
           <metaType typeName="B"/>
           <structuralFeatures lineBreak="true" name="myAtt0">
-            <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;okAtt&quot;"/>
+            <values xmi:type="intentMU:NativeValue" value="&quot;okAtt&quot;"/>
           </structuralFeatures>
         </value>
       </values>
     </structuralFeatures>
     <structuralFeatures lineBreak="true" name="myAtt3">
-      <values xmi:type="intentMU:ReferenceValueForStructuralFeature">
+      <values xmi:type="intentMU:ReferenceValue">
         <instanciationReference instanceName="myB"/>
       </values>
     </structuralFeatures>
   </instructions>
-  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="Mysection where I have defined by B"/>
-  <instructions xmi:type="intentMU:IntentReferenceinModelingUnit" lineBreak="true" intentHref="Another Section" textToPrint="reasons for separation of concerns"/>
+  <instructions xmi:type="intentMU:IntentReferenceInModelingUnit" lineBreak="true" intentHref="Mysection where I have defined by B"/>
+  <instructions xmi:type="intentMU:IntentReferenceInModelingUnit" lineBreak="true" intentHref="Another Section" textToPrint="reasons for separation of concerns"/>
   <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="ContributionInstruction?" referencedElement="//@instructions.7" annotationID="associateBashFileID">
     <map key="bashFile" value="&quot;bashFile1&quot;"/>
     <map key="mode" value="&quot;superAdmin&quot;"/>
@@ -41,22 +41,21 @@
   <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">
     <contributionReference intentHref="myB"/>
     <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="myAttCompleted">
-      <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;that's all folks!&quot;"/>
+      <values xmi:type="intentMU:NativeValue" value="&quot;that's all folks!&quot;"/>
     </contributions>
     <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="myAtt2">
-      <values xmi:type="intentMU:NewObjectValueForStructuralFeature">
+      <values xmi:type="intentMU:NewObjectValue">
         <value>
           <metaType typeName="C"/>
           <structuralFeatures lineBreak="true" name="myAtt0">
-            <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;okAtt&quot;"/>
+            <values xmi:type="intentMU:NativeValue" value="&quot;okAtt&quot;"/>
           </structuralFeatures>
         </value>
       </values>
     </contributions>
     <contributions xmi:type="intentMU:StructuralFeatureAffectation" lineBreak="true" name="myAttCompleted" usedOperator="MULTI_VALUED_AFFECTATION">
-      <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;that's all folks!&quot;"/>
-      <values xmi:type="intentMU:NativeValueForStructuralFeature" value="&quot;ok&quot;"/>
+      <values xmi:type="intentMU:NativeValue" value="&quot;that's all folks!&quot;"/>
+      <values xmi:type="intentMU:NativeValue" value="&quot;ok&quot;"/>
     </contributions>
   </instructions>
-  <resource resourceName="myResource2" lineBreak="true"/>
 </intentMU:ModelingUnit>

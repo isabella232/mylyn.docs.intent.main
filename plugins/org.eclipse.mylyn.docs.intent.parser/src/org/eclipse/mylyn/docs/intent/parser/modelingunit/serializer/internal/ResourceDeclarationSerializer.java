@@ -53,7 +53,8 @@ public final class ResourceDeclarationSerializer {
 
 		if (resourceDeclaration.getUri() != null) {
 			renderedForm.append("URI" + ModelingUnitSerializer.WHITESPACE + "="
-					+ ModelingUnitSerializer.WHITESPACE + resourceDeclaration.getUri() + ';'
+					+ ModelingUnitSerializer.WHITESPACE + ModelingUnitSerializer.QUOTE
+					+ resourceDeclaration.getUri() + ModelingUnitSerializer.QUOTE + ';'
 					+ ModelingUnitSerializer.LINE_BREAK);
 		}
 

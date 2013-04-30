@@ -32,12 +32,9 @@ import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceServi
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionBloc;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
-import org.eclipse.mylyn.docs.intent.core.document.IntentChapter;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
-import org.eclipse.mylyn.docs.intent.core.document.IntentSubSectionContainer;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionBloc;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.ExternalContentReferencesMergeUpdater;
 import org.eclipse.mylyn.docs.intent.modelingunit.update.MergeUpdater;
@@ -103,8 +100,7 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 			}
 
 			// get parent in which element will be created
-			while (parent != null
-					&& !(parent instanceof ModelingUnit || parent instanceof IntentSubSectionContainer || parent instanceof IntentDocument)) {
+			while (parent != null && !(parent instanceof ModelingUnit || parent instanceof IntentSection)) {
 				parent = parent.eContainer();
 			}
 
@@ -188,10 +184,6 @@ public class IntentEditorDropSupport extends DropTargetAdapter {
 			updater.create((ModelingUnit)parent, sibling, droppedEObjects);
 		} else if (parent instanceof IntentSection) {
 			updater.create((IntentSection)parent, sibling, droppedEObjects);
-		} else if (parent instanceof IntentDocument) {
-			updater.create((IntentDocument)parent, sibling, droppedEObjects);
-		} else if (parent instanceof IntentChapter) {
-			updater.create((IntentChapter)parent, sibling, droppedEObjects);
 		} else {
 			IntentLogger.getInstance().log(LogType.ERROR,
 					"Can't drop external references in this container:" + parent);

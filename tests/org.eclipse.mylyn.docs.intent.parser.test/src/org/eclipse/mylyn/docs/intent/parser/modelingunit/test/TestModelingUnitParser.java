@@ -161,14 +161,6 @@ public class TestModelingUnitParser {
 		parseAndCompareToExpected("resourcesRelatedTest/resourceDeclaration", true);
 	}
 
-	/**
-	 * Test which purpose is to test the correct parsing of resource references.
-	 */
-	@Test
-	public void resourceLink() {
-		parseAndCompareToExpected("resourcesRelatedTest/resourceReference", true);
-	}
-
 	/* Parsings supposed to fail */
 
 	/**

@@ -11,15 +11,15 @@
 package org.eclipse.mylyn.docs.intent.serializer.descriptionunit;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitInstruction;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnitInstruction;
 import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
 import org.eclipse.mylyn.docs.intent.markup.serializer.WikiTextSerializer;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.internal.DescriptionUnitElementsDispatcher;
-import org.eclipse.mylyn.docs.intent.serializer.genericunit.GenericUnitSerializer;
+import org.eclipse.mylyn.docs.intent.serializer.internal.IntentDocumentSerializerSwitch;
 
 /**
  * Serializer for Description Units.
@@ -42,7 +42,7 @@ public class DescriptionUnitSerializer {
 	 * The Generic Unit dispatcher that handles all the generic unit common elements (like labels or
 	 * references).
 	 */
-	private GenericUnitSerializer genericDispatcher;
+	private IntentDocumentSerializerSwitch genericDispatcher;
 
 	/**
 	 * The position manager.
@@ -56,11 +56,14 @@ public class DescriptionUnitSerializer {
 
 	/**
 	 * DescriptionUnitSerializer constructor.
+	 * 
+	 * @param genericSerializer
+	 *            the serializer to use for rendering default elements
 	 */
-	public DescriptionUnitSerializer() {
+	public DescriptionUnitSerializer(IntentDocumentSerializerSwitch genericSerializer) {
 		this.markupSerializer = new WikiTextSerializer();
 		this.descriptionUnitDispatcher = new DescriptionUnitElementsDispatcher(this);
-		this.genericDispatcher = new GenericUnitSerializer();
+		this.genericDispatcher = genericSerializer;
 		this.positionManager = new IntentPositionManager();
 	}
 

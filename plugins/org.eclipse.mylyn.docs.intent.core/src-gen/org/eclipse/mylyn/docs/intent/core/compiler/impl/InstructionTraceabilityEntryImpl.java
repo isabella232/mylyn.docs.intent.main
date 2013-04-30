@@ -1,15 +1,28 @@
 /**
+ * Copyright (c) 2010, 2012 Obeo.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Obeo - initial API and implementation
  */
 package org.eclipse.mylyn.docs.intent.core.compiler.impl;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.internal.cdo.CDOObjectImpl;
+
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
 import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
+
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
+
+import org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue;
 
 /**
  * <!-- begin-user-doc -->
@@ -80,8 +93,8 @@ public class InstructionTraceabilityEntryImpl extends CDOObjectImpl implements I
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
-	public EMap<String, EList<ValueForStructuralFeature>> getFeatures() {
-		return (EMap<String, EList<ValueForStructuralFeature>>)eGet(
+	public EMap<String, EList<AbstractValue>> getFeatures() {
+		return (EMap<String, EList<AbstractValue>>)eGet(
 				CompilerPackage.Literals.INSTRUCTION_TRACEABILITY_ENTRY__FEATURES, true);
 	}
 

@@ -50,14 +50,14 @@ import org.eclipse.mylyn.docs.intent.core.compiler.InstructionTraceabilityEntry;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
 import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndexEntry;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
-import org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.AbstractValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ContributionInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
-import org.eclipse.mylyn.docs.intent.core.modelingunit.ValueForStructuralFeature;
 
 /**
  * Save all the compilation informations on the repository.
@@ -313,9 +313,8 @@ public class CompilerInformationsSaver {
 	 *            the element
 	 * @return the affectations declared by the given element
 	 */
-	private BasicEMap<String, EList<ValueForStructuralFeature>> getAffectations(
-			IntentGenericElement intentGenericElement) {
-		BasicEMap<String, EList<ValueForStructuralFeature>> affectations = new BasicEMap<String, EList<ValueForStructuralFeature>>();
+	private BasicEMap<String, EList<AbstractValue>> getAffectations(IntentGenericElement intentGenericElement) {
+		BasicEMap<String, EList<AbstractValue>> affectations = new BasicEMap<String, EList<AbstractValue>>();
 		if (intentGenericElement instanceof InstanciationInstruction) {
 			InstanciationInstruction instanciation = (InstanciationInstruction)intentGenericElement;
 			for (StructuralFeatureAffectation affectation : instanciation.getStructuralFeatures()) {
@@ -341,11 +340,11 @@ public class CompilerInformationsSaver {
 	 * @param affectation
 	 *            the new affectation to include values from
 	 */
-	private void includeValues(BasicEMap<String, EList<ValueForStructuralFeature>> affectations,
+	private void includeValues(BasicEMap<String, EList<AbstractValue>> affectations,
 			StructuralFeatureAffectation affectation) {
-		EList<ValueForStructuralFeature> existing = affectations.get(affectation.getName());
+		EList<AbstractValue> existing = affectations.get(affectation.getName());
 		if (existing == null) {
-			existing = new BasicEList<ValueForStructuralFeature>();
+			existing = new BasicEList<AbstractValue>();
 		}
 		existing.addAll(affectation.getValues());
 		affectations.put(affectation.getName(), existing);
@@ -380,7 +379,7 @@ public class CompilerInformationsSaver {
 			}
 		} else {
 			// Here a concrete URI has been associated to this resource
-			resourcePath = ((String)resource.getUri()).replace("\"", "");
+			resourcePath = resource.getUri().toString();
 			// we get the last Segment of this URI to compute the internal path
 			if (resourcePath.contains("/")) {
 				if (resourcePath.contains("#")) {

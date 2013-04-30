@@ -11,13 +11,14 @@
 package org.eclipse.mylyn.docs.intent.serializer;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnit;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.markup.markup.Paragraph;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitFormatter;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.DescriptionUnitSerializer;
+import org.eclipse.mylyn.docs.intent.serializer.internal.IntentDocumentSerializerSwitch;
 import org.eclipse.mylyn.docs.intent.serializer.internal.IntentElementSerializer;
 
 /**
@@ -54,7 +55,8 @@ public class IntentSerializer {
 	public IntentSerializer() {
 		this.documentSerializer = new IntentElementSerializer(null, null);
 		this.modelingUnitSerializer = new ModelingUnitSerializer();
-		this.descriptionUnitSerializer = new DescriptionUnitSerializer();
+		this.descriptionUnitSerializer = new DescriptionUnitSerializer(new IntentDocumentSerializerSwitch(
+				documentSerializer));
 		this.positionManager = new IntentPositionManager();
 	}
 
@@ -70,7 +72,8 @@ public class IntentSerializer {
 		this.documentSerializer = new IntentElementSerializer(modelingUnitPrefixDecoration,
 				modelingUnitSuffixDecoration);
 		this.modelingUnitSerializer = new ModelingUnitSerializer();
-		this.descriptionUnitSerializer = new DescriptionUnitSerializer();
+		this.descriptionUnitSerializer = new DescriptionUnitSerializer(new IntentDocumentSerializerSwitch(
+				documentSerializer));
 		this.positionManager = new IntentPositionManager();
 	}
 

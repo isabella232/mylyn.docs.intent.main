@@ -1,4 +1,4 @@
-@M myModelingUnitName [myAttachedResource]
+@M myModelingUnitName
 	// Label definition (type : implicit), attached to myA by the linkResolver
 	@lazylabel "myA" "representative instance of class A"
 	new A myA {
