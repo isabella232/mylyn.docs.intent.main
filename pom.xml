@@ -39,6 +39,7 @@
   <properties>
     <tycho-version>0.17.0</tycho-version>
 	<tycho-extras-version>0.17.0</tycho-extras-version>
+	<maven-surefire-version>2.14.1</maven-surefire-version>
   </properties>
 
 
@@ -107,7 +108,7 @@
 	<module>tests/org.eclipse.mylyn.docs.intent.compare.test</module>
     <module>tests/org.eclipse.mylyn.docs.intent.collab.test</module>
     <module>tests/org.eclipse.mylyn.docs.intent.client.ui.test</module>
-	<module>tests/org.eclipse.mylyn.docs.intent.client.compiler.test</module>	
+	<module>tests/org.eclipse.mylyn.docs.intent.client.compiler.test</module>
 	<module>tests/org.eclipse.mylyn.docs.intent.test.server</module>
 	
    </modules>
@@ -189,22 +190,22 @@
 					<artifactId>tycho-p2-plugin</artifactId>
 					<version>${tycho-version}</version>
 					 <executions>
-						  <!-- These two should allow us not to get "duplicate artifact" warnings during the build. -->
-						  <execution>
-								<!-- Don't attach (default) metadata before the source-feature execution.-->
-								<id>default-p2-metadata-default</id>
-								<configuration>
-								  <attachP2Metadata>false</attachP2Metadata>
-								</configuration>
-						  </execution>
-						  <execution>
-								<!-- Do attach metadata after the source-feature execution.-->
-								<id>attach-p2-metadata</id>
-								<goals>
-								  <goal>p2-metadata</goal>
-								</goals>
-								<phase>package</phase>
-						  </execution>
+					  <!-- These two should allow us not to get "duplicate artifact" warnings during the build. -->
+						 <execution>
+									   <!-- Don't attach (default) metadata before the source-feature execution.-->
+									   <id>default-p2-metadata-default</id>
+									   <configuration>
+										 <attachP2Metadata>false</attachP2Metadata>
+									   </configuration>
+						 </execution>
+						 <execution>
+									   <!-- Do attach metadata after the source-feature execution.-->
+									   <id>attach-p2-metadata</id>
+									   <goals>
+										 <goal>p2-metadata</goal>
+									   </goals>
+									   <phase>package</phase>
+						 </execution>
 					</executions>
 				</plugin>
 	<!-- Other plugins -->

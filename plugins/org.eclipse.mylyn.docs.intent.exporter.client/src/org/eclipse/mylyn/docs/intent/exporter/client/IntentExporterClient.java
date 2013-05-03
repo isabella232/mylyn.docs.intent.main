@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2010, 2011 Obeo.
+
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Obeo - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.exporter.client;
 
 import org.eclipse.core.runtime.jobs.Job;
@@ -7,16 +18,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChan
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 
-/*******************************************************************************
- * Copyright (c) 2010, 2011 Obeo.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors:
- *     Obeo - initial API and implementation
- *******************************************************************************/
+
 
 /**
  * An {@link AbstractRepositoryClient} which exports the documentation any time an element of the
