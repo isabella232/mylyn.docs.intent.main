@@ -66,6 +66,7 @@
     <module>plugins/org.eclipse.mylyn.docs.intent.client.synchronizer</module>
 	<module>plugins/org.eclipse.mylyn.docs.intent.client.linkresolver</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.client.ui</module>
+	<module>plugins/org.eclipse.mylyn.docs.intent.core.edit</module>
    
     <!-- Intent Workspace mode specifics-->   
 	<module>plugins/org.eclipse.mylyn.docs.intent.client.ui.ide</module>
