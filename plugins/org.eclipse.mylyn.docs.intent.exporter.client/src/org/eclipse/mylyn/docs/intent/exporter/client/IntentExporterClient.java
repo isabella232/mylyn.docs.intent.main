@@ -48,7 +48,10 @@ public class IntentExporterClient extends AbstractRepositoryClient {
 		String htmlPreviewLocation = getRepositoryObjectHandler().getRepositoryAdapter().getRepository()
 				.getRepositoryLocation()
 				+ "generated/";
-		return new IntentExporterJob(new IntentDocumentQuery(getRepositoryObjectHandler()
-				.getRepositoryAdapter()).getOrCreateIntentDocument(), htmlPreviewLocation);
+		IntentExporterJob intentExporterJob = new IntentExporterJob(new IntentDocumentQuery(
+				getRepositoryObjectHandler().getRepositoryAdapter()).getOrCreateIntentDocument(),
+				htmlPreviewLocation);
+		intentExporterJob.setPriority(Job.DECORATE);
+		return intentExporterJob;
 	}
 }
