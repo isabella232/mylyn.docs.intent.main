@@ -24,9 +24,8 @@ import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EcorePackage;
-import org.eclipse.mylyn.docs.intent.core.descriptionunit.DescriptionUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-import org.eclipse.mylyn.docs.intent.core.genericunit.GenericUnitPackage;
+import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 import org.eclipse.mylyn.docs.intent.markup.wikigen.WikigenPackage;
@@ -90,8 +89,6 @@ public class AcceleoCompiler extends AbstractAcceleoCompiler {
 				IntentDocumentPackage.eINSTANCE);
 		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(ModelingUnitPackage.eNS_URI,
 				ModelingUnitPackage.eINSTANCE);
-		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(GenericUnitPackage.eNS_URI,
-				GenericUnitPackage.eINSTANCE);
 		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(DescriptionUnitPackage.eNS_URI,
 				DescriptionUnitPackage.eINSTANCE);
 		org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);

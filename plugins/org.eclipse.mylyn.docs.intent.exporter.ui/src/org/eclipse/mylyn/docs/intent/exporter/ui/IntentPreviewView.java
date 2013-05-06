@@ -12,6 +12,8 @@ package org.eclipse.mylyn.docs.intent.exporter.ui;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceService;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
@@ -35,6 +37,8 @@ import org.eclipse.ui.part.ViewPart;
 public class IntentPreviewView extends ViewPart {
 
 	public static final String ID = "org.eclipse.mylyn.docs.intent.exporter.ui.preview";
+
+	private static final String PREF_NOT_ACTIVATED_MESSAGE = "<h3> Intent HTML Preview is not activated.</h3><p> You can activate it through Intent Preferences (Window > Preferences > Mylyn > Intent > Appearance > Show HTML Preview Page).</p>";
 
 	private static IntentPreviewView INSTANCE;
 
@@ -105,11 +109,15 @@ public class IntentPreviewView extends ViewPart {
 	private void refreshPreviewView(IWorkbenchPart activeEditor, boolean setURL) {
 		if (!browser.isDisposed() && activeEditor instanceof IEditorPart
 				&& ((IEditorPart)activeEditor).getEditorInput() instanceof IntentEditorInput) {
-			if (setURL) {
-				browser.setUrl(getHTMLPreviewURL((IntentEditorInput)((IEditorPart)activeEditor)
-						.getEditorInput()));
+			if (!IntentPreferenceService.getBoolean(IntentPreferenceConstants.SHOW_PREVIEW_PAGE)) {
+				browser.setText(PREF_NOT_ACTIVATED_MESSAGE);
 			} else {
-				browser.refresh();
+				if (setURL) {
+					browser.setUrl(getHTMLPreviewURL((IntentEditorInput)((IEditorPart)activeEditor)
+							.getEditorInput()));
+				} else {
+					browser.refresh();
+				}
 			}
 			lastRefreshedEditor = (IEditorPart)activeEditor;
 		}
@@ -122,7 +130,9 @@ public class IntentPreviewView extends ViewPart {
 		if (container instanceof IntentDocument) {
 			htmlPreviewLocation += "IntentDocumentation.html";
 		} else {
-			while (container != null && !(container instanceof IntentStructuredElement)) {
+			while (container != null
+					&& !(container instanceof IntentStructuredElement && ((IntentStructuredElement)container)
+							.getTitle() != null)) {
 				container = container.eContainer();
 			}
 			if (container instanceof IntentStructuredElement) {

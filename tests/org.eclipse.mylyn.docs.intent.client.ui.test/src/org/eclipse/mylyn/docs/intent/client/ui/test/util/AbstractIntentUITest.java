@@ -384,13 +384,8 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	protected final IntentSection getIntentSection(int... number) {
 		IntentSection section = getIntentDocument().getSubSections().get(number[0] - 1);
-		if (number.length > 1) {
-			section.getSubSections().get(number[1] - 1);
-			if (number.length > 2) {
-				for (int i = 2; i < number.length; i++) {
-					section = section.getSubSections().get(number[i] - 1);
-				}
-			}
+		for (int i = 1; i < number.length; i++) {
+			section = section.getSubSections().get(number[i] - 1);
 		}
 		return section;
 	}

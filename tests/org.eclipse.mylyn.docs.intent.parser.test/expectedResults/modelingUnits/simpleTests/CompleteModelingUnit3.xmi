@@ -56,7 +56,7 @@
     </contributions>
   </instructions>
   <instructions xmi:type="intentMU:LabelInModelingUnit" lineBreak="true" labelValue="&quot;myResourceForPersistence&quot;" textToPrint="&quot;you can attache information to resources too&quot;" type="EXPLICIT"/>
-  <instructions xmi:type="intentMU:ResourceDeclaration" lineBreak="true" uri="&quot;cdo:/repo1/myResource&quot;" name="myResourceForPersistence" contentType="&quot;ModelInstance&quot;">
+  <instructions xmi:type="intentMU:ResourceDeclaration" lineBreak="true" uri="cdo:/repo1/myResource" name="myResourceForPersistence" contentType="&quot;ModelInstance&quot;">
     <content intentHref="myRoot1"/>
     <content intentHref="myRoot2"/>
   </instructions>

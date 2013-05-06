@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intentMU:ModelingUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.8" name="IntentDocumentStructure">
-  <instructions xmi:type="intentMU:ResourceDeclaration" lineBreak="true" uri="&quot;platform:/resource/myProjet/IntentDocumentPackage&quot;" name="IntentDocument" contentType="&quot;ECore&quot;">
+  <instructions xmi:type="intentMU:ResourceDeclaration" lineBreak="true" uri="platform:/resource/myProjet/IntentDocumentPackage" name="IntentDocument" contentType="&quot;ECore&quot;">
     <content intentHref="IntentDocumentPackage"/>
   </instructions>
   <instructions xmi:type="intentMU:InstanciationInstruction" lineBreak="true" name="IntentDocumentPackage">

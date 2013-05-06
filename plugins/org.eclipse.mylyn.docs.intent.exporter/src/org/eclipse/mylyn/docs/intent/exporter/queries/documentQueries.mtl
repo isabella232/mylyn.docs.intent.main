@@ -1,5 +1,5 @@
 [comment encoding = UTF-8 /]
-[module documentQueries('http://www.eclipse.org/intent/intentdocument/0.7','http://www.eclipse.org/intent/genericunit/0.7','http://www.eclipse.org/intent/descriptionunit/0.7', 'http://www.eclipse.org/intent/modelingunit/0.7', 'http://www.eclipse.org/emf/2002/Ecore','http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/markup/generator/0.7')]
+[module documentQueries('http://www.eclipse.org/intent/intentdocument/0.8','http://www.eclipse.org/intent/descriptionunit/0.8', 'http://www.eclipse.org/intent/modelingunit/0.8', 'http://www.eclipse.org/emf/2002/Ecore','http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/markup/generator/0.7')]
 
 
 [query public getHeaderSize(sectionID : String) : String = 
@@ -24,7 +24,7 @@ modelingUnit.eContainer().eContents()->filter(ModelingUnit)->asSequence()->index
 /]
 
 [query public getAllContributions(instanciationOrContributionInstruction : UnitInstruction) : OrderedSet(ContributionInstruction) = 
-invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getAllContributions(org.eclipse.mylyn.docs.intent.core.genericunit.UnitInstruction)', Sequence{instanciationOrContributionInstruction})
+invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getAllContributions(org.eclipse.mylyn.docs.intent.core.document.UnitInstruction)', Sequence{instanciationOrContributionInstruction})
 /]
 
 [query public shouldShowTableOfContents() : Boolean = 

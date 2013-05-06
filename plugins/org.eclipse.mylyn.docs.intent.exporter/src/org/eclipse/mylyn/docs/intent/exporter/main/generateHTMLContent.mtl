@@ -1,23 +1,21 @@
 [comment encoding = UTF-8 /]
-[module generateHTMLContent('http://www.eclipse.org/intent/intentdocument/0.7','http://www.eclipse.org/intent/genericunit/0.7','http://www.eclipse.org/intent/descriptionunit/0.7', 'http://www.eclipse.org/intent/modelingunit/0.7', 'http://www.eclipse.org/emf/2002/Ecore','http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/markup/generator/0.7')]
+[module generateHTMLContent('http://www.eclipse.org/intent/intentdocument/0.8','http://www.eclipse.org/intent/descriptionunit/0.8', 'http://www.eclipse.org/intent/modelingunit/0.8', 'http://www.eclipse.org/emf/2002/Ecore','http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/markup/generator/0.7')]
 [import org::eclipse::mylyn::docs::intent::markup::gen::files::html/]
 [import org::eclipse::mylyn::docs::intent::markup::gen::files::htmlGenDocument/]
 [import org::eclipse::mylyn::docs::intent::exporter::main::generateToc/]
 [import org::eclipse::mylyn::docs::intent::exporter::queries::documentQueries/]
 
-
-
-[template public generateHTMLContentRoot(intentDocument : IntentDocument)]
+[template public generateHTMLContentRoot(intentElement : IntentSection)]
 <div id="content" [if not(shouldShowTableOfContents())]style="padding:0px 0px 0px 50px"[/if]>
-	[for (chapter : IntentChapter | intentDocument.chapters)]
-		[generateHTMLContent(chapter, chapter.getIndex())/]
-	[/for]
-</div>
-[/template]
+		[comment Do not display Intent document in TOC  /]
+		[if intentElement.oclIsKindOf(IntentDocument)]
+		[for (subSection : IntentSection | intentElement.intentContent->filter(IntentSection))]
+			[generateHTMLContent(subSection, subSection.getIndex())/]
+		[/for]
+		[else]
+			[generateHTMLContent(intentElement, '')/]	
+		[/if]
 
-[template public generateHTMLContentRoot(intentElement : IntentSubSectionContainer)]
-<div id="content" [if not(shouldShowTableOfContents())]style="padding:0px 0px 0px 50px"[/if]>
-	[generateHTMLContent(intentElement, '')/]
 </div>
 [/template]
 
@@ -25,9 +23,9 @@
 [/template]
 
 
-[template public generateHTMLContent(subSectionContainer : IntentSubSectionContainer, index : String) ]
+[template public generateHTMLContent(subSectionContainer : IntentSection, index : String) ]
 <section id="[index/]">
-[if (subSectionContainer.oclIsTypeOf(IntentChapter)) or (index = '')]
+[if (subSectionContainer.eContainer().oclIsTypeOf(IntentDocument)) or (index = '')]
 	<div class="page-header">
 		<h1>
 			[subSectionContainer.generateSubSectionTitle(false)/]
@@ -70,12 +68,12 @@
 [/if]	
 [/template]
 
-[template public generateReference(textToPrint : String, referenced : IntentSubSectionContainer)]
-See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
+[template public generateReference(textToPrint : String, referenced : IntentSection)]
+See <a href="#[getIndex(referenced.oclAsType(IntentSection))/]">
 [if (textToPrint.oclIsUndefined()._not() and textToPrint.trim().size() > 0)]
 	[textToPrint/]
 [else]
-	[generateSubSectionTitle(referenced.oclAsType(IntentSubSectionContainer), true)/]
+	[generateSubSectionTitle(referenced.oclAsType(IntentSection), true)/]
 [/if]</a>
 [/template]
 
@@ -198,7 +196,7 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 	
 	[comment single-valued/]		
 	[if structuralFeature.values->size() = 1]
-		[if (structuralFeature.values->first().oclIsKindOf(NativeValueForStructuralFeature))]:
+		[if (structuralFeature.values->first().oclIsKindOf(NativeValue))]:
 		[else]
 			&larr;
 		[/if]
@@ -206,7 +204,7 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 	[else]
 		[comment multi-valued/]
 		&larr; <ul>
-		[for (value : ValueForStructuralFeature | structuralFeature.values)]				
+		[for (value : AbstractValue | structuralFeature.values)]				
 			<li>[value.getImageForValue()/] [value.generateHTMLContent()/]</li>
 			[/for] 
 		</ul>
@@ -215,7 +213,7 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 
 
 
-[template public generateHTMLContent(newValueInstruction : NewObjectValueForStructuralFeature)]
+[template public generateHTMLContent(newValueInstruction : NewObjectValue)]
 <a href="#"												
 	rel="popover" title=""
 	[newValueInstruction.value.generatePopoverLinks()/]
@@ -228,17 +226,17 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 </a>
 [if newValueInstruction.value.structuralFeatures->size() > 0]
 <ul>
-	[for (structuralFeature : StructuralFeatureAffectation | newValueInstruction.value.structuralFeatures->select(feature | feature.values->select(value | value.oclIsKindOf(NativeValueForStructuralFeature))->size() = feature.values->size()))]
+	[for (structuralFeature : StructuralFeatureAffectation | newValueInstruction.value.structuralFeatures->select(feature | feature.values->select(value | value.oclIsKindOf(NativeValue))->size() = feature.values->size()))]
 		[generateHTMLContent(structuralFeature)/]
 	[/for]
-	[for (structuralFeature : StructuralFeatureAffectation | newValueInstruction.value.structuralFeatures->select(feature | feature.values->select(value | value.oclIsKindOf(NativeValueForStructuralFeature))->size() <> feature.values->size()))]
+	[for (structuralFeature : StructuralFeatureAffectation | newValueInstruction.value.structuralFeatures->select(feature | feature.values->select(value | value.oclIsKindOf(NativeValue))->size() <> feature.values->size()))]
 		[generateHTMLContent(structuralFeature)/]
 	[/for]
 </ul>
 [/if]
 [/template]
 
-[template public generateHTMLContent(valueInstruction : NativeValueForStructuralFeature)]
+[template public generateHTMLContent(valueInstruction : NativeValue)]
 [if valueInstruction.value.replace('true','').replace('false','').size() < 3]
 	<b><code style="color:#660000; border:0px solid black;">[valueInstruction.value.toString().replace('"','').replace('"','')/]</code></b>
 [else]
@@ -246,26 +244,26 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 [/if]
 [/template]
 
-[template public generateHTMLContent(reference : ReferenceValueForStructuralFeature)]
+[template public generateHTMLContent(reference : ReferenceValue)]
 <a href="#"												
 			rel="popover" title="Reference to [reference.instanciationReference.instanceName/] [if reference.instanciationReference.instanciation.metaType.oclIsInvalid()._not()](of type [reference.instanciationReference.instanciation.metaType.typeName/])[/if]"
 			[reference.instanciationReference.instanciation.generatePopoverLinks()/]
 >[reference.instanciationReference.instanceName/]</a>
 [/template]
 
-[template public getImageForValue(valueInstruction : NativeValueForStructuralFeature)]
+[template public getImageForValue(valueInstruction : NativeValue)]
 <img src="../icons/modelingunit_value.gif"/>
 [/template]
 
-[template public getImageForValue(valueInstruction : ValueForStructuralFeature)]
+[template public getImageForValue(valueInstruction : AbstractValue)]
 <img src="../icons/modelingunit_affect.png"/>
 [/template]
 
-[template public getImageForValue(valueInstruction : ReferenceValueForStructuralFeature)]
-[if valueInstruction.referencedMetaType.oclIsUndefined()]
+[template public getImageForValue(valueInstruction : ReferenceValue)]
+[if valueInstruction.referenceType.oclIsUndefined()]
 	 <img src="../icons/modelingunit_ref.png"/>
 [else]
-[let imagePath : String = valueInstruction.referencedMetaType.getQualifiedImageId()]
+[let imagePath : String = valueInstruction.referenceType.getQualifiedImageId()]
 	[if imagePath.size() > 2]
 		<img src="[imagePath/]"/>
 	[else]
@@ -275,7 +273,7 @@ See <a href="#[getIndex(referenced.oclAsType(IntentSubSectionContainer))/]">
 [/if]
 [/template]
 
-[template public getImageForValue(valueInstruction : NewObjectValueForStructuralFeature)]
+[template public getImageForValue(valueInstruction : NewObjectValue)]
 [let imagePath : String = valueInstruction.value.metaType.resolvedType.getQualifiedImageId()]
 	[if imagePath.size() > 0]
 		<img src="[imagePath/]"/>

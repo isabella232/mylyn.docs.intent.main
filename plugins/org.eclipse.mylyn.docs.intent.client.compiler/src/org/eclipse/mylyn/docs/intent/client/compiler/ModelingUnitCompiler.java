@@ -362,7 +362,7 @@ public class ModelingUnitCompiler {
 				} else {
 					linkResolver.registerInPackageRegistry(instanciation, ePackage);
 				}
-			} else {
+			} else if (!(generatedElement instanceof EPackage)) {
 				validateGeneratedElement(generatedElement);
 			}
 		}

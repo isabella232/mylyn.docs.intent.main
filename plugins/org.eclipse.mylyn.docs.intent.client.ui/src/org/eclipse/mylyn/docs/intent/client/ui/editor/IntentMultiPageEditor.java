@@ -116,7 +116,9 @@ public class IntentMultiPageEditor extends MultiPageEditorPart implements Intent
 		if (container instanceof IntentDocument) {
 			htmlPreviewLocation += "IntentDocumentation.html";
 		} else {
-			while (container != null && !(container instanceof IntentStructuredElement)) {
+			while (container != null
+					&& !(container instanceof IntentStructuredElement && ((IntentStructuredElement)container)
+							.getTitle() != null)) {
 				container = container.eContainer();
 			}
 			if (container instanceof IntentStructuredElement) {

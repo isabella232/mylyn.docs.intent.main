@@ -1,5 +1,5 @@
 [comment encoding = UTF-8 /]
-[module HTMLBootstrapGenDocument('http://www.eclipse.org/intent/intentdocument/0.7', 'http://www.eclipse.org/intent/modelingunit/0.7', 'http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/markup/generator/0.7')/]
+[module HTMLBootstrapGenDocument('http://www.eclipse.org/intent/intentdocument/0.8', 'http://www.eclipse.org/intent/modelingunit/0.8', 'http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/markup/generator/0.7')/]
 
 [import org::eclipse::mylyn::docs::intent::exporter::main::generateToc/]
 [import org::eclipse::mylyn::docs::intent::exporter::main::generateHTMLContent/]
@@ -13,10 +13,10 @@
 
 [template public HTMLBootstrapGenDocumentDocument(element : IntentStructuredElement, intentDocumentName : String )]
 [comment @main /]
-[if (element.oclIsKindOf(IntentSubSectionContainer))]
-[element.doGenerateHTMLDocument(element.oclAsType(IntentSubSectionContainer).getIndex().replaceAll('_','.') + '_', element.oclAsType(IntentSubSectionContainer).generateSubSectionTitle(true).trim())/]
-[else]
+[if (element.oclIsKindOf(IntentDocument))]
 [element.doGenerateHTMLDocument('', intentDocumentName)/]
+[else]
+[element.doGenerateHTMLDocument(element.oclAsType(IntentSection).getIndex().replaceAll('_','.') + '_', element.oclAsType(IntentSection).generateSubSectionTitle(true).trim())/]
 [/if]
 [/template]
 
