@@ -29,6 +29,8 @@ import org.eclipse.mylyn.docs.intent.markup.serializer.TextSerializer;
  */
 public final class DescriptionUnitHelper {
 
+	private static final int MARKUP_ELEMENT_MAXLENGTH = 50;
+
 	/**
 	 * DescriptionUnitHelper constructor.
 	 */
@@ -88,12 +90,16 @@ public final class DescriptionUnitHelper {
 	 */
 	public static String getLabelForMarkupElement(StructureElement element, int maxSize) {
 		String label = "";
+		int actualMaxSize = maxSize;
+		if (actualMaxSize == -1) {
+			actualMaxSize = MARKUP_ELEMENT_MAXLENGTH;
+		}
 		if (element instanceof Section) {
-			label = getLabelForSection((Section)element, maxSize);
+			label = getLabelForSection((Section)element, actualMaxSize);
 		}
 
 		if (element instanceof Block) {
-			label = getLabelForBlock((Block)element, maxSize);
+			label = getLabelForBlock((Block)element, actualMaxSize);
 		}
 		return label;
 	}

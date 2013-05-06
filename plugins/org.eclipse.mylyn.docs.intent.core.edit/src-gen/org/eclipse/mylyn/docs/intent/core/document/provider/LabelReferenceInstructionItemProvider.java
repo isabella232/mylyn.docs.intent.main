@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -25,7 +24,6 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.LabelReferenceInstruction;
 
@@ -130,13 +128,11 @@ public class LabelReferenceInstructionItemProvider extends UnitInstructionItemPr
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		LabelReferenceInstruction labelReferenceInstruction = (LabelReferenceInstruction)object;
-		return getString("_UI_LabelReferenceInstruction_type") + " "
-				+ labelReferenceInstruction.isLineBreak();
+		return "reference to " + ((LabelReferenceInstruction)object).getIntentHref();
 	}
 
 	/**

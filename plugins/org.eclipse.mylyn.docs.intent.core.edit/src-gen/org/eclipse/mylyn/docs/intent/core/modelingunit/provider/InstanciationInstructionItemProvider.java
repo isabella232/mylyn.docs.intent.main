@@ -15,9 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -27,7 +25,6 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.mylyn.docs.intent.core.modelingunit.InstanciationInstruction;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
@@ -116,24 +113,30 @@ public class InstanciationInstructionItemProvider extends AbstractMetaTypeInstru
 	 * This returns InstanciationInstruction.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/InstanciationInstruction"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/InstanciationInstruction.png"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((InstanciationInstruction)object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_InstanciationInstruction_type")
-				: getString("_UI_InstanciationInstruction_type") + " " + label;
+		InstanciationInstruction instruction = (InstanciationInstruction)object;
+		String instanceName = instruction.getName();
+		if (instanceName != null && instanceName.length() > 0) {
+			instanceName = instanceName + " : " + instruction.getMetaType().getTypeName();
+		} else {
+			instanceName = "? : " + instruction.getMetaType().getTypeName();
+		}
+		return instanceName;
+
 	}
 
 	/**

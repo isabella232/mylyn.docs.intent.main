@@ -43,7 +43,6 @@ import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
  */
 public class IntentStructuredElementItemProvider extends ItemProviderAdapter implements IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	
-	protected static final int STRUCTURED_ELEMENT_TITLE_MAXLENGTH = 50;
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->

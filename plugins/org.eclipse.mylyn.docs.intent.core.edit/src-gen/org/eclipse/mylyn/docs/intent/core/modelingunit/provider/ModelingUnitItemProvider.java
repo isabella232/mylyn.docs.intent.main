@@ -15,20 +15,15 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.eclipse.mylyn.docs.intent.core.document.provider.GenericUnitItemProvider;
-
 import org.eclipse.mylyn.docs.intent.core.edit.IntentEditPlugin;
-
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 
 /**
@@ -67,24 +62,26 @@ public class ModelingUnitItemProvider extends GenericUnitItemProvider implements
 	 * This returns ModelingUnit.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ModelingUnit"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ModelingUnit.png"));
 	}
 
 	/**
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ModelingUnit)object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_ModelingUnit_type")
-				: getString("_UI_ModelingUnit_type") + " " + label;
+		String modelingUnitName = ((ModelingUnit)object).getName();
+		if (modelingUnitName == null || modelingUnitName.length() < 2) {
+			modelingUnitName = "Modeling Unit";
+		}
+		return modelingUnitName;
 	}
 
 	/**

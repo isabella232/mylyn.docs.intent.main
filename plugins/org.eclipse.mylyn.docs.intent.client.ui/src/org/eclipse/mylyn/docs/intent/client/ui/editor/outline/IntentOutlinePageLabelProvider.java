@@ -12,7 +12,6 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.outline;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.swt.graphics.Image;
 
 /**
  * The label provider for the objects shown in the outline view.
@@ -29,15 +28,5 @@ public class IntentOutlinePageLabelProvider extends AdapterFactoryLabelProvider 
 	 */
 	public IntentOutlinePageLabelProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider#getImage(java.lang.Object)
-	 */
-	@Override
-	public Image getImage(Object object) {
-		return super.getImage(object);
 	}
 }

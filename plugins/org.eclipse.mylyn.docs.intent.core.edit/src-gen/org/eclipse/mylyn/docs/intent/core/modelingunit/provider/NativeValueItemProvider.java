@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -25,7 +24,6 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue;
 
@@ -93,12 +91,18 @@ public class NativeValueItemProvider extends AbstractValueItemProvider implement
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		NativeValue nativeValue = (NativeValue)object;
-		return getString("_UI_NativeValue_type") + " " + nativeValue.isLineBreak();
+		String textValue = ((NativeValue)object).getValue();
+		if (textValue.startsWith("\"")) {
+			textValue = textValue.substring(1);
+		}
+		if (textValue.endsWith("\"")) {
+			textValue = textValue.substring(0, textValue.length() - 1);
+		}
+		return textValue;
 	}
 
 	/**

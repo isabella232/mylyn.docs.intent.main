@@ -15,9 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -25,12 +23,10 @@ import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
-
 import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnitPackage;
-
+import org.eclipse.mylyn.docs.intent.core.query.DescriptionUnitHelper;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupFactory;
 
 /**
@@ -110,12 +106,11 @@ public class DescriptionBlocItemProvider extends DescriptionUnitInstructionItemP
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		DescriptionBloc descriptionBloc = (DescriptionBloc)object;
-		return getString("_UI_DescriptionBloc_type") + " " + descriptionBloc.isLineBreak();
+		return  DescriptionUnitHelper.getDescriptionBlocTitle((DescriptionBloc)object, -1);
 	}
 
 	/**

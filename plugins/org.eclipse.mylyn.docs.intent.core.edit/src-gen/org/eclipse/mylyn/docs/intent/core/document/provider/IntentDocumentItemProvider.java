@@ -15,17 +15,15 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
-
+import org.eclipse.mylyn.docs.intent.core.query.StructuredElementHelper;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 
 /**
@@ -75,12 +73,12 @@ public class IntentDocumentItemProvider extends IntentSectionItemProvider implem
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		IntentDocument intentDocument = (IntentDocument)object;
-		return getString("_UI_IntentDocument_type") + " " + intentDocument.getLevel();
+		IntentDocument document = (IntentDocument) object;
+		return StructuredElementHelper.getTitle(document, -1);
 	}
 
 	/**

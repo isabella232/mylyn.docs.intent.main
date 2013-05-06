@@ -8,11 +8,9 @@ Bundle-Activator: org.eclipse.mylyn.docs.intent.core.edit.IntentEditPlugin$Imple
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.mylyn.docs.intent.core.compiler.provider,
- org.eclipse.mylyn.docs.intent.core.document.descriptionunit.provider,
+Export-Package: org.eclipse.mylyn.docs.intent.core.document.descriptionunit.provider,
  org.eclipse.mylyn.docs.intent.core.document.provider,
  org.eclipse.mylyn.docs.intent.core.edit,
- org.eclipse.mylyn.docs.intent.core.indexer.provider,
  org.eclipse.mylyn.docs.intent.core.modelingunit.provider
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.mylyn.docs.intent.core;visibility:=reexport,

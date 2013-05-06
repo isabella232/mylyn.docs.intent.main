@@ -15,20 +15,15 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.common.util.ResourceLocator;
-
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-
 import org.eclipse.mylyn.docs.intent.core.document.provider.IntentReferenceInstructionItemProvider;
-
 import org.eclipse.mylyn.docs.intent.core.edit.IntentEditPlugin;
-
 import org.eclipse.mylyn.docs.intent.core.modelingunit.IntentReferenceInModelingUnit;
 
 /**
@@ -78,13 +73,11 @@ public class IntentReferenceInModelingUnitItemProvider extends IntentReferenceIn
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		IntentReferenceInModelingUnit intentReferenceInModelingUnit = (IntentReferenceInModelingUnit)object;
-		return getString("_UI_IntentReferenceInModelingUnit_type") + " "
-				+ intentReferenceInModelingUnit.isLineBreak();
+		return  "Reference to Section " + ((IntentReferenceInModelingUnit)object).getIntentHref();
 	}
 
 	/**

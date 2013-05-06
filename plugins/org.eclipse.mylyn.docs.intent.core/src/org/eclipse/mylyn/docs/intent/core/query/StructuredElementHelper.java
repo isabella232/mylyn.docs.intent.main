@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.core.query;
 
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.markup.markup.Block;
 
@@ -48,8 +49,17 @@ public final class StructuredElementHelper {
 	 * @return the title of a modeling Unit (empty String if no title).
 	 */
 	public static String getTitle(IntentStructuredElement element, int maxSize) {
-
 		Block block = ((IntentStructuredElement)element).getTitle();
-		return DescriptionUnitHelper.getLabelForMarkupElement(block, maxSize);
+		String title = DescriptionUnitHelper.getLabelForMarkupElement(block, maxSize);
+		if (title == null || title.length() < 2) {
+			if (element instanceof IntentDocument) {
+				title = "Document";
+			} else if (element.eContainer() instanceof IntentDocument) {
+				title = "Untitled Chapter";
+			} else {
+				title = "Untitled Section";
+			}
+		}
+		return title;
 	}
 }

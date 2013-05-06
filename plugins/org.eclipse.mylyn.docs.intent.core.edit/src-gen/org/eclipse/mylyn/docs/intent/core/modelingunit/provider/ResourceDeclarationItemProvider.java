@@ -15,9 +15,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EStructuralFeature;
-
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
@@ -27,7 +25,6 @@ import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
-
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
@@ -163,13 +160,17 @@ public class ResourceDeclarationItemProvider extends ModelingUnitInstructionItem
 	 * This returns the label text for the adapted class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ResourceDeclaration)object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_ResourceDeclaration_type")
-				: getString("_UI_ResourceDeclaration_type") + " " + label;
+		String resourceName = ((ResourceDeclaration)object).getName();
+		if (resourceName != null && resourceName.length() > 0) {
+			resourceName = "Resource " + resourceName;
+		} else {
+			resourceName = "Untitled Resource";
+		}
+		return resourceName;
 	}
 
 	/**

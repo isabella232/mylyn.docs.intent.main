@@ -14,19 +14,7 @@
 
 <plugin>
 
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <factory
-            uri="http://www.eclipse.org/intent/compilerinfos/0.8"
-            class="org.eclipse.mylyn.docs.intent.core.compiler.provider.CompilerItemProviderAdapterFactory"
-            supportedTypes=
-              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-               org.eclipse.emf.edit.provider.ITreeItemContentProvider
-               org.eclipse.emf.edit.provider.IItemLabelProvider
-               org.eclipse.emf.edit.provider.IItemPropertySource"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
+    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <factory
             uri="http://www.eclipse.org/intent/intentdocument/0.8"
             class="org.eclipse.mylyn.docs.intent.core.document.provider.IntentDocumentItemProviderAdapterFactory"
@@ -42,18 +30,6 @@
       <factory
             uri="http://www.eclipse.org/intent/descriptionunit/0.8"
             class="org.eclipse.mylyn.docs.intent.core.document.descriptionunit.provider.DescriptionUnitItemProviderAdapterFactory"
-            supportedTypes=
-              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-               org.eclipse.emf.edit.provider.ITreeItemContentProvider
-               org.eclipse.emf.edit.provider.IItemLabelProvider
-               org.eclipse.emf.edit.provider.IItemPropertySource"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <factory
-            uri="http://www.eclipse.org/intent/indexer/0.8"
-            class="org.eclipse.mylyn.docs.intent.core.indexer.provider.IntentIndexerItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
                org.eclipse.emf.edit.provider.IStructuredItemContentProvider

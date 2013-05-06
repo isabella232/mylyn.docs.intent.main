@@ -26,6 +26,7 @@ import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
@@ -179,8 +180,22 @@ public class IntentSectionItemProvider extends IntentStructuredElementItemProvid
 	@Override
 	public String getText(Object object) {
 		IntentSection intentSection = (IntentSection)object;
-		return StructuredElementHelper.getTitle(intentSection, STRUCTURED_ELEMENT_TITLE_MAXLENGTH);
+		return StructuredElementHelper.getTitle(intentSection, -1);
 	}
+	
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see org.eclipse.emf.edit.provider.ItemProviderAdapter#getImage(java.lang.Object)
+	 */
+	public Object getImage(Object object) {
+		IntentSection intentSection = (IntentSection)object;
+		if( intentSection.eContainer() instanceof IntentDocument ) {
+			return getResourceLocator().getImage("full/obj16/IntentChapter");
+		} else {
+			return getResourceLocator().getImage("full/obj16/IntentSection");
+		}		
+	};
 
 	/**
 	 * This handles model notifications by calling {@link #updateChildren} to update any cached
