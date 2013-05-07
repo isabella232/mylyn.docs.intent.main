@@ -21,6 +21,13 @@ import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 public final class IntentPreferenceService {
 
 	/**
+	 * Private constructor.
+	 */
+	private IntentPreferenceService() {
+
+	}
+
+	/**
 	 * Returns the values held by the given preference key as a boolean.
 	 * 
 	 * @param intentPreferenceKey

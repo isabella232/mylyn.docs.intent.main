@@ -61,24 +61,26 @@ public class IntentImageAnnotation extends AbstractIntentImageAnnotation {
 	}
 
 	private Image doCreateImageFromURL(String imagePath) {
+		String actualImagePath = imagePath;
 		// Case 1: URL is a web URL
 		try {
 			InputStream fileInputStream;
-			if (imagePath.startsWith("http")) {
-				fileInputStream = new URL(imagePath).openStream();
+			if (actualImagePath.startsWith("http")) {
+				fileInputStream = new URL(actualImagePath).openStream();
 			} else {
 				// Case 2: URL is project-relative
 
-				if (imagePath.startsWith("./")) {
+				if (actualImagePath.startsWith("./")) {
 					URI uri = imageLink.eResource().getURI();
 					if (uri.isPlatformResource()) {
 						Repository repository = IntentRepositoryManager.INSTANCE
 								.getRepository(uri.segment(1));
-						imagePath = repository.getRepositoryLocation() + imagePath.replaceFirst("./", "");
+						actualImagePath = repository.getRepositoryLocation()
+								+ imagePath.replaceFirst("./", "");
 					}
 				}
 				// Case 3 (default): URL is absolute
-				fileInputStream = new FileInputStream(imagePath);
+				fileInputStream = new FileInputStream(actualImagePath);
 
 			}
 			return new Image(Display.getDefault(), fileInputStream);

@@ -41,6 +41,9 @@ import org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement;
  */
 public class JavaClassExplorer {
 
+	private static final String CLOSING_BRACKET = "}";
+	private static final String OPENING_BRACKET = "{";
+
 	/**
 	 * Allows to represent all the {@link IType}s contained in the given {@link ICompilationUnit} as
 	 * {@link Classifier}s.
@@ -148,19 +151,19 @@ public class JavaClassExplorer {
 
 		// Setting method content if neither abstract or interface
 		String methodContentWithoutJavaDoc = method.getSource();
-		if (methodContentWithoutJavaDoc.contains("{") && methodContentWithoutJavaDoc.contains("}")) {
+		if (methodContentWithoutJavaDoc.contains(OPENING_BRACKET) && methodContentWithoutJavaDoc.contains(CLOSING_BRACKET)) {
 			if (method.getJavadocRange() != null) {
 				methodContentWithoutJavaDoc = method.getSource().substring(
 						method.getJavadocRange().getLength());
 			}
 			String methodContentWithoutDeclaration = methodContentWithoutJavaDoc.trim();
 
-			if (methodContentWithoutDeclaration.contains("{")
-					&& methodContentWithoutDeclaration.contains("}")) {
+			if (methodContentWithoutDeclaration.contains(OPENING_BRACKET)
+					&& methodContentWithoutDeclaration.contains(CLOSING_BRACKET)) {
 				methodContentWithoutDeclaration = methodContentWithoutJavaDoc
-						.substring(methodContentWithoutJavaDoc.indexOf("{") + 1);
+						.substring(methodContentWithoutJavaDoc.indexOf(OPENING_BRACKET) + 1);
 				methodContentWithoutDeclaration = methodContentWithoutDeclaration.substring(0,
-						methodContentWithoutDeclaration.lastIndexOf("}")).trim();
+						methodContentWithoutDeclaration.lastIndexOf(CLOSING_BRACKET)).trim();
 
 				// Normalize line delimiters and tabulations
 				String methodContent = "";

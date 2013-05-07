@@ -48,16 +48,20 @@ public class RepositoryContentSorter extends ViewerSorter {
 				String entry2Level = entry2.getName().substring(0, entry2.getName().indexOf(" "));
 				if (entry1.getName().contains(DOT)) {
 					entry2Level = entry2Level.substring(entry1.getName().lastIndexOf(DOT));
-					int compareResult;
-					if (entry1Level.length() != entry2Level.length()) {
-						compareResult = entry1Level.length() - entry2Level.length();
-					} else {
-						compareResult = entry1Level.compareTo(entry2Level);
-					}
-					return compareResult;
+					return doCompareEntryLevels(entry1Level, entry2Level);
 				}
 			}
 		}
 		return super.compare(viewer, e1, e2);
+	}
+
+	private int doCompareEntryLevels(String entry1Level, String entry2Level) {
+		int compareResult;
+		if (entry1Level.length() != entry2Level.length()) {
+			compareResult = entry1Level.length() - entry2Level.length();
+		} else {
+			compareResult = entry1Level.compareTo(entry2Level);
+		}
+		return compareResult;
 	}
 }

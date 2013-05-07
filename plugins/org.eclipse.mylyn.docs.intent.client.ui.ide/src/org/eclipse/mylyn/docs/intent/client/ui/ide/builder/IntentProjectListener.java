@@ -177,12 +177,11 @@ public class IntentProjectListener implements IResourceChangeListener {
 				final Collection<IEditorReference> activeEditorsToClose = Sets.newLinkedHashSet();
 				for (IEditorReference activeEditor : activePage.getEditorReferences()) {
 					try {
-						if (activeEditor.getEditorInput() instanceof IntentEditorInput) {
-							if (project.getName().equals(
-									((IntentEditorInput)activeEditor.getEditorInput()).getRepository()
-											.getIdentifier())) {
-								activeEditorsToClose.add(activeEditor);
-							}
+						if (activeEditor.getEditorInput() instanceof IntentEditorInput
+								&& project.getName().equals(
+										((IntentEditorInput)activeEditor.getEditorInput()).getRepository()
+												.getIdentifier())) {
+							activeEditorsToClose.add(activeEditor);
 						}
 					} catch (PartInitException e) {
 						// Silent catch

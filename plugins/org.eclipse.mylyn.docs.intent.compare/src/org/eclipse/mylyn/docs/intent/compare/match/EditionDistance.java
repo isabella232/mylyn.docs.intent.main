@@ -81,7 +81,6 @@ public class EditionDistance implements DistanceFunction {
 	private double[] thresholds = {0, 0.6, 0.6, 0.55, 0.465
 	};
 
-	// CHECKSTYLE:ON
 	/**
 	 * The fake comparison is used to make the diff engine super class happy. We are reusing the same instance
 	 * which we are updating because of the cost of adding even a single Match in it (and subsequent growing
@@ -659,9 +658,7 @@ public class EditionDistance implements DistanceFunction {
 	 */
 	private double getThresholdRatio(int nbFeatures) {
 		if (nbFeatures >= thresholds.length) {
-			// CHECKSTYLE:OFF
 			return 0.465d;
-			// CHECKSTYLE:ON
 		}
 		return thresholds[nbFeatures];
 	}

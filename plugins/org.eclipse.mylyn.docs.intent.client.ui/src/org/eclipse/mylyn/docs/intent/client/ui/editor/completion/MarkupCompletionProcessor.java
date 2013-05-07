@@ -96,9 +96,11 @@ public class MarkupCompletionProcessor extends AbstractIntentCompletionProcessor
 	 * @return true if the given char indicates the beginning of a completion proposal, false otherwise
 	 */
 	private boolean isRelevantChar(char currentChar) {
-		return currentChar == '_' || currentChar == '@' || currentChar == '*' || currentChar == '%'
-				|| currentChar == '+' || currentChar == '^' || currentChar == '-' || currentChar == '#'
-				|| currentChar == '!' || currentChar == '?';
+		boolean isRelevantChar = currentChar == '_' || currentChar == '@' || currentChar == '*'
+				|| currentChar == '?';
+		isRelevantChar = isRelevantChar || currentChar == '%' || currentChar == '+' || currentChar == '^';
+		isRelevantChar = isRelevantChar || currentChar == '-' || currentChar == '#' || currentChar == '!';
+		return isRelevantChar;
 	}
 
 	/**
@@ -218,16 +220,17 @@ public class MarkupCompletionProcessor extends AbstractIntentCompletionProcessor
 			String fontDecorationSyntax, String variableName, String beginningText) {
 		String templateName = fontDecorationSyntax + fontDecorationName.toLowerCase() + fontDecorationSyntax;
 		String templatePattern = "";
-		if (beginningText.contains(" ")) {
-			beginningText = beginningText.substring(beginningText.lastIndexOf(' ')).trim();
+		String actualBeginningText = beginningText;
+		if (actualBeginningText.contains(" ")) {
+			actualBeginningText = actualBeginningText.substring(actualBeginningText.lastIndexOf(' ')).trim();
 		}
-		if (beginningText.contains(fontDecorationSyntax) && !(isSkipped(fontDecorationSyntax.charAt(0)))) {
-			beginningText = beginningText
-					.substring(
-							beginningText.lastIndexOf(fontDecorationSyntax.charAt(0))
-									+ fontDecorationSyntax.length()).trim();
+		if (actualBeginningText.contains(fontDecorationSyntax)
+				&& !(isSkipped(fontDecorationSyntax.charAt(0)))) {
+			actualBeginningText = actualBeginningText.substring(
+					actualBeginningText.lastIndexOf(fontDecorationSyntax.charAt(0))
+							+ fontDecorationSyntax.length()).trim();
 		}
-		templatePattern = beginningText + fontDecorationSyntax;
+		templatePattern = actualBeginningText + fontDecorationSyntax;
 		return createTemplateProposal(templateName, fontDecorationName, templatePattern, null);
 	}
 

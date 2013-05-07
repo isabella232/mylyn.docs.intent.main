@@ -25,7 +25,7 @@ public class SingleLinePatternRule implements IRule, IPredicateRule {
 
 	private final Token token;
 
-	private int readCount = 0;
+	private int readCount;
 
 	/**
 	 * The string indicating the beginning of this rule.
@@ -104,16 +104,20 @@ public class SingleLinePatternRule implements IRule, IPredicateRule {
 	 */
 	public IToken evaluate(ICharacterScanner scanner, boolean resume) {
 		readCount = 0;
+		boolean endOrStartSequenceDetected = false;
 		if (resume) {
 			if (endSequenceDetected(scanner)) {
-				return token;
+				endOrStartSequenceDetected = true;
 			}
 		} else {
 			if (startSequenceDetected(scanner)) {
 				if (endSequenceDetected(scanner)) {
-					return token;
+					endOrStartSequenceDetected = true;
 				}
 			}
+		}
+		if (endOrStartSequenceDetected) {
+			return token;
 		}
 		while (readCount > 0) {
 			--readCount;

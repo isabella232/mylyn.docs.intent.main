@@ -45,14 +45,20 @@ import org.eclipse.mylyn.docs.intent.markup.gen.services.ImageServices;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class CopyImageUtils {
+public final class CopyImageUtils {
 
 	private static AdapterFactoryItemDelegator itemDelegator;
 
 	private static ResourceSetImpl resourceSet;
 
 	/**
-	 * Determines the image associated to the given EObject, copies it inside the exported documentation and
+	 * Private constructor.
+	 */
+	private CopyImageUtils() {
+		
+	}
+	/**
+	 * Determines the image associated to the given EObject and copies it inside the exported documentation.
 	 * 
 	 * @param any
 	 *            the eobject to get the image from
@@ -82,7 +88,8 @@ public class CopyImageUtils {
 				if (resolvedURL.toString().contains("org.eclipse.emf.edit")
 						&& resolvedURL.toString().endsWith("/icons/full/obj16/Item.gif")) {
 					// we search for an "edit" plugin in the workspace
-					if ((imageURL = getImageFromWorkspace(classifier, repositoryAdapter)) != null) {
+					imageURL = getImageFromWorkspace(classifier, repositoryAdapter);
+					if (imageURL != null) {
 						resolvedURL = (URL)imageURL;
 					}
 				}

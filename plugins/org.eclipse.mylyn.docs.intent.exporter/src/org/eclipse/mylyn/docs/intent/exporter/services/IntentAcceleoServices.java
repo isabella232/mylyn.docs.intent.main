@@ -49,6 +49,12 @@ public final class IntentAcceleoServices {
 	private static ComposedAdapterFactory adapterFactory;
 
 	/**
+	 * Private constructor.
+	 */
+	private IntentAcceleoServices() {
+	}
+
+	/**
 	 * Returns the header size to apply to the section with the given ID. For example,
 	 * getHeaderSizeForSection(3_2) will return "2", getHeaderSizeForSection(4_3_2_1) will return "4".
 	 * 
@@ -72,7 +78,7 @@ public final class IntentAcceleoServices {
 	}
 
 	/**
-	 * Determines the image associated to the given EObject, copies it inside the exported documentation and
+	 * Determines the image associated to the given EObject and copies it inside the exported documentation.
 	 * 
 	 * @param any
 	 *            the eobject to get the image from
@@ -106,9 +112,9 @@ public final class IntentAcceleoServices {
 		return new TraceabilityInformationsQuery(repositoryAdapter).getAllRelatedContributions(instruction);
 	}
 
-	public static TraceabilityIndex getTraceabilityIndex(RepositoryAdapter repositoryAdapter) {
+	public static TraceabilityIndex getTraceabilityIndex(RepositoryAdapter currentRepositoryAdapter) {
 		if (traceabilityIndex == null) {
-			traceabilityIndex = new TraceabilityInformationsQuery(repositoryAdapter)
+			traceabilityIndex = new TraceabilityInformationsQuery(currentRepositoryAdapter)
 					.getOrCreateTraceabilityIndex();
 		}
 		return traceabilityIndex;

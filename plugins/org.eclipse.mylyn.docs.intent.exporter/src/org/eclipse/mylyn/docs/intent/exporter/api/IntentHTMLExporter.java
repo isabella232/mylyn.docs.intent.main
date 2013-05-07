@@ -31,13 +31,12 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.exporter.main.HTMLBootstrapGenDocument;
 import org.osgi.framework.Bundle;
 
 /**
- * Class allowing to make an HTML export of an {@link IntentDocument} (or any {@link IntentStructuredElement}
+ * Class allowing to make an HTML export of an {@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument} (or any {@link IntentStructuredElement}
  * ).
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
@@ -51,8 +50,8 @@ public class IntentHTMLExporter {
 	 * 
 	 * @param targetFolderLocation
 	 *            the target folder location
-	 * @param intentProject
-	 *            the intent project to export
+	 * @param intentElement
+	 *            the intent element to export
 	 * @param documentName
 	 *            the name to associated to the exported HTML document
 	 * @param showTableOfContents
@@ -111,7 +110,7 @@ public class IntentHTMLExporter {
 	}
 
 	/**
-	 * Copies in the given target folder all the files (css, javascript...) required by this HTML export
+	 * Copies in the given target folder all the files (css, javascript...) required by this HTML export.
 	 * 
 	 * @param targetFolder
 	 * @throws IOException

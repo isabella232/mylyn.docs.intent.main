@@ -55,6 +55,8 @@ public final class FileToStringConverter {
 	}
 
 	public static String encodingRedresser(String stringToRedresse) {
+		// CHECKSTYLE:OFF
 		return stringToRedresse.replace("Ã©", "é");
+		// CHECKSTYLE:ON
 	}
 }

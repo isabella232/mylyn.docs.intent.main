@@ -44,6 +44,11 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	};
 
 	/**
+	 * The repository adapter to use to query the documentation.
+	 */
+	protected RepositoryAdapter repositoryAdapter;
+
+	/**
 	 * The document.
 	 */
 	protected IDocument document;
@@ -62,11 +67,6 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	 * The current indentation.
 	 */
 	private String indentation;
-
-	/**
-	 * The repository adapter to use to query the documentation.
-	 */
-	protected RepositoryAdapter repositoryAdapter;
 
 	/**
 	 * Default constructor.

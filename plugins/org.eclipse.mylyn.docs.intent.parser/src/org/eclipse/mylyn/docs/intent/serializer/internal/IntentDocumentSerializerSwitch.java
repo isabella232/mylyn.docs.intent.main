@@ -32,6 +32,11 @@ public class IntentDocumentSerializerSwitch extends IntentDocumentSwitch<String>
 	private IntentElementSerializer serializer;
 
 	/**
+	 * The Prefix to use for prefixing each line.
+	 */
+	private String tabulationPrefix;
+
+	/**
 	 * IntentDocumentSerializerSwitch constructor.
 	 * 
 	 * @param documentSerializer
@@ -60,11 +65,6 @@ public class IntentDocumentSerializerSwitch extends IntentDocumentSwitch<String>
 	public String caseIntentSection(IntentSection object) {
 		return IntentSectionSerializer.serialize(object, serializer);
 	}
-
-	/**
-	 * The Prefix to use for prefixing each line.
-	 */
-	private String tabulationPrefix;
 
 	/**
 	 * {@inheritDoc}

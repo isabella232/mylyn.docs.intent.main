@@ -370,6 +370,49 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#dispose()
+	 */
+	@Override
+	public void dispose() {
+		if (refreshPreviewEditorListener != null) {
+			getPreferenceStore().removePropertyChangeListener(refreshPreviewEditorListener);
+		}
+	}
+
+	/**
+	 * An {@link IPropertyChangeListener} that refreshes the preview viewer.
+	 * 
+	 * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+	 */
+	private class RefreshPreviewEditorListener implements IPropertyChangeListener {
+
+		private IntentEditorDocument document;
+
+		/**
+		 * Constructor.
+		 * 
+		 * @param document
+		 *            the document to refresh
+		 */
+		public RefreshPreviewEditorListener(IntentEditorDocument document) {
+			this.document = document;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
+		 */
+		public void propertyChange(PropertyChangeEvent event) {
+			// TODO REFRESH PREVIEW VIEW
+		}
+
+	}
+
+	// CHECKSTYLE:OFF
 	public class TabFolderLayout extends Layout {
 
 		protected Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) {
@@ -403,47 +446,5 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 				children[i].setBounds(rect);
 			}
 		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.jface.preference.FieldEditorPreferencePage#dispose()
-	 */
-	@Override
-	public void dispose() {
-		if (refreshPreviewEditorListener != null) {
-			getPreferenceStore().removePropertyChangeListener(refreshPreviewEditorListener);
-		}
-	}
-
-	/**
-	 * An {@link IPropertyChangeListener} that refreshes the preview viewer.
-	 * 
-	 * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
-	 */
-	private class RefreshPreviewEditorListener implements IPropertyChangeListener {
-
-		private IntentEditorDocument document;
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param viewer
-		 *            the preview Viewer to refresh
-		 */
-		public RefreshPreviewEditorListener(IntentEditorDocument document) {
-			this.document = document;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 * 
-		 * @see org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
-		 */
-		public void propertyChange(PropertyChangeEvent event) {
-			// TODO REFRESH PREVIEW VIEW
-		}
-
 	}
 }
