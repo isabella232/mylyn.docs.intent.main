@@ -4,7 +4,9 @@
       <description>
          This Getting started cheat sheet will give you an overview of the Intent features on a simple example.<br/>
 It is automatically opened when a new Intent Project is created. Notice that you can disable this behavior through Mylyn Intent Preferences (Window &gt; Preferences &gt; Mylyn &gt; Intent &gt; Other).<br/><br/>
+To get a more complete overview of Intent, you can read the <b>Intent User Guide</b> (available from Eclipse Help - Help> Help Contents> Mylyn or by clicking on the question mark of this Cheat Sheet).
 
+<br/><br/>
 <b>General overview: What is Mylyn Intent?</b><br/>
 In a nutshell, Intent is a documentation environment providing tooling to:
 <br/>- efficiently write documentation within the Eclipse IDE
