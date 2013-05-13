@@ -8,5 +8,19 @@
             primary="false">
       </toc>
    </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="org.eclipse.mylyn.docs.intent.idoc.cheatsheet"
+            name="Mylyn Intent">
+      </category>
+      <cheatsheet
+            category="org.eclipse.mylyn.docs.intent.idoc.cheatsheet"
+            composite="false"
+            contentFile="cheatsheets/Intent_GetStarted.xml"
+            id="org.eclipse.mylyn.docs.intent.idoc.cheatsheet.getstarted"
+            name="Mylyn Intent - Getting Started">
+      </cheatsheet>
+   </extension>
 
 </plugin>

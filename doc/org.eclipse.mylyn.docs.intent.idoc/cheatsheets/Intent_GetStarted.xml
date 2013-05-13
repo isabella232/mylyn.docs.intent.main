@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cheatsheet title="Mylyn Intent - Get Started">
+   <intro href="/org.eclipse.mylyn.docs.intent.idoc/html/user/Getting Started.html">
+      <description>
+         This Getting started cheat sheet will give you an overview of the Intent features on a simple example.<br/>
+It is automatically opened when a new Intent Project is created. Notice that you can disable this behavior through Mylyn Intent Preferences (Window &gt; Preferences &gt; Mylyn &gt; Intent &gt; Other).<br/><br/>
+
+<b>General overview: What is Mylyn Intent?</b><br/>
+In a nutshell, Intent is a documentation environment providing tooling to:
+<br/>- efficiently write documentation within the Eclipse IDE
+<br/>- keep this documentation up-to-date by linking pieces of docs with technical artifacts (Java or C++ code, models, Manifests...)
+<br/>- export the documentation (in HTML, Latex, PDF...)
+      </description>
+   </intro>
+   <item title="Create an Intent Project">
+      <description>-  Open the <b>Project Explorer</b> view (<b>Alt + Shift + Q / Q</b> and select <b>Project Explorer</b> 
+      or <b>Window &gt; Show View... &gt; Project Explorer</b>)
+<br/><br/>-  Open the <b>Create New</b> Wizard (<b>Ctrl + N</b> or right-click in the project explorer and select <b>New..</b>)
+<br/><br/>-  Select the <b>Intent Project</b> Wizard and click Next
+<br/><br/>-  Enter your Intent Project name (e.g. &quot;com.my.company.project.idoc&quot;), choose a working set (or leave to default). By clicking on <b>Finish</b> now, an empty Intent document will be created.
+<br/><br/>-  If you select <b>Next</b>, you will be able to choose between a set of documentation templates. The <b>Standard Software Documentation Template</b> has been created to help you writing meaningful documentation. By clicking on <b>Finish</b> now, an Intent document initialized with the template you selected will be created.tent document initialized with the template you selected will be created
+      </description>
+   </item>
+   <item title="Actions available from an Intent Project">
+   <description>
+      Close the Intent editor thas has been automatically opened. Let's first focus on the Intent project in itself.<br/><br/>
+      <b>Open Intent editors</b><br/>
+      As you can see, an Intent project is structured as any documentation: it contains chapters, sections and sub-sections.
+      Notice that you can open an Intent editor on any-sub part of the documentation, no matter how small. 
+      The idea is that you have above the eyes only the pieces of doc which are relevant in your current context,
+       without having to handle an hundred of pages long document. Consequently, <b>we strongly advice you to open Intent 
+       editors on sub-parts of the doc</b> instead of the whole Intent document. To do so, simply double-click on an Intent 
+       element inside the project explorer view (e.g. the chapter "1 Functional").
+
+Now that the chapter 1 is opened, if you double-click on one of its sub-sections (e.g. "1.6 Significant Scenarios", the sub-section
+ will be selected inside the current editor. If you want to open a specific editor on this section, right-click on 
+ it and select the <b>Open in a new Intent editor</b> action.<br/><br/><br/>
+ 
+	<b>Export documentation</b>
+<br/>
+By right-clicking on the Intent Project and selecting <b>Export documentation as HTML</b>, 
+you will be able to export your Intent documentation as an HTML Bootstrap document.
+<br/>Many other formats will soon be available, please do not hesitate to make requests on the Intent forum (http://www.eclipse.org/forums/eclipse.intent) if you want a specific export format to be supported by Intent.
+      </description>
+      </item>
+      <item title="Write documentation with Intent">
+      <description>
+      This section will show how you can use Intent to write "traditional" documentation, i.e. explanations in natural language. 
+      As we will see later, you will be able to <b>link pieces of this documentation with technical artifacts</b>.
+
+      You can customize the appearance of the Intent editor (line wrapping, bracket matching, colors...) by using the Intent Preferences Page.<br/><br/>
+   <b>Use the Intent Preview View</b><br/>
+            As explained earlier, open an Intent Editor on the Section 1.6 entitled "Significant Scenarios".<br/><br/>
+Intent offers a real-time HTML preview of the documentation you are currently writing. You can access to this preview by:
+- selecting the "Preview tab" at the bottom of your Intent editor<br/>
+- or opening the "Intent Preview" View (<b>Alt + Shift + Q / Q</b> and select <b>Intent Preview</b> or <b>Window > Show View... > Intent > Intent Preview</b>).<br/><br/>
+
+This view can be useful to quickly make sure that the documentation you are writing is correctly rendered.
+It is refreshed any time you save an Intent editor or when you bring to top a new Intent editor.<br/>
+
+Notice that you can disable this real-time preview mechanism from the Intent Preferences Page > Appearance ,
+ especially if you are dealing huge documents (live preview can impact Intent performances).<br/><br/> 
+ <b>Create new sub-sections</b><br/>
+From the 1.6 Section you have just opened, you can create a new sub-section by:
+<br/>- typing <b>Section MyNewSubSection { some text }</b>
+<br/>- use the completion (<b>Ctrl + space</b>) and select <b>Section</b><br/>
+Save your document, and you will see the new sub-section appear under the Intent project.
+
+<br/><br/><b>Write pure documentation</b><br/>
+Intent uses the <b>Textile</b> syntax in pure documentation zones. For example, you can put a sentence in bold by using *sentence in bold*, 
+insert images using !imgPath!, links by using "link text":http://linktarget... Use the completion (<b>Ctrl + space</b>) to see all available instructions.<br/>
+Any textile effect will be rendered in the Intent Preview View.<br/><br/>
+
+Please refer to the Textile Syntax reference (from Eclipse help) for further details about the textile syntax.
+ 
+ </description>
+      </item>
+      <item title="Link documentation with Java code">
+      <description>
+<b>Drag and Drop technical artifacts</b><br/>
+
+Open an Intent Editor on the Section 1.6 entitled "Significant Scenarios".<br/>
+Write a new section presenting a functional scenario detailing a requirement of our system.<br/>
+Now let's create a Java test to test the described scenario:<br/>
+- create a Java project entitled <b>com.my.company.project.test</b>
+<br/>- create a Java test inside this project containing a <b>testScenario1()</b> test method.
+<br/>
+To link this <b>testScenario1()</b> test method with the related piece of documentation, 
+simply drop the method inside the Intent document.<br/>
+ This drag and drop mechanism is extensible and works for any kind of technical artifact (Java files, model elements, MANIFEST files...).<br/>
+You can see that a <b>reference</b> has been automatically created, and that an image showing the method and its 
+javadoc is displayed inside the editor. Notice that this image rendering mechanism is extensible.<br/><br/>
+<b>Use hyperlinks to navigate from documentation to code</b><br/>
+Once the Intent editor is saved, your scenario in the documentation and the java test method become linked. 
+By typing <b>ctrl + click</b> or <b>F3</b> on the reference (<b>@ref</b> instruction), you can open a Java editor 
+on the corresponding artifact. Notice that this hyperlink mechanism is extensible.
+
+<br/><br/><b>Use the quick-outline to make semantic searches on your documentation</b><br/>
+By typing <b>ctrl + O</b>, you can use the Intent <b>quick-outline</b> to query your documentation to get 
+all the documentation parts related to some Java class, model element... <br/>
+For example, if you type <b>ctrl + O</b> and search for <b>*Test.java</b>, you will get all the documentation
+ parts related to a java test. The default scope of this search is the currently opened editor, but by typing <b>ctrl + O</b> again
+  you will search through the whole Intent document.
+
+      </description>
+      </item>
+      <item title="Dealing with Synchronization Issues">
+      <description>
+      Now that you have linked a java method with a piece of documentation, any time you will modify this java method,
+       Intent will display synchronization issues indicating the pieces of documentation that need to be updated.<br/>
+Modify the method of your Scenario01 test (e.g. by adding a comment). You will see a <b>Synchronization warning</b> appear 
+in the Problems view and on the Intent project. From this warning, you can use the <b>Intent > Show in Intent editor</b> action
+ to open an Intent editor on the documentation parts that needs to be updated.<br/>
+You are free to update the outdated documentation parts whenever you want. It is up to you:
+<b>choose the most efficient way of updating documentation according to your process</b>.
+ The Disciplined Agile Delivery describes several processes for updating your documentation: you may want to update 
+ it right away (“document continuously”), wait for the code to stabilize (e.g. the issue is closed), 
+ update the documentation just before a release (“document late”) or when people complain (“document only when it hurts”)...
+ <br/><br/><b>Visualize differences</b> <br/>
+You can graphically visualize the differences between the documentation and the technical artifacts by:<br/>
+- clicking on a synchronization issue
+<br/>- typing @Ctrl + 1@ (or right-clicking and select @Quick fix@)
+<br/>- selecting the @See all difference in compare editor@ action
+<br/>
+A pop-up displaying all changes that occurred in the workspace and were not documented is opened,
+ allowing you to determine how you should update your textual documentation.
+
+<br/><br/><b>Fix a synchronization issue</b><br/>
+To fix a synchronization, first *update your textual documentation*, and :<br/>
+- click on the synchronization issue
+<br/>- type <b>Ctrl + 1</b> (or right-clicking and select <b>Quick fix</b>)
+<br/>- select the <b>Mark documentation as updated</b> action
+<br/>- Save your Intent editor
+<br/>
+The synchronization issue has now disappeared from your problem view, so now your documentation 
+is up-to-date in regards to the changes you made on your software.
+      </description>
+      </item>
+      <item title="Get more information" dialog="false" skip="true">
+     <description>
+       For further information about Mylyn Intent, please refer to the Intent documentation (under Help &gt; Help Contents &gt; Mylyn).
+     </description>
+   </item>
+</cheatsheet>

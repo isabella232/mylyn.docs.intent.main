@@ -24,6 +24,8 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceService;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryInitializer;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
@@ -31,10 +33,12 @@ import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
+import org.eclipse.ui.internal.cheatsheets.views.CheatSheetView;
 
 /**
  * The Intent project creation wizard.
@@ -221,6 +225,16 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 				IntentUiLogger.logError(e);
 			}
 
+			// Step 5: open the getting started cheat sheet (according to preferences)
+			if (IntentPreferenceService
+					.getBoolean(IntentPreferenceConstants.SHOW_CHEAT_SHEET_ON_PROJECT_CREATION)) {
+				IViewPart cheatSheetView = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+						.getActivePage().showView("org.eclipse.ui.cheatsheets.views.CheatSheetView");
+				if (cheatSheetView instanceof CheatSheetView) {
+					((CheatSheetView)cheatSheetView)
+							.setInput("org.eclipse.mylyn.docs.intent.idoc.cheatsheet.getstarted");
+				}
+			}
 		}
 	}
 }

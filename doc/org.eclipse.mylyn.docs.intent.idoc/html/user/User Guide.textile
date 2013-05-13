@@ -1,1 +1,10 @@
 h1. Intent User Guide
+
+This guide will give you an overview of the main Intent features.
+
+* "Getting Started":Getting%20Started.html : to discover how to use Intent on a simple example. 
+
+For further information about Mylyn Intent, you can:
+* read the "Intent Wiki":http://wiki.eclipse.org/Intent
+* ask questions on the "Intent forum":http://www.eclipse.org/forums/index.php?t=thread&frm_id=219
+* check the "Intent useful links":http://wiki.eclipse.org/Intent/Useful_Links

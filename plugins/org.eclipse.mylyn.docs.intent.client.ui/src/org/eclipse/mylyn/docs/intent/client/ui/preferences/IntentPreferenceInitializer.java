@@ -94,6 +94,8 @@ public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING,
 				Boolean.FALSE.toString());
 		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.ACTIVATE_BACKUP, Boolean.FALSE.toString());
+		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.SHOW_CHEAT_SHEET_ON_PROJECT_CREATION,
+				Boolean.TRUE.toString());
 
 	}
 

@@ -100,4 +100,8 @@ public interface IntentPreferenceConstants {
 	 */
 	String ACTIVATE_ADVANCE_LOGGING = "org.eclipse.mylyn.docs.intent.client.ui.preferences.advanced_logging";
 
+	/**
+	 * Indicates whether the getting started cheat sheet should be opened when creating a new Intent project."
+	 */
+	String SHOW_CHEAT_SHEET_ON_PROJECT_CREATION = "org.eclipse.mylyn.docs.intent.client.ui.preferences.show_cheat_sheet";
 }

@@ -222,6 +222,11 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 
 	private Control createOtherPage(Composite parent) {
 		Composite composite = createComposite(parent);
+		addField(createBooleanFieldEditor(
+				IntentPreferenceConstants.SHOW_CHEAT_SHEET_ON_PROJECT_CREATION,
+				"Show Getting Started guide on project creation",
+				"Indicates whether the 'Getting Started' Cheat Sheet should be automatically opened when creating a new Intent Project",
+				composite));
 
 		addField(createBooleanFieldEditor(IntentPreferenceConstants.ACTIVATE_BACKUP,
 				"Activate back-up mechanism",

@@ -36,6 +36,8 @@ Contributors:
 
    <requires>
       <import feature="org.eclipse.mylyn.docs.intent.feature" version="0.7.0.qualifier"/>
+      <import plugin="org.eclipse.mylyn.tasks.ui"/>
+      <import plugin="org.eclipse.mylyn.help.ui"/>
    </requires>
 
    <plugin
