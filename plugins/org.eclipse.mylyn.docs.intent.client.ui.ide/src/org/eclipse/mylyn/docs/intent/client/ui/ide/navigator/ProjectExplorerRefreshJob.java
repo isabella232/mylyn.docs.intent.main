@@ -21,6 +21,9 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.Activator;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
+import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
+import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -109,7 +112,14 @@ public class ProjectExplorerRefreshJob extends Job {
 	private void refreshProjectExplorer(final ProjectExplorer projectExplorer) {
 		CommonViewer commonViewer = projectExplorer.getCommonViewer();
 		if (!commonViewer.getControl().isDisposed()) {
-			if (elementToRefresh != null) {
+			if (elementToRefresh instanceof IntentIndex
+					&& ((IntentIndex)elementToRefresh).getEntries().size() > 0) {
+				elementToRefresh = ((IntentIndex)elementToRefresh).getEntries().iterator().next()
+						.getReferencedElement();
+			} else if (elementToRefresh instanceof IntentIndexEntry) {
+				elementToRefresh = ((IntentIndexEntry)elementToRefresh).getReferencedElement();
+			}
+			if (elementToRefresh instanceof IntentStructuredElement) {
 				// We try to refresh the element container (if not null)
 				if (elementToRefresh.eContainer() != null) {
 					commonViewer.refresh(elementToRefresh.eContainer(), true);
