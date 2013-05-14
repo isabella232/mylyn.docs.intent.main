@@ -95,7 +95,7 @@ public final class CopyImageUtils {
 				}
 
 				// Step 3: copy image in the exported documentation
-				if (resolvedURL != null) {
+				if (resolvedURL != null && resolvedURL.getFile() != null && outputFolder != null) {
 					qualifiedImageID = copyImageIfNeeded(classifier, outputFolder, resolvedURL,
 							resolvedURL.openStream());
 				}

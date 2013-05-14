@@ -156,7 +156,8 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 			handleDrawRequest(event.gc, event.x, event.y, event.width, event.height);
 
 			// launch a redrawn to avoid leaving old painted decorations when editor is resized
-			if (!isEqualToLastDrawRequest(event.x, event.y, event.width, event.height)) {
+			if (!isEqualToLastDrawRequest(fTextWidget.getClientArea().x, fTextWidget.getClientArea().y,
+					fTextWidget.getClientArea().width, fTextWidget.getClientArea().height)) {
 				fTextWidget.redraw(fTextWidget.getClientArea().x, fTextWidget.getClientArea().y,
 						fTextWidget.getClientArea().width, fTextWidget.getClientArea().height, false);
 			}

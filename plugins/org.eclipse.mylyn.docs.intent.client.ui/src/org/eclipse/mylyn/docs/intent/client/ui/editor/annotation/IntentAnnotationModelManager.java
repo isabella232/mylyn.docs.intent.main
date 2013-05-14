@@ -10,9 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.annotation;
 
+import com.google.common.collect.Maps;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.Position;
@@ -43,16 +46,16 @@ public class IntentAnnotationModelManager {
 
 	/**
 	 * The currently handled compilation status list, mapped with its corresponding annotation (use for
-	 * updating the annotations).
+	 * updating the annotations), sorted by each status's target.
 	 */
-	private Map<CompilationStatus, Annotation> handledCompilationStatus;
+	private Map<String, Map<CompilationStatus, Annotation>> handledCompilationStatus;
 
 	/**
 	 * IntentAnnotationModelManager constructor.
 	 */
 	public IntentAnnotationModelManager() {
 		this.annotationModel = new AnnotationModel();
-		this.handledCompilationStatus = new HashMap<CompilationStatus, Annotation>();
+		this.handledCompilationStatus = new HashMap<String, Map<CompilationStatus, Annotation>>();
 	}
 
 	/**
@@ -68,11 +71,15 @@ public class IntentAnnotationModelManager {
 	 */
 	public void addAnnotationFromStatus(RepositoryAdapter repositoryAdapter, CompilationStatus status,
 			Position position) {
-		if (!(handledCompilationStatus.containsKey(status))) {
+		String targetID = repositoryAdapter.getIDFromElement(status.getTarget()).toString();
+		if (handledCompilationStatus.get(targetID) == null) {
+			handledCompilationStatus.put(targetID, Maps.<CompilationStatus, Annotation> newLinkedHashMap());
+		}
+		if (!(handledCompilationStatus.get(targetID).containsKey(status))) {
 			// We create an annotation from the status and add it to the annotation model
 			Annotation annotation = IntentAnnotationFactory.createAnnotationFromCompilationStatus(status);
 			addAnnotation(annotation, position);
-			handledCompilationStatus.put(status, annotation);
+			handledCompilationStatus.get(targetID).put(status, annotation);
 		}
 	}
 
@@ -85,7 +92,9 @@ public class IntentAnnotationModelManager {
 	 *            the position of this annotation
 	 */
 	private synchronized void addAnnotation(Annotation annotation, Position position) {
+		// synchronized(annotationModel.getLockObject()) {
 		annotationModel.addAnnotation(annotation, position);
+		// }
 	}
 
 	/**
@@ -125,30 +134,27 @@ public class IntentAnnotationModelManager {
 	public synchronized void removeInvalidCompilerAnnotations(RepositoryAdapter adapter,
 			IntentGenericElement element) {
 		// For each compilationStatus associated to the given element
-		Iterator<CompilationStatus> compilationStatusIterator = handledCompilationStatus.keySet().iterator();
-		while (compilationStatusIterator.hasNext()) {
-			CompilationStatus currentStatus = compilationStatusIterator.next();
-			boolean removeCurrentStatus = currentStatus == null || currentStatus.getTarget() == null;
-			Object currentStatusTargetID = null;
-			Object elementID = null;
-			if (!removeCurrentStatus) {
-				currentStatusTargetID = adapter.getIDFromElement(currentStatus.getTarget());
-				elementID = adapter.getIDFromElement(element);
-				removeCurrentStatus = currentStatusTargetID == null;
-			}
-			// If the status is concerning the given element
-			// FIXME find a way to determine those targets
-			if (!removeCurrentStatus && currentStatusTargetID.equals(elementID)) {
-				if (isCompilerAnnotation(this.handledCompilationStatus.get(currentStatus).getType())) {
-					// If the currentElement doesn't contain this status any more
-					if (!element.getCompilationStatus().contains(currentStatus)) {
-						removeCurrentStatus = true;
+		String elementID = adapter.getIDFromElement(element).toString();
+		Map<CompilationStatus, Annotation> statusToAnnotations = handledCompilationStatus.get(elementID);
+		if (statusToAnnotations != null) {
+			Iterator<Entry<CompilationStatus, Annotation>> statusToAnnotationsIterator = statusToAnnotations
+					.entrySet().iterator();
+			while (statusToAnnotationsIterator.hasNext()) {
+				Entry<CompilationStatus, Annotation> statusToAnnotation = statusToAnnotationsIterator.next();
+				boolean removeCurrentStatus = statusToAnnotation.getKey() == null
+						|| statusToAnnotation.getKey().getTarget() == null;
+				if (!removeCurrentStatus) {
+					if (isCompilerAnnotation(statusToAnnotation.getValue().getType())) {
+						// If the currentElement doesn't contain this status any more
+						if (!element.getCompilationStatus().contains(statusToAnnotation.getKey())) {
+							removeCurrentStatus = true;
+						}
 					}
 				}
-			}
-			if (removeCurrentStatus) {
-				annotationModel.removeAnnotation(this.handledCompilationStatus.get(currentStatus));
-				compilationStatusIterator.remove();
+				if (removeCurrentStatus) {
+					annotationModel.removeAnnotation(statusToAnnotation.getValue());
+					statusToAnnotationsIterator.remove();
+				}
 			}
 		}
 	}

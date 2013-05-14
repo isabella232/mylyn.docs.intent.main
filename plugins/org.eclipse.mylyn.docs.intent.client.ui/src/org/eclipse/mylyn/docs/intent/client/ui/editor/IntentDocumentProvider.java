@@ -724,9 +724,8 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		if (modifiedObject instanceof CompilationStatusManager) {
 			if (elementsToDocuments.values().iterator().hasNext()
 					&& elementsToDocuments.values().iterator().next().iterator().hasNext()) {
-				updateAnnotationModelFromCompilationStatusAndChildren(
-						(IntentGenericElement)this.documentRoot, elementsToDocuments.values().iterator()
-								.next().iterator().next());
+				updateAnnotationModelFromCompilationStatusAndChildren((IntentGenericElement)documentRoot,
+						elementsToDocuments.values().iterator().next().iterator().next());
 			}
 		}
 	}
