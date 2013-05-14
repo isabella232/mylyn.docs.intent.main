@@ -30,6 +30,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getCompilationStatusList <em>Compilation Status List</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getModelingUnitToStatusList <em>Modeling Unit To Status List</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getValidationTime <em>Validation Time</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getSynchronizationTime <em>Synchronization Time</em>}</li>
  * </ul>
  * </p>
  *
@@ -97,5 +98,31 @@ public interface CompilationStatusManager extends CDOObject {
 	 * @generated
 	 */
 	void setValidationTime(BigInteger value);
+
+	/**
+	 * Returns the value of the '<em><b>Synchronization Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Synchronization Time</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Synchronization Time</em>' attribute.
+	 * @see #setSynchronizationTime(BigInteger)
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage#getCompilationStatusManager_SynchronizationTime()
+	 * @model
+	 * @generated
+	 */
+	BigInteger getSynchronizationTime();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getSynchronizationTime <em>Synchronization Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Synchronization Time</em>' attribute.
+	 * @see #getSynchronizationTime()
+	 * @generated
+	 */
+	void setSynchronizationTime(BigInteger value);
 
 } // CompilationStatusManager

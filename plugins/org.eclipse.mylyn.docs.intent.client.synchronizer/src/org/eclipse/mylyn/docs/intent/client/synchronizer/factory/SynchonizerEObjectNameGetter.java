@@ -49,13 +49,13 @@ public final class SynchonizerEObjectNameGetter {
 	 * @return Name of the given {@link EObject}.
 	 */
 	public static String computeObjectName(EObject eObject) {
-		String objectName = null;
+		String objectName = "";
 		try {
 			objectName = getLabelProvider().getText(eObject);
 		} catch (IllegalArgumentException e) {
-			objectName = null;
+			objectName = "";
 		}
-		if (objectName == null || "".equals(objectName)) { //$NON-NLS-1$
+		if (eObject != null && (objectName == null || "".equals(objectName))) { //$NON-NLS-1$
 			objectName = "untitled " + eObject.eClass().getName(); //$NON-NLS-1$
 		}
 		return objectName;

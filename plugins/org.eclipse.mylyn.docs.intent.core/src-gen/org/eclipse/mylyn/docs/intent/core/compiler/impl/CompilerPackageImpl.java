@@ -604,6 +604,15 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getCompilationStatusManager_SynchronizationTime() {
+		return (EAttribute)compilationStatusManagerEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1098,6 +1107,7 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		createEReference(compilationStatusManagerEClass,
 				COMPILATION_STATUS_MANAGER__MODELING_UNIT_TO_STATUS_LIST);
 		createEAttribute(compilationStatusManagerEClass, COMPILATION_STATUS_MANAGER__VALIDATION_TIME);
+		createEAttribute(compilationStatusManagerEClass, COMPILATION_STATUS_MANAGER__SYNCHRONIZATION_TIME);
 
 		compilationInformationHolderEClass = createEClass(COMPILATION_INFORMATION_HOLDER);
 		createEReference(compilationInformationHolderEClass,
@@ -1346,6 +1356,9 @@ public class CompilerPackageImpl extends EPackageImpl implements CompilerPackage
 		initEAttribute(getCompilationStatusManager_ValidationTime(), ecorePackage.getEBigInteger(),
 				"validationTime", null, 0, 1, CompilationStatusManager.class, !IS_TRANSIENT, !IS_VOLATILE,
 				IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getCompilationStatusManager_SynchronizationTime(), ecorePackage.getEBigInteger(),
+				"synchronizationTime", null, 0, 1, CompilationStatusManager.class, !IS_TRANSIENT,
+				!IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(compilationInformationHolderEClass, CompilationInformationHolder.class,
 				"CompilationInformationHolder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

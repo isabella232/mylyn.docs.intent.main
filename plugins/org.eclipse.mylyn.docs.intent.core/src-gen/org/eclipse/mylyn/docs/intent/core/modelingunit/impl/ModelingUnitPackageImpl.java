@@ -51,158 +51,138 @@ import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Package</b>. <!-- end-user-doc -->
- * 
  * @generated
  */
 public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUnitPackage {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass modelingUnitEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass modelingUnitInstructionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass resourceDeclarationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass abstractMetaTypeInstructionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass typeReferenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass instanciationInstructionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass structuralFeatureAffectationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass abstractValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass nativeValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass newObjectValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass referenceValueEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass instanciationInstructionReferenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass contributionInstructionEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass externalContentReferenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass modelingUnitInstructionReferenceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass intentReferenceInModelingUnitEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass annotationDeclarationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass labelInModelingUnitEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EClass keyValForAnnotationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private EEnum affectationOperatorEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
-	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package package URI value.
-	 * <p>
-	 * Note: the correct way to create the package is via the static factory method {@link #init init()},
-	 * which also performs initialization of the package, or returns the registered package, if one already
-	 * exists. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * <p>Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see org.eclipse.emf.ecore.EPackage.Registry
 	 * @see org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage#eNS_URI
 	 * @see #init()
@@ -214,19 +194,16 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private static boolean isInited = false;
 
 	/**
-	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it
-	 * depends.
-	 * <p>
-	 * This method is used to initialize {@link ModelingUnitPackage#eINSTANCE} when that field is accessed.
-	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the
-	 * package. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
 	 * 
+	 * <p>This method is used to initialize {@link ModelingUnitPackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @see #eNS_URI
 	 * @see #createPackageContents()
 	 * @see #initializePackageContents()
@@ -284,7 +261,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getModelingUnit() {
@@ -293,7 +269,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getModelingUnitInstruction() {
@@ -302,7 +277,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getResourceDeclaration() {
@@ -311,7 +285,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getResourceDeclaration_Uri() {
@@ -320,7 +293,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getResourceDeclaration_Name() {
@@ -329,7 +301,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getResourceDeclaration_ContentType() {
@@ -338,7 +309,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getResourceDeclaration_Content() {
@@ -347,7 +317,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getAbstractMetaTypeInstruction() {
@@ -356,7 +325,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getAbstractMetaTypeInstruction_MetaType() {
@@ -365,7 +333,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getTypeReference() {
@@ -374,7 +341,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getTypeReference_TypeName() {
@@ -383,7 +349,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getTypeReference_ResolvedType() {
@@ -392,7 +357,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getInstanciationInstruction() {
@@ -401,7 +365,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getInstanciationInstruction_Name() {
@@ -410,7 +373,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getInstanciationInstruction_StructuralFeatures() {
@@ -419,7 +381,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getStructuralFeatureAffectation() {
@@ -428,7 +389,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getStructuralFeatureAffectation_Name() {
@@ -437,7 +397,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getStructuralFeatureAffectation_UsedOperator() {
@@ -446,7 +405,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getStructuralFeatureAffectation_Values() {
@@ -455,7 +413,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getAbstractValue() {
@@ -464,7 +421,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getNativeValue() {
@@ -473,7 +429,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getNativeValue_Value() {
@@ -482,7 +437,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getNewObjectValue() {
@@ -491,7 +445,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getNewObjectValue_Value() {
@@ -500,7 +453,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getReferenceValue() {
@@ -509,7 +461,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getReferenceValue_InstanciationReference() {
@@ -518,7 +469,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getReferenceValue_ReferenceType() {
@@ -527,7 +477,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getInstanciationInstructionReference() {
@@ -536,7 +485,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getInstanciationInstructionReference_InstanceName() {
@@ -545,7 +493,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getInstanciationInstructionReference_Instanciation() {
@@ -554,7 +501,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getContributionInstruction() {
@@ -563,7 +509,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getContributionInstruction_ContributionReference() {
@@ -572,7 +517,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getContributionInstruction_Contributions() {
@@ -581,7 +525,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getExternalContentReference() {
@@ -590,7 +533,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getExternalContentReference_ExternalContent() {
@@ -599,7 +541,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getExternalContentReference_MarkedAsMerged() {
@@ -608,7 +549,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getModelingUnitInstructionReference() {
@@ -617,7 +557,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getModelingUnitInstructionReference_IntentHref() {
@@ -626,7 +565,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getModelingUnitInstructionReference_ReferencedInstruction() {
@@ -635,7 +573,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getIntentReferenceInModelingUnit() {
@@ -644,7 +581,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getAnnotationDeclaration() {
@@ -653,7 +589,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getAnnotationDeclaration_AnnotationID() {
@@ -662,7 +597,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EReference getAnnotationDeclaration_Map() {
@@ -671,7 +605,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getLabelInModelingUnit() {
@@ -680,7 +613,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EClass getKeyValForAnnotation() {
@@ -689,7 +621,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getKeyValForAnnotation_Key() {
@@ -698,7 +629,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EAttribute getKeyValForAnnotation_Value() {
@@ -707,7 +637,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public EEnum getAffectationOperator() {
@@ -716,7 +645,6 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ModelingUnitFactory getModelingUnitFactory() {
@@ -725,15 +653,14 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isCreated = false;
 
 	/**
-	 * Creates the meta-model objects for the package. This method is guarded to have no affect on any
-	 * invocation but its first. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void createPackageContents() {
@@ -818,15 +745,14 @@ public class ModelingUnitPackageImpl extends EPackageImpl implements ModelingUni
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	private boolean isInitialized = false;
 
 	/**
-	 * Complete the initialization of the package and its meta-model. This method is guarded to have no affect
-	 * on any invocation but its first. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Complete the initialization of the package and its meta-model.  This
+	 * method is guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	public void initializePackageContents() {

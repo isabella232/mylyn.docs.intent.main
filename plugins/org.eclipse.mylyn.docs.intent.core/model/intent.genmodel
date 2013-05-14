@@ -91,6 +91,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompilationStatusManager/compilationStatusList"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompilationStatusManager/modelingUnitToStatusList"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//CompilationStatusManager/validationTime"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute compilerInformations.ecore#//CompilationStatusManager/synchronizationTime"/>
     </genClasses>
     <genClasses ecoreClass="compilerInformations.ecore#//CompilationInformationHolder">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference compilerInformations.ecore#//CompilationInformationHolder/generatedElementList"/>

@@ -83,6 +83,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelingUnitToStatusList"
         upperBound="-1" eType="#//ModelingUnitToStatusList" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="validationTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="synchronizationTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CompilationInformationHolder">
     <eStructuralFeatures xsi:type="ecore:EReference" name="generatedElementList" upperBound="-1"

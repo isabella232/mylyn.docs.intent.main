@@ -499,13 +499,22 @@ public interface CompilerPackage extends EPackage {
 	int COMPILATION_STATUS_MANAGER__VALIDATION_TIME = 2;
 
 	/**
+	 * The feature id for the '<em><b>Synchronization Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPILATION_STATUS_MANAGER__SYNCHRONIZATION_TIME = 3;
+
+	/**
 	 * The number of structural features of the '<em>Compilation Status Manager</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPILATION_STATUS_MANAGER_FEATURE_COUNT = 3;
+	int COMPILATION_STATUS_MANAGER_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationInformationHolderImpl <em>Compilation Information Holder</em>}' class.
@@ -1898,6 +1907,17 @@ public interface CompilerPackage extends EPackage {
 	EAttribute getCompilationStatusManager_ValidationTime();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getSynchronizationTime <em>Synchronization Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Synchronization Time</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager#getSynchronizationTime()
+	 * @see #getCompilationStatusManager()
+	 * @generated
+	 */
+	EAttribute getCompilationStatusManager_SynchronizationTime();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.core.compiler.CompilationInformationHolder <em>Compilation Information Holder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2810,6 +2830,15 @@ public interface CompilerPackage extends EPackage {
 		 */
 		EAttribute COMPILATION_STATUS_MANAGER__VALIDATION_TIME = eINSTANCE
 				.getCompilationStatusManager_ValidationTime();
+
+		/**
+		 * The meta object literal for the '<em><b>Synchronization Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute COMPILATION_STATUS_MANAGER__SYNCHRONIZATION_TIME = eINSTANCE
+				.getCompilationStatusManager_SynchronizationTime();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationInformationHolderImpl <em>Compilation Information Holder</em>}' class.

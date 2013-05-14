@@ -13,6 +13,7 @@ package org.eclipse.mylyn.docs.intent.client.synchronizer;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -79,29 +80,56 @@ public class SynchronizerRepositoryClient extends AbstractRepositoryClient {
 	 *            the list of status to add
 	 */
 	public void addAllStatusToTargetElement(final Collection<? extends CompilationStatus> statusList) {
-
-		// Step 1: removing all old synchronization status
-		Iterator<SynchronizerCompilationStatus> iterator2 = Iterables.filter(
+		// Step 1: removing all invalid synchronization status (i.e. without target)
+		Iterator<SynchronizerCompilationStatus> allPreviousStatus = Iterables.filter(
 				statusManager.getCompilationStatusList(), SynchronizerCompilationStatus.class).iterator();
+		Collection<CompilationStatus> toAdd = Sets.newLinkedHashSet();
+		toAdd.addAll(statusList);
 		Collection<SynchronizerCompilationStatus> toRemove = Sets.newLinkedHashSet();
-		while (iterator2.hasNext()) {
-			SynchronizerCompilationStatus oldStatus = iterator2.next();
-			if (oldStatus.getTarget() != null) {
-				oldStatus.getTarget().getCompilationStatus().remove(oldStatus);
+		while (allPreviousStatus.hasNext()) {
+			SynchronizerCompilationStatus oldStatus = allPreviousStatus.next();
+			if (oldStatus.getTarget() == null) {
+				toRemove.add(oldStatus);
 			}
-			statusManager.getModelingUnitToStatusList().remove(oldStatus);
-			toRemove.add(oldStatus);
+		}
+
+		// Step 2: check if some statuses to add are actually old status
+		// i.e. if a status with the same message did not already exist on the status target
+		Iterator<CompilationStatus> toAddIterator = toAdd.iterator();
+		while (toAddIterator.hasNext()) {
+			CompilationStatus toAddCandidate = toAddIterator.next();
+			boolean addCandidateIsActuallyNewStatus = toAddCandidate.getTarget() != null;
+			if (addCandidateIsActuallyNewStatus) {
+				Iterator<CompilationStatus> toAddCandidateTargetStatusesIterator = toAddCandidate.getTarget()
+						.getCompilationStatus().iterator();
+				while (addCandidateIsActuallyNewStatus && toAddCandidateTargetStatusesIterator.hasNext()) {
+					addCandidateIsActuallyNewStatus = !toAddCandidate.getMessage().equals(
+							toAddCandidateTargetStatusesIterator.next().getMessage());
+				}
+			}
+			if (!addCandidateIsActuallyNewStatus) {
+				statusManager.getCompilationStatusList().add(toAddCandidate);
+				toAddIterator.remove();
+			}
+		}
+
+		// Step 3: actually removing old statuses
+		for (CompilationStatus oldSyncStatus : toRemove) {
+			if (oldSyncStatus.getTarget() != null) {
+				oldSyncStatus.getTarget().getCompilationStatus().remove(oldSyncStatus);
+			}
 		}
 		statusManager.getCompilationStatusList().removeAll(toRemove);
 
-		// Step 2 : for each status to add
-		for (CompilationStatus status : statusList) {
+		// Step 4 : add the new statuses
+		for (CompilationStatus status : toAdd) {
 			// We add it to its target and to the status manager
 			if (status.getTarget() != null) {
 				status.getTarget().getCompilationStatus().add(status);
 				statusManager.getCompilationStatusList().add(status);
 			}
 		}
+		statusManager.setSynchronizationTime(BigInteger.valueOf(System.currentTimeMillis()));
 	}
 
 	/**

@@ -35,6 +35,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl#getCompilationStatusList <em>Compilation Status List</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl#getModelingUnitToStatusList <em>Modeling Unit To Status List</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl#getValidationTime <em>Validation Time</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.core.compiler.impl.CompilationStatusManagerImpl#getSynchronizationTime <em>Synchronization Time</em>}</li>
  * </ul>
  * </p>
  *
@@ -108,6 +109,26 @@ public class CompilationStatusManagerImpl extends CDOObjectImpl implements Compi
 	 */
 	public void setValidationTime(BigInteger newValidationTime) {
 		eSet(CompilerPackage.Literals.COMPILATION_STATUS_MANAGER__VALIDATION_TIME, newValidationTime);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public BigInteger getSynchronizationTime() {
+		return (BigInteger)eGet(CompilerPackage.Literals.COMPILATION_STATUS_MANAGER__SYNCHRONIZATION_TIME,
+				true);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSynchronizationTime(BigInteger newSynchronizationTime) {
+		eSet(CompilerPackage.Literals.COMPILATION_STATUS_MANAGER__SYNCHRONIZATION_TIME,
+				newSynchronizationTime);
 	}
 
 } //CompilationStatusManagerImpl
