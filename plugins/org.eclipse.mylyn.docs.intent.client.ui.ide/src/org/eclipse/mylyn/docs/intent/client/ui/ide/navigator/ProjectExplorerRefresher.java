@@ -120,6 +120,7 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		} else {
 			res = new ProjectExplorerRefreshJob(project, null);
 		}
+		res.setPriority(Job.DECORATE);
 		updateProblemView();
 		IntentLogger.getInstance().log(LogType.LIFECYCLE,
 				"[ProjectExplorer Refresher] Project explorer and Problem view refreshed");
@@ -138,6 +139,7 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 				&& this.getRepositoryObjectHandler().getRepositoryAdapter() != null) {
 			updateProblemViewJob = new UpdateProblemsViewJob(project, this.getRepositoryObjectHandler()
 					.getRepositoryAdapter());
+			updateProblemViewJob.setPriority(Job.DECORATE);
 			updateProblemViewJob.schedule(UPDATE_PROBLEM_VIEW_JOB_DELAY);
 		}
 	}
