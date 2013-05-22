@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationErrorType;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.CompilationException;
+import org.eclipse.mylyn.docs.intent.client.compiler.errors.InvalidValueException;
 import org.eclipse.mylyn.docs.intent.client.compiler.errors.ResolveException;
 import org.eclipse.mylyn.docs.intent.client.compiler.generator.modellinking.ModelingUnitLinkResolver;
 import org.eclipse.mylyn.docs.intent.core.compiler.UnresolvedContributionHolder;
@@ -104,8 +105,15 @@ public final class InstanciationInstructionGenerator {
 
 		// Step 3 : Registration of the generated element
 		// Step 3.1 : we add the generated element in the current created Elements list
-		modelingUnitGenerator.getInformationHolder().addNameToCreatedElementEntry(
-				instanciationInstruction.getName(), createdElement, instanciationInstruction);
+		try {
+			modelingUnitGenerator.getInformationHolder().addNameToCreatedElementEntry(
+					instanciationInstruction.getName(), createdElement, instanciationInstruction);
+		} catch (InvalidValueException e) {
+			// Here an element with the same name as already been registered
+			modelingUnitGenerator.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
+					new CompilationException(instanciationInstruction,
+							CompilationErrorType.INVALID_VALUE_ERROR, e.getMessage()));
+		}
 
 		if (createdElement instanceof EPackage) {
 			linkResolver.unregisterEPackage((EPackage)createdElement);

@@ -331,9 +331,30 @@ public final class IntentCompilerInformationHolder {
 	 * @param instruction
 	 *            the instruction that declared this element
 	 */
-	public void addNameToCreatedElementEntry(String name, EObject createdElement,
+	public void addNameToCreatedElementEntry(final String name, EObject createdElement,
 			InstanciationInstruction instruction) {
 		if (name != null) {
+			// Step 1: look for an element registered with the same name
+			Iterable<Entry<EClassifier, StringToEObjectMap>> alreadyExistingNames = Iterables.filter(
+					this.informationHolder.getTypeToNameToElementsMap().entrySet(),
+					new Predicate<Entry<EClassifier, StringToEObjectMap>>() {
+						public boolean apply(Entry<EClassifier, StringToEObjectMap> entry) {
+							if (entry.getValue() != null && entry.getValue().getNameToElement() != null) {
+								return entry.getValue().getNameToElement().keySet().contains(name);
+							}
+							return false;
+						}
+					});
+			if (alreadyExistingNames != null && alreadyExistingNames.iterator().hasNext()) {
+				Entry<EClassifier, StringToEObjectMap> alreadyExistingEntry = alreadyExistingNames.iterator()
+						.next();
+				String message = "The name " + name
+						+ " has already been used to identify an element (of type "
+						+ alreadyExistingEntry.getKey().getName() + ").";
+				throw new InvalidValueException(instruction, message);
+			}
+
+			// Step 2: register the element
 			StringToEObjectMap nameToElement = this.informationHolder.getTypeToNameToElementsMap().get(
 					createdElement.eClass());
 			if (nameToElement == null) {
@@ -341,13 +362,6 @@ public final class IntentCompilerInformationHolder {
 				this.informationHolder.getTypeToNameToElementsMap().put(createdElement.eClass(),
 						nameToElement);
 			}
-
-			// If an element has already been registered with this name
-			if (nameToElement.getNameToElement().get(name) != null) {
-				throw new InvalidValueException(instruction, "The name " + name
-						+ " has already been used to identify an element.");
-			}
-
 			// Otherwise, we register the given element
 			nameToElement.getNameToElement().put(name, createdElement);
 		}
