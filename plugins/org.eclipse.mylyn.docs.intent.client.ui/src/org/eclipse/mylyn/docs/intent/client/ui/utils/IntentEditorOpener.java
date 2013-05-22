@@ -147,6 +147,7 @@ public final class IntentEditorOpener {
 				page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				openedEditor = IntentEditorOpener.openEditor(repositoryAdapter, page,
 						elementToOpenLoadedFromAdapter);
+				openedEditor.selectRange((IntentGenericElement)elementToSelectRangeWithLoadedFromAdapter);
 			} catch (NullPointerException e) {
 				status = new Status(IStatus.ERROR, IntentEditorActivator.PLUGIN_ID,
 						"An unexpected error has occured");
