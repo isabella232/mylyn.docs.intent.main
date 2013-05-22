@@ -1,5 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
+Bundle-Localization: plugin
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.bridge.ide.default;singleton:=true
 Bundle-Version: 0.8.0.qualifier
