@@ -488,8 +488,9 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	 * @throws ParseException
 	 *             if there is an unclosed block
 	 */
-	private AbstractValue getValue(int rootOffset, String string) throws ParseException {
+	private AbstractValue getValue(int rootOffset, String initialString) throws ParseException {
 		AbstractValue res = null;
+		String string = initialString.trim();
 		if (Pattern.compile(STRING_WITH_QUOTES_REGEX).matcher(string).matches()) {
 			NativeValue nativeValue = ModelingUnitFactory.eINSTANCE.createNativeValue();
 			nativeValue.setValue(string.trim());
