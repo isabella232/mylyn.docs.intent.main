@@ -21,7 +21,7 @@
    <feature id="org.eclipse.mylyn.docs.intent.workspace.feature" version="0.0.0">
       <category name="mylyn.intent"/>
    </feature>
-    <feature id="org.eclipse.mylyn.docs.intent.workspace.feature.source" version="0.0.0">
+   <feature id="org.eclipse.mylyn.docs.intent.workspace.feature.source" version="0.0.0">
       <category name="mylyn.intent"/>
    </feature>
    <feature id="org.eclipse.mylyn.docs.intent.cdo.feature" version="0.0.0">
@@ -38,7 +38,7 @@
    </feature>
    <category-def name="mylyn.intent" label="Mylyn Intent (Incubation)">
       <description>
-         Mylyn Intent (Incubation)
+         Mylyn Intent is a tool allowing developers to easily write a documentation up-to-date with any development artifact (models, code, environment...).
       </description>
    </category-def>
 </site>
