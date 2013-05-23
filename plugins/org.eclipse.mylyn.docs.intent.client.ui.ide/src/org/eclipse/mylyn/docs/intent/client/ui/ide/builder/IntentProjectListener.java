@@ -23,9 +23,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.projectmanager.IntentProjectManager;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
@@ -54,31 +52,7 @@ public class IntentProjectListener implements IResourceChangeListener {
 	 * Default constructor.
 	 */
 	public IntentProjectListener() {
-		// We first treat the existing projects
-		treatExistingIntentProjects();
-	}
 
-	/**
-	 * Treats all IProjects already opened when the plugin get activated, if they are associated to the intent
-	 * Nature.
-	 */
-	public void treatExistingIntentProjects() {
-		IProject[] allProjects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (IProject project : allProjects) {
-			try {
-				if (project.isAccessible() && project.hasNature(IntentNature.NATURE_ID)) {
-					handleOpenedProject(project);
-				}
-			} catch (CoreException e) {
-				IntentUiLogger.logError(e);
-				try {
-					// Close the project : Intent cannot work correctly
-					project.close(new NullProgressMonitor());
-				} catch (CoreException e1) {
-					IntentUiLogger.logError(e);
-				}
-			}
-		}
 	}
 
 	/**
@@ -147,13 +121,24 @@ public class IntentProjectListener implements IResourceChangeListener {
 	 *            the created or opened project to handle
 	 */
 	public void handleOpenedProject(IProject project) {
-		IntentProjectManager projectManager = getIntentProjectManager(project);
+		// Step 1: determine if the opened project is a valid Intent project
 		try {
-			IntentLogger.getInstance().log(LogType.LIFECYCLE,
-					"[IntentProjectListener] Handling project " + project.getName());
-			projectManager.connect();
-			projectManagers.put(project.getName(), projectManager);
-		} catch (RepositoryConnectionException e) {
+			if (project.isAccessible() && project.hasNature(IntentNature.NATURE_ID)) {
+				// Step 2: determine if it is already handled by this project listener
+				if (projectManagers.get(project.getName()) == null) {
+					// Step 3: if not, create an Intent project manager for this project
+					IntentProjectManager projectManager = getIntentProjectManager(project);
+					try {
+						IntentLogger.getInstance().log(LogType.LIFECYCLE,
+								"[IntentProjectListener] Handling project " + project.getName());
+						projectManager.connect();
+						projectManagers.put(project.getName(), projectManager);
+					} catch (RepositoryConnectionException e) {
+						IntentUiLogger.logError(e);
+					}
+				}
+			}
+		} catch (CoreException e) {
 			IntentUiLogger.logError(e);
 		}
 	}
