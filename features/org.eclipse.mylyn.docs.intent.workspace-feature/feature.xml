@@ -14,7 +14,7 @@ Contributors:
       label="%featureName"
       version="0.8.0.qualifier"
       provider-name="%providerName"
-      plugin="org.eclipse.emf.cdo.ui.ide">
+      plugin="org.eclipse.mylyn.docs.intent.client.ui.ide">
 
    <description>
       %description

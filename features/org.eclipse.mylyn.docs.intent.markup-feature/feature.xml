@@ -13,7 +13,8 @@ Contributors:
       id="org.eclipse.mylyn.docs.intent.markup.feature"
       label="%featureName"
       version="0.8.0.qualifier"
-      provider-name="%providerName">
+      provider-name="%providerName"
+      plugin="org.eclipse.mylyn.docs.intent.markup">
 
    <description>
       %description
