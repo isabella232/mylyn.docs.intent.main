@@ -18,7 +18,6 @@ import org.eclipse.jface.text.rules.IPredicateRule;
 import org.eclipse.jface.text.rules.IRule;
 import org.eclipse.jface.text.rules.MultiLineRule;
 import org.eclipse.jface.text.rules.RuleBasedPartitionScanner;
-import org.eclipse.jface.text.rules.SingleLineRule;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 
@@ -69,15 +68,11 @@ public class IntentPartitionScanner extends RuleBasedPartitionScanner {
 	}
 
 	private void computeStructuralContentRules(List<IRule> rules) {
-		// TODO redefine pattern rule to disable recognition of pattern start only
-		rules.add(new SingleLineRule(IntentKeyWords.INTENT_KEYWORD_DOCUMENT
-				+ IntentKeyWords.INTENT_WHITESPACE, IntentKeyWords.INTENT_KEYWORD_OPEN, new Token(
-				INTENT_STRUCTURAL_CONTENT)));
-		rules.add(new SingleLineRule(
-				IntentKeyWords.INTENT_KEYWORD_CHAPTER + IntentKeyWords.INTENT_WHITESPACE,
+		rules.add(new SingleLinePatternRule(IntentKeyWords.INTENT_KEYWORD_DOCUMENT,
 				IntentKeyWords.INTENT_KEYWORD_OPEN, new Token(INTENT_STRUCTURAL_CONTENT)));
-		rules.add(new SingleLineRule(
-				IntentKeyWords.INTENT_KEYWORD_SECTION + IntentKeyWords.INTENT_WHITESPACE,
+		rules.add(new SingleLinePatternRule(IntentKeyWords.INTENT_KEYWORD_CHAPTER,
+				IntentKeyWords.INTENT_KEYWORD_OPEN, new Token(INTENT_STRUCTURAL_CONTENT)));
+		rules.add(new SingleLinePatternRule(IntentKeyWords.INTENT_KEYWORD_SECTION,
 				IntentKeyWords.INTENT_KEYWORD_OPEN, new Token(INTENT_STRUCTURAL_CONTENT)));
 	}
 }
