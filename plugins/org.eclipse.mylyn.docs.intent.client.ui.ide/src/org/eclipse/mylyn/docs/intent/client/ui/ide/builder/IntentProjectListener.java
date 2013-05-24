@@ -163,6 +163,7 @@ public class IntentProjectListener implements IResourceChangeListener {
 				for (IEditorReference activeEditor : activePage.getEditorReferences()) {
 					try {
 						if (activeEditor.getEditorInput() instanceof IntentEditorInput
+								&& ((IntentEditorInput)activeEditor.getEditorInput()).getRepository() != null
 								&& project.getName().equals(
 										((IntentEditorInput)activeEditor.getEditorInput()).getRepository()
 												.getIdentifier())) {

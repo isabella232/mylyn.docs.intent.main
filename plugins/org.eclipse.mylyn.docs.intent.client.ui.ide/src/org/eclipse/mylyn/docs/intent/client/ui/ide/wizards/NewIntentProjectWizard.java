@@ -235,6 +235,11 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 							.setInput("org.eclipse.mylyn.docs.intent.idoc.cheatsheet.getstarted");
 				}
 			}
+
+			// Step 6: open the project explorer view
+			// TODO: remove this work-around when bugzilla 365084 gets fixed
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.showView("org.eclipse.ui.navigator.ProjectExplorer");
 		}
 	}
 }
