@@ -263,7 +263,7 @@
         </instructions>
       </intentContent>
       <intentContent xmi:type="intentMU:ModelingUnit" unitName="book_numberofPagesDefinition">
-        <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="ContributionInstruction?" referencedElement="//@chapters.1/@intentContent.1/@intentContent.3/@instructions.1" annotationID="javaDoc">
+        <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="ContributionInstruction[TRANSIENT]" referencedElement="//@chapters.1/@intentContent.1/@intentContent.3/@instructions.1" annotationID="javaDoc">
           <map key="documentation" value="&quot;Number of pages of a Book. By default, we set it to 100.&quot;"/>
         </instructions>
         <instructions xmi:type="intentMU:ContributionInstruction" lineBreak="true">

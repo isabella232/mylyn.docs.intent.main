@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <intentMU:ModelingUnit xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:intentMU="http://www.eclipse.org/intent/modelingunit/0.8" name="completeModelingUnit1">
-  <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="InstanciationInstruction?" referencedElement="//@instructions.2" annotationID="annotationID">
+  <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="InstanciationInstruction[TRANSIENT]" referencedElement="//@instructions.2" annotationID="annotationID">
     <map key="cle" value="&quot;val&quot;"/>
     <map key="cle2" value="&quot;val2&quot;"/>
   </instructions>

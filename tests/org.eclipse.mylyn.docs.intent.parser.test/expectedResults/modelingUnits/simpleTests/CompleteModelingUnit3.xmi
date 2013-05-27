@@ -35,7 +35,7 @@
   </instructions>
   <instructions xmi:type="intentMU:IntentReferenceInModelingUnit" lineBreak="true" intentHref="Mysection where I have defined by B"/>
   <instructions xmi:type="intentMU:IntentReferenceInModelingUnit" lineBreak="true" intentHref="Another Section" textToPrint="reasons for separation of concerns"/>
-  <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="ContributionInstruction?" referencedElement="//@instructions.7" annotationID="associateBashFileID">
+  <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="ContributionInstruction[TRANSIENT]" referencedElement="//@instructions.7" annotationID="associateBashFileID">
     <map key="bashFile" value="&quot;bashFile1&quot;"/>
     <map key="mode" value="&quot;admin&quot;"/>
   </instructions>

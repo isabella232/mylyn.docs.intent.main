@@ -12,7 +12,7 @@
     <content intentHref="myRoot1"/>
     <content intentHref="myRoot2"/>
   </instructions>
-  <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="ResourceDeclaration?" referencedElement="//@instructions.5" annotationID="annotationID">
+  <instructions xmi:type="intentMU:AnnotationDeclaration" lineBreak="true" intentHref="ResourceDeclaration[TRANSIENT]" referencedElement="//@instructions.5" annotationID="annotationID">
     <map key="cle" value="&quot;val1&quot;"/>
   </instructions>
   <instructions xmi:type="intentMU:LabelInModelingUnit" lineBreak="true" labelValue="&quot;testLabel&quot;" textToPrint="&quot;myPrettyResource&quot;" type="EXPLICIT"/>
