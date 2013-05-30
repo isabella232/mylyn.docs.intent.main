@@ -10,14 +10,18 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.exporter.ui;
 
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorInput;
+import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceService;
 import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -64,16 +68,28 @@ public class IntentPreviewView extends ViewPart {
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		browser = new Browser(parent, SWT.NONE);
-		intentSerializer = new IntentSerializer();
+		try {
+			browser = new Browser(parent, SWT.NONE);
+			intentSerializer = new IntentSerializer();
 
-		// Register a part listener allowing to detect when setting focus on an Intent editor
-		previewViewListener = new IntentPreviewViewPartListener();
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.addPartListener(previewViewListener);
+			// Register a part listener allowing to detect when setting focus on an Intent editor
+			previewViewListener = new IntentPreviewViewPartListener();
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.addPartListener(previewViewListener);
 
-		// Refresh the preview view
-		refreshPreviewView(getActiveEditorPart(), true);
+			// Refresh the preview view
+			refreshPreviewView(getActiveEditorPart(), true);
+		} catch (SWTError e) {
+			// Can happen when browser cannot be created due to platform issues (missing xulrunner)
+			// see bugzilla 409465
+			IntentUiLogger.logError(
+					"Could not initialize browser for Intent real-time preview, preference is deactivated.",
+					e);
+
+			// Disabling preference
+			InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID).putBoolean(
+					IntentPreferenceConstants.SHOW_PREVIEW_PAGE, false);
+		}
 	}
 
 	/**
