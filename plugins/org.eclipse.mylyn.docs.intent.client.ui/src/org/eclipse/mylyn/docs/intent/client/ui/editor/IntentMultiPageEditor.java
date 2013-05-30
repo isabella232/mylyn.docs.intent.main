@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.text.IRegion;
@@ -34,6 +35,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -79,12 +81,25 @@ public class IntentMultiPageEditor extends MultiPageEditorPart implements Intent
 
 			// Create browser page
 			if (shouldDisplayPreviewPage()) {
-				browser = new Browser(getContainer(), SWT.NONE);
-				addPage(1, browser);
-				setPageText(1, "Preview ");
+				try {
+					browser = new Browser(getContainer(), SWT.NONE);
+					addPage(1, browser);
+					setPageText(1, "Preview ");
 
-				browser.setUrl(getHTMLPreviewURL());
-				setPageImage(1, IntentEditorActivator.getDefault().getImage("icon/outline/html.png"));
+					browser.setUrl(getHTMLPreviewURL());
+					setPageImage(1, IntentEditorActivator.getDefault().getImage("icon/outline/html.png"));
+				} catch (SWTError e) {
+					// Can happen when browser cannot be created due to platform issues (missing xulrunner)
+					// see bugzilla 409465
+					IntentUiLogger
+							.logError(
+									"Could not initialize browser for Intent real-time preview, preference is deactivated.",
+									e);
+
+					// Disabling preference
+					InstanceScope.INSTANCE.getNode(IntentEditorActivator.PLUGIN_ID).putBoolean(
+							IntentPreferenceConstants.SHOW_PREVIEW_PAGE, false);
+				}
 			}
 		} catch (PartInitException e) {
 			IntentUiLogger.logError(e);
