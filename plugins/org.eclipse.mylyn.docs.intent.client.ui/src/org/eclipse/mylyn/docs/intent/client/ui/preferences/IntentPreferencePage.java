@@ -58,7 +58,7 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 
 	public static final String LINK_DROPPED_ELEMENTS_USING_EXTERNAL_REFERENCES = "Link dropped elements using External References";
 
-	private static final String INTENT_PREVIEW_EXAMPLE = "Section Title {\n\t Default text \n\t\"Strings\"\n\t* lists\n\t!images!\n\t\n\t@M\n\t\tnew Element{}\n\tM@\n}";
+	private static final String INTENT_PREVIEW_EXAMPLE = "Section Title {\n\tDefault text \n\t\"Strings\"\n\t@Code@\n\t* lists\n\t!images!\n\t\n\t@M\n\t\tnew Element{}\n\tM@\n}";
 
 	private RefreshPreviewEditorListener refreshPreviewEditorListener;
 
@@ -185,10 +185,10 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		// Create preview viewer
 		Label infoLabel2 = new Label(colorComposite, SWT.NONE);
 		infoLabel2.setText("Preview: ");
-		IntentEditorDocument document = createIntentPreviewViewer(colorComposite);
+		createIntentPreviewViewer(colorComposite);
 
 		// Add change listener so that preview is refreshed when changing a color
-		this.refreshPreviewEditorListener = new RefreshPreviewEditorListener(document);
+		this.refreshPreviewEditorListener = new RefreshPreviewEditorListener();
 		getPreferenceStore().addPropertyChangeListener(refreshPreviewEditorListener);
 		return colorComposite;
 	}
@@ -283,7 +283,7 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 	 *            the parent of the source viewer to create
 	 * @return a source viewer allowing to preview an Intent document (to see impact of color changes)
 	 */
-	private IntentEditorDocument createIntentPreviewViewer(Composite parent) {
+	private void createIntentPreviewViewer(Composite parent) {
 		editor = new IntentEditorImpl();
 		IntentEditorDocument document = new IntentEditorDocument(editor);
 		partitioner = new FastPartitioner(new IntentPartitionScanner(),
@@ -309,7 +309,6 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		sourceViewer.getTextWidget().setFont(JFaceResources.getTextFont());
 		sourceViewer.setDocument(document);
 		document.set(INTENT_PREVIEW_EXAMPLE);
-		return document;
 	}
 
 	/**
@@ -394,27 +393,15 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 	 */
 	private class RefreshPreviewEditorListener implements IPropertyChangeListener {
 
-		private IntentEditorDocument document;
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param document
-		 *            the document to refresh
-		 */
-		public RefreshPreviewEditorListener(IntentEditorDocument document) {
-			this.document = document;
-		}
-
 		/**
 		 * {@inheritDoc}
 		 * 
 		 * @see org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
 		 */
 		public void propertyChange(PropertyChangeEvent event) {
-			// TODO REFRESH PREVIEW VIEW
+			sourceViewer.unconfigure();
+			sourceViewer.configure(new IntentEditorConfiguration(editor, null));
 		}
-
 	}
 
 	// CHECKSTYLE:OFF

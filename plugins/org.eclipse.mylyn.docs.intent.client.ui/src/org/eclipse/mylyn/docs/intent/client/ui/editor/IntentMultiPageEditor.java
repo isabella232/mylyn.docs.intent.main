@@ -154,7 +154,7 @@ public class IntentMultiPageEditor extends MultiPageEditorPart implements Intent
 	@Override
 	protected void pageChange(int newPageIndex) {
 		super.pageChange(newPageIndex);
-		if (newPageIndex == 1) {
+		if (browser != null && newPageIndex == 1) {
 			// Refresh browser URL in case section was renamed
 			browser.setUrl(getHTMLPreviewURL());
 		}

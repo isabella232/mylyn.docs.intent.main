@@ -123,7 +123,7 @@ public class IntentPreviewView extends ViewPart {
 	}
 
 	private void refreshPreviewView(IWorkbenchPart activeEditor, boolean setURL) {
-		if (!browser.isDisposed() && activeEditor instanceof IEditorPart
+		if (browser != null && !browser.isDisposed() && activeEditor instanceof IEditorPart
 				&& ((IEditorPart)activeEditor).getEditorInput() instanceof IntentEditorInput) {
 			if (!IntentPreferenceService.getBoolean(IntentPreferenceConstants.SHOW_PREVIEW_PAGE)) {
 				browser.setText(PREF_NOT_ACTIVATED_MESSAGE);
