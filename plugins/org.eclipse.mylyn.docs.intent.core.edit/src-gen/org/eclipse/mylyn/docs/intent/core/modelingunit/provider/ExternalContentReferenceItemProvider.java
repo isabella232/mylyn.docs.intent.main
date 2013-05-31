@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.IEditingDomainItemProvider;
 import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
@@ -101,10 +102,18 @@ public class ExternalContentReferenceItemProvider extends ResourceDeclarationIte
 	 * This returns ExternalContentReference.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	public Object getImage(Object object) {
+		// If the referenced object is not null, get image from it
+		if (object instanceof ExternalContentReference
+				&& ((ExternalContentReference)object).getExternalContent() != null) {
+			return ((IItemLabelProvider)new ComposedAdapterFactory(
+					ComposedAdapterFactory.Descriptor.Registry.INSTANCE).adapt(
+					((ExternalContentReference)object).getExternalContent(), IItemLabelProvider.class))
+					.getImage(((ExternalContentReference)object).getExternalContent());
+		}
 		return overlayImage(object, getResourceLocator().getImage("full/obj16/ExternalContentReference"));
 	}
 
