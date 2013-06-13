@@ -13,7 +13,6 @@ package org.eclipse.mylyn.docs.intent.core.document.descriptionunit.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionBloc;
 import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnitPackage;
-import org.eclipse.mylyn.docs.intent.markup.markup.Container;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '<em><b>Description Bloc</b></em>'. <!--
@@ -21,15 +20,18 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Container;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.mylyn.docs.intent.core.document.descriptionunit.impl.DescriptionBlocImpl#getDescriptionBloc <em>Description Bloc</em>}</li>
+ * <li>
+ * {@link org.eclipse.mylyn.docs.intent.core.document.descriptionunit.impl.DescriptionBlocImpl#getDescriptionBloc
+ * <em>Description Bloc</em>}</li>
  * </ul>
  * </p>
- *
- * @generated
+ * 
+ * @generated NOT
  */
 public class DescriptionBlocImpl extends DescriptionUnitInstructionImpl implements DescriptionBloc {
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	protected DescriptionBlocImpl() {
@@ -38,6 +40,7 @@ public class DescriptionBlocImpl extends DescriptionUnitInstructionImpl implemen
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -48,7 +51,7 @@ public class DescriptionBlocImpl extends DescriptionUnitInstructionImpl implemen
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	public org.eclipse.mylyn.docs.intent.markup.markup.Container getDescriptionBloc() {
 		return (org.eclipse.mylyn.docs.intent.markup.markup.Container)eGet(
@@ -56,18 +59,9 @@ public class DescriptionBlocImpl extends DescriptionUnitInstructionImpl implemen
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setDescriptionBloc(Container newDescriptionBloc) {
-		eSet(DescriptionUnitPackage.Literals.DESCRIPTION_BLOC__DESCRIPTION_BLOC, newDescriptionBloc);
-	}
-
-	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	public void setDescriptionBloc(org.eclipse.mylyn.docs.intent.markup.markup.Container newDescriptionBloc) {
 		eSet(DescriptionUnitPackage.Literals.DESCRIPTION_BLOC__DESCRIPTION_BLOC, newDescriptionBloc);
