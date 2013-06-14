@@ -58,7 +58,7 @@ public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.MATCHING_BRACKETS,
 				Boolean.TRUE.toString());
 		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.SHOW_PREVIEW_PAGE,
-				Boolean.TRUE.toString());
+				Boolean.FALSE.toString());
 
 		// Colors
 		setDefaultPrefValue(defaultScope, IntentPreferenceConstants.MATCHING_BRACKETS_COLOR,
