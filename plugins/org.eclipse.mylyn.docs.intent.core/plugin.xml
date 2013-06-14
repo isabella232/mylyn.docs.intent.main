@@ -18,7 +18,7 @@ Contributors:
       <package
             uri="http://www.eclipse.org/intent/modelingunit/0.8"
             class="org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage"
-            genModel="model/ModelingUnits/modelingUnit.genmodel"/>
+            genModel="model/intent.genmodel"/>
    </extension>
 
 
@@ -26,28 +26,28 @@ Contributors:
       <package
             uri="http://www.eclipse.org/intent/intentdocument/0.8"
             class="org.eclipse.mylyn.docs.intent.core.document.IntentDocumentPackage"
-            genModel="model/ModelingUnits/modelingUnit.genmodel"/>
+            genModel="model/intent.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.eclipse.org/intent/descriptionunit/0.8"
             class="org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionUnitPackage"
-            genModel="model/ModelingUnits/modelingUnit.genmodel"/>
+            genModel="model/intent.genmodel"/>
    </extension>
    
     <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.eclipse.org/intent/indexer/0.8"
             class="org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerPackage"
-            genModel="model/ModelingUnits/modelingUnit.genmodel"/>
+            genModel="model/intent.genmodel"/>
    </extension>
    
     <extension point="org.eclipse.emf.ecore.generated_package">
       <package
             uri="http://www.eclipse.org/intent/compilerinfos/0.8"
             class="org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage"
-            genModel="model/ModelingUnits/modelingUnit.genmodel"/>
+            genModel="model/intent.genmodel"/>
    </extension>
 
 </plugin>

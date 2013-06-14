@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?>
-
-<target name="local_tp" sequenceNumber="0">
-<locations>
-<location path="D:\04. TP\kepler\eclipse_kepler_m6" type="Profile"/>
-</locations>
-</target>
