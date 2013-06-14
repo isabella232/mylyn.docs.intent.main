@@ -1,0 +1,29 @@
+target "Juno SDK 4.2"
+
+location "http://download.eclipse.org/eclipse/downloads/drops4/S-4.3M3-201210312000/" {
+	with source, requirements	
+	org.eclipse.mylyn.wikitext_feature.feature.group
+	org.eclipse.acceleo.sdk.feature.group
+	org.eclipse.emf.cdo.sdk.feature.group
+	org.eclipse.emf.sdk.feature.group
+	org.eclipse.emf.transaction.sdk.feature.group
+	org.eclipse.emf.validation.sdk.feature.group	
+}
+
+location "http://download.eclipse.org/tools/orbit/downloads/drops/updateSite" {
+	with source, requirements	
+	com.google.collect
+	org.junit
+}
+
+location "http://download.eclipse.org/eclipse/updates/4.2" {
+	with source, requirements	
+	org.eclipse.platform.sdk
+}
+
+location "http://download.eclipse.org/modeling/emf/compare/updates/milestones/2.1/S201211131624" {
+	with source, requirements	
+	org.eclipse.emf.compare.feature.group;version="2.1"
+	org.eclipse.emf.compare.ide.ui.feature.group;version="2.1"
+	org.eclipse.emf.compare.rcp.ui.feature.group;version="2.1"
+}
