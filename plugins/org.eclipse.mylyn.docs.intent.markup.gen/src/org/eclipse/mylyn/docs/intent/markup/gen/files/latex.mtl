@@ -50,7 +50,7 @@
 \usepackage{graphicx}
 \usepackage['['/]a4paper[']'/]{geometry}
 
-\title{[title.toTex()/]}
+\title{[title.toTex().escapeTex()/]}
 \author{}
 
 %% [/protected]
@@ -64,7 +64,7 @@
 
 %% [/protected]
 
-[e.genContent()/]
+[e.content.toTex()/]
 
 
 [if (not autoRotateImage())]
@@ -104,24 +104,19 @@ This chapter includes all the large figures of the document oriented in landscap
 [/let]
 [/template]
 
-[template public genContent(c : Container)]
-[c.content.toTex()/]
-[/template]
-
-[template public genContent(b : Block)]
-[b.content.toTex()/]
-[/template]
 
 [template public toTex(b : Block) post (trim()) ]
-[b.genContent()/]
+[if (b.content->size() > 0)]
+[b.content.toTex()/]
+[/if]
 [/template]
 
-
-
-
+[template public toTex(e : SimpleContainer)]
+[e.content.toTex()/]
+[/template]
 
 [template public toTex(e : Section)  ]
-
+[if (not e.title.oclIsUndefined())]
 [if (level = 2)]
 \chapter{[title.toTex()/]}
 [elseif (level = 3)]
@@ -133,8 +128,8 @@ This chapter includes all the large figures of the document oriented in landscap
 [elseif (level = 6)]
 \paragraph{[title.toTex()/]}
 [/if]	
-
-[e.genContent()/]
+[e.content.toTex()/]
+[/if]
 [/template]
 
 [template public toTex(e : Paragraph) ? (e.attributes->select(a : Annotations | a.CSSClass = 'footnote')->notEmpty()) ]
@@ -143,31 +138,33 @@ This chapter includes all the large figures of the document oriented in landscap
 
 [template public toTex(e : Paragraph)  ]
 
-[e.genContent()->sep(' ')/]
+[e.content.toTex()-> sep(' ')/]
 
 [/template]
 
 [template public toTex(e : Text) ? (e.attributes->select(a : Annotations | a.CSSClass = 'footnote')->isEmpty()) ]
-[e.format.toTex()/][e.data.replaceAll('_', '\\\\_').replaceAll('\t', '    ').replaceAll('->','\\$\\\\rightarrow\\$')/][for (f : Formatting | e.format)][if (f <> Formatting::none)]}[/if][/for][if (e.lineBreak)]
-\newline [/if]
+[if (not e.data.oclIsUndefined())]
+[e.format.formatTex()/][e.data.escapeTex()/][for (f : Formatting | e.format)][if (f <> Formatting::none)]}[/if][/for][if (e.lineBreak)]
+\newline[/if]
+[/if]
 [/template]
 
-[template public toTex(value : Formatting) ? (value = Formatting::emphasis)]\emph{[/template]
-[template public toTex(value : Formatting) ? (value = Formatting::strong)]\textbf{[/template]
-[template public toTex(value : Formatting) ? (value = Formatting::bold)]\textbf{[/template]
-[template public toTex(value : Formatting) ? (value = Formatting::italic)]\textit{[/template]
-[template public toTex(value : Formatting) ? (value = Formatting::code)]\texttt{[/template]
-[template public toTex(value : Formatting) ? (value = Formatting::monospace)]\texttt{[/template]
-[template public toTex(value : Formatting) ? (value = Formatting::underlined)]\underline{[/template]
-[template public toTex(value : Formatting) ? (value = Formatting::citation)]\textsl{[/template]
-[template public toTex(value : Formatting) ? (value = Formatting::subscript)]{[/template]
-[template public toTex(value : Formatting) ? (value = Formatting::superscript)]{[/template]
+[template public formatTex(value : Formatting) ? (value = Formatting::emphasis)]\emph{[/template]
+[template public formatTex(value : Formatting) ? (value = Formatting::strong)]\textbf{[/template]
+[template public formatTex(value : Formatting) ? (value = Formatting::bold)]\textbf{[/template]
+[template public formatTex(value : Formatting) ? (value = Formatting::italic)]\textit{[/template]
+[template public formatTex(value : Formatting) ? (value = Formatting::code)]\texttt{[/template]
+[template public formatTex(value : Formatting) ? (value = Formatting::monospace)]\texttt{[/template]
+[template public formatTex(value : Formatting) ? (value = Formatting::underlined)]\underline{[/template]
+[template public formatTex(value : Formatting) ? (value = Formatting::citation)]\textsl{[/template]
+[template public formatTex(value : Formatting) ? (value = Formatting::subscript)]{[/template]
+[template public formatTex(value : Formatting) ? (value = Formatting::superscript)]{[/template]
 
 [template public toTex(c : Code)]
 
 {\small
 \begin{verbatim}
-[c.genContent().toString().trim()/]
+[c.content.toTex().toString().trim()/]
 \end{verbatim}}
 
 [/template]
@@ -176,7 +173,7 @@ This chapter includes all the large figures of the document oriented in landscap
 
 {\small
 \begin{verbatim}
-[p.genContent().toString().trim()/]
+[p.content.toTex().toString().trim()/]
 \end{verbatim}}
 
 [/template]
@@ -184,7 +181,7 @@ This chapter includes all the large figures of the document oriented in landscap
 [template public toTex(p : Quote)]
 
 \begin{quote}
-[p.genContent().toString().trim()/]
+[p.content.toTex().toString().trim()/]
 \end{quote}
 
 [/template]
@@ -245,5 +242,5 @@ This chapter includes all the large figures of the document oriented in landscap
 [/template]
 
 [template public toTex(link : Link)]
-\href{[link.hrefOrHashName/]}{[link.name/]}
+\href{[link.hrefOrHashName/]}{[link.name.toTex()/]}
 [/template]

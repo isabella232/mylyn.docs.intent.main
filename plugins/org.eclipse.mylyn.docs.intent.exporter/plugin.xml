@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http://www.eclipse.org/intent/document/export/0.8"
+            class="org.eclipse.mylyn.docs.intent.export.ExportPackage"
+            genModel="model/export.genmodel"/>
+   </extension>
+
+</plugin>

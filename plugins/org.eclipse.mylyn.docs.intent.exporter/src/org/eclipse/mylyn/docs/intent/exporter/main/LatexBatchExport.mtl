@@ -1,0 +1,141 @@
+[comment encoding = UTF-8 /]
+[module LatexBatchExport('http://www.eclipse.org/intent/intentdocument/0.8',,'http://www.eclipse.org/intent/document/export/0.8', 'http://www.eclipse.org/intent/modelingunit/0.8', 'http://www.eclipse.org/intent/markup/0.7', 'http://www.eclipse.org/intent/markup/generator/0.7')/]
+
+[import org::eclipse::mylyn::docs::intent::markup::gen::files::latex /]
+[import org::eclipse::mylyn::docs::intent::markup::gen::files::LatexGenDocument/]
+[import org::eclipse::mylyn::docs::intent::exporter::queries::documentQueries/]
+[import org::eclipse::mylyn::docs::intent::markup::gen::queries::latexQueries/]
+
+[query public fileName(documentName : String) : String = 
+ 	'tex/' + documentName.replaceAll(' ', '').replaceAll('/','_') + '.tex'
+/]
+
+
+[template public LatexDocumentGen(e : IntentGen)]
+[comment @main /]
+[e.documents.genFile()/];
+[/template]
+
+[template public genFile(e : LatexDocument)]
+
+[file (fileName(e.title), false, 'UTF-8')]
+
+\documentclass{[e.documentClass/]}
+
+
+\usepackage{color}
+\usepackage['['/][']'/]{graphicx}
+\usepackage{float} 
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobats bookmarks
+    pdftoolbar=true,        % show Acrobats toolbar?
+    pdfmenubar=true,        % show Acrobats menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitH},    % fits the width of the page to the window
+    pdftitle={[e.title/] },    % title    
+    pdfsubject={Subject},   % subject of the document
+    pdfcreator={Creator},   % creator of the document
+    pdfproducer={Producer}, % producer of the document
+    pdfkeywords={keywords}, % list of keywords
+    pdfnewwindow=true,      % links in new window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links
+    citecolor=green,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=blue           % color of external links
+}
+
+%% [protected ('preamble')]
+
+\usepackage{graphicx}
+\usepackage['['/]a4paper[']'/]{geometry}
+
+%% [/protected]
+
+\title{[e.title.escapeTex()/]}
+ 
+\author{[e.authors->sep(' \\and ')/]} 
+\begin{document}
+
+%% [protected ('document start')]
+
+\maketitle
+\tableofcontents
+
+%% [/protected]
+
+[for (child : IntentSection | e.roots)]
+[child.toChapterTex()/] 
+[/for]
+
+\end{document}
+[/file]
+[/template]
+
+
+
+[template public toChapterTex(e : Container)  ]
+[e.content.toTex()/]
+[/template]
+
+[template public toChapterTex(e : IntentSection)  ]
+\chapter{[title.toTex()/]}
+
+[for (child : DescriptionUnit | e.eContents(DescriptionUnit))]
+[child.toTex()/]
+[/for]
+
+[for (child : IntentSection |  e.eContents(IntentSection))]
+[child.toTex()/]
+[/for]
+[/template]
+
+
+[template public toChapterTex(e : IntentDocument)  ]
+
+[for (child : DescriptionUnit |  e.eContents(DescriptionUnit))]
+[child.toTex()/]
+[/for]
+
+[for (child : IntentSection |  e.eContents(IntentSection)) ]
+	[child.toChapterTex()/]
+[/for]
+[/template]
+
+[template public toTex(e : DescriptionUnit)]
+[e.instructions.toTex()/]
+[/template]
+
+[template public toTex(e : DescriptionBloc)]
+[e.descriptionBloc.toTex()/]
+[/template]
+
+[template public toTex(e : OclAny)]
+% not handled [e.eClass()/]
+[/template]
+
+
+
+[template public toTex(e : IntentSection)  ]
+
+[if (eContainer().oclIsKindOf(IntentDocument))]
+\section{[title.toTex().escapeTex()/]}
+[elseif (eContainer().eContainer().oclIsKindOf(IntentDocument))]
+\subsection{[title.toTex().escapeTex()/]}
+[elseif (shouldGenerateSubSub() and eContainer().eContainer().eContainer().oclIsKindOf(IntentDocument))]
+\subsubsection{[title.toTex().escapeTex()/]}	
+[else]
+\paragraph{[title.toTex().escapeTex()/]}
+[/if]	
+
+[e.intentContent.toTex()/]
+[/template]
+
+[query public shouldGenerateSubSub (e : IntentSection) :  Boolean =  e.eInverse(LatexDocument)->size() > 0 and not e.eInverse(LatexDocument)->first().replaceSubSubSectionByPara /]
+
+[query public documentTitle(intentDocument : IntentDocument) :String = 
+    invoke('org.eclipse.mylyn.docs.intent.exporter.services.IntentAcceleoServices', 'getDocumentTitle(org.eclipse.emf.ecore.EObject)', Sequence{intentDocument})
+/]

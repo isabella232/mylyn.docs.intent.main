@@ -21,6 +21,55 @@
          </visibleWhen>
       </command>
    </menuContribution>
+       <menuContribution
+             allPopups="false"
+             locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+          <menu
+                icon="icon/toggle_nature.gif"
+                id="org.eclipse.mylyn.docs.intent.client.ui.ide.menu.file"
+                label="Intent">
+             <visibleWhen
+                   checkEnabled="false">
+                <with
+                    variable="selection">
+                 <iterate
+                       ifEmpty="false"
+                       operator="or">
+                    <adapt
+                          type="org.eclipse.core.resources.IFile">
+                          <test
+                                property="org.eclipse.core.resources.extension"
+                                value="export">
+                          </test>
+                    </adapt>
+                 </iterate>
+              </with>
+             </visibleWhen>
+          </menu>
+        <command
+            commandId="org.eclipse.mylyn.docs.intent.export.runBatchExport"
+            icon="icon/html_tag_obj.gif"
+            label="Launch Exports"
+            style="push">
+         <visibleWhen
+               checkEnabled="false">
+                <with
+                    variable="selection">
+                 <iterate
+                       ifEmpty="false"
+                       operator="or">
+                    <adapt
+                          type="org.eclipse.core.resources.IFile">
+                          <test
+                                property="org.eclipse.core.resources.extension"
+                                value="export">
+                          </test>
+                    </adapt>
+                 </iterate>
+              </with>
+         </visibleWhen>
+      </command>
+       </menuContribution>
 </extension>
 <extension
       point="org.eclipse.ui.commands">
@@ -28,6 +77,11 @@
          defaultHandler="org.eclipse.mylyn.docs.intent.exporter.ui.popup.actions.ExportIntentDocumentationAction"
          id="org.eclipse.mylyn.docs.intent.export.exportHTML"
          name="Export Intent Documentation as HTML">
+   </command>
+   <command
+         defaultHandler="org.eclipse.mylyn.docs.intent.exporter.ui.popup.actions.RunBatchExportAction"
+         id="org.eclipse.mylyn.docs.intent.export.runBatchExport"
+         name="Run Batch Export">
    </command>
 </extension>
 <extension

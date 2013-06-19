@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.markup.gen.files;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.mylyn.docs.intent.markup.markup.Image;
 import org.eclipse.swt.graphics.ImageData;
@@ -60,10 +63,16 @@ public class ImageUtility {
 			String absoluteImagePath;
 			if (imageURI.hasAbsolutePath()) {
 				absoluteImagePath = imageURI.toString();
+				if (imageURI.isPlatformResource()) {
+					IFile file = ResourcesPlugin.getWorkspace().getRoot()
+							.getFile(new Path(imageURI.toPlatformString(true)));
+					if (file.exists()) {
+						absoluteImagePath = file.getLocation().toOSString();
+					}
+				}
 			} else {
 				URI modelPath = imageDSL.eResource().getURI().trimSegments(1);
-				absoluteImagePath = modelPath.toFileString() + "/"
-						+ imageDSL.getUrl();
+				absoluteImagePath = modelPath.toFileString() + "/" + imageDSL.getUrl();
 			}
 			ImageData data = new ImageData(absoluteImagePath);
 			return data;

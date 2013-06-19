@@ -9,7 +9,10 @@
 
 
 [query public decode(s : Entity) : String =
-  invoke('org.eclipse.mylyn.docs.intent.markup.gen.services.DecodingService', 'decode(org.eclipse.mylyn.docs.intent.markup.markup.Entity)', Sequence{}) /]
+  invoke('org.eclipse.mylyn.docs.intent.markup.gen.services.DecodingService', 'decode(org.eclipse.mylyn.docs.intent.markup.markup.Entity)', Sequence{s}) /]
+
+[query public escapeTex(t : String) : String =
+  invoke('org.eclipse.mylyn.docs.intent.markup.gen.services.DecodingService', 'escape(java.lang.String)', Sequence{t}) /]
 
 [query public listEnv(l : List) : String =
   if (l.listType = ListType::BULLETED) then
