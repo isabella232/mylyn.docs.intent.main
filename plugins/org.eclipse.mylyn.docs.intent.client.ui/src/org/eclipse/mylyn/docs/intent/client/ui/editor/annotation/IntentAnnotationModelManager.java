@@ -220,7 +220,7 @@ public class IntentAnnotationModelManager {
 		if (intentPosition != null) {
 			// Step 1: search for an already existing annotation
 			boolean foundAlredyExistingAnnotation = false;
-			Iterator annotationIterator = getAnnotationModel().getAnnotationIterator();
+			Iterator<?> annotationIterator = getAnnotationModel().getAnnotationIterator();
 			while (annotationIterator.hasNext() && !foundAlredyExistingAnnotation) {
 				Object annotation = annotationIterator.next();
 				if (annotation instanceof IntentExternalContentReferenceImageAnnotation

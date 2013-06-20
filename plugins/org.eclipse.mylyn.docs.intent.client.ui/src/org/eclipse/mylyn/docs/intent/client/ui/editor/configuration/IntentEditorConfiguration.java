@@ -180,6 +180,8 @@ public class IntentEditorConfiguration extends TextSourceViewerConfiguration {
 	 * 
 	 * @see org.eclipse.ui.editors.text.TextSourceViewerConfiguration#getHyperlinkDetectorTargets(org.eclipse.jface.text.source.ISourceViewer)
 	 */
+	@SuppressWarnings({"rawtypes", "unchecked"
+	})
 	@Override
 	protected Map getHyperlinkDetectorTargets(ISourceViewer sourceViewer) {
 		Map targets = super.getHyperlinkDetectorTargets(sourceViewer);

@@ -47,6 +47,7 @@ import org.eclipse.ui.internal.cheatsheets.views.CheatSheetView;
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
+@SuppressWarnings("restriction")
 public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
 
 	private static final String NEW_INTENT_PROJECT_TITLE = "New Intent project"; //$NON-NLS-1$

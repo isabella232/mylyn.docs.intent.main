@@ -47,11 +47,6 @@ public class ProjectExplorerRefreshJob extends Job {
 	private IProject project;
 
 	/**
-	 * The element to refresh inside this project.
-	 */
-	private EObject elementToRefresh;
-
-	/**
 	 * Default constructor.
 	 * 
 	 * @param project
@@ -63,7 +58,6 @@ public class ProjectExplorerRefreshJob extends Job {
 		super(PROJECT_EXPLORER_REFRESH_JOB_NAME);
 		this.setSystem(true);
 		this.project = project;
-		this.elementToRefresh = elementToRefresh;
 	}
 
 	/**

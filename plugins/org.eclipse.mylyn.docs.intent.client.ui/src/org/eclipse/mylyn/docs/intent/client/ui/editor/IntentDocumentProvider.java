@@ -650,7 +650,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		/*
 		 * Dispose images create through IntentImageAnnotations
 		 */
-		Iterator annotationIterator = annotationModelManager.getAnnotationModel().getAnnotationIterator();
+		Iterator<?> annotationIterator = annotationModelManager.getAnnotationModel().getAnnotationIterator();
 		while (annotationIterator.hasNext()) {
 			Object annotation = annotationIterator.next();
 			if (annotation instanceof AbstractIntentImageAnnotation) {

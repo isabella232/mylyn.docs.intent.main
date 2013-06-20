@@ -37,6 +37,7 @@ import org.eclipse.swt.graphics.Image;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
+@SuppressWarnings("restriction")
 public class EMFCompareFix extends AbstractIntentFix {
 
 	private static final String COMPARE_EDITOR_TITLE = "Comparing Intent Document and Working Copy";

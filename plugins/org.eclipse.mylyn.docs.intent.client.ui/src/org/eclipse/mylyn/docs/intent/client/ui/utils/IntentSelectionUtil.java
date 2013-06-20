@@ -135,7 +135,7 @@ public final class IntentSelectionUtil {
 			selectedObjects.addAll((Collection<?>)receiver);
 		} else {
 			if (receiver instanceof IStructuredSelection) {
-				Iterator iterator = ((IStructuredSelection)receiver).iterator();
+				Iterator<?> iterator = ((IStructuredSelection)receiver).iterator();
 				while (iterator.hasNext()) {
 					selectedObjects.add(iterator);
 				}

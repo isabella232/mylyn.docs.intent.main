@@ -165,14 +165,14 @@ public class IntentPairMatcher implements ICharacterPairMatcher {
 			return getAllCharacters().contains(new Character(c));
 		}
 
-		private Set/* <Character> */fCharsCache = null;
+		private Set<Character> fCharsCache = null;
 
 		/**
 		 * @return A set containing all characters occurring in character pairs.
 		 */
-		private Set/* <Character> */getAllCharacters() {
+		private Set<Character> getAllCharacters() {
 			if (fCharsCache == null) {
-				Set/* <Character> */set = new HashSet/* <Character> */();
+				Set<Character> set = new HashSet<Character>();
 				for (int i = 0; i < fPairs.length; i++)
 					set.add(new Character(fPairs[i]));
 				fCharsCache = set;

@@ -190,7 +190,7 @@ public class JavaEditorRendererExtension implements IEditorRendererExtension {
 				}
 			} else if (event.data instanceof IStructuredSelection) {
 				// If dropping a selection of IMember or ICompilation Unit
-				Iterator iterator = ((IStructuredSelection)event.data).iterator();
+				Iterator<?> iterator = ((IStructuredSelection)event.data).iterator();
 				while (iterator.hasNext()) {
 					Object element = iterator.next();
 

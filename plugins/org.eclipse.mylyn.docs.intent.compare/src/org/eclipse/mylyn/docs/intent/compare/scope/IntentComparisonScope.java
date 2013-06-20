@@ -89,29 +89,6 @@ public class IntentComparisonScope extends DefaultComparisonScope {
 		/**
 		 * Constructor.
 		 * 
-		 * @param delegate
-		 *            The origin iterator.
-		 */
-		public URIInitializingIterator(Iterator<T> delegate) {
-			this.delegate = delegate;
-		}
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param resource
-		 *            The resource containing the elements to iterate on.
-		 * @param delegate
-		 *            The origin iterator.
-		 */
-		public URIInitializingIterator(Resource resource, Iterator<T> delegate) {
-			this.delegate = delegate;
-			addUri(resource);
-		}
-
-		/**
-		 * Constructor.
-		 * 
 		 * @param eObject
 		 *            The EObject containing the elements to iterate on.
 		 * @param delegate

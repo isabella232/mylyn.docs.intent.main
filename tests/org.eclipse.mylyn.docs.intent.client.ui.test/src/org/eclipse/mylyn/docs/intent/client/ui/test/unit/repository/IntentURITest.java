@@ -32,6 +32,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
+@SuppressWarnings("restriction")
 public class IntentURITest extends AbstractIntentUITest {
 
 	private static final String INVALID_URI_ERROR_MESSAGE = ": this URI is invalid, an error should have been thrown";

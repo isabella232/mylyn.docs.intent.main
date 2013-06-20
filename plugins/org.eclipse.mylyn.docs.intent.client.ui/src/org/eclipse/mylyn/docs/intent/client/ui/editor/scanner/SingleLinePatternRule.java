@@ -38,12 +38,6 @@ public class SingleLinePatternRule implements IRule, IPredicateRule {
 	private String endToken;
 
 	/**
-	 * If true, the expression will only be recognized if it starts at the beginning of a line (whitespaces
-	 * characters are ok).
-	 */
-	private boolean canOnlyStartAtLineBeginning;
-
-	/**
 	 * Constructor.
 	 * 
 	 * @param startToken
@@ -57,25 +51,6 @@ public class SingleLinePatternRule implements IRule, IPredicateRule {
 		this.token = token;
 		this.startToken = startToken;
 		this.endToken = endToken;
-	}
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param startToken
-	 *            the string indicating the beginning of this rule
-	 * @param endToken
-	 *            the string indicating the end of this rule
-	 * @param token
-	 *            the token to apply if rule is correctly detected
-	 * @param canOnlyStartAtLineBeginning
-	 *            if true, the expression will only be recognized if it starts at the beginning of a line
-	 *            (whitespaces characters are ok)
-	 */
-	public SingleLinePatternRule(String startToken, String endToken, Token token,
-			boolean canOnlyStartAtLineBeginning) {
-		this(startToken, endToken, token);
-		this.canOnlyStartAtLineBeginning = canOnlyStartAtLineBeginning;
 	}
 
 	/**
