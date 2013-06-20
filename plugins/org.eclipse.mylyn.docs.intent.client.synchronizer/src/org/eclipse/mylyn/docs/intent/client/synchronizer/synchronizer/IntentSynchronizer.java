@@ -123,6 +123,7 @@ public class IntentSynchronizer {
 	public Collection<? extends CompilationStatus> synchronize(RepositoryAdapter adapter,
 			TraceabilityIndex tracabilityIndex, Monitor progressMonitor) throws InterruptedException {
 		final List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
+		final Collection<Resource> resourcesToUnload = Sets.newLinkedHashSet();
 		if (defaultSynchronizedElementListener != null) {
 			defaultSynchronizedElementListener.clearElementToListen();
 		}
@@ -138,10 +139,20 @@ public class IntentSynchronizer {
 				if (indexEntry.getResourceDeclaration().getUri() != null) {
 					// We then generate the synchronization status for this entry
 					final Collection<? extends CompilationStatus> synchronizedStatus = synchronize(adapter,
-							indexEntry, progressMonitor);
-
+							indexEntry, resourcesToUnload, progressMonitor);
 					statusList.addAll(synchronizedStatus);
 				}
+			}
+		}
+
+		// Unload all external resources
+		for (Resource resource : resourcesToUnload) {
+			try {
+				resource.unload();
+				// CHECKSTYLE:OFF
+			} catch (Exception e) {
+				// CHECKSTYLE:ON
+				IntentLogger.getInstance().logError(e);
 			}
 		}
 		return statusList;
@@ -224,6 +235,8 @@ public class IntentSynchronizer {
 	 *            the repositoryAdapter to use for getting the repository content
 	 * @param indexEntry
 	 *            the indexEntry to use for obtaining synchronization informations
+	 * @param resourcesToUnload
+	 *            the resources that should be unloaded after synchronization
 	 * @param progressMonitor
 	 *            the progress Monitor indicating if this synchronization operation has been canceled
 	 * @return a list of status relatives to synchronization of the model described in the given indexEntry
@@ -231,7 +244,8 @@ public class IntentSynchronizer {
 	 *             if this operation was interrupted
 	 */
 	private Collection<? extends CompilationStatus> synchronize(final RepositoryAdapter adapter,
-			final TraceabilityIndexEntry indexEntry, Monitor progressMonitor) throws InterruptedException {
+			final TraceabilityIndexEntry indexEntry, Collection<Resource> resourcesToUnload,
+			Monitor progressMonitor) throws InterruptedException {
 		List<CompilationStatus> statusList = new ArrayList<CompilationStatus>();
 		boolean continueSynchronization = true;
 
@@ -316,15 +330,15 @@ public class IntentSynchronizer {
 					// Step 5 : creating status from the Diff
 					statusList = createSynchronizerSatusListFromComparison(indexEntry, differences,
 							progressMonitor);
-
-					// Step 6 : unloading the external resource
-				} finally {
+					resourcesToUnload.add(rightResource);
+				} catch (Exception e) {
+					// Unloading the external resource if issue was encountered
 					try {
 						externalResource.unload();
 						// CHECKSTYLE:OFF
-					} catch (Exception e) {
+					} catch (Exception e2) {
 						// CHECKSTYLE:ON
-						IntentLogger.getInstance().logError(e);
+						IntentLogger.getInstance().logError(e2);
 					}
 				}
 
