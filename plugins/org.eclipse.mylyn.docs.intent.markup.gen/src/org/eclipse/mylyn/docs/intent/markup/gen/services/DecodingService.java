@@ -33,8 +33,14 @@ public class DecodingService {
 
 	public String escape(String s) {
 		if (s != null) {
-			s = s.replaceAll("->", "\rightarrow");
-			s = s.replaceAll("&", "\\&");
+			s = s.replaceAll("\\\\", "\\\\textbackslash ");
+			s = s.replaceAll("\\->", " \\$\\\\rightarrow\\$ ");
+			s = s.replaceAll("<\\-", " \\$\\\\leftarrow\\$ ");
+			s = s.replaceAll("&", "\\\\& ");
+			s = s.replaceAll("%", "\\\\% ");
+			s = s.replaceAll("_", "\\\\_ ");
+			s = s.replaceAll("é", "\\\\'{e}");
+			s = s.replaceAll("è", "\\\\'{a}");
 			return s;
 		}
 		return "";

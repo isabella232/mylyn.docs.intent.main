@@ -57,29 +57,38 @@ public class ImageUtility {
 
 	}
 
+	public Boolean exists(Image imageDSL) {
+		return getImageData(imageDSL) != null;
+	}
+
 	private ImageData getImageData(Image imageDSL) {
 		try {
-			URI imageURI = URI.createURI(imageDSL.getUrl());
-			String absoluteImagePath;
-			if (imageURI.hasAbsolutePath()) {
-				absoluteImagePath = imageURI.toString();
-				if (imageURI.isPlatformResource()) {
-					IFile file = ResourcesPlugin.getWorkspace().getRoot()
-							.getFile(new Path(imageURI.toPlatformString(true)));
-					if (file.exists()) {
-						absoluteImagePath = file.getLocation().toOSString();
-					}
-				}
-			} else {
-				URI modelPath = imageDSL.eResource().getURI().trimSegments(1);
-				absoluteImagePath = modelPath.toFileString() + "/" + imageDSL.getUrl();
-			}
+			String absoluteImagePath = getImageLocationPath(imageDSL);
 			ImageData data = new ImageData(absoluteImagePath);
 			return data;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public String getImageLocationPath(Image imageDSL) {
+		String absoluteImagePath;
+		URI imageURI = URI.createURI(imageDSL.getUrl());
+		if (imageURI.hasAbsolutePath()) {
+			absoluteImagePath = imageURI.toString();
+			if (imageURI.isPlatformResource()) {
+				IFile file = ResourcesPlugin.getWorkspace().getRoot()
+						.getFile(new Path(imageURI.toPlatformString(true)));
+				if (file.exists()) {
+					absoluteImagePath = file.getLocation().toOSString();
+				}
+			}
+		} else {
+			URI modelPath = imageDSL.eResource().getURI().trimSegments(1);
+			absoluteImagePath = modelPath.toFileString() + "/" + imageDSL.getUrl();
+		}
+		return absoluteImagePath;
 	}
 
 }

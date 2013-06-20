@@ -57,7 +57,7 @@
 
 \title{[e.title.escapeTex()/]}
  
-\author{[e.authors->sep(' \\and ')/]} 
+\author{[e.authors.escapeTex()->sep(' \\and ')/]} 
 \begin{document}
 
 %% [protected ('document start')]
@@ -71,6 +71,16 @@
 [child.toChapterTex()/] 
 [/for]
 
+[if (not autoRotateImage())]
+\chapter{Annex : Large figures}
+\label{large_figures}
+
+This chapter includes all the large figures of the document oriented in landscape, more convenient once printed on paper.
+
+[for (child : IntentSection | e.roots)]
+[child.largeFiguresAnnex()/]
+[/for]
+[/if]
 \end{document}
 [/file]
 [/template]
@@ -82,8 +92,8 @@
 [/template]
 
 [template public toChapterTex(e : IntentSection)  ]
-\chapter{[title.toTex()/]}
-
+\chapter{[title.toTex().trim()/]}
+\label{[title.toTex().trim()/]}
 [for (child : DescriptionUnit | e.eContents(DescriptionUnit))]
 [child.toTex()/]
 [/for]
@@ -113,26 +123,37 @@
 [e.descriptionBloc.toTex()/]
 [/template]
 
-[template public toTex(e : OclAny)]
-% not handled [e.eClass()/]
+[template public toTex(e : IntentReferenceInstruction)]
+See \ref{[e.intentHref/]} on page~\pageref{[e.intentHref/]}.
 [/template]
+
+[template public toTex(e : OclAny)]
+% not handled [e.eClass().name/]  
+[/template]
+
+
 
 
 
 [template public toTex(e : IntentSection)  ]
 
-[if (eContainer().oclIsKindOf(IntentDocument))]
-\section{[title.toTex().escapeTex()/]}
-[elseif (eContainer().eContainer().oclIsKindOf(IntentDocument))]
-\subsection{[title.toTex().escapeTex()/]}
-[elseif (shouldGenerateSubSub() and eContainer().eContainer().eContainer().oclIsKindOf(IntentDocument))]
-\subsubsection{[title.toTex().escapeTex()/]}	
+[if (eContainer().isARootOfDocumentGen())]
+\section{[title.toTex().escapeTex().trim()/]}
+\label{[title.toTex().escapeTex().trim()/]}
+[elseif (eContainer().eContainer().isARootOfDocumentGen())]
+\subsection{[title.toTex().escapeTex().trim()/]}
+\label{[title.toTex().escapeTex().trim()/]}
+[elseif (eContainer().eContainer().eContainer().isARootOfDocumentGen() and shouldGenerateSubSub())]
+\subsubsection{[title.toTex().escapeTex().trim()/]}
+\label{[title.toTex().escapeTex().trim()/]}	
 [else]
 \paragraph{[title.toTex().escapeTex()/]}
 [/if]	
 
 [e.intentContent.toTex()/]
 [/template]
+
+[query public isARootOfDocumentGen (e : OclAny) : Boolean =  e.eInverse(LatexDocument)->size() > 0/]
 
 [query public shouldGenerateSubSub (e : IntentSection) :  Boolean =  e.eInverse(LatexDocument)->size() > 0 and not e.eInverse(LatexDocument)->first().replaceSubSubSectionByPara /]
 

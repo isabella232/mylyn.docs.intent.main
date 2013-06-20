@@ -41,6 +41,10 @@
 	= invoke('org.eclipse.mylyn.docs.intent.markup.gen.files.ImageUtility', 'getImageWidth(org.eclipse.mylyn.docs.intent.markup.markup.Image)', Sequence{arg0}) /]
 	
 
+[query public getImageLocationPath(arg0 : Image) : String
+	= invoke('org.eclipse.mylyn.docs.intent.markup.gen.files.ImageUtility', 'getImageLocationPath(org.eclipse.mylyn.docs.intent.markup.markup.Image)', Sequence{arg0}) /]
+	
+
 [query public hasLongLandscapeRatio(arg0 : Image) : Boolean
 	= invoke('org.eclipse.mylyn.docs.intent.markup.gen.files.ImageUtility', 'hasLongLandscapeRatio(org.eclipse.mylyn.docs.intent.markup.markup.Image)', Sequence{arg0}) /]
 
@@ -56,4 +60,7 @@
 [query public isSmall(arg0 : Image) : Boolean
 	= invoke('org.eclipse.mylyn.docs.intent.markup.gen.files.ImageUtility', 'isSmall(org.eclipse.mylyn.docs.intent.markup.markup.Image)', Sequence{arg0}) /]
 
+
+[query public exists(arg0 : Image) : Boolean
+	= invoke('org.eclipse.mylyn.docs.intent.markup.gen.files.ImageUtility', 'exists(org.eclipse.mylyn.docs.intent.markup.markup.Image)', Sequence{arg0}) /]
 
