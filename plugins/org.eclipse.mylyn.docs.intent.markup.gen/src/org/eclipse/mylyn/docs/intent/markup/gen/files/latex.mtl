@@ -146,7 +146,7 @@ This chapter includes all the large figures of the document oriented in landscap
 
 [/template]
 
-[template public toTex(e : Text) ? (e.attributes->select(a : Annotations | a.CSSClass = 'footnote')->isEmpty()) post (trim()) ]
+[template public toTex(e : Text) ? (e.attributes->select(a : Annotations | a.CSSClass = 'footnote')->isEmpty()) ]
 [if (not e.data.oclIsUndefined())]
 [e.format.formatTex()/][e.data.escapeTex()/][for (f : Formatting | e.format)][if (f <> Formatting::none)]} [/if][/for][if (e.lineBreak)]
 \newline[/if]
