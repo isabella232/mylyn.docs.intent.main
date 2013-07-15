@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.serializer;
 
+import com.google.common.primitives.Ints;
+
 /**
  * Represents the position of a parsed element.
  * 
@@ -98,9 +100,9 @@ public class ParsedElementPosition implements Comparable<ParsedElementPosition> 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(ParsedElementPosition arg0) {
-		int res = Integer.valueOf(offset).compareTo(arg0.offset);
+		int res = Ints.compare(offset, arg0.offset);
 		if (res == 0) {
-			res = Integer.valueOf(length).compareTo(arg0.length);
+			res = Ints.compare(length, arg0.length);
 		}
 		return res;
 	}
