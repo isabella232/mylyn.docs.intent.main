@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.compare.match;
 
+import com.google.common.collect.Maps;
+
+import java.util.Map;
+
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.mylyn.docs.intent.compare.match.EditionDistance.CountingDiffEngine;
@@ -39,6 +43,16 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	private static final double LOCALIZATION_DISTANCE_WEIGHT = 0.15;
 
 	private static final double IDENTIFIER_DISTANCE_WEIGHT = 0.85;
+
+	/**
+	 * A map keeping a cache of each element and its serialized form.
+	 */
+	private Map<EObject, String> serializationCache = Maps.newLinkedHashMap();
+
+	/**
+	 * A map keeping a cache of each element and its complete level.
+	 */
+	private Map<EObject, String> levelCache = Maps.newLinkedHashMap();
 
 	/**
 	 * Constructor.
@@ -103,6 +117,8 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 		Double distance = null;
 		String fragmentA = LocationDistanceUtils.computeLevel(a);
 		String fragmentB = LocationDistanceUtils.computeLevel(b);
+		levelCache.put(a, fragmentA);
+		levelCache.put(b, fragmentB);
 		if (fragmentA != null && fragmentB != null) {
 			distance = StringDistanceUtils.getStringDistance(fragmentA, fragmentB);
 		}
@@ -167,18 +183,21 @@ public class IntentCountingDiffEngine extends CountingDiffEngine {
 	 *            the element to serialize
 	 * @return the serialized version
 	 */
-	private static String serialize(EObject root) {
-		String res = null;
-		if (root.eClass().getEPackage().equals(MarkupPackage.eINSTANCE)) {
-			res = new WikiTextSerializer().serialize(root);
-		} else if (root instanceof ModelingUnit || root instanceof DescriptionUnit
-				|| root instanceof IntentStructuredElement) {
-			res = new IntentSerializer().serialize(root);
-		} else if (root instanceof DescriptionBloc) {
-			DescriptionBloc bloc = (DescriptionBloc)root;
-			res = serialize(bloc.getDescriptionBloc());
+	private String serialize(EObject root) {
+		if (serializationCache.get(root) == null) {
+			String res = "";
+			if (root.eClass().getEPackage().equals(MarkupPackage.eINSTANCE)) {
+				res = new WikiTextSerializer().serialize(root);
+			} else if (root instanceof ModelingUnit || root instanceof DescriptionUnit
+					|| root instanceof IntentStructuredElement) {
+				res = new IntentSerializer().serialize(root);
+			} else if (root instanceof DescriptionBloc) {
+				DescriptionBloc bloc = (DescriptionBloc)root;
+				res = serialize(bloc.getDescriptionBloc());
+			}
+			serializationCache.put(root, res);
 		}
-		return res;
+		return serializationCache.get(root);
 	}
 
 	/**

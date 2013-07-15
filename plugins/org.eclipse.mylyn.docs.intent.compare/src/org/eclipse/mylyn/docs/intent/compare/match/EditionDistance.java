@@ -98,12 +98,15 @@ public class EditionDistance implements DistanceFunction {
 
 	private Notifier rightRoot;
 
+	private IntentCountingDiffEngine countingDiffEngine;
+
 	/**
 	 * Instantiate a new Edition Distance.
 	 */
 	public EditionDistance(Notifier leftRoot, Notifier rightRoot) {
 		this.leftRoot = leftRoot;
 		this.rightRoot = rightRoot;
+		this.countingDiffEngine = new IntentCountingDiffEngine(this, new Double(0));
 		IEqualityHelperFactory fakeEqualityHelperFactory = new DefaultEqualityHelperFactory() {
 			@Override
 			public IEqualityHelper createEqualityHelper() {
@@ -184,8 +187,7 @@ public class EditionDistance implements DistanceFunction {
 	public boolean areIdentic(Comparison inProgress, EObject a, EObject b) {
 		boolean areRoots = a.equals(leftRoot) && b.equals(rightRoot) || b.equals(leftRoot)
 				&& a.equals(rightRoot);
-		return areRoots
-				|| new IntentCountingDiffEngine(this, new Double(0)).measureDifferences(inProgress, a, b) == 0;
+		return areRoots || countingDiffEngine.measureDifferences(inProgress, a, b) == 0;
 	}
 
 	/**
