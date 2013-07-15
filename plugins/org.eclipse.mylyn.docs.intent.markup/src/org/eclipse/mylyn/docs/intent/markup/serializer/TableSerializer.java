@@ -95,7 +95,8 @@ public final class TableSerializer {
 					}
 
 					// Step 2 : We then render the td as a regular bloc
-					renderedTable += dispatcher.doSwitch(td);
+					String renderedCell = dispatcher.doSwitch(td).replace("\n", "");
+					renderedTable += renderedCell;
 				}
 				renderedTable += TD_SPACE_TRADUCTION;
 			}

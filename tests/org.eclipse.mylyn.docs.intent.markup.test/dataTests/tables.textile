@@ -26,3 +26,10 @@ h2. Alignments
 |^. top alignment |
 |-. middle alignment |
 |~. bottom alignment |
+
+h2. Tables with images
+
+
+
+|_. a|_. table|_. heading|
+|a|table|row with !images! and text|

@@ -41,6 +41,10 @@ My List MIXED :
 ## Reason 3
 
 
+* Lists with !images!
+* Should not cause whitespace issues
+
+
 
 h2. Tests section after
 
