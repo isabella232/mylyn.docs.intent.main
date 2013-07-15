@@ -110,8 +110,16 @@ public class IntentSectionImpl extends IntentStructuredElementImpl implements In
 	 */
 	@SuppressWarnings("unchecked")
 	public EList<DescriptionUnit> getDescriptionUnits() {
-		return (EList<DescriptionUnit>)eGet(IntentDocumentPackage.Literals.INTENT_SECTION__DESCRIPTION_UNITS,
-				true);
+		Collection<DescriptionUnit> result = new ArrayList<DescriptionUnit>();
+		Iterator<EObject> it = getIntentContent().iterator();
+		while (it.hasNext()) {
+			EObject eObj = (EObject)it.next();
+			if (eObj instanceof DescriptionUnit)
+				result.add((DescriptionUnit)eObj);
+		}
+		return new EcoreEList.UnmodifiableEList<DescriptionUnit>(eInternalContainer(),
+				IntentDocumentPackage.eINSTANCE.getIntentSection_DescriptionUnits(), result.size(),
+				result.toArray());
 	}
 
 	/**
