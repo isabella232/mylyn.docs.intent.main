@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
+import java.util.LinkedList;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.text.AbstractDocument;
 import org.eclipse.jface.text.BadLocationException;
@@ -18,7 +20,11 @@ import org.eclipse.jface.text.DefaultLineTracker;
 import org.eclipse.jface.text.GapTextStore;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.utils.diff_match_patch;
+import org.eclipse.mylyn.docs.intent.collab.common.utils.diff_match_patch.Diff;
+import org.eclipse.mylyn.docs.intent.collab.common.utils.diff_match_patch.Operation;
+import org.eclipse.mylyn.docs.intent.collab.common.utils.diff_match_patch.Patch;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
 import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
@@ -157,14 +163,8 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 			public void run() {
 				if (associatedEditor.getSelectionProvider() != null) {
 					ISelection selection = associatedEditor.getSelectionProvider().getSelection();
-					try {
-						String serializedForm = serializer.serialize(ast);
-						if (!get().equals(serializedForm)) {
-							replace(0, getLength(), serializedForm);
-						}
-					} catch (BadLocationException e) {
-						IntentUiLogger.logError("Error encountered while refreshing the document ", e);
-					}
+					String serializedForm = serializer.serialize(ast);
+					smartReplace(serializedForm);
 					associatedEditor.getSelectionProvider().setSelection(selection);
 				}
 			}
@@ -173,6 +173,43 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 			Display.getDefault().syncExec(runnable);
 		} else {
 			Display.getDefault().asyncExec(runnable);
+		}
+	}
+
+	/**
+	 * Replaces the current text by the given new text, using diff-match-patch to determine the parts that
+	 * have actually changed instead of replacing the whole content (for performance considerations).
+	 * 
+	 * @param newText
+	 *            the new text
+	 */
+	private void smartReplace(String newText) {
+		try {
+			if (!get().equals(newText)) {
+				// Step 1: get differences betwen old document content and the new one
+				diff_match_patch txtdiffer = new diff_match_patch();
+				LinkedList<Diff> txtDiffs = txtdiffer.diff_main(get(), newText);
+				txtdiffer.diff_cleanupSemanticLossless(txtDiffs);
+				LinkedList<Patch> patches = txtdiffer.patch_make(txtDiffs);
+
+				// Step 2: replace each peace of changed text
+				for (Patch patch : patches) {
+					int beginning = patch.start1;
+					for (Diff delta : patch.diffs) {
+						if (delta.operation == Operation.EQUAL) {
+							beginning += delta.text.length();
+						}
+						if (delta.operation == Operation.DELETE) {
+							replace(beginning, delta.text.length(), "");
+						}
+						if (delta.operation == Operation.INSERT) {
+							replace(beginning, 0, delta.text);
+						}
+					}
+				}
+			}
+		} catch (BadLocationException e) {
+			IntentLogger.getInstance().logError(e);
 		}
 	}
 
