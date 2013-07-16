@@ -21,6 +21,10 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public interface IntentRepositoryManager {
+
+	/**
+	 * Default instance.
+	 */
 	IntentRepositoryManager INSTANCE = new IntentRepositoryManagerImpl();
 
 	/**

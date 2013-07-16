@@ -76,9 +76,18 @@ public class IntentLinkHelper implements ILinkHelper {
 		return new StructuredSelection(elementsToSelect.toArray(new Object[elementsToSelect.size()]));
 	}
 
-	private Collection<? extends Object> getIndexEntryToSelectionFromEditorURI(IntentIndexEntry indexEntry,
-			URI editorURI) {
-		ArrayList<Object> elementsToSelect = new ArrayList<Object>();
+	/**
+	 * Returns the {@link IntentIndexEntry}s corresponding to the given editor URI.
+	 * 
+	 * @param indexEntry
+	 *            the scope in which searching for the entry
+	 * @param editorURI
+	 *            the searched editor URI
+	 * @return the {@link IntentIndexEntry}s corresponding to the given editor URI
+	 */
+	private Collection<? extends IntentIndexEntry> getIndexEntryToSelectionFromEditorURI(
+			IntentIndexEntry indexEntry, URI editorURI) {
+		ArrayList<IntentIndexEntry> elementsToSelect = new ArrayList<IntentIndexEntry>();
 		if (indexEntry.getReferencedElement() != null) {
 			if (editorURI.equals(EcoreUtil.getURI(indexEntry.getReferencedElement()))) {
 				elementsToSelect.add(indexEntry);

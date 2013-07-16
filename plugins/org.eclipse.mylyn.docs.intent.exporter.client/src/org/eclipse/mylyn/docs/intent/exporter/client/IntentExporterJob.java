@@ -17,14 +17,31 @@ import org.eclipse.mylyn.docs.intent.exporter.ui.IntentPreviewView;
  * available at http://www.eclipse.org/legal/epl-v10.html Contributors: Obeo - initial API and implementation
  *******************************************************************************/
 
+/**
+ * A {@link Job} in charge of exporting an {@link IntentDocument}.
+ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ *
+ */
 public class IntentExporterJob extends Job {
 
+	/**
+	 * Constant for this job's name.
+	 */
 	private static final String JOB_NAME = "Creating HTML preview";
 
+	/**
+	 * The {@link IntentHTMLExporter} to use for export.
+	 */
 	private IntentHTMLExporter htmlExporter;
 
+	/**
+	 * The {@link IntentDocument} to export.
+	 */
 	private IntentDocument intentDocument;
 
+	/**
+	 * Location of the target folder in which document will be exported.
+	 */
 	private String targetFolderLocation;
 
 	/**

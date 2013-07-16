@@ -35,21 +35,17 @@ import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
  */
 public class RepositoryContentProvider implements ITreeContentProvider {
 
-	private static final Object[] EMPTY = {};
-
 	/**
 	 * {@inheritDoc}
 	 * 
 	 * @see org.eclipse.jface.viewers.ITreeContentProvider#getChildren(java.lang.Object)
 	 */
 	public Object[] getChildren(Object parentElement) {
-		Object[] children = EMPTY;
+		Object[] children = {};
 
 		if (parentElement instanceof IProject) {
 			IFile iFileIndex = getIFileIndex((IProject)parentElement);
-			if (iFileIndex == null) {
-				children = EMPTY;
-			} else {
+			if (iFileIndex != null) {
 				children = getChildren(iFileIndex);
 			}
 		}

@@ -62,11 +62,23 @@ public class IntentPartitionScanner extends RuleBasedPartitionScanner {
 		setPredicateRules(rules.toArray(new IPredicateRule[rules.size()]));
 	}
 
+	/**
+	 * Computes all {@link IRule}s related to Modeling Units.
+	 * 
+	 * @param rules
+	 *            the list of rules to fill
+	 */
 	private void computeModelingUnitRules(List<IRule> rules) {
 		rules.add(new MultiLineRule(IntentKeyWords.MODELING_UNIT_BEGIN, IntentKeyWords.MODELING_UNIT_END,
 				new Token(INTENT_MODELINGUNIT)));
 	}
 
+	/**
+	 * Computes all {@link IRule}s related to structural content.
+	 * 
+	 * @param rules
+	 *            the list of rules to fill
+	 */
 	private void computeStructuralContentRules(List<IRule> rules) {
 		rules.add(new SingleLinePatternRule(IntentKeyWords.INTENT_KEYWORD_DOCUMENT,
 				IntentKeyWords.INTENT_KEYWORD_OPEN, new Token(INTENT_STRUCTURAL_CONTENT)));

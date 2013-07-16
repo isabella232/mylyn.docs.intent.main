@@ -50,14 +50,29 @@ import org.eclipse.ui.internal.cheatsheets.views.CheatSheetView;
 @SuppressWarnings("restriction")
 public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecutableExtension {
 
+	/**
+	 * Wizard title.
+	 */
 	private static final String NEW_INTENT_PROJECT_TITLE = "New Intent project"; //$NON-NLS-1$
 
+	/**
+	 * Constant for an empty default document.
+	 */
 	private static final String DEFAULT_INTENT_DOCUMENT = "Document {\n}";
 
+	/**
+	 * Wizard page allowing to create the intent project.
+	 */
 	protected WizardNewProjectCreationPage page;
 
+	/**
+	 * Optional wizard page allowing to select a template to initialize the created intent document.
+	 */
 	protected IntentTemplateWizardPage templatePage;
 
+	/**
+	 * The {@link IConfigurationElement} from which this wizard has been created.
+	 */
 	protected IConfigurationElement configElement;
 
 	/**
@@ -196,8 +211,14 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 	 */
 	static class NewIntentProjectWizardRunnable extends WorkspaceModifyOperation {
 
+		/**
+		 * The new project creation page.
+		 */
 		protected WizardNewProjectCreationPage page;
 
+		/**
+		 * Default initial content if no template is selected.
+		 */
 		private String defaultContent;
 
 		/**

@@ -26,8 +26,14 @@ import org.eclipse.core.runtime.CoreException;
  */
 public class IntentNature implements IProjectNature {
 
+	/**
+	 * ID of the Intent workspace type.
+	 */
 	public static final String INTENT_WORKSPACE_TYPE = "org.eclipse.mylyn.docs.intent.collab.ide.repository";
 
+	/**
+	 * Type tag.
+	 */
 	public static final String TYPE_TAG = "type";
 
 	/**
@@ -35,6 +41,9 @@ public class IntentNature implements IProjectNature {
 	 */
 	public static final String NATURE_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature";
 
+	/**
+	 * The {@link IProject} associated to this nature.
+	 */
 	private IProject project;
 
 	/**

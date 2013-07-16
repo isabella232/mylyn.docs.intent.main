@@ -24,6 +24,9 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChan
  */
 public class RepositoryChangeNotificationImpl implements RepositoryChangeNotification {
 
+	/**
+	 * The elements concerned by this {@link RepositoryChangeNotification}.
+	 */
 	private List<EObject> impactedElements;
 
 	/**

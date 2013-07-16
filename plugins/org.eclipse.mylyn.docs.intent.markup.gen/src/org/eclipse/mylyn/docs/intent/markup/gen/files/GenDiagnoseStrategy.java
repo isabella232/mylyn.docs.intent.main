@@ -19,6 +19,11 @@ import java.util.Map;
 import org.eclipse.acceleo.engine.generation.strategy.WorkspaceAwareStrategy;
 import org.eclipse.acceleo.engine.generation.writers.AcceleoWorkspaceFileWriter;
 
+/**
+ * Generation strategy.
+ * 
+ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ */
 public class GenDiagnoseStrategy extends WorkspaceAwareStrategy {
 
 	@Override
@@ -26,11 +31,12 @@ public class GenDiagnoseStrategy extends WorkspaceAwareStrategy {
 		final Map<File, Writer> needsValidation = new HashMap<File, Writer>();
 		for (Map.Entry<String, Writer> entry : preview.entrySet()) {
 			final File targetFile = new File(entry.getKey());
-			if (((AcceleoWorkspaceFileWriter) entry.getValue()).hasChanged()) {
+			if (((AcceleoWorkspaceFileWriter)entry.getValue()).hasChanged()) {
 				needsValidation.put(targetFile, entry.getValue());
 			}
 		}
-		if (needsValidation.values().size() > 0)
+		if (needsValidation.values().size() > 0) {
 			throw new RuntimeException("need regeneration:" + needsValidation);
+		}
 	}
 }

@@ -30,6 +30,9 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitPackage;
  */
 public class IntentFeatureFilter extends FeatureFilter {
 
+	/**
+	 * List of features to ignore during match.
+	 */
 	private static final Collection<EStructuralFeature> FEATURES_TO_IGNORE = getFeaturesToIgnore();
 
 	/**

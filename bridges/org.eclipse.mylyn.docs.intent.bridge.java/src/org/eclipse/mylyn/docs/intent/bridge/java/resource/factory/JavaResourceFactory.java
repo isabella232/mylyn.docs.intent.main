@@ -28,6 +28,9 @@ import org.eclipse.jdt.core.JavaModelException;
  */
 public class JavaResourceFactory implements Resource.Factory {
 
+	/**
+	 * Used to build model out of a java file.
+	 */
 	private final JavaClassExplorer javaClassExplorer = new JavaClassExplorer();
 
 	/**

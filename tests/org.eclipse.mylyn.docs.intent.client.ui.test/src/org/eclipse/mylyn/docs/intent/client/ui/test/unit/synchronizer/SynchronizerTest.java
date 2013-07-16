@@ -63,10 +63,10 @@ public class SynchronizerTest extends AbstractZipBasedTest {
 				IResource.DEPTH_INFINITE);
 
 		assertMessageExists(
-				"[Sync] The EPackage OnlyInCurrentDocument is defined in the <b>Current Document</b> model<br/>but not in the <b>Working Copy</b> model.",
+				"[Sync] The EPackage OnlyInCurrentDocument is defined in the Documentation model<br/>but not in the Working Copy model.",
 				552, 35);
 		assertMessageExists(
-				"[Sync] The EClass OnlyInWorkingCopy is defined in the <b>Working Copy</b> model<br/>but not in the <b>Current Document</b> model.",
+				"[Sync] The EClass OnlyInWorkingCopy is defined in the Working Copy model<br/>but not in the Documentation model.",
 				222, 25);
 		assertMessageExists("[Sync] The EClass A has been removed from the reference 'eSuperTypes'", 991, 28);
 		assertMessageExists("[Sync] The EClass A has been removed from the reference 'eSuperTypes'", 1121, 28);
@@ -79,7 +79,7 @@ public class SynchronizerTest extends AbstractZipBasedTest {
 		assertMessageExists("[Sync] The EClass A has been removed from the reference 'eSuperTypes'", 1121, 28);
 		assertMessageExists("[Sync] The EClass A has been added to the reference 'eSuperTypes'", 881, 1);
 		assertMessageExists(
-				"[Sync] The attribute 'abstract' in Attributes has changed.<br/><b>Current Document</b> : true<br/><b>Working Copy</b> : false",
+				"[Sync] The attribute 'abstract' in Attributes has changed.<br/>Documentation : true<br/>Working Copy : false",
 				1326, 6);
 	}
 

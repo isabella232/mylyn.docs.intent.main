@@ -41,6 +41,9 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 	 */
 	private boolean hideDescriptionUnitsContent;
 
+	/**
+	 * The {@link ComposedAdapterFactory} used by this item provider.
+	 */
 	private ComposedAdapterFactory adapterFactory;
 
 	/**

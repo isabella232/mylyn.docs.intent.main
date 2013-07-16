@@ -40,6 +40,9 @@ import org.eclipse.swt.graphics.Image;
 @SuppressWarnings("restriction")
 public class EMFCompareFix extends AbstractIntentFix {
 
+	/**
+	 * Title of the compare editor opened when applying this fix.
+	 */
 	private static final String COMPARE_EDITOR_TITLE = "Comparing Intent Document and Working Copy";
 
 	/**

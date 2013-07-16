@@ -35,13 +35,30 @@ public final class TableSerializer {
 			Character.toString(TextSerializer.TILDE_SYMBOL),
 	};
 
+	/**
+	 * Constant for TD property.
+	 */
 	private static final String TD_TEXT_ALIGN = "text-align: ";
 
+	/**
+	 * Constant for TD property.
+	 */
 	private static final String TD_VERTICAL_ALIGN = "vertical-align: ";
 
+	/**
+	 * Constant for TD property.
+	 */
 	private static final String TD_HEADER_TRADUCTION = "_.";
 
-	private static String TD_SPACE_TRADUCTION = "|";
+	/**
+	 * Constant for TD property.
+	 */
+	private static final String TD_SPACE_TRADUCTION = "|";
+
+	/**
+	 * Constant for linebreaks.
+	 */
+	private static final String LINEBREAK = "\n";
 
 	/**
 	 * TableSerializer constructor.
@@ -62,7 +79,7 @@ public final class TableSerializer {
 	public static String render(Table table, WikiTextElementDispatcher dispatcher) {
 
 		// Step 1 : rendering the table style (can be null).
-		String renderedTable = "\n";
+		String renderedTable = LINEBREAK;
 		if (table.getAttributes().getCSSClass() != null) {
 			renderedTable += "table(" + table.getAttributes().getCSSClass() + ").";
 		}
@@ -72,7 +89,7 @@ public final class TableSerializer {
 		for (BlockContent blocContent : table.getContent()) {
 			if (blocContent instanceof TableRow) {
 				TableRow tr = (TableRow)blocContent;
-				renderedTable += "\n";
+				renderedTable += LINEBREAK;
 				// serialize the tableRow style
 				if (tr.getAttributes().getCSSClass() != null) {
 					renderedTable += "(" + tr.getAttributes().getCSSClass() + "). ";
@@ -95,7 +112,7 @@ public final class TableSerializer {
 					}
 
 					// Step 2 : We then render the td as a regular bloc
-					String renderedCell = dispatcher.doSwitch(td).replace("\n", "");
+					String renderedCell = dispatcher.doSwitch(td).replace(LINEBREAK, "");
 					renderedTable += renderedCell;
 				}
 				renderedTable += TD_SPACE_TRADUCTION;

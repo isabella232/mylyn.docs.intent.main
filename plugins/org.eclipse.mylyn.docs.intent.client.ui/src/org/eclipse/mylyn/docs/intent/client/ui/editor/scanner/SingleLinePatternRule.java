@@ -23,8 +23,14 @@ import org.eclipse.jface.text.rules.Token;
  */
 public class SingleLinePatternRule implements IRule, IPredicateRule {
 
+	/**
+	 * The token returned when rule is applied.
+	 */
 	private final Token token;
 
+	/**
+	 * Keeps track of all read characters in order to be able to unread if rule is not applied.
+	 */
 	private int readCount;
 
 	/**
@@ -101,6 +107,13 @@ public class SingleLinePatternRule implements IRule, IPredicateRule {
 		return Token.UNDEFINED;
 	}
 
+	/**
+	 * Indicates if the endToken is detected in the given scanner.
+	 * 
+	 * @param scanner
+	 *            the {@link ICharacterScanner}
+	 * @return true if the endToken is detected in the given scanner, false otherwise
+	 */
 	private boolean endSequenceDetected(ICharacterScanner scanner) {
 		boolean endSequenceDetected = false;
 		int read = read(scanner);
@@ -119,6 +132,13 @@ public class SingleLinePatternRule implements IRule, IPredicateRule {
 		return endSequenceDetected;
 	}
 
+	/**
+	 * Indicates if the startToken is detected in the given scanner.
+	 * 
+	 * @param scanner
+	 *            the {@link ICharacterScanner}
+	 * @return true if the startToken is detected in the given scanner, false otherwise
+	 */
 	private boolean startSequenceDetected(ICharacterScanner scanner) {
 		boolean startSequenceDetected = false;
 		int read = read(scanner);
@@ -134,6 +154,13 @@ public class SingleLinePatternRule implements IRule, IPredicateRule {
 		return startSequenceDetected;
 	}
 
+	/**
+	 * Reads through the given {@link ICharacterScanner} and increases readCount.
+	 * 
+	 * @param scanner
+	 *            the {@link ICharacterScanner}
+	 * @return the read char
+	 */
 	private int read(ICharacterScanner scanner) {
 		++readCount;
 		return scanner.read();

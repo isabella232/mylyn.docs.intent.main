@@ -36,16 +36,34 @@ import org.eclipse.mylyn.docs.intent.markup.gen.services.ImageServices;
  */
 public final class IntentAcceleoServices {
 
+	/**
+	 * The export output folder.
+	 */
 	private static File outputFolder;
 
+	/**
+	 * Title to associated to the main export file.
+	 */
 	private static String intentDocumentTitle;
 
+	/**
+	 * The adapter to use to query the documentation.
+	 */
 	private static RepositoryAdapter repositoryAdapter;
 
+	/**
+	 * The traceability index.
+	 */
 	private static TraceabilityIndex traceabilityIndex;
 
+	/**
+	 * Indicates wether table of contents should be displayed by default.
+	 */
 	private static boolean shouldShowTableOfContents;
 
+	/**
+	 * The adapter factory.
+	 */
 	private static ComposedAdapterFactory adapterFactory;
 
 	/**
@@ -88,6 +106,13 @@ public final class IntentAcceleoServices {
 		return CopyImageUtils.copyImageAndGetImageID(any, repositoryAdapter, outputFolder);
 	}
 
+	/**
+	 * Returns the {@link IntentSection} containing the given {@link EObject}.
+	 * 
+	 * @param any
+	 *            the element
+	 * @return the {@link IntentSection} containing the given {@link EObject}
+	 */
 	public static IntentSection getContainingSection(EObject any) {
 		EObject container = any;
 		if (any instanceof UnitInstruction) {
@@ -112,6 +137,13 @@ public final class IntentAcceleoServices {
 		return new TraceabilityInformationsQuery(repositoryAdapter).getAllRelatedContributions(instruction);
 	}
 
+	/**
+	 * Returns the traceability index.
+	 * 
+	 * @param currentRepositoryAdapter
+	 *            the repository adapter to use for getting the traceability index
+	 * @return the traceability index
+	 */
 	public static TraceabilityIndex getTraceabilityIndex(RepositoryAdapter currentRepositoryAdapter) {
 		if (traceabilityIndex == null) {
 			traceabilityIndex = new TraceabilityInformationsQuery(currentRepositoryAdapter)
@@ -150,6 +182,13 @@ public final class IntentAcceleoServices {
 		return displayedName;
 	}
 
+	/**
+	 * Returns the index of the given element.
+	 * 
+	 * @param structuredElement
+	 *            the element
+	 * @return the index of the given element (e.g. 3_2_5)
+	 */
 	public static String getIndex(IntentStructuredElement structuredElement) {
 		String index = "";
 		if (structuredElement.getCompleteLevel() != null) {
@@ -158,10 +197,27 @@ public final class IntentAcceleoServices {
 		return index;
 	}
 
+	/**
+	 * Indicates wether table of content should be displayed by default.
+	 * 
+	 * @return true if table of content should be displayed by default, false otherwise
+	 */
 	public static boolean shouldShowTableOfContents() {
 		return shouldShowTableOfContents;
 	}
 
+	/**
+	 * Initializes the service.
+	 * 
+	 * @param documentTitle
+	 *            title to associated to the main export file
+	 * @param generationOutputFolder
+	 *            the export output folder
+	 * @param showTableOfContents
+	 *            indicates wether table of contents should be displayed by default
+	 * @param adapter
+	 *            the adapter to use to query the documentation.
+	 */
 	public static void initialize(String documentTitle, File generationOutputFolder,
 			boolean showTableOfContents, RepositoryAdapter adapter) {
 		intentDocumentTitle = documentTitle;
@@ -173,6 +229,9 @@ public final class IntentAcceleoServices {
 		ImageServices.setImageFolderRelativePath("images");
 	}
 
+	/**
+	 * Disposes the service.
+	 */
 	public static void dispose() {
 		CopyImageUtils.dispose();
 		if (adapterFactory != null) {
@@ -185,6 +244,11 @@ public final class IntentAcceleoServices {
 		repositoryAdapter = null;
 	}
 
+	/**
+	 * Returns the adapter factory to use.
+	 * 
+	 * @return the adapter factory to use
+	 */
 	private static ComposedAdapterFactory getAdapterFactory() {
 		if (adapterFactory == null) {
 			adapterFactory = new ComposedAdapterFactory(ComposedAdapterFactory.Descriptor.Registry.INSTANCE);

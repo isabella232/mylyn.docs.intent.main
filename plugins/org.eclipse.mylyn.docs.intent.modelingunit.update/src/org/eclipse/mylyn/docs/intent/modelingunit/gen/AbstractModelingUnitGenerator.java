@@ -49,8 +49,14 @@ public abstract class AbstractModelingUnitGenerator {
 	 */
 	protected RepositoryAdapter repositoryAdapter;
 
+	/**
+	 * The {@link ResourceSet} used by this generator.
+	 */
 	protected ResourceSet resourceSet = new ResourceSetImpl();
 
+	/**
+	 * Lists of the new objects.
+	 */
 	private List<EObject> newObjects;
 
 	/**

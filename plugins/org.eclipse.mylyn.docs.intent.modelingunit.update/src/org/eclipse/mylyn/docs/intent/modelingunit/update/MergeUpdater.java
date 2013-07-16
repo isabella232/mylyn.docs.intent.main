@@ -96,7 +96,7 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 	/**
 	 * Creates instanciations for the given elements.
 	 * 
-	 * @param parent
+	 * @param modelingUnit
 	 *            the modeling unit where to create the instanciations
 	 * @param sibling
 	 *            the Intent element located right before the elements to create
@@ -197,6 +197,17 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 		return null;
 	}
 
+	/**
+	 * Adds the given {@link ModelingUnit} to the given {@link IntentSection}, after the given sibling.
+	 * 
+	 * @param section
+	 *            the section in which the {@link ModelingUnit} will be added
+	 * @param sibling
+	 *            the slibing
+	 * @param modelingUnit
+	 *            the {@link ModelingUnit} to add
+	 * @return the sibling
+	 */
 	private EObject addModelingUnitInContainer(final IntentSection section, final EObject sibling,
 			ModelingUnit modelingUnit) {
 		// Splitting a description unit in several if dropping inside a description unit

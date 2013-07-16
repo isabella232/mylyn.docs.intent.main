@@ -36,8 +36,14 @@ import org.eclipse.swt.graphics.Rectangle;
  */
 public class IntentImageAnnotationDrawingStrategy implements IDrawingStrategy {
 
+	/**
+	 * The {@link IntentEditor} holding the {@link AbstractIntentImageAnnotation}s to paint.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The {@link ISourceViewer} holding the {@link AbstractIntentImageAnnotation}s to paint.
+	 */
 	private final ISourceViewer viewer;
 
 	/**
@@ -64,7 +70,8 @@ public class IntentImageAnnotationDrawingStrategy implements IDrawingStrategy {
 			Color color) {
 		// If the Intent editor has not yet initiated its folding structure, we do not paint images (only
 		// paint annotations that will actually be displayed to the end-user)
-		if (!(annotation instanceof AbstractIntentImageAnnotation) || !editor.isInitialFoldingStructureComplete()) {
+		if (!(annotation instanceof AbstractIntentImageAnnotation)
+				|| !editor.isInitialFoldingStructureComplete()) {
 			return;
 		}
 		try {

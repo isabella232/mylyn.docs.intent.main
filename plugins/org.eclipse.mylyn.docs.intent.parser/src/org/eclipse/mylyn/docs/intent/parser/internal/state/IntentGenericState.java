@@ -42,6 +42,10 @@ public class IntentGenericState {
 	 */
 	protected int fOffset;
 
+	/**
+	 * Declaration length (e.g. for 'new EClass c1 { eAttributes += ... }' will be the length of 'new EClass
+	 * c1'). Used for example to place hyperlinks in an editor.
+	 */
 	private int fDeclarationLength;
 
 	/**

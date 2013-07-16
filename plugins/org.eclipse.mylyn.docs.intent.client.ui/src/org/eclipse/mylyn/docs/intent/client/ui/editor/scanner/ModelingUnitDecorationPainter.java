@@ -68,12 +68,24 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 */
 	private ColorManager colorManager;
 
+	/**
+	 * Previous drawRequest's x.
+	 */
 	private int previousX;
 
+	/**
+	 * Previous drawRequest's y.
+	 */
 	private int previousY;
 
+	/**
+	 * Previous drawRequest's width.
+	 */
 	private int previousWidht;
 
+	/**
+	 * Previous drawRequest's height.
+	 */
 	private int previousHeight;
 
 	/**
@@ -164,17 +176,31 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 		}
 	}
 
-	private void handleDrawRequest(GC gc, int x, int y, int w, int h) {
+	/**
+	 * Handles the given draw request by redrawing decoration lines on modeling unit (only if needed).
+	 * 
+	 * @param gc
+	 *            the {@link GC} to use
+	 * @param x
+	 *            the draw request's x
+	 * @param y
+	 *            the draw request's y
+	 * @param width
+	 *            the draw request's width
+	 * @param height
+	 *            the draw request's height
+	 */
+	private void handleDrawRequest(GC gc, int x, int y, int width, int height) {
 		int startLine = fTextWidget.getLineIndex(y);
-		int endLine = fTextWidget.getLineIndex(y + h - 1);
+		int endLine = fTextWidget.getLineIndex(y + height - 1);
 		if (startLine <= endLine && startLine < fTextWidget.getLineCount()) {
 			if (fIsAdvancedGraphicsPresent) {
 				int alpha = gc.getAlpha();
 				gc.setAlpha(100);
-				drawLineRange(gc, startLine, endLine, x, w, true);
+				drawLineRange(gc, startLine, endLine, x, width, true);
 				gc.setAlpha(alpha);
 			} else {
-				drawLineRange(gc, startLine, endLine, x, w, false);
+				drawLineRange(gc, startLine, endLine, x, width, false);
 			}
 		}
 	}
@@ -354,9 +380,13 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 * Indicates if the given draw request is equal to the previous one.
 	 * 
 	 * @param x
+	 *            new draw request's x
 	 * @param y
+	 *            new draw request's y
 	 * @param width
+	 *            new draw request's width
 	 * @param height
+	 *            new draw request's height
 	 * @return true if the given draw request is equal to the previous one, false otherwise
 	 */
 	private boolean isEqualToLastDrawRequest(int x, int y, int width, int height) {

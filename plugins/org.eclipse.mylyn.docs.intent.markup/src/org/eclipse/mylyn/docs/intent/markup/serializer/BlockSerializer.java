@@ -29,16 +29,34 @@ import org.eclipse.mylyn.docs.intent.markup.markup.TableCell;
  */
 public final class BlockSerializer {
 
+	/**
+	 * Constant describing a paragraph beginning.
+	 */
 	public static final String PARAGRAPH_PREFIX = "p.";
 
+	/**
+	 * Constant for dots.
+	 */
 	public static final String DOT = ".";
 
+	/**
+	 * Constant describing the beginning of a preformatted zone.
+	 */
 	public static final String PREFORMATTED_EXTENDED_PREFIX = "pre..";
 
+	/**
+	 * Constant describing the beginning of a code zone.
+	 */
 	public static final String CODE_PREFIX = "bc.";
 
+	/**
+	 * Constant describing the beginning of an extended code zone.
+	 */
 	public static final String CODE_EXTENDED_PREFIX = "bc..";
 
+	/**
+	 * Constant describing the beginning of a bloc quote.
+	 */
 	public static final String QUOTE_EXTENDED_PREFIX = "bq..";
 
 	/**

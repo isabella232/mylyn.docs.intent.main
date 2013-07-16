@@ -23,6 +23,9 @@ import org.eclipse.ui.navigator.ICommonActionExtensionSite;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class RepositoryActionProvider extends CommonActionProvider {
+	/**
+	 * The {@link OpenEditorAction} to contribute.
+	 */
 	private OpenEditorAction doubleClickAction;
 
 	/**

@@ -29,6 +29,9 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
  */
 public class ModelingUnitContentManager<T> {
 
+	/**
+	 * The content map (sorted by location).
+	 */
 	private Map<Location, T> contentMap = new TreeMap<Location, T>();
 
 	/**

@@ -38,6 +38,9 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentPositionManager;
  */
 public class IntentBuilder {
 
+	/**
+	 * The {@link IntentPositionManager} holding position information.
+	 */
 	private IntentPositionManager positionManager;
 
 	/**

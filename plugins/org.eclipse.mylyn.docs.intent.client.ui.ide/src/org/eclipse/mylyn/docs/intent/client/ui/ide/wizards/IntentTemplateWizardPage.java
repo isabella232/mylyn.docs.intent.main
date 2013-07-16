@@ -51,18 +51,39 @@ import org.eclipse.swt.widgets.Label;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentTemplateWizardPage extends WizardPage {
+	/**
+	 * ID of the extension point allowing to provide templates.
+	 */
 	private static final String TEMPLATES_EXTENSION_POINT = "org.eclipse.mylyn.docs.intent.client.ui.ide.template.extension"; //$NON-NLS-1$
 
+	/**
+	 * Mapping between each contributed template name and its content.
+	 */
 	private static Map<String, String[]> templateExtensionsByName;
 
+	/**
+	 * Label describing the template.
+	 */
 	private Label descriptionLabel;
 
+	/**
+	 * The combo used to select the template to apply.
+	 */
 	private Combo combo;
 
+	/**
+	 * The document used to show a preview of the template.
+	 */
 	private IDocument document;
 
+	/**
+	 * The source viewer used to show a preview of the template.
+	 */
 	private SourceViewer sourceViewer;
 
+	/**
+	 * The configuration of the editor used to show a preview of the template.
+	 */
 	private IntentEditorConfiguration viewerConfiguration;
 
 	/**
@@ -140,6 +161,9 @@ public class IntentTemplateWizardPage extends WizardPage {
 		handleSelectionChanged();
 	}
 
+	/**
+	 * Updates the template preview when selection changed.
+	 */
 	private void handleSelectionChanged() {
 		String[] template = templateExtensionsByName.get(combo.getText());
 		descriptionLabel.setText(template[0]);
@@ -165,6 +189,9 @@ public class IntentTemplateWizardPage extends WizardPage {
 		return null;
 	}
 
+	/**
+	 * Initializes the templateExtensionsByName map according to extension registry.
+	 */
 	private static void initializeRegistry() {
 		if (templateExtensionsByName == null) {
 			templateExtensionsByName = new HashMap<String, String[]>();
@@ -182,6 +209,15 @@ public class IntentTemplateWizardPage extends WizardPage {
 		}
 	}
 
+	/**
+	 * Returns the content of the file at the given path.
+	 * 
+	 * @param filePath
+	 *            the file to read path
+	 * @return the content of the file at the given path
+	 * @throws IOException
+	 *             if file cannot be accessed
+	 */
 	private static String getContent(String filePath) throws IOException {
 		URL url = getURL(filePath);
 		String result = "";
@@ -205,6 +241,13 @@ public class IntentTemplateWizardPage extends WizardPage {
 		return result;
 	}
 
+	/**
+	 * Returns the {@link URL} corresponding to the given file path.
+	 * 
+	 * @param filePath
+	 *            the file path
+	 * @return the {@link URL} corresponding to the given file path
+	 */
 	private static URL getURL(String filePath) {
 		return Activator.getDefault().getBundle().getEntry(filePath);
 	}
@@ -219,6 +262,11 @@ public class IntentTemplateWizardPage extends WizardPage {
 		return validate();
 	}
 
+	/**
+	 * Indicates whether the combo selection is valid.
+	 * 
+	 * @return true the combo selection is valid, false otherwise
+	 */
 	private boolean validate() {
 		boolean isValid = combo.getText() != null && !"".equals(combo.getText());
 		if (isValid) {

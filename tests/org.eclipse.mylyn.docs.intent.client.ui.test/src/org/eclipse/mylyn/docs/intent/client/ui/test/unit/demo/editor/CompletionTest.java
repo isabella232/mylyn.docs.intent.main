@@ -63,7 +63,7 @@ public class CompletionTest extends AbstractIntentUITest {
 	 */
 	// CHECKSTYLE:OFF
 	public void testCompletionOnEEnums() throws BadLocationException {
-		setUpIntentProject("completionTest", INTENT_DOC_WITH_ENUMS_PATH, true);
+		setUpIntentProject("completionTestOnEEnum", INTENT_DOC_WITH_ENUMS_PATH, true);
 		editor = openIntentEditor();
 		document = editor.getDocumentProvider().getDocument(editor.getEditorInput());
 		contentAssistant = editor.getViewerConfiguration().getContentAssistant(editor.getProjectionViewer());

@@ -16,6 +16,36 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor.annotation;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public enum IntentAnnotationMessageType {
-
-	COMPILER_WARNING, COMPILER_INFO, COMPILER_ERROR, PARSER_INFO, PARSER_WARNING, PARSER_ERROR, SYNC_WARNING, DEFAULT;
+	/**
+	 * Info from the compiler.
+	 */
+	COMPILER_INFO,
+	/**
+	 * Warning from the compiler.
+	 */
+	COMPILER_WARNING,
+	/**
+	 * Error from the compiler.
+	 */
+	COMPILER_ERROR,
+	/**
+	 * Info from the parser.
+	 */
+	PARSER_INFO,
+	/**
+	 * Warning from the parser.
+	 */
+	PARSER_WARNING,
+	/**
+	 * Error from the parser.
+	 */
+	PARSER_ERROR,
+	/**
+	 * Warning from the synchronizer.
+	 */
+	SYNC_WARNING,
+	/**
+	 * Default (uncategorized) message.
+	 */
+	DEFAULT;
 }

@@ -43,14 +43,23 @@ public final class IntentParserUtil {
 	 */
 	public static final String EXPREG_MANY_SPACES = "\\s*";
 
+	/**
+	 * Regular expression that represents a section opening.
+	 */
 	public static final String EXPREG_OPEN_SECTION = // Section [title]? {
 	IntentKeyWords.INTENT_KEYWORD_SECTION + EXPREG_AT_LEAST_ONE_SPACE + EXPREG_ALL_BUT_OPEN
 			+ EXPREG_BACKSLASH + IntentKeyWords.INTENT_KEYWORD_OPEN;
 
+	/**
+	 * Regular expression that represents a chapter opening.
+	 */
 	public static final String EXPREG_OPEN_CHAPTER = // Chapter [title]? {
 	IntentKeyWords.INTENT_KEYWORD_CHAPTER + EXPREG_AT_LEAST_ONE_SPACE + EXPREG_ALL_BUT_OPEN
 			+ EXPREG_BACKSLASH + IntentKeyWords.INTENT_KEYWORD_OPEN;
 
+	/**
+	 * Regular expression that represents a document opening.
+	 */
 	public static final String EXPREG_OPEN_DOCUMENT = // Document {
 	IntentKeyWords.INTENT_KEYWORD_DOCUMENT + EXPREG_MANY_SPACES + EXPREG_BACKSLASH
 			+ IntentKeyWords.INTENT_KEYWORD_OPEN;

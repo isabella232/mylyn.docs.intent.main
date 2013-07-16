@@ -25,15 +25,30 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
  */
 public final class SynchronizerMessageProvider {
 
+	/**
+	 * Constant used to separate synchronization messages.
+	 */
 	private static final String SYNC_MESSAGES_SEPARATOR = " : ";
 
+	/**
+	 * Constant used to prefix synchronization messages.
+	 */
 	private static final String SYNC_MESSAGES_BEGINNING = "The ";
 
+	/**
+	 * Constant to identify whitespace.
+	 */
 	private static final String SYNC_MESSAGES_WHITESPACE = " ";
 
-	private static final String SYNC_MESSAGES_INTERNAL_MODEL = "<b>Current Document</b>";
+	/**
+	 * Constant to identify the documentation elements.
+	 */
+	private static final String SYNC_MESSAGES_INTERNAL_MODEL = "Documentation";
 
-	private static final String SYNC_MESSAGES_EXTERNAL_MODEL = "<b>Working Copy</b>";
+	/**
+	 * Constant to identify the working copy elements.
+	 */
+	private static final String SYNC_MESSAGES_EXTERNAL_MODEL = "Working Copy";
 
 	/**
 	 * SynchronizerMessageProvider constructor.

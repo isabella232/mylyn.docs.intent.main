@@ -43,26 +43,59 @@ import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
  */
 public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionProcessor {
 
+	/**
+	 * Constant for right parenthesis.
+	 */
 	private static final String RIGHT_PAR = ")";
 
+	/**
+	 * Constant for dots.
+	 */
 	private static final String DOT = ".";
 
+	/**
+	 * Constant for new lines.
+	 */
 	private static final String NEW_LINE = "\n\t";
 
+	/**
+	 * Constant for new keyword.
+	 */
 	private static final String NEW_ENTITY_KEYWORD = "new";
 
+	/**
+	 * Constant for resource declaration keyword.
+	 */
 	private static final String RESOURCE_DECLARATION_KEYWORD = "Resource";
 
+	/**
+	 * Constant for external content references instructions.
+	 */
 	private static final String REF_KEYWORD = "@ref";
 
+	/**
+	 * Path of the icon for new elements.
+	 */
 	private static final String MODELINGUNIT_NEW_ELEMENT_ICON = "icon/outline/modelingunit_new_element.png";
 
+	/**
+	 * Path of the icon for resource declarations.
+	 */
 	private static final String MODELINGUNIT_RESOURCE_ICON = "icon/outline/modelingunit_resource.gif";
 
+	/**
+	 * Regular expression for identifiers.
+	 */
 	private static final String IDENTIFIER_REGEXP = "([a-zA-z0-9_-]+)";
 
+	/**
+	 * Constant to indentifier delimiters in qualified names.
+	 */
 	private static final String QUALIFIED_NAME_DELIMITER = "\\.";
 
+	/**
+	 * Query used to get Traceability-related information.
+	 */
 	private TraceabilityInformationsQuery traceabilityInfoQuery;
 
 	/**
@@ -295,6 +328,12 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		return proposals;
 	}
 
+	/**
+	 * Computes the {@link ICompletionProposal}s to provide for a Resource declaration.
+	 * 
+	 * @param proposals
+	 *            the proposals to fill
+	 */
 	private void getProposalsForResourceDeclaration(Collection<ICompletionProposal> proposals) {
 		proposals.add(createTemplateProposal("Resource URI", "URI indicating the Resource location",
 				"URI = \"${}\";", MODELINGUNIT_RESOURCE_ICON));
@@ -302,6 +341,18 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				"content += ${};", MODELINGUNIT_RESOURCE_ICON));
 	}
 
+	/**
+	 * Computes the {@link ICompletionProposal}s to provide for a Contribution instruction.
+	 * 
+	 * @param contributionName
+	 *            the contribution name
+	 * @param featureNameBeginning
+	 *            the beginning of the feature name
+	 * @param proposals
+	 *            the proposals to fill
+	 * @throws ReadOnlyException
+	 *             if errors occur while reading repository content
+	 */
 	private void getProposalsForContribution(Collection<ICompletionProposal> proposals,
 			String contributionName, String featureNameBeginning) throws ReadOnlyException {
 		for (InstanciationInstruction instruction : traceabilityInfoQuery.getInstanciations()) {
@@ -321,6 +372,15 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		}
 	}
 
+	/**
+	 * Computes the {@link ICompletionProposal}s to provide for a Structural feature value instruction.
+	 * 
+	 * @param text
+	 *            the text on which the proposal is called
+	 * @throws ReadOnlyException
+	 *             if permission issue occur while querying document
+	 * @return the {@link ICompletionProposal}s to provide for a Structural feature value instruction
+	 */
 	private Collection<? extends ICompletionProposal> getProposalsForStructuralFeatureValue(String text)
 			throws ReadOnlyException {
 		Collection<ICompletionProposal> proposals = Sets.newLinkedHashSet();
@@ -400,6 +460,21 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		return proposals;
 	}
 
+	/**
+	 * Computes the {@link ICompletionProposal}s to provide for a Structural Feature value instruction.
+	 * 
+	 * @param isResourceContribution
+	 *            indicates if we are in the scope of a resource contribution or not
+	 * @param featureName
+	 *            the feature name
+	 * @param beginning
+	 *            the beginning of the instruction on which completion is called
+	 * @param featureToConsider
+	 *            the {@link EStructuralFeature} to consider
+	 * @throws ReadOnlyException
+	 *             if permission issue occur while querying document
+	 * @return the {@link ICompletionProposal}s to provide for a Structural feature value instruction
+	 */
 	private Collection<ICompletionProposal> doGetProposalsForStructuralFeatureValue(
 			boolean isResourceContribution, String featureName, String beginning,
 			EStructuralFeature featureToConsider) throws ReadOnlyException {
@@ -469,6 +544,16 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		return proposals;
 	}
 
+	/**
+	 * Computes the {@link ICompletionProposal}s to provide when called on an EClassifier (e.g. a 'new XXX'
+	 * instruction).
+	 * 
+	 * @param classNameBeginning
+	 *            the beginning of the class name
+	 * @throws ReadOnlyException
+	 *             if permission issue occur while querying document
+	 * @return the {@link ICompletionProposal}s to provide when called on an EClassifier
+	 */
 	private Collection<? extends ICompletionProposal> getProposalsForEClassifier(String classNameBeginning)
 			throws ReadOnlyException {
 		boolean isPrefixedByPackageName = classNameBeginning.indexOf('.') != -1;
@@ -612,6 +697,15 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 		return tempDoc.get();
 	}
 
+	/**
+	 * Computes the {@link TemplateProposal} for a structural feature affection.
+	 * 
+	 * @param contributionName
+	 *            the contribution name
+	 * @param feature
+	 *            the feature related to the structural feature affectation
+	 * @return the {@link TemplateProposal} for a structural feature affection
+	 */
 	private TemplateProposal createStructuralFeatureAffectationTemplateProposal(String contributionName,
 			EStructuralFeature feature) {
 		String affect = IntentKeyWords.MODELING_UNIT_AFFECTATION_SINGLE_VAL;
@@ -642,6 +736,15 @@ public class ModelingUnitCompletionProcessor extends AbstractIntentCompletionPro
 				"icon/outline/modelingunit_affect.png");
 	}
 
+	/**
+	 * Returns the {@link EClassifier} related to a Contribution with the given name.
+	 * 
+	 * @param contributionName
+	 *            the contribution name
+	 * @return the {@link EClassifier} related to a Contribution with the given name
+	 * @throws ReadOnlyException
+	 *             if permission issue occur while querying document
+	 */
 	private EClassifier getEClassifier(String contributionName) throws ReadOnlyException {
 		EClassifier classifierToConsider = null;
 		Iterator<EPackage> availablePackages = Iterables.filter(

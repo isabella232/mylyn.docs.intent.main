@@ -29,7 +29,7 @@ public class IsIntentProblemMarker extends PropertyTester {
 	 */
 	public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
 		return receiver instanceof MarkerItem
-				&& "Intent".equals(((MarkerItem)receiver).getAttributeValue(IMarker.SOURCE_ID,""));
+				&& "Intent".equals(((MarkerItem)receiver).getAttributeValue(IMarker.SOURCE_ID, ""));
 	}
 
 }

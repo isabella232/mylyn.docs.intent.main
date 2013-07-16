@@ -25,17 +25,32 @@ public final class IntentColorConstants {
 	// -----------------------------------
 	// Color constant for MODELING UNITS
 	// ----------------------------------
+	/**
+	 * Color constant for Modeling Units background.
+	 */
 	private static final RGB MU_BACKGROUND = new RGB(221, 221, 221);
 
+	/**
+	 * Color constant for Modeling Units decoration lines.
+	 */
 	private static final RGB MU_DECORATION_LINE_FOREGROUND = new RGB(84, 84, 84);
 
+	/**
+	 * Color constant for Modeling Units decoration background.
+	 */
 	private static final RGB MU_DECORATION_BACKGROUND = new RGB(195, 195, 195);
 
+	/**
+	 * Constant for the width of Modeling Units decoration lines.
+	 */
 	private static final int MU_DECORATION_LINE_WIDTH = 2;
 
 	// -----------------------------------
 	// Color constant for DECRIPTION UNITS
 	// ----------------------------------
+	/**
+	 * Color constant for Description Units background.
+	 */
 	private static final RGB DU_BACKGROUND = new RGB(255, 255, 255);
 
 	/**
@@ -104,6 +119,13 @@ public final class IntentColorConstants {
 		return MU_DECORATION_LINE_WIDTH;
 	}
 
+	/**
+	 * Returns the color ({@link RGB}) stored with the given preference key.
+	 * 
+	 * @param preferenceKey
+	 *            the preference key
+	 * @return the color ({@link RGB}) stored with the given preference key
+	 */
 	private static RGB getRGBFromPreferences(String preferenceKey) {
 		return PreferenceConverter.getColor(IntentEditorActivator.getDefault().getPreferenceStore(),
 				preferenceKey);

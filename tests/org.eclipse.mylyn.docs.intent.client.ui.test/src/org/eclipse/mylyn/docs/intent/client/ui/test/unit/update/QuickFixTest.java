@@ -44,10 +44,10 @@ public class QuickFixTest extends AbstractUpdateTest {
 	 */
 	public void testModelElementChanges() throws IOException {
 		// apply all fixes (also acts as initialization for further tests)
-		fixIssue("The EPackage toDelete is defined in the <b>Current Document</b> model<br/>but not in the <b>Working Copy</b> model.");
-		fixIssue("The EClass A is defined in the <b>Working Copy</b> model<br/>but not in the <b>Current Document</b> model.");
-		fixIssue("The EClass E is defined in the <b>Current Document</b> model<br/>but not in the <b>Working Copy</b> model.");
-		fixIssue("The EPackage sub is defined in the <b>Working Copy</b> model<br/>but not in the <b>Current Document</b> model.");
+		fixIssue("The EPackage toDelete is defined in the Documentation model<br/>but not in the Working Copy model.");
+		fixIssue("The EClass A is defined in the Working Copy model<br/>but not in the Documentation model.");
+		fixIssue("The EClass E is defined in the Documentation model<br/>but not in the Working Copy model.");
+		fixIssue("The EPackage sub is defined in the Working Copy model<br/>but not in the Documentation model.");
 
 		checkDocumentValidity(FINAL_INTENT_DOC);
 	}
@@ -66,9 +66,9 @@ public class QuickFixTest extends AbstractUpdateTest {
 		waitForSynchronizer();
 
 		// apply all fixes
-		fixIssue("EAttribute upperBound in a2 has changed.<br/><b>Current Document</b> : -1<br/><b>Working Copy</b> : 4");
-		fixIssue("EAttribute nsPrefix in sub has changed.<br/><b>Current Document</b> : subTEST<br/><b>Working Copy</b> : sub");
-		fixIssue("EAttribute abstract in D has changed.<br/><b>Current Document</b> : false<br/><b>Working Copy</b> : true");
+		fixIssue("EAttribute upperBound in a2 has changed.<br/>Documentation : -1<br/>Working Copy : 4");
+		fixIssue("EAttribute nsPrefix in sub has changed.<br/>Documentation : subTEST<br/>Working Copy : sub");
+		fixIssue("EAttribute abstract in D has changed.<br/>Documentation : false<br/>Working Copy : true");
 		fixIssue("D has been removed from reference eSuperTypes : EClass in B -> A, C");
 		fixIssue("C has been added to reference eSuperTypes : EClass in B -> A, D");
 

@@ -22,6 +22,9 @@ import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
  */
 public class RepositoryContentSorter extends ViewerSorter {
 
+	/**
+	 * Constant for dots.
+	 */
 	private static final String DOT = ".";
 
 	/**
@@ -55,6 +58,15 @@ public class RepositoryContentSorter extends ViewerSorter {
 		return super.compare(viewer, e1, e2);
 	}
 
+	/**
+	 * Compares 2 entry levels.
+	 * 
+	 * @param entry1Level
+	 *            the entry to compare
+	 * @param entry2Level
+	 *            the entry to compare
+	 * @return the comparison result
+	 */
 	private int doCompareEntryLevels(String entry1Level, String entry2Level) {
 		int compareResult;
 		if (entry1Level.length() != entry2Level.length()) {

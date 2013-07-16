@@ -143,12 +143,10 @@ public class IntentAnnotationModelManager {
 				Entry<CompilationStatus, Annotation> statusToAnnotation = statusToAnnotationsIterator.next();
 				boolean removeCurrentStatus = statusToAnnotation.getKey() == null
 						|| statusToAnnotation.getKey().getTarget() == null;
-				if (!removeCurrentStatus) {
-					if (isCompilerAnnotation(statusToAnnotation.getValue().getType())) {
-						// If the currentElement doesn't contain this status any more
-						if (!element.getCompilationStatus().contains(statusToAnnotation.getKey())) {
-							removeCurrentStatus = true;
-						}
+				if (!removeCurrentStatus && isCompilerAnnotation(statusToAnnotation.getValue().getType())) {
+					// If the currentElement doesn't contain this status any more
+					if (!element.getCompilationStatus().contains(statusToAnnotation.getKey())) {
+						removeCurrentStatus = true;
 					}
 				}
 				if (removeCurrentStatus) {
@@ -210,8 +208,8 @@ public class IntentAnnotationModelManager {
 	 * {@link org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.image.AbstractIntentImageAnnotation}
 	 * corresponding to the given {@link ExternalContentReference} or {@link Image}.
 	 * 
-	 * @param reference
-	 *            the {@link ExternalContentReference} or {@link Image} to render
+	 * @param elementToRender
+	 *            the {@link ExternalContentReference} content to render
 	 * @param intentPosition
 	 *            the {@link ParsedElementPosition} of this instruction
 	 */

@@ -20,6 +20,9 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator implements BundleActivator {
 
+	/**
+	 * The bundle context.
+	 */
 	private static BundleContext context;
 
 	/**

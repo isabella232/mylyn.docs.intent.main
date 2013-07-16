@@ -56,18 +56,39 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
  */
 public class IntentPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 
+	/**
+	 * Constant used by preference page.
+	 */
 	public static final String LINK_DROPPED_ELEMENTS_USING_EXTERNAL_REFERENCES = "Link dropped elements using External References";
 
+	/**
+	 * Constant used by preference page.
+	 */
 	private static final String INTENT_PREVIEW_EXAMPLE = "Section Title {\n\tDefault text \n\t\"Strings\"\n\t@Code@\n\t* lists\n\t!images!\n\t\n\t@M\n\t\tnew Element{}\n\tM@\n}";
 
+	/**
+	 * A listener that refreshes the preview editor when preferences change.
+	 */
 	private RefreshPreviewEditorListener refreshPreviewEditorListener;
 
+	/**
+	 * The source viewer of the preview editor.
+	 */
 	private SourceViewer sourceViewer;
 
+	/**
+	 * The configuration of the preview editor.
+	 */
 	private IntentEditorConfiguration viewerConfiguration;
 
+	/**
+	 * The partitioner of the preview editor.
+	 */
 	private IDocumentPartitioner partitioner;
 
+	/**
+	 * The preview editor.
+	 */
 	private IntentEditorImpl editor;
 
 	/**
@@ -93,26 +114,33 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 
 		TabItem item = new TabItem(folder, SWT.NONE);
 		item.setText("Appearance");
-		item.setControl(createAppearancePage(folder));
+		item.setControl(createAppearanceTab(folder));
 
 		item = new TabItem(folder, SWT.NONE);
 		item.setText("Colors");
-		item.setControl(createColorsPage(folder));
+		item.setControl(createColorsTab(folder));
 
 		item = new TabItem(folder, SWT.NONE);
 		item.setText("Behavior (UI)");
-		item.setControl(createUIBehaviorPage(folder));
+		item.setControl(createUIBehaviorTab(folder));
 
 		item = new TabItem(folder, SWT.NONE);
 		item.setText("Export");
-		item.setControl(createCodeGenerationPage(folder));
+		item.setControl(createCodeGenerationTab(folder));
 
 		item = new TabItem(folder, SWT.NONE);
 		item.setText("Other");
-		item.setControl(createOtherPage(folder));
+		item.setControl(createOthersTab(folder));
 	}
 
-	private Control createAppearancePage(Composite parent) {
+	/**
+	 * Creates the appearance tab.
+	 * 
+	 * @param parent
+	 *            the parent in which the tab should be created.
+	 * @return the created tab.
+	 */
+	private Control createAppearanceTab(Composite parent) {
 		Composite composite = createComposite(parent);
 		addField(createBooleanFieldEditor(IntentPreferenceConstants.TEXT_WRAP, "Autowrap",
 				"Intent editor should automatically wrap lines", composite));
@@ -128,7 +156,14 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		return composite;
 	}
 
-	private Control createColorsPage(Composite parent) {
+	/**
+	 * Creates the color tab.
+	 * 
+	 * @param parent
+	 *            the parent in which the tab should be created.
+	 * @return the created tab.
+	 */
+	private Control createColorsTab(Composite parent) {
 		Composite colorComposite = createComposite(parent);
 
 		// Add links explaining that Intent font preferences can be customized through the General >
@@ -193,7 +228,14 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		return colorComposite;
 	}
 
-	private Control createUIBehaviorPage(Composite parent) {
+	/**
+	 * Creates the UI behavior tab.
+	 * 
+	 * @param parent
+	 *            the parent in which the tab should be created.
+	 * @return the created tab.
+	 */
+	private Control createUIBehaviorTab(Composite parent) {
 		Composite composite = createComposite(parent);
 
 		Composite dragAndDropGroup = createGroup(composite, "Drag and Drop Support");
@@ -211,7 +253,14 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		return composite;
 	}
 
-	private Control createCodeGenerationPage(Composite parent) {
+	/**
+	 * Creates the Code generation tab.
+	 * 
+	 * @param parent
+	 *            the parent in which the tab should be created.
+	 * @return the created tab.
+	 */
+	private Control createCodeGenerationTab(Composite parent) {
 		Composite composite = createComposite(parent);
 
 		addField(createBooleanFieldEditor(IntentPreferenceConstants.EXPORT_DISPLAY_REFERENCES_INLINE,
@@ -220,7 +269,14 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 		return composite;
 	}
 
-	private Control createOtherPage(Composite parent) {
+	/**
+	 * Creates the 'Others' tab.
+	 * 
+	 * @param parent
+	 *            the parent in which the tab should be created.
+	 * @return the created tab.
+	 */
+	private Control createOthersTab(Composite parent) {
 		Composite composite = createComposite(parent);
 		addField(createBooleanFieldEditor(
 				IntentPreferenceConstants.SHOW_CHEAT_SHEET_ON_PROJECT_CREATION,
@@ -281,7 +337,6 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 	 * 
 	 * @param parent
 	 *            the parent of the source viewer to create
-	 * @return a source viewer allowing to preview an Intent document (to see impact of color changes)
 	 */
 	private void createIntentPreviewViewer(Composite parent) {
 		editor = new IntentEditorImpl();
@@ -318,8 +373,8 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 	 *            the preference ID
 	 * @param text
 	 *            the text to display
-	 * @param a
-	 *            detailled explanation about the preference
+	 * @param explanations
+	 *            detailed explanation about the preference
 	 * @param composite
 	 *            the parent composite
 	 * @return a boolean field editor allowing to change the preference with the given id

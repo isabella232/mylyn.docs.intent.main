@@ -46,17 +46,36 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	 */
 	public static final String DEFAULT_ATTRIBUTE = "__Intent_default";
 
-	private static String[] MU_KEYWORDS = new String[] {"new", "Resource", "@M", "M@", "@Annotation", "@ref",
+	/**
+	 * Keywords supported by this scanner.
+	 */
+	private static final String[] MU_KEYWORDS = new String[] {"new", "Resource", "@M", "M@", "@Annotation",
+			"@ref",
 	};
 
+	/**
+	 * Default foreground color.
+	 */
 	private Color defaultforeGroundColor;
 
+	/**
+	 * Default background color.
+	 */
 	private Color defaultBackGroundColor;
 
+	/**
+	 * Foreground color for keywords.
+	 */
 	private Color keyWordforeGroundColor;
 
+	/**
+	 * Foreground color for strings.
+	 */
 	private Color stringforeGroundColor;
 
+	/**
+	 * background color.
+	 */
 	private Color backgroundColor;
 
 	/**

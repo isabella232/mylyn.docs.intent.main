@@ -30,6 +30,7 @@ public class MarkupCompletionProcessor extends AbstractIntentCompletionProcessor
 	 * Default constructor.
 	 * 
 	 * @param repositoryAdapter
+	 *            the {@link RepositoryAdapter} to use for interacting with the intent repository.
 	 */
 	public MarkupCompletionProcessor(RepositoryAdapter repositoryAdapter) {
 		super(repositoryAdapter);
@@ -116,10 +117,6 @@ public class MarkupCompletionProcessor extends AbstractIntentCompletionProcessor
 	 *            the name of the font decoration (e.g. 'Bold')
 	 * @param fontDecorationSyntax
 	 *            the syntax of the font decoration (e.g. '*')
-	 * @param variableName
-	 *            the name of the variable to be display as ${variable} (can be empty)
-	 * @return a font decoration proposal according to the given font decoration name (e.g. 'Bold') and the
-	 *         given font decoration Syntax (e.g. '*')
 	 */
 	private void addProposal(Collection<ICompletionProposal> proposals, char relevantChar,
 			String fontDecorationName, String fontDecorationSyntax) {
@@ -144,8 +141,6 @@ public class MarkupCompletionProcessor extends AbstractIntentCompletionProcessor
 	 * @param biDirectionalSyntax
 	 *            indicates if the fontDecorationSyntax should be displayed before and after text (e.g.
 	 *            '*bold*') or just before (e.g. '# bullet')
-	 * @return a font decoration proposal according to the given font decoration name (e.g. 'Bold') and the
-	 *         given font decoration Syntax (e.g. '*')
 	 */
 	private void addProposal(Collection<ICompletionProposal> proposals, char relevantChar,
 			String fontDecorationName, String fontDecorationSyntax, String variableName,

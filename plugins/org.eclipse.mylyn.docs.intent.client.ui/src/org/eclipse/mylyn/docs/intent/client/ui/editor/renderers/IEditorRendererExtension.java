@@ -79,7 +79,8 @@ public interface IEditorRendererExtension {
 	 * 
 	 * @param reference
 	 *            the {@link ExternalContentReference} to render as image
-	 * @return
+	 * @return an image corresponding to the given {@link ExternalContentReference}, or null if no image
+	 *         should be displayed
 	 */
 	Image getImage(ExternalContentReference reference);
 

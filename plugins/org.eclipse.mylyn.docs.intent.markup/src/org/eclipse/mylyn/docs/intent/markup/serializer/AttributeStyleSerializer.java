@@ -20,24 +20,51 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Annotations;
 public final class AttributeStyleSerializer {
 
 	// ALIGNEMENT constants
-	private static String BLOC_ALIGN_LEFT = "text-align: left;";
+	/**
+	 * Constant for left alignment.
+	 */
+	private static final String BLOC_ALIGN_LEFT = "text-align: left;";
 
-	private static String BLOC_ALIGN_CENTER = "text-align: center;";
+	/**
+	 * Constant for center alignment.
+	 */
+	private static final String BLOC_ALIGN_CENTER = "text-align: center;";
 
-	private static String BLOC_ALIGN_RIGHT = "text-align: right;";
+	/**
+	 * Constant for right alignment.
+	 */
+	private static final String BLOC_ALIGN_RIGHT = "text-align: right;";
 
-	private static String BLOC_ALIGN_JUSTIFY = "text-align: justify;";
+	/**
+	 * Constant for justified alignment.
+	 */
+	private static final String BLOC_ALIGN_JUSTIFY = "text-align: justify;";
 
 	// PADDINGS constants
-	private static String BLOC_PADDINGLEFTBEGIN = "padding-left: ";
+	/**
+	 * Constant for padding property.
+	 */
+	private static final String BLOC_PADDINGLEFTBEGIN = "padding-left: ";
 
-	private static String BLOC_PADDINGEND = "em;";
+	/**
+	 * Constant for padding property.
+	 */
+	private static final String BLOC_PADDINGEND = "em;";
 
-	private static String BLOC_PADDINGLEFT = BLOC_PADDINGLEFTBEGIN + "[0-9]+" + BLOC_PADDINGEND;
+	/**
+	 * Constant for padding property.
+	 */
+	private static final String BLOC_PADDINGLEFT = BLOC_PADDINGLEFTBEGIN + "[0-9]+" + BLOC_PADDINGEND;
 
-	private static String BLOC_PADDINGRIGHTBEGIN = "padding-right: ";
+	/**
+	 * Constant for padding property.
+	 */
+	private static final String BLOC_PADDINGRIGHTBEGIN = "padding-right: ";
 
-	private static String BLOC_PADDINGRIGHT = BLOC_PADDINGRIGHTBEGIN + "[0-9]+" + BLOC_PADDINGEND;
+	/**
+	 * Constant for padding property.
+	 */
+	private static final String BLOC_PADDINGRIGHT = BLOC_PADDINGRIGHTBEGIN + "[0-9]+" + BLOC_PADDINGEND;
 
 	/**
 	 * AttributeStyleSerializer constructor.

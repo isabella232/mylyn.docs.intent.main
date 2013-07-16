@@ -36,6 +36,9 @@ import org.eclipse.swt.graphics.Color;
  */
 public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 
+	/**
+	 * Keywords supported by this scanner.
+	 */
 	public static final String[] KEYWORDS = new String[] {
 			IntentKeyWords.INTENT_FCT_EXPLICIT_LABEL_DECLARATION,
 			IntentKeyWords.INTENT_FCT_LAZY_LABEL_DECLARATION, IntentKeyWords.INTENT_FCT_REFERENCE,
@@ -72,6 +75,10 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 	/**
 	 * Create all the rules related to description unit keyWords.
 	 * 
+	 * @param defaultToken
+	 *            the token to return by default
+	 * @param keyWordToken
+	 *            the token to return for keywords
 	 * @return a list containing all the rules related to modeling unit keyWords
 	 */
 	protected IRule computeKeyWordRule(IToken defaultToken, IToken keyWordToken) {
@@ -85,6 +92,8 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 	/**
 	 * Create all the rules related to Strings (for example : "example" or 'example').
 	 * 
+	 * @param stringforeGroundColor
+	 *            the color to use for creating String tokens
 	 * @return a list containing all the rules related to related to Strings
 	 */
 	private Collection<? extends IRule> computeStringRules(Color stringforeGroundColor) {
@@ -97,6 +106,8 @@ public class IntentDescriptionUnitScanner extends AbstractIntentScanner {
 	/**
 	 * Create all the custom rules, currently related to Textile.
 	 * 
+	 * @param foreGroundColor
+	 *            the color to use for creating tokens
 	 * @return a list containing all the rules
 	 */
 	private Collection<? extends IRule> computeCustomRules(Color foreGroundColor) {

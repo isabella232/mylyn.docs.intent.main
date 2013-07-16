@@ -26,16 +26,29 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.mylyn.docs.intent.markup.builder.operation.DocumentAggregator;
 import org.eclipse.mylyn.docs.intent.markup.markup.Document;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupPackage;
-import org.eclipse.mylyn.docs.intent.markup.resource.WikimediaResourceFactory;
+import org.eclipse.mylyn.docs.intent.markup.resource.wikimedia.WikimediaResourceFactory;
 import org.eclipse.mylyn.docs.intent.markup.wikigen.WikigenPackage;
 
 /**
- * A java standalone program to generate document from a wikimedia URL
+ * A java standalone program to generate document from a wikimedia URL.
  * 
  * @author <a href="mailto:cedric.brun@obeo.fr">Cedric Brun</a>
  */
-public class WikiGen {
+public final class WikiGen {
 
+	/**
+	 * Private constructor.
+	 */
+	private WikiGen() {
+
+	}
+
+	/**
+	 * Main method.
+	 * 
+	 * @param args
+	 *            the arguments
+	 */
 	public static void main(String[] args) {
 		try {
 			if (args.length < 2) {
@@ -98,6 +111,15 @@ public class WikiGen {
 		}
 	}
 
+	/**
+	 * Returns all document to generate from arguments.
+	 * 
+	 * @param args
+	 *            the arguements
+	 * @param set
+	 *            the resource set to use for getting resources
+	 * @return all document to generate from arguments
+	 */
 	private static List<Document> getDocsToGenerate(String[] args, ResourceSet set) {
 		List<Document> result = Lists.newArrayList();
 		for (int i = 1; i < args.length; i++) {

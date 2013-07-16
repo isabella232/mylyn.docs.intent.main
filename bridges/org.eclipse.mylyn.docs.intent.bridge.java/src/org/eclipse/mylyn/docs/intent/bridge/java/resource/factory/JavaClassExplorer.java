@@ -40,9 +40,18 @@ import org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class JavaClassExplorer {
-
-	private static final String CLOSING_BRACKET = "}";
+	
+	/**
+	 * Constant identifying opening brackets.
+	 */
 	private static final String OPENING_BRACKET = "{";
+	
+	/**
+	 * Constant identifying closing brackets.
+	 */
+	private static final String CLOSING_BRACKET = "}";
+	
+
 
 	/**
 	 * Allows to represent all the {@link IType}s contained in the given {@link ICompilationUnit} as

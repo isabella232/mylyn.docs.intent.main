@@ -15,17 +15,10 @@ import java.io.File;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.viewers.ISelection;
@@ -37,7 +30,6 @@ import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryMa
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
-import org.eclipse.mylyn.docs.intent.exporter.api.IntentHTMLExporter;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.handlers.HandlerUtil;
 
@@ -91,40 +83,10 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 
 					if (Window.OK == exportOptionsDialog.open()) {
 						// Step 2: realize export
-						final IntentStructuredElement intentElementToExport = intentElement;
-						final IProject correspondingProject = intentProject;
-						Job exportJob = new Job("Exporting documentation as HTML") {
-
-							@Override
-							protected IStatus run(IProgressMonitor monitor) {
-								new IntentHTMLExporter().exportIntentDocumentation(intentElementToExport,
-										exportOptionsDialog.getTargetFolderLocation(),
-										exportOptionsDialog.getExportedIntentDocumentName(),
-										exportOptionsDialog.shouldShowTableOfContent(),
-										BasicMonitor.toMonitor(monitor));
-
-								// Step 3: if target folder is in workspace, refresh the folder
-								File targetFolder = new File(exportOptionsDialog.getTargetFolderLocation());
-								String projectRelativePath = targetFolder
-										.getAbsolutePath()
-										.toString()
-										.replace(
-												new File(correspondingProject.getLocationURI())
-														.getAbsolutePath().toString(), "").substring(1);
-								IFolder targetFolderInWorkspace = correspondingProject.getFolder(new Path(
-										projectRelativePath));
-								try {
-									if (targetFolderInWorkspace.exists()) {
-										targetFolderInWorkspace.refreshLocal(IResource.DEPTH_INFINITE, null);
-									} else {
-										correspondingProject.refreshLocal(IResource.DEPTH_INFINITE, null);
-									}
-								} catch (CoreException e) {
-									IntentUiLogger.logError(e);
-								}
-								return Status.OK_STATUS;
-							}
-						};
+						Job exportJob = new ExportIntentDocumentationJob(intentElement, intentProject,
+								exportOptionsDialog.getTargetFolderLocation(),
+								exportOptionsDialog.getExportedIntentDocumentName(),
+								exportOptionsDialog.shouldShowTableOfContent());
 						exportJob.schedule();
 					}
 				}
@@ -136,5 +98,4 @@ public class ExportIntentDocumentationAction extends AbstractHandler {
 		}
 		return null;
 	}
-
 }

@@ -36,9 +36,10 @@ import org.eclipse.swt.graphics.Color;
  */
 public class IntentStructuredElementScanner extends AbstractIntentScanner {
 
-	public static final String CLOSING = "";
-
-	private static String[] STRUCTURED_KEYWORDS = new String[] {IntentKeyWords.INTENT_KEYWORD_CHAPTER,
+	/**
+	 * Keywords supported by this scanner.
+	 */
+	private static final String[] STRUCTURED_KEYWORDS = new String[] {IntentKeyWords.INTENT_KEYWORD_CHAPTER,
 			IntentKeyWords.INTENT_KEYWORD_DOCUMENT, IntentKeyWords.INTENT_KEYWORD_SECTION,
 			IntentKeyWords.INTENT_KEYWORD_VISIBILITY_HIDDEN,
 			IntentKeyWords.INTENT_KEYWORD_VISIBILITY_INTERNAL, IntentKeyWords.INTENT_KEYWORD_OPEN,
@@ -81,6 +82,10 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 	/**
 	 * Create all the rules related to description unit keyWords.
 	 * 
+	 * @param defaultToken
+	 *            the token to return by default
+	 * @param keyWordToken
+	 *            the token to return for keywords
 	 * @return a list containing all the rules related to modeling unit keyWords
 	 */
 	private IRule computeKeyWordRule(IToken defaultToken, IToken keyWordToken) {
@@ -94,6 +99,8 @@ public class IntentStructuredElementScanner extends AbstractIntentScanner {
 	/**
 	 * Create all the rules related to Strings (for example : "example" or 'example').
 	 * 
+	 * @param stringforeGroundColor
+	 *            the color to use for creating String tokens
 	 * @return a list containing all the rules related to related to Strings
 	 */
 	private Collection<? extends IRule> computeStringRules(Color stringforeGroundColor) {

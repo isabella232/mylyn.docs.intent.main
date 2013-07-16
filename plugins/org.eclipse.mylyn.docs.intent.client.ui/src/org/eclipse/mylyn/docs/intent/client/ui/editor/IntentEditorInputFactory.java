@@ -20,6 +20,9 @@ import org.eclipse.ui.IMemento;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class IntentEditorInputFactory implements IElementFactory {
+	/**
+	 * Id of this {@link IElementFactory}.
+	 */
 	public static final String ID = IntentEditorInputFactory.class.getName();
 
 	/**

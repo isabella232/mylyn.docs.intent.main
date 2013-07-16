@@ -94,6 +94,7 @@ public class IntentWorkspaceRepositoryStructurer extends DefaultWorkspaceReposit
 	 * Saves a textual serialization of the given {@link IntentDocument}.
 	 * 
 	 * @param workspaceAdapter
+	 *            the adapter to use for saving resources
 	 * @param document
 	 *            the {@link IntentDocument} to serialize
 	 */

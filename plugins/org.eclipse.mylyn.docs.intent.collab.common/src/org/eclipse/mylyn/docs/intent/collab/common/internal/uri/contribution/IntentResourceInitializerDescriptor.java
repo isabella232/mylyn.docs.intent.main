@@ -27,6 +27,9 @@ public class IntentResourceInitializerDescriptor {
 	 */
 	public static final String INITIALIZER_CONTRIBUTED_CLASS_NAME = "class";
 
+	/**
+	 * Name of the attribute corresponding to the file extension on which this contribution should apply.
+	 */
 	private static final String INITIALIZER_CONTRIBUTED_FILE_EXTENSION = "file_extension";
 
 	/**

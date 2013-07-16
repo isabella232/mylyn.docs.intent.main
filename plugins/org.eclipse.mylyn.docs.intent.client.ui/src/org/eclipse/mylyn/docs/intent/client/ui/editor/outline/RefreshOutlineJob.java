@@ -23,6 +23,9 @@ import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
  */
 class RefreshOutlineJob {
 
+	/**
+	 * Name of this job.
+	 */
 	private static final String REFRESH_VIEW_JOB_NAME = "refreshIntentOutlineView";
 
 	/**

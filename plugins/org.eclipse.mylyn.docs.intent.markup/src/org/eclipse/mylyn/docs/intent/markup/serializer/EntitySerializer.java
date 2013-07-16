@@ -22,50 +22,113 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Entity;
  */
 public final class EntitySerializer {
 
-	private static String COPYRIGHT_CODE = "#169";
-
-	private static String COPYRIGHT_TRADUCTION = "(c)";
-
-	private static String TRADEMARK_CODE = "#8482";
-
-	private static String TRADEMARK_TRADUCTION = "(tm)";
-
-	private static String REGISTERED_CODE = "#174";
-
-	private static String REGISTERED_TRADUCTION = "(r)";
-
-	private static String DASH_CODE = "#8211";
-
-	private static String DASH_TRADUCTION = "-";
-
-	private static String SIMPLEQUOTE_CODE = "#8217";
-
-	private static String SIMPLEQUOTE2_CODE = "#8249";
-
-	private static String SIMPLEQUOTE3_CODE = "#8250";
-
-	private static String SIMPLEQUOTE4_CODE = "#8216";
-
-	private static String SIMPLEQUOTE_TRADUCTION = "'";
-
-	private static String LEFTDOUBLEQUOTE_CODE = "#171";
-
-	private static String LEFTDOUBLEQUOTE1_CODE = "#8220";
-
-	private static String LEFTDOUBLEQUOTE_TRADUCTION = "\"";
-
-	private static String RIGHTDOUBLEQUOTE_CODE = "#187";
-
-	private static String RIGHTDOUBLEQUOTE1_CODE = "#8221";
-
-	private static String RIGHTDOUBLEQUOTE_TRADUCTION = "\"";
-
-	private static String TABULATION_SYMBOL = "<dd/>";
-
-	private static String TABULATION_TRADUCTION = "<dd/>";
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String COPYRIGHT_CODE = "#169";
 
 	/**
-	 * HasMap mapping an entity code (example : '#169') to its traduction in Textile ('(c)').
+	 * Constant corresponding to a specific code translation.
+	 */
+	private static final String COPYRIGHT_TRANSLATION = "(c)";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String TRADEMARK_CODE = "#8482";
+
+	/**
+	 * Constant corresponding to a specific code translation.
+	 */
+	private static final String TRADEMARK_TRANSLATION = "(tm)";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String REGISTERED_CODE = "#174";
+
+	/**
+	 * Constant corresponding to a specific code translation.
+	 */
+	private static final String REGISTERED_TRANSLATION = "(r)";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String DASH_CODE = "#8211";
+
+	/**
+	 * Constant corresponding to a specific code translation.
+	 */
+	private static final String DASH_TRANSLATION = "-";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String SIMPLEQUOTE_CODE = "#8217";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String SIMPLEQUOTE2_CODE = "#8249";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String SIMPLEQUOTE3_CODE = "#8250";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String SIMPLEQUOTE4_CODE = "#8216";
+
+	/**
+	 * Constant corresponding to a specific code translation.
+	 */
+	private static final String SIMPLEQUOTE_TRANSLATION = "'";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String LEFTDOUBLEQUOTE_CODE = "#171";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String LEFTDOUBLEQUOTE1_CODE = "#8220";
+
+	/**
+	 * Constant corresponding to a specific code translation.
+	 */
+	private static final String LEFTDOUBLEQUOTE_TRANSLATION = "\"";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String RIGHTDOUBLEQUOTE_CODE = "#187";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String RIGHTDOUBLEQUOTE1_CODE = "#8221";
+
+	/**
+	 * Constant corresponding to a specific code translation.
+	 */
+	private static final String RIGHTDOUBLEQUOTE_TRANSLATION = "\"";
+
+	/**
+	 * Constant to identify a specific character.
+	 */
+	private static final String TABULATION_SYMBOL = "<dd/>";
+
+	/**
+	 * Constant corresponding to a specific code translation.
+	 */
+	private static final String TABULATION_TRANSLATION = "<dd/>";
+
+	/**
+	 * HasMap mapping an entity code (example : '#169') to its TRANSLATION in Textile ('(c)').
 	 */
 	private static Map<String, String> entityMapping;
 
@@ -95,25 +158,25 @@ public final class EntitySerializer {
 	}
 
 	/**
-	 * Initialize the mapping between entity's codes and their traductions in textile.
+	 * Initialize the mapping between entity's codes and their TRANSLATIONs in textile.
 	 */
 	private static void initializeEntityMapping() {
 		if (entityMapping == null) {
 			entityMapping = new HashMap<String, String>();
-			entityMapping.put(COPYRIGHT_CODE, COPYRIGHT_TRADUCTION);
-			entityMapping.put(TRADEMARK_CODE, TRADEMARK_TRADUCTION);
-			entityMapping.put(REGISTERED_CODE, REGISTERED_TRADUCTION);
-			entityMapping.put(DASH_CODE, DASH_TRADUCTION);
-			entityMapping.put(SIMPLEQUOTE_CODE, SIMPLEQUOTE_TRADUCTION);
-			entityMapping.put(SIMPLEQUOTE2_CODE, SIMPLEQUOTE_TRADUCTION);
-			entityMapping.put(SIMPLEQUOTE3_CODE, SIMPLEQUOTE_TRADUCTION);
-			entityMapping.put(SIMPLEQUOTE4_CODE, SIMPLEQUOTE_TRADUCTION);
-			entityMapping.put(LEFTDOUBLEQUOTE_CODE, LEFTDOUBLEQUOTE_TRADUCTION);
-			entityMapping.put(LEFTDOUBLEQUOTE1_CODE, LEFTDOUBLEQUOTE_TRADUCTION);
-			entityMapping.put(RIGHTDOUBLEQUOTE_CODE, RIGHTDOUBLEQUOTE_TRADUCTION);
-			entityMapping.put(RIGHTDOUBLEQUOTE1_CODE, RIGHTDOUBLEQUOTE_TRADUCTION);
+			entityMapping.put(COPYRIGHT_CODE, COPYRIGHT_TRANSLATION);
+			entityMapping.put(TRADEMARK_CODE, TRADEMARK_TRANSLATION);
+			entityMapping.put(REGISTERED_CODE, REGISTERED_TRANSLATION);
+			entityMapping.put(DASH_CODE, DASH_TRANSLATION);
+			entityMapping.put(SIMPLEQUOTE_CODE, SIMPLEQUOTE_TRANSLATION);
+			entityMapping.put(SIMPLEQUOTE2_CODE, SIMPLEQUOTE_TRANSLATION);
+			entityMapping.put(SIMPLEQUOTE3_CODE, SIMPLEQUOTE_TRANSLATION);
+			entityMapping.put(SIMPLEQUOTE4_CODE, SIMPLEQUOTE_TRANSLATION);
+			entityMapping.put(LEFTDOUBLEQUOTE_CODE, LEFTDOUBLEQUOTE_TRANSLATION);
+			entityMapping.put(LEFTDOUBLEQUOTE1_CODE, LEFTDOUBLEQUOTE_TRANSLATION);
+			entityMapping.put(RIGHTDOUBLEQUOTE_CODE, RIGHTDOUBLEQUOTE_TRANSLATION);
+			entityMapping.put(RIGHTDOUBLEQUOTE1_CODE, RIGHTDOUBLEQUOTE_TRANSLATION);
 
-			entityMapping.put(TABULATION_SYMBOL, TABULATION_TRADUCTION);
+			entityMapping.put(TABULATION_SYMBOL, TABULATION_TRANSLATION);
 		}
 	}
 }

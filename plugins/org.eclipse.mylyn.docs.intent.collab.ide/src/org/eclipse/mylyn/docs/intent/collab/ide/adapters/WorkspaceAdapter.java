@@ -67,6 +67,10 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	private static final long TIME_TO_WAIT_BEFORE_CHECKING_SESSIONDELTA = 5;
 
+	/**
+	 * Time to wait for the editing domain availability (if exceded, then we will not execute the command and
+	 * throw an exception).
+	 */
 	private static final long TIMEOUT = 15000;
 
 	/**

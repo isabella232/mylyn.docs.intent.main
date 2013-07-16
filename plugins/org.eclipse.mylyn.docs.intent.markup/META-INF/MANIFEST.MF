@@ -14,6 +14,7 @@ Export-Package: org.eclipse.mylyn.docs.intent.markup.builder,
  org.eclipse.mylyn.docs.intent.markup.markup.impl,
  org.eclipse.mylyn.docs.intent.markup.markup.util,
  org.eclipse.mylyn.docs.intent.markup.resource,
+ org.eclipse.mylyn.docs.intent.markup.resource.wikimedia,
  org.eclipse.mylyn.docs.intent.markup.serializer,
  org.eclipse.mylyn.docs.intent.markup.utils
 Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,

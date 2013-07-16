@@ -55,6 +55,9 @@ public class IntentResourceFactory implements Resource.Factory {
 	 */
 	private static final String CREATE_RESOURCE_IF_NEEDED_TAG = "[create]";
 
+	/**
+	 * Constant identifying slash character.
+	 */
 	private static final String SLASH = "/";
 
 	/**
@@ -131,7 +134,6 @@ public class IntentResourceFactory implements Resource.Factory {
 	 *            the empty {@link Resource}
 	 * @param repositoryAdapter
 	 *            the repository adapter to use for creating the resource
-	 * @return the created and filled resource
 	 * @throws ReadOnlyException
 	 *             if rights are not sufficient to create a save context to create the resource
 	 * @throws IOException
@@ -211,6 +213,8 @@ public class IntentResourceFactory implements Resource.Factory {
 
 	/**
 	 * Returns the scheme associated to this resource factory.
+	 * 
+	 * @return the scheme associated to this resource factory
 	 */
 	public static String getIntentFactoryScheme() {
 		return INTENT_FACTORY_SCHEME;
@@ -219,6 +223,9 @@ public class IntentResourceFactory implements Resource.Factory {
 	/**
 	 * Returns a tag allowing to indicate through the URI whether resource should be created if it does not
 	 * exists.
+	 * 
+	 * @return a tag allowing to indicate through the URI whether resource should be created if it does not
+	 *         exists
 	 */
 	public static String getCreateResourceIfNeededTag() {
 		return CREATE_RESOURCE_IF_NEEDED_TAG;

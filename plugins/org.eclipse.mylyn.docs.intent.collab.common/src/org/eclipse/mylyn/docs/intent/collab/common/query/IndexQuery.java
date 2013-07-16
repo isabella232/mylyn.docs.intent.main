@@ -26,6 +26,9 @@ import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexerFactory;
  */
 public class IndexQuery extends AbstractIntentQuery {
 
+	/**
+	 * The {@link IntentIndex} used by this query.
+	 */
 	private IntentIndex intentIndex;
 
 	/**

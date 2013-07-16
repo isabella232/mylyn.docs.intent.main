@@ -63,6 +63,8 @@ public class AcceleoCompiler extends AbstractAcceleoCompiler {
 	/**
 	 * Launches the compilation of the mtl files in the generator.
 	 * 
+	 * @param monitor
+	 *            the progress monitor
 	 * @see org.eclipse.acceleo.parser.compiler.AbstractAcceleoCompiler#doCompile(org.eclipse.emf.common.util.Monitor)
 	 */
 	@Override

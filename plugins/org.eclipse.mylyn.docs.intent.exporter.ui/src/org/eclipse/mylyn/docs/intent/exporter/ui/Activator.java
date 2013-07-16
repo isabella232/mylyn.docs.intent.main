@@ -13,8 +13,16 @@ package org.eclipse.mylyn.docs.intent.exporter.ui;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
+/**
+ * Activator of the exporter plugin.
+ * 
+ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ */
 public class Activator extends Plugin {
 
+	/**
+	 * The running instance.
+	 */
 	private static Activator plugin;
 
 	/**

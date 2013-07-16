@@ -40,8 +40,14 @@ public abstract class AbstractModelingUnitUpdater extends AbstractModelingUnitGe
 	 */
 	protected TraceabilityInformationsQuery query;
 
+	/**
+	 * Last used index (use to associated identifier to created elements.
+	 */
 	private int lastIndex = -1;
 
+	/**
+	 * Associate {@link EObject}s with their intent reference identifier.
+	 */
 	private Map<EObject, String> referenceNames = new HashMap<EObject, String>();
 
 	/**

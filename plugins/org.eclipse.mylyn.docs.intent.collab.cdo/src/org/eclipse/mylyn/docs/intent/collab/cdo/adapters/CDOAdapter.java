@@ -50,6 +50,9 @@ import org.eclipse.net4j.util.event.IListener;
  */
 public class CDOAdapter implements RepositoryAdapter {
 
+	/**
+	 * The {@link CDOInvalidationPolicy} used by intent (more permissive than default).
+	 */
 	private static final CDOInvalidationPolicy INTENT_CDO_INVALIDATION_POLICY = new CDOInvalidationPolicy() {
 		public void handleInvalidation(CDOObject object, CDORevisionKey key) {
 			if (object instanceof InternalCDOObject) {

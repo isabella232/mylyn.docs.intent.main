@@ -58,8 +58,8 @@ public interface SynchronizerStrategy {
 	/**
 	 * Handles the case of a null internal resource (can decide to stop for example).
 	 * 
-	 * @param internalResourceURI
-	 *            the URI of the internal (repository) compiled resource
+	 * @param internalResourcePath
+	 *            the path of the internal (repository) compiled resource
 	 * @param externalResource
 	 *            the external (local or repository or http...) compiled resource
 	 * @return the modified internal resource (the synchronizer will stop if it's null)

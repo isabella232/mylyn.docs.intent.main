@@ -19,10 +19,19 @@ import org.eclipse.emf.compare.utils.DiffUtil;
  */
 public final class StringDistanceUtils {
 
+	/**
+	 * Maximum distance between 2 strings.
+	 */
 	private static final double DEFAULT_MAX_STRING_DISTANCE = 500;
 
+	/**
+	 * Impact of a size difference.
+	 */
 	private static final double DEFAULT_STRING_SIZE_DISTANCE_IMPACT = 0.7;
 
+	/**
+	 * Sorensen-Dice coefficient.
+	 */
 	private static final double DEFAULT_STRING_DICE_DISTANCE_IMPACT = 0.3;
 
 	/**

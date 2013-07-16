@@ -83,7 +83,7 @@ public final class IntentQuickFixProviderRegistry {
 	 * Returns all the registered {@link IntentFix}es that can be applied on the given
 	 * {@link IntentAnnotation},.
 	 * 
-	 * @param externalContentReference
+	 * @param intentAnnotation
 	 *            the {@link IntentAnnotation} to apply a fix on
 	 * @return all the registered {@link IntentFix}es that can be applied on the given
 	 *         {@link IntentAnnotation}

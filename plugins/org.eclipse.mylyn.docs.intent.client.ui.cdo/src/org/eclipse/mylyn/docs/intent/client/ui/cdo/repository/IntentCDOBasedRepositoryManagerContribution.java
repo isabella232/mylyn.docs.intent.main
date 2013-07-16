@@ -28,6 +28,9 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryRegistry;
  */
 public class IntentCDOBasedRepositoryManagerContribution implements IntentRepositoryManagerContribution {
 
+	/**
+	 * Constant for slash.
+	 */
 	private static final String SLASH = "/";
 
 	/**

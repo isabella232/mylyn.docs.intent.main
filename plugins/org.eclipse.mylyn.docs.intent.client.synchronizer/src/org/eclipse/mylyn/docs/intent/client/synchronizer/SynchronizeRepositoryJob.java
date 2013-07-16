@@ -42,6 +42,9 @@ public class SynchronizeRepositoryJob extends Job {
 	 */
 	public static final String SYNCHRONIZE_REPOSITORY_JOB_NAME = "Synchronizing Repository";
 
+	/**
+	 * The {@link SynchronizerRepositoryClient} in charge of the actual synchronization.
+	 */
 	private SynchronizerRepositoryClient client;
 
 	/**

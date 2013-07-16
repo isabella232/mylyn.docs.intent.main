@@ -31,6 +31,12 @@ import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 public final class IntentExporterClientCreator {
 
 	/**
+	 * Private constructor.
+	 */
+	private IntentExporterClientCreator() {
+		
+	}
+	/**
 	 * Creates an {@link IntentExporterClient} allowing to generate a preview of the intent document held by
 	 * the given repository when it is modified.
 	 * 

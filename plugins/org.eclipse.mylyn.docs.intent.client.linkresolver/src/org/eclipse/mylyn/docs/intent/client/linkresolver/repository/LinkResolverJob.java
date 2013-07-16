@@ -33,6 +33,9 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
  */
 public class LinkResolverJob extends Job {
 
+	/**
+	 * Constant indicating the name of the Linked resolver {@link Job}.
+	 */
 	private static final String LINK_RESOLVER_JOB_NAME = "Resolving references inside Intent Document";
 
 	/**
@@ -40,6 +43,9 @@ public class LinkResolverJob extends Job {
 	 */
 	private RepositoryAdapter repositoryAdapter;
 
+	/**
+	 * The actual {@link LinkResolver} used by this job.
+	 */
 	private LinkResolver linkResolver;
 
 	/**

@@ -12,7 +12,20 @@ package org.eclipse.mylyn.docs.intent.markup.gen.services;
 
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * Services on resources.
+ * 
+ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ */
 public class ResourceService {
+
+	/**
+	 * Returns the name of the resource containing the given {@link EObject}.
+	 * 
+	 * @param any
+	 *            the {@link EObject}
+	 * @return the name of the resource containing the given {@link EObject}
+	 */
 	public String eResourceName(EObject any) {
 		return any.eResource().getURI().lastSegment();
 	}

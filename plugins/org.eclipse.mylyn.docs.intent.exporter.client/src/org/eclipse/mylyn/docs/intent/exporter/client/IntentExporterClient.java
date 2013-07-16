@@ -12,17 +12,17 @@
 package org.eclipse.mylyn.docs.intent.exporter.client;
 
 import org.eclipse.core.runtime.jobs.Job;
+
 import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotification;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
-import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 
 
 
 /**
  * An {@link AbstractRepositoryClient} which exports the documentation any time an element of the
- * {@link IntentDocument} is modified.
+ * {@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument} is modified.
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */

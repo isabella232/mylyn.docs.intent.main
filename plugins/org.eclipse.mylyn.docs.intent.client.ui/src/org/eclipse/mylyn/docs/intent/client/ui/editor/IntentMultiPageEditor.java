@@ -55,8 +55,14 @@ public class IntentMultiPageEditor extends MultiPageEditorPart implements Intent
 	 */
 	private IntentEditorImpl intentEditor;
 
+	/**
+	 * The {@link Browser} used in the preview view (can be null).
+	 */
 	private Browser browser;
 
+	/**
+	 * The {@link IntentSerializer} used to get elements title (and hence preview file name).
+	 */
 	private IntentSerializer intentSerializer = new IntentSerializer();
 
 	/**
@@ -119,10 +125,22 @@ public class IntentMultiPageEditor extends MultiPageEditorPart implements Intent
 		super.init(site, input);
 	}
 
+	/**
+	 * Indicates wether preferences indicate the the preview page should be displayed or not.
+	 * 
+	 * @return true if preferences indicate the the preview page should be displayed, false otherwise
+	 */
 	private boolean shouldDisplayPreviewPage() {
 		return IntentPreferenceService.getBoolean(IntentPreferenceConstants.SHOW_PREVIEW_PAGE);
 	}
 
+	/**
+	 * Computes the URL of the automatically generated preview HTML File of the element associated to the
+	 * editor input.
+	 * 
+	 * @return the URL of the automatically generated preview HTML File of the element associated to the
+	 *         editor input
+	 */
 	private String getHTMLPreviewURL() {
 		String htmlPreviewLocation = "file:///"
 				+ ((IntentEditorInput)getEditorInput()).getRepository().getRepositoryLocation()

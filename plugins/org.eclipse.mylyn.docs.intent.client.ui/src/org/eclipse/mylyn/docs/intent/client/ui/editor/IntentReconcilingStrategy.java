@@ -66,6 +66,9 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 	/** Current offset. */
 	private int offset;
 
+	/**
+	 * Pair matcher used to reconcile document.
+	 */
 	private IntentPairMatcher pairMatcher = new IntentPairMatcher();
 
 	/**
@@ -160,11 +163,10 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 							createOrUpdateAnnotation(startOffset, endOffset - startOffset, false);
 						}
 					}
-				}
-				// Case 2: Modeling Unit folding
-				else if (document.getLineOfOffset(startOffset) > 0
+				} else if (document.getLineOfOffset(startOffset) > 0
 						&& document.getContentType(startOffset).equals(
 								IntentPartitionScanner.INTENT_MODELINGUNIT)) {
+					// Case 2: Modeling Unit folding
 					// Search for modeling unit end
 					String documentZone = document.get().substring(startOffset);
 					int endOffset = documentZone.indexOf("M@") + 2;

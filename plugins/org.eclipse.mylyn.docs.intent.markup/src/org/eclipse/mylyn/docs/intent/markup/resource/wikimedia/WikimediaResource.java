@@ -11,7 +11,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.markup.resource;
+package org.eclipse.mylyn.docs.intent.markup.resource.wikimedia;
 
 import com.google.common.collect.Iterators;
 
@@ -42,10 +42,7 @@ import org.eclipse.mylyn.docs.intent.markup.markup.MarkupFactory;
 import org.eclipse.mylyn.wikitext.core.parser.MarkupParser;
 import org.eclipse.mylyn.wikitext.core.util.IgnoreDtdEntityResolver;
 import org.eclipse.mylyn.wikitext.mediawiki.core.MediaWikiLanguage;
-import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
@@ -56,8 +53,17 @@ import org.xml.sax.XMLReader;
  */
 public class WikimediaResource extends ResourceImpl {
 
+	/**
+	 * Constant for the buffer size.
+	 */
 	private static final int BUFFER_SIZE = 0x10000;
 
+	/**
+	 * Creates a new {@link WikimediaResource}.
+	 * 
+	 * @param eUri
+	 *            the {@link URI} used to create the resource
+	 */
 	public WikimediaResource(URI eUri) {
 		super(eUri);
 	}
@@ -119,6 +125,22 @@ public class WikimediaResource extends ResourceImpl {
 
 	}
 
+	/**
+	 * Gets additional information about the image at the given URI.
+	 * 
+	 * @param eImgURI
+	 *            the image URI
+	 * @param baseServer
+	 *            the base Server URL
+	 * @param input
+	 *            the input stream
+	 * @throws ParserConfigurationException
+	 *             if parser cannot be created
+	 * @throws SAXException
+	 *             if file is invalid
+	 * @throws IOException
+	 *             if file cannot be properly accessed
+	 */
 	private void handleImagesData(URI eImgURI, String baseServer, InputStream input)
 			throws ParserConfigurationException, SAXException, IOException {
 
@@ -152,6 +174,15 @@ public class WikimediaResource extends ResourceImpl {
 
 	}
 
+	/**
+	 * Creates and return an input stream from the given URI.
+	 * 
+	 * @param eApiURI
+	 *            the URI on which an input stream should be created
+	 * @return an input stream from the given URI
+	 * @throws IOException
+	 *             if file cannot be properly accessed
+	 */
 	private InputStream getInputStream(URI eApiURI) throws IOException {
 		// If an input stream can't be created, ensure that the resource is
 		// still considered loaded after the failure,
@@ -181,6 +212,9 @@ public class WikimediaResource extends ResourceImpl {
 		return inputStream;
 	}
 
+	/**
+	 * Creates a proxy for all links, that will be used as long as they are not resolved.
+	 */
 	private void prepareProxyFromLinks() {
 
 		Iterator<Link> it = Iterators.filter(getAllContents(), Link.class);
@@ -200,6 +234,19 @@ public class WikimediaResource extends ResourceImpl {
 
 	}
 
+	/**
+	 * Loads the resource (markup elements corresponding to the wiki file held by the given input stream will
+	 * be parsed on the fly).
+	 * 
+	 * @param is
+	 *            the input stream of the wiki file to load as a model
+	 * @param options
+	 *            loading options
+	 * @throws SAXException
+	 *             if file is invalid
+	 * @throws IOException
+	 *             if fille cannot be properly accessed
+	 */
 	private void wikimediaLoad(InputStream is, Map<?, ?> options) throws SAXException, IOException {
 
 		final char[] buffer = new char[BUFFER_SIZE];
@@ -228,162 +275,6 @@ public class WikimediaResource extends ResourceImpl {
 
 		getContents().addAll(roots);
 
-	}
-
-}
-
-/**
- * URI for for web-based pages on wikimedia.
- * 
- * @author <a href="mailto:cedric.brun@obeo.fr">Cedric Brun</a>
- */
-class WikimediaURI {
-
-	private URI baseURI;
-
-	public WikimediaURI(URI baseURI) {
-		this.baseURI = baseURI;
-	}
-
-	public String pageName() {
-
-		int startingSegment = 0;
-		for (int i = 0; i < baseURI.segmentCount(); i++) {
-			String seg = baseURI.segment(i);
-			if ("index.php".equals(seg)) {
-				startingSegment = i + 1;
-			}
-		}
-
-		String pageName = "";
-		for (int i = startingSegment; i < baseURI.segmentCount(); i++) {
-			if (i > startingSegment) {
-				pageName += "/";
-			}
-			pageName += baseURI.segment(i);
-		}
-		return pageName;
-	}
-
-	public String baseServer() {
-		return baseURI.scheme() + "://" + baseURI.host();
-	}
-
-}
-
-/**
- * A specific content handler.
- * 
- * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
- */
-class ImageFetchingContentHandler implements ContentHandler {
-
-	final Map<String, String> imageTitleToUrl = new HashMap<String, String>();
-
-	private String currentPage;
-
-	private boolean inImageInfo;
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String,
-	 *      org.xml.sax.Attributes)
-	 */
-	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-		if ("page".equals(localName)) { //$NON-NLS-1$
-			currentPage = atts.getValue("title"); //$NON-NLS-1$
-		} else if ("imageinfo".equals(localName)) { //$NON-NLS-1$
-			inImageInfo = true;
-		} else if (inImageInfo && "ii".equals(localName)) { //$NON-NLS-1$
-			imageTitleToUrl.put(currentPage, atts.getValue("url")); //$NON-NLS-1$
-			imageTitleToUrl.put(currentPage.replace(' ', '_'), atts.getValue("url"));
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	public void endElement(String uri, String localName, String qName) throws SAXException {
-		if ("page".equals(localName)) { //$NON-NLS-1$
-			currentPage = null;
-		} else if ("imageinfo".equals(localName)) { //$NON-NLS-1$
-			inImageInfo = false;
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#characters(char[], int, int)
-	 */
-	public void characters(char[] ch, int start, int length) throws SAXException {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#endDocument()
-	 */
-	public void endDocument() throws SAXException {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
-	 */
-	public void endPrefixMapping(String prefix) throws SAXException {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#ignorableWhitespace(char[], int, int)
-	 */
-	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#processingInstruction(java.lang.String, java.lang.String)
-	 */
-	public void processingInstruction(String target, String data) throws SAXException {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
-	 */
-	public void setDocumentLocator(Locator locator) {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#skippedEntity(java.lang.String)
-	 */
-	public void skippedEntity(String name) throws SAXException {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#startDocument()
-	 */
-	public void startDocument() throws SAXException {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
-	 */
-	public void startPrefixMapping(String prefix, String uri) throws SAXException {
 	}
 
 }

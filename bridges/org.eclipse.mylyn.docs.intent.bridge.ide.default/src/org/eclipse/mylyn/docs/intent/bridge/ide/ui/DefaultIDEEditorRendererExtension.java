@@ -57,9 +57,15 @@ import org.eclipse.ui.part.ResourceTransfer;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class DefaultIDEEditorRendererExtension implements IEditorRendererExtension {
-
+	
+	/**
+	 * Constant used to determine the height of the image margin.
+	 */
 	private static final int IMAGE_HEIGHT_MARGIN = 5;
 
+	/**
+	 * Constant usde to determine the image width.
+	 */
 	private static final int IMAGE_WIDTH = 800;
 
 	/**

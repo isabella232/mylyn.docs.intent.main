@@ -46,6 +46,9 @@ import org.eclipse.ui.PlatformUI;
  */
 public class IntentProjectListener implements IResourceChangeListener {
 
+	/**
+	 * A map associating each repository ID with the associated {@link IntentProjectManager}.
+	 */
 	private Map<String, IntentProjectManager> projectManagers = new HashMap<String, IntentProjectManager>();
 
 	/**

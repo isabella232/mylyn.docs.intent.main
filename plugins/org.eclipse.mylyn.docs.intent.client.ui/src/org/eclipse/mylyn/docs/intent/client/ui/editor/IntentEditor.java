@@ -54,11 +54,11 @@ public interface IntentEditor extends ITextEditor {
 	/**
 	 * Sets the highlighted range of this text editor to the specified element.
 	 * 
-	 * @param element
+	 * @param elementToSelect
 	 *            the element to highlight
 	 * @return true if the editor was able to select the given element, false otherwise
 	 */
-	boolean selectRange(IntentGenericElement elementToSelectRangeWithLoadedFromAdapter);
+	boolean selectRange(IntentGenericElement elementToSelect);
 
 	/**
 	 * Returns the {@link IntentPairMatcher} associated to the current editor.
@@ -95,7 +95,7 @@ public interface IntentEditor extends ITextEditor {
 	 * @param newAST
 	 *            the new AST to compute the title from
 	 */
-	void refreshTitle(EObject localAST);
+	void refreshTitle(EObject newAST);
 
 	/**
 	 * Indicates if the {@link IntentEditor} has already collapsed structures that should be collapsed at

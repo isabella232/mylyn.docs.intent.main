@@ -43,6 +43,9 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
  */
 public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 
+	/**
+	 * Delay for scheduling this job.
+	 */
 	private static final long UPDATE_PROBLEM_VIEW_JOB_DELAY = 200;
 
 	/**
@@ -50,6 +53,9 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 	 */
 	private IProject project;
 
+	/**
+	 * A {@link Job} allowing to update the problem view.
+	 */
 	private Job updateProblemViewJob;
 
 	/**

@@ -47,16 +47,23 @@ import org.eclipse.mylyn.docs.intent.markup.gen.services.ImageServices;
  */
 public final class CopyImageUtils {
 
+	/**
+	 * The {@link AdapterFactoryItemDelegator} to use to get images from {@link EObject}s.
+	 */
 	private static AdapterFactoryItemDelegator itemDelegator;
 
+	/**
+	 * The resource set to use.
+	 */
 	private static ResourceSetImpl resourceSet;
 
 	/**
 	 * Private constructor.
 	 */
 	private CopyImageUtils() {
-		
+
 	}
+
 	/**
 	 * Determines the image associated to the given EObject and copies it inside the exported documentation.
 	 * 
@@ -65,6 +72,7 @@ public final class CopyImageUtils {
 	 * @param repositoryAdapter
 	 *            the repository adapter to use to access to informations (traceability index...)
 	 * @param outputFolder
+	 *            the target folder in which image will be copied
 	 * @return the image associated to the given EObject
 	 */
 	public static String copyImageAndGetImageID(EObject any, RepositoryAdapter repositoryAdapter,
@@ -112,8 +120,8 @@ public final class CopyImageUtils {
 	 * 
 	 * @param repositoryAdapter
 	 *            the repository adapter to use to access to informations (traceability index...)
-	 * @param the
-	 *            eobject to get the image from
+	 * @param any
+	 *            the eobject to get the image from
 	 * @return the URL of the image corresponding to the given EObject, null if none found
 	 */
 	private static URL getImageFromWorkspace(EClassifier any, RepositoryAdapter repositoryAdapter) {
@@ -124,39 +132,8 @@ public final class CopyImageUtils {
 			if (projectTraceabilityIndex != null) {
 				for (TraceabilityIndexEntry entry : projectTraceabilityIndex.getEntries()) {
 					if (any.eResource().getURI().toString().contains(entry.getGeneratedResourcePath())) {
-						Object metamodelURI = entry.getResourceDeclaration().getUri();
-						if (metamodelURI != null
-								&& metamodelURI.toString().replace("\"", "").endsWith("ecore")) {
-							URI genModelURI = URI.createURI(metamodelURI.toString().replace("\"", "")
-									.replace("ecore", "genmodel"));
-							try {
-								Resource resource = getResourceSet().getResource(genModelURI, true);
-								if (!resource.getContents().isEmpty()
-										&& resource.getContents().iterator().next() instanceof GenModel) {
-									String editIconsDirectory = ((GenModel)resource.getContents().iterator()
-											.next()).getEditIconsDirectory();
-									IFolder folder = ResourcesPlugin.getWorkspace().getRoot()
-											.getFolder(new Path(editIconsDirectory + "/full/obj16"));
-									if (folder.exists()) {
-										for (String imageExtension : new String[] {"gif", "png"
-										}) {
-											if (folder.getFile(any.getName() + "." + imageExtension).exists()) {
-												return new URL(
-														"file:/"
-																+ folder.getFile(
-																		any.getName() + "." + imageExtension)
-																		.getLocation().toString());
-											}
-										}
-									}
-								}
-							} catch (RuntimeException e) {
-								IntentUiLogger.logInfo("Cannot find genmodel at " + genModelURI
-										+ ". Default image will be use to display " + any.getName());
-							} catch (MalformedURLException e) {
-								IntentUiLogger.logError(e);
-							}
-						}
+						URI metamodelURI = entry.getResourceDeclaration().getUri();
+						doGetImageFromWorkspace(metamodelURI, any);
 					}
 				}
 			}
@@ -164,6 +141,62 @@ public final class CopyImageUtils {
 		return null;
 	}
 
+	/**
+	 * Searches for an edit plugin corresponding to the given EObject and tries to retrieve its associated
+	 * image.
+	 * 
+	 * @param metamodelURI
+	 *            the {@link URI}
+	 * @param classifier
+	 *            the {@link EObject} to get the image from
+	 * @return the URL of the image associated to the given classifier (if any found)
+	 */
+	private static URL doGetImageFromWorkspace(URI metamodelURI, EClassifier classifier) {
+		URL imageURL = null;
+		if (metamodelURI != null && metamodelURI.toString().replace("\"", "").endsWith("ecore")) {
+			URI genModelURI = URI.createURI(metamodelURI.toString().replace("\"", "")
+					.replace("ecore", "genmodel"));
+
+			try {
+				Resource resource = getResourceSet().getResource(genModelURI, true);
+				if (resource.getContents().isEmpty()
+						|| !(resource.getContents().iterator().next() instanceof GenModel)) {
+					return null;
+				}
+
+				String editIconsDirectory = ((GenModel)resource.getContents().iterator().next())
+						.getEditIconsDirectory();
+				IFolder folder = ResourcesPlugin.getWorkspace().getRoot()
+						.getFolder(new Path(editIconsDirectory + "/full/obj16"));
+				if (folder.exists()) {
+					for (String imageExtension : new String[] {"gif", "png",
+					}) {
+						if (folder.getFile(classifier.getName() + "." + imageExtension).exists()) {
+							imageURL = new URL("file:/"
+									+ folder.getFile(classifier.getName() + "." + imageExtension)
+											.getLocation().toString());
+						}
+					}
+				}
+				// CHECKSTYLE:OFF
+			} catch (RuntimeException e) {
+				// CHECKSTYLE:ON
+				IntentUiLogger.logInfo("Cannot find genmodel at " + genModelURI
+						+ ". Default image will be use to display " + classifier.getName());
+			} catch (MalformedURLException e) {
+				IntentUiLogger.logError(e);
+			}
+		}
+		return imageURL;
+	}
+
+	/**
+	 * Returns the URL of the image associated to the given {@link EObject} through AdapterFactories.
+	 * 
+	 * @param any
+	 *            the element to get the image from
+	 * @return the URL of the image associated to the given {@link EObject}
+	 */
 	private static Object getImageURL(EObject any) {
 		Object imageURL = null;
 		// Step 1: getting the image URL thanks to the item delegator
@@ -192,6 +225,22 @@ public final class CopyImageUtils {
 		return imageURL;
 	}
 
+	/**
+	 * Copies the image associated to the given classifier (and with the given URL) into the given output
+	 * folder.
+	 * 
+	 * @param classifier
+	 *            the type associated to the image
+	 * @param outputFolder
+	 *            the output folder in which the image will be copied
+	 * @param imageURL
+	 *            the URL of the image to copy
+	 * @param sourceStream
+	 *            an input stream on the image
+	 * @return the path where the image was copied
+	 * @throws IOException
+	 *             if files cannot be properly accessed
+	 */
 	private static String copyImageIfNeeded(EClassifier classifier, File outputFolder, URL imageURL,
 			InputStream sourceStream) throws IOException {
 		String packageName = "";
@@ -231,6 +280,11 @@ public final class CopyImageUtils {
 		return itemDelegator;
 	}
 
+	/**
+	 * Returns the Resource set to use.
+	 * 
+	 * @return the resource set to use
+	 */
 	private static ResourceSet getResourceSet() {
 		if (resourceSet == null) {
 			resourceSet = new ResourceSetImpl();
@@ -238,6 +292,9 @@ public final class CopyImageUtils {
 		return resourceSet;
 	}
 
+	/**
+	 * Disposes the service.
+	 */
 	public static void dispose() {
 		if (itemDelegator != null) {
 			((ComposedAdapterFactory)itemDelegator.getAdapterFactory()).dispose();

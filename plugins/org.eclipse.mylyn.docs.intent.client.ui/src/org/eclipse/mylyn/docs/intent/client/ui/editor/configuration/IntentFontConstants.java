@@ -25,14 +25,29 @@ import org.eclipse.ui.themes.IThemeManager;
  */
 public final class IntentFontConstants {
 
+	/**
+	 * Preference key for the font to use in Chapters & Sections titles.
+	 */
 	private static final String TITLE_FONT_PREFERENCE_ID = "org.eclipse.mylyn.docs.intent.editor.font.title";
 
+	/**
+	 * Preference key for the font to use to display paragraphs.
+	 */
 	private static final String DESCRIPTION_FONT_PREFERENCE_ID = "org.eclipse.mylyn.docs.intent.editor.font.text";
 
+	/**
+	 * Preference key for the font to use to display Modeling Units.
+	 */
 	private static final String MODEL_FRAGMENT_FONT_PREFERENCE_ID = "org.eclipse.mylyn.docs.intent.editor.font.modelfragment";
 
+	/**
+	 * The font registry from witch getting the fonts.
+	 */
 	private static FontRegistry fontRegistry;
 
+	/**
+	 * The font used as reference to fill a line with images.
+	 */
 	private static Font imageReferenceFont;
 
 	/**

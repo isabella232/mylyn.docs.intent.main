@@ -23,10 +23,19 @@ import org.osgi.framework.BundleContext;
  */
 public class IntentRepositoryActivator extends Plugin {
 
+	/**
+	 * Registry listener that should be registered when plugin starts.
+	 */
 	private IntentLoggerRegistryListener loggerRegistryListener = new IntentLoggerRegistryListener();
 
+	/**
+	 * Registry listener that should be registered when plugin starts.
+	 */
 	private IntentRepositoryManagerContributionRegistryListener repositoryContributionsRegistryListener = new IntentRepositoryManagerContributionRegistryListener();
 
+	/**
+	 * Registry listener that should be registered when plugin starts.
+	 */
 	private IntentResourceInitializerRegistryListener resourceInitializerRegistryListener = new IntentResourceInitializerRegistryListener();
 
 	/**

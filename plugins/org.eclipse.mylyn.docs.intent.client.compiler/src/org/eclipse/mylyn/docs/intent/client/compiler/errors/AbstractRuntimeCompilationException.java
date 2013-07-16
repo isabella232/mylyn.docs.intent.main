@@ -18,7 +18,7 @@ import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class AbstractRuntimeCompilationException extends RuntimeException {
+public abstract class AbstractRuntimeCompilationException extends RuntimeException {
 
 	/**
 	 * Generated serial Version UID.

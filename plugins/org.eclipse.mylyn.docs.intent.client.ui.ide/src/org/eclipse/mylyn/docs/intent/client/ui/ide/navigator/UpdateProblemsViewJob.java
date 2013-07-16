@@ -42,12 +42,24 @@ import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus
  */
 public class UpdateProblemsViewJob extends Job {
 
+	/**
+	 * Job name.
+	 */
 	private static final String UPDATE_PROBLEMS_VIEW_JOB_NAME = "Updating problem view";
 
+	/**
+	 * The {@link RepositoryAdapter} to use for getting the intent compilation issues.
+	 */
 	private RepositoryAdapter adapter;
 
+	/**
+	 * The Intent {@link IProject} associated to this job.
+	 */
 	private IProject project;
 
+	/**
+	 * A query allowing to get compilation statuses information.
+	 */
 	private CompilationStatusQuery statusQuery;
 
 	/**

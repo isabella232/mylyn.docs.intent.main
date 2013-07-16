@@ -35,6 +35,9 @@ public class SLink extends SBlock {
 	 */
 	private static final String RIGHT_PAR = ")";
 
+	/**
+	 * The {@link Link} being built.
+	 */
 	private Link currentLink;
 
 	/**

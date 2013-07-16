@@ -26,43 +26,43 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 
 /**
  * Entry point of the 'HtmlGenDocument' generation module.
- *
+ * 
  * @generated
  */
+// Generated code
+// CHECKSTYLE:OFF
 public class HtmlGenDocument extends AbstractAcceleoGenerator {
 	/**
 	 * The name of the module.
-	 *
+	 * 
 	 * @generated
 	 */
 	public static final String MODULE_FILE_NAME = "/org/eclipse/mylyn/docs/intent/markup/gen/files/htmlGenDocument";
-	
+
 	/**
 	 * The name of the templates that are to be generated.
-	 *
+	 * 
 	 * @generated
 	 */
 	public static final String[] TEMPLATE_NAMES = { "generate" };
 
 	/**
-     * The list of properties files from the launch parameters (Launch configuration).
-     *
-     * @generated
-     */
-    private List<String> propertiesFiles = new ArrayList<String>();
+	 * The list of properties files from the launch parameters (Launch configuration).
+	 * 
+	 * @generated
+	 */
+	private List<String> propertiesFiles = new ArrayList<String>();
 
-  /**
-	 * Allows the public constructor to be used. Note that a generator created
-	 * this way cannot be used to launch generations before one of
-	 * {@link #initialize(EObject, File, List)} or
+	/**
+	 * Allows the public constructor to be used. Note that a generator created this way cannot be used to
+	 * launch generations before one of {@link #initialize(EObject, File, List)} or
 	 * {@link #initialize(URI, File, List)} is called.
 	 * <p>
-	 * The main reason for this constructor is to allow clients of this
-	 * generation to call it from another Java file, as it allows for the
-	 * retrieval of {@link #getProperties()} and
+	 * The main reason for this constructor is to allow clients of this generation to call it from another
+	 * Java file, as it allows for the retrieval of {@link #getProperties()} and
 	 * {@link #getGenerationListeners()}.
 	 * </p>
-	 *
+	 * 
 	 * @generated
 	 */
 	public HtmlGenDocument() {
@@ -85,8 +85,8 @@ public class HtmlGenDocument extends AbstractAcceleoGenerator {
 	 *             the model cannot be loaded.
 	 * @generated
 	 */
-	public HtmlGenDocument(URI modelURI, File targetFolder,
-			List<? extends Object> arguments) throws IOException {
+	public HtmlGenDocument(URI modelURI, File targetFolder, List<? extends Object> arguments)
+			throws IOException {
         initialize(modelURI, targetFolder, arguments);
     }
 
@@ -106,11 +106,11 @@ public class HtmlGenDocument extends AbstractAcceleoGenerator {
 	 *             This can be thrown in two scenarios : the module cannot be found, or it cannot be loaded.
 	 * @generated
 	 */
-	public HtmlGenDocument(EObject model, File targetFolder,
-			List<? extends Object> arguments) throws IOException {
+	public HtmlGenDocument(EObject model, File targetFolder, List<? extends Object> arguments)
+			throws IOException {
         initialize(model, targetFolder, arguments);
     }
-	
+
 	/**
 	 * This can be used to launch the generation from a standalone application.
 	 * 
@@ -201,7 +201,7 @@ public class HtmlGenDocument extends AbstractAcceleoGenerator {
 
         super.doGenerate(monitor);
     }
-	
+
 	/**
 	 * If this generator needs to listen to text generation events, listeners can be returned from here.
 	 * 
@@ -219,7 +219,7 @@ public class HtmlGenDocument extends AbstractAcceleoGenerator {
          */
         return listeners;
     }
-	
+
 	/**
 	 * If you need to change the way files are generated, this is your entry point.
 	 * <p>
@@ -242,10 +242,10 @@ public class HtmlGenDocument extends AbstractAcceleoGenerator {
 	 * @generated
 	 */
 	@Override
-  public IAcceleoGenerationStrategy getGenerationStrategy() {
+	public IAcceleoGenerationStrategy getGenerationStrategy() {
         return super.getGenerationStrategy();
     }
-	
+
 	/**
 	 * This will be called in order to find and load the module that will be launched through this launcher.
 	 * We expect this name not to contain file extension, and the module to be located beside the launcher.
@@ -257,7 +257,7 @@ public class HtmlGenDocument extends AbstractAcceleoGenerator {
 	public String getModuleName() {
         return MODULE_FILE_NAME;
     }
-	
+
 	/**
 	 * If the module(s) called by this launcher require properties files, return their qualified path from
 	 * here.Take note that the first added properties files will take precedence over subsequent ones if they
@@ -311,21 +311,21 @@ public class HtmlGenDocument extends AbstractAcceleoGenerator {
          */
         return propertiesFiles;
     }
-	
+
 	/**
-     * Adds a properties file in the list of properties files.
-     * 
-     * @param propertiesFile
-     *            The properties file to add.
-     * @generated
-     * @since 3.1
-     */
-    @Override
-    public void addPropertiesFile(String propertiesFile) {
+	 * Adds a properties file in the list of properties files.
+	 * 
+	 * @param propertiesFile
+	 *            The properties file to add.
+	 * @generated
+	 * @since 3.1
+	 */
+	@Override
+	public void addPropertiesFile(String propertiesFile) {
         this.propertiesFiles.add(propertiesFile);
     }
 
-  /**
+	/**
 	 * This will be used to get the list of templates that are to be launched by this launcher.
 	 * 
 	 * @return The list of templates to call on the module {@link #getModuleName()}.
@@ -335,7 +335,7 @@ public class HtmlGenDocument extends AbstractAcceleoGenerator {
 	public String[] getTemplateNames() {
         return TEMPLATE_NAMES;
     }
-	
+
 	/**
 	 * This can be used to update the resource set's package registry with all needed EPackages.
 	 * 
@@ -408,5 +408,5 @@ public class HtmlGenDocument extends AbstractAcceleoGenerator {
         
         // resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
     }
-	
+
 }

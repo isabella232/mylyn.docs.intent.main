@@ -70,20 +70,41 @@ public interface IntentKeyWords {
 	// ----------------------------------------------------
 	// Elements relative to the Intent approach
 	// ----------------------------------------------------
+	/**
+	 * Keyword constant.
+	 */
 	String INTENT_FCT_LAZY_LABEL_DECLARATION = "@lazylabel";
 
+	/**
+	 * Keyword constant.
+	 */
 	String INTENT_FCT_EXPLICIT_LABEL_DECLARATION = "@label";
 
+	/**
+	 * Keyword constant.
+	 */
 	String INTENT_FCT_REFERENCE = "@see";
 
 	// ----------------------------------------------------
 	// Elements relative to Modeling Units
 	// ----------------------------------------------------
+	/**
+	 * Keyword constant.
+	 */
 	String MODELING_UNIT_BEGIN = ModelingUnitParser.MODELING_UNIT_PREFIX;
 
+	/**
+	 * Keyword constant.
+	 */
 	String MODELING_UNIT_END = ModelingUnitParser.MODELING_UNIT_SUFFIX;
 
+	/**
+	 * Keyword constant.
+	 */
 	String MODELING_UNIT_AFFECTATION_MULTI_VAL = "+=";
 
+	/**
+	 * Keyword constant.
+	 */
 	String MODELING_UNIT_AFFECTATION_SINGLE_VAL = "=";
 }

@@ -10,8 +10,19 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.markup.gen.files;
 
+/**
+ * Validator for {@link LatexGenDocument}s.
+ * 
+ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ */
 public class LatexGenDocumentValidator {
 
+	/**
+	 * Default constructor.
+	 * 
+	 * @param doc
+	 *            the {@link LatexGenDocument} to validate
+	 */
 	public LatexGenDocumentValidator(LatexGenDocument doc) {
 	}
 

@@ -46,6 +46,9 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.TypeReference;
  */
 public final class StructuralFeatureGenerator {
 
+	/**
+	 * Constant for error message.
+	 */
 	private static final String COMPILATION_EXCEPTION_MESSAGE_FEATURE = "The feature ";
 
 	/**

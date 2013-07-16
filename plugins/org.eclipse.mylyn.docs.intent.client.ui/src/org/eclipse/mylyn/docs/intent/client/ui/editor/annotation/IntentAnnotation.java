@@ -28,6 +28,11 @@ public class IntentAnnotation extends Annotation implements IQuickFixableAnnotat
 	 */
 	private IntentAnnotationMessageType messageType;
 
+	/**
+	 * Indicates if the annotation is in quickfixable state.
+	 * 
+	 * @see org.eclipse.jface.text.quickassist.IQuickFixableAnnotation#isQuickFixableStateSet()
+	 */
 	private boolean quickFixableState;
 
 	/**

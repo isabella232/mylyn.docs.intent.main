@@ -35,7 +35,7 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
  */
 public class JavaTest extends AbstractDemoTest {
 
-	private static final String SYNC_WARNING_MSG = "The AcceptanceTest is defined in the <b>Working Copy</b> model<br/>but not in the <b>Current Document</b> model.";
+	private static final String SYNC_WARNING_MSG = "The AcceptanceTest is defined in the Working Copy model<br/>but not in the Documentation model.";
 
 	private static final int[] EDITOR_SECTION_3_7 = new int[] {3, 7,
 	};

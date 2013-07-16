@@ -29,6 +29,9 @@ import org.eclipse.mylyn.docs.intent.markup.serializer.TextSerializer;
  */
 public final class DescriptionUnitHelper {
 
+	/**
+	 * Constant indicating mak length of returned Strings.
+	 */
 	private static final int MARKUP_ELEMENT_MAXLENGTH = 50;
 
 	/**

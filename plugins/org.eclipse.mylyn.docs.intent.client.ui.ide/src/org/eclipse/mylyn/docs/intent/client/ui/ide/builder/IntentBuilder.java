@@ -44,6 +44,9 @@ public class IntentBuilder extends IncrementalProjectBuilder {
 		}
 	}
 
+	/**
+	 * ID of the builder.
+	 */
 	public static final String BUILDER_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.intentBuilder";
 
 	/**

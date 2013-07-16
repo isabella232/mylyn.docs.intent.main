@@ -32,6 +32,10 @@ public class LinkResolver {
 	 */
 	private RepositoryAdapter repositoryAdapter;
 
+	/**
+	 * A {@link IntentDocumentQuery} used to get information about an
+	 * {@link org.eclipse.mylyn.docs.intent.core.document.IntentDocument}.
+	 */
 	private IntentDocumentQuery documentQuery;
 
 	/**

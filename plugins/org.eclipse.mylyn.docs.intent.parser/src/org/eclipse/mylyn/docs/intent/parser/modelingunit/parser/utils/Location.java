@@ -16,8 +16,15 @@ package org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class Location implements Comparable<Location> {
+
+	/**
+	 * The start offset.
+	 */
 	private Integer startOffset;
 
+	/**
+	 * The end offset.
+	 */
 	private Integer endOffset;
 
 	/**

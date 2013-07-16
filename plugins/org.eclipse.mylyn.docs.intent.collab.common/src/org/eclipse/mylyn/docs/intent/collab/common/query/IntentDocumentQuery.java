@@ -39,6 +39,9 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Text;
  */
 public class IntentDocumentQuery extends AbstractIntentQuery {
 
+	/**
+	 * The {@link IntentDocument} used by this query.
+	 */
 	private IntentDocument intentDocument;
 
 	/**

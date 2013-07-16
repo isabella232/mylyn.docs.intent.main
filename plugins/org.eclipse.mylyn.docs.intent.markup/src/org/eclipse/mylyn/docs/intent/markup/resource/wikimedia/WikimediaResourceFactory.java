@@ -11,7 +11,7 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
-package org.eclipse.mylyn.docs.intent.markup.resource;
+package org.eclipse.mylyn.docs.intent.markup.resource.wikimedia;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;

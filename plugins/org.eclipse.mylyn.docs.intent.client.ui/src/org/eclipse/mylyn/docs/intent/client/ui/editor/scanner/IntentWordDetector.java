@@ -19,13 +19,22 @@ import org.eclipse.jface.text.rules.IWordDetector;
  */
 public class IntentWordDetector implements IWordDetector {
 
-	private static char[] standardCharacters = new char[] {'@', ';', '.',
+	/**
+	 * Characters having special meaning in all contexts.
+	 */
+	private static final char[] STANDARD_CHARACTERS = new char[] {'@', ';', '.',
 	};
 
-	private static char[] modelingUnitCharacters = new char[] {';', '+', '=',
+	/**
+	 * Characters having special meaning in the context of a modeling unit.
+	 */
+	private static final char[] MODELING_UNIT_CHARACTERS = new char[] {';', '+', '=',
 	};
 
-	private static char[] descriptionUnitCharacters = new char[] {
+	/**
+	 * Characters having special meaning in the context of a description unit.
+	 */
+	private static final char[] DESCRIPTION_UNIT_CHARACTERS = new char[] {
 			// '_', '*',
 			'(', ')', ',', ':', '?', '!', '-',
 	};
@@ -84,8 +93,8 @@ public class IntentWordDetector implements IWordDetector {
 		boolean isModelingUnitCharater = false;
 		if (isModelingUnit) {
 			int count = 0;
-			while (!isModelingUnitCharater && count < modelingUnitCharacters.length) {
-				isModelingUnitCharater = c == modelingUnitCharacters[count];
+			while (!isModelingUnitCharater && count < MODELING_UNIT_CHARACTERS.length) {
+				isModelingUnitCharater = c == MODELING_UNIT_CHARACTERS[count];
 				count++;
 			}
 		}
@@ -102,8 +111,8 @@ public class IntentWordDetector implements IWordDetector {
 	private boolean isStandardCharacter(char c) {
 		boolean isStandardCharacter = false;
 		int count = 0;
-		while (!isStandardCharacter && count < standardCharacters.length) {
-			isStandardCharacter = c == standardCharacters[count];
+		while (!isStandardCharacter && count < STANDARD_CHARACTERS.length) {
+			isStandardCharacter = c == STANDARD_CHARACTERS[count];
 			count++;
 		}
 		return isStandardCharacter;
@@ -119,8 +128,8 @@ public class IntentWordDetector implements IWordDetector {
 	private boolean isStyleCharacter(char c) {
 		boolean isStyleCharacter = false;
 		int count = 0;
-		while (!isStyleCharacter && count < descriptionUnitCharacters.length) {
-			isStyleCharacter = c == descriptionUnitCharacters[count];
+		while (!isStyleCharacter && count < DESCRIPTION_UNIT_CHARACTERS.length) {
+			isStyleCharacter = c == DESCRIPTION_UNIT_CHARACTERS[count];
 			count++;
 		}
 		return isStyleCharacter;

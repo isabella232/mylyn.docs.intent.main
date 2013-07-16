@@ -35,17 +35,30 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor {
 
 	// Accurate contexts.
-
+	/**
+	 * Constant representing default context.
+	 */
 	private static final int NULL_CONTEXT = -1;
 
+	/**
+	 * Constant representing document context.
+	 */
 	private static final int DOCUMENT_CONTEXT = 0;
 
+	/**
+	 * Constant representing chapter context.
+	 */
 	private static final int CHAPTER_CONTEXT = 1;
 
+	/**
+	 * Constant representing section context.
+	 */
 	private static final int SECTION_CONTEXT = 2;
 
 	// Patterns by contexts.
-
+	/**
+	 * All patterns allowing to detect the current context.
+	 */
 	private static final Pattern[] PATTERNS_BY_CONTEXT = new Pattern[] {
 			Pattern.compile("Document\\s+[^{\r\n]*\\{"), Pattern.compile("Chapter\\s+[^{\r\n]*\\{"),
 			Pattern.compile("Section\\s+[^{\r\n]*\\{"),
@@ -67,13 +80,24 @@ public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor
 	};
 
 	// CHECKSTYLE:ON
-
+	/**
+	 * Current context ID.
+	 */
 	private int accurateContext;
 
+	/**
+	 * Block matcher used to determine contexts.
+	 */
 	private IntentPairMatcher blockMatcher;
 
+	/**
+	 * Completion processor for pure documentation zones.
+	 */
 	private MarkupCompletionProcessor markupCompletionProcessor;
 
+	/**
+	 * Completion processor for description units.
+	 */
 	private DescriptionUnitCompletionProcessor descriptionUnitCompletionProcessor;
 
 	/**
@@ -82,6 +106,7 @@ public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor
 	 * @param matcher
 	 *            the block matcher
 	 * @param repositoryAdapter
+	 *            the {@link RepositoryAdapter} used to interact with Intent repository
 	 */
 	public IntentCompletionProcessor(IntentPairMatcher matcher, RepositoryAdapter repositoryAdapter) {
 		super(repositoryAdapter);

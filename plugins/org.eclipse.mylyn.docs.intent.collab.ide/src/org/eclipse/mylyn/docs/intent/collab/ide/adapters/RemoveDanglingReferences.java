@@ -108,6 +108,9 @@ public class RemoveDanglingReferences extends RecordingCommand {
 	 */
 	private static class DanglingReferencesDetector extends EcoreUtil.CrossReferencer {
 
+		/**
+		 * Generated serial version UID.
+		 */
 		private static final long serialVersionUID = 616050158241084372L;
 
 		/**

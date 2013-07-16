@@ -72,6 +72,10 @@ public class WorkspaceRepository implements Repository {
 	 */
 	private RepositoryStructurer repositoryStructurer;
 
+	/**
+	 * Used to determine if a resource can be unloaded: if the root has one of this unloadableTypes, then it
+	 * will be unloaded.
+	 */
 	private EClass[] unloadableTypes;
 
 	/**

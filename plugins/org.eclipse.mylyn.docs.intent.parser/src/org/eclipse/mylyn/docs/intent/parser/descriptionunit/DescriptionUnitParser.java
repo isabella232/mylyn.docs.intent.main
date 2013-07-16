@@ -57,6 +57,9 @@ public class DescriptionUnitParser {
 	 */
 	private ModelDocumentBuilder builder;
 
+	/**
+	 * Current offset.
+	 */
 	private int offSet;
 
 	/**

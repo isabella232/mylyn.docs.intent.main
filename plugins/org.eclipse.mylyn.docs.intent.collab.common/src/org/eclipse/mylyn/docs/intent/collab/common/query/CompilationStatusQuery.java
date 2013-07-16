@@ -26,6 +26,9 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilerFactory;
  */
 public class CompilationStatusQuery extends AbstractIntentQuery {
 
+	/**
+	 * The {@link CompilationStatusManager} used by this query.
+	 */
 	private CompilationStatusManager statusManager;
 
 	/**

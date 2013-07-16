@@ -24,6 +24,9 @@ import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
  */
 public class IntentASTMerger {
 
+	/**
+	 * Constant to by-pass EMFCompare and replace the whole content without comparing.
+	 */
 	private static final boolean OVERRIDE = false;
 
 	/**

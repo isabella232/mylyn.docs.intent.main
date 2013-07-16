@@ -54,6 +54,9 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.parser.utils.ModelingUn
  */
 public class ModelingUnitParserImpl implements ModelingUnitParser {
 
+	/**
+	 * Constant for quotes.
+	 */
 	private static final String QUOTE = "\"";
 
 	/**
@@ -482,7 +485,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	 * 
 	 * @param rootOffset
 	 *            the root offset, used to compute errors locations
-	 * @param string
+	 * @param initialString
 	 *            the string to analyze
 	 * @return the map of occurrences found by start offset
 	 * @throws ParseException
@@ -522,14 +525,29 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 	 */
 	private class Affectation {
 
+		/**
+		 * Indicates if this affecation has multiple operator.
+		 */
 		boolean hasMultipleOperator;
 
+		/**
+		 * The Affectation location.
+		 */
 		Location location;
 
+		/**
+		 * The key length.
+		 */
 		int keyLength;
 
+		/**
+		 * The key.
+		 */
 		String key;
 
+		/**
+		 * List of values.
+		 */
 		List<String> values = new ArrayList<String>();
 
 	}

@@ -66,6 +66,9 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectat
  */
 public class CompilerInformationsSaver {
 
+	/**
+	 * A map associated each {@link ResourceDeclaration} with the corresponding {@link IntentGenericElement}s.
+	 */
 	private Map<ResourceDeclaration, Map<EObject, Collection<IntentGenericElement>>> resourceToTraceabilityElementIndexEntry;
 
 	/**
@@ -74,8 +77,14 @@ public class CompilerInformationsSaver {
 	 */
 	private IProgressMonitor progressMonitor;
 
+	/**
+	 * A {@link TraceabilityInformationsQuery} allowing to get traceability-related information.
+	 */
 	private TraceabilityInformationsQuery traceabilityInfoQuery;
 
+	/**
+	 * A {@link CompilationStatusQuery} allowing to get {@link CompilationStatus}-related information.
+	 */
 	private CompilationStatusQuery statusQuery;
 
 	/**

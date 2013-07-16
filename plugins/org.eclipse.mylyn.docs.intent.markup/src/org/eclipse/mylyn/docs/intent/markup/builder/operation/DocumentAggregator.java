@@ -20,20 +20,20 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Document;
 import org.eclipse.mylyn.docs.intent.markup.markup.MarkupFactory;
 import org.eclipse.mylyn.docs.intent.markup.markup.Section;
 
-
 /**
  * Merge several documents into a single one.
  * 
  * @author <a href="mailto:cedric.brun@obeo.fr">Cedric Brun</a>
- * 
  */
 public class DocumentAggregator {
 
+	/**
+	 * The current {@link Document}s.
+	 */
 	private List<Document> roots;
 
 	/**
-	 * Create a new aggregator which will use the given roots and aggregate them
-	 * in a single document.
+	 * Create a new aggregator which will use the given roots and aggregate them in a single document.
 	 * 
 	 * @param roots
 	 *            documents to aggregate in a single one.
@@ -50,10 +50,9 @@ public class DocumentAggregator {
 	public Document merge() {
 		Document result = MarkupFactory.eINSTANCE.createDocument();
 		for (Document root : roots) {
-			Iterator<Section> it = Iterators.filter(root.eAllContents(),
-					Section.class);
+			Iterator<Section> it = Iterators.filter(root.eAllContents(), Section.class);
 			while (it.hasNext()) {
-				Section sec = it.next();				
+				Section sec = it.next();
 				sec.setLevel(sec.getLevel() + 1);
 			}
 			result.getContent().addAll(root.getContent());

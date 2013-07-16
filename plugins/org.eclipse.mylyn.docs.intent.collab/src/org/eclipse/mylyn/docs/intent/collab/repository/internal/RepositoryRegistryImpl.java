@@ -26,12 +26,24 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryRegistry;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class RepositoryRegistryImpl implements RepositoryRegistry {
+	/**
+	 * Name of the element contributing the {@link RepositoryCreator} class.
+	 */
 	private static final String REPOSITORY_CREATOR_CLASS_TAG = "repositoryCreatorClass";
 
+	/**
+	 * Name of the element contributing the {@link RepositoryStructurer} class.
+	 */
 	private static final String REPOSITORY_STRUCTURER_CLASS_TAG = "repositoryStructurerClass";
 
+	/**
+	 * Extension point name.
+	 */
 	private static final String REPOSITORY_EXTENSION_POINT = "org.eclipse.mylyn.docs.intent.collab.repository.extension"; //$NON-NLS-1$
 
+	/**
+	 * A map holding each contribution (sorted by id).
+	 */
 	private Map<String, IConfigurationElement> repositoryExtensionsByName;
 
 	/**

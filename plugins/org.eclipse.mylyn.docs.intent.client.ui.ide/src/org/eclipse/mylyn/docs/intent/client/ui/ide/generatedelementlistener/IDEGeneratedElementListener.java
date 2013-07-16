@@ -31,6 +31,9 @@ import org.eclipse.mylyn.docs.intent.client.synchronizer.listeners.AbstractGener
  */
 public class IDEGeneratedElementListener extends AbstractGeneratedElementListener implements IResourceChangeListener {
 
+	/**
+	 * {@link URI}s of resources to ignore.
+	 */
 	private Collection<URI> resourcesToIgnore;
 
 	/**

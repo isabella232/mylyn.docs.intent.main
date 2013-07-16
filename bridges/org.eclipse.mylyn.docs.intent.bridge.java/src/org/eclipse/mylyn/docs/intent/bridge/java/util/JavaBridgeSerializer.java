@@ -26,8 +26,14 @@ import org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement;
  */
 public class JavaBridgeSerializer extends JavaSwitch<String> {
 
+	/**
+	 * Constant identifying new lines.
+	 */
 	private static final String NEW_LINE = "\n";
 
+	/**
+	 * Constant identifying spaces.
+	 */
 	private static final String SPACE = " ";
 
 	/**

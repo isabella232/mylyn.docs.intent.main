@@ -24,6 +24,9 @@ import org.osgi.framework.BundleContext;
  */
 public class SynchronizerPlugin extends Plugin {
 
+	/**
+	 * Registry listener to register when plugin starts.
+	 */
 	private ISynchronizerExtensionRegistryListener registryListener = new ISynchronizerExtensionRegistryListener();
 
 	/**

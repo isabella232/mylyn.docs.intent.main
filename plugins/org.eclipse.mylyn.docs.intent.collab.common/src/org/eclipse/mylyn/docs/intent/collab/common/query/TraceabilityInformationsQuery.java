@@ -50,6 +50,9 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectat
  */
 public class TraceabilityInformationsQuery extends AbstractIntentQuery {
 
+	/**
+	 * The {@link TraceabilityIndex} used by this query.
+	 */
 	private TraceabilityIndex traceabilityIndex;
 
 	/**

@@ -38,20 +38,44 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
  */
 public final class IntentCDOManager {
 
+	/**
+	 * Static map associating each repository ID with the associated {@link IntentCDOManager}.
+	 */
 	private static Map<String, IntentCDOManager> cdoManagers = Maps.newLinkedHashMap();
 
+	/**
+	 * The repository.
+	 */
 	private Repository repository;
 
+	/**
+	 * Compiler client.
+	 */
 	private CompilerRepositoryClient compilerClient;
 
+	/**
+	 * Synchronizer client.
+	 */
 	private SynchronizerRepositoryClient synchronizerClient;
 
+	/**
+	 * Indexer client.
+	 */
 	private IndexerRepositoryClient indexerClient;
 
+	/**
+	 * Link resolver client.
+	 */
 	private LinkResolverClient linkResolverClient;
 
+	/**
+	 * Repository location.
+	 */
 	private String repositoryLocation;
 
+	/**
+	 * Indicates wether this {@link IntentCDOManager} is connected to the repository or not.
+	 */
 	private boolean isConnected;
 
 	/**

@@ -68,9 +68,9 @@ public class ExternalContentReferencesTest extends AbstractIntentUITest {
 
 	private static final String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/scenario/externalcontentreferences/external_content.intent";
 
-	private static final String JAVA_SYNC_ISSUE_PART1 = "The attribute 'content' in Method protectedMethodWithParameters(ExampleJavaClass,Object) has changed.<br/><b>Current Document</b> : ";
+	private static final String JAVA_SYNC_ISSUE_PART1 = "The attribute 'content' in Method protectedMethodWithParameters(ExampleJavaClass,Object) has changed.<br/>Documentation : ";
 
-	private static final String JAVA_SYNC_ISSUE_PART2 = "<br/><b>Working Copy</b> : ";
+	private static final String JAVA_SYNC_ISSUE_PART2 = "<br/>Working Copy : ";
 
 	private IntentEditor editor;
 

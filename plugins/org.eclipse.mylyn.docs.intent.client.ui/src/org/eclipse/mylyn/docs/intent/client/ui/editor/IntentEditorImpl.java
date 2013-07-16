@@ -102,10 +102,19 @@ public class IntentEditorImpl extends TextEditor implements IntentEditor {
 	 */
 	private ISelectionChangedListener selectionChangedListener;
 
+	/**
+	 * The quick outline associated to this editor.
+	 */
 	private IntentQuickOutlineControl currentQuickOutline;
 
+	/**
+	 * The project support used by this editor.
+	 */
 	private ProjectionSupport projectionSupport;
 
+	/**
+	 * The annotation model associated to this editor.
+	 */
 	private ProjectionAnnotationModel annotationModel;
 
 	/**
@@ -113,6 +122,9 @@ public class IntentEditorImpl extends TextEditor implements IntentEditor {
 	 */
 	private IntentPairMatcher blockMatcher;
 
+	/**
+	 * The configuration of this editor's source viewer.
+	 */
 	private IntentEditorConfiguration sourceViewerConfiguration;
 
 	/**

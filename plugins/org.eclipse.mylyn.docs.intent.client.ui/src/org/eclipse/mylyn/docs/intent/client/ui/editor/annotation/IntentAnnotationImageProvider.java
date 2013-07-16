@@ -26,30 +26,37 @@ import org.eclipse.ui.texteditor.IAnnotationImageProvider;
  */
 public class IntentAnnotationImageProvider implements IAnnotationImageProvider {
 
-	private static String annotationImageFolderPath = "icon/annotation/";
+	/**
+	 * Constant indicating the folder of the managed images.
+	 */
+	private static final String ANNOTATION_IMAGE_FOLDER_PATH = "icon/annotation/";
 
+	/**
+	 * Constant for the default path.
+	 */
+	private static final String DEFAULT_IMAGE_PATH = ANNOTATION_IMAGE_FOLDER_PATH + "compiler-info.gif";
+
+	/**
+	 * A map associating each annotation message type with its corresponding image's path.
+	 */
 	private Map<IntentAnnotationMessageType, String> annotationTypeToImagePath;
-
-	private String defaultPath;
 
 	/**
 	 * IntentAnnotationImageProvider constructor.
 	 */
 	public IntentAnnotationImageProvider() {
 
-		defaultPath = annotationImageFolderPath + "compiler-info.gif";
-
 		annotationTypeToImagePath = new HashMap<IntentAnnotationMessageType, String>();
 
-		annotationTypeToImagePath.put(IntentAnnotationMessageType.COMPILER_ERROR, annotationImageFolderPath
-				+ "compiler-error.gif");
-		annotationTypeToImagePath.put(IntentAnnotationMessageType.COMPILER_WARNING, annotationImageFolderPath
-				+ "compiler-warning.gif");
-		annotationTypeToImagePath.put(IntentAnnotationMessageType.COMPILER_INFO, annotationImageFolderPath
+		annotationTypeToImagePath.put(IntentAnnotationMessageType.COMPILER_ERROR,
+				ANNOTATION_IMAGE_FOLDER_PATH + "compiler-error.gif");
+		annotationTypeToImagePath.put(IntentAnnotationMessageType.COMPILER_WARNING,
+				ANNOTATION_IMAGE_FOLDER_PATH + "compiler-warning.gif");
+		annotationTypeToImagePath.put(IntentAnnotationMessageType.COMPILER_INFO, ANNOTATION_IMAGE_FOLDER_PATH
 				+ "compiler-info.gif");
-		annotationTypeToImagePath.put(IntentAnnotationMessageType.PARSER_ERROR, annotationImageFolderPath
+		annotationTypeToImagePath.put(IntentAnnotationMessageType.PARSER_ERROR, ANNOTATION_IMAGE_FOLDER_PATH
 				+ "syntaxerror.gif");
-		annotationTypeToImagePath.put(IntentAnnotationMessageType.SYNC_WARNING, annotationImageFolderPath
+		annotationTypeToImagePath.put(IntentAnnotationMessageType.SYNC_WARNING, ANNOTATION_IMAGE_FOLDER_PATH
 				+ "sync-warning.gif");
 
 	}
@@ -60,7 +67,7 @@ public class IntentAnnotationImageProvider implements IAnnotationImageProvider {
 	 * @see org.eclipse.ui.texteditor.IAnnotationImageProvider#getManagedImage(org.eclipse.jface.text.source.Annotation)
 	 */
 	public Image getManagedImage(Annotation annotation) {
-		String imagePath = defaultPath;
+		String imagePath = DEFAULT_IMAGE_PATH;
 		if (annotation instanceof IntentAnnotation) {
 			imagePath = annotationTypeToImagePath.get(((IntentAnnotation)annotation).getMessageType());
 		}

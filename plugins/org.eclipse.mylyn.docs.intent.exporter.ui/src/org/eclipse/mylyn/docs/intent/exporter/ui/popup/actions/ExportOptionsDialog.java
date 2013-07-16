@@ -32,7 +32,27 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
+/**
+ * Dialog displaying export options.
+ * 
+ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+ */
 public class ExportOptionsDialog extends Dialog {
+
+	/**
+	 * The dialog width.
+	 */
+	private static final int SHELL_WIDTH = 800;
+
+	/**
+	 * The dialog height.
+	 */
+	private static final int SHELL_HEIGHT = 300;
+
+	/**
+	 * Maximum size for the main export file name.
+	 */
+	private static final int TEXT_LIMIT = 255;
 
 	/**
 	 * Returns the name to use during intent document export.
@@ -51,12 +71,19 @@ public class ExportOptionsDialog extends Dialog {
 	 */
 	private Text intentDocumentNameText;
 
+	/**
+	 * Text holding the export location.
+	 */
 	private Text exportLocationText;
 
-	private Button okButton;
-
+	/**
+	 * The {@link IntentStructuredElement} to export.
+	 */
 	private final IntentStructuredElement intentElement;
 
+	/**
+	 * Indicates whether export should show table of contents by default or not.
+	 */
 	private boolean shouldShowToc;
 
 	/**
@@ -134,7 +161,7 @@ public class ExportOptionsDialog extends Dialog {
 			anyElementData.grabExcessHorizontalSpace = true;
 
 			intentDocumentNameText = new Text(group2, SWT.BORDER);
-			intentDocumentNameText.setTextLimit(255);
+			intentDocumentNameText.setTextLimit(TEXT_LIMIT);
 			intentDocumentNameText.setLayoutData(anyElementData);
 			intentDocumentNameText.setText(exportedIntentDocumentName);
 			group2.setLayout(gridLayout);
@@ -191,7 +218,7 @@ public class ExportOptionsDialog extends Dialog {
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK button and rename the Cancel button with Ignore label
-		okButton = createButton(parent, IDialogConstants.OK_ID, "&" + IDialogConstants.OK_LABEL, true);
+		createButton(parent, IDialogConstants.OK_ID, "&" + IDialogConstants.OK_LABEL, true);
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, false);
 	}
 
@@ -201,17 +228,21 @@ public class ExportOptionsDialog extends Dialog {
 	@Override
 	protected void okPressed() {
 		if (intentDocumentNameText != null) {
-			exportedIntentDocumentName = intentDocumentNameText.getText() != null ? intentDocumentNameText
-					.getText() : "Intent Documentation";
+			if (intentDocumentNameText.getText() != null) {
+				exportedIntentDocumentName = intentDocumentNameText.getText();
+			} else {
+				exportedIntentDocumentName = "Intent Documentation";
+			}
 		}
-		targetFolderLocation = exportLocationText.getText() != null ? exportLocationText.getText()
-				: targetFolderLocation;
+		if (exportLocationText.getText() != null) {
+			targetFolderLocation = exportLocationText.getText();
+		}
 		super.okPressed();
 	}
 
 	@Override
 	protected void configureShell(Shell newShell) {
-		newShell.setMinimumSize(new Point(800, 300));
+		newShell.setMinimumSize(new Point(SHELL_WIDTH, SHELL_HEIGHT));
 		super.configureShell(newShell);
 		newShell.setText("Export Intent Documentation - as HTML");
 	}

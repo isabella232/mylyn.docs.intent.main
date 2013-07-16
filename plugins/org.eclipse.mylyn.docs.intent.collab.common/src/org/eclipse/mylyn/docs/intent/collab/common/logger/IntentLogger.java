@@ -21,7 +21,10 @@ import org.eclipse.mylyn.docs.intent.collab.common.internal.logger.IntentLoggerR
  */
 public final class IntentLogger implements IIntentLogger {
 
-	private static IntentLogger INSTANCE;
+	/**
+	 * Default instance.
+	 */
+	private static final IntentLogger INSTANCE = new IntentLogger();
 
 	/**
 	 * Private constructor.
@@ -36,9 +39,6 @@ public final class IntentLogger implements IIntentLogger {
 	 * @return the instance of the current logger
 	 */
 	public static IntentLogger getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new IntentLogger();
-		}
 		return INSTANCE;
 	}
 

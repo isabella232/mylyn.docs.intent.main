@@ -99,6 +99,12 @@ public final class IntentHelper {
 	/**
 	 * Returns all model elements instance of the given class contained in the given root.
 	 * 
+	 * @param root
+	 *            the root in which search should be performed
+	 * @param clazz
+	 *            the expected type of contained element
+	 * @param <T>
+	 *            the expected type of contained element
 	 * @return all model elements instance of the given class contained in the given root
 	 */
 	public static <T> Collection<T> getAllContainedElements(Class<T> clazz, IntentGenericElement root) {
@@ -136,8 +142,4 @@ public final class IntentHelper {
 		return containedElements;
 	}
 
-	public static Object getAllImageLinks(IntentGenericElement documentRoot) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

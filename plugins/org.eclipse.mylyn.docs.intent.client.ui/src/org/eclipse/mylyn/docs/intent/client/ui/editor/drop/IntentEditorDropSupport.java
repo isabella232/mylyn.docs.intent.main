@@ -49,8 +49,14 @@ import org.eclipse.swt.widgets.Display;
  */
 public class IntentEditorDropSupport extends DropTargetAdapter {
 
+	/**
+	 * The {@link IntentEditor} associated to this drop support.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The {@link IntentEditorDocument} associated to this drop support.
+	 */
 	private IntentEditorDocument document;
 
 	/**

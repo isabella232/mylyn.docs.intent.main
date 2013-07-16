@@ -49,6 +49,9 @@ public class IntentEditorInput extends URIEditorInput {
 	 */
 	private static final int MAX_TITLE_SIZE = 25;
 
+	/**
+	 * Constant specifying the name of the tag in memento holding the URI fragment of the opened element.
+	 */
 	private static final String URI_FRAGMENT_TAG = "uri_fragment";
 
 	/**
@@ -103,6 +106,8 @@ public class IntentEditorInput extends URIEditorInput {
 	/**
 	 * Returns the title of the editor according to the given element.
 	 * 
+	 * @param adapter
+	 *            the repository adapter to use
 	 * @param newElement
 	 *            the element to compute the title from
 	 * @return the new title of the editor

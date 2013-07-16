@@ -33,8 +33,15 @@ import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
  */
 public class OpenEditorAction extends Action {
 
+	/**
+	 * The viewer on which the action is provided.
+	 */
 	protected TreeViewer viewer;
 
+	/**
+	 * Indicates if this action should always open a new editor (if true), or set focus to already opened
+	 * editor containing the element to open (if false).
+	 */
 	private boolean forceNewEditor;
 
 	/**

@@ -38,8 +38,15 @@ import org.eclipse.ui.PlatformUI;
  */
 public class OpenWorkingCopyResourceHyperLink extends AbstractIntentHyperLink {
 
+	/**
+	 * {@link URI} of the working copy resource to open.
+	 */
 	private URI workingCopyResourceURI;
 
+	/**
+	 * The {@link ExternalContentReference} holding the {@link URI} of the working copy resource to open (can
+	 * be null).
+	 */
 	private ExternalContentReference externalContentReference;
 
 	/**

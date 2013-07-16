@@ -40,6 +40,9 @@ public final class IntentRepositoryManagerImpl implements IntentRepositoryManage
 	 */
 	private Map<String, Repository> repositoriesByProject = new HashMap<String, Repository>();
 
+	/**
+	 * Used to determine whether this {@link IntentRepositoryManager} is already running in another thread.
+	 */
 	private boolean lock;
 
 	/**

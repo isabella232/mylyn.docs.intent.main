@@ -47,6 +47,9 @@ public class IntentImageAnnotationPainter extends AnnotationPainter {
 	 */
 	private static final class IntentImageAnnotationAccess implements IAnnotationAccess {
 
+		/**
+		 * Default instance.
+		 */
 		private static final IntentImageAnnotationAccess INSTANCE = new IntentImageAnnotationAccess();
 
 		/**

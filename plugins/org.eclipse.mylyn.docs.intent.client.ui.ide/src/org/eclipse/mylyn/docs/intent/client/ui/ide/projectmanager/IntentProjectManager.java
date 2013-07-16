@@ -54,16 +54,34 @@ import org.eclipse.ui.PlatformUI;
  */
 public final class IntentProjectManager {
 
+	/**
+	 * The compiler repository client.
+	 */
 	private CompilerRepositoryClient compilerClient;
 
+	/**
+	 * The synchronized repository client.
+	 */
 	private SynchronizerRepositoryClient synchronizerClient;
 
+	/**
+	 * The indexer repository client.
+	 */
 	private IndexerRepositoryClient indexerClient;
 
+	/**
+	 * The project explorer refresher repository client.
+	 */
 	private ProjectExplorerRefresher refresher;
 
+	/**
+	 * The link resolver repository client.
+	 */
 	private LinkResolverClient linkResolverClient;
 
+	/**
+	 * The export repository client.
+	 */
 	private IntentExporterClient exporterClient;
 
 	/**
@@ -71,8 +89,14 @@ public final class IntentProjectManager {
 	 */
 	private IProject project;
 
+	/**
+	 * The {@link Repository} handled by this project manager.
+	 */
 	private Repository repository;
 
+	/**
+	 * Indicates wether this {@link IntentProjectManager} is connected to its associated repository.
+	 */
 	private boolean isConnected;
 
 	/**

@@ -16,10 +16,16 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Entity;
  * Service to decode HTML entities.
  * 
  * @author <a href="mailto:cedric.brun@obeo.fr">Cedric Brun</a>
- * 
  */
 public class DecodingService {
-	
+
+	/**
+	 * Decodes the given entity.
+	 * 
+	 * @param a
+	 *            the entity to decode
+	 * @return the value of the entity
+	 */
 	public String decode(Entity a) {
 		String codePoint = a.getData();
 		if (codePoint.startsWith("#")) {
@@ -27,7 +33,7 @@ public class DecodingService {
 		}
 		int point = Integer.valueOf(codePoint);
 		if (point < Character.MAX_VALUE) {
-			return Character.valueOf((char) point).toString();
+			return Character.valueOf((char)point).toString();
 		}
 		return "";
 	}

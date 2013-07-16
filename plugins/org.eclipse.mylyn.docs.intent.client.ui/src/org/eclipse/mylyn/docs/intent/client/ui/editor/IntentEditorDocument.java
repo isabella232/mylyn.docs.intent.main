@@ -38,8 +38,14 @@ import org.eclipse.swt.widgets.Display;
  */
 public class IntentEditorDocument extends AbstractDocument implements IDocument {
 
+	/**
+	 * Constant for Modeling Unit prefix.
+	 */
 	public static final String MODELING_PREFIX_DECORATION = "\n";
 
+	/**
+	 * Constant for Modeling Unit suffix.
+	 */
 	public static final String MODELING_SUFFIX_DECORATION = MODELING_PREFIX_DECORATION;
 
 	/**
@@ -204,6 +210,7 @@ public class IntentEditorDocument extends AbstractDocument implements IDocument 
 						}
 						if (delta.operation == Operation.INSERT) {
 							replace(beginning, 0, delta.text);
+							beginning += delta.text.length();
 						}
 					}
 				}

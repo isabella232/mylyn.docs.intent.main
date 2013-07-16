@@ -68,8 +68,14 @@ import org.eclipse.ui.part.ResourceTransfer;
  */
 public class JavaEditorRendererExtension implements IEditorRendererExtension {
 
+	/**
+	 * Constant used to determine the height of the image margin.
+	 */
 	private static final int JAVA_IMAGE_HEIGHT_MARGIN = 5;
 
+	/**
+	 * Constant usde to determine the image width.
+	 */
 	private static final int JAVA_IMAGE_WIDTH = 800;
 
 	/**

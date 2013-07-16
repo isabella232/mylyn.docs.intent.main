@@ -21,10 +21,10 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 
-	// The plug-in ID
+	/** The plug-in ID. */
 	public static final String PLUGIN_ID = "org.eclipse.mylyn.docs.intent.client.ui.cdo"; //$NON-NLS-1$
 
-	// The shared instance
+	/** Current instance. */
 	private static Activator plugin;
 
 	/**

@@ -29,6 +29,7 @@ public class DescriptionUnitCompletionProcessor extends AbstractIntentCompletion
 	 * Default constructor.
 	 * 
 	 * @param repositoryAdapter
+	 *            the {@link RepositoryAdapter} used to interact with Intent repository
 	 */
 	public DescriptionUnitCompletionProcessor(RepositoryAdapter repositoryAdapter) {
 		super(repositoryAdapter);

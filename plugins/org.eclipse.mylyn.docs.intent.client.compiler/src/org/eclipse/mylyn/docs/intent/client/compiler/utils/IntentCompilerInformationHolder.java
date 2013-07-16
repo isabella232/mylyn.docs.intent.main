@@ -64,6 +64,9 @@ public final class IntentCompilerInformationHolder {
 	 */
 	private List<String> currentImportedPackages;
 
+	/**
+	 * The {@link CompilationStatusManager} holding status information.
+	 */
 	private CompilationStatusManager statusManager;
 
 	/**

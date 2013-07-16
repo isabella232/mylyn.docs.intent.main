@@ -52,8 +52,14 @@ public class IntentEditorActivator extends AbstractUIPlugin {
 	 */
 	private Map<String, Image> imageMap = new HashMap<String, Image>();
 
+	/**
+	 * Registry listener to register when this plugin starts.
+	 */
 	private IEditorRendererExtensionRegistryListener editorRendererExtensionsListener = new IEditorRendererExtensionRegistryListener();
 
+	/**
+	 * Registry listener to register when this plugin starts.
+	 */
 	private IntentQuickFixProviderRegistryListener intentFixRegistryListener = new IntentQuickFixProviderRegistryListener();
 
 	/**

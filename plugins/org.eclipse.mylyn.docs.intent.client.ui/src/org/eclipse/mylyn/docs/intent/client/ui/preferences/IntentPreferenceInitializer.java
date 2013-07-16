@@ -25,22 +25,49 @@ import org.eclipse.swt.graphics.RGB;
  */
 public class IntentPreferenceInitializer extends AbstractPreferenceInitializer {
 	// TODO extract to a color manager
+	/**
+	 * Default value for brackets color.
+	 */
 	private static final RGB MATCHING_BRACKET_COLOR = new RGB(192, 192, 192);
 
+	/**
+	 * Default value for Modeling Units keywordxs color.
+	 */
 	private static final RGB MU_KEYWORD_COLOR = new RGB(139, 10, 80);
 
+	/**
+	 * Default value for Modeling Unit default color.
+	 */
 	private static final RGB MU_DEFAULT_COLOR = new RGB(0, 0, 0);
 
+	/**
+	 * Default value for Strings color.
+	 */
 	private static final RGB STRING_COLOR = new RGB(0, 0, 180);
 
+	/**
+	 * Default value for Description Units keywords color.
+	 */
 	private static final RGB DU_KEYWORD_COLOR = new RGB(139, 10, 80);
 
+	/**
+	 * Default value for Description Units default color.
+	 */
 	private static final RGB DU_DEFAULT_COLOR = new RGB(0, 0, 0);
 
+	/**
+	 * Default value for Titles color.
+	 */
 	private static final RGB DU_TITLE_COLOR = new RGB(0, 0, 0);
 
+	/**
+	 * Default value for Lists color.
+	 */
 	private static final RGB DU_LIST_COLOR = new RGB(84, 84, 84);
 
+	/**
+	 * Default value for code color.
+	 */
 	private static final RGB CODE_COLOR = STRING_COLOR;
 
 	/**

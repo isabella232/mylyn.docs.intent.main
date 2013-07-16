@@ -40,7 +40,7 @@ import org.eclipse.mylyn.docs.intent.markup.resource.WikitextResourceFactory;
  * 
  * @author Fabian Steeg (fsteeg)
  */
-class GenerateActions {
+public final class GenerateActions {
 
 	/**
 	 * Static helper class, not to be instantiated.
@@ -49,6 +49,8 @@ class GenerateActions {
 	}
 
 	/**
+	 * Launches the given generator on the given selection.
+	 * 
 	 * @param selection
 	 *            The selection to check for a contained file
 	 * @param generator
@@ -56,12 +58,22 @@ class GenerateActions {
 	 */
 	static void run(ISelection selection, Class<? extends AbstractAcceleoGenerator> generator) {
 		Object file;
-		if (selection instanceof StructuredSelection
-				&& (file = ((StructuredSelection)selection).getFirstElement()) instanceof IFile) {
-			generateFileWithGenerator((IFile)file, generator);
+		if (selection instanceof StructuredSelection) {
+			file = ((StructuredSelection)selection).getFirstElement();
+			if (file instanceof IFile) {
+				generateFileWithGenerator((IFile)file, generator);
+			}
 		}
 	}
 
+	/**
+	 * Parses the give file, and exports the resulting model through the given generator class.
+	 * 
+	 * @param iFile
+	 *            the wikitext file to parse
+	 * @param generatorClass
+	 *            the generator to use
+	 */
 	private static void generateFileWithGenerator(IFile iFile,
 			Class<? extends AbstractAcceleoGenerator> generatorClass) {
 		try {
@@ -83,6 +95,17 @@ class GenerateActions {
 		}
 	}
 
+	/**
+	 * Instanciates a generator from the given class and with the given arguments.
+	 * 
+	 * @param generatorClass
+	 *            the generator class ot instanciate
+	 * @param file
+	 *            the wikitext file (file will be generated in the samed folder)
+	 * @param model
+	 *            the model on which the generator will be launched
+	 * @return a generator created from the given class and with the given arguments
+	 */
 	private static AbstractAcceleoGenerator createGenerator(
 			Class<? extends AbstractAcceleoGenerator> generatorClass, File file, EObject model) {
 		try {
@@ -107,6 +130,13 @@ class GenerateActions {
 		return null;
 	}
 
+	/**
+	 * Returns the file located at the given URL.
+	 * 
+	 * @param url
+	 *            the url of the file to get
+	 * @return the file located at the given URL
+	 */
 	private static File resolve(final URL url) {
 		File resultFile = null;
 		URL resolved = url;
@@ -115,7 +145,7 @@ class GenerateActions {
 			 * If we don't check the protocol here, the FileLocator throws a NullPointerException if the URL
 			 * is a normal file URL.
 			 */
-			if (!url.getProtocol().equals("file")) { //$NON-NLS-1$
+			if (!"file".equals(url.getProtocol())) { //$NON-NLS-1$
 				resolved = FileLocator.resolve(resolved);
 			}
 			resultFile = new File(resolved.toURI());

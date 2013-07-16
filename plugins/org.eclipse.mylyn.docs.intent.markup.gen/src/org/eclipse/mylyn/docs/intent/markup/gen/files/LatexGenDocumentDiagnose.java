@@ -15,12 +15,20 @@ import org.eclipse.acceleo.engine.generation.strategy.IAcceleoGenerationStrategy
 /**
  * Entry point of the 'LatexGenDocument' generation module.
  * 
+ * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class LatexGenDocumentDiagnose extends LatexGenDocument {
 
+	/**
+	 * The {@link GenDiagnoseStrategy} to use.
+	 */
 	private GenDiagnoseStrategy genDiagnoseStrategy = new GenDiagnoseStrategy();
-	
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.markup.gen.files.LatexGenDocument#getGenerationStrategy()
+	 */
 	public IAcceleoGenerationStrategy getGenerationStrategy() {
 		return genDiagnoseStrategy;
 	}

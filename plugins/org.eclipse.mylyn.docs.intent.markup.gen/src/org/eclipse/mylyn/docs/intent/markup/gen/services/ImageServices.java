@@ -26,11 +26,32 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Image;
  */
 public final class ImageServices {
 
+	/**
+	 * Size of the buffer used to read images.
+	 */
+	private static final int BUFFER_SIZE = 1024;
+
+	/**
+	 * The destination folder path.
+	 */
 	private static String desinationFolderPath;
 
+	/**
+	 * The image folder path.
+	 */
 	private static String imageFolderPath;
 
+	/**
+	 * The relative url base for images.
+	 */
 	private static String relativeURLBasePath;
+
+	/**
+	 * Private constructor.
+	 */
+	private ImageServices() {
+
+	}
 
 	/**
 	 * Sets the destination folder absolute path.
@@ -67,10 +88,7 @@ public final class ImageServices {
 	 * 
 	 * @param image
 	 *            the image declaration (URL can be relative, absolute or http://)
-	 * @param destinationFolder
-	 *            the export destination folder
-	 * @param imageFolderRelativePath
-	 *            the relative path of the folder which will contains the copied images (e.g. 'images')
+	 * @return the location of the copied image
 	 */
 	public static String copyImage(final Image image) {
 		if (imageFolderPath != null && desinationFolderPath != null) {
@@ -130,7 +148,7 @@ public final class ImageServices {
 
 		FileOutputStream outputStream = new FileOutputStream(destFile);
 		try {
-			byte[] buf = new byte[1024];
+			byte[] buf = new byte[BUFFER_SIZE];
 
 			int len;
 

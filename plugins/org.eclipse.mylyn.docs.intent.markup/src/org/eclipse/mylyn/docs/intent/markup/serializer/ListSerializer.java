@@ -24,10 +24,19 @@ import org.eclipse.mylyn.docs.intent.markup.markup.SimpleContainer;
  */
 public final class ListSerializer {
 
+	/**
+	 * Constant indicating the beginning of a bulleted list.
+	 */
 	public static final String BULLETED_SYMBOL = "*";
 
+	/**
+	 * Constant indicating the beginning of a numeric list.
+	 */
 	public static final String NUMERIC_SYMBOL = "#";
 
+	/**
+	 * Constant indicating the beginning of a Table of contents.
+	 */
 	public static final String TABLE_OF_CONTENT_SYMBOL = "{toc}";
 
 	/**

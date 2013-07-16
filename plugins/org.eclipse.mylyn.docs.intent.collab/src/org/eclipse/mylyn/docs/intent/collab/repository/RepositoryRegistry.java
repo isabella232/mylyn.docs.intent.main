@@ -21,6 +21,9 @@ import org.eclipse.mylyn.docs.intent.collab.repository.internal.RepositoryRegist
  */
 public interface RepositoryRegistry {
 
+	/**
+	 * Default instance.
+	 */
 	RepositoryRegistry INSTANCE = new RepositoryRegistryImpl();
 
 	/**

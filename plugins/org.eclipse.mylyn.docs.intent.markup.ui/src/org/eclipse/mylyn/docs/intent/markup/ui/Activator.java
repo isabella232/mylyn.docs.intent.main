@@ -19,8 +19,14 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
 
+	/**
+	 * The plguin id.
+	 */
 	public static final String PLUGIN_ID = "org.eclipse.mylyn.docs.intent.markup.ui"; //$NON-NLS-1$
 
+	/**
+	 * The running plugin.
+	 */
 	private static Activator plugin;
 
 	/**
@@ -29,8 +35,9 @@ public class Activator extends AbstractUIPlugin {
 	public Activator() {
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext context) throws Exception {
@@ -38,8 +45,9 @@ public class Activator extends AbstractUIPlugin {
 		plugin = this;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
@@ -48,6 +56,8 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	/**
+	 * Returns the shared instance.
+	 * 
 	 * @return Returns the shared instance
 	 */
 	public static Activator getDefault() {
@@ -55,7 +65,7 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Returns an image descriptor for the image file at the given plug-in relative path
+	 * Returns an image descriptor for the image file at the given plug-in relative path.
 	 * 
 	 * @param path
 	 *            the path

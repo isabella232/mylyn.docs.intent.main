@@ -40,8 +40,14 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  */
 public class IntentCountingDiffEngine extends CountingDiffEngine {
 
+	/**
+	 * Weight of location differences.
+	 */
 	private static final double LOCALIZATION_DISTANCE_WEIGHT = 0.15;
 
+	/**
+	 * Weight of identifier differences.
+	 */
 	private static final double IDENTIFIER_DISTANCE_WEIGHT = 0.85;
 
 	/**

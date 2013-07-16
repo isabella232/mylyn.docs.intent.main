@@ -28,20 +28,44 @@ import org.eclipse.mylyn.docs.intent.serializer.descriptionunit.DescriptionUnitS
  */
 public class IntentElementSerializer {
 
+	/**
+	 * Switch used to serialize general Intent elements.
+	 */
 	private IntentDocumentSerializerSwitch serializerSwitch;
 
+	/**
+	 * Serializer used to serialize {@link ModelingUnit} elements.
+	 */
 	private ModelingUnitSerializer modelingUnitSerializer;
 
+	/**
+	 * Serializer used to serialize {@link DescriptionUnit} elements.
+	 */
 	private DescriptionUnitSerializer descriptionUnitSerializer;
 
+	/**
+	 * The current offset.
+	 */
 	private int currentOffset;
 
+	/**
+	 * The current indentation level.
+	 */
 	private int currentIndentationLevel;
 
+	/**
+	 * The {@link IntentPositionManager} used to hold position information.
+	 */
 	private IntentPositionManager positionManager;
 
+	/**
+	 * String to prefix modeling unit with.
+	 */
 	private String modelingUnitPrefixDecoration;
 
+	/**
+	 * String to suffix modeling unit with.
+	 */
 	private String modelingUnitSuffixDecoration;
 
 	/**

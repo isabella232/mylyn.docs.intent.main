@@ -146,7 +146,7 @@ public final class EMFCompareUtils {
 	/**
 	 * Returns a {@link Registry} always returning the given {@link IMatchEngine}.
 	 * 
-	 * @param matchEngine
+	 * @param matchEngineToUse
 	 *            the {@link IMatchEngine} to return
 	 * @return a {@link Registry} always returning the given {@link IMatchEngine}
 	 */

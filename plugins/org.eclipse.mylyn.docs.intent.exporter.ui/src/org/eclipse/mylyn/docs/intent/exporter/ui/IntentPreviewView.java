@@ -40,25 +40,46 @@ import org.eclipse.ui.part.ViewPart;
  */
 public class IntentPreviewView extends ViewPart {
 
+	/**
+	 * View ID.
+	 */
 	public static final String ID = "org.eclipse.mylyn.docs.intent.exporter.ui.preview";
 
+	/**
+	 * Message to display if preferences do not allow real-time html preview.
+	 */
 	private static final String PREF_NOT_ACTIVATED_MESSAGE = "<h3> Intent HTML Preview is not activated.</h3><p> You can activate it through Intent Preferences (Window > Preferences > Mylyn > Intent > Appearance > Show HTML Preview Page).</p>";
 
-	private static IntentPreviewView INSTANCE;
+	/**
+	 * The running instance.
+	 */
+	private static IntentPreviewView instance;
 
+	/**
+	 * The browser used to display preview.
+	 */
 	private Browser browser;
 
+	/**
+	 * The intent serializer to use to get element titles (and hence export file names).
+	 */
 	private IntentSerializer intentSerializer;
 
+	/**
+	 * A listener used to detect when the view should be refreshed.
+	 */
 	private IntentPreviewViewPartListener previewViewListener;
 
+	/**
+	 * The last refreshed editor.
+	 */
 	private IEditorPart lastRefreshedEditor;
 
 	/**
 	 * Default constructor.
 	 */
 	public IntentPreviewView() {
-		INSTANCE = this;
+		instance = this;
 	}
 
 	/**
@@ -107,21 +128,29 @@ public class IntentPreviewView extends ViewPart {
 	 * Refreshes the preview view according to the currently active editor.
 	 */
 	public static void refreshPreviewView() {
-		if (INSTANCE != null) {
+		if (instance != null) {
 			if (Display.getCurrent() == null) {
 				Display.getDefault().asyncExec(new Runnable() {
 
 					public void run() {
-						INSTANCE.refreshPreviewView(INSTANCE.lastRefreshedEditor, true);
+						instance.refreshPreviewView(instance.lastRefreshedEditor, true);
 					}
 
 				});
 			} else {
-				INSTANCE.refreshPreviewView(INSTANCE.lastRefreshedEditor, true);
+				instance.refreshPreviewView(instance.lastRefreshedEditor, true);
 			}
 		}
 	}
 
+	/**
+	 * Refreshes the preview to reflect the given editor latest change.
+	 * 
+	 * @param activeEditor
+	 *            the editor that we want to preview
+	 * @param setURL
+	 *            indicates whether a new file should be displayed
+	 */
 	private void refreshPreviewView(IWorkbenchPart activeEditor, boolean setURL) {
 		if (browser != null && !browser.isDisposed() && activeEditor instanceof IEditorPart
 				&& ((IEditorPart)activeEditor).getEditorInput() instanceof IntentEditorInput) {
@@ -139,6 +168,13 @@ public class IntentPreviewView extends ViewPart {
 		}
 	}
 
+	/**
+	 * Returns the URL of the export file associated to the given editor input's intent element.
+	 * 
+	 * @param editorInput
+	 *            the editor input
+	 * @return the URL of the export file associated to the given editor input's intent element
+	 */
 	private String getHTMLPreviewURL(IntentEditorInput editorInput) {
 		String htmlPreviewLocation = "file:///" + editorInput.getRepository().getRepositoryLocation()
 				+ "generated/html/";
@@ -170,10 +206,15 @@ public class IntentPreviewView extends ViewPart {
 	public void dispose() {
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.removePartListener(previewViewListener);
-		INSTANCE = null;
+		instance = null;
 		super.dispose();
 	}
 
+	/**
+	 * Returns the active editor part.
+	 * 
+	 * @return the active editor part
+	 */
 	private IEditorPart getActiveEditorPart() {
 		IWorkbenchWindow activeWorkbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		if (activeWorkbenchWindow != null) {

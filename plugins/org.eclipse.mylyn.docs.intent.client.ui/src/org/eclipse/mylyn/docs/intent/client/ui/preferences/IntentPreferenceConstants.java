@@ -48,20 +48,44 @@ public interface IntentPreferenceConstants {
 	 */
 	String MATCHING_BRACKETS_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.matching_brackets_color";
 
+	/**
+	 * Keyword color in Modeling Units.
+	 */
 	String MU_KEYWORD_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.mu_keyword_color";
 
+	/**
+	 * Default Color in MOdeling Units.
+	 */
 	String MU_DEFAULT_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.mu_default_color";
 
+	/**
+	 * Color of the Strings.
+	 */
 	String STRING_COLOR = "org.eclipse.mylyn.docs.intent.client.ui.preferences.string_color";
 
+	/**
+	 * Keyword color in Description Units.
+	 */
 	String DU_KEYWORD_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.du_keyword_color";
 
+	/**
+	 * Default color in Description Units.
+	 */
 	String DU_DEFAULT_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.du_default_color";
 
+	/**
+	 * Titles color.
+	 */
 	String DU_TITLE_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.du_title_color";
 
+	/**
+	 * Lists color.
+	 */
 	String DU_LIST_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.du_list_color";
 
+	/**
+	 * Code color.
+	 */
 	String CODE_FOREGROUND = "org.eclipse.mylyn.docs.intent.client.ui.preferences.code";
 
 	/*
@@ -84,7 +108,9 @@ public interface IntentPreferenceConstants {
 	/*
 	 * Export preferences.
 	 */
-
+	/**
+	 * Indicates wether Intent Export should display references to artifacts inline.
+	 */
 	String EXPORT_DISPLAY_REFERENCES_INLINE = "org.eclipse.mylyn.docs.intent.client.ui.preferences.export_display_references_inline";
 
 	/*
@@ -101,7 +127,7 @@ public interface IntentPreferenceConstants {
 	String ACTIVATE_ADVANCE_LOGGING = "org.eclipse.mylyn.docs.intent.client.ui.preferences.advanced_logging";
 
 	/**
-	 * Indicates whether the getting started cheat sheet should be opened when creating a new Intent project."
+	 * Indicates whether the getting started cheat sheet should be opened when creating a new Intent project.
 	 */
 	String SHOW_CHEAT_SHEET_ON_PROJECT_CREATION = "org.eclipse.mylyn.docs.intent.client.ui.preferences.show_cheat_sheet";
 }

@@ -331,7 +331,9 @@ public class IntentSynchronizer {
 					statusList = createSynchronizerSatusListFromComparison(indexEntry, differences,
 							progressMonitor);
 					resourcesToUnload.add(rightResource);
+					// CHECKSTYLE:OFF
 				} catch (Exception e) {
+					// CHECKSTYLE:ON
 					// Unloading the external resource if issue was encountered
 					try {
 						externalResource.unload();

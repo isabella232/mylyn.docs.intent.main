@@ -33,11 +33,11 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.AnnotationUtils;
  */
 public class EcoreTest extends AbstractDemoTest {
 
-	private static final String SYNC_WARNING_MESSAGE_RIGHT = "EAttribute literal in Right has changed.<br/><b>Current Document</b> : Right<br/><b>Working Copy</b> : New";
+	private static final String SYNC_WARNING_MESSAGE_RIGHT = "EAttribute literal in Right has changed.<br/>Documentation : Right<br/><b>Working Copy</b> : New";
 
-	private static final String SYNC_WARNING_MESSAGE_LEFT = "EAttribute literal in Left has changed.<br/><b>Current Document</b> : Left<br/><b>Working Copy</b> : Old";
+	private static final String SYNC_WARNING_MESSAGE_LEFT = "EAttribute literal in Left has changed.<br/>Documentation : Left<br/><b>Working Copy</b> : Old";
 
-	private static final String SYNC_WARNING_MESSAGE_ANCESTOR = "The EEnumLiteral Ancestor is defined in the <b>Current Document</b> model<br/>but not in the <b>Working Copy</b> model.";
+	private static final String SYNC_WARNING_MESSAGE_ANCESTOR = "The EEnumLiteral Ancestor is defined in the Documentation model<br/>but not in the <b>Working Copy</b> model.";
 
 	private static final String MATCH_MODEL_URI = "platform:/resource/org.eclipse.emf.compare.match/model/match.ecore";
 

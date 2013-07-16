@@ -40,10 +40,19 @@ import org.eclipse.mylyn.docs.intent.markup.markup.Text;
 @SuppressWarnings("nls")
 public final class IntentPrettyPrinter {
 
+	/**
+	 * Constant for quotes.
+	 */
 	private static final String QUOTE = "\"";
 
+	/**
+	 * Constant for whitespace.
+	 */
 	private static final String WHITESPACE = " ";
 
+	/**
+	 * Constant for separator.
+	 */
 	private static final String SEP = " |";
 
 	/** This is the max length of the columns we display for the Match. */
@@ -389,10 +398,24 @@ public final class IntentPrettyPrinter {
 		return String.valueOf(charsBefore) + String.valueOf(spacesAfter);
 	}
 
+	/**
+	 * Prints the given element in Sysout.
+	 * 
+	 * @param root
+	 *            the element to print
+	 */
 	public static void displayModel(EObject root) {
 		displayModel(root, "");
 	}
 
+	/**
+	 * Prints the given element in Sysout with the given tabulation level.
+	 * 
+	 * @param root
+	 *            the element to print
+	 * @param tab
+	 *            the tabulation to prefix each line with
+	 */
 	public static void displayModel(EObject root, String tab) {
 		String s = elementToReadableString(root);
 		if (s != null) {
@@ -407,12 +430,26 @@ public final class IntentPrettyPrinter {
 		}
 	}
 
+	/**
+	 * Prints the given {@link Comparison} in sysout.
+	 * 
+	 * @param comparison
+	 *            the comparaison to print
+	 */
 	public static void displayMatchModel(Comparison comparison) {
 		for (Match root : comparison.getMatches()) {
 			displayMatchModel(root, "");
 		}
 	}
 
+	/**
+	 * Prints the given {@link Comparison} in sysout with the given tabulation level.
+	 * 
+	 * @param root
+	 *            the comparaison to print
+	 * @param tab
+	 *            the tabulation to prefix each line with
+	 */
 	private static void displayMatchModel(Match root, String tab) {
 		String matchString = matchToReadableString(root);
 		if (matchString != null) {
@@ -427,6 +464,13 @@ public final class IntentPrettyPrinter {
 		}
 	}
 
+	/**
+	 * Returns a readable string from the given {@link Diff}.
+	 * 
+	 * @param diff
+	 *            the {@link Diff} to print
+	 * @return a readable string from the given {@link Diff}
+	 */
 	public static String diffToReadableString(Diff diff) {
 		String res = diff.getKind() + WHITESPACE;
 		if (diff instanceof AttributeChange) {
@@ -443,6 +487,13 @@ public final class IntentPrettyPrinter {
 		return res;
 	}
 
+	/**
+	 * Returns a readable string from the given {@link Match}.
+	 * 
+	 * @param match
+	 *            the {@link Match} to print
+	 * @return a readable string from the given {@link Match}
+	 */
 	private static String matchToReadableString(Match match) {
 		String res = null;
 		String left = elementToReadableString(match.getLeft());
@@ -453,6 +504,13 @@ public final class IntentPrettyPrinter {
 		return res;
 	}
 
+	/**
+	 * Returns a readable string from the given {@link EObject}.
+	 * 
+	 * @param element
+	 *            the {@link EObject} to print
+	 * @return a readable string from the given {@link EObject}
+	 */
 	public static String elementToReadableString(EObject element) {
 		String res = null;
 		if (element == null) {

@@ -35,7 +35,10 @@ public class IDEGeneratedElementListenerDeltaVisitor implements IResourceDeltaVi
 	 */
 	protected Collection<URI> removedResources;
 
-	protected Set<URI> listennedElementsURIs;
+	/**
+	 * {@link URI}s of the listened elements.
+	 */
+	protected Set<URI> listenedElementsURIs;
 
 	/**
 	 * IDEGeneratedElementListenerDeltaVisitor constructor.
@@ -44,7 +47,7 @@ public class IDEGeneratedElementListenerDeltaVisitor implements IResourceDeltaVi
 	 *            the list of listened element's URIs
 	 */
 	public IDEGeneratedElementListenerDeltaVisitor(Set<URI> listenedElementsURIs) {
-		this.listennedElementsURIs = listenedElementsURIs;
+		this.listenedElementsURIs = listenedElementsURIs;
 		changedResources = new ArrayList<URI>();
 		removedResources = new ArrayList<URI>();
 	}
@@ -66,7 +69,7 @@ public class IDEGeneratedElementListenerDeltaVisitor implements IResourceDeltaVi
 			String uri = delta.getFullPath().toString();
 			URI changedResourceURI = URI.createPlatformResourceURI(uri, false);
 
-			if ((changedResourceURI != null) && (listennedElementsURIs.contains(changedResourceURI))) {
+			if ((changedResourceURI != null) && (listenedElementsURIs.contains(changedResourceURI))) {
 				switch (delta.getKind()) {
 					case IResourceDelta.REMOVED:
 						removedResources.add(changedResourceURI);

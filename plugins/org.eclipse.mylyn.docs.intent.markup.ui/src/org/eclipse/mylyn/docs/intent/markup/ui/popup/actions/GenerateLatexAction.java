@@ -11,7 +11,6 @@ package org.eclipse.mylyn.docs.intent.markup.ui.popup.actions;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.mylyn.docs.intent.markup.gen.files.Latex;
-import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -21,7 +20,11 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author Fabian Steeg (fsteeg)
  */
 public class GenerateLatexAction implements IObjectActionDelegate {
-	private ISelection selection;
+
+	/**
+	 * The current selection.
+	 */
+	private ISelection currentSelection;
 
 	/**
 	 * Constructor for GenerateLatexAction.
@@ -31,22 +34,30 @@ public class GenerateLatexAction implements IObjectActionDelegate {
 	}
 
 	/**
-	 * @see IObjectActionDelegate#setActivePart(IAction, IWorkbenchPart)
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.action.IAction,
+	 *      org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void setActivePart(IAction action, IWorkbenchPart targetPart) {
 	}
 
 	/**
-	 * @see IActionDelegate#run(IAction)
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
 	public void run(IAction action) {
-		GenerateActions.run(selection, Latex.class);
+		GenerateActions.run(currentSelection, Latex.class);
 	}
 
 	/**
-	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-		this.selection = selection;
+		this.currentSelection = selection;
 	}
 }
