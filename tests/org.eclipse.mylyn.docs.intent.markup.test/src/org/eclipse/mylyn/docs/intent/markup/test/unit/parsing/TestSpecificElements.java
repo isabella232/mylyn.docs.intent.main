@@ -21,11 +21,11 @@ import org.junit.Test;
  */
 public class TestSpecificElements {
 
+	/**
+	 * Ensures that TOC are correctly detected (see textile file for further details).
+	 */
 	@Test
 	public void testTOCDetection() {
-		// Objectives :
-		// Ensure that TOC are correctly detected (see the textile File for details).
-
 		String[] result = TestParsingTextual.getTextSerializations("specificElements/tocDetection.textile");
 		String actual = result[1];
 
@@ -39,11 +39,11 @@ public class TestSpecificElements {
 
 	}
 
+	/**
+	 * Ensure that HTMLEntites are correctly managed.
+	 */
 	@Test
 	public void testHTMLEntities() {
-		// Objectives :
-		// Ensure that HTMLEntites are correctly managed.
-
 		String[] result = TestParsingTextual
 				.getTextSerializations("specificElements/testHTMLEntities.textile");
 		String actual = result[1];

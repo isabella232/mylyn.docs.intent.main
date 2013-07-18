@@ -20,7 +20,10 @@ import org.junit.Test;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class WarningsTest extends AbstractIntentCompilerTest {
-
+	/**
+	 * Checks that the compiler is able to validate the generated resources and raise warnings if validation
+	 * issue occurs.
+	 */
 	@Test
 	public void testMissingURI() {
 		compile("dataTests/warnings/missingURI.intent");
@@ -28,6 +31,10 @@ public class WarningsTest extends AbstractIntentCompilerTest {
 				"-The namespace URI 'null' is not well formed\n");
 	}
 
+	/**
+	 * Checks that the compiler is able to validate the generated resources and raise warnings if validation
+	 * issue occurs.
+	 */
 	@Test
 	public void testMissingPrefix() {
 		compile("dataTests/warnings/missingPrefix.intent");

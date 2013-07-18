@@ -31,10 +31,21 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
  */
 public final class XMISaver {
 
+	/**
+	 * Private constructor.
+	 */
 	private XMISaver() {
 		// prevents instantiation
 	}
 
+	/**
+	 * Saves a copy of the given wikiText resource in a file with the given name.
+	 * 
+	 * @param wikiTextResource
+	 *            the wikitext resource to save
+	 * @param nameFileToSave
+	 *            the name of the file in wich it should be saved
+	 */
 	public static void saveASXMI(Resource wikiTextResource, String nameFileToSave) {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap()
 				.put("xmi", new XMIResourceFactoryImpl());

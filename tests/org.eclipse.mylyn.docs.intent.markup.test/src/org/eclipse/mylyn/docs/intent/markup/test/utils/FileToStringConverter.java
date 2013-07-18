@@ -24,10 +24,20 @@ import java.io.IOException;
  */
 public final class FileToStringConverter {
 
+	/**
+	 * Private constructor.
+	 */
 	private FileToStringConverter() {
 		// prevents instantiation
 	}
 
+	/**
+	 * Returns the content of the given file as a string.
+	 * 
+	 * @param file
+	 *            the file
+	 * @return the content of the given file as a string
+	 */
 	public static String getFileAsString(File file) {
 		FileInputStream fis = null;
 		BufferedInputStream bis = null;
@@ -54,9 +64,16 @@ public final class FileToStringConverter {
 		return result;
 	}
 
-	public static String encodingRedresser(String stringToRedresse) {
+	/**
+	 * Fix encoding issues in the given string.
+	 * 
+	 * @param stringToRedress
+	 *            the string to redress
+	 * @return the redressed string
+	 */
+	public static String encodingRedresser(String stringToRedress) {
 		// CHECKSTYLE:OFF
-		return stringToRedresse.replace("Ã©", "é");
+		return stringToRedress.replace("Ã©", "é");
 		// CHECKSTYLE:ON
 	}
 }

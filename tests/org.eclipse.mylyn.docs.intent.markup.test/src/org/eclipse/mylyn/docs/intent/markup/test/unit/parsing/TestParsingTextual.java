@@ -29,7 +29,6 @@ import org.eclipse.mylyn.docs.intent.markup.test.utils.FileToStringConverter;
 import org.eclipse.mylyn.docs.intent.markup.test.utils.XMISaver;
 import org.junit.Test;
 
-
 /**
  * Test textual parsing.
  * 
@@ -37,12 +36,22 @@ import org.junit.Test;
  */
 public class TestParsingTextual {
 
+	/**
+	 * From the given textile file, returns a table containing:
+	 * <ul>
+	 * <li>the expected result (as a textile)</li>
+	 * <li>the actual result (from file)</li>
+	 * <li>the actual result (textile serialization obtained from parsed model).</li>
+	 * </ul>
+	 * 
+	 * @param fileToTest
+	 *            the textile file to test
+	 * @return a result table
+	 */
 	static String[] getTextSerializations(String fileToTest) {
 		String fileToGenerate = fileToTest;
 
 		// Step 1 : creation of an inputStream on the file to Test.
-		// InputStream input = getClass().getClassLoader().getResourceAsStream(
-		// TestParsingTextile.PARSING_TEST_DATA + fileToTest);
 		InputStream input = null;
 		try {
 			input = new FileInputStream(new File("dataTests/" + fileToTest));
@@ -50,7 +59,7 @@ public class TestParsingTextual {
 			e1.printStackTrace();
 		}
 
-		// Step 2 : creation of a Wikitext Resource linked from this inputStream.
+		// Step 2 : creation of a Wikitext Resource from this inputStream.
 		Resource resourceTextile = new WikitextResourceFactory().createResource(URI
 				.createFileURI("generatedDataTests/" + fileToGenerate));
 
@@ -81,6 +90,12 @@ public class TestParsingTextual {
 		return result;
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file to test allows to obtain the same file.
+	 * 
+	 * @param fileToTest
+	 *            the file to test
+	 */
 	static void compareTextSerialization(String fileToTest) {
 
 		String[] serialization = getTextSerializations(fileToTest);
@@ -100,6 +115,9 @@ public class TestParsingTextual {
 	 * code and TOC). compareTextSerialization("simpleDocument.textile"); }
 	 */
 
+	/**
+	 * Ensures that parsing and re-serializing the textile file leaves the file unchanged.
+	 */
 	@Test
 	public void testLists() {
 		// Objectives :
@@ -107,6 +125,9 @@ public class TestParsingTextual {
 		compareTextSerialization("lists.textile");
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the textile file leaves the file unchanged.
+	 */
 	@Test
 	public void testFormats() {
 		// Objectives :
@@ -115,6 +136,9 @@ public class TestParsingTextual {
 
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the textile file leaves the file unchanged.
+	 */
 	@Test
 	public void testEmbededImages() {
 		// Objectives :
@@ -122,6 +146,9 @@ public class TestParsingTextual {
 		compareTextSerialization("new_noteworthy.textile");
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the textile file leaves the file unchanged.
+	 */
 	@Test
 	public void testCharacterEscaped() {
 		// Objectives
@@ -129,6 +156,9 @@ public class TestParsingTextual {
 		compareTextSerialization("User_Guide.textile");
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the textile file leaves the file unchanged.
+	 */
 	@Test
 	public void testTable() {
 		// Objectives
@@ -138,6 +168,9 @@ public class TestParsingTextual {
 
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the textile file leaves the file unchanged.
+	 */
 	@Test
 	public void testLinks() {
 		// Objectives :
@@ -146,6 +179,9 @@ public class TestParsingTextual {
 		compareTextSerialization("testLink.textile");
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the textile file leaves the file unchanged.
+	 */
 	@Test
 	public void testFancyText() {
 		// Objectives :
@@ -153,6 +189,9 @@ public class TestParsingTextual {
 		compareTextSerialization("fancyText.textile");
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the textile file leaves the file unchanged.
+	 */
 	@Test
 	public void testCompleteExamples() {
 		// Objectives :
@@ -161,6 +200,9 @@ public class TestParsingTextual {
 		compareTextSerialization("Adapting_Comparison_Process.textile");
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the textile file leaves the file unchanged.
+	 */
 	@Test
 	public void performanceTest() {
 		// Objectives :

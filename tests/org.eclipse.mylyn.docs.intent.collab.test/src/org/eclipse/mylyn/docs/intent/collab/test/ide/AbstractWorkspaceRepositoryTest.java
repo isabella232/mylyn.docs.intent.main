@@ -57,7 +57,7 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 	/**
 	 * Indicates the name of the test Project (in which we will create the repository).
 	 */
-	private static String WORKSPACE_REPOSITORY_PROJECT_NAME = "Test/";
+	private static final String WORKSPACE_REPOSITORY_PROJECT_NAME = "Test/";
 
 	/**
 	 * A sample client for testing this repository.
@@ -79,6 +79,9 @@ public abstract class AbstractWorkspaceRepositoryTest extends AbstractRepository
 	 */
 	protected Set<AbstractTestClass> nonListenedTestElements;
 
+	/**
+	 * The {@link IProject} holding the workspace repository.
+	 */
 	private IProject repositoryProject;
 
 	/**

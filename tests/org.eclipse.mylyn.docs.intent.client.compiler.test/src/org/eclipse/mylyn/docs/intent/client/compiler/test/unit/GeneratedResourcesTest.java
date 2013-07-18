@@ -21,41 +21,65 @@ import org.junit.Test;
  */
 public class GeneratedResourcesTest extends AbstractIntentCompilerTest {
 
+	/**
+	 * Compiles the given intent document, and compares the result with expected.
+	 */
 	@Test
 	public void testSeveralResources() {
 		compile("dataTests/resources/severalResources.intent");
 	}
 
+	/**
+	 * Compiles the given intent document, and compares the result with expected.
+	 */
 	@Test
 	public void testResourceDeclaration() {
 		compile("dataTests/resources/resourceDeclaration.intent");
 	}
 
+	/**
+	 * Compiles the given intent document, and compares the result with expected.
+	 */
 	@Test
 	public void testDynamicInstance() {
 		compile("dataTests/resources/dynamicInstance.intent");
 	}
 
+	/**
+	 * Compiles the given intent document, and compares the result with expected.
+	 */
 	@Test
 	public void testDataType() {
 		compile("dataTests/resources/dataType.intent");
 	}
 
+	/**
+	 * Compiles the given intent document, and compares the result with expected.
+	 */
 	@Test
 	public void testQualifiedName() {
 		compile("dataTests/resources/qualifiedName.intent");
 	}
 
+	/**
+	 * Compiles the given intent document, and compares the result with expected.
+	 */
 	@Test
 	public void testQualifiedNameNewInstance() {
 		compile("dataTests/resources/qualifiedNameNewInstance.intent");
 	}
 
+	/**
+	 * Compiles the given intent document, and compares the result with expected.
+	 */
 	@Test
 	public void testEnumerations() {
 		compile("dataTests/resources/enumerations.intent");
 	}
 
+	/**
+	 * Compiles the given intent document, and compares the result with expected.
+	 */
 	@Test
 	@Ignore
 	public void testReference() {

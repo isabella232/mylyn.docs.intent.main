@@ -21,12 +21,18 @@ import org.junit.Test;
  */
 public class ErrorsTest extends AbstractIntentCompilerTest {
 
+	/**
+	 * Tests that compiler detects issues when content of a ResourceDeclaration cannot be resolved.
+	 */
 	@Test
 	public void testNoResourceCreated() {
 		compile("dataTests/errors/noResourceCreated.intent");
 		checkCompilationStatus(CompilationStatusSeverity.ERROR, "The reference p1 cannot be resolved. ");
 	}
 
+	/**
+	 * Tests that compiler detects issues when trying to instanciate an incorrect type.
+	 */
 	@Test
 	public void testIncorrectTypeInstanciation() {
 		compile("dataTests/errors/incorrectTypeInstanciation.intent");
@@ -34,6 +40,9 @@ public class ErrorsTest extends AbstractIntentCompilerTest {
 				"The feature eAnnotations cannot handle type EStringToStringMapEntryImpl. ");
 	}
 
+	/**
+	 * Tests that compiler detect issues when referencing an invalid type for a reference.
+	 */
 	@Test
 	public void testIncorrectTypeReference() {
 		compile("dataTests/errors/incorrectTypeReference.intent");

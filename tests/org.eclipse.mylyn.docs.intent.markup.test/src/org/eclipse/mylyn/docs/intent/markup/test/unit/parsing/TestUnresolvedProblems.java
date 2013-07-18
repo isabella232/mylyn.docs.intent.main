@@ -19,6 +19,9 @@ import org.junit.Test;
  */
 public class TestUnresolvedProblems {
 
+	/**
+	 * Unresolved problems: all tests here should fail or be moved to another test.
+	 */
 	@Test
 	public void unresolvedProblems() {
 		// Objectives :

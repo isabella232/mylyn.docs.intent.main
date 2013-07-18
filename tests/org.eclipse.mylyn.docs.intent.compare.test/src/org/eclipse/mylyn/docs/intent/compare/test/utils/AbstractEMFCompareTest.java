@@ -30,7 +30,7 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class AbstractEMFCompareTest extends TestCase {
+public abstract class AbstractEMFCompareTest extends TestCase {
 
 	/**
 	 * Compares the two elements.
@@ -55,6 +55,7 @@ public class AbstractEMFCompareTest extends TestCase {
 	 *            the document as string
 	 * @return the parser result
 	 * @throws ParseException
+	 *             if content cannot be properly parsed
 	 */
 	protected IntentStructuredElement parseIntentDocument(String content) throws ParseException {
 		return (IntentStructuredElement)new IntentParser().parse(content);
