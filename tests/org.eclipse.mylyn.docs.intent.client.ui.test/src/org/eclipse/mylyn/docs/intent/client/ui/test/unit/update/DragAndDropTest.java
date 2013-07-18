@@ -28,10 +28,19 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  */
 public class DragAndDropTest extends AbstractUpdateTest {
 
+	/**
+	 * Location of the test archive.
+	 */
 	private static final String INTENT_PROJECT_ARCHIVE = "data/unit/documents/dragdrop/dragdrop.zip";
 
+	/**
+	 * Location of the file containing the expected state of the document.
+	 */
 	private static final String FINAL_INTENT_DOC = "data/unit/documents/dragdrop/final.intent";
 
+	/**
+	 * The modeling unit in which content will be droped.
+	 */
 	private ModelingUnit modelingUnit;
 
 	/**

@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.markup.test.unit.parsing;
 
+//CHECKSTYLE:OFF
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,8 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.Assert;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -29,6 +30,7 @@ import org.eclipse.mylyn.docs.intent.markup.test.utils.FileToStringConverter;
 import org.eclipse.mylyn.docs.intent.markup.test.utils.XMISaver;
 import org.junit.Test;
 
+//CHECKSTYLE:ON
 /**
  * Test textual parsing.
  * 
@@ -105,8 +107,8 @@ public class TestParsingTextual {
 
 		// We ensure that the 2 files are equals,
 		// and that these files are also equals to the resource's serialisation.
-		Assert.assertEquals(expected, actual);
-		Assert.assertEquals(expected, fromResource);
+		assertEquals(expected, actual);
+		assertEquals(expected, fromResource);
 
 	}
 

@@ -34,26 +34,52 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class JavaTest extends AbstractDemoTest {
-
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	private static final String SYNC_WARNING_MSG = "The AcceptanceTest is defined in the Working Copy model<br/>but not in the Documentation model.";
 
+	/**
+	 * Constant representing a section (used to open an editor on it).
+	 */
 	private static final int[] EDITOR_SECTION_3_7 = new int[] {3, 7,
 	};
 
+	/**
+	 * Constant representing a section (used to open an editor on it).
+	 */
 	private static final int[] EDITOR_SECTION_7_1 = new int[] {7, 1,
 	};
 
+	/**
+	 * Constant representing a section (used to open an editor on it).
+	 */
 	private static final int[] EDITOR_SECTION_7_2 = new int[] {7, 2,
 	};
 
+	/**
+	 * Location of test file.
+	 */
 	private static final String SECTION_37_V1_FILENAME = "data/unit/demo/Section_3.7_v1";
 
+	/**
+	 * Location of test file.
+	 */
 	private static final String SECTION_37_V2_FILENAME = "data/unit/demo/Section_3.7_v2";
 
+	/**
+	 * Location of test file.
+	 */
 	private static final String SECTION_37_V3_FILENAME = "data/unit/demo/Section_3.7_v3";
 
+	/**
+	 * Location of test file.
+	 */
 	private static final String SECTION_72_FILENAME = "data/unit/demo/Section_7.2";
 
+	/**
+	 * Location of the java file used in tests.
+	 */
 	private static final String JAVA_TEST_FILENAME = "data/unit/demo/PatchCreationThroughCompareDialogTest.java";
 
 	/**

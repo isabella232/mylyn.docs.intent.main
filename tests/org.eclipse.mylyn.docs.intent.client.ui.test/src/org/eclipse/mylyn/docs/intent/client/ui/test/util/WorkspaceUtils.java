@@ -48,6 +48,9 @@ import org.eclipse.ui.PlatformUI;
  */
 public final class WorkspaceUtils {
 
+	/**
+	 * Constant for slashes.
+	 */
 	private static final String SLASH = "/";
 
 	/**
@@ -79,7 +82,8 @@ public final class WorkspaceUtils {
 	 *            the project name
 	 * @param monitor
 	 *            the progress monitor
-	 * @param && createaAndOpenProject indicates whether project should be create and opened
+	 * @param createaAndOpenProject
+	 *            indicates whether project should be create and opened
 	 * @return the newly created project or the existing one if present
 	 * @throws CoreException
 	 *             if there is an issue creating the project
@@ -110,6 +114,7 @@ public final class WorkspaceUtils {
 	 *             if there is an issue copying a file from the zip
 	 * @throws CoreException
 	 *             if there is an issue creating one of the projects
+	 * @return all the unziped projects
 	 */
 	public static Collection<IProject> unzipAllProjects(String bundleName, String zipLocation,
 			IProgressMonitor monitor) throws IOException, CoreException {

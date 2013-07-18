@@ -37,12 +37,24 @@ import org.h2.jdbcx.JdbcDataSource;
  */
 public final class IntentCDORepository {
 
+	/**
+	 * The actual CDO repository.
+	 */
 	private static IRepository repository;
 
+	/**
+	 * The acceptor used to accept requests on this repository.
+	 */
 	private static IAcceptor acceptor;
 
+	/**
+	 * The server location.
+	 */
 	private static final String SERVER_LOCATION = "localhost";
 
+	/**
+	 * The server port number.
+	 */
 	private static final String SERVER_PORT_NUMBER = "1027";
 
 	/**

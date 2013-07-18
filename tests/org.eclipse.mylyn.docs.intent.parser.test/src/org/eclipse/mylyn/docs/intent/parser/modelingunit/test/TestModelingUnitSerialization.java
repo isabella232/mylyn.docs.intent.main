@@ -10,10 +10,11 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.test;
 
+//CHECKSTYLE:OFF
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
-
-import junit.framework.Assert;
 
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.ModelingUnitFormatter;
@@ -27,6 +28,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+//CHECKSTYLE:ON
 /**
  * Tests the serialization of Modeling Units.
  * 
@@ -38,10 +40,13 @@ public class TestModelingUnitSerialization {
 	 */
 	private static ModelingUnitParser modelingUnitParser;
 
+	/**
+	 * Serializer used to serialize modeling units.
+	 */
 	private static ModelingUnitSerializer modelingUnitSerializer;
 
 	/**
-	 * Initialisation of the Test environnement : launching the StandaloneParsingManager.
+	 * Initialization of the Test environment : launching the StandaloneParsingManager.
 	 */
 	@Before
 	public void setUp() {
@@ -49,6 +54,14 @@ public class TestModelingUnitSerialization {
 		modelingUnitSerializer = new ModelingUnitSerializer();
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file does not modify the file.
+	 * 
+	 * @param fileToTest
+	 *            the name of the file to test
+	 * @param supposedToWork
+	 *            if false, the file should contain syntax errors (and hence is not supposed to be parseable)
+	 */
 	static void parseAndCompareSerializationToExpected(String fileToTest, boolean supposedToWork) {
 		// Step 1 : we parse the model and obtain the AST
 		ModelingUnit parsedAST;
@@ -68,35 +81,47 @@ public class TestModelingUnitSerialization {
 			String expected = FileToStringConverter.getFileAsString(expectedFile);
 
 			// Step 4 : we compare these to String
-			Assert.assertEquals(expected, actual);
-			Assert.assertEquals(supposedToWork, true);
+			assertEquals(expected, actual);
+			assertEquals(supposedToWork, true);
 		} catch (ParseException e) {
 			System.err.println("----------------------------------------");
 			System.err.println("Parsing errors for file : " + fileToTest);
 			System.err.println(e.getMessage());
-			Assert.assertEquals(supposedToWork, false);
+			assertEquals(supposedToWork, false);
 		} catch (IOException e) {
 			e.printStackTrace();
-			Assert.assertEquals(supposedToWork, false);
+			assertEquals(supposedToWork, false);
 		}
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file does not modify the file.
+	 */
 	@Test
 	public void testSimpleSerialization() {
 		parseAndCompareSerializationToExpected("simpleTests/SimpleModelingUnit", true);
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file does not modify the file.
+	 */
 	@Test
 	public void testSpecialvalues() {
 		parseAndCompareSerializationToExpected("simpleTests/SpecialValues", true);
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file does not modify the file.
+	 */
 	@Test
 	public void testCompleteSerialization() {
 		parseAndCompareSerializationToExpected("simpleTests/CompleteModelingUnit", true);
 		parseAndCompareSerializationToExpected("simpleTests/CompleteModelingUnit2", true);
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file does not modify the file.
+	 */
 	@Test
 	@Ignore
 	// not supported
@@ -104,16 +129,25 @@ public class TestModelingUnitSerialization {
 		parseAndCompareSerializationToExpected("simpleTests/CompleteModelingUnit3", true);
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file does not modify the file.
+	 */
 	@Test
 	public void testLabelsSerialization() {
 		parseAndCompareSerializationToExpected("simpleTests/AllKindOfLabels", true);
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file does not modify the file.
+	 */
 	@Test
 	public void testResourceDeclarationSerialization() {
 		parseAndCompareSerializationToExpected("resourcesRelatedTest/resourceDeclaration", true);
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file does not modify the file.
+	 */
 	@Test
 	public void testQualifiedNamesSerialization() {
 		parseAndCompareSerializationToExpected("qualifiedNames/qualifiedName", true);

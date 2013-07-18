@@ -8,15 +8,18 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
+// CHECKSTYLE:OFF
 package org.eclipse.mylyn.wikitext.textile.model.tests.unit.parsing;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import junit.framework.Assert;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
@@ -29,6 +32,8 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.WikiTextPars
 import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.junit.Test;
 
+//CHECKSTYLE:ON
+
 /**
  * Test simple parsing of textile files.
  * 
@@ -36,48 +41,69 @@ import org.junit.Test;
  */
 public class TestWikiTextParserGeneral {
 
-	static String[] getTextSerializations(String fileToTest) throws Exception {
+	/**
+	 * From the given textile file, returns a table containing:
+	 * <ul>
+	 * <li>the expected result (as a textile)</li>
+	 * <li>the actual result (from file)</li>
+	 * <li>the actual result (textile serialization obtained from parsed model).</li>
+	 * </ul>
+	 * 
+	 * @param fileToTest
+	 *            the textile file to test
+	 * @return a result table
+	 */
+	static String[] getTextSerializations(String fileToTest) {
 		String fileToGenerate = fileToTest;
 
 		// Step 1 : creation of an inputStream on the file to Test.
-		// InputStream input = getClass().getClassLoader().getResourceAsStream(
-		// TestParsingTextile.PARSING_TEST_DATA + fileToTest);
 		InputStream input = null;
-		input = new FileInputStream(
-				new File(WikiTextParserTestConfigurator.getDatatestsFolder() + fileToTest));
-
-		// Step 2 : creation of a Wikitext Resource linked from this
-		// inputStream.
-		Resource resourceTextile = new WikitextResourceFactory().createResource(URI
-				.createFileURI(WikiTextParserTestConfigurator.getGeneratedFolder() + fileToGenerate));
-
-		// Step 3 : Generation of a textile file.
-		Map<String, String> options = new HashMap<String, String>();
-		options.put(XMLResource.OPTION_ENCODING, "UTF8");
-		resourceTextile.load(input, options);
-
-		resourceTextile.save(options);
-
-		// Step 4 : Build the result
-		String expected;
-
-		expected = FileToStringConverter.getFileAsString(new File(WikiTextParserTestConfigurator
-				.getDatatestsFolder() + fileToTest));
-
-		EPackage.Registry.INSTANCE.put(MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
-
-		final File file = new File(WikiTextParserTestConfigurator.getGeneratedFolder() + fileToGenerate);
-		String actual = FileToStringConverter.getFileAsString(file);
-		String fromResource = WikiTextResourceSerializer.getSerializer().serialize(resourceTextile);
-
 		String[] result = new String[3];
-		result[0] = expected;
-		result[1] = actual;
-		result[2] = fromResource;
+		try {
+			input = new FileInputStream(new File(WikiTextParserTestConfigurator.getDatatestsFolder()
+					+ fileToTest));
+
+			// Step 2 : creation of a Wikitext Resource linked from this
+			// inputStream.
+			Resource resourceTextile = new WikitextResourceFactory().createResource(URI
+					.createFileURI(WikiTextParserTestConfigurator.getGeneratedFolder() + fileToGenerate));
+
+			// Step 3 : Generation of a textile file.
+			Map<String, String> options = new HashMap<String, String>();
+			options.put(XMLResource.OPTION_ENCODING, "UTF8");
+
+			resourceTextile.load(input, options);
+
+			resourceTextile.save(options);
+
+			// Step 4 : Build the result
+			String expected;
+
+			expected = FileToStringConverter.getFileAsString(new File(WikiTextParserTestConfigurator
+					.getDatatestsFolder() + fileToTest));
+
+			EPackage.Registry.INSTANCE.put(MarkupPackage.eNS_URI, MarkupPackage.eINSTANCE);
+
+			final File file = new File(WikiTextParserTestConfigurator.getGeneratedFolder() + fileToGenerate);
+			String actual = FileToStringConverter.getFileAsString(file);
+			String fromResource = WikiTextResourceSerializer.getSerializer().serialize(resourceTextile);
+
+			result[0] = expected;
+			result[1] = actual;
+			result[2] = fromResource;
+		} catch (IOException e) {
+			fail(e.getMessage());
+		}
 		return result;
 	}
 
-	static void compareTextSerialization(String fileToTest) throws Exception {
+	/**
+	 * Ensures that parsing and re-serializing the given file to test allows to obtain the same file.
+	 * 
+	 * @param fileToTest
+	 *            the file to test
+	 */
+	static void compareTextSerialization(String fileToTest) {
 
 		String[] serialization = getTextSerializations(fileToTest);
 		String expected = serialization[0];
@@ -86,8 +112,8 @@ public class TestWikiTextParserGeneral {
 
 		// We ensure that the 2 files are equals,
 		// and that these files are also equals to the resource's serialisation.
-		Assert.assertEquals(expected, actual);
-		Assert.assertEquals(expected, fromResource);
+		assertEquals(expected, actual);
+		assertEquals(expected, fromResource);
 
 	}
 
@@ -96,72 +122,81 @@ public class TestWikiTextParserGeneral {
 	 * code and TOC). compareTextSerialization("simpleDocument.textile"); }
 	 */
 
+	/**
+	 * Tests parsing of all types of lits (embedded...).
+	 */
 	@Test
-	public void testLists() throws Exception {
-		// Objectives :
-		// parse correctly all types of lits (embedded...).
+	public void testLists() {
 		compareTextSerialization("lists.textile");
 	}
 
+	/**
+	 * Tests parsing of embedded and complex formats.
+	 */
 	@Test
-	public void testFormats() throws Exception {
-		// Objectives :
-		// render correctly embedded and complex formats
+	public void testFormats() {
 		compareTextSerialization("manyFormats.textile");
 
 	}
 
+	/**
+	 * Tests parsing of Images embedded in lists.
+	 */
 	@Test
-	public void testEmbededImages() throws Exception {
-		// Objectives :
-		// render correctly Image embedded in lists.
+	public void testEmbededImages() {
 		compareTextSerialization("new_noteworthy.textile");
 	}
 
+	/**
+	 * Tests CharacterEscaped Managment (for all HTMLEntities like <br/>
+	 * see the SpecificElement Tests).
+	 */
 	@Test
-	public void testCharacterEscaped() throws Exception {
-		// Objectives
-		// Test CharacterEscaped Managment (for all HTMLEntities like <br/> see
-		// the SpecificElement Tests)
+	public void testCharacterEscaped() {
 		compareTextSerialization("User_Guide.textile");
 	}
 
+	/**
+	 * Tests Table parsing (and also blocQuotes ended by new Sections).
+	 */
 	@Test
-	public void testTable() throws Exception {
-		// Objectives
-		// Correctly render a Table (and also blocQuotes ended by new Sections).
+	public void testTable() {
 		compareTextSerialization("Using_Compare_Services.textile");
 		compareTextSerialization("tables.textile");
-
 	}
 
+	/**
+	 * Tests external links parsing.
+	 */
 	@Test
-	public void testLinks() throws Exception {
-		// Objectives :
-		// parse correctly internal and external links
-		// TODO : internal links (seems difficult)
+	public void testLinks() {
 		compareTextSerialization("testLink.textile");
 	}
 
+	/**
+	 * Tests fancy paragraphs with padding, alignement...
+	 */
 	@Test
-	public void testFancyText() throws Exception {
-		// Objectives :
-		// parse correctly fancy paragraphs with padding, alignement...
+	public void testFancyText() {
 		compareTextSerialization("fancyText.textile");
 	}
 
+	/**
+	 * Test on a complete example.
+	 */
 	@Test
-	public void testCompleteExamples() throws Exception {
-		// Objectives :
-		// Preformatted text, links, TOC...
+	public void testCompleteExamples() {
 		compareTextSerialization("EMF_Compare_Export_Tutorial.textile");
 		compareTextSerialization("Adapting_Comparison_Process.textile");
 	}
 
+	/**
+	 * Ensures that parser is able to handle big Textile file correctly and quickly.
+	 */
 	@Test
-	public void performanceTest() throws Exception {
+	public void performanceTest() {
 		// Objectives :
-		// Parse a big Textile file correctly and rapidly.
+		//
 		compareTextSerialization("specifier-guide.textile");
 	}
 

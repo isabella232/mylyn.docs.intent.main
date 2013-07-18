@@ -26,6 +26,9 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocumentFactory;
  */
 public class CDOIntegrationTest extends AbstractIntentCDOTest {
 
+	/**
+	 * Path of the intent file to use for this test.
+	 */
 	private static final String INTENT_ABSTRACT_RESOURCE_DOCUMENT_PATH = "data/unit/documents/scenario/abstract_resources.intent";
 
 	/**
@@ -36,6 +39,7 @@ public class CDOIntegrationTest extends AbstractIntentCDOTest {
 	 * </ul>
 	 * 
 	 * @throws Exception
+	 *             if major issue occurs during test
 	 */
 	public void testBasicRelationshipBetweenLocalAndRemoteUser() throws Exception {
 		// Local user creates and get the intent project

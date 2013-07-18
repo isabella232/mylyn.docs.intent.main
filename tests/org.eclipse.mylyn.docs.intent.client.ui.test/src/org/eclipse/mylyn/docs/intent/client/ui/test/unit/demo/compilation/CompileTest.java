@@ -24,20 +24,44 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.AnnotationUtils;
  */
 public class CompileTest extends AbstractDemoTest {
 
+	/**
+	 * Text to type to create a compilation error.
+	 */
 	private static final String ERROR_TEXT_PATTERN = "nsPrefixx = \"match\";";
 
+	/**
+	 * Text to type that should not raise compilation issue.
+	 */
 	private static final String NO_ERROR_TEXT_PATTERN = "nsPrefix = \"match\";";
 
+	/**
+	 * Expected compilation error message.
+	 */
 	private static final String COMPILATION_ERROR_MESSAGE = "The feature nsPrefixx doesn't exists in EPackage";
 
+	/**
+	 * Text to type that should raise a compilation warning.
+	 */
 	private static final String INFOS_TEXT_PATTERN = "nsURI = \"\";";
 
+	/**
+	 * Text to type that should not raise any compilation warning.
+	 */
 	private static final String NO_INFOS_TEXT_PATTERN = "nsURI = \"http://www.eclipse.org/emf/compare/match/1.1\";";
 
+	/**
+	 * Expected validation issue message.
+	 */
 	private static final String COMPILATION_INFO_MESSAGE = "-The namespace URI '' is not well formed";
 
+	/**
+	 * The current intent editor.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The document associated to the current editor.
+	 */
 	private IntentEditorDocument document;
 
 	/**

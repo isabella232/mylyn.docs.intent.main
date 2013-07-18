@@ -11,6 +11,7 @@
 package org.eclipse.mylyn.docs.intent.client.ui.test.unit.scenario;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -36,11 +37,19 @@ import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class IntentProjectReopeningTest extends AbstractIntentUITest {
-
+	/**
+	 * Path to test file.
+	 */
 	private static final String DOCUMENTS_FOLDER_PATH = "data/unit/documents/scenario/projectReopening/";
 
+	/**
+	 * The current Intent editor.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The document associated to the current Intent editor.
+	 */
 	private IntentEditorDocument document;
 
 	/**
@@ -60,20 +69,47 @@ public class IntentProjectReopeningTest extends AbstractIntentUITest {
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 	}
 
-	public void testProjectReopeningWithSection() throws Exception {
+	/**
+	 * Ensures that when reopening Intent projects after modifications, there are no lost of contents.
+	 * 
+	 * @throws CoreException
+	 *             if major issue occur during project reopening
+	 * @throws IOException
+	 *             if test file cannot be accessed
+	 */
+	public void testProjectReopeningWithSection() throws IOException, CoreException {
 		String initalContent = FileToStringConverter.getFileAsString(new File(DOCUMENTS_FOLDER_PATH
 				+ "projectReopening01.intent"));
 		String newContent = initalContent.replace("Title", "A");
 		doTestProjectReopening(initalContent, newContent);
 	}
 
-	public void testProjectReopeningWithModelingUnitCreation() throws Exception {
+	/**
+	 * Ensures that when reopening Intent projects after modifications, there are no lost of contents.
+	 * 
+	 * @throws CoreException
+	 *             if major issue occur during project reopening
+	 * @throws IOException
+	 *             if test file cannot be accessed
+	 */
+	public void testProjectReopeningWithModelingUnitCreation() throws IOException, CoreException {
 		String initalContent = FileToStringConverter.getFileAsString(new File(DOCUMENTS_FOLDER_PATH
 				+ "projectReopening02.intent"));
 		String newContent = initalContent.replace("Title", "A");
 		doTestProjectReopening(initalContent, newContent);
 	}
 
+	/**
+	 * Ensures that setting the new content, and then reopening the intent project does not cause any loss of
+	 * content.
+	 * 
+	 * @param initalContent
+	 *            the initial document content
+	 * @param newContent
+	 *            the new document content to set before reopening the project
+	 * @throws CoreException
+	 *             if major issue occur during project reopening
+	 */
 	protected void doTestProjectReopening(String initalContent, String newContent) throws CoreException {
 		document.set(initalContent);
 		editor.doSave(new NullProgressMonitor());
@@ -90,6 +126,13 @@ public class IntentProjectReopeningTest extends AbstractIntentUITest {
 				new IntentSerializer().serialize(newDocument));
 	}
 
+	/**
+	 * Closes and reopens the Intent project, and return the {@link IntentDocument} once project is reopened.
+	 * 
+	 * @return the {@link IntentDocument} once project is reopened
+	 * @throws CoreException
+	 *             if major issue occur during project reopening
+	 */
 	private IntentDocument reopenProjectAndGetDocument() throws CoreException {
 		editor.doSave(new NullProgressMonitor());
 		ToggleNatureAction.toggleNature(intentProject);

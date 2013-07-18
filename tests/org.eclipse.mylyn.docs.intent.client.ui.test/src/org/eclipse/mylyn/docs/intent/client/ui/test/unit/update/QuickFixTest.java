@@ -22,11 +22,19 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class QuickFixTest extends AbstractUpdateTest {
-
+	/**
+	 * Location of the test archive.
+	 */
 	private static final String INTENT_PROJECT_ARCHIVE = "data/unit/documents/quickfixes/quickfixes.zip";
 
+	/**
+	 * Location of the file containing the expected state of the document.
+	 */
 	private static final String FINAL_INTENT_DOC = "data/unit/documents/quickfixes/final.intent";
 
+	/**
+	 * Location of the file containing the expected state of the document.
+	 */
 	private static final String MODIFIED_INTENT_DOC = "data/unit/documents/quickfixes/modifications.intent";
 
 	/**

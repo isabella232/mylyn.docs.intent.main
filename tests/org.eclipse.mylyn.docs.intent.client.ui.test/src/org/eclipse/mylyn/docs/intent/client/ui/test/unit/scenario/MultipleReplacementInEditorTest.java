@@ -30,12 +30,24 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
  */
 public class MultipleReplacementInEditorTest extends AbstractIntentUITest {
 
+	/**
+	 * Path to test file.
+	 */
 	private static final String INTENT_SMALL_DOC_PATH = "data/unit/documents/scenario/abstract_resources.intent";
 
+	/**
+	 * Path to test file.
+	 */
 	private static final String INTENT_BIG_DOC_PATH = "data/unit/documents/editorupdates/compareTest-03.intent";
 
+	/**
+	 * The current Intent editor.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The document associated to the current Intent editor.
+	 */
 	private IntentEditorDocument document;
 
 	/**
@@ -59,8 +71,9 @@ public class MultipleReplacementInEditorTest extends AbstractIntentUITest {
 	 * Ensures that pasting several times content inside the document does not cause any issue.
 	 * 
 	 * @throws IOException
+	 *             if test file cannot be properly accessed
 	 */
-	public void testCopyPastBigDocuments() throws IOException {
+	public void testCopyPasteBigDocuments() throws IOException {
 		String smallDocumentContent = FileToStringConverter.getFileAsString(new File(INTENT_SMALL_DOC_PATH));
 		String bigDocumentContent = FileToStringConverter.getFileAsString(new File(INTENT_BIG_DOC_PATH));
 
@@ -118,6 +131,7 @@ public class MultipleReplacementInEditorTest extends AbstractIntentUITest {
 	 * not cause any issue.
 	 * 
 	 * @throws IOException
+	 *             if test file cannot be properly accessed
 	 */
 	public void testCopyPastAndEmptyDocuments() throws IOException {
 		String smallDocumentContent = FileToStringConverter.getFileAsString(new File(INTENT_SMALL_DOC_PATH));

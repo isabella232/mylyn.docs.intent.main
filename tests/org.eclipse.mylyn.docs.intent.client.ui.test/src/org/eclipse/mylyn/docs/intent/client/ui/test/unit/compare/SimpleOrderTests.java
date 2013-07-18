@@ -27,10 +27,19 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
  */
 public class SimpleOrderTests extends AbstractIntentUITest {
 
+	/**
+	 * Path indicating the folder containing test samples.
+	 */
 	private static final String SAMPLES_PATH = "data/unit/documents/editorupdates/order/";
 
+	/**
+	 * The current Intent editor.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The document associated to the current editor.
+	 */
 	private IntentEditorDocument document;
 
 	/**
@@ -46,14 +55,29 @@ public class SimpleOrderTests extends AbstractIntentUITest {
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 	}
 
+	/**
+	 * Tests the correct behavior of Intent editor changes. Ensures that EMF Compare is able to maintain order
+	 * and structure of the Intent document.
+	 */
 	public void testNewSection() {
 		checkSample("newSection");
 	}
 
+	/**
+	 * Tests the correct behavior of Intent editor changes. Ensures that EMF Compare is able to maintain order
+	 * and structure of the Intent document.
+	 */
 	public void testNewMU() {
 		checkSample("newMU");
 	}
 
+	/**
+	 * Tests the correct behavior of Intent editor changes. Ensures that EMF Compare is able to maintain order
+	 * and structure of the Intent document.
+	 * 
+	 * @param sampleName
+	 *            name of the test file
+	 */
 	private void checkSample(String sampleName) {
 		try {
 			// inits the test

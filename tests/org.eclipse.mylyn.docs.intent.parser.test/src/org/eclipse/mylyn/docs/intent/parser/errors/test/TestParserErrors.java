@@ -19,7 +19,9 @@ import org.junit.Test;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class TestParserErrors extends AbstractTestParserErrors {
-
+	/**
+	 * Ensures that parsing the given file raises the expected errors.
+	 */
 	@Test
 	public void testMissingBracket() {
 		final int expectedErrorposition = 10;
@@ -29,6 +31,9 @@ public class TestParserErrors extends AbstractTestParserErrors {
 				expectedErrorposition, expectedErrorLength));
 	}
 
+	/**
+	 * Ensures that parsing the given file raises the expected errors.
+	 */
 	@Test
 	public void testNewLines() {
 		final int expectedErrorposition = 10;

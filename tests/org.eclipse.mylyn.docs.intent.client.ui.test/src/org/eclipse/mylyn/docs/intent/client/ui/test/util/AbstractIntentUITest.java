@@ -63,22 +63,51 @@ import org.eclipse.ui.PlatformUI;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public abstract class AbstractIntentUITest extends TestCase implements ILogListener {
+
+	/**
+	 * Id of the new Intent Project wizard.
+	 */
 	public static final String INTENT_NEW_PROJECT_WIZARD_ID = "org.eclipse.mylyn.docs.intent.client.ui.ide.wizards.NewIntentProjectWizard";
 
+	/**
+	 * Path of a file containing an empty Itnent document.
+	 */
 	protected static final String INTENT_EMPTY_DOC_PATH = "data/unit/documents/empty.intent";
 
+	/**
+	 * While waiting for a client to be notified, indicates the time to wait before testing again.
+	 */
 	private static final int WAITING_DELAY_MILLIS = 500;
 
+	/**
+	 * The tested Intent {@link IProject}.
+	 */
 	protected IProject intentProject;
 
+	/**
+	 * The tested Intent {@link Repository}.
+	 */
 	protected Repository repository;
 
+	/**
+	 * A {@link RepositoryAdapter} opened on the tested Repository.
+	 */
 	protected RepositoryAdapter repositoryAdapter;
 
+	/**
+	 * A repository listener allowing to determine wether Intent clients (compiler, synchronizer...) have been
+	 * notified or not.
+	 */
 	protected RepositoryListenerForTests repositoryListener;
 
+	/**
+	 * The tested {@link IntentDocument}.
+	 */
 	private IntentDocument intentDocument;
 
+	/**
+	 * All the currently opened {@link IntentEditor}s.
+	 */
 	private List<IntentEditor> openedEditors;
 
 	/**
@@ -120,16 +149,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 */
 	private void initClassLoader() {
 		assertNotNull(IntentNature.class);
-	}
-
-	private void traceHeapSize() {
-		long maxHeapSize = Runtime.getRuntime().maxMemory();
-		long allocatedHeapSize = Runtime.getRuntime().totalMemory();
-		long usedHeap = allocatedHeapSize - Runtime.getRuntime().freeMemory();
-
-		System.out.println(" Heap size : " + usedHeap + "/" + allocatedHeapSize + "("
-				+ Math.ceil(usedHeap * 100 / allocatedHeapSize) + "% - "
-				+ Math.ceil(usedHeap * 100 / maxHeapSize) + "% of max heap size)");
 	}
 
 	/**

@@ -54,26 +54,59 @@ import org.junit.Test;
  */
 public class ExternalContentReferencesTest extends AbstractIntentUITest {
 
+	/**
+	 * Name of the java class used in this test.
+	 */
 	private static final String EXAMPLE_JAVA_CLASS_NAME = "ExampleJavaClass.java";
 
+	/**
+	 * Path of the java class used in this test.
+	 */
 	private static final String JAVA_EXAMPLE_PACKAGE_PATH = "org.eclipse.mylyn.docs.intent.java.example/src/org/eclipse/myly/docs/intent/java/example/";
 
+	/**
+	 * ID of the first replacement location in the example document.
+	 */
 	private static final String FIRST_LOCATION = "1";
 
+	/**
+	 * Constant use to create assertion failure messages.
+	 */
 	private static final String WORKING_COPY_AND_REPOSITORY_MODEL_SHOULD_BE_EQUALS = "There should be no differences betwen the working copy model and the cache inside Intent repository";
 
-	private static final String INTENT_URI_FOR_TEST_MODEL = "intent:/intentProject/model.ecore";
-
+	/**
+	 * Constant use to create assertion failure messages.
+	 */
 	private static final String SYNCHRONIZER_SHOULD_NOT_DETECT_CHANGE_QUICKFIX_MESSAGE = "Synchronizer should not detect any change any more as issue have been resolved using quick-fix";
 
-	private static final String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/scenario/externalcontentreferences/external_content.intent";
-
+	/**
+	 * Constant use to create assertion failure messages.
+	 */
 	private static final String JAVA_SYNC_ISSUE_PART1 = "The attribute 'content' in Method protectedMethodWithParameters(ExampleJavaClass,Object) has changed.<br/>Documentation : ";
 
+	/**
+	 * Constant use to create assertion failure messages.
+	 */
 	private static final String JAVA_SYNC_ISSUE_PART2 = "<br/>Working Copy : ";
 
+	/**
+	 * Intent URI used in this test.
+	 */
+	private static final String INTENT_URI_FOR_TEST_MODEL = "intent:/intentProject/model.ecore";
+
+	/**
+	 * Path to test file.
+	 */
+	private static final String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/scenario/externalcontentreferences/external_content.intent";
+
+	/**
+	 * The current Intent editor.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The document associated to the current Intent editor.
+	 */
 	private IntentEditorDocument document;
 
 	/**

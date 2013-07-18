@@ -10,13 +10,16 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.test.util;
 
+//CHECKSTYLE:OFF
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
 import org.eclipse.core.runtime.ILogListener;
@@ -49,6 +52,7 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.junit.After;
 import org.junit.Before;
 
+//CHECKSTYLE:ON
 /**
  * An abstract test class providing API for manage an Intent IDE projects and editors.
  * 
@@ -174,8 +178,8 @@ public abstract class AbstractIntentCompilerTest implements ILogListener {
 			} else {
 				Resource expected = resourceSet.getResource(expectedURI, true);
 				Comparison comparison = EMFCompareUtils.compare(expected, generatedResource);
-				Assert.assertTrue("There are differences between expected and actual", comparison
-						.getDifferences().isEmpty());
+				assertTrue("There are differences between expected and actual", comparison.getDifferences()
+						.isEmpty());
 			}
 		}
 
@@ -217,7 +221,7 @@ public abstract class AbstractIntentCompilerTest implements ILogListener {
 			return;
 		}
 		if (candidates.size() == 1) {
-			Assert.assertEquals(message, candidates.get(0));
+			assertEquals(message, candidates.get(0));
 		} else {
 			if (!candidates.isEmpty()) {
 				StringBuilder builder = new StringBuilder();

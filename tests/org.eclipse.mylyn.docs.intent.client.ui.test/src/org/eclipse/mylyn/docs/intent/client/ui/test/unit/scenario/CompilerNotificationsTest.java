@@ -28,15 +28,29 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class CompilerNotificationsTest extends AbstractIntentUITest {
-
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	private static final String COMPILER_SHOULD_NOT_DETECT_ISSUE_FAILURE_MESSAGE = "The compiler should not detect any issue";
 
-	private static final String ECLASS_NAME = "c1";
-
+	/**
+	 * Constant specifying test samples location.
+	 */
 	private static final String INTENT_DATA_FOLDER = "data/unit/documents/scenario/compilerNotifications/";
 
+	/**
+	 * Constant used to identify a specific eclass used during test.
+	 */
+	private static final String ECLASS_NAME = "c1";
+
+	/**
+	 * The current Intent editor.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The document associated to the current Intent editor.
+	 */
 	private IntentEditorDocument document;
 
 	/**
@@ -57,6 +71,9 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 		waitForAllOperationsInUIThread();
 	}
 
+	/**
+	 * Ensures that the compiler client is correctly notified when modifying a modeling unit.
+	 */
 	public void testCompilerIsNotifiedWhenModifyingMU() {
 		// Update Modeling Unit : make it pass
 		repositoryListener.clearPreviousEntries();
@@ -79,7 +96,10 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 		// waitForCompiler(false);
 	}
 
-	public void testCompilerIsNotifiedWhenRenamingSections() throws IOException {
+	/**
+	 * Ensures that the compiler client is correctly notified when renaming sections.
+	 */
+	public void testCompilerIsNotifiedWhenRenamingSections() {
 		// Renaming the section
 		repositoryListener.clearPreviousEntries();
 		document.set(document.get().replace("Section2", "RenamedSection"));
@@ -104,6 +124,12 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 
 	}
 
+	/**
+	 * Ensures that the compiler client is correctly notified when adding new modeling units.
+	 * 
+	 * @throws IOException
+	 *             if failing to get test file
+	 */
 	public void testCompilerIsNotifiedWhenAddingNewMUInsideNewSections() throws IOException {
 		// Create a new modeling unit inside a new section fixing the compile issue
 		repositoryListener.clearPreviousEntries();
@@ -134,6 +160,9 @@ public class CompilerNotificationsTest extends AbstractIntentUITest {
 		// waitForCompiler(false);
 	}
 
+	/**
+	 * Ensures that the compiler client is correctly notified when removing a modeling unit.
+	 */
 	public void testCompilerIsNotifiedWhenRemovingMU() {
 		// Removing the modeling unit: no issue should be displayed any more
 		repositoryListener.clearPreviousEntries();

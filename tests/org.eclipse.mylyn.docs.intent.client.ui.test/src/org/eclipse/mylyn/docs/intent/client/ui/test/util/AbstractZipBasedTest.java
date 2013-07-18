@@ -28,16 +28,29 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
  */
 public abstract class AbstractZipBasedTest extends AbstractIntentUITest {
 
+	/**
+	 * Test plugin ID.
+	 */
 	private static final String BUNDLE_NAME = "org.eclipse.mylyn.docs.intent.client.ui.test";
 
-	private static final int TIME_TO_WAIT = 300;
+	/**
+	 * Time to wait before checking again the nature of an {@link org.eclipse.core.resources.IProject}.
+	 */
+	private static final int TIME_TO_WAIT_FOR_NATURE = 300;
 
-	private static final int RECENT_COMPILATION_DELAY = 60000;
+	/**
+	 * Timeout after which a project should be considered as not having the Intent nature.
+	 */
+	private static final long TIME_OUT_NATURE_DELAY = 60000;
 
-	private static final long TIME_OUT_DELAY = 60000;
-
+	/**
+	 * Location of the archive file.
+	 */
 	private String location;
 
+	/**
+	 * Intent project name.
+	 */
 	private String projectName;
 
 	/**
@@ -88,13 +101,24 @@ public abstract class AbstractZipBasedTest extends AbstractIntentUITest {
 		waitForSynchronizer();
 	}
 
+	/**
+	 * Waits for the intent project to have the Intent nature.
+	 * 
+	 * @return true if the intent project has the Intent nature, false otherwise
+	 * @throws RepositoryConnectionException
+	 *             if repository cannot be properly accessed
+	 * @throws CoreException
+	 *             if issues occur while getting project natures
+	 * @throws InterruptedException
+	 *             if cannot make the thread sleep
+	 */
 	private boolean waitForNature() throws RepositoryConnectionException, CoreException, InterruptedException {
 		boolean timeOutDetected = false;
 		long startTime = System.currentTimeMillis();
 		// while the project does not have the correct nature or is unaccessible, the repository is null
 		while (!intentProject.hasNature(IntentNature.NATURE_ID) && !timeOutDetected) {
-			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_DELAY;
-			Thread.sleep(TIME_TO_WAIT);
+			timeOutDetected = System.currentTimeMillis() - startTime > TIME_OUT_NATURE_DELAY;
+			Thread.sleep(TIME_TO_WAIT_FOR_NATURE);
 		}
 		return timeOutDetected;
 	}

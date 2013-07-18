@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.test;
 
+//CHECKSTYLE:OFF
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
 import org.eclipse.emf.ecore.EObject;
@@ -23,6 +25,7 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 import org.junit.Test;
 
+//CHECKSTYLE:ON
 /**
  * Tests for the IntentParser.
  * 
@@ -30,8 +33,14 @@ import org.junit.Test;
  */
 public class IntentParserTest {
 
+	/**
+	 * The parser used to parse intent content.
+	 */
 	private IntentParser parser;
 
+	/**
+	 * The serializer used to serialize intent elements.
+	 */
 	private IntentSerializer serializer;
 
 	/**
@@ -42,6 +51,9 @@ public class IntentParserTest {
 		serializer = new IntentSerializer();
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file does not modify the file.
+	 */
 	@Test
 	public void testSerialization() {
 		try {
@@ -50,7 +62,7 @@ public class IntentParserTest {
 			String section = FileToStringConverter.getFileAsString(file);
 			EObject generated = parser.parse(section);
 			// XMISaver.saveASXMI(generated, new File("expectedResults/intentDocuments/intentDocument.xmi"));
-			Assert.assertEquals(section, serializer.serialize(generated));
+			assertEquals(section, serializer.serialize(generated));
 		} catch (IOException e) {
 			throw new AssertionFailedError(e.getMessage());
 		} catch (ParseException e) {
@@ -58,6 +70,9 @@ public class IntentParserTest {
 		}
 	}
 
+	/**
+	 * Ensures that parsing and re-serializing the given file does not modify the file.
+	 */
 	@Test
 	public void testSerializationWithSingleReference() {
 		try {
@@ -65,7 +80,7 @@ public class IntentParserTest {
 
 			String section = FileToStringConverter.getFileAsString(file);
 			EObject generated = parser.parse(section);
-			Assert.assertEquals(section, serializer.serialize(generated));
+			assertEquals(section, serializer.serialize(generated));
 		} catch (IOException e) {
 			throw new AssertionFailedError(e.getMessage());
 		} catch (ParseException e) {
@@ -83,7 +98,7 @@ public class IntentParserTest {
 
 			String section = FileToStringConverter.getFileAsString(file);
 			EObject generated = parser.parse(section);
-			Assert.assertEquals(section, serializer.serialize(generated));
+			assertEquals(section, serializer.serialize(generated));
 		} catch (IOException e) {
 			throw new AssertionFailedError(e.getMessage());
 		} catch (ParseException e) {
@@ -106,7 +121,7 @@ public class IntentParserTest {
 			// .getDescriptionUnits().iterator().next().getInstructions().iterator().next())
 			// .getDescriptionBloc().getContent().iterator().next()).getContent());
 
-			Assert.assertEquals(section, serializer.serialize(generated));
+			assertEquals(section, serializer.serialize(generated));
 		} catch (IOException e) {
 			throw new AssertionFailedError(e.getMessage());
 		} catch (ParseException e) {
@@ -124,7 +139,7 @@ public class IntentParserTest {
 
 			String section = FileToStringConverter.getFileAsString(file);
 			EObject generated = parser.parse(section);
-			Assert.assertEquals(section, serializer.serialize(generated));
+			assertEquals(section, serializer.serialize(generated));
 		} catch (IOException e) {
 			throw new AssertionFailedError(e.getMessage());
 		} catch (ParseException e) {

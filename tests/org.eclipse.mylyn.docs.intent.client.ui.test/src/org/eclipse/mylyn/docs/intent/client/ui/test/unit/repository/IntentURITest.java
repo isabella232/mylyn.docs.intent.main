@@ -35,6 +35,9 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 @SuppressWarnings("restriction")
 public class IntentURITest extends AbstractIntentUITest {
 
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	private static final String INVALID_URI_ERROR_MESSAGE = ": this URI is invalid, an error should have been thrown";
 
 	/**

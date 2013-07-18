@@ -19,10 +19,11 @@ import org.junit.Test;
  */
 public class TestWikiTextParserUnresolvedProblems {
 
+	/**
+	 * Container test for unresolved problems.
+	 */
 	@Test
-	public void unresolvedProblems() throws Exception {
-		// Objectives :
-		// show that some problems remains
+	public void unresolvedProblems() {
 		// TestWikiTextParserGeneral.compareTextSerialization("unresolvedProblems/fancyUnresolved.textile");
 	}
 }

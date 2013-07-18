@@ -24,37 +24,85 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
  */
 public class CompletionTest extends AbstractIntentUITest {
 
+	/**
+	 * Path to test file.
+	 */
 	private static final String INTENT_DOC_PATH = "data/unit/demo/demo_as_text";
 
+	/**
+	 * Path to test file.
+	 */
 	private static final String INTENT_DOC_WITH_ENUMS_PATH = "data/unit/documents/scenario/eenums/docWithEnums.intent";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String KW_CHAPTER = "Chapter";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String KW_SECTION = "Section";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String TEMPLATE_DESC_CHAPTER = "Chapter - Chapter";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String TEMPLATE_DESC_SECTION = "Section - Section";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String TEMPLATE_DESC_MU = "Modeling Unit - Modeling Unit";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String TEMPLATE_DESC_RESOURCE = "Resource - Declaration of a new Resource";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String TEMPLATE_DESC_INST = "new - Declaration of a new entity";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String TEMPLATE_DESC_REF = "@ref - Declaration of a new internal entity (stored only inside the intent repository)";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String TEMPLATE_DESC_URI = "Resource URI - URI indicating the Resource location";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String TEMPLATE_DESC_CONTENT = "Resource Content - Add content to the Resource";
 
+	/**
+	 * Constant used to test completion.
+	 */
 	private static final String TEMPLATE_DESC_BOOL_VALUE = "value (of type EBoolean) - Default: false - Set a simple value of type EBoolean";
 
+	/**
+	 * The current Intent editor.
+	 */
 	private IntentEditor editor;
 
-	private IContentAssistant contentAssistant;
-
+	/**
+	 * The document associated to the current editor.
+	 */
 	private IDocument document;
+
+	/**
+	 * The content assistant to use to test completion.
+	 */
+	private IContentAssistant contentAssistant;
 
 	/**
 	 * Ensures that completion behaves as expected when called on structural features with a EEnum value.
@@ -201,6 +249,7 @@ public class CompletionTest extends AbstractIntentUITest {
 	 *            the completion launch offset
 	 * @return the completion proposals at the given offset
 	 * @throws BadLocationException
+	 *             if offset is invalid
 	 */
 	private ICompletionProposal[] getCompletionProposals(int offset) throws BadLocationException {
 		return contentAssistant.getContentAssistProcessor(document.getContentType(offset))

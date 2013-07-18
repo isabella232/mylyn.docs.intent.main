@@ -10,11 +10,13 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.test.descriptionunit;
 
-import junit.framework.Assert;
+//CHECKSTYLE:OFF
+import static org.junit.Assert.assertEquals;
 
 import org.eclipse.mylyn.docs.intent.parser.descriptionunit.DescriptionUnitParser;
 import org.junit.Test;
 
+//CHECKSTYLE:ON
 /**
  * Ensure the good behavior of the DescriptionUnit Parser.
  * 
@@ -29,21 +31,21 @@ public class DescriptionUnitParserTest {
 	public void testExtractFirstString() {
 		DescriptionUnitParser parser = new DescriptionUnitParser();
 		// 'FirstString'
-		Assert.assertEquals("firstString", parser.extractFirstString("'firstString' and 'secondString'"));
+		assertEquals("firstString", parser.extractFirstString("'firstString' and 'secondString'"));
 		// "FirstS'tring"
-		Assert.assertEquals("firstS'tring", parser.extractFirstString("\"firstS'tring\" and 'secondString'"));
+		assertEquals("firstS'tring", parser.extractFirstString("\"firstS'tring\" and 'secondString'"));
 		// 'Firs\'String'
-		Assert.assertEquals("firs'tString", parser.extractFirstString("'firs\\'tString'"));
+		assertEquals("firs'tString", parser.extractFirstString("'firs\\'tString'"));
 		// "first\"String" => first"String
-		Assert.assertEquals("firs\"tString", parser.extractFirstString("\"firs\\\"tString\""));
+		assertEquals("firs\"tString", parser.extractFirstString("\"firs\\\"tString\""));
 		// 'firs\\'tString' => firs\\
-		Assert.assertEquals("firs\\", parser.extractFirstString("'firs\\\\'tString'"));
+		assertEquals("firs\\", parser.extractFirstString("'firs\\\\'tString'"));
 		// "'first\\\"String'" => 'first\"String'
-		Assert.assertEquals("'first\\\"String'", parser.extractFirstString("\"'first\\\\\\\"String'\""));
+		assertEquals("'first\\\"String'", parser.extractFirstString("\"'first\\\\\\\"String'\""));
 		// => 'first\'String'
-		Assert.assertEquals("'first\\'String'", parser.extractFirstString("\"'first\\\\\\'String'\""));
+		assertEquals("'first\\'String'", parser.extractFirstString("\"'first\\\\\\'String'\""));
 
-		Assert.assertEquals(null, parser.extractFirstString(" ' something"));
+		assertEquals(null, parser.extractFirstString(" ' something"));
 
 	}
 }

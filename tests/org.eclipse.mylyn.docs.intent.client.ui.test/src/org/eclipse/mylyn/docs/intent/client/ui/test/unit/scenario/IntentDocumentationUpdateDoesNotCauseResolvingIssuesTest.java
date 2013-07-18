@@ -35,10 +35,19 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest extends AbstractIntentUITest {
+	/**
+	 * Path to test file.
+	 */
 	private static final String INTENT_DOC_PATH = "data/unit/documents/empty.intent";
 
+	/**
+	 * The current Intent editor.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The document associated to the current Intent editor.
+	 */
 	private IntentEditorDocument document;
 
 	/**
@@ -58,6 +67,10 @@ public class IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest extends Ab
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 	}
 
+	/**
+	 * Ensures that making modifications on the document cannot lead to errors during calls to
+	 * ECoreUtils.resolve().
+	 */
 	public void testSimpleModifications() {
 		document.set("Document {\n\tChapter Title {\n\t\tText\n\n\t\tSection Title {\n\t\t\tText\n\t\t}\n\t}\n\tChapter Title {\n\t\tText\n\t}\n}");
 		editor.doSave(new NullProgressMonitor());
@@ -68,6 +81,13 @@ public class IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest extends Ab
 		waitForAllOperationsInUIThread();
 	}
 
+	/**
+	 * Ensures that renaming sections of the document cannot lead to errors during calls to
+	 * ECoreUtils.resolve().
+	 * 
+	 * @throws IOException
+	 *             if test file cannot be accessed
+	 */
 	public void testSectionRenaming() throws IOException {
 		String intialContent = FileToStringConverter.getFileAsString(new File(
 				"data/unit/documents/scenario/documentUpdate/documentUpdate01.intent"));
@@ -82,6 +102,13 @@ public class IntentDocumentationUpdateDoesNotCauseResolvingIssuesTest extends Ab
 		waitForAllOperationsInUIThread();
 	}
 
+	/**
+	 * Ensures that renaming sections of the document cannot lead to errors during calls to
+	 * ECoreUtils.resolve().
+	 * 
+	 * @throws IOException
+	 *             if test file cannot be accessed
+	 */
 	public void testMultipleContainmentSectionRenaming() throws IOException {
 		String intialContent = FileToStringConverter.getFileAsString(new File(
 				"data/unit/documents/scenario/documentUpdate/multipleContainmentSection.intent"));

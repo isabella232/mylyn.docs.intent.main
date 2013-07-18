@@ -72,7 +72,6 @@ public class IntentSectionImpl extends IntentStructuredElementImpl implements In
 	 * 
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
 	public EList<IntentSection> getSubSections() {
 		Collection<IntentSection> result = new ArrayList<IntentSection>();
 		Iterator<EObject> it = getIntentContent().iterator();
@@ -91,7 +90,6 @@ public class IntentSectionImpl extends IntentStructuredElementImpl implements In
 	 * 
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
 	public EList<GenericUnit> getUnits() {
 		Collection<GenericUnit> result = new ArrayList<GenericUnit>();
 		Iterator<EObject> it = getIntentContent().iterator();
@@ -108,7 +106,6 @@ public class IntentSectionImpl extends IntentStructuredElementImpl implements In
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	public EList<DescriptionUnit> getDescriptionUnits() {
 		Collection<DescriptionUnit> result = new ArrayList<DescriptionUnit>();
 		Iterator<EObject> it = getIntentContent().iterator();
@@ -127,7 +124,6 @@ public class IntentSectionImpl extends IntentStructuredElementImpl implements In
 	 * 
 	 * @generated NOT
 	 */
-	@SuppressWarnings("unchecked")
 	public EList<ModelingUnit> getModelingUnits() {
 		Collection<ModelingUnit> result = new ArrayList<ModelingUnit>();
 		Iterator<EObject> it = getIntentContent().iterator();

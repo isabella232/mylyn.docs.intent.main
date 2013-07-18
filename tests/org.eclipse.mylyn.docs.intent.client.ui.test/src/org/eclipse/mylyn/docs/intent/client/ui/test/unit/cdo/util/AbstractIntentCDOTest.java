@@ -23,8 +23,11 @@ import org.eclipse.mylyn.docs.intent.test.server.IntentCDORepository;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class AbstractIntentCDOTest extends AbstractIntentUITest {
+public abstract class AbstractIntentCDOTest extends AbstractIntentUITest {
 
+	/**
+	 * Name of the intent repository.
+	 */
 	private static final String INTENT_REPOSITORY_NAME = "intent-server";
 
 	/**

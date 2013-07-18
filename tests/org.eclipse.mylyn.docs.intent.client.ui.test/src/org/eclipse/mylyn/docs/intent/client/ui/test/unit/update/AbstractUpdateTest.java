@@ -27,14 +27,25 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
  * 
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class AbstractUpdateTest extends AbstractZipBasedTest {
+public abstract class AbstractUpdateTest extends AbstractZipBasedTest {
 
+	/**
+	 * The currently opened intent editor.
+	 */
 	protected IntentEditor editor;
 
+	/**
+	 * The document associated to the currently opened intent editor.
+	 */
 	protected IntentEditorDocument document;
 
 	/**
 	 * Constructor.
+	 * 
+	 * @param intentProjectArchivePath
+	 *            path of the archive file
+	 * @param intentProjectName
+	 *            the intent project name
 	 */
 	public AbstractUpdateTest(String intentProjectArchivePath, String intentProjectName) {
 		super(intentProjectArchivePath, intentProjectName);
@@ -53,19 +64,21 @@ public class AbstractUpdateTest extends AbstractZipBasedTest {
 	}
 
 	/**
-	 * Checks whether the doc is valid or not.
+	 * Ensures that the current document is equal to the file located at the given path.
 	 * 
+	 * @param expectedDocPath
+	 *            the path of the file containing the expected document
 	 * @throws IOException
 	 *             the the final document cannot be read.
 	 */
-	protected void checkDocumentValidity(String finalDocPath) throws IOException {
+	protected void checkDocumentValidity(String expectedDocPath) throws IOException {
 		// check that the document is valid
 		List<IntentAnnotation> annotations = AnnotationUtils.getIntentAnnotations(editor,
 				IntentAnnotationMessageType.SYNC_WARNING);
 		if (!annotations.isEmpty()) {
 			AnnotationUtils.displayAnnotations(editor);
 		}
-		assertEquals(FileToStringConverter.getFileAsString(new File(finalDocPath)), document.get());
+		assertEquals(FileToStringConverter.getFileAsString(new File(expectedDocPath)), document.get());
 		assertTrue(annotations.isEmpty());
 	}
 

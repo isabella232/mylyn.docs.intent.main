@@ -136,6 +136,14 @@ public class RepositoryListenerForTests implements ILogListener {
 		}
 	}
 
+	/**
+	 * Indicates if this listener has received a message from the client with the given identifier.
+	 * 
+	 * @param clientIdentifier
+	 *            the client identifier
+	 * @return true if this listener has received a message from the client with the given identifier, false
+	 *         otherwise
+	 */
 	private boolean hasReceivedMessage(String clientIdentifier) {
 		boolean hasReceivedMessage = !clientsMessages.get(clientIdentifier).isEmpty();
 		if (hasReceivedMessage) {

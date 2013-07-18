@@ -35,18 +35,32 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
  */
 public class IntentMatchEngineTests extends AbstractIntentUITest {
 
+	/**
+	 * Path of the test file.
+	 */
 	private static final String INTENT_DOCUMENT_FOLDER = "data/unit/documents/editorupdates/";
 
-	private static final String LINEBREAK = "\n";
-
+	/**
+	 * All assertion failed errors (are only raised in the end to have the number of failures and not stop at
+	 * first one).
+	 */
 	private Collection<AssertionFailedError> errors = Sets.newLinkedHashSet();
 
+	/**
+	 * Number of tested cases.
+	 */
 	private int compareCasesNumber;
 
+	/**
+	 * Ensures that the Intent match engine works as expected on the given test file.
+	 */
 	public void testCompareDocumentWithChapterTitles() {
 		doTestDiffEngine("compareTest-01.intent");
 	}
 
+	/**
+	 * Ensures that the Intent match engine works as expected on the given test file.
+	 */
 	public void testCompareDocumentWithoutChapterTitles() {
 		doTestDiffEngine("compareTest-02.intent");
 	}
@@ -151,7 +165,6 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 		IntentDocument copy = EcoreUtil.copy(getIntentDocument());
 		// according to where the chapter is added, we should have the following results :
 		for (int position = 0; position < getIntentDocument().getSubSections().size(); position++) {
-			IntentSection chapterToRemoveInOriginal = getIntentDocument().getSubSections().get(position);
 			IntentSection chapterToRemoveinCopy = copy.getSubSections().get(position);
 			copy.getIntentContent().remove(chapterToRemoveinCopy);
 			String message = "A Chapter deletion should be detected at " + position;
@@ -191,6 +204,15 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 
 	/**
 	 * Ensures that the creation of any section/subsection in the Intent document is correctly detected.
+	 * 
+	 * @param copy
+	 *            a copy of the intent document (in which the modification should be made)
+	 * @param container
+	 *            the container in witch the new section should be added
+	 * @param containerCopy
+	 *            the copy of the container in witch the new section should be added
+	 * @param containerLevel
+	 *            the global containment level
 	 */
 	private void doTestAddingSectionsRecursive(IntentDocument copy, IntentSection container,
 			IntentSection containerCopy, int containerLevel) {
@@ -249,6 +271,15 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 
 	/**
 	 * Ensures that the deletion of any section/subsection in the Intent document is correctly detected.
+	 * 
+	 * @param copy
+	 *            a copy of the intent document (in which the modification should be made)
+	 * @param container
+	 *            the container in witch the new section should be added
+	 * @param containerCopy
+	 *            the copy of the container in witch the new section should be added
+	 * @param containerLevel
+	 *            the global containment level
 	 */
 	private void doTestRemovingSectionsRecursive(IntentDocument copy, IntentSection container,
 			IntentSection containerCopy, int containerLevel) {
@@ -320,6 +351,13 @@ public class IntentMatchEngineTests extends AbstractIntentUITest {
 		return childDiff;
 	}
 
+	/**
+	 * Returns the given differences as string (to show them in assertion message).
+	 * 
+	 * @param differences
+	 *            the dirrences to get as string
+	 * @return the given differences as string (to show them in assertion message)
+	 */
 	protected String getDiffAsString(Collection<Diff> differences) {
 		String diff = "";
 		for (Diff element : differences) {

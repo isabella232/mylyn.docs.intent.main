@@ -35,6 +35,15 @@ import org.eclipse.mylyn.docs.intent.core.compiler.TraceabilityIndex;
  */
 public class IndexerNotificationsTest extends AbstractIntentUITest {
 
+	/**
+	 * Ensures that the Intent {@link org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient} is
+	 * correctly notified.
+	 * 
+	 * @throws ReadOnlyException
+	 *             if issues occur while commiting modification on the intent repository
+	 * @throws SaveException
+	 *             if issues occur while commiting modification on the intent repository
+	 */
 	public void testIndexerNotifications() throws ReadOnlyException, SaveException {
 		// Step 1: we initialize an intent project
 		setUpIntentProject("intentProject",

@@ -30,6 +30,14 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
  */
 public class RefresherTest extends AbstractIntentUITest {
 
+	/**
+	 * Ensures that the Intent project refresher is correctly notified and correctly applies changes.
+	 * 
+	 * @throws ReadOnlyException
+	 *             if test repository cannot be properly accessed
+	 * @throws SaveException
+	 *             if cannot save on repository
+	 */
 	public void testRefreshProblems() throws ReadOnlyException, SaveException {
 		// Step 1: we initialize an intent project
 		setUpIntentProject("intentProject", "data/unit/documents/editorupdates/refreshTest.intent", true);

@@ -113,10 +113,9 @@ public class IntentLinkHelper implements ILinkHelper {
 		if (selectedElement instanceof IntentIndexEntry) {
 			alreadyOpenedEditor = IntentEditorOpener
 					.getAlreadyOpenedEditor(((IntentIndexEntry)selectedElement).getReferencedElement());
-		}
-		// This case can never happen if jdt is installed, as LinkEditorAction.activateEditorJob only takes
-		// the first linkhelper available (if installed, the JDT for an IProject)
-		else if (selectedElement instanceof IProject) {
+		} else if (selectedElement instanceof IProject) {
+			// This case can never happen if jdt is installed, as LinkEditorAction.activateEditorJob only
+			// takes the first linkhelper available (if installed, the JDT for an IProject)
 			try {
 				if (((IProject)selectedElement).hasNature(IntentNature.NATURE_ID)) {
 

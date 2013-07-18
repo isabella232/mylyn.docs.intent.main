@@ -8,12 +8,15 @@
  * Contributors:
  *     Obeo - initial API and implementation
  *******************************************************************************/
+//CHECKSTYLE:OFF
 package org.eclipse.mylyn.docs.intent.parser.modelingunit.test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-
-import junit.framework.Assert;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -28,6 +31,7 @@ import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.junit.Before;
 import org.junit.Test;
 
+//CHECKSTYLE:ON
 /**
  * Test the parsing of ModelingUnit files.
  * 
@@ -90,16 +94,16 @@ public class TestModelingUnitParser {
 
 			// Step 4 : we compare the textual version of the two xmiFiles.
 			String expected = FileToStringConverter.getFileAsString(expectedASTFile);
-			Assert.assertEquals(expected, actual);
-			Assert.assertEquals(supposedToWork, true);
+			assertEquals(expected, actual);
+			assertTrue("File should have raised parsing exception", supposedToWork);
 		} catch (ParseException e) {
 			System.err.println("----------------------------------------");
 			System.err.println("--- Parsing errors for file : " + fileToTest);
 			System.err.println(e.getMessage());
-			Assert.assertEquals(supposedToWork, false);
+			assertFalse("File should not have raised parsing exception", supposedToWork);
 		} catch (IOException e) {
 			e.printStackTrace();
-			Assert.assertEquals(supposedToWork, false);
+			assertEquals(supposedToWork, false);
 		}
 		return parsedAST;
 

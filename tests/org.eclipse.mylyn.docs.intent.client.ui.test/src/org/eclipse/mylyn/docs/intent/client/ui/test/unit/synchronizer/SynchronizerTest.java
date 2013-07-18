@@ -27,10 +27,19 @@ import org.eclipse.mylyn.docs.intent.serializer.ParsedElementPosition;
  */
 public class SynchronizerTest extends AbstractZipBasedTest {
 
+	/**
+	 * The current intent editor.
+	 */
 	protected IntentEditor editor;
 
+	/**
+	 * The document associated to the current intent editor.
+	 */
 	protected IntentEditorDocument document;
 
+	/**
+	 * Cache on the markers associated to the intent project.
+	 */
 	private IMarker[] markers;
 
 	/**
@@ -95,6 +104,7 @@ public class SynchronizerTest extends AbstractZipBasedTest {
 	 * @param length
 	 *            the sync warning length in the document
 	 * @throws CoreException
+	 *             if issue occur while getting markers
 	 */
 	private void assertMessageExists(String message, int offset, int length) throws CoreException {
 		boolean found = false;

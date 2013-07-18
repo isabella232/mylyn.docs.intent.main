@@ -32,21 +32,44 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.AnnotationUtils;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public class EcoreTest extends AbstractDemoTest {
-
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	private static final String SYNC_WARNING_MESSAGE_RIGHT = "EAttribute literal in Right has changed.<br/>Documentation : Right<br/><b>Working Copy</b> : New";
 
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	private static final String SYNC_WARNING_MESSAGE_LEFT = "EAttribute literal in Left has changed.<br/>Documentation : Left<br/><b>Working Copy</b> : Old";
 
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	private static final String SYNC_WARNING_MESSAGE_ANCESTOR = "The EEnumLiteral Ancestor is defined in the Documentation model<br/>but not in the <b>Working Copy</b> model.";
 
+	/**
+	 * URI of the match model.
+	 */
 	private static final String MATCH_MODEL_URI = "platform:/resource/org.eclipse.emf.compare.match/model/match.ecore";
 
+	/**
+	 * Constant used to insert text.
+	 */
 	private static final int INSERTION_INDEX = 912;
 
+	/**
+	 * New content to set to the document.
+	 */
 	private static final String NEW_LITERAL_STRING = "\n\t\t\t\teLiterals += new EEnumLiteral {\n\t\t\t\t\tname = \"Ancestor\";\n\t\t\t\t\tliteral = \"Ancestor\";\n\t\t\t\t\tvalue = \"2\";\n\t\t\t\t};";
 
+	/**
+	 * The current Intent editor.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The document associated to the current Intent editor.
+	 */
 	private IntentEditorDocument document;
 
 	/**

@@ -21,6 +21,9 @@ import org.eclipse.ui.PlatformUI;
  */
 public class OpenEditorTest extends AbstractDemoTest {
 
+	/**
+	 * Expected names for editors opened by this test.
+	 */
 	private static final String[] EDITOR_REFERENCES_NAMES = new String[] {"IntentDocument", "Architecture",
 			"Comparison process",
 	};

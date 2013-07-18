@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.test;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -166,7 +165,7 @@ public abstract class AbstractRepositoryTest extends TestCase {
 			currentTime = System.currentTimeMillis();
 		}
 		// If no notification has been received, receivedNotification is equals to null
-		Assert.assertTrue(expectedResult.isNotificationConformToExpected(receivedNotification));
+		assertTrue(expectedResult.isNotificationConformToExpected(receivedNotification));
 		receivedNotification = null;
 
 	}

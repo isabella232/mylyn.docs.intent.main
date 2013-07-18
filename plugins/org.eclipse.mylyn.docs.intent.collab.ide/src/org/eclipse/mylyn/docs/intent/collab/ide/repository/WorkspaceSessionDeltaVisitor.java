@@ -46,11 +46,6 @@ public class WorkspaceSessionDeltaVisitor implements IResourceDeltaVisitor {
 	protected Collection<Resource> removedResources;
 
 	/**
-	 * The path indicating the location of the listened WorkspaceRepository.
-	 */
-	private String repositoryPath;
-
-	/**
 	 * WorkspaceSessionDeltaVisitor constructor.
 	 * 
 	 * @param repositoryAdapter
@@ -63,7 +58,6 @@ public class WorkspaceSessionDeltaVisitor implements IResourceDeltaVisitor {
 		this.repositoryAdapter = repositoryAdapter;
 		this.changedResources = new ArrayList<Resource>();
 		this.removedResources = new ArrayList<Resource>();
-		this.repositoryPath = repositoryPath.toString();
 	}
 
 	/**

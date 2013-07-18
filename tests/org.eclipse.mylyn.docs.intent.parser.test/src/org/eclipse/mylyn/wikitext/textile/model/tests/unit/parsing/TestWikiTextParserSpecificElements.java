@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.wikitext.textile.model.tests.unit.parsing;
 
-import junit.framework.Assert;
+//CHECKSTYLE:OFF
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+//CHECKSTYLE:ON
 /**
  * Test the wikiText parser on specific syntaxic details.
  * 
@@ -21,11 +23,11 @@ import org.junit.Test;
  */
 public class TestWikiTextParserSpecificElements {
 
+	/**
+	 * Ensures that TOC are correctly detected (see the textile File for details).
+	 */
 	@Test
-	public void testTOCDetection() throws Exception {
-		// Objectives :
-		// Ensure that TOC are correctly detected (see the textile File for details).
-
+	public void testTOCDetection() {
 		String[] result = TestWikiTextParserGeneral
 				.getTextSerializations("specificElements/tocDetection.textile");
 		String actual = result[1];
@@ -36,21 +38,21 @@ public class TestWikiTextParserSpecificElements {
 		expected += "And this one also";
 		expected += "\n\n";
 		expected += "{toc}\n";
-		Assert.assertEquals(expected, actual);
+		assertEquals(expected, actual);
 
 	}
 
+	/**
+	 * Ensures that HTMLEntites are correctly managed.
+	 */
 	@Test
-	public void testHTMLEntities() throws Exception {
-		// Objectives :
-		// Ensure that HTMLEntites are correctly managed.
-
+	public void testHTMLEntities() {
 		String[] result = TestWikiTextParserGeneral
 				.getTextSerializations("specificElements/testHTMLEntities.textile");
 		String actual = result[1];
 
 		String expected = result[0];
 		expected = expected.replace("<br/>", "\n");
-		Assert.assertEquals(expected, actual);
+		assertEquals(expected, actual);
 	}
 }

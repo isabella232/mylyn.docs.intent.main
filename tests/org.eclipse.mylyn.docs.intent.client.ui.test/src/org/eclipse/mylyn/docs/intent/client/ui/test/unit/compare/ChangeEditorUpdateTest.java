@@ -25,6 +25,8 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
  */
 public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 
+	// Disabling checkstyle because documenting those constants will not bring any information
+	// CHECKSTYLE:OFF
 	private static final int FOCUS_ON_DOCUMENT = 3;
 
 	private static final String SAMPLE_MODELING_CONTENT = "\n\t\n\t@M\n\t\tSide {\n\t\t\tserializable = \"true\";\n\t\t}\n\tM@\n\t\n\n\t";
@@ -47,14 +49,23 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 
 	private static final String PREFIX_CHAPTER_1 = "Document {\n\tChapter {";
 
-	private static final String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/editorupdates/changeEditorUpdateTest.intent";
-
 	private static final String PREFIX_CHAPTER_2_FOCUS_DOCUMENT = "\t}\n\tChapter {";
 
-	private IntentSection section;
+	// CHECKSTYLE:ON
 
+	/**
+	 * Path to test file.
+	 */
+	private static final String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/editorupdates/changeEditorUpdateTest.intent";
+
+	/**
+	 * The current editor.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The document associated to the current editor.
+	 */
 	private IntentEditorDocument document;
 
 	/**
@@ -66,8 +77,6 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	protected void setUp() throws Exception {
 		super.setUp();
 		setUpIntentProject("intentProject", INTENT_DOCUMENT_EXAMPLE_PATH);
-		section = getIntentDocument().getSubSections().iterator().next().getSubSections().iterator().next();
-
 	}
 
 	/**
@@ -184,6 +193,8 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	 */
 	public void testSubSectionOrderWithFocusOnSection() {
 		// opening an editor on a section
+		IntentSection section = getIntentDocument().getSubSections().iterator().next().getSubSections()
+				.iterator().next();
 		editor = openIntentEditor(section);
 
 		genericTestSubSectionOrderWithFocusOnDocuments(1);
@@ -249,6 +260,9 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 	/**
 	 * Ensures that when typing new sections inside the Intent Document, when emf compare is used to update
 	 * the repository the structure is respected.
+	 * 
+	 * @param focusLevel
+	 *            used to create the correct number of tabulations
 	 */
 	private void genericTestSubSectionOrderWithFocusOnDocuments(int focusLevel) {
 		// Step 1 : get the content of the editor

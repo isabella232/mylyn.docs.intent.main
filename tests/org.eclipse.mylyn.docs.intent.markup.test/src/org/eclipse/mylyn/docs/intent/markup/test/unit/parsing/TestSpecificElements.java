@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.markup.test.unit.parsing;
 
-import junit.framework.Assert;
+//CHECKSTYLE:OFF
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+//CHECKSTYLE:ON
 /**
  * Test specific elements.
  * 
@@ -35,7 +37,7 @@ public class TestSpecificElements {
 		expected += "And this one also";
 		expected += "\n\n";
 		expected += "{toc}\n";
-		Assert.assertEquals(expected, actual);
+		assertEquals(expected, actual);
 
 	}
 
@@ -50,6 +52,6 @@ public class TestSpecificElements {
 
 		String expected = result[0];
 		expected = expected.replace("<br/>", "\n");
-		Assert.assertEquals(expected, actual);
+		assertEquals(expected, actual);
 	}
 }

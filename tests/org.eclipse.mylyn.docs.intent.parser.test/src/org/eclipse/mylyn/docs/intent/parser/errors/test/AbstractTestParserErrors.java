@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.parser.errors.test;
 
+//CHECKSTYLE:OFF
+import static org.junit.Assert.assertEquals;
+
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
 import org.eclipse.mylyn.docs.intent.parser.IntentParser;
@@ -21,6 +23,7 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
 import org.junit.Before;
 
+//CHECKSTYLE:ON
 /**
  * Utilities to test the parsing errors.
  * 
@@ -28,6 +31,9 @@ import org.junit.Before;
  */
 public abstract class AbstractTestParserErrors {
 
+	/**
+	 * Constant to indicate unrecognized content.
+	 */
 	protected static final String UNRECOGNIZED_CONTENT_ERROR = "Unrecognized content";
 
 	/**
@@ -65,9 +71,9 @@ public abstract class AbstractTestParserErrors {
 				System.err.println("Error found on " + fileName + ", " + actual.getErrorOffset() + "("
 						+ actual.getErrorLength() + ") : " + actual.getMessage());
 			} else {
-				Assert.assertEquals("different message", expected.getMessage(), actual.getMessage());
-				Assert.assertEquals("different offset", expected.getErrorOffset(), actual.getErrorOffset());
-				Assert.assertEquals("different length", expected.getErrorLength(), actual.getErrorLength());
+				assertEquals("different message", expected.getMessage(), actual.getMessage());
+				assertEquals("different offset", expected.getErrorOffset(), actual.getErrorOffset());
+				assertEquals("different length", expected.getErrorLength(), actual.getErrorLength());
 				errorFound = true;
 			}
 		}

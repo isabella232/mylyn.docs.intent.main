@@ -35,14 +35,29 @@ import org.eclipse.ui.PlatformUI;
  */
 public class IntentHyperLinkDetetectorTest extends AbstractIntentUITest {
 
+	/**
+	 * Expected selection offset in the java file opened through hyperlinks.
+	 */
 	private static final int JAVA_METHOD_OFFSET = 1704;
 
+	/**
+	 * Location of the test archive.
+	 */
 	private static final String JAVA_PROJECT_PATH = "data/unit/java/java.example01.zip";
 
+	/**
+	 * Test file.
+	 */
 	private static final String INTENT_DOCUMENT_EXAMPLE_PATH = "data/unit/documents/java/doc_with_java.intent";
 
+	/**
+	 * The current Intent editor.
+	 */
 	private IntentEditor editor;
 
+	/**
+	 * The document associated to the current intent Editor.
+	 */
 	private IntentEditorDocument document;
 
 	/**
@@ -85,8 +100,15 @@ public class IntentHyperLinkDetetectorTest extends AbstractIntentUITest {
 	}
 
 	/**
-	 * Ensures that when searhcing for hyperlinks at the given offset, one is found and allows to open an
+	 * Ensures that when searching for hyperlinks at the given offset, one is found and allows to open an
 	 * editor with the given expectedEditorID, with a selection at the given expectedSelectedOffset.
+	 * 
+	 * @param offset
+	 *            the offset on which to place caret to get hyperlinks
+	 * @param expectedEditorID
+	 *            the expected id for the editor that will be opened when clicking on the hyperlink
+	 * @param expectedSelectedOffset
+	 *            expected selection offset in the opened editor
 	 */
 	public void doTestHyperLink(int offset, String expectedEditorID, int expectedSelectedOffset) {
 		IRegion region = new Region(offset, 1);

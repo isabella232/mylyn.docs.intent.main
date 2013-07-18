@@ -19,20 +19,44 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractZipBasedTest;
  */
 public abstract class AbstractDemoTest extends AbstractZipBasedTest {
 
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	protected static final String TEST_COMPILER_NO_ERROR_MSG = "The compiler failed to detect errors";
 
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	protected static final String TEST_COMPILER_INVALID_ERROR_MSG = "The compiler detected invalid errors";
 
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	protected static final String TEST_COMPILER_NO_INFO_MSG = "The compiler failed to detect infos";
 
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	protected static final String TEST_COMPILER_INVALID_INFO_MSG = "The compiler detected invalid infos";
 
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	protected static final String TEST_SYNCHRONIZER_NO_WARNING_MSG = "The synchronizer failed to detect errors";
 
+	/**
+	 * Constant used to create assertion failure messages.
+	 */
 	protected static final String TEST_SYNCHRONIZER_INVALID_WARNING_MSG = "The synchronizer failed to detect errors";
 
+	/**
+	 * Location of the test archive file.
+	 */
 	private static final String DEMO_ZIP_LOCATION = "data/unit/demo/demo.zip";
 
+	/**
+	 * Name of the intent project.
+	 */
 	private static final String INTENT_PROJECT_NAME = "org.eclipse.emf.compare.idoc";
 
 	/**

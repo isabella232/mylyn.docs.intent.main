@@ -13,8 +13,6 @@ package org.eclipse.mylyn.docs.intent.collab.test.ide;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 
-import junit.framework.Assert;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -88,7 +86,7 @@ public class WorkspaceSessionAndFileEvents extends AbstractWorkspaceRepositoryTe
 			} catch (IOException e) {
 				// If you get an assertion error here, it means that the resource cannot been get as a string
 				// The cause can be an invalid URI, or a charset problem.
-				Assert.assertTrue(false);
+				fail(e.getMessage());
 			}
 
 			// We construct the expected version of the element
@@ -145,7 +143,7 @@ public class WorkspaceSessionAndFileEvents extends AbstractWorkspaceRepositoryTe
 			} catch (IOException e) {
 				// If you get an assertion error here, it means that the resource cannot been get as a string
 				// The cause can be an invalid URI, or a charset problem.
-				Assert.assertTrue(false);
+				fail(e.getMessage());
 			}
 
 			// We finally ensure the type listening client is notified (or not) as expected
