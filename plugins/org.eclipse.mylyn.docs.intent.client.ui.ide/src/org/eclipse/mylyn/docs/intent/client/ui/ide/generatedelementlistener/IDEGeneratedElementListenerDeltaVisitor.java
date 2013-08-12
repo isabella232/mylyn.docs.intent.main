@@ -102,7 +102,7 @@ public class IDEGeneratedElementListenerDeltaVisitor implements IResourceDeltaVi
 		boolean isRelevantModification = (delta.getKind() == IResourceDelta.REMOVED)
 				|| (delta.getKind() == IResourceDelta.CHANGED) || delta.getKind() == IResourceDelta.ADDED;
 		// The we ensure that this delta isn't a touch or a marker modification
-		isRelevantModification = isRelevantModification && ((delta.getFlags() & IResourceDelta.MARKERS) == 0);
+		isRelevantModification = isRelevantModification && (delta.getFlags() != IResourceDelta.MARKERS);
 		return isRelevantModification;
 	}
 
