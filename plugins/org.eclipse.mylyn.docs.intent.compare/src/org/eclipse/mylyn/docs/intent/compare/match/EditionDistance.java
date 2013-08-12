@@ -106,7 +106,7 @@ public class EditionDistance implements DistanceFunction {
 	public EditionDistance(Notifier leftRoot, Notifier rightRoot) {
 		this.leftRoot = leftRoot;
 		this.rightRoot = rightRoot;
-		this.countingDiffEngine = new IntentCountingDiffEngine(this, new Double(0));
+		this.countingDiffEngine = new IntentCountingDiffEngine(this, 0);
 		IEqualityHelperFactory fakeEqualityHelperFactory = new DefaultEqualityHelperFactory() {
 			@Override
 			public IEqualityHelper createEqualityHelper() {

@@ -162,7 +162,7 @@ public class IntentPairMatcher implements ICharacterPairMatcher {
 		 * @return true exactly if the character occurs in one of the pairs
 		 */
 		public boolean contains(char c) {
-			return getAllCharacters().contains(new Character(c));
+			return getAllCharacters().contains(Character.valueOf(c));
 		}
 
 		private Set<Character> fCharsCache = null;
@@ -174,7 +174,7 @@ public class IntentPairMatcher implements ICharacterPairMatcher {
 			if (fCharsCache == null) {
 				Set<Character> set = new HashSet<Character>();
 				for (int i = 0; i < fPairs.length; i++)
-					set.add(new Character(fPairs[i]));
+					set.add(Character.valueOf(fPairs[i]));
 				fCharsCache = set;
 			}
 			return fCharsCache;

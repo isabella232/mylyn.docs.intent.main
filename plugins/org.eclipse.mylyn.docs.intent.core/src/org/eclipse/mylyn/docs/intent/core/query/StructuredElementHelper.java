@@ -51,7 +51,7 @@ public final class StructuredElementHelper {
 	public static String getTitle(IntentStructuredElement element, int maxSize) {
 		Block block = ((IntentStructuredElement)element).getTitle();
 		String title = DescriptionUnitHelper.getLabelForMarkupElement(block, maxSize);
-		if (title == null || title.length() < 2) {
+		if (title.length() < 2) {
 			if (element instanceof IntentDocument) {
 				title = "Document";
 			} else if (element.eContainer() instanceof IntentDocument) {

@@ -21,6 +21,13 @@ import org.eclipse.swt.graphics.RGB;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public final class IntentColorConstants {
+	// -----------------------------------
+	// Color constant for DECRIPTION UNITS
+	// ----------------------------------
+	/**
+	 * Color constant for Description Units background.
+	 */
+	private static final RGB DU_BACKGROUND = new RGB(255, 255, 255);
 
 	// -----------------------------------
 	// Color constant for MODELING UNITS
@@ -28,7 +35,7 @@ public final class IntentColorConstants {
 	/**
 	 * Color constant for Modeling Units background.
 	 */
-	private static final RGB MU_BACKGROUND = new RGB(221, 221, 221);
+	private static final RGB MU_BACKGROUND = DU_BACKGROUND;
 
 	/**
 	 * Color constant for Modeling Units decoration lines.
@@ -44,14 +51,6 @@ public final class IntentColorConstants {
 	 * Constant for the width of Modeling Units decoration lines.
 	 */
 	private static final int MU_DECORATION_LINE_WIDTH = 2;
-
-	// -----------------------------------
-	// Color constant for DECRIPTION UNITS
-	// ----------------------------------
-	/**
-	 * Color constant for Description Units background.
-	 */
-	private static final RGB DU_BACKGROUND = new RGB(255, 255, 255);
 
 	/**
 	 * IntentColorConstant constructor.

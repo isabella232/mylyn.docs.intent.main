@@ -162,7 +162,7 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	 *      int)
 	 */
 	public IContextInformation[] computeContextInformation(ITextViewer viewer, int currentOffset) {
-		return null;
+		return new IContextInformation[] {};
 	}
 
 	/**
@@ -180,7 +180,7 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#getContextInformationAutoActivationCharacters()
 	 */
 	public char[] getContextInformationAutoActivationCharacters() {
-		return null;
+		return new char[] {};
 	}
 
 	/**

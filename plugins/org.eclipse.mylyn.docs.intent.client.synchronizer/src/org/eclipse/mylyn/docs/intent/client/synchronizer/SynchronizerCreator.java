@@ -98,10 +98,8 @@ public final class SynchronizerCreator {
 			if (indexEntry.getResourceDeclaration() != null
 					&& indexEntry.getResourceDeclaration().getUri() != null) {
 				String resourceURI = indexEntry.getResourceDeclaration().getUri().toString();
-				if (resourceURI != null) {
-					synchronizerClient.getSynchronizer().updateSynchronizedElementsListeners(
-							URI.createURI(resourceURI.replace("\"", "")));
-				}
+				synchronizerClient.getSynchronizer().updateSynchronizedElementsListeners(
+						URI.createURI(resourceURI.replace("\"", "")));
 			}
 		}
 		return synchronizerClient;

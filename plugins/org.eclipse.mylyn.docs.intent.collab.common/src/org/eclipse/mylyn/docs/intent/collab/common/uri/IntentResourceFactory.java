@@ -75,7 +75,7 @@ public class IntentResourceFactory implements Resource.Factory {
 		String referencedResourcePath = null;
 		// Get the repository path of the referenced resource to load
 		// if the URI contains a resource identifier
-		if (compiledResourceIdentifier != null && compiledResourceIdentifier.length() > 0) {
+		if (compiledResourceIdentifier.length() > 0) {
 			// we return the compiled resource corresponding to this fragment
 			referencedResourcePath = IntentLocations.GENERATED_RESOURCES_FOLDER_PATH
 					+ compiledResourceIdentifier;
@@ -200,9 +200,12 @@ public class IntentResourceFactory implements Resource.Factory {
 		String[] paths = uriWithoutFragment.split(SLASH);
 		if (paths.length > 2) {
 			String compiledResourceIdentifier = paths[2];
+			StringBuilder stringBuilder = new StringBuilder();
 			for (int i = 3; i < paths.length; i++) {
+				stringBuilder.append(paths[i]);
 				compiledResourceIdentifier += paths[i];
 			}
+			compiledResourceIdentifier += stringBuilder.toString();
 			if (uri.hasFragment()) {
 				compiledResourceIdentifier += "_" + uri.fragment().replace(SLASH, "@");
 			}

@@ -160,17 +160,15 @@ public class CompilerInformationsSaver {
 		for (ResourceDeclaration resource : informationHolder.getDeclaredResources()) {
 			if (!progressMonitor.isCanceled()) {
 				String internalResourcePath = getInternalResourcePath(resource);
-				if (internalResourcePath != null) {
-					Resource generatedResource = handler.getRepositoryAdapter().getOrCreateResource(
-							internalResourcePath);
-					resourceInfos.put(resource, internalResourcePath);
-					generatedResource.getContents().clear();
+				Resource generatedResource = handler.getRepositoryAdapter().getOrCreateResource(
+						internalResourcePath);
+				resourceInfos.put(resource, internalResourcePath);
+				generatedResource.getContents().clear();
 
-					// We update the resourceToTraceabilityElementIndexEntry map using this resource content
-					updateTraceabilityFromResourceContent(resource, informationHolder,
-							informationHolder.getResourceContent(resource));
-					generatedResource.getContents().addAll(informationHolder.getResourceContent(resource));
-				}
+				// We update the resourceToTraceabilityElementIndexEntry map using this resource content
+				updateTraceabilityFromResourceContent(resource, informationHolder,
+						informationHolder.getResourceContent(resource));
+				generatedResource.getContents().addAll(informationHolder.getResourceContent(resource));
 			}
 		}
 		return resourceInfos;

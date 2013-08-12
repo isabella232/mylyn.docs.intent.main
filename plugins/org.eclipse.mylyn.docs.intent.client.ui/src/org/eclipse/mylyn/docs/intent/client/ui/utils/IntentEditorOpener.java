@@ -213,7 +213,7 @@ public final class IntentEditorOpener {
 				IEditorReference editorReference = editorReferences[editorCount];
 				IEditorPart editor = editorReference.getEditor(false);
 
-				if (editor instanceof IntentEditor) {
+				if (editor instanceof IntentEditor && elementToOpen instanceof IntentGenericElement) {
 					if (((IntentEditor)editor).containsElement((IntentGenericElement)elementToOpen)) {
 						alreadyOpenedEditor = (IntentEditor)editor;
 						activePage.activate(alreadyOpenedEditor);

@@ -18,7 +18,6 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.CopyOnWriteTextStore;
 import org.eclipse.jface.text.DefaultLineTracker;
 import org.eclipse.jface.text.GapTextStore;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.utils.diff_match_patch;
@@ -36,7 +35,7 @@ import org.eclipse.swt.widgets.Display;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class IntentEditorDocument extends AbstractDocument implements IDocument {
+public class IntentEditorDocument extends AbstractDocument {
 
 	/**
 	 * Constant for Modeling Unit prefix.

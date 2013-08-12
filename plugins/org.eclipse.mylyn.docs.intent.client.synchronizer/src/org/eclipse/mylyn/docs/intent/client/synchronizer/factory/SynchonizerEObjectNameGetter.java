@@ -32,7 +32,7 @@ public final class SynchonizerEObjectNameGetter {
 	private static final ComposedAdapterFactory FACTORY = createAdapterFactory();
 
 	/** Label provider used to compute images and texts for the {@link EObject}s. */
-	private static AdapterFactoryLabelProvider labelProvider;
+	private static final AdapterFactoryLabelProvider LABEL_PROVIDER = new AdapterFactoryLabelProvider(FACTORY);
 
 	/**
 	 * SynchonizerEObjectNameGetter constructor.
@@ -67,10 +67,7 @@ public final class SynchonizerEObjectNameGetter {
 	 * @return The label provider wrapped around {@link EMFAdapterFactoryProvider#getAdapterFactory()}.
 	 */
 	private static AdapterFactoryLabelProvider getLabelProvider() {
-		if (labelProvider == null) {
-			labelProvider = new AdapterFactoryLabelProvider(getAdapterFactory());
-		}
-		return labelProvider;
+		return LABEL_PROVIDER;
 	}
 
 	/**

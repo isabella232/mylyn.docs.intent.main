@@ -77,7 +77,7 @@ public final class StructuralFeatureGenerator {
 		// Step 1 : resolve the feature reference
 		try {
 			EStructuralFeature feature = linkResolver.resolveEStructuralFeature(affectation, eClass.eClass());
-			if (feature == null || feature.getEType() == null) {
+			if (feature.getEType() == null) {
 				modelingUnitGenerator.getInformationHolder().registerCompilationExceptionAsCompilationStatus(
 						new CompilationException(affectation, CompilationErrorType.INVALID_REFERENCE_ERROR,
 								COMPILATION_EXCEPTION_MESSAGE_FEATURE + feature.getName()

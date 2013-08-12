@@ -471,9 +471,7 @@ public class ModelingUnitParserImpl implements ModelingUnitParser {
 			}
 			for (String valueContent : affectation.values) {
 				AbstractValue value = getValue(rootOffset + affectation.keyLength, valueContent);
-				if (value != null) {
-					instance.getValues().add(value);
-				}
+				instance.getValues().add(value);
 			}
 			manager.addContent(affectation.location, instance);
 		}

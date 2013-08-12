@@ -27,7 +27,7 @@ public class CompilationException extends Exception {
 	/**
 	 * The instruction that caused the error.
 	 */
-	private final UnitInstruction invalidInstruction;
+	private final transient UnitInstruction invalidInstruction;
 
 	/**
 	 * Type of this compilation error.

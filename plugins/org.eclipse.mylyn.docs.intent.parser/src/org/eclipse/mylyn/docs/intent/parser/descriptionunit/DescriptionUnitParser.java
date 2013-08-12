@@ -311,7 +311,7 @@ public class DescriptionUnitParser {
 		boolean foundFirstString = false;
 		if (parsedSentence.contains("\"") || parsedSentence.contains("'")) {
 
-			firstString = "";
+			StringBuilder firstStringBuilder = new StringBuilder();
 			char beginQuote = ' ';
 			char previousCharacter = ' ';
 
@@ -333,13 +333,13 @@ public class DescriptionUnitParser {
 							if (currentChar == beginQuote) {
 								foundFirstString = true;
 							} else {
-								firstString += currentChar;
+								firstStringBuilder.append(currentChar);
 								previousCharacter = currentChar;
 							}
 						}
 						// CHECKSTYLE:ON
 					} else {
-						firstString += currentChar;
+						firstStringBuilder.append(currentChar);
 						previousCharacter = currentChar;
 					}
 				} else {
@@ -348,7 +348,7 @@ public class DescriptionUnitParser {
 						// If the previous one was a backslash
 						if (previousCharacter == '\\') {
 							// We add the backslash character in the first String
-							firstString += currentChar;
+							firstStringBuilder.append(currentChar);
 							previousCharacter = ' ';
 						} else {
 							previousCharacter = '\\';
@@ -356,14 +356,14 @@ public class DescriptionUnitParser {
 					} else {
 						if (beginQuote != ' ') {
 							// In all other cases, we add the current character to the constructed string
-							firstString += currentChar;
+							firstStringBuilder.append(currentChar);
 							previousCharacter = currentChar;
 						}
 					}
 
 				}
 			}
-
+			firstString = firstStringBuilder.toString();
 		}
 
 		if (foundFirstString) {

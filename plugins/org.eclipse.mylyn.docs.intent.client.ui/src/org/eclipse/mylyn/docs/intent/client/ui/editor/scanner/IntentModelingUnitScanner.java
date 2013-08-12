@@ -59,11 +59,6 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	private Color defaultforeGroundColor;
 
 	/**
-	 * Default background color.
-	 */
-	private Color defaultBackGroundColor;
-
-	/**
 	 * Foreground color for keywords.
 	 */
 	private Color keyWordforeGroundColor;
@@ -90,8 +85,7 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 		defaultforeGroundColor = colorManager.getColor(IntentColorConstants.getMuDefaultForeground());
 		keyWordforeGroundColor = colorManager.getColor(IntentColorConstants.getMuKeywordForeground());
 		stringforeGroundColor = colorManager.getColor(IntentColorConstants.getMuStringForeground());
-		defaultBackGroundColor = null;
-		backgroundColor = null;
+		backgroundColor = colorManager.getColor(IntentColorConstants.getMuBackground());
 
 		List<IRule> rules = new ArrayList<IRule>();
 		rules.add(computeMUKeyWordsRule());
@@ -107,10 +101,10 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	 * @return the rule related to modeling unit keyWords
 	 */
 	private IRule computeMUKeyWordsRule() {
-		IToken keyWordToken = new Token(new TextAttribute(keyWordforeGroundColor, defaultBackGroundColor,
-				SWT.BOLD, IntentFontConstants.getModelingUnitFont()));
-		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, defaultBackGroundColor,
-				SWT.NONE, IntentFontConstants.getModelingUnitFont()));
+		IToken keyWordToken = new Token(new TextAttribute(keyWordforeGroundColor, backgroundColor, SWT.BOLD,
+				IntentFontConstants.getModelingUnitFont()));
+		IToken defaultToken = new Token(new TextAttribute(defaultforeGroundColor, backgroundColor, SWT.NONE,
+				IntentFontConstants.getModelingUnitFont()));
 
 		WordRule keyWordsRule = new WordRule(new IntentWordDetector(true), defaultToken);
 		for (int i = 0; i < MU_KEYWORDS.length; i++) {
@@ -126,8 +120,8 @@ public class IntentModelingUnitScanner extends AbstractIntentScanner {
 	 * @return a list containing all the rules related to related to Strings
 	 */
 	private Collection<? extends IRule> computeStringRules() {
-		IToken stringToken = new Token(new TextAttribute(stringforeGroundColor, defaultBackGroundColor,
-				SWT.ITALIC, IntentFontConstants.getModelingUnitFont()));
+		IToken stringToken = new Token(new TextAttribute(stringforeGroundColor, backgroundColor, SWT.ITALIC,
+				IntentFontConstants.getModelingUnitFont()));
 		List<IRule> rules = new ArrayList<IRule>();
 		rules.add(new SingleLineRule("\"", "\"", stringToken, '\\'));
 		rules.add(new MultiLineRule("'", "'", stringToken, '\\'));

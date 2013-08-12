@@ -70,7 +70,7 @@ public class IntentHyperLinkDetector extends AbstractHyperlinkDetector {
 				}
 			}
 		}
-		return null;
+		return new IHyperlink[] {};
 	}
 
 	/**

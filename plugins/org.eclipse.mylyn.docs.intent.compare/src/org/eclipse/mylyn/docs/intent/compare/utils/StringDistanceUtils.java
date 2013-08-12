@@ -80,7 +80,7 @@ public final class StringDistanceUtils {
 			double average = diceCoefficient * diceDistanceImpact + sizeCoeff * sizeDistanceImpact;
 			res = (double)((1 - average) * DEFAULT_MAX_STRING_DISTANCE);
 		} else if (a == null && b == null) {
-			res = new Double(0);
+			res = Double.valueOf(0);
 		}
 		return res;
 	}

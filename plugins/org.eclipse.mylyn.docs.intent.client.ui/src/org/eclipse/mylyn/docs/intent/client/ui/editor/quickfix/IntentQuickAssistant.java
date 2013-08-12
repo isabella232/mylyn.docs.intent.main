@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.editor.quickfix;
 
-import org.eclipse.jface.text.quickassist.IQuickAssistAssistant;
 import org.eclipse.jface.text.quickassist.QuickAssistAssistant;
 
 /**
@@ -19,7 +18,7 @@ import org.eclipse.jface.text.quickassist.QuickAssistAssistant;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class IntentQuickAssistant extends QuickAssistAssistant implements IQuickAssistAssistant {
+public class IntentQuickAssistant extends QuickAssistAssistant {
 
 	/**
 	 * Default constructor.

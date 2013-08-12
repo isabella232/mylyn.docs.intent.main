@@ -39,7 +39,7 @@ public abstract class AbstractTestParserErrors {
 	/**
 	 * Parser used to parse files.
 	 */
-	private static IntentParser parser;
+	private IntentParser parser;
 
 	/**
 	 * Initialization of the Test environment : launching the StandaloneParsingManager.

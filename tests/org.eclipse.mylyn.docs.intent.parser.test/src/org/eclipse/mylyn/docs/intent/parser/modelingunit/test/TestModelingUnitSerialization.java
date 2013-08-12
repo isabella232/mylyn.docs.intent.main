@@ -24,7 +24,6 @@ import org.eclipse.mylyn.docs.intent.parser.modelingunit.ParseException;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.serializer.ModelingUnitSerializer;
 import org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils.ModelingUnitParsingTestConfigurator;
 import org.eclipse.mylyn.docs.intent.parser.test.utils.FileToStringConverter;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -35,24 +34,6 @@ import org.junit.Test;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class TestModelingUnitSerialization {
-	/**
-	 * Parser used to parse modeling units.
-	 */
-	private static ModelingUnitParser modelingUnitParser;
-
-	/**
-	 * Serializer used to serialize modeling units.
-	 */
-	private static ModelingUnitSerializer modelingUnitSerializer;
-
-	/**
-	 * Initialization of the Test environment : launching the StandaloneParsingManager.
-	 */
-	@Before
-	public void setUp() {
-		modelingUnitParser = new ModelingUnitParserImpl();
-		modelingUnitSerializer = new ModelingUnitSerializer();
-	}
 
 	/**
 	 * Ensures that parsing and re-serializing the given file does not modify the file.
@@ -62,8 +43,10 @@ public class TestModelingUnitSerialization {
 	 * @param supposedToWork
 	 *            if false, the file should contain syntax errors (and hence is not supposed to be parseable)
 	 */
-	static void parseAndCompareSerializationToExpected(String fileToTest, boolean supposedToWork) {
+	public void parseAndCompareSerializationToExpected(String fileToTest, boolean supposedToWork) {
 		// Step 1 : we parse the model and obtain the AST
+		ModelingUnitParser modelingUnitParser = new ModelingUnitParserImpl();
+		ModelingUnitSerializer modelingUnitSerializer = new ModelingUnitSerializer();
 		ModelingUnit parsedAST;
 		try {
 			parsedAST = (ModelingUnit)ModelingUnitParsingTestConfigurator.parseFile(modelingUnitParser,

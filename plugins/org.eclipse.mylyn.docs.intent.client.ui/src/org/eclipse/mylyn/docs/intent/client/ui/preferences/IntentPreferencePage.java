@@ -460,7 +460,7 @@ public class IntentPreferencePage extends FieldEditorPreferencePage implements I
 	}
 
 	// CHECKSTYLE:OFF
-	public class TabFolderLayout extends Layout {
+	private static class TabFolderLayout extends Layout {
 
 		protected Point computeSize(Composite composite, int wHint, int hHint, boolean flushCache) {
 			if (wHint != SWT.DEFAULT && hHint != SWT.DEFAULT)

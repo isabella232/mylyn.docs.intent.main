@@ -42,7 +42,7 @@ public class TestModelingUnitParser {
 	/**
 	 * Parser used to parse modeling units.
 	 */
-	private static ModelingUnitParser modelingUnitParser;
+	private ModelingUnitParser modelingUnitParser;
 
 	/**
 	 * Initialization of the Test environment : launching the StandaloneParsingManager.
@@ -67,7 +67,7 @@ public class TestModelingUnitParser {
 	 *            indicates if the parser is supposed to succeed.
 	 * @return the file's AST
 	 */
-	static EObject parseAndCompareToExpected(String fileToTest, boolean supposedToWork) {
+	private EObject parseAndCompareToExpected(String fileToTest, boolean supposedToWork) {
 
 		// Step 1 : we parse the model and obtain the AST
 		ModelingUnit parsedAST = null;

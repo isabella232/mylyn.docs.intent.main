@@ -154,7 +154,7 @@ public class IntentMultiPageEditor extends MultiPageEditorPart implements Intent
 							.getTitle() != null)) {
 				container = container.eContainer();
 			}
-			if (container instanceof IntentStructuredElement) {
+			if (container != null) {
 				htmlPreviewLocation += ((IntentStructuredElement)container).getCompleteLevel()
 						+ "_"
 						+ intentSerializer.serialize(((IntentStructuredElement)container).getTitle())

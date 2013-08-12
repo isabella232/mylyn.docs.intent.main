@@ -35,7 +35,7 @@ public final class ModelingUnitFormatter {
 	 * @return the formatted form of the given textual form of a Modeling Unit
 	 */
 	public static String format(String modelingUnitToFormat) {
-		String formattedString = modelingUnitToFormat.toString();
+		String formattedString = modelingUnitToFormat;
 		formattedString = formattedString.replaceAll(";[\t ]*\n[\t ]*", ";\n");
 
 		// We also remove the prefix and suffix for this modeling Unit

@@ -130,8 +130,8 @@ public final class DescriptionUnitHelper {
 	 * @return the label for the given block
 	 */
 	private static String getLabelForBlock(Block block, int maxSize) {
-		String title = "";
 		// We concatenate each text blocs of this title until we have reached the max size
+		StringBuilder titleBuilder = new StringBuilder();
 		for (EObject obj : block.eContents()) {
 			String newTitleElement = "";
 			if (obj instanceof Text) {
@@ -139,21 +139,21 @@ public final class DescriptionUnitHelper {
 
 			} else {
 				if (obj instanceof Block) {
-					if (title.length() > 0) {
+					if (titleBuilder.length() > 0) {
 						newTitleElement += " , ";
 					}
 					newTitleElement += getLabelForBlock((Block)obj, maxSize);
 				}
 			}
-			if (newTitleElement.length() + title.length() > maxSize) {
-				title += newTitleElement.substring(0, maxSize - title.length());
+			if (newTitleElement.length() + titleBuilder.length() > maxSize) {
+				titleBuilder.append(newTitleElement.substring(0, maxSize - titleBuilder.length()));
 			} else {
-				title += newTitleElement;
+				titleBuilder.append(newTitleElement);
 			}
-			if (title.length() > maxSize) {
+			if (titleBuilder.length() > maxSize) {
 				break;
 			}
 		}
-		return title;
+		return titleBuilder.toString();
 	}
 }

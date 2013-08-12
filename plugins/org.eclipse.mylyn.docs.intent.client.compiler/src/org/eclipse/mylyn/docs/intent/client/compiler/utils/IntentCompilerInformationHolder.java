@@ -50,6 +50,11 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ResourceDeclaration;
 public final class IntentCompilerInformationHolder {
 
 	/**
+	 * A {@link Predicate} used to determine wether an Instanciation instruction is valid or not.
+	 */
+	private static final IsValidInstanciationInstructionPredicate IS_VALID_INSTANCIATION_INSTRUCTION_PREDICATE = new IsValidInstanciationInstructionPredicate();
+
+	/**
 	 * Current instance of the information Holder (singleton).
 	 */
 	private static IntentCompilerInformationHolder currentInstance;
@@ -182,13 +187,7 @@ public final class IntentCompilerInformationHolder {
 	public Set<UnitInstruction> getAllInstanciationsInstructions() {
 		return Sets.newLinkedHashSet(Iterables.filter(
 				Iterables.concat(this.informationHolder.getCreatedElementsToInstructions().values()),
-				new Predicate<UnitInstruction>() {
-
-					public boolean apply(UnitInstruction instruction) {
-						return instruction instanceof InstanciationInstruction
-								&& ((InstanciationInstruction)instruction).getName() != null;
-					}
-				}));
+				IS_VALID_INSTANCIATION_INSTRUCTION_PREDICATE));
 	}
 
 	/**
@@ -342,7 +341,8 @@ public final class IntentCompilerInformationHolder {
 					this.informationHolder.getTypeToNameToElementsMap().entrySet(),
 					new Predicate<Entry<EClassifier, StringToEObjectMap>>() {
 						public boolean apply(Entry<EClassifier, StringToEObjectMap> entry) {
-							if (entry.getValue() != null && entry.getValue().getNameToElement() != null) {
+							if (entry != null && entry.getValue() != null
+									&& entry.getValue().getNameToElement() != null) {
 								return entry.getValue().getNameToElement().keySet().contains(name);
 							}
 							return false;
@@ -609,6 +609,24 @@ public final class IntentCompilerInformationHolder {
 			}
 		}
 		referenceContributionInstruction(contributionInstruction);
+	}
+
+	/**
+	 * A {@link Predicate} used to determine wether an Instanciation instruction is valid or not.
+	 * 
+	 * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+	 */
+	private static final class IsValidInstanciationInstructionPredicate implements Predicate<UnitInstruction> {
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see com.google.common.base.Predicate#apply(java.lang.Object)
+		 */
+		public boolean apply(UnitInstruction instruction) {
+			return instruction instanceof InstanciationInstruction
+					&& ((InstanciationInstruction)instruction).getName() != null;
+		}
 	}
 
 }

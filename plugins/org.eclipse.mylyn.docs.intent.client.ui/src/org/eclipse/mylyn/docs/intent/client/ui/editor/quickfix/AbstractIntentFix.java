@@ -42,12 +42,7 @@ public abstract class AbstractIntentFix implements ICompletionProposal {
 	 *            the {@link IntentAnnotation} describing the synchronization issue.
 	 */
 	public AbstractIntentFix(IntentAnnotation annotation) {
-		if (!(annotation instanceof IntentAnnotation)) {
-			throw new IllegalArgumentException(
-					"Cannot apply an Intent fix on the given annotation: should be an IntentAnnotation "
-							+ annotation.toString());
-		}
-		this.syncAnnotation = (IntentAnnotation)annotation;
+		this.syncAnnotation = annotation;
 	}
 
 	/**

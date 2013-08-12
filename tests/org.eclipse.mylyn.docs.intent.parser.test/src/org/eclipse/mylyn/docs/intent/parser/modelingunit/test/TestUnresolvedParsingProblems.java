@@ -27,7 +27,7 @@ public class TestUnresolvedParsingProblems {
 	@Test
 	public void testMultiValuedFeatures() {
 		// Operator += : meta-Type needed !
-		TestModelingUnitSerialization.parseAndCompareSerializationToExpected(
+		new TestModelingUnitSerialization().parseAndCompareSerializationToExpected(
 				"unresolvedIssues/multivaluedFeatures", true);
 	}
 }

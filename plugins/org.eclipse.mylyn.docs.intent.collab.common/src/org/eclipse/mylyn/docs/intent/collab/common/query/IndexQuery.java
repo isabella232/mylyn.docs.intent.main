@@ -76,7 +76,7 @@ public class IndexQuery extends AbstractIntentQuery {
 		IntentIndexEntry currentCandidate = null;
 
 		// We split the level to get each identifier separately
-		String[] levels = level.split(".");
+		String[] levels = level.split("\\.");
 		try {
 
 			// Get the root index entry matching the first identifier

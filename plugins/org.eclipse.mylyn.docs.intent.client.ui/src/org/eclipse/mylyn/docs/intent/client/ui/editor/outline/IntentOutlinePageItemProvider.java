@@ -124,7 +124,7 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 			boolean foundWarning = false;
 			boolean foundSyncWarning = false;
 
-			while (!foundError & statusIterator.hasNext()) {
+			while (!foundError && statusIterator.hasNext()) {
 				CompilationStatus status = statusIterator.next();
 				foundError = status.getSeverity().equals(CompilationStatusSeverity.ERROR);
 				if (status.getSeverity().equals(CompilationStatusSeverity.WARNING)) {

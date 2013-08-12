@@ -42,23 +42,23 @@ public final class IntentReconcilingStrategy implements IReconcilingStrategy, IR
 	/**
 	 * This will hold the list of all annotations that have been added since the last reconciling.
 	 */
-	protected final Map<Annotation, Position> addedAnnotations = new HashMap<Annotation, Position>();
+	private final Map<Annotation, Position> addedAnnotations = new HashMap<Annotation, Position>();
 
 	/** Current known positions of foldable block. */
-	protected final Map<Annotation, Position> currentAnnotations = new HashMap<Annotation, Position>();
+	private final Map<Annotation, Position> currentAnnotations = new HashMap<Annotation, Position>();
 
 	/**
 	 * This will hold the list of all annotations that have been removed since the last reconciling.
 	 */
-	protected final List<Annotation> deletedAnnotations = new ArrayList<Annotation>();
+	private final List<Annotation> deletedAnnotations = new ArrayList<Annotation>();
 
 	/** Editor this provides folding support to. */
-	protected final IntentEditor editor;
+	private final IntentEditor editor;
 
 	/**
 	 * This will hold the list of all annotations that have been modified since the last reconciling.
 	 */
-	protected final Map<Annotation, Position> modifiedAnnotations = new HashMap<Annotation, Position>();
+	private final Map<Annotation, Position> modifiedAnnotations = new HashMap<Annotation, Position>();
 
 	/** The document we'll seek foldable blocks in. */
 	private IDocument document;

@@ -130,7 +130,7 @@ public final class EntitySerializer {
 	/**
 	 * HasMap mapping an entity code (example : '#169') to its TRANSLATION in Textile ('(c)').
 	 */
-	private static Map<String, String> entityMapping;
+	private static Map<String, String> entityMapping = new HashMap<String, String>();
 
 	/**
 	 * EntitySerializer constructor.
@@ -161,8 +161,7 @@ public final class EntitySerializer {
 	 * Initialize the mapping between entity's codes and their TRANSLATIONs in textile.
 	 */
 	private static void initializeEntityMapping() {
-		if (entityMapping == null) {
-			entityMapping = new HashMap<String, String>();
+		if (entityMapping.isEmpty()) {
 			entityMapping.put(COPYRIGHT_CODE, COPYRIGHT_TRANSLATION);
 			entityMapping.put(TRADEMARK_CODE, TRADEMARK_TRANSLATION);
 			entityMapping.put(REGISTERED_CODE, REGISTERED_TRANSLATION);
