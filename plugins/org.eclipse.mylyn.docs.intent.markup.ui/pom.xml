@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>org.eclipse.mylyn.docs.intent-group</groupId>
 		<artifactId>intent-parent</artifactId>
-		<version>0.8.0-SNAPSHOT</version>
+		<version>0.8.1-SNAPSHOT</version>
 		<relativePath>../..</relativePath>
 	</parent>
 
