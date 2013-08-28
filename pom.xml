@@ -19,7 +19,7 @@
 
   <groupId>org.eclipse.mylyn.docs.intent-group</groupId>
   <artifactId>intent-parent</artifactId>
-  <version>0.8.0-SNAPSHOT</version>
+  <version>0.8.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <licenses>
@@ -381,7 +381,7 @@
 							<artifact>
 								<groupId>org.eclipse.mylyn.docs.intent-group</groupId>
 								<artifactId>intent-parent</artifactId>
-								<version>0.8.0-SNAPSHOT</version>
+								<version>0.8.1-SNAPSHOT</version>
 								<classifier>plugins/org.eclipse.mylyn.docs.intent/dev/target platform/kepler-sdk</classifier>
 							</artifact>
 						</target>
@@ -409,7 +409,7 @@
 							<artifact>
 								<groupId>org.eclipse.mylyn.docs.intent-group</groupId>
 								<artifactId>intent-parent</artifactId>
-								<version>0.8.0-SNAPSHOT</version>
+								<version>0.8.1-SNAPSHOT</version>
 								<classifier>plugins/org.eclipse.mylyn.docs.intent/dev/target platform/juno-sdk-4.2</classifier>
 							</artifact>
 						</target>
@@ -437,7 +437,7 @@
 							<artifact>
 								<groupId>org.eclipse.mylyn.docs.intent-group</groupId>
 								<artifactId>intent-parent</artifactId>
-								<version>0.8.0-SNAPSHOT</version>
+								<version>0.8.1-SNAPSHOT</version>
 								<classifier>plugins/org.eclipse.mylyn.docs.intent/dev/target platform/juno-sdk-3.8/</classifier>
 							</artifact>
 						</target>
@@ -465,7 +465,7 @@
 							<artifact>
 								<groupId>org.eclipse.mylyn.docs.intent-group</groupId>
 								<artifactId>intent-parent</artifactId>
-								<version>0.8.0-SNAPSHOT</version>
+								<version>0.8.1-SNAPSHOT</version>
 								<classifier>plugins/org.eclipse.mylyn.docs.intent/dev/target platform/indigo-sdk-3.8/</classifier>
 							</artifact>
 						</target>
