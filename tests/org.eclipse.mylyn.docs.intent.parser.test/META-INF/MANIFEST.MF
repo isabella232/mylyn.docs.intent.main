@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Localization: plugin
 Bundle-Name: org.eclipse.mylyn.docs.intent.modelingunit.parser.test
 Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.parser.test
-Bundle-Version: 0.8.0.qualifier
+Bundle-Version: 0.9.0.qualifier
 Export-Package: org.eclipse.mylyn.docs.intent.parser.modelingunit.test.utils,
  org.eclipse.mylyn.docs.intent.parser.test,
  org.eclipse.mylyn.docs.intent.parser.test.utils
