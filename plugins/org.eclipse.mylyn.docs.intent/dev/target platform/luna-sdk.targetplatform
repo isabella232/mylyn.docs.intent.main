@@ -1,0 +1,32 @@
+target "Kepler SDK"
+
+// Eclipse plugins dependencies
+location "http://download.eclipse.org/releases/luna" {
+	with source, requirements
+	org.eclipse.sdk.ide	
+	org.eclipse.mylyn.wikitext_feature.feature.group	
+	org.eclipse.emf.sdk.feature.group
+	org.eclipse.emf.transaction.sdk.feature.group
+	org.eclipse.emf.validation.sdk.feature.group
+	org.eclipse.emf.compare.feature.group
+	org.eclipse.emf.compare.ide.ui.feature.group
+	org.eclipse.jdt.feature.group
+	org.eclipse.emf.cdo.sdk.feature.group
+	org.eclipse.mylyn.ide_feature.feature.group
+}
+
+location "http://download.eclipse.org/releases/kepler" {
+	with source, requirements
+	// Temporary: waiting for acceleo to contribute to luna
+	org.eclipse.acceleo.feature.group
+}
+
+// Orbit dependencies
+location "http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/" {
+	with source, requirements	
+	com.google.guava;version="[11.0.0,12.0.0)"
+	com.google.guava.^source;version="[11.0.0,12.0.0)"
+	org.junit
+}
+
+
