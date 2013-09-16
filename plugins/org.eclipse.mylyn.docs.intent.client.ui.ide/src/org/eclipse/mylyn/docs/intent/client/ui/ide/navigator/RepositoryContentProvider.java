@@ -14,7 +14,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.common.query.IndexQuery;
@@ -26,6 +25,9 @@ import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex;
 import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.navigator.ICommonContentExtensionSite;
+import org.eclipse.ui.navigator.ICommonContentProvider;
 
 /**
  * Provides content for the ProjectExplorer elements.
@@ -33,7 +35,7 @@ import org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
-public class RepositoryContentProvider implements ITreeContentProvider {
+public class RepositoryContentProvider implements ICommonContentProvider {
 
 	/**
 	 * {@inheritDoc}
@@ -149,6 +151,34 @@ public class RepositoryContentProvider implements ITreeContentProvider {
 			return getChildren(getIFileIndex((IProject)inputElement));
 		}
 		return getChildren(inputElement);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.navigator.ICommonContentProvider#init(org.eclipse.ui.navigator.ICommonContentExtensionSite)
+	 */
+	public void init(ICommonContentExtensionSite aConfig) {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.navigator.IMementoAware#restoreState(org.eclipse.ui.IMemento)
+	 */
+	public void restoreState(IMemento aMemento) {
+		// Do nothing
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.ui.navigator.IMementoAware#saveState(org.eclipse.ui.IMemento)
+	 */
+	public void saveState(IMemento aMemento) {
+		// Do nothing
 	}
 
 }

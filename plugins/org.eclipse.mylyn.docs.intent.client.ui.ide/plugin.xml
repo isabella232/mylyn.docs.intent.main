@@ -38,6 +38,7 @@ Contributors:
           point="org.eclipse.ui.navigator.navigatorContent">
        <navigatorContent
              activeByDefault="true"
+             appearsBefore="org.eclipse.jdt.java.ui.javaContent"
              contentProvider="org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.RepositoryContentProvider"
              icon="icon/ide/workspaceicon.gif"
              id="org.eclipse.mylyn.docs.intent.client.ui.ide.RepositoryContent"
@@ -48,24 +49,20 @@ Contributors:
           <triggerPoints>
  			<or>
             	<adapt type="org.eclipse.core.resources.IProject">
-                	<and>
-                    	<test
-                        	property="org.eclipse.core.resources.projectNature"
-                            value="org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature">
-                        </test>
-                    </and>
+                	<test property="org.eclipse.core.resources.projectNature" value="org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature"/>
                 </adapt>                
             </or>
           </triggerPoints>
  		<possibleChildren>
-        	<or>
-            <instanceof
-                  value="org.eclipse.mylyn.docs.intent.core.indexer.IntentIndex">
-            </instanceof>
-            <instanceof
-                  value="org.eclipse.mylyn.docs.intent.core.indexer.IntentIndexEntry">
-            </instanceof>         
-        	</or>
+ 			<or>
+        	 <instanceof
+                    value="org.eclipse.emf.ecore.EObject">
+              </instanceof>
+               <adapt
+                    type="org.eclipse.core.resources.IProject">
+                	<test property="org.eclipse.core.resources.projectNature" value="org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature"/>
+              </adapt>
+             </or>
      	</possibleChildren>
           <actionProvider
                 class="org.eclipse.mylyn.docs.intent.client.ui.ide.navigator.RepositoryActionProvider">
@@ -341,7 +338,15 @@ Contributors:
                  pattern="org.eclipse.mylyn.docs.intent.client.ui.ide.*">
            </contentExtension>
         </includes>
-     </viewerContentBinding>   
+     </viewerContentBinding>
+     <viewerContentBinding
+           viewerId="fr.obeo.dsl.viewpoint.ui.tools.views.model.explorer">
+        <includes>
+           <contentExtension
+                 pattern="org.eclipse.mylyn.docs.intent.client.ui.ide.*">
+           </contentExtension>
+        </includes>
+     </viewerContentBinding>
   </extension>
 
 </plugin>

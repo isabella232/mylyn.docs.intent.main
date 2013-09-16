@@ -26,8 +26,8 @@ import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.navigator.CommonViewer;
-import org.eclipse.ui.navigator.resources.ProjectExplorer;
 
 /**
  * A Job that refreshes Intent projects in the project explorer.
@@ -75,9 +75,9 @@ public class ProjectExplorerRefreshJob extends Job {
 					IWorkbenchPage activePage = activeWorkbenchWindow.getActivePage();
 
 					for (IViewReference viewRef : activePage.getViewReferences()) {
-						if (ProjectExplorer.VIEW_ID.equals(viewRef.getId())) {
+						if (viewRef.getView(false) instanceof CommonNavigator) {
 							// We refresh the project explorer on this project
-							final ProjectExplorer projectExplorer = (ProjectExplorer)viewRef.getView(false);
+							final CommonNavigator projectExplorer = (CommonNavigator)viewRef.getView(false);
 							Display.getDefault().asyncExec(new Runnable() {
 								public void run() {
 									refreshProjectExplorer(projectExplorer);
@@ -100,7 +100,7 @@ public class ProjectExplorerRefreshJob extends Job {
 	 * @param projectExplorer
 	 *            the project explorer to refresh
 	 */
-	private void refreshProjectExplorer(final ProjectExplorer projectExplorer) {
+	private void refreshProjectExplorer(final CommonNavigator projectExplorer) {
 		CommonViewer commonViewer = projectExplorer.getCommonViewer();
 		if (!commonViewer.getControl().isDisposed()) {
 			commonViewer.refresh(project, true);
