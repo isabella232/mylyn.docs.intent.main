@@ -31,6 +31,7 @@ import org.eclipse.jface.text.templates.TemplateProposal;
 import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.external.parser.contribution.ExternalParserCompletionProposal;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -39,6 +40,11 @@ import org.eclipse.swt.graphics.Image;
  * @author <a href="mailto:william.piers@obeo.fr">William Piers</a>
  */
 public abstract class AbstractIntentCompletionProcessor implements IContentAssistProcessor {
+	/**
+	 * New line.
+	 */
+	private static final String NEWLINE = "\n";
+
 	/** The auto activation characters for completion proposal. */
 	private static final char[] AUTO_ACTIVATION_CHARACTERS = new char[] {' ',
 	};
@@ -220,6 +226,18 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 	}
 
 	/**
+	 * Create a variable proposal with the given parameters.
+	 * 
+	 * @param proposal
+	 *            the proposal
+	 * @return the variable proposal
+	 */
+	protected ICompletionProposal createVariableProposal(ExternalParserCompletionProposal proposal) {
+		return new CompletionProposal(proposal.getName(), offset - start.length(), start.length(), proposal
+				.getName().length(), proposal.getImage(), proposal.getName(), null, null);
+	}
+
+	/**
 	 * Create a template proposal with the given parameters.
 	 * 
 	 * @param templateName
@@ -236,7 +254,7 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 			String templatePattern, String templateImagePath) {
 		int startLength = start.length();
 		Template template = new Template(templateName, templateDescription, getContextType(),
-				templatePattern.replaceAll("\n", "\n" + indentation), true);
+				templatePattern.replaceAll(NEWLINE, NEWLINE + indentation), true);
 		TemplateContextType type = new TemplateContextType(getContextType(), getContextType());
 		TemplateContext context = new DocumentTemplateContext(type, document, offset - startLength,
 				startLength);
@@ -246,6 +264,31 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 			image = IntentEditorActivator.getDefault().getImage(templateImagePath);
 		}
 		return new TemplateProposal(template, context, region, image);
+	}
+
+	/**
+	 * Create a template proposal with the given parameters.
+	 * 
+	 * @param templateName
+	 *            the template name
+	 * @param templateDescription
+	 *            the template description
+	 * @param templatePattern
+	 *            the template pattern
+	 * @param templateImage
+	 *            the template image
+	 * @return the template proposal
+	 */
+	protected TemplateProposal createTemplateProposalWithExternalImage(String templateName,
+			String templateDescription, String templatePattern, Image templateImage) {
+		int startLength = start.length();
+		Template template = new Template(templateName, templateDescription, getContextType(),
+				templatePattern.replaceAll(NEWLINE, NEWLINE + indentation), true);
+		TemplateContextType type = new TemplateContextType(getContextType(), getContextType());
+		TemplateContext context = new DocumentTemplateContext(type, document, offset - startLength,
+				startLength);
+		Region region = new Region(offset - startLength, startLength);
+		return new TemplateProposal(template, context, region, templateImage);
 	}
 
 	/**
@@ -265,5 +308,4 @@ public abstract class AbstractIntentCompletionProcessor implements IContentAssis
 		}
 		return end;
 	}
-
 }

@@ -11,16 +11,18 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.projectmanager;
 
+import com.google.common.collect.Lists;
+
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.mylyn.docs.intent.client.compiler.launcher.CompilerCreator;
 import org.eclipse.mylyn.docs.intent.client.compiler.repositoryconnection.CompilerRepositoryClient;
-import org.eclipse.mylyn.docs.intent.client.indexer.IndexerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.indexer.launcher.IndexerCreator;
-import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverClient;
 import org.eclipse.mylyn.docs.intent.client.linkresolver.repository.LinkResolverCreator;
 import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerCreator;
-import org.eclipse.mylyn.docs.intent.client.synchronizer.SynchronizerRepositoryClient;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentDocumentProvider;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
@@ -32,10 +34,13 @@ import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryManager;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
+import org.eclipse.mylyn.docs.intent.collab.handlers.impl.AbstractRepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
-import org.eclipse.mylyn.docs.intent.exporter.client.IntentExporterClient;
 import org.eclipse.mylyn.docs.intent.exporter.client.IntentExporterClientCreator;
+import org.eclipse.mylyn.docs.intent.external.parser.IntentExternalParserContributionRegistry;
+import org.eclipse.mylyn.docs.intent.external.parser.client.ExternalParserCreator;
+import org.eclipse.mylyn.docs.intent.external.parser.contribution.IExternalParser;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -60,29 +65,34 @@ public final class IntentProjectManager {
 	private CompilerRepositoryClient compilerClient;
 
 	/**
+	 * The external parsers repository client.
+	 */
+	private List<AbstractRepositoryClient> externalParserClients = Lists.newArrayList();
+
+	/**
 	 * The synchronized repository client.
 	 */
-	private SynchronizerRepositoryClient synchronizerClient;
+	private AbstractRepositoryClient synchronizerClient;
 
 	/**
 	 * The indexer repository client.
 	 */
-	private IndexerRepositoryClient indexerClient;
+	private AbstractRepositoryClient indexerClient;
 
 	/**
 	 * The project explorer refresher repository client.
 	 */
-	private ProjectExplorerRefresher refresher;
+	private AbstractRepositoryClient refresher;
 
 	/**
 	 * The link resolver repository client.
 	 */
-	private LinkResolverClient linkResolverClient;
+	private AbstractRepositoryClient linkResolverClient;
 
 	/**
 	 * The export repository client.
 	 */
-	private IntentExporterClient exporterClient;
+	private AbstractRepositoryClient exporterClient;
 
 	/**
 	 * The project associated to this IntentProjectManager (must be associated to the Intent nature).
@@ -157,6 +167,14 @@ public final class IntentProjectManager {
 					refresher = ProjectExplorerRefresher.createProjectExplorerRefresher(project);
 				}
 
+				// External parsers
+				for (Iterator<IExternalParser> iterator = IntentExternalParserContributionRegistry
+						.getExternalParserContributions().iterator(); iterator.hasNext();) {
+					IExternalParser externalParserContribution = iterator.next();
+					externalParserClients.add(ExternalParserCreator.createParser(repository,
+							externalParserContribution));
+				}
+
 				// Exporter client: no need to create it if preview page is hidden in the intent editor
 				boolean shouldDisplayPReviewPage = IntentPreferenceService
 						.getBoolean(IntentPreferenceConstants.SHOW_PREVIEW_PAGE);
@@ -206,6 +224,12 @@ public final class IntentProjectManager {
 				compilerClient.dispose();
 				compilerClient = null;
 			}
+
+			for (AbstractRepositoryClient externalParserClient : externalParserClients) {
+				externalParserClient.dispose();
+				externalParserClients.remove(externalParserClient);
+			}
+
 			if (linkResolverClient != null) {
 				linkResolverClient.dispose();
 				linkResolverClient = null;

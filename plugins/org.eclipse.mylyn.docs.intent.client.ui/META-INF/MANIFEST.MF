@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.mylyn.docs.intent.core,
  org.eclipse.mylyn.docs.intent.modelingunit.update;bundle-version="0.7.0",
  org.eclipse.emf.compare.ide.ui;bundle-version="2.1.0",
  org.eclipse.emf.compare.edit;bundle-version="3.0.0",
- org.eclipse.ui.forms
+ org.eclipse.ui.forms,
+ org.eclipse.mylyn.docs.intent.external.parser
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.mylyn.docs.intent.client.ui,

@@ -34,6 +34,32 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
  */
 public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor {
 
+	// Patterns by contexts.
+	/**
+	 * All patterns allowing to detect the current context.
+	 */
+	public static final Pattern[] PATTERNS_BY_CONTEXT = new Pattern[] {
+			Pattern.compile("Document\\s+[^{\r\n]*\\{"), Pattern.compile("Chapter\\s+[^{\r\n]*\\{"),
+			Pattern.compile("Section\\s+[^{\r\n]*\\{"),
+	};
+
+	// Keywords by contexts.
+	// CHECKSTYLE:OFF Keywords have the same name than templates names & templates description, but merging
+	// their declaration have no sense.
+	private static final String[][] KEYWORDS_BY_CONTEXT = new String[][] {
+			// Document-level keywords
+			new String[] {"Chapter",
+			},
+			// Chapter-level keywords
+			new String[] {"Section",
+			},
+			// Section-level keywords
+			new String[] {"Section", "@M",
+			},
+	};
+
+	// CHECKSTYLE:ON
+
 	// Accurate contexts.
 	/**
 	 * Constant representing default context.
@@ -55,31 +81,6 @@ public class IntentCompletionProcessor extends AbstractIntentCompletionProcessor
 	 */
 	private static final int SECTION_CONTEXT = 2;
 
-	// Patterns by contexts.
-	/**
-	 * All patterns allowing to detect the current context.
-	 */
-	private static final Pattern[] PATTERNS_BY_CONTEXT = new Pattern[] {
-			Pattern.compile("Document\\s+[^{\r\n]*\\{"), Pattern.compile("Chapter\\s+[^{\r\n]*\\{"),
-			Pattern.compile("Section\\s+[^{\r\n]*\\{"),
-	};
-
-	// Keywords by contexts.
-	// CHECKSTYLE:OFF Keywords have the same name than templates names & templates description, but merging
-	// their declaration have no sense.
-	private static final String[][] KEYWORDS_BY_CONTEXT = new String[][] {
-			// Document-level keywords
-			new String[] {"Chapter",
-			},
-			// Chapter-level keywords
-			new String[] {"Section",
-			},
-			// Section-level keywords
-			new String[] {"Section", "@M",
-			},
-	};
-
-	// CHECKSTYLE:ON
 	/**
 	 * Current context ID.
 	 */
