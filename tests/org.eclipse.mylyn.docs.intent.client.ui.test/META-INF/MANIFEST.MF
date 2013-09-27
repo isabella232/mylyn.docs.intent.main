@@ -1,13 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.client.ui.test
+Bundle-SymbolicName: org.eclipse.mylyn.docs.intent.client.ui.test;singleton:=true
 Bundle-Version: 0.9.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle:  org.eclipse.mylyn.docs.intent.core;bundle-version="0.7.0",
+Require-Bundle: org.eclipse.mylyn.docs.intent.core;bundle-version="0.7.0",
  org.eclipse.mylyn.docs.intent.compare;bundle-version="0.7.0",
  org.eclipse.mylyn.docs.intent.collab;bundle-version="0.7.0",
  org.eclipse.mylyn.docs.intent.collab.common;bundle-version="0.7.0",
@@ -16,8 +16,8 @@ Require-Bundle:  org.eclipse.mylyn.docs.intent.core;bundle-version="0.7.0",
  org.eclipse.mylyn.docs.intent.client.ui.ide;bundle-version="0.7.0",
  org.eclipse.mylyn.docs.intent.modelingunit.update;bundle-version="0.7.0",
  org.eclipse.mylyn.docs.intent.bridge.java,
- org.eclipse.mylyn.docs.intent.bridge.java.edit, 
- org.eclipse.mylyn.docs.intent.parser.test;bundle-version="0.7.0", 
+ org.eclipse.mylyn.docs.intent.bridge.java.edit,
+ org.eclipse.mylyn.docs.intent.parser.test;bundle-version="0.7.0",
  org.eclipse.mylyn.docs.intent.test.server,
  org.eclipse.ui;bundle-version="3.7.0",
  org.eclipse.core.runtime;bundle-version="3.7.0",
@@ -27,4 +27,7 @@ Require-Bundle:  org.eclipse.mylyn.docs.intent.core;bundle-version="0.7.0",
  com.google.guava;bundle-version="[11.0.0,12.0.0)",
  org.eclipse.emf.compare;bundle-version="3.0.0",
  org.eclipse.jdt.core,
- org.eclipse.emf.ecore.editor
+ org.eclipse.emf.ecore.editor,
+ org.eclipse.mylyn.docs.intent.external.parser;bundle-version="0.9.0"
+Bundle-Activator: org.eclipse.mylyn.docs.intent.client.ui.test.IntentUITestPlugin
+Bundle-ActivationPolicy: lazy

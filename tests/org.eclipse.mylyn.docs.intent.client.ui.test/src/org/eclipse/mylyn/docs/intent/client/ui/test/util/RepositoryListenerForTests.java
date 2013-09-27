@@ -66,6 +66,7 @@ public class RepositoryListenerForTests implements ILogListener {
 		clientsMessages.put("Synchronizer", Lists.<String> newArrayList());
 		clientIdentifierToEndMessage.put("Synchronizer", "Synchronization ended");
 		clientsMessages.put("Project Explorer Refresher", Lists.<String> newArrayList());
+		clientsMessages.put("External Parsers", Lists.<String> newArrayList());
 	}
 
 	/**
@@ -145,6 +146,9 @@ public class RepositoryListenerForTests implements ILogListener {
 	 *         otherwise
 	 */
 	private boolean hasReceivedMessage(String clientIdentifier) {
+		if (clientsMessages.get(clientIdentifier) == null) {
+			clientsMessages.put(clientIdentifier, Lists.<String> newArrayList());
+		}
 		boolean hasReceivedMessage = !clientsMessages.get(clientIdentifier).isEmpty();
 		if (hasReceivedMessage) {
 			clientsMessages.get(clientIdentifier).clear();

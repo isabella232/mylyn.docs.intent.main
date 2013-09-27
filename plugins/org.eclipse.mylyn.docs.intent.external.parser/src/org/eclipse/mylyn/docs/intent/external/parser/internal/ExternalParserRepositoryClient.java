@@ -38,11 +38,10 @@ public class ExternalParserRepositoryClient extends AbstractRepositoryClient {
 	 * @param externalParserContribution
 	 *            the {@link IExternalParser}
 	 */
-	public ExternalParserRepositoryClient(Repository repository,
-			IExternalParser externalParserContribution) {
+	public ExternalParserRepositoryClient(Repository repository, IExternalParser externalParserContribution) {
 		super(repository);
 		this.externalParserContribution = externalParserContribution;
-		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[External parsers] Ready");
+		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[External Parsers] Ready");
 	}
 
 	/**

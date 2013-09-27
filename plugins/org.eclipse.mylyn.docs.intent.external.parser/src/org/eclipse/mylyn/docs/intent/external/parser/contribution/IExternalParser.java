@@ -18,7 +18,7 @@ import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 /**
  * A parser which is called any time a section of interest for this parser is modified, and provides
  * additional behavior. For example, you can automatically create Java files or models out of a description in
- * natural langage.
+ * natural language.
  * 
  * @author <a href="mailto:melanie.bats@obeo.fr">Melanie Bats</a>
  */

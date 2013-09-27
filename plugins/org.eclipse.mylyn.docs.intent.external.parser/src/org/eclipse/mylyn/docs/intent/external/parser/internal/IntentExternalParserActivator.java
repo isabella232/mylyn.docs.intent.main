@@ -21,9 +21,21 @@ import org.osgi.framework.BundleContext;
 public class IntentExternalParserActivator extends Plugin {
 
 	/**
+	 * The running instance of this plugin.
+	 */
+	private static IntentExternalParserActivator instance;
+
+	/**
 	 * External parser.
 	 */
 	private IntentExternalParserContributionRegistryListener externalParserContributionsRegistryListener = new IntentExternalParserContributionRegistryListener();
+
+	/**
+	 * Default constructor.
+	 */
+	public IntentExternalParserActivator() {
+		instance = this;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -51,4 +63,12 @@ public class IntentExternalParserActivator extends Plugin {
 		super.stop(context);
 	}
 
+	/**
+	 * Returns the running instance of this plugin.
+	 * 
+	 * @return the running instance of this plugin
+	 */
+	public static IntentExternalParserActivator getInstance() {
+		return instance;
+	}
 }

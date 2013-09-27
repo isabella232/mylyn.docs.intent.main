@@ -12,6 +12,7 @@
 package org.eclipse.mylyn.docs.intent.client.ui.ide.projectmanager;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.util.Iterator;
 import java.util.List;
@@ -225,7 +226,7 @@ public final class IntentProjectManager {
 				compilerClient = null;
 			}
 
-			for (AbstractRepositoryClient externalParserClient : externalParserClients) {
+			for (AbstractRepositoryClient externalParserClient : Sets.newLinkedHashSet(externalParserClients)) {
 				externalParserClient.dispose();
 				externalParserClients.remove(externalParserClient);
 			}

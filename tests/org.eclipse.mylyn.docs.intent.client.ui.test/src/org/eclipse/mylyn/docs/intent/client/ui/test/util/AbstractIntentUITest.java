@@ -10,27 +10,38 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.test.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import org.eclipse.core.internal.registry.ExtensionRegistry;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceDescription;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.ContributorFactoryOSGi;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IContributor;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.emf.ecore.EObject;
@@ -42,6 +53,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotatio
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.IntentNature;
 import org.eclipse.mylyn.docs.intent.client.ui.ide.builder.ToggleNatureAction;
 import org.eclipse.mylyn.docs.intent.client.ui.preferences.IntentPreferenceConstants;
+import org.eclipse.mylyn.docs.intent.client.ui.test.IntentUITestPlugin;
 import org.eclipse.mylyn.docs.intent.client.ui.utils.IntentEditorOpener;
 import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryInitializer;
@@ -109,6 +121,11 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 * All the currently opened {@link IntentEditor}s.
 	 */
 	private List<IntentEditor> openedEditors;
+
+	/**
+	 * Indicates the number of dynamically added extensions.
+	 */
+	private int dynamicExtensionCounter;
 
 	/**
 	 * {@inheritDoc}
@@ -185,6 +202,10 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		// Step 4: setting all fields to null (to avoid memory leaks)
 		setAllFieldsToNull();
 
+		// Step 5: remove all dynamically added contributions
+		while (dynamicExtensionCounter > 0) {
+			removeLastExtension();
+		}
 		super.tearDown();
 	}
 
@@ -312,6 +333,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 *            the project
 	 */
 	protected final void setUpRepository(IProject project) {
+		intentDocument = null;
 		assertNotNull(project);
 		try {
 			repository = IntentRepositoryManager.INSTANCE.getRepository(project.getName());
@@ -519,18 +541,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 *            indicates whether the indexer should be notified or not
 	 */
 	protected final void waitForIndexer(boolean indexerShouldBeNotified) {
-		waitForAllOperationsInUIThread();
-		assertNotNull(
-				"Cannot wait for Indexer : you need to initialize a repository listener by calling the registerRepositoryListener() method",
-				repositoryListener);
-		if (indexerShouldBeNotified) {
-			assertTrue("Time out : indexer should have handle changes but did not",
-					repositoryListener.waitForModificationOn(indexerShouldBeNotified, "Indexer"));
-		} else {
-			assertFalse("Indexer should not have been notifed",
-					repositoryListener.waitForModificationOn(indexerShouldBeNotified, "Indexer"));
-		}
-		waitForAllOperationsInUIThread();
+		waitForLifecycleMessage(indexerShouldBeNotified, "Indexer");
 	}
 
 	/**
@@ -540,20 +551,7 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 	 *            indicates whether the indexer should be notified or not
 	 */
 	protected final void waitForProjectExplorerRefresher(boolean refresherShouldBeNotified) {
-		waitForAllOperationsInUIThread();
-		assertNotNull(
-				"Cannot wait for Project Explorer Refresher : you need to initialize a repository listener by calling the registerRepositoryListener() method",
-				repositoryListener);
-		if (refresherShouldBeNotified) {
-			assertTrue("Time out : Project Explorer Refresher should have handle changes but did not",
-					repositoryListener.waitForModificationOn(refresherShouldBeNotified,
-							"Project Explorer Refresher"));
-		} else {
-			assertFalse("Project Explorer Refresher should not have been notifed",
-					repositoryListener.waitForModificationOn(refresherShouldBeNotified,
-							"Project Explorer Refresher"));
-		}
-		waitForAllOperationsInUIThread();
+		waitForLifecycleMessage(refresherShouldBeNotified, "Project Explorer Refresher");
 	}
 
 	/**
@@ -578,6 +576,32 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			Thread.sleep(WAITING_DELAY_MILLIS);
 		} catch (InterruptedException e) {
 			// fail silently
+		}
+		waitForAllOperationsInUIThread();
+	}
+
+	/**
+	 * Ensures that the client with the given identifier has been notified or not, according to the given
+	 * boolean.
+	 * 
+	 * @param shouldHaveBeenNotified
+	 *            indicates whether the client should be notified or not
+	 * @param intentClientID
+	 *            the ID of the listened client
+	 */
+	protected final void waitForLifecycleMessage(boolean shouldHaveBeenNotified, String intentClientID) {
+		waitForAllOperationsInUIThread();
+		assertNotNull(
+				"Cannot wait for "
+						+ intentClientID
+						+ ": you need to initialize a repository listener by calling the registerRepositoryListener() method",
+				repositoryListener);
+		if (shouldHaveBeenNotified) {
+			assertTrue("Time out: " + intentClientID + " should have handle changes but did not",
+					repositoryListener.waitForModificationOn(shouldHaveBeenNotified, intentClientID));
+		} else {
+			assertFalse(intentClientID + " should not have been notifed",
+					repositoryListener.waitForModificationOn(shouldHaveBeenNotified, intentClientID));
 		}
 		waitForAllOperationsInUIThread();
 	}
@@ -646,4 +670,118 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		}
 	}
 
+	/**
+	 * Dynamically adds to the extension registry a contribution from the given string.
+	 * <p>
+	 * With the given examples, this method will create the following extension :<br/>
+	 * < extension point="org.eclipse.mylyn.docs.intent.client.synchronizer.extension"><br/>
+	 * < SynchronizerExtensionDescription class="com.my.exampleclass.java"> <br/>
+	 * </ SynchronizerExtensionDescription > <br/>
+	 * </ extension >
+	 * </p>
+	 * 
+	 * @param extensionPointName
+	 *            the contributed extension point name (e.g.
+	 *            "org.eclipse.mylyn.docs.intent.client.synchronizer.extension")
+	 * @param extensionName
+	 *            the contributed extension (e.g. "SynchronizerExtensionDescription")
+	 * @param extensionValues
+	 *            the extension values (e.g. ["class" => "com.my.exampleclass.java"])
+	 * @param extensionPointPlugin
+	 *            the plugin helding the registry listener (e.g. SynchronizerPlugin)
+	 * @param registryListenerFieldName
+	 *            the name of the registry listener field (e.g. "registryListener")
+	 */
+	protected void addExtension(String extensionPointName, String extensionName,
+			Map<String, String> extensionValues, Plugin extensionPointPlugin, String registryListenerFieldName) {
+		try {
+			dynamicExtensionCounter++;
+			// Step 1: create the contribution as a string
+			String contribution = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><plugin><extension point=\""
+					+ extensionPointName + "\" id=\"contribution" + dynamicExtensionCounter + "\">\n";
+			contribution += "<" + extensionName + "\n";
+			for (Entry<String, String> extensionValue : extensionValues.entrySet()) {
+				contribution += extensionValue.getKey() + "=\"" + extensionValue.getValue() + "\"\n";
+			}
+			contribution += "></" + extensionName + ">\n";
+			contribution += "</extension></plugin>";
+
+			// Step 2: register the extension through configuration registry
+			IExtensionRegistry registry = Platform.getExtensionRegistry();
+			Object token = ((ExtensionRegistry)registry).getTemporaryUserToken();
+			ByteArrayInputStream is = new ByteArrayInputStream(contribution.getBytes());
+			try {
+				IContributor contributor = ContributorFactoryOSGi.createContributor(IntentUITestPlugin
+						.getInstance().getBundle());
+				assertTrue(registry.addContribution(is, contributor, false, null, null, token));
+				// Work-around because registry.addContribution does dot
+				// notifies the registryListeners
+				Field registryListenerField = extensionPointPlugin.getClass().getDeclaredField(
+						registryListenerFieldName);
+				registryListenerField.setAccessible(true);
+				Object object = registryListenerField.get(extensionPointPlugin);
+				Method parseContributionMethods = object.getClass().getDeclaredMethod(
+						"parseInitialContributions");
+				parseContributionMethods.setAccessible(true);
+				parseContributionMethods.invoke(object);
+			} catch (SecurityException e) {
+				fail(e.getMessage());
+			} catch (IllegalArgumentException e) {
+				fail(e.getMessage());
+			} catch (InvocationTargetException e) {
+				fail(e.getMessage());
+			} catch (NoSuchMethodException e) {
+				fail(e.getMessage());
+			} catch (NoSuchFieldException e) {
+				fail(e.getMessage());
+			} finally {
+				try {
+					is.close();
+				} catch (IOException e) {
+					fail(e.getMessage());
+				}
+			}
+		} catch (IllegalAccessException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * Removes the last extension contributed through the
+	 * {@link AbstractIntentUITest#addExtension(Class, String, boolean)} method.
+	 */
+	private void removeLastExtension() {
+		try {
+			ExtensionRegistry extensionRegistry = (ExtensionRegistry)Platform.getExtensionRegistry();
+			IContributor contributor = ContributorFactoryOSGi.createContributor(IntentUITestPlugin
+					.getInstance().getBundle());
+			IExtension[] extensions = extensionRegistry.getExtensions(contributor);
+			IExtension extensionToRemove = extensions[extensions.length - 1];
+			dynamicExtensionCounter--;
+			assertNotNull("Could not properly remove test extension. ", extensionToRemove);
+			extensionRegistry.removeExtension(extensionToRemove, extensionRegistry.getTemporaryUserToken());
+		} catch (SecurityException e) {
+			fail(e.getMessage());
+		}
+	}
+
+	/**
+	 * Reopens the current intent project, and waits for its full reactivation.
+	 */
+	protected void reopenIntentProject() {
+		try {
+			intentProject.close(new NullProgressMonitor());
+
+			waitForAllOperationsInUIThread();
+			intentProject.open(new NullProgressMonitor());
+			waitForAllOperationsInUIThread();
+			setUpRepository(intentProject);
+			waitForCompiler();
+		} catch (CoreException e) {
+			AssertionFailedError assertionFailedError = new AssertionFailedError(
+					"Issues encountered while reopening Intent project: " + e.getMessage());
+			assertionFailedError.setStackTrace(e.getStackTrace());
+			throw assertionFailedError;
+		}
+	}
 }

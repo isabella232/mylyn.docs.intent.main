@@ -85,6 +85,9 @@
     <module>plugins/org.eclipse.mylyn.docs.intent.markup.gen</module>
     <module>plugins/org.eclipse.mylyn.docs.intent.markup.ui</module>
 	
+	<!-- Intent External Parsers -->
+	<module>plugins/org.eclipse.mylyn.docs.intent.external.parser</module>    
+	
 	<!-- Intent examples -->
 	<module>examples/org.eclipse.mylyn.docs.intent.example.documents</module>
 	<module>examples/org.eclipse.mylyn.docs.intent.example.cdo.server</module>

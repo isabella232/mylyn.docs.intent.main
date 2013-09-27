@@ -39,7 +39,7 @@ public class IntentExternalParserContributionRegistryListener implements IRegist
 	public static final String INTENT_EXTERNAL_PARSER_CONTRIBUTION_EXTENSION_POINT = "org.eclipse.mylyn.docs.intent.external.parser.externalparsercontribution"; //$NON-NLS-1$
 
 	/** Name of the extension point's tag. */
-	private static final String EXTERNAL_PARSER_CONTRIBUTION_TAG = "externalparser"; //$NON-NLS-1$
+	public static final String EXTERNAL_PARSER_CONTRIBUTION_TAG = "externalparser"; //$NON-NLS-1$
 
 	/**
 	 * Register this listener and parse initial contributions.
