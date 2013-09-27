@@ -116,7 +116,7 @@ public final class EMFCompareUtils {
 	 * 
 	 * @return a {@link Registry} always returning a Match engine ignoring identifiers
 	 */
-	private static Registry getMatchEngineNeverUsingIdentifiers() {
+	public static Registry getMatchEngineNeverUsingIdentifiers() {
 		if (neverUsingIdentifiersMatchEngine == null) {
 			IMatchEngine matchEngine = DefaultMatchEngine.create(UseIdentifiers.NEVER);
 			neverUsingIdentifiersMatchEngine = createMatchEngineRegistryFromMatchEngine(matchEngine);

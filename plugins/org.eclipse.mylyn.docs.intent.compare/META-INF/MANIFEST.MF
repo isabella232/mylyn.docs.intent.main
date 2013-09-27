@@ -11,5 +11,6 @@ Require-Bundle: org.eclipse.mylyn.docs.intent.core,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.mylyn.docs.intent.compare,
+ org.eclipse.mylyn.docs.intent.compare.scope,
  org.eclipse.mylyn.docs.intent.compare.utils
 Bundle-Vendor: %providerName

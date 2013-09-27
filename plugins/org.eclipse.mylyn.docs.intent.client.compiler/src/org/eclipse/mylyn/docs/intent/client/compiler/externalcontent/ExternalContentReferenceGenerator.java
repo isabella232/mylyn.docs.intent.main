@@ -10,8 +10,12 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.compiler.externalcontent;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -51,6 +55,18 @@ public final class ExternalContentReferenceGenerator {
 	 */
 	public static List<Object> generate(ExternalContentReference object,
 			ModelingUnitGenerator modelingUnitGenerator) {
+		// Clear previous compilation issues
+		Iterator<CompilationStatus> previousCcompilationIssues = Iterables.filter(
+				Sets.newLinkedHashSet(object.getCompilationStatus()), new Predicate<CompilationStatus>() {
+
+					public boolean apply(CompilationStatus status) {
+						return CompilationStatusSeverity.ERROR.equals(status.getSeverity());
+					}
+				}).iterator();
+
+		while (previousCcompilationIssues.hasNext()) {
+			object.getCompilationStatus().remove(previousCcompilationIssues.next());
+		}
 
 		// If the external content should be merged or if we never get the external content before
 		if (object.getExternalContent() == null || object.getExternalContent().eIsProxy()

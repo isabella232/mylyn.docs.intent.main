@@ -15,10 +15,11 @@ import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.CompareEditorInput;
 import org.eclipse.compare.CompareUI;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.EMFCompare.Builder;
 import org.eclipse.emf.compare.domain.ICompareEditingDomain;
 import org.eclipse.emf.compare.domain.impl.EMFCompareEditingDomain;
-import org.eclipse.emf.compare.ide.ui.internal.editor.ComparisonEditorInput;
+import org.eclipse.emf.compare.ide.ui.internal.editor.ComparisonScopeEditorInput;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -28,6 +29,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.IntentEditorActivator;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.annotation.IntentAnnotation;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.compare.scope.IntentComparisonScope;
 import org.eclipse.mylyn.docs.intent.compare.utils.EMFCompareUtils;
 import org.eclipse.mylyn.docs.intent.core.compiler.SynchronizerCompilationStatus;
 import org.eclipse.swt.graphics.Image;
@@ -80,14 +82,17 @@ public class EMFCompareFix extends AbstractIntentFix {
 		}
 
 		// Step 2: prepare compare dialog configuration
-		final Comparison comparison = EMFCompareUtils.compare(workingCopyElement, docElement);
 		final CompareConfiguration compareConfig = new IntentCompareConfiguration(workingCopyElement,
 				docElement);
 		ICompareEditingDomain domain = EMFCompareEditingDomain.create(workingCopyElement, docElement, null);
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
 				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
-		CompareEditorInput input = new ComparisonEditorInput(compareConfig, comparison, domain,
-				adapterFactory);
+		IntentComparisonScope scope = new IntentComparisonScope(workingCopyElement, docElement);
+		Builder builder = EMFCompare.builder();
+		builder.setMatchEngineFactoryRegistry(EMFCompareUtils.getMatchEngineNeverUsingIdentifiers());
+		EMFCompare comparator = builder.build();
+		CompareEditorInput input = new ComparisonScopeEditorInput(compareConfig, domain, adapterFactory,
+				comparator, scope);
 		input.setTitle(COMPARE_EDITOR_TITLE + " (" + workingCopyElementURI + ")");
 
 		// Step 3: open comparaison dialog
