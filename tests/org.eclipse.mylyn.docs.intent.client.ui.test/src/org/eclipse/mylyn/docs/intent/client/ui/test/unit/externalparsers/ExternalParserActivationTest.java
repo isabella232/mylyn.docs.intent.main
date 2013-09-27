@@ -16,6 +16,9 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditorDocument;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.externalparsers.sample.SampleExternalParser;
@@ -62,6 +65,8 @@ public class ExternalParserActivationTest extends AbstractIntentUITest {
 	 */
 	@Test
 	public void testExternalParserActivation() throws CoreException {
+		URI externalParserResourceURI = URI.createURI(repositoryAdapter.getRepository().getRepositoryURI()
+				+ SampleExternalParser.EXTERNAL_PARSER_RESOURCE_NAME);
 		// Step 1: open an editor without the SampleExternalParser contributed
 		editor = openIntentEditor();
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
@@ -71,6 +76,13 @@ public class ExternalParserActivationTest extends AbstractIntentUITest {
 		editor.close(false);
 		// => sample external parser should never be created
 		waitForLifecycleMessage(false, SampleExternalParser.SAMPLE_EXTERNAL_PARSER_ID);
+		// => and hence should not create any resource
+		try {
+			new ResourceSetImpl().getResource(externalParserResourceURI, true);
+			fail("The sample external parser should not have created any resource");
+		} catch (WrappedException e) {
+			// Silent catch: supposed to fail
+		}
 		waitForAllOperationsInUIThread();
 
 		// Step 2: contribute the SampleExternalParser
@@ -83,8 +95,12 @@ public class ExternalParserActivationTest extends AbstractIntentUITest {
 		document.set(document.get() + " " + 0);
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
+		// => sample external parser should be created & initialized
 		waitForLifecycleMessage(true, SampleExternalParser.SAMPLE_EXTERNAL_PARSER_ID);
-		waitForAllOperationsInUIThread();
+		// => and hence should create a resource
+		assertNotNull("The sample external parser should have created a resource",
+				new ResourceSetImpl().getResource(externalParserResourceURI, true));
+
 	}
 
 	/**

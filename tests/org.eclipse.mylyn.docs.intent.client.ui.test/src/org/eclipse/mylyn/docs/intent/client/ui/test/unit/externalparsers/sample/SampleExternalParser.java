@@ -12,8 +12,15 @@ package org.eclipse.mylyn.docs.intent.client.ui.test.unit.externalparsers.sample
 
 import com.google.common.collect.Lists;
 
+import java.io.IOException;
 import java.util.List;
 
+import junit.framework.AssertionFailedError;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -29,9 +36,19 @@ import org.eclipse.mylyn.docs.intent.external.parser.contribution.IExternalParse
 public class SampleExternalParser implements IExternalParser {
 
 	/**
+	 * Name of the resource created by this {@link IExternalParser}.
+	 */
+	public static final String EXTERNAL_PARSER_RESOURCE_NAME = "/externalParserResource.xmi";
+
+	/**
 	 * Id of this parser, used to log messages.
 	 */
 	public static final String SAMPLE_EXTERNAL_PARSER_ID = "Sample External Parser";
+
+	/**
+	 * The resource created by this {@link IExternalParser} (can be null if none created yet).
+	 */
+	private Resource resource;
 
 	/**
 	 * Default constructor.
@@ -64,7 +81,26 @@ public class SampleExternalParser implements IExternalParser {
 	 * @see org.eclipse.mylyn.docs.intent.external.parser.contribution.IExternalParser#parsePostOperations(org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter)
 	 */
 	public void parsePostOperations(RepositoryAdapter repositoryAdapter) {
-
+		// Create an empty resource
+		URI uri = URI.createURI(repositoryAdapter.getRepository().getRepositoryURI()
+				+ EXTERNAL_PARSER_RESOURCE_NAME);
+		try {
+			ResourceSet rs = null;
+			if (resource != null) {
+				rs = resource.getResourceSet();
+				resource.delete(null);
+			} else {
+				rs = new ResourceSetImpl();
+			}
+			resource = rs.createResource(uri);
+			resource.save(null);
+		} catch (IOException e) {
+			AssertionFailedError assertionFailedError = new AssertionFailedError(
+					"External parser could not create resource");
+			assertionFailedError.setStackTrace(assertionFailedError.getStackTrace());
+			throw assertionFailedError;
+		}
+		repositoryAdapter.getResourceSet().createResource(uri);
 	}
 
 	/**

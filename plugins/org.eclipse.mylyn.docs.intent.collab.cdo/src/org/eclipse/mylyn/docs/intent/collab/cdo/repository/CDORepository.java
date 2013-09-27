@@ -17,6 +17,7 @@ import org.eclipse.emf.cdo.net4j.CDONet4jUtil;
 import org.eclipse.emf.cdo.net4j.CDOSessionConfiguration;
 import org.eclipse.emf.cdo.session.CDOSession;
 import org.eclipse.emf.cdo.util.CDOUtil;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.mylyn.docs.intent.collab.cdo.adapters.CDOAdapter;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
@@ -253,6 +254,15 @@ public class CDORepository implements Repository {
 	 */
 	public String getRepositoryLocation() {
 		return getIdentifier();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.collab.repository.Repository#getRepositoryURI()
+	 */
+	public URI getRepositoryURI() {
+		return URI.createURI(getIdentifier());
 	}
 
 }

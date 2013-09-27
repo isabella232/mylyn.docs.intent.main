@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.repository;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
@@ -88,6 +89,13 @@ public interface Repository {
 	 *         'cdo:/myRepository' for a cdo repository...)
 	 */
 	String getIdentifier();
+
+	/**
+	 * Returns the {@link URI} of this repository.
+	 * 
+	 * @return the {@link URI} of this repository
+	 */
+	URI getRepositoryURI();
 
 	/**
 	 * Returns the location of the repository.
