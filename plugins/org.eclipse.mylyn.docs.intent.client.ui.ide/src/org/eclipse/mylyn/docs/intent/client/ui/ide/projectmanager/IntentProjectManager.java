@@ -11,12 +11,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.projectmanager;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.mylyn.docs.intent.client.compiler.launcher.CompilerCreator;
@@ -41,7 +35,6 @@ import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionExcep
 import org.eclipse.mylyn.docs.intent.exporter.client.IntentExporterClientCreator;
 import org.eclipse.mylyn.docs.intent.external.parser.IntentExternalParserContributionRegistry;
 import org.eclipse.mylyn.docs.intent.external.parser.client.ExternalParserCreator;
-import org.eclipse.mylyn.docs.intent.external.parser.contribution.IExternalParser;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchPage;
@@ -68,7 +61,7 @@ public final class IntentProjectManager {
 	/**
 	 * The external parsers repository client.
 	 */
-	private List<AbstractRepositoryClient> externalParserClients = Lists.newArrayList();
+	private AbstractRepositoryClient externalParserClient;
 
 	/**
 	 * The synchronized repository client.
@@ -169,11 +162,9 @@ public final class IntentProjectManager {
 				}
 
 				// External parsers
-				for (Iterator<IExternalParser> iterator = IntentExternalParserContributionRegistry
-						.getExternalParserContributions().iterator(); iterator.hasNext();) {
-					IExternalParser externalParserContribution = iterator.next();
-					externalParserClients.add(ExternalParserCreator.createParser(repository,
-							externalParserContribution));
+				if (externalParserClient == null) {
+					externalParserClient = ExternalParserCreator.createParser(repository,
+							IntentExternalParserContributionRegistry.getExternalParserContributions());
 				}
 
 				// Exporter client: no need to create it if preview page is hidden in the intent editor
@@ -226,9 +217,9 @@ public final class IntentProjectManager {
 				compilerClient = null;
 			}
 
-			for (AbstractRepositoryClient externalParserClient : Sets.newLinkedHashSet(externalParserClients)) {
+			if (externalParserClient != null) {
 				externalParserClient.dispose();
-				externalParserClients.remove(externalParserClient);
+				externalParserClient = null;
 			}
 
 			if (linkResolverClient != null) {

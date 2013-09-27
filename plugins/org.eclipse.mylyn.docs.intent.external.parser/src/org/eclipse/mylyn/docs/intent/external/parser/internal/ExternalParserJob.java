@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.external.parser.internal;
 
+import java.util.Collection;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -49,23 +51,23 @@ public class ExternalParserJob extends Job {
 	private RepositoryObjectHandler repositoryObjectHandler;
 
 	/**
-	 * External parser contribution.
+	 * The contributed {@link IExternalParser}s to call when notified of changes on the document.
 	 */
-	private IExternalParser externalParserContribution;
+	private Collection<IExternalParser> externalParserContributions;
 
 	/**
 	 * {@link ExternalParserJob} constructor.
 	 * 
 	 * @param repositoryObjectHandler
 	 *            the repository object handler
-	 * @param externalParserContribution
-	 *            the {@link IExternalParser} to call
+	 * @param externalParserContributions
+	 *            the contributed {@link IExternalParser}s to call when notified of changes on the document
 	 */
 	public ExternalParserJob(RepositoryObjectHandler repositoryObjectHandler,
-			IExternalParser externalParserContribution) {
+			Collection<IExternalParser> externalParserContributions) {
 		super(EXTERNAL_PARSE_JOB_NAME);
 		this.repositoryObjectHandler = repositoryObjectHandler;
-		this.externalParserContribution = externalParserContribution;
+		this.externalParserContributions = externalParserContributions;
 	}
 
 	/**
@@ -102,7 +104,9 @@ public class ExternalParserJob extends Job {
 		try {
 			repositoryAdapter.openSaveContext();
 
-			externalParserContribution.init();
+			for (IExternalParser externalParserContribution : externalParserContributions) {
+				externalParserContribution.init();
+			}
 
 			IntentDocumentQuery query = new IntentDocumentQuery(repositoryAdapter);
 			for (DescriptionUnit descriptionUnit : query.getAllDescriptionUnits()) {
@@ -128,7 +132,9 @@ public class ExternalParserJob extends Job {
 					}
 				}
 			}
-			externalParserContribution.parsePostOperations(repositoryAdapter);
+			for (IExternalParser externalParserContribution : externalParserContributions) {
+				externalParserContribution.parsePostOperations(repositoryAdapter);
+			}
 
 			repositoryAdapter.closeContext();
 		} catch (ReadOnlyException e) {
@@ -170,7 +176,9 @@ public class ExternalParserJob extends Job {
 				}
 			}
 		}
-		externalParserContribution.parse(intentSection, text.toString());
+		for (IExternalParser externalParserContribution : externalParserContributions) {
+			externalParserContribution.parse(intentSection, text.toString());
+		}
 	}
 
 }

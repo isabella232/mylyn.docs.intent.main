@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.external.parser.client;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -46,8 +47,8 @@ public final class ExternalParserCreator {
 	 * 
 	 * @param repository
 	 *            is the repository containing the modeling units to compile
-	 * @param externalParserContribution
-	 *            is the external parser contribution
+	 * @param externalParserContributions
+	 *            the contributed {@link IExternalParser}s to call when notified of changes on the document
 	 * @throws RepositoryConnectionException
 	 *             if a connection to the given repository cannot be established
 	 * @return the created ExternalParserRepositoryClient
@@ -55,7 +56,7 @@ public final class ExternalParserCreator {
 	 *             if no sufficient rights to write on the repository
 	 */
 	public static ExternalParserRepositoryClient createParser(Repository repository,
-			IExternalParser externalParserContribution) throws RepositoryConnectionException,
+			Collection<IExternalParser> externalParserContributions) throws RepositoryConnectionException,
 			ReadOnlyException {
 
 		// Step 1: initialize the listened types
@@ -75,7 +76,7 @@ public final class ExternalParserCreator {
 
 		// Step 3: create the external parser
 		ExternalParserRepositoryClient externalParserClient = new ExternalParserRepositoryClient(repository,
-				externalParserContribution);
+				externalParserContributions);
 		externalParserClient.addRepositoryObjectHandler(handler);
 
 		return externalParserClient;

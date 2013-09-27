@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.external.parser.internal;
 
+import java.util.Collection;
+
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
@@ -28,19 +30,20 @@ public class ExternalParserRepositoryClient extends AbstractRepositoryClient {
 	/**
 	 * External parser contribution.
 	 */
-	private IExternalParser externalParserContribution;
+	private Collection<IExternalParser> externalParserContributions;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param repository
 	 *            the repository
-	 * @param externalParserContribution
-	 *            the {@link IExternalParser}
+	 * @param externalParserContributions
+	 *            the contributed {@link IExternalParser}s to call when notified of changes on the document
 	 */
-	public ExternalParserRepositoryClient(Repository repository, IExternalParser externalParserContribution) {
+	public ExternalParserRepositoryClient(Repository repository,
+			Collection<IExternalParser> externalParserContributions) {
 		super(repository);
-		this.externalParserContribution = externalParserContribution;
+		this.externalParserContributions = externalParserContributions;
 		IntentLogger.getInstance().log(LogType.LIFECYCLE, "[External Parsers] Ready");
 	}
 
@@ -51,7 +54,7 @@ public class ExternalParserRepositoryClient extends AbstractRepositoryClient {
 	 */
 	@Override
 	protected Job createNotificationJob(RepositoryChangeNotification notification) {
-		return new ExternalParserJob(this.repositoryObjectHandler, this.externalParserContribution);
+		return new ExternalParserJob(this.repositoryObjectHandler, this.externalParserContributions);
 	}
 
 }
