@@ -140,4 +140,9 @@ public interface IntentEditor extends ITextEditor {
 	 * @return The quick outline presenter.
 	 */
 	IInformationPresenter createQuickOutlinePresenter();
+
+	/**
+	 * Updates this editor's read-only mode according to the information held by the document provider.
+	 */
+	void updateReadOnlyMode();
 }

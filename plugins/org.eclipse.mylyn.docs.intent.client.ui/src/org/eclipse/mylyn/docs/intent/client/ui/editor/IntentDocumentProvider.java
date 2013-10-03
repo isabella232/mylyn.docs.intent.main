@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.operation.IRunnableContext;
@@ -134,6 +135,11 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 * A flag indicating whether the current document has syntax errors or not.
 	 */
 	private boolean hasSyntaxErrors;
+
+	/**
+	 * An internal {@link Job} used to save the document in non-UI thread.
+	 */
+	private SaveIntentDocumentJob saveJob;
 
 	/**
 	 * IntentDocumentProvider constructor.
@@ -364,40 +370,16 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	protected void doSaveDocument(IProgressMonitor monitor, Object element, final IDocument document,
 			boolean overwrite) throws CoreException {
 		if (document instanceof IntentEditorDocument) {
-			final EObject localAST;
-			try {
-				hasSyntaxErrors = false;
-				this.removeSyntaxErrors();
-
-				String rootCompleteLevel = null;
-				if (documentRoot instanceof IntentStructuredElement) {
-					rootCompleteLevel = ((IntentStructuredElement)documentRoot).getCompleteLevel();
-				}
-
-				localAST = new IntentParser().parse(document.get(), rootCompleteLevel);
-
-				this.associatedEditor.refreshTitle(localAST);
-				final RepositoryAdapter repositoryAdapter = this.listenedElementsHandler
-						.getRepositoryAdapter();
-				repositoryAdapter.execute(new IntentCommand() {
-
-					public void execute() {
-						try {
-							merge((IntentEditorDocument)document, localAST);
-							((IntentEditorDocument)document).reloadFromAST(true);
-							repositoryAdapter.save();
-						} catch (ReadOnlyException e) {
-							IntentUiLogger.logError(e);
-						} catch (SaveException e) {
-							IntentUiLogger.logError(e);
-						}
-					}
-
-				});
-			} catch (ParseException e) {
-				this.createSyntaxErrorAnnotation(e.getMessage(), e.getErrorOffset(), e.getErrorLength());
-				hasSyntaxErrors = true;
+			// Disabling edition on the document until it gets saved
+			((IntentEditorDocument)document).setIsBeingSaved(true);
+			this.associatedEditor.updateReadOnlyMode();
+			if (saveJob != null) {
+				saveJob.cancel();
 			}
+
+			// Launch a save job (in non-UI thread)
+			saveJob = new SaveIntentDocumentJob((IntentEditorDocument)document);
+			saveJob.schedule();
 		}
 	}
 
@@ -452,7 +434,13 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	@Override
 	public boolean isModifiable(Object element) {
-		return true;
+		boolean isModifiable = true;
+		if (element instanceof IntentEditorDocument) {
+			isModifiable = !((IntentEditorDocument)element).isBeingSaved();
+		} else if (this.createdDocument != null) {
+			isModifiable = !this.createdDocument.isBeingSaved();
+		}
+		return isModifiable;
 	}
 
 	/**
@@ -462,7 +450,13 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	@Override
 	public boolean isReadOnly(Object element) {
-		return false;
+		boolean isReadOnly = true;
+		if (element instanceof IntentEditorDocument) {
+			isReadOnly = ((IntentEditorDocument)element).isBeingSaved();
+		} else if (this.createdDocument != null) {
+			isReadOnly = this.createdDocument.isBeingSaved();
+		}
+		return isReadOnly;
 	}
 
 	/**
@@ -764,5 +758,80 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			// Finally, we refresh the outline
 			refreshOutline(documentRoot);
 		}
+	}
+
+	/**
+	 * Internal job used to save the editor in non-UI thread.
+	 * 
+	 * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+	 */
+	private final class SaveIntentDocumentJob extends Job {
+
+		/**
+		 * Job name.
+		 */
+		private static final String SAVE_INTENT_DOCUMENT_JOB_NAME = "Save Intent editor";
+
+		/**
+		 * The {@link IntentEditorDocument} to save.
+		 */
+		private IntentEditorDocument document;
+
+		/**
+		 * Default constructor.
+		 * 
+		 * @param document
+		 *            the {@link IntentEditorDocument} to save
+		 */
+		public SaveIntentDocumentJob(IntentEditorDocument document) {
+			super(SAVE_INTENT_DOCUMENT_JOB_NAME);
+			this.document = document;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 * 
+		 * @see org.eclipse.core.runtime.jobs.Job#run(org.eclipse.core.runtime.IProgressMonitor)
+		 */
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			final EObject localAST;
+			try {
+				hasSyntaxErrors = false;
+				removeSyntaxErrors();
+
+				String rootCompleteLevel = null;
+				if (documentRoot instanceof IntentStructuredElement) {
+					rootCompleteLevel = ((IntentStructuredElement)documentRoot).getCompleteLevel();
+				}
+
+				localAST = new IntentParser().parse(document.get(), rootCompleteLevel);
+
+				associatedEditor.refreshTitle(localAST);
+				final RepositoryAdapter repositoryAdapter = listenedElementsHandler.getRepositoryAdapter();
+				repositoryAdapter.execute(new IntentCommand() {
+
+					public void execute() {
+						try {
+							merge((IntentEditorDocument)document, localAST);
+							((IntentEditorDocument)document).reloadFromAST(true);
+							repositoryAdapter.save();
+						} catch (ReadOnlyException e) {
+							IntentUiLogger.logError(e);
+						} catch (SaveException e) {
+							IntentUiLogger.logError(e);
+						}
+					}
+
+				});
+			} catch (ParseException e) {
+				createSyntaxErrorAnnotation(e.getMessage(), e.getErrorOffset(), e.getErrorLength());
+				hasSyntaxErrors = true;
+			}
+			((IntentEditorDocument)document).setIsBeingSaved(false);
+			associatedEditor.updateReadOnlyMode();
+			return Status.OK_STATUS;
+		}
+
 	}
 }

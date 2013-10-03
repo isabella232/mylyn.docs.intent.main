@@ -468,4 +468,13 @@ public class IntentMultiPageEditor extends MultiPageEditorPart implements Intent
 		return intentEditor.createQuickOutlinePresenter();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#isBeingSaved()
+	 */
+	public void updateReadOnlyMode() {
+		intentEditor.updateReadOnlyMode();
+	}
+
 }

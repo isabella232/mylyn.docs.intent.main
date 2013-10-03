@@ -21,6 +21,7 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.ColorManager;
 import org.eclipse.mylyn.docs.intent.client.ui.editor.configuration.IntentColorConstants;
 import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.custom.StyledTextContent;
 import org.eclipse.swt.events.PaintEvent;
@@ -223,61 +224,69 @@ public class ModelingUnitDecorationPainter implements IPainter, PaintListener {
 	 */
 	private void drawLineRange(GC gc, int startLine, int endLine, int x, int w, boolean usingAlpha) {
 		final int viewPortWidth = fTextWidget.getClientArea().width;
-		for (int line = startLine; line <= endLine; line++) {
-			int lineOffset = fTextWidget.getOffsetAtLine(line);
-			// line end offset including line delimiter
-			int lineEndOffset;
-			if (line < fTextWidget.getLineCount() - 1) {
-				lineEndOffset = fTextWidget.getOffsetAtLine(line + 1);
-			} else {
-				lineEndOffset = fTextWidget.getCharCount();
-			}
-			// line length excluding line delimiter
-			int lineLength = lineEndOffset - lineOffset;
-			while (lineLength > 0) {
-				char c = fTextWidget.getTextRange(lineOffset + lineLength - 1, 1).charAt(0);
-				if (c != '\r' && c != '\n') {
-					break;
+		try {
+			for (int line = startLine; line <= endLine; line++) {
+				int lineOffset = fTextWidget.getOffsetAtLine(line);
+				// line end offset including line delimiter
+				int lineEndOffset;
+				if (line < fTextWidget.getLineCount() - 1) {
+					lineEndOffset = fTextWidget.getOffsetAtLine(line + 1);
+				} else {
+					lineEndOffset = fTextWidget.getCharCount();
 				}
-				--lineLength;
-			}
-			// compute coordinates of last character on line
-			Point endOfLine = fTextWidget.getLocationAtOffset(lineOffset + lineLength);
-			if (x - endOfLine.x > viewPortWidth) {
-				// line is not visible
-				continue;
-			}
-			// Y-coordinate of line
-			int y = fTextWidget.getLinePixel(line);
-			// compute first visible char offset
-			int startOffset;
-			try {
-				startOffset = fTextWidget.getOffsetAtLocation(new Point(x, y)) - 1;
-				if (startOffset - 2 <= lineOffset) {
-					startOffset = lineOffset;
+				// line length excluding line delimiter
+				int lineLength = lineEndOffset - lineOffset;
+				while (lineLength > 0) {
+					char c = fTextWidget.getTextRange(lineOffset + lineLength - 1, 1).charAt(0);
+					if (c != '\r' && c != '\n') {
+						break;
+					}
+					--lineLength;
 				}
-			} catch (IllegalArgumentException iae) {
-				startOffset = lineOffset;
-			}
-			// compute last visible char offset
-			int endOffset;
-			if (x + w >= endOfLine.x) {
-				// line end is visible
-				endOffset = lineEndOffset;
-			} else {
+				// compute coordinates of last character on line
+				Point endOfLine = fTextWidget.getLocationAtOffset(lineOffset + lineLength);
+				if (x - endOfLine.x > viewPortWidth) {
+					// line is not visible
+					continue;
+				}
+				// Y-coordinate of line
+				int y = fTextWidget.getLinePixel(line);
+				// compute first visible char offset
+				int startOffset;
 				try {
-					endOffset = fTextWidget.getOffsetAtLocation(new Point(x + w - 1, y)) + 1;
-					if (endOffset + 2 >= lineEndOffset) {
-						endOffset = lineEndOffset;
+					startOffset = fTextWidget.getOffsetAtLocation(new Point(x, y)) - 1;
+					if (startOffset - 2 <= lineOffset) {
+						startOffset = lineOffset;
 					}
 				} catch (IllegalArgumentException iae) {
+					startOffset = lineOffset;
+				}
+				// compute last visible char offset
+				int endOffset;
+				if (x + w >= endOfLine.x) {
+					// line end is visible
 					endOffset = lineEndOffset;
+				} else {
+					try {
+						endOffset = fTextWidget.getOffsetAtLocation(new Point(x + w - 1, y)) + 1;
+						if (endOffset + 2 >= lineEndOffset) {
+							endOffset = lineEndOffset;
+						}
+					} catch (IllegalArgumentException iae) {
+						endOffset = lineEndOffset;
+					}
+				}
+				// draw character range
+				if (endOffset > startOffset) {
+					drawDecoration(gc, startOffset, endOffset, usingAlpha);
 				}
 			}
-			// draw character range
-			if (endOffset > startOffset) {
-				drawDecoration(gc, startOffset, endOffset, usingAlpha);
-			}
+		} catch (IllegalArgumentException e) {
+			// Silent catch: decoration line will not be painted
+		} catch (SWTException e) {
+			// Silent catch: decoration line will not be painted
+		} catch (StringIndexOutOfBoundsException e) {
+			// Silent catch: decoration line will not be painted
 		}
 	}
 

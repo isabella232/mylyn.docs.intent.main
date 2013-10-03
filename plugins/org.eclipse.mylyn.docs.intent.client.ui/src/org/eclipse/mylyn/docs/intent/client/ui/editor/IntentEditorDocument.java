@@ -63,6 +63,12 @@ public class IntentEditorDocument extends AbstractDocument {
 	private IntentEditor associatedEditor;
 
 	/**
+	 * Indicates if the given IntentEditorDocument is being saved (and hence should be read-only until it is
+	 * saved).
+	 */
+	private boolean isBeingSaved;
+
+	/**
 	 * IntentDocument constructor.
 	 * 
 	 * @param editor
@@ -103,7 +109,9 @@ public class IntentEditorDocument extends AbstractDocument {
 	 */
 	@Override
 	public void set(String text) {
-		super.set(text);
+		if (!isBeingSaved) {
+			super.set(text);
+		}
 	}
 
 	/**
@@ -133,7 +141,9 @@ public class IntentEditorDocument extends AbstractDocument {
 	@Override
 	public void replace(int pos, int length, String text) throws BadLocationException {
 		// We don't allow the replacement of a decorated line
-		super.replace(pos, length, text);
+		if (!isBeingSaved) {
+			super.replace(pos, length, text);
+		}
 	}
 
 	private IntentPositionManager getPositionManager() {
@@ -277,4 +287,28 @@ public class IntentEditorDocument extends AbstractDocument {
 	public IntentEditor getIntentEditor() {
 		return associatedEditor;
 	}
+
+	/**
+	 * Indicates if the given IntentEditorDocument is being saved (and hence should be read-only until it is
+	 * saved).
+	 * 
+	 * @param isBeingSaved
+	 *            true if the given IntentEditorDocument is being saved (and hence should be read-only until
+	 *            it is saved), false otherwise
+	 */
+	void setIsBeingSaved(boolean isBeingSaved) {
+		this.isBeingSaved = isBeingSaved;
+	}
+
+	/**
+	 * Indicates if the given IntentEditorDocument is being saved (and hence should be read-only until it is
+	 * saved).
+	 * 
+	 * @return true if the given IntentEditorDocument is being saved (and hence should be read-only until it
+	 *         is saved), false otherwise
+	 */
+	boolean isBeingSaved() {
+		return isBeingSaved;
+	}
+
 }

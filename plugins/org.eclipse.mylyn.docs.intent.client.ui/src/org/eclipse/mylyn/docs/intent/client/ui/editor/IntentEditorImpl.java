@@ -64,6 +64,7 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -494,10 +495,19 @@ public class IntentEditorImpl extends TextEditor implements IntentEditor {
 	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#refreshTitle(org.eclipse.emf.ecore.EObject)
 	 */
 	public void refreshTitle(EObject newAST) {
-		String titleFromElement = ((IntentEditorInput)this.getEditorInput()).getTitleFromElement(
-				((IntentDocumentProvider)this.getDocumentProvider()).getListenedElementsHandler()
-						.getRepositoryAdapter(), newAST);
-		setPartName(titleFromElement);
+		// Editor may be closing or closed
+		if (this.getEditorInput() instanceof IntentEditorInput && this.getDocumentProvider() != null) {
+			final String titleFromElement = ((IntentEditorInput)this.getEditorInput()).getTitleFromElement(
+					((IntentDocumentProvider)this.getDocumentProvider()).getListenedElementsHandler()
+							.getRepositoryAdapter(), newAST);
+			Display.getDefault().asyncExec(new Runnable() {
+
+				public void run() {
+					setPartName(titleFromElement);
+				}
+
+			});
+		}
 	}
 
 	/**
@@ -575,4 +585,26 @@ public class IntentEditorImpl extends TextEditor implements IntentEditor {
 	private boolean isTextWrapActivated() {
 		return IntentPreferenceService.getBoolean(IntentPreferenceConstants.TEXT_WRAP);
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.mylyn.docs.intent.client.ui.editor.IntentEditor#isBeingSaved()
+	 */
+	public void updateReadOnlyMode() {
+		Runnable runnable = new Runnable() {
+
+			public void run() {
+				updateState(getEditorInput());
+			}
+
+		};
+		if (Display.getCurrent() == null) {
+			Display.getDefault().asyncExec(runnable);
+		} else {
+			runnable.run();
+		}
+
+	}
+
 }
