@@ -42,6 +42,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.logger.IntentUiLogger;
 import org.eclipse.mylyn.docs.intent.client.ui.repositoryconnection.EditorElementListAdapter;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
+import org.eclipse.mylyn.docs.intent.collab.common.query.IntentDocumentQuery;
 import org.eclipse.mylyn.docs.intent.collab.handlers.ReadWriteRepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryClient;
 import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
@@ -274,7 +275,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		// Step 2 : creation of a Notificator listening changes on this element and compilation
 		// errors.
 		final Set<EObject> listenedObjects = new LinkedHashSet<EObject>();
-		listenedObjects.add(documentRoot);
+		listenedObjects.add(new IntentDocumentQuery(repositoryAdapter).getOrCreateIntentDocument());
 		final ElementListAdapter adapter = new EditorElementListAdapter();
 
 		Notificator listenedElementsNotificator = new ElementListNotificator(listenedObjects, adapter,
@@ -496,6 +497,10 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			// For all documents that have been opened on this object
 			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
 				handleContentHasChanged(modifiedObject, modifiedObjectIdentifier);
+			} else if (modifiedObject.equals(new IntentDocumentQuery(listenedElementsHandler
+					.getRepositoryAdapter()).getOrCreateIntentDocument())) {
+				handleContentHasChanged(this.documentRoot, listenedElementsHandler.getRepositoryAdapter()
+						.getIDFromElement(this.documentRoot));
 			} else {
 				// update annotations (if the compilation status manager has changed)
 				handleCompilationStatusHasChanged(modifiedObject);

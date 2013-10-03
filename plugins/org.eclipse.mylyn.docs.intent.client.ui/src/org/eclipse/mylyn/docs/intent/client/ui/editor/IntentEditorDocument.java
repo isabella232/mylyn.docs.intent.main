@@ -231,7 +231,7 @@ public class IntentEditorDocument extends AbstractDocument {
 
 		// If element is an External Content Reference, recalculate length according to
 		// current indentation level
-		if (element instanceof ExternalContentReference) {
+		if (element instanceof ExternalContentReference && positionForElement != null) {
 			try {
 				int lineID = getLineOfOffset(positionForElement.getOffset());
 				int followingLineLength = getLineLength(lineID + 1);

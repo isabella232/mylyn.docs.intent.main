@@ -18,7 +18,7 @@ import junit.textui.TestRunner;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.ChangeEditorUpdateTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.compare.SimpleOrderTests;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.demo.editor.CompletionTest;
-import org.eclipse.mylyn.docs.intent.client.ui.test.unit.externalparsers.ExternalParserActivationTest;
+import org.eclipse.mylyn.docs.intent.client.ui.test.unit.externalparsers.ExternalParsersTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.hyperlink.IntentHyperLinkDetetectorTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.java.JavaResourceFactoryTest;
 import org.eclipse.mylyn.docs.intent.client.ui.test.unit.project.ProjectTest;
@@ -125,7 +125,7 @@ public class IntentPluginTestSuite extends TestCase {
 		scenarioSuite.addTestSuite(IntentProjectReopeningTest.class);
 		scenarioSuite.addTestSuite(ExternalContentReferencesTest.class);
 		scenarioSuite.addTestSuite(IntentHyperLinkDetetectorTest.class);
-		scenarioSuite.addTestSuite(ExternalParserActivationTest.class);
+		scenarioSuite.addTestSuite(ExternalParsersTest.class);
 		return scenarioSuite;
 	}
 

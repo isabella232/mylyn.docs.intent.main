@@ -25,8 +25,12 @@ import org.eclipse.mylyn.docs.intent.collab.common.logger.IIntentLogger.LogType;
 import org.eclipse.mylyn.docs.intent.collab.common.logger.IntentLogger;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ExternalContentReference;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnit;
+import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
 import org.eclipse.mylyn.docs.intent.external.parser.contribution.ExternalParserCompletionProposal;
 import org.eclipse.mylyn.docs.intent.external.parser.contribution.IExternalParser;
+import org.eclipse.mylyn.docs.intent.serializer.IntentSerializer;
 
 /**
  * {@link IExternalParser} used for tests.
@@ -72,7 +76,19 @@ public class SampleExternalParser implements IExternalParser {
 	 *      java.lang.String)
 	 */
 	public void parse(IntentSection intentSection, String descriptionUnitToParse) {
+		if (intentSection.getModelingUnits().isEmpty()) {
+			if (new IntentSerializer().serialize(intentSection).contains("SampleExternalParser")) {
+				ModelingUnit modelingUnit = ModelingUnitFactory.eINSTANCE.createModelingUnit();
+				ExternalContentReference referenceInstruction = ModelingUnitFactory.eINSTANCE
+						.createExternalContentReference();
+				referenceInstruction.setUri(URI.createURI("platform:/resource/someURI"));
+				referenceInstruction.setMarkedAsMerged(true);
 
+				modelingUnit.getInstructions().add(referenceInstruction);
+
+				intentSection.getIntentContent().add(intentSection.getIntentContent().size(), modelingUnit);
+			}
+		}
 	}
 
 	/**

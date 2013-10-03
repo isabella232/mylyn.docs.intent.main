@@ -24,6 +24,7 @@ import org.eclipse.mylyn.docs.intent.collab.handlers.RepositoryObjectHandler;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.ReadOnlyException;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryAdapter;
+import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.SaveException;
 import org.eclipse.mylyn.docs.intent.core.document.IntentSection;
 import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
 import org.eclipse.mylyn.docs.intent.core.document.descriptionunit.DescriptionBloc;
@@ -113,8 +114,7 @@ public class ExternalParserJob extends Job {
 				IntentSection intentSection = null;
 
 				EObject container = descriptionUnit;
-				while (container != null
-						&& !(container instanceof IntentSection && ((IntentSection)container).getTitle() != null)) {
+				while (container != null && !(container instanceof IntentSection)) {
 					container = container.eContainer();
 				}
 				if (container instanceof IntentSection) {
@@ -135,10 +135,12 @@ public class ExternalParserJob extends Job {
 			for (IExternalParser externalParserContribution : externalParserContributions) {
 				externalParserContribution.parsePostOperations(repositoryAdapter);
 			}
-
+			repositoryAdapter.save();
 			repositoryAdapter.closeContext();
 		} catch (ReadOnlyException e) {
-			e.printStackTrace();
+			IntentLogger.getInstance().logError(e);
+		} catch (SaveException e) {
+			IntentLogger.getInstance().logError(e);
 		}
 	}
 

@@ -25,6 +25,7 @@ import org.eclipse.mylyn.docs.intent.client.ui.test.unit.externalparsers.sample.
 import org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest;
 import org.eclipse.mylyn.docs.intent.external.parser.internal.IntentExternalParserActivator;
 import org.eclipse.mylyn.docs.intent.external.parser.internal.IntentExternalParserContributionRegistryListener;
+import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 import org.junit.Test;
 
 /**
@@ -33,7 +34,12 @@ import org.junit.Test;
  * 
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
-public class ExternalParserActivationTest extends AbstractIntentUITest {
+public class ExternalParsersTest extends AbstractIntentUITest {
+
+	/**
+	 * Path of the file containing the example intent document used by this test.
+	 */
+	private static final String INTENT_DOCUMENT_PATH = "data/unit/documents/externalparsers/externalparser.intent";
 
 	/**
 	 * The currently opened {@link IntentEditor}.
@@ -46,18 +52,6 @@ public class ExternalParserActivationTest extends AbstractIntentUITest {
 	private IntentEditorDocument document;
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.mylyn.docs.intent.client.ui.test.util.AbstractIntentUITest#setUp()
-	 */
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		setUpIntentProject("intentTest", INTENT_EMPTY_DOC_PATH, true);
-
-	}
-
-	/**
 	 * Ensures that the external parsers extension point allows to add new external parsers.
 	 * 
 	 * @throws CoreException
@@ -65,13 +59,14 @@ public class ExternalParserActivationTest extends AbstractIntentUITest {
 	 */
 	@Test
 	public void testExternalParserActivation() throws CoreException {
+		setUpIntentProject("intentTest", INTENT_DOCUMENT_PATH, true);
 		URI externalParserResourceURI = URI.createURI(repositoryAdapter.getRepository().getRepositoryURI()
 				+ SampleExternalParser.EXTERNAL_PARSER_RESOURCE_NAME);
 		// Step 1: open an editor without the SampleExternalParser contributed
 		editor = openIntentEditor();
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 
-		document.set(document.get() + " " + 0);
+		document.set(document.get() + IntentKeyWords.INTENT_WHITESPACE);
 		editor.doSave(new NullProgressMonitor());
 		editor.close(false);
 		// => sample external parser should never be created
@@ -92,7 +87,7 @@ public class ExternalParserActivationTest extends AbstractIntentUITest {
 		editor = openIntentEditor();
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 		waitForAllOperationsInUIThread();
-		document.set(document.get() + " " + 0);
+		document.set(document.get() + IntentKeyWords.INTENT_WHITESPACE + 0);
 		editor.doSave(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();
 		// => sample external parser should be created & initialized
@@ -101,6 +96,34 @@ public class ExternalParserActivationTest extends AbstractIntentUITest {
 		assertNotNull("The sample external parser should have created a resource",
 				new ResourceSetImpl().getResource(externalParserResourceURI, true));
 
+	}
+
+	/**
+	 * Ensures that the external parsers can modify on-the-fly the intent document (e.g. by adding external
+	 * content references).
+	 * 
+	 * @throws CoreException
+	 *             if project cannot be reopened
+	 */
+	@Test
+	public void testExternalParserCanModifyIntentDocument() throws CoreException {
+		// Step 1: contribute and external parser and open an intent editor on a sub-sub-section
+		addExternalParserExtension(SampleExternalParser.class);
+		setUpIntentProject("intentTest", INTENT_DOCUMENT_PATH, true);
+		editor = openIntentEditor(getIntentSection(1, 1, 1));
+		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
+		assertFalse("External parsers should not have created reference yet", document.get().contains("@ref"));
+		document.set(document.get().replace("Some description unit to parse", "SampleExternalParser"));
+		repositoryListener.clearPreviousEntries();
+		editor.doSave(new NullProgressMonitor());
+
+		// => sample external parser should have been called
+		waitForLifecycleMessage(true, SampleExternalParser.SAMPLE_EXTERNAL_PARSER_ID);
+		// => and external parser should have modified the document
+		waitForAllOperationsInUIThread();
+		assertTrue(
+				"External parsers should have modified the document by creating external content references",
+				document.get().contains("@ref"));
 	}
 
 	/**
