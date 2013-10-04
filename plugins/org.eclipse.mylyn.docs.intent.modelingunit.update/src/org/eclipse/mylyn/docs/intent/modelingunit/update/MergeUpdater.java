@@ -232,7 +232,7 @@ public class MergeUpdater extends AbstractModelingUnitUpdater {
 				section.getIntentContent().add(siblingIndex + 2, rightUnit);
 			}
 		} else {
-			section.getIntentContent().add(0, modelingUnit);
+			section.getIntentContent().add(modelingUnit);
 			if (rightUnit != null) {
 				section.getIntentContent().add(1, rightUnit);
 			}

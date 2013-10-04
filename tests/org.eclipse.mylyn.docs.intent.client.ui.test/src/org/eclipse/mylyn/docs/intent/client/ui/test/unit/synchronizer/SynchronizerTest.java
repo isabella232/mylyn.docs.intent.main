@@ -68,6 +68,7 @@ public class SynchronizerTest extends AbstractZipBasedTest {
 	 */
 	// CHECKSTYLE:OFF
 	public void testSynchronizationStatus() throws Exception {
+		waitForProjectExplorerRefresher();
 		markers = intentProject.findMarkers("org.eclipse.core.resources.problemmarker", true,
 				IResource.DEPTH_INFINITE);
 

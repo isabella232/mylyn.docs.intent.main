@@ -310,6 +310,12 @@ public class ChangeEditorUpdateTest extends AbstractIntentUITest {
 
 		// Step 3 : save editor
 		editor.doSave(new NullProgressMonitor());
+		final long timeToWait = 200;
+		try {
+			Thread.sleep(timeToWait);
+		} catch (InterruptedException e) {
+			// Silent catch
+		}
 		waitForAllOperationsInUIThread();
 
 		// Step 4 : checking that when reserializing the parsed document we obtain the expected text

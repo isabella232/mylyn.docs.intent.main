@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.client.ui.ide.navigator;
 
+import com.google.common.collect.Sets;
+
 import java.util.ConcurrentModificationException;
 
 import org.eclipse.core.resources.IFile;
@@ -105,7 +107,8 @@ public class UpdateProblemsViewJob extends Job {
 			CompilationStatusManager statusManager = statusQuery.getOrCreateCompilationStatusManager();
 
 			try {
-				for (CompilationStatus status : statusManager.getCompilationStatusList()) {
+				for (CompilationStatus status : Sets.newLinkedHashSet(statusManager
+						.getCompilationStatusList())) {
 					createMarkerFromStatus(status);
 				}
 			} catch (ConcurrentModificationException e) {

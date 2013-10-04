@@ -129,7 +129,7 @@ public class ProjectExplorerRefresher extends AbstractRepositoryClient {
 		res.setPriority(Job.DECORATE);
 		updateProblemView();
 		IntentLogger.getInstance().log(LogType.LIFECYCLE,
-				"[ProjectExplorer Refresher] Project explorer and Problem view refreshed");
+				"[Project Explorer Refresher] Project explorer and Problem view refreshed");
 		return res;
 	}
 

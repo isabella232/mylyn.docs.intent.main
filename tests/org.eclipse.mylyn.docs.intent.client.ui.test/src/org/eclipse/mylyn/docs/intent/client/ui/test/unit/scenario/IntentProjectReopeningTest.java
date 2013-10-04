@@ -113,6 +113,12 @@ public class IntentProjectReopeningTest extends AbstractIntentUITest {
 	protected void doTestProjectReopening(String initalContent, String newContent) throws CoreException {
 		document.set(initalContent);
 		editor.doSave(new NullProgressMonitor());
+		final int timeToWait = 200;
+		try {
+			Thread.sleep(timeToWait);
+		} catch (InterruptedException e) {
+			// Silent catch
+		}
 		waitForAllOperationsInUIThread();
 
 		document.set(newContent);
@@ -136,6 +142,12 @@ public class IntentProjectReopeningTest extends AbstractIntentUITest {
 	private IntentDocument reopenProjectAndGetDocument() throws CoreException {
 		editor.doSave(new NullProgressMonitor());
 		ToggleNatureAction.toggleNature(intentProject);
+		final int timeToWait = 500;
+		try {
+			Thread.sleep(timeToWait);
+		} catch (InterruptedException e) {
+			// Silent catch
+		}
 		waitForAllOperationsInUIThread();
 		intentProject.close(new NullProgressMonitor());
 		waitForAllOperationsInUIThread();

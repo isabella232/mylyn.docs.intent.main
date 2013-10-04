@@ -53,6 +53,12 @@ public class RefresherTest extends AbstractIntentUITest {
 				editor.getEditorInput());
 		document.set(document.get().replace("test", "modified_test"));
 		editor.doSave(new NullProgressMonitor());
+		try {
+			final int timeToWait = 500;
+			Thread.sleep(timeToWait);
+		} catch (InterruptedException e) {
+			// Silent catch
+		}
 		waitForAllOperationsInUIThread();
 		waitForCompiler();
 		assertTrue(getProblems()
