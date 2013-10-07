@@ -1,1 +1,7 @@
-<?xml version="1.0" encoding="ASCII"?><java:Classifier xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:java="http://www.eclipse.org/intent/bridges/java/0.8" name="org.eclipse.myly.docs.intent.java.example.AbstractExampleJavaClass" abstract="true">  <methods name="protectedMethodWithParameters(ExampleJavaClass,Object)" visibility="PROTECTED" abstract="true" simpleName="protectedMethodWithParameters" returnType="ExampleJavaClass">    <parameters name="param1" type="ExampleJavaClass"/>    <parameters name="param2" type="Object"/>  </methods></java:Classifier>
+<?xml version="1.0" encoding="ASCII"?>
+<java:Classifier xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:java="http://www.eclipse.org/intent/bridges/java/0.8" name="org.eclipse.myly.docs.intent.java.example.AbstractExampleJavaClass" classifierPath="org.eclipse.mylyn.docs.intent.java.example/src/org/eclipse/myly/docs/intent/java/example/AbstractExampleJavaClass.java" abstract="true">
+  <methods name="protectedMethodWithParameters(ExampleJavaClass,Object)" visibility="PROTECTED" classifierPath="org.eclipse.mylyn.docs.intent.java.example/src/org/eclipse/myly/docs/intent/java/example/AbstractExampleJavaClass.java" abstract="true" simpleName="protectedMethodWithParameters" returnType="ExampleJavaClass">
+    <parameters name="param1" type="ExampleJavaClass"/>
+    <parameters name="param2" type="Object"/>
+  </methods>
+</java:Classifier>

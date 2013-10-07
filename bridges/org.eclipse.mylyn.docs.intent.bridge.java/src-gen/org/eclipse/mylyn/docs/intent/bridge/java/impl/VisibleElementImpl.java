@@ -30,6 +30,7 @@ import org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement;
  *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.impl.VisibleElementImpl#getVisibility <em>Visibility</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.impl.VisibleElementImpl#isStatic <em>Static</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.impl.VisibleElementImpl#isFinal <em>Final</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.impl.VisibleElementImpl#getClassifierPath <em>Classifier Path</em>}</li>
  * </ul>
  * </p>
  *
@@ -95,6 +96,26 @@ public class VisibleElementImpl extends NamedElementImpl implements VisibleEleme
 	 * @ordered
 	 */
 	protected boolean final_ = FINAL_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getClassifierPath() <em>Classifier Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getClassifierPath()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String CLASSIFIER_PATH_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getClassifierPath() <em>Classifier Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getClassifierPath()
+	 * @generated
+	 * @ordered
+	 */
+	protected String classifierPath = CLASSIFIER_PATH_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -183,6 +204,27 @@ public class VisibleElementImpl extends NamedElementImpl implements VisibleEleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getClassifierPath() {
+		return classifierPath;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setClassifierPath(String newClassifierPath) {
+		String oldClassifierPath = classifierPath;
+		classifierPath = newClassifierPath;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, JavaPackage.VISIBLE_ELEMENT__CLASSIFIER_PATH, oldClassifierPath, classifierPath));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -192,6 +234,8 @@ public class VisibleElementImpl extends NamedElementImpl implements VisibleEleme
 				return isStatic();
 			case JavaPackage.VISIBLE_ELEMENT__FINAL:
 				return isFinal();
+			case JavaPackage.VISIBLE_ELEMENT__CLASSIFIER_PATH:
+				return getClassifierPath();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -212,6 +256,9 @@ public class VisibleElementImpl extends NamedElementImpl implements VisibleEleme
 				return;
 			case JavaPackage.VISIBLE_ELEMENT__FINAL:
 				setFinal((Boolean)newValue);
+				return;
+			case JavaPackage.VISIBLE_ELEMENT__CLASSIFIER_PATH:
+				setClassifierPath((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -234,6 +281,9 @@ public class VisibleElementImpl extends NamedElementImpl implements VisibleEleme
 			case JavaPackage.VISIBLE_ELEMENT__FINAL:
 				setFinal(FINAL_EDEFAULT);
 				return;
+			case JavaPackage.VISIBLE_ELEMENT__CLASSIFIER_PATH:
+				setClassifierPath(CLASSIFIER_PATH_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -252,6 +302,8 @@ public class VisibleElementImpl extends NamedElementImpl implements VisibleEleme
 				return static_ != STATIC_EDEFAULT;
 			case JavaPackage.VISIBLE_ELEMENT__FINAL:
 				return final_ != FINAL_EDEFAULT;
+			case JavaPackage.VISIBLE_ELEMENT__CLASSIFIER_PATH:
+				return CLASSIFIER_PATH_EDEFAULT == null ? classifierPath != null : !CLASSIFIER_PATH_EDEFAULT.equals(classifierPath);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -272,6 +324,8 @@ public class VisibleElementImpl extends NamedElementImpl implements VisibleEleme
 		result.append(static_);
 		result.append(", final: ");
 		result.append(final_);
+		result.append(", classifierPath: ");
+		result.append(classifierPath);
 		result.append(')');
 		return result.toString();
 	}

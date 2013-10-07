@@ -27,6 +27,7 @@ import org.eclipse.mylyn.docs.intent.bridge.java.JavaPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.impl.FieldImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.impl.FieldImpl#getQualifiedType <em>Qualified Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,6 +53,26 @@ public class FieldImpl extends VisibleElementImpl implements Field {
 	 * @ordered
 	 */
 	protected String type = TYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getQualifiedType() <em>Qualified Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getQualifiedType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String QUALIFIED_TYPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getQualifiedType() <em>Qualified Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getQualifiedType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String qualifiedType = QUALIFIED_TYPE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -98,11 +119,34 @@ public class FieldImpl extends VisibleElementImpl implements Field {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getQualifiedType() {
+		return qualifiedType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setQualifiedType(String newQualifiedType) {
+		String oldQualifiedType = qualifiedType;
+		qualifiedType = newQualifiedType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, JavaPackage.FIELD__QUALIFIED_TYPE, oldQualifiedType, qualifiedType));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case JavaPackage.FIELD__TYPE:
 				return getType();
+			case JavaPackage.FIELD__QUALIFIED_TYPE:
+				return getQualifiedType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -117,6 +161,9 @@ public class FieldImpl extends VisibleElementImpl implements Field {
 		switch (featureID) {
 			case JavaPackage.FIELD__TYPE:
 				setType((String)newValue);
+				return;
+			case JavaPackage.FIELD__QUALIFIED_TYPE:
+				setQualifiedType((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -133,6 +180,9 @@ public class FieldImpl extends VisibleElementImpl implements Field {
 			case JavaPackage.FIELD__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
+			case JavaPackage.FIELD__QUALIFIED_TYPE:
+				setQualifiedType(QUALIFIED_TYPE_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -147,6 +197,8 @@ public class FieldImpl extends VisibleElementImpl implements Field {
 		switch (featureID) {
 			case JavaPackage.FIELD__TYPE:
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+			case JavaPackage.FIELD__QUALIFIED_TYPE:
+				return QUALIFIED_TYPE_EDEFAULT == null ? qualifiedType != null : !QUALIFIED_TYPE_EDEFAULT.equals(qualifiedType);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -163,6 +215,8 @@ public class FieldImpl extends VisibleElementImpl implements Field {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (type: ");
 		result.append(type);
+		result.append(", qualifiedType: ");
+		result.append(qualifiedType);
 		result.append(')');
 		return result.toString();
 	}

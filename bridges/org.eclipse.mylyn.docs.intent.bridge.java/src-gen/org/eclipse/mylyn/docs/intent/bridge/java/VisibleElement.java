@@ -22,6 +22,7 @@ package org.eclipse.mylyn.docs.intent.bridge.java;
  *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement#getVisibility <em>Visibility</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement#isStatic <em>Static</em>}</li>
  *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement#isFinal <em>Final</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement#getClassifierPath <em>Classifier Path</em>}</li>
  * </ul>
  * </p>
  *
@@ -110,5 +111,31 @@ public interface VisibleElement extends NamedElement {
 	 * @generated
 	 */
 	void setFinal(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Classifier Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Classifier Path</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Classifier Path</em>' attribute.
+	 * @see #setClassifierPath(String)
+	 * @see org.eclipse.mylyn.docs.intent.bridge.java.JavaPackage#getVisibleElement_ClassifierPath()
+	 * @model
+	 * @generated
+	 */
+	String getClassifierPath();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement#getClassifierPath <em>Classifier Path</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Classifier Path</em>' attribute.
+	 * @see #getClassifierPath()
+	 * @generated
+	 */
+	void setClassifierPath(String value);
 
 } // VisibleElement

@@ -40,23 +40,23 @@ import org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement;
  * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
  */
 public class JavaClassExplorer {
-	
+
 	/**
 	 * Constant identifying opening brackets.
 	 */
 	private static final String OPENING_BRACKET = "{";
-	
+
 	/**
 	 * Constant identifying closing brackets.
 	 */
 	private static final String CLOSING_BRACKET = "}";
-	
-
 
 	/**
 	 * Allows to represent all the {@link IType}s contained in the given {@link ICompilationUnit} as
 	 * {@link Classifier}s.
 	 * 
+	 * @param path
+	 *            the path of this element from the workspace root
 	 * @param javaClass
 	 *            the {@link ICompilationUnit} to inspect
 	 * @return the {@link Classifier}s corresponding to the {@link IType}s contained in the given
@@ -64,12 +64,13 @@ public class JavaClassExplorer {
 	 * @throws JavaModelException
 	 *             if errors occur while querying the java class
 	 */
-	public Collection<Classifier> getJavaClassAsModel(ICompilationUnit javaClass) throws JavaModelException {
+	public Collection<Classifier> getJavaClassAsModel(String path, ICompilationUnit javaClass)
+			throws JavaModelException {
 		Collection<Classifier> eClassifiers = new LinkedHashSet<Classifier>();
 		IType[] allTypes;
 		allTypes = javaClass.getAllTypes();
 		for (IType iType : allTypes) {
-			eClassifiers.add(getTypeAsModel(iType));
+			eClassifiers.add(getTypeAsModel(path, iType));
 		}
 		return eClassifiers;
 	}
@@ -77,15 +78,18 @@ public class JavaClassExplorer {
 	/**
 	 * Allows to represent the given {@link IType} as a {@link Classifier}.
 	 * 
+	 * @param path
+	 *            the path of this element from the workspace root
 	 * @param iType
 	 *            the {@link IType} to inspect
 	 * @return a {@link Classifier} corresponding to the given {@link IType}
 	 * @throws JavaModelException
 	 *             if errors occur while querying the type
 	 */
-	private Classifier getTypeAsModel(IType iType) throws JavaModelException {
+	private Classifier getTypeAsModel(String path, IType iType) throws JavaModelException {
 		Classifier eClassifier = JavaFactory.eINSTANCE.createClassifier();
 
+		eClassifier.setClassifierPath(path);
 		eClassifier.setName(iType.getFullyQualifiedName());
 		updateAbstractInformations(eClassifier, iType);
 		updateVisibilityInformations(eClassifier, iType);
@@ -108,10 +112,10 @@ public class JavaClassExplorer {
 		}
 
 		for (IField field : iType.getFields()) {
-			eClassifier.getFields().add(getFieldAsModel(field));
+			eClassifier.getFields().add(getFieldAsModel(path, field));
 		}
 		for (IMethod method : iType.getMethods()) {
-			eClassifier.getMethods().add(getMethodAsModel(method));
+			eClassifier.getMethods().add(getMethodAsModel(path, method));
 		}
 		return eClassifier;
 	}
@@ -119,13 +123,15 @@ public class JavaClassExplorer {
 	/**
 	 * Allows to represent the given {@link IMethod} as a {@link Method}.
 	 * 
+	 * @param path
+	 *            the path of this element from the workspace root
 	 * @param method
 	 *            the {@link IMethod} to inspect
 	 * @return a {@link Method} corresponding to the given {@link IMethod}
 	 * @throws JavaModelException
 	 *             if errors occur while querying the method
 	 */
-	private Method getMethodAsModel(IMethod method) throws JavaModelException {
+	private Method getMethodAsModel(String path, IMethod method) throws JavaModelException {
 		Method eMethod = null;
 
 		if (method.isConstructor()) {
@@ -160,7 +166,8 @@ public class JavaClassExplorer {
 
 		// Setting method content if neither abstract or interface
 		String methodContentWithoutJavaDoc = method.getSource();
-		if (methodContentWithoutJavaDoc.contains(OPENING_BRACKET) && methodContentWithoutJavaDoc.contains(CLOSING_BRACKET)) {
+		if (methodContentWithoutJavaDoc.contains(OPENING_BRACKET)
+				&& methodContentWithoutJavaDoc.contains(CLOSING_BRACKET)) {
 			if (method.getJavadocRange() != null) {
 				methodContentWithoutJavaDoc = method.getSource().substring(
 						method.getJavadocRange().getLength());
@@ -185,23 +192,34 @@ public class JavaClassExplorer {
 			}
 		}
 		eMethod.setName(getMethodID(method));
+		eMethod.setClassifierPath(path);
 		return eMethod;
 	}
 
 	/**
 	 * Allows to represent the given {@link IField} as a {@link Field}.
 	 * 
+	 * @param path
+	 *            the path of this element from the workspace root
 	 * @param field
 	 *            the {@link field} to inspect
 	 * @return a {@link Field} corresponding to the given {@link IField}
 	 * @throws JavaModelException
 	 *             if errors occur while querying the field
 	 */
-	private Field getFieldAsModel(IField field) throws JavaModelException {
+	private Field getFieldAsModel(String path, IField field) throws JavaModelException {
 		Field eField = JavaFactory.eINSTANCE.createField();
 		eField.setName(field.getElementName());
 		eField.setJavadoc(getJavadocAsModel(field));
 		eField.setType(getTypeFromTypeSignature(field.getTypeSignature()));
+		eField.setClassifierPath(path);
+		String fieldTypeSignature = Signature.toString(field.getTypeSignature());
+		if (fieldTypeSignature != null) {
+			String[][] resolvedType = field.getDeclaringType().resolveType(fieldTypeSignature);
+			if (resolvedType != null) {
+				eField.setQualifiedType(Signature.toQualifiedName(resolvedType[0]));
+			}
+		}
 		updateVisibilityInformations(eField, field);
 		return eField;
 	}

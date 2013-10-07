@@ -47,7 +47,8 @@ public class JavaResourceFactory implements Resource.Factory {
 			if (javaElement instanceof ICompilationUnit) {
 				try {
 					resource.getContents().addAll(
-							javaClassExplorer.getJavaClassAsModel((ICompilationUnit)javaElement));
+							javaClassExplorer.getJavaClassAsModel(uri.trimFragment().toString(),
+									(ICompilationUnit)javaElement));
 				} catch (JavaModelException e) {
 					throw new RuntimeException(e);
 				}

@@ -213,13 +213,22 @@ public interface JavaPackage extends EPackage {
 	int VISIBLE_ELEMENT__FINAL = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Classifier Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VISIBLE_ELEMENT__CLASSIFIER_PATH = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Visible Element</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VISIBLE_ELEMENT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int VISIBLE_ELEMENT_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.bridge.java.impl.AbstractCapableElementImpl <em>Abstract Capable Element</em>}' class.
@@ -275,6 +284,15 @@ public interface JavaPackage extends EPackage {
 	 * @ordered
 	 */
 	int ABSTRACT_CAPABLE_ELEMENT__FINAL = VISIBLE_ELEMENT__FINAL;
+
+	/**
+	 * The feature id for the '<em><b>Classifier Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ABSTRACT_CAPABLE_ELEMENT__CLASSIFIER_PATH = VISIBLE_ELEMENT__CLASSIFIER_PATH;
 
 	/**
 	 * The feature id for the '<em><b>Abstract</b></em>' attribute.
@@ -350,6 +368,15 @@ public interface JavaPackage extends EPackage {
 	int FIELD__FINAL = VISIBLE_ELEMENT__FINAL;
 
 	/**
+	 * The feature id for the '<em><b>Classifier Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIELD__CLASSIFIER_PATH = VISIBLE_ELEMENT__CLASSIFIER_PATH;
+
+	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -359,13 +386,22 @@ public interface JavaPackage extends EPackage {
 	int FIELD__TYPE = VISIBLE_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Qualified Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int FIELD__QUALIFIED_TYPE = VISIBLE_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Field</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FIELD_FEATURE_COUNT = VISIBLE_ELEMENT_FEATURE_COUNT + 1;
+	int FIELD_FEATURE_COUNT = VISIBLE_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.mylyn.docs.intent.bridge.java.impl.ClassifierImpl <em>Classifier</em>}' class.
@@ -421,6 +457,15 @@ public interface JavaPackage extends EPackage {
 	 * @ordered
 	 */
 	int CLASSIFIER__FINAL = ABSTRACT_CAPABLE_ELEMENT__FINAL;
+
+	/**
+	 * The feature id for the '<em><b>Classifier Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASSIFIER__CLASSIFIER_PATH = ABSTRACT_CAPABLE_ELEMENT__CLASSIFIER_PATH;
 
 	/**
 	 * The feature id for the '<em><b>Abstract</b></em>' attribute.
@@ -541,6 +586,15 @@ public interface JavaPackage extends EPackage {
 	int METHOD__FINAL = ABSTRACT_CAPABLE_ELEMENT__FINAL;
 
 	/**
+	 * The feature id for the '<em><b>Classifier Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int METHOD__CLASSIFIER_PATH = ABSTRACT_CAPABLE_ELEMENT__CLASSIFIER_PATH;
+
+	/**
 	 * The feature id for the '<em><b>Abstract</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -657,6 +711,15 @@ public interface JavaPackage extends EPackage {
 	 * @ordered
 	 */
 	int CONSTRUCTOR__FINAL = METHOD__FINAL;
+
+	/**
+	 * The feature id for the '<em><b>Classifier Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONSTRUCTOR__CLASSIFIER_PATH = METHOD__CLASSIFIER_PATH;
 
 	/**
 	 * The feature id for the '<em><b>Abstract</b></em>' attribute.
@@ -895,6 +958,17 @@ public interface JavaPackage extends EPackage {
 	EAttribute getVisibleElement_Final();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement#getClassifierPath <em>Classifier Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Classifier Path</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.bridge.java.VisibleElement#getClassifierPath()
+	 * @see #getVisibleElement()
+	 * @generated
+	 */
+	EAttribute getVisibleElement_ClassifierPath();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.bridge.java.AbstractCapableElement <em>Abstract Capable Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -935,6 +1009,17 @@ public interface JavaPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getField_Type();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.mylyn.docs.intent.bridge.java.Field#getQualifiedType <em>Qualified Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Qualified Type</em>'.
+	 * @see org.eclipse.mylyn.docs.intent.bridge.java.Field#getQualifiedType()
+	 * @see #getField()
+	 * @generated
+	 */
+	EAttribute getField_QualifiedType();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.mylyn.docs.intent.bridge.java.Classifier <em>Classifier</em>}'.
@@ -1228,6 +1313,14 @@ public interface JavaPackage extends EPackage {
 		EAttribute VISIBLE_ELEMENT__FINAL = eINSTANCE.getVisibleElement_Final();
 
 		/**
+		 * The meta object literal for the '<em><b>Classifier Path</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VISIBLE_ELEMENT__CLASSIFIER_PATH = eINSTANCE.getVisibleElement_ClassifierPath();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.bridge.java.impl.AbstractCapableElementImpl <em>Abstract Capable Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1262,6 +1355,14 @@ public interface JavaPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute FIELD__TYPE = eINSTANCE.getField_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Qualified Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute FIELD__QUALIFIED_TYPE = eINSTANCE.getField_QualifiedType();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.mylyn.docs.intent.bridge.java.impl.ClassifierImpl <em>Classifier</em>}' class.

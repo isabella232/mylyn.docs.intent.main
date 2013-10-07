@@ -280,6 +280,15 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getVisibleElement_ClassifierPath() {
+		return (EAttribute)visibleElementEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAbstractCapableElement() {
 		return abstractCapableElementEClass;
 	}
@@ -309,6 +318,15 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage {
 	 */
 	public EAttribute getField_Type() {
 		return (EAttribute)fieldEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getField_QualifiedType() {
+		return (EAttribute)fieldEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -505,12 +523,14 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage {
 		createEAttribute(visibleElementEClass, VISIBLE_ELEMENT__VISIBILITY);
 		createEAttribute(visibleElementEClass, VISIBLE_ELEMENT__STATIC);
 		createEAttribute(visibleElementEClass, VISIBLE_ELEMENT__FINAL);
+		createEAttribute(visibleElementEClass, VISIBLE_ELEMENT__CLASSIFIER_PATH);
 
 		abstractCapableElementEClass = createEClass(ABSTRACT_CAPABLE_ELEMENT);
 		createEAttribute(abstractCapableElementEClass, ABSTRACT_CAPABLE_ELEMENT__ABSTRACT);
 
 		fieldEClass = createEClass(FIELD);
 		createEAttribute(fieldEClass, FIELD__TYPE);
+		createEAttribute(fieldEClass, FIELD__QUALIFIED_TYPE);
 
 		classifierEClass = createEClass(CLASSIFIER);
 		createEAttribute(classifierEClass, CLASSIFIER__KIND);
@@ -587,12 +607,14 @@ public class JavaPackageImpl extends EPackageImpl implements JavaPackage {
 		initEAttribute(getVisibleElement_Visibility(), this.getVisibilityKind(), "visibility", null, 1, 1, VisibleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVisibleElement_Static(), ecorePackage.getEBoolean(), "static", null, 0, 1, VisibleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getVisibleElement_Final(), ecorePackage.getEBoolean(), "final", null, 0, 1, VisibleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVisibleElement_ClassifierPath(), ecorePackage.getEString(), "classifierPath", null, 0, 1, VisibleElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(abstractCapableElementEClass, AbstractCapableElement.class, "AbstractCapableElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAbstractCapableElement_Abstract(), ecorePackage.getEBoolean(), "abstract", null, 0, 1, AbstractCapableElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(fieldEClass, Field.class, "Field", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getField_Type(), ecorePackage.getEString(), "type", null, 0, 1, Field.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getField_QualifiedType(), ecorePackage.getEString(), "qualifiedType", null, 0, 1, Field.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(classifierEClass, Classifier.class, "Classifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getClassifier_Kind(), this.getClassifierKind(), "kind", null, 1, 1, Classifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

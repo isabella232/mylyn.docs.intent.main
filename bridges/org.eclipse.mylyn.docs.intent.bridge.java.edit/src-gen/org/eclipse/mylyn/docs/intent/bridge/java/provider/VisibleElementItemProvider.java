@@ -68,6 +68,7 @@ public class VisibleElementItemProvider
 			addVisibilityPropertyDescriptor(object);
 			addStaticPropertyDescriptor(object);
 			addFinalPropertyDescriptor(object);
+			addClassifierPathPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -139,6 +140,28 @@ public class VisibleElementItemProvider
 	}
 
 	/**
+	 * This adds a property descriptor for the Classifier Path feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addClassifierPathPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_VisibleElement_classifierPath_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_VisibleElement_classifierPath_feature", "_UI_VisibleElement_type"),
+				 JavaPackage.Literals.VISIBLE_ELEMENT__CLASSIFIER_PATH,
+				 true,
+				 false,
+				 false,
+				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
 	 * This returns VisibleElement.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -178,6 +201,7 @@ public class VisibleElementItemProvider
 			case JavaPackage.VISIBLE_ELEMENT__VISIBILITY:
 			case JavaPackage.VISIBLE_ELEMENT__STATIC:
 			case JavaPackage.VISIBLE_ELEMENT__FINAL:
+			case JavaPackage.VISIBLE_ELEMENT__CLASSIFIER_PATH:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

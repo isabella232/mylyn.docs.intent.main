@@ -20,6 +20,7 @@ package org.eclipse.mylyn.docs.intent.bridge.java;
  * The following features are supported:
  * <ul>
  *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.Field#getType <em>Type</em>}</li>
+ *   <li>{@link org.eclipse.mylyn.docs.intent.bridge.java.Field#getQualifiedType <em>Qualified Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -53,5 +54,31 @@ public interface Field extends VisibleElement {
 	 * @generated
 	 */
 	void setType(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Qualified Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Qualified Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Qualified Type</em>' attribute.
+	 * @see #setQualifiedType(String)
+	 * @see org.eclipse.mylyn.docs.intent.bridge.java.JavaPackage#getField_QualifiedType()
+	 * @model
+	 * @generated
+	 */
+	String getQualifiedType();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.mylyn.docs.intent.bridge.java.Field#getQualifiedType <em>Qualified Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Qualified Type</em>' attribute.
+	 * @see #getQualifiedType()
+	 * @generated
+	 */
+	void setQualifiedType(String value);
 
 } // Field

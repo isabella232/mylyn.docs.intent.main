@@ -36,7 +36,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory {
 	 */
 	public static JavaFactory init() {
 		try {
-			JavaFactory theJavaFactory = (JavaFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/intent/bridges/java/0.8"); 
+			JavaFactory theJavaFactory = (JavaFactory)EPackage.Registry.INSTANCE.getEFactory(JavaPackage.eNS_URI);
 			if (theJavaFactory != null) {
 				return theJavaFactory;
 			}

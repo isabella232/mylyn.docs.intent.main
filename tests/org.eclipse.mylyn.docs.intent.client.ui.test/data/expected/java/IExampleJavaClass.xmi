@@ -1,1 +1,4 @@
-<?xml version="1.0" encoding="ASCII"?><java:Classifier xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:java="http://www.eclipse.org/intent/bridges/java/0.8" name="org.eclipse.myly.docs.intent.java.example.IExampleJavaClass" kind="INTERFACE">  <methods name="publicVoidMethod()" visibility="PACKAGE" simpleName="publicVoidMethod" returnType="void"/></java:Classifier>
+<?xml version="1.0" encoding="ASCII"?>
+<java:Classifier xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:java="http://www.eclipse.org/intent/bridges/java/0.8" name="org.eclipse.myly.docs.intent.java.example.IExampleJavaClass" classifierPath="org.eclipse.mylyn.docs.intent.java.example/src/org/eclipse/myly/docs/intent/java/example/IExampleJavaClass.java" kind="INTERFACE">
+  <methods name="publicVoidMethod()" visibility="PACKAGE" classifierPath="org.eclipse.mylyn.docs.intent.java.example/src/org/eclipse/myly/docs/intent/java/example/IExampleJavaClass.java" simpleName="publicVoidMethod" returnType="void"/>
+</java:Classifier>
