@@ -11,13 +11,8 @@
 package org.eclipse.mylyn.docs.intent.client.ui.ide.repository;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.cdo.eresource.EresourcePackage;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.mylyn.docs.intent.client.ui.ide.Activator;
 import org.eclipse.mylyn.docs.intent.collab.common.location.IntentLocations;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
 import org.eclipse.mylyn.docs.intent.collab.handlers.notification.RepositoryChangeNotificationFactoryHolder;
@@ -68,21 +63,6 @@ public class IntentWorkspaceRepositoryCreator implements RepositoryCreator {
 			}
 			initializePackageRegistry(repository);
 			repository.setRepositoryStructurer(structurer);
-
-			// Step 3: register the created repository through the Intent project listener (will trigger
-			// launch of the expected clients)
-			final Job initializeIntentProjectJob = new Job("Initializing Intent project "
-					+ ((IProject)artifact).getName()) {
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					// Doing activation inside a job workarounds the reentrant calls in the repository
-					// manager.
-					Activator.getDefault().getIntentProjectListener().handleOpenedProject((IProject)artifact);
-					return Status.OK_STATUS;
-				}
-			};
-			initializeIntentProjectJob.setPriority(Job.DECORATE);
-			initializeIntentProjectJob.schedule();
 			return repository;
 		} else {
 			throw new RepositoryConnectionException("The given configuration artifact are invalid.");

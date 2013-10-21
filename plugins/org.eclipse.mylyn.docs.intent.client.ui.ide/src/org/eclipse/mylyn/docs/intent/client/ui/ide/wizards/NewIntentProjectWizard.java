@@ -33,10 +33,12 @@ import org.eclipse.mylyn.docs.intent.collab.common.repository.IntentRepositoryMa
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
 import org.eclipse.mylyn.docs.intent.collab.repository.RepositoryConnectionException;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkingSet;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
@@ -122,27 +124,17 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 		try {
 			getContainer().run(false, false, workspaceOperation);
 
-			// Step 2 : open an editor on the created document
+			// Step 2 : perform UI operations (e.g. opening an intent editor on the created document
 			try {
-				Repository repository = IntentRepositoryManager.INSTANCE.getRepository(page.getProjectName());
+				final Repository repository = IntentRepositoryManager.INSTANCE.getRepository(page
+						.getProjectName());
 				if (repository != null) {
-					IntentEditorOpener.openIntentEditor(repository, false);
-
-					// Step 3: open the getting started cheat sheet (according to preferences)
-					if (IntentPreferenceService
-							.getBoolean(IntentPreferenceConstants.SHOW_CHEAT_SHEET_ON_PROJECT_CREATION)) {
-						IViewPart cheatSheetView = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-								.getActivePage().showView("org.eclipse.ui.cheatsheets.views.CheatSheetView");
-						if (cheatSheetView instanceof CheatSheetView) {
-							((CheatSheetView)cheatSheetView)
-									.setInput("org.eclipse.mylyn.docs.intent.idoc.cheatsheet.getstarted");
+					Runnable runnable = new Runnable() {
+						public void run() {
+							uiFinishOperations(repository);
 						}
-					}
-
-					// Step 4: open the project explorer view
-					// TODO: remove this work-around when bugzilla 365084 gets fixed
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-							.showView("org.eclipse.ui.navigator.ProjectExplorer");
+					};
+					Display.getDefault().asyncExec(runnable);
 				}
 			} catch (RepositoryConnectionException e) {
 				IntentUiLogger.logError(e);
@@ -156,6 +148,37 @@ public class NewIntentProjectWizard extends Wizard implements INewWizard, IExecu
 			IntentUiLogger.logError(e);
 		}
 		return false;
+	}
+
+	/**
+	 * Operations that can be performed asynchronously in UI Thread after performFinish() is called.
+	 * 
+	 * @param repository
+	 *            the {@link Repository} that has been created by this wizard
+	 */
+	private void uiFinishOperations(Repository repository) {
+		try {
+			// Step 1: open an Intent editor on the created document
+			IntentEditorOpener.openIntentEditor(repository, false);
+
+			// Step 2: open the getting started cheat sheet (according to preferences)
+			if (IntentPreferenceService
+					.getBoolean(IntentPreferenceConstants.SHOW_CHEAT_SHEET_ON_PROJECT_CREATION)) {
+				IViewPart cheatSheetView = PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+						.getActivePage().showView("org.eclipse.ui.cheatsheets.views.CheatSheetView");
+				if (cheatSheetView instanceof CheatSheetView) {
+					((CheatSheetView)cheatSheetView)
+							.setInput("org.eclipse.mylyn.docs.intent.idoc.cheatsheet.getstarted");
+				}
+			}
+
+			// Step 3: open the project explorer view
+			// TODO: remove this work-around when bugzilla 365084 gets fixed
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.showView("org.eclipse.ui.navigator.ProjectExplorer");
+		} catch (PartInitException e) {
+			IntentUiLogger.logError(e);
+		}
 	}
 
 	/**

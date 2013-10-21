@@ -97,6 +97,13 @@ public final class IntentRepositoryInitializer {
 				repositoryAdapter.closeContext();
 			}
 		});
+		try {
+			repositoryAdapter.save();
+		} catch (ReadOnlyException e) {
+			IntentLogger.getInstance().logError(e);
+		} catch (SaveException e) {
+			IntentLogger.getInstance().logError(e);
+		}
 	}
 
 	/**
@@ -140,9 +147,6 @@ public final class IntentRepositoryInitializer {
 			for (EObject objectToCopy : elementsToUpload) {
 				repositoryIntentResource.getContents().add(EcoreUtil.copy(objectToCopy));
 			}
-
-			// Step : closing the session
-			repositoryAdapter.save();
 		} else {
 			repositoryAdapter.undo();
 		}
