@@ -1,0 +1,272 @@
+h1. Intent : External Documentation support
+
+h2. Overview
+
+For the time being, the only way to type Intent documentation is through the Intent editor.
+However, synchronization and authoring capabilities of Intent are 2 distinct features.
+
+It makes perfect sense to only use the synchronization capabilities of Intent, and rely on other formats to author and store the documentation (Textile files, Wiki pages, Open-office documents...).
+
+This document specifies how Intent should handle such external documentation files.
+
+h2. Concepts
+
+Before detailing the end-user scenario, we must define the following concepts.
+
+h3. External Document
+
+A piece of documentation which is not stored inside an Intent repository (can be a textile file in the workspace, a Wiki page, an open-office document...).
+
+h3. Links toward External documents
+
+We will distinguish 2 kinds of link from the Intent document to an "external document":#ExternalDocument : "Full Links":#Fulllinks and "Ref Links":#Reflinks.
+
+*Such links will be displayed in the Project explorer (contrary to other instructions).* This will ease operations on these links (Drag and Drop of technical artifacts, link with the "Documentation Attachments View":#DocumentationAttachmentsView ...).
+
+h4. Ref links
+
+A ref link is composed of a simple URI indicating the "external document":#ExternalDocument location (e.g. _http://my.Wiki.org/myWikiPage_, _platform:/resource/myProject/myTextileFile.textile_, _file:///PATH_ON_DISK/myOpenOfficeDocument.doc_). It will also contain a list of technical artifacts related to this external document.
+
+It will be used for "external document":#ExternalDocument that we cannot represent as EMF Models (see "Full Links definition":#Fulllinks ).
+
+
+h4. Full links
+
+A Full link is a "Ref link":#Reflinks containing the content of the referenced "external document":#ExternalDocument as an instance of the Markup metamodel.
+
+For instance, the default markup parser already allows to represent any textile file as an instance of the Markup metamodel. So if we reference a textile file as an "external document":#ExternalDocument , Intent will be able to parse the document and store it as an EMF model.
+
+Notice that here it will not contain a list but a map of technical artifacts, associating each precise piece of documentation in the external document (e.g. a Wikitext section or a Wiki paragraph/image) with a set of technical artifacts.
+
+h3. Synchronization between Intent document and External documents
+
+As the documentation is no longer exclusively stored in the Intent repository and authored through the Intent editor, the question of the synchronization between Intent documentation and external document is raised.
+
+h4. For External documents referenced through Ref links
+
+As Intent has no information about the content of these documents, modifying them will not raise any synchronization issue.
+
+h4. For External documents referenced through Full links
+
+As Intent stores the content of such document, we have 2 possible way of handling a modification on them: "Automatic Change Integration":#AutomaticChangeIntegration and "Interactive Change Integration":#InteractiveChangeIntegration .
+As each mode brings benefits and drawbacks according to the use case, it should be possible for the end-user to configure the chosen mode file-by-file or file type-by-file type.
+
+h5. Automatic Change Integration
+
+In that mode, whenever an external file is modified, we silently apply the changes on the corresponding "EMF copy":#Fulllinks.
+
+h5. Interactive Change Integration
+
+In that mode, whenever an external file is modified, we raise a synchronization issue indicating that the document has changed. As with a technical artifact-related synchronization issue, changes can be visualized graphically using EMF Compare dialogs. The end-user will have to accept manually the change to update the "EMF copy":#Fulllinks .
+
+h2. End-user Scenarios
+
+We will follow step-by-step a scenario in which the end-user wants to use 2 different Wikis (each containing several pages) and an Open-office file as external documents,and still using Intent for some sections.
+
+h3. Intent project creation
+
+The Intent project is created as usual.
+
+h3. Referencing Wiki pages
+
+
+h4. Scenario 01: referencing a Wiki page through the Intent editor
+
+*As a* documentation writer
+*I want to* reference a Wiki page in my documentation
+*So that* I can link this Wiki page with technical artifacts
+*Given* an empty Intent project and a Wiki page
+*When*
+* I type *@ref "_WIKI_PAGE_URI_"*
+*Then*
+* Intent creates a "Full link":#Fulllinks in the current Intent Structured Element (Document/Chapter/Section)
+
+Notice that the end-user will be notified if a new sub-page is added to the referenced Wiki page (see "the corresponding scenario":#Wikipagesaddition ).
+
+h4. Scenario 02: referencing one or several Wiki page(s) through Intent UI
+
+*As a* documentation writer
+*I want to* reference many pages from a Wiki in my documentation
+*So that* I can link these Wiki pages with technical artifacts
+*Given* an empty Intent project and a list of Wiki pages I want to reference
+*When*
+* I right-click in the current editor, the Intent project or one of the Intent structured element (in the Project explorer view) and select the _"Add links toward other documents"_ Action
+*Then*
+* The following wizard is opened : 
+!external_documents_link_wizard01.png!
+* As soon I enter a Wiki page URL, this page and all sub-pages are listed below
+* Once I've selected the target Intent Element (single-valued) and the list of external documents to reference, Intent creates "Full links":#Fulllinks in the selected element (*@ref "_SELECTED_WIKI_PAGE_URI_"*)
+
+
+h3. Referencing open-office documents
+
+h4. Scenario 03: referencing an Open Office document through the Intent editor
+
+*As a* documentation writer
+*I want to* reference an Open Office document in my documentation
+*So that* I can link this Open Office document with technical artifacts
+*Given* an empty Intent project and an Open Office document
+*When*
+* I type *@ref "_file:///_DOCUMENT_ABSOLUTE_LOCATION_"* or *@ref "_DOCUMENT_PATH_IN_WORKSPACE_"*
+*Then*
+* Intent creates a "Ref link":#Reflinks in the current Intent Structured Element (Document/Chapter/Section)
+
+h4. Scenario 04: referencing Open Office documents through a Intent UI
+
+*As a* documentation writer
+*I want to* reference many Open Office documents in my documentation
+*So that* I can link theseOpen Office documents with technical artifacts
+*Given* an empty Intent project and a list of Open Office documents I want to reference
+*When*
+* I right-click in the current editor, the Intent project or one of the Intent structured element (in the Project explorer view) and select the _"Add links toward other documents"_ Action
+*Then*
+* The following wizard is opened : 
+!external_documents_link_wizard02.png!
+* As soon I enter a folder or a document absolute path (possibly using "Browse File System...") or workspace relative path (possibly using "Browse Workspace...") , the files contained in the folder or the file itself are displayed below
+* Once I've selected the target Intent Element (single-valued) and the list of external documents to reference, Intent creates  "Ref link":#Reflinks in the selected element (*@ref "_SELECTED_DOCUMENT_PATH_"*)
+
+h3. Setting-up change integration mode
+
+For any external document referenced through a "Full link":#Fulllinks , the end-user will be able to change the change integration mode (whether "Automatic":#AutomaticChangeIntegration or "Interactive":#InteractiveChangeIntegration ).
+The change integration can be configured for each link type, and/or per external document link.
+
+This can be done by:
+* adding *change=SILENT* or *change=INTERACTIVE*  at the end of the @ref instruction
+* right-clicking on an Intent Project and select the _"Configure Change integration"_ action (which will open the "Change Integration Wizard":#ChangeIntegrationWizard )
+* right-clicking on a Full link and select the _"Configure Change integration"_ action (which will open the "Change Integration Wizard":#ChangeIntegrationWizard )
+
+h4. Change Integration Wizard
+
+This change integration Wizard allows to define the Default rules (per document type):
+!change_integration_wizard01.png!
+
+And specific rules (per document):
+!change_integration_wizard02.png!
+
+h4. Scenario 05: Configure Change Integration on all Wiki files through the wizard
+
+*As a* documentation writer
+*I want to* configure the way changes on Wiki file are integrated
+*So that* I do not have synchronization issues when modifying them (changes are automatically integrated)
+*Given* an Intent document referencing (through "Full links":Fulllinks) several Wiki pages
+*When*
+* right-clicking on an Intent Project and select the _"Configure Change integration"_ action (which will open the "Change Integration Wizard":#ChangeIntegrationWizard )
+*Then*
+* The following wizard is opened : 
+!change_integration_wizard01.png!
+* I can modify the default integration mode for all Wiki files (*Automatic*)
+
+
+h4. Scenario 06: Configure Change Integration on a single Wiki file using the Intent editor
+
+Notice that this could be done through the Change Integration Wizard":#ChangeIntegrationWizard (_"Specific Rules"_ tab).
+
+*As a* documentation writer
+*I want to* configure the way changes on a specific Wiki file ("Architectural overview" on Intent Wiki) are integrated
+*So that* I have synchronization issues when modifying this page (changes are NOT automatically integrated)
+*Given* an Intent document referencing (through "Full links":Fulllinks) a page on Intent Wiki ("Architectural overview")
+*When*
+* editing the *@ref* instruction by adding *change=INTERACTIVE* at the end
+*Then*
+* the change integration is set to Interactive for this "Full link":Fulllinks
+
+
+h3. Living with changes in documentation
+
+h4. Minor modifications
+
+Whenever an external documentation is updated, 3 cases can occur:
+* the external document is referenced through a "Ref Link":#Reflinks : no changes
+* the external document is referenced through a "Full Link":#Fulllinks with an "Automatic Change Integration":#AutomaticChangeIntegration : the new content is silently merged into the link
+* the external document is referenced through a "Full Link":#Fulllinks with an "Interactive Change Integration":#InteractiveChangeIntegration : Intent raises a synchronization issue on this link, that can be visualized and dealt with:
+** through the Intent editor as any synchronization issue (EMF Compare dialog to visualize the issue and _"Mark as merged"_ to accept the changes)
+** through the "Documentation Attachments View":#DocumentationAttachmentsView
+
+h3. Wiki pages addition
+
+Adding a new sub-document to an external document referenced through a "Full link":Fulllinks (typically, a new sub-page in a Wiki) is not considered as a minor document notification, as the content cannot be directly merged in the existing full link.
+
+h4. Scenario 07: Adding a new sub-page to a referenced Wiki page
+
+*As a* documentation writer
+*I want to* be notified when new sup-pages are created on a referenced Wiki page
+*So that* I can decide whether to create a link for this page or not
+*Given* an Intent document referencing (through "Full links":Fulllinks) a page on Intent Wiki (e.g. "Architectural overview")
+*When*
+* creating a new sub-page of "Architectural Overview" on the Wiki
+*Then*
+* A synchronization issue indicating that a new page has been created should be raised
+* There are 2 ways of fixing this issue
+** select the _"Reference this new page in Intent document"_ quickfix: this will create a "Full link":Fulllinks on this page
+** select the _"Ignore this sub-page"_ quickfix: this will create a *@ref* instruction with the sub-page URI, suffixed by *@ignore* to indicate that content should be ignored.
+
+h3. Deletion of external documents
+
+A deletion is handled as any synchronization issue. However, the _"Mark as merged"_ quickfix will be replaced by _"Delete this reference"_ and will delete the *@ref* instruction.
+
+h3. Link external document with technical artifacts
+
+h4. Scenario 08: Linking a technical artifact with an external document
+
+*As a* documentation writer
+*I want to* link an external document with a technical artifact (e.g. a java method)
+*So that* I get synchronization issues on this external document when the artifact changes
+*Given* an Intent document referencing (through "Full links":Fulllinks) a page on Intent Wiki (e.g. "Architectural overview") and a java file containing a method
+*When*
+* I drop the technical artifact on the corresponding link in the Project explorer (remember that external documents are displayed in this view)
+OR
+* I type the *@ref "<MY_EXTERNAL_DOCUMENT_PATH>" {@ref "<MY_TECHNICAL_ARTIFACT_PATH>"}* in the intent editor
+OR
+* I click on the _"New attachment..._" button of the "Documentation Attachments View":#DocumentationAttachmentsView (this will open the "New Attachment Dialog":#NewAttachmentDialog and allow to select precisely which part of the document should be linked with the technical artifact)
+*Then*
+* A new ExternalContentReference is added to the link's map. If nothing specified, the MapEntry's key will be the root of the external document, but if the "New Attachment Dialog":#NewAttachmentDialog was used we use the precise documentation element as key of this map entry.
+
+
+h4. Documentation Attachments View
+
+This view reacts to any selection of an IntentStructuredElement (through the Intent Editor or the Project Explorer) or an external link (also displayed in the project explorer) by listing the associated technical artifacts, and all the documentation-releated synchronization issues (only in the case of a "Full link":#Fulllinks with "Interactive Change integration":#InteractiveChangeIntegration ).
+
+When selecting some element (here an external link) in the project explorer, the view is updated (whether automatically if "link with selection" is enabled, or manually by clicking on "Refresh), and allows to:
+* *Open* the corresponding document (in an browser for a Wiki page, an Intent editor for a section...)
+* *Visualize* and *Mark as merged* all synchronization issues for this link (none if it is an Intent structured element or a "Ref link":Reflinks )
+* *See* attached technical artifacts (clicking on the _"Details..."_ button will open the "Technical Artifact Details":#TechnicalArtifactsDetailsDialog dialog, and double-clicking on a technical artifact will open it with the appropriate editor - exactly as would have an hyperlink on the @ref instruction).
+* *Attach a new technical artifact* (clicking on the _"New attachment..."_ button will open the "New Attachment Dialog":#NewAttachmentDialog )
+!doc_attachments_01.png!
+
+
+Notice that this view has the same behavior for Intent structured elements:
+!doc_attachments_02.png!
+
+h4. New Attachment Dialog
+
+This dialog allows to link a technical artifact with an Intent Structured Element or an external document (or, in case of a "Full link":#Fulllinks , a precise sub-part of an external document).
+
+!new_attachment_dialog_01.png!
+
+
+h4. Technical Artifacts Details Dialog
+
+From the "Documentation Attachments View":#DocumentationAttachmentsView , when selecting an attached technical artifact and clicking of the _"Details_" button, the following dialog is opened:
+!technical_artifacts_details_01.png!
+It allows to:
+* *Open* the corresponding artifact with the appropriate editor (e.g. Java editor for java method)
+* *Visualize* and *Mark as merged* all synchronization issues related to this artifact
+
+h3. Living with changes in technical artifacts
+
+The Intent synchronization mechanism will work exactly as usual: when detecting changes on the referenced technical artifacts, it will create synchronization issue markers on the *@ref instructions* contained in the link map. We will add an additional _"Open Corresponding document"_ quickfix that will open the target external document (and in case of a full link select the proper location).
+
+But this standard mechanism can become hard to use when dealing with several documents and several synchronization issues.
+
+That is why we provided 2 additional ways of seeing and fixing these synchronization issues:
+* When the attached document is in the workspace, we will *create synchronization markers* on this doc file
+* Using the "Documentation Attachments view":#DocumentationAttachmentsView
+
+
+h3. Intent documentation export
+
+An Intent document containing references to external documents will be exported as a standard Intent document, with the following rules:
+* for external documents referenced through a "Full link":Fulllinks , the whole content of the document will be exported
+* for external documents referenced through a "Ref link":#Reflinks , we will define a boolean preference _"Ignore ref links during export"_:
+** if true,  nothing will be exported (we will not create a link toward the external document)
+** if false, we will export a link toward the external document
