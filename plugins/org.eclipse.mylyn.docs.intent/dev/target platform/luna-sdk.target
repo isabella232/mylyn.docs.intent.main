@@ -4,25 +4,21 @@
 <target name="Kepler SDK" sequenceNumber="0">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.sdk.ide" version="4.4.0.I20130807-2000"/>
-<unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.9.0.20130802-1537"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.10.0.v20130812-1102"/>
-<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.7.0.201306111400"/>
-<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.7.0.201306111341"/>
-<unit id="org.eclipse.emf.compare.feature.group" version="2.2.0.201308220902"/>
-<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="2.2.0.201308220902"/>
-<unit id="org.eclipse.jdt.feature.group" version="3.10.0.v20130807-2000"/>
-<unit id="org.eclipse.emf.cdo.sdk.feature.group" version="4.3.0.v20130814-0914"/>
-<unit id="org.eclipse.mylyn.ide_feature.feature.group" version="3.10.0.20130809-2135"/>
+<unit id="org.eclipse.sdk.ide" version="4.4.0.I20131212-1600"/>
+<unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="1.9.0.20131008-0518"/>
+<unit id="org.eclipse.emf.sdk.feature.group" version="2.10.0.v20131216-0403"/>
+<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.8.0.201312171650"/>
+<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.8.0.201312171634"/>
+<unit id="org.eclipse.emf.compare.feature.group" version="2.2.0.201312170800"/>
+<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="2.2.0.201312170800"/>
+<unit id="org.eclipse.jdt.feature.group" version="3.10.0.v20131212-1600"/>
+<unit id="org.eclipse.emf.cdo.sdk.feature.group" version="4.3.0.v20131112-1312"/>
+<unit id="org.eclipse.mylyn.ide_feature.feature.group" version="3.10.0.20131008-0520"/>
+<unit id="org.eclipse.acceleo.feature.group" version="3.5.0.201312161520"/>
 <repository location="http://download.eclipse.org/releases/luna"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.acceleo.feature.group" version="3.4.0.201306101458"/>
-<repository location="http://download.eclipse.org/releases/kepler"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="com.google.guava" version="11.0.2.v201303041551"/>
-<unit id="com.google.guava.source" version="11.0.2.v201303041551"/>
 <unit id="org.junit" version="4.11.0.v201303080030"/>
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/"/>
 </location>

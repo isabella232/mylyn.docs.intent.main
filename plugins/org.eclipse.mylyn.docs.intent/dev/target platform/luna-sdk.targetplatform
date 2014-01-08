@@ -13,11 +13,6 @@ location "http://download.eclipse.org/releases/luna" {
 	org.eclipse.jdt.feature.group
 	org.eclipse.emf.cdo.sdk.feature.group
 	org.eclipse.mylyn.ide_feature.feature.group
-}
-
-location "http://download.eclipse.org/releases/kepler" {
-	with source, requirements
-	// Temporary: waiting for acceleo to contribute to luna
 	org.eclipse.acceleo.feature.group
 }
 

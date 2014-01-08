@@ -19,6 +19,7 @@ import org.eclipse.emf.compare.EMFCompare;
 import org.eclipse.emf.compare.EMFCompare.Builder;
 import org.eclipse.emf.compare.domain.ICompareEditingDomain;
 import org.eclipse.emf.compare.domain.impl.EMFCompareEditingDomain;
+import org.eclipse.emf.compare.ide.ui.internal.configuration.EMFCompareConfiguration;
 import org.eclipse.emf.compare.ide.ui.internal.editor.ComparisonScopeEditorInput;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -91,8 +92,8 @@ public class EMFCompareFix extends AbstractIntentFix {
 		Builder builder = EMFCompare.builder();
 		builder.setMatchEngineFactoryRegistry(EMFCompareUtils.getMatchEngineNeverUsingIdentifiers());
 		EMFCompare comparator = builder.build();
-		CompareEditorInput input = new ComparisonScopeEditorInput(compareConfig, domain, adapterFactory,
-				comparator, scope);
+		CompareEditorInput input = new ComparisonScopeEditorInput(new EMFCompareConfiguration(compareConfig),
+				domain, adapterFactory, comparator, scope);
 		input.setTitle(COMPARE_EDITOR_TITLE + " (" + workingCopyElementURI + ")");
 
 		// Step 3: open comparaison dialog
