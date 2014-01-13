@@ -14,11 +14,11 @@ Export-Package: org.eclipse.mylyn.docs.intent.markup.gen,
  org.eclipse.mylyn.docs.intent.markup.wikigen.impl,
  org.eclipse.mylyn.docs.intent.markup.wikigen.util
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.acceleo.engine,
  org.eclipse.mylyn.docs.intent.markup,
  org.eclipse.ocl.ecore,
  org.eclipse.emf.ecore;visibility:=reexport,
  com.google.guava;bundle-version="[11.0.0,12.0.0)",
- org.eclipse.acceleo.parser;bundle-version="3.3.0",
+ org.eclipse.acceleo.parser;bundle-version="3.5.0",
+ org.eclipse.acceleo.engine;bundle-version="3.5.0",
  org.eclipse.swt
 Bundle-ActivationPolicy: lazy
