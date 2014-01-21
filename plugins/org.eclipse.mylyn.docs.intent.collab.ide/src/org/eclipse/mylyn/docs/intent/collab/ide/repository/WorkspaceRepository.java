@@ -123,8 +123,7 @@ public class WorkspaceRepository implements Repository {
 			// We create it
 			folder.create(IResource.NONE, true, null);
 			// And use the RepositoryLoader to initialize the resource set with empty content
-			// loader.loadResourceSet();
-			// loader.createResourceSet();
+			loader.loadResourceSet();
 
 		}
 		isResourceSetLoaded = true;
