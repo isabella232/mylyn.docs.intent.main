@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.emf.common.command.CommandStack;
+import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -232,8 +233,11 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 								// Step 2: we send a warning to the WorkspaceSession if necessary
 								treatSessionWarning(resource);
 
-								// Step 3: save the resource
+								// Step 3: add an adapter used by the WorkspaceSession to distinguish internal
+								// from external modifications
+								resource.eAdapters().add(new InternalModificationAdapter());
 
+								// Step 4: save the resource
 								if (resource.getContents().isEmpty()) {
 									// if the resource is empty, we delete it
 									resource.delete(getSaveOptions());
@@ -559,8 +563,11 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	public Object getIDFromElement(EObject element) {
 		URI uri = null;
 		if (element != null) {
-			uri = EcoreUtil.getURI(element);
-
+			if (element.eResource() != null && element.eResource().getContents().contains(element)) {
+				uri = URI.createURI(element.eResource().getURI().toString() + "#/");
+			} else {
+				uri = EcoreUtil.getURI(element);
+			}
 			// if the URI starts with "#", it means that the resource is no longer part of the resource set.
 			// we return null to indicate the the given element is now invalid
 			if (uri.toString().startsWith("#")) {
@@ -756,5 +763,20 @@ public class WorkspaceAdapter implements RepositoryAdapter {
 	 */
 	public ResourceSet getResourceSet() {
 		return new ResourceSetImpl();
+	}
+
+	/**
+	 * An adapter used to identify resources that are saved by a WorkspaceAdapter (and differentiate internal
+	 * from external modifications).
+	 * 
+	 * @author <a href="mailto:alex.lagarde@obeo.fr">Alex Lagarde</a>
+	 */
+	public static final class InternalModificationAdapter extends AdapterImpl {
+
+		/**
+		 * Default constructor.
+		 */
+		private InternalModificationAdapter() {
+		}
 	}
 }

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.mylyn.docs.intent.collab.ide.repository;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -70,11 +69,7 @@ public class WorkspaceRepositoryLoader {
 				workspaceRepository.getResourceSet().getResource(fileURI, true);
 			}
 		} catch (WrappedException e) {
-			try {
-				workspaceRepository.getResourceSet().createResource(fileURI).save(null);
-			} catch (IOException e1) {
-				// Silently fail
-			}
+			// Silent catch: resource will not be added to the resource set
 		}
 	}
 

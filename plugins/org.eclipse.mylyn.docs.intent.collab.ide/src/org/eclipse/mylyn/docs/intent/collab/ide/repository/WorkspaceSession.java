@@ -17,6 +17,7 @@ import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
@@ -29,12 +30,12 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.IntentCommand;
 import org.eclipse.mylyn.docs.intent.collab.handlers.impl.notification.elementList.ElementListAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter;
+import org.eclipse.mylyn.docs.intent.collab.ide.adapters.WorkspaceAdapter.InternalModificationAdapter;
 import org.eclipse.mylyn.docs.intent.collab.ide.notification.WorkspaceTypeListener;
 
 /**
@@ -140,26 +141,39 @@ public class WorkspaceSession implements IResourceChangeListener {
 				// We get the changed and removed Resources
 				Collection<Resource> removedResources = new ArrayList<Resource>();
 				Collection<Resource> changedResources = new ArrayList<Resource>();
+				Collection<Resource> changedResourcesToReload = new ArrayList<Resource>();
 
 				if (!visitor.getRemovedResources().isEmpty()) {
 					removedResources.addAll(visitor.getRemovedResources());
 				}
 
 				for (Resource changedResource : visitor.getChangedResources()) {
+					Iterator<InternalModificationAdapter> internalModificationAdapters = Iterables.filter(
+							changedResource.eAdapters(), InternalModificationAdapter.class).iterator();
 
 					// If the resource is contained in the savedResources list, it means
 					// that we should ignore this notification ; however we remove this resource
 					// from this list so that we'll treat the next notifications
 					if (!savedResources.contains(changedResource)) {
 						changedResources.add(changedResource);
+
+						// If the resource is not associated to any InternalModificationAdapter, it means that
+						// it has been saved without using the Workspace, and hence that we should reload the
+						// resource to handle this external modification
+						if (!internalModificationAdapters.hasNext()) {
+							changedResourcesToReload.add(changedResource);
+						}
 					} else {
 						savedResources.remove(changedResource);
+					}
+					if (internalModificationAdapters.hasNext()) {
+						changedResource.eAdapters().remove(internalModificationAdapters.next());
 					}
 				}
 
 				// Finally, we treat each removed or changed resource.
 				treatRemovedResources(removedResources);
-				treatChangedResources(changedResources);
+				treatChangedResources(changedResources, changedResourcesToReload);
 
 			} catch (CoreException e) {
 				// TODO define a standard reaction to this exception :
@@ -176,28 +190,22 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 * 
 	 * @param changedResources
 	 *            the list of the recently changed resources
+	 * @param changedResourcesToReload
+	 *            a subset of changedResources indicating resources that have been externally modified (and
+	 *            hence should be reloaded)
 	 */
-	private void treatChangedResources(Collection<Resource> changedResources) {
+	private void treatChangedResources(Collection<Resource> changedResources,
+			final Collection<Resource> changedResourcesToReload) {
 		// For each changed resources
 		for (final Resource changedResource : changedResources) {
 			if (repositoryAdapter != null) {
 				repositoryAdapter.execute(new IntentCommand() {
 
 					public void execute() {
-						// TODO [DISABLED]
-						// this make the resource unstable, some commands launched within the bad timing will
-						// have side
-						// effects
-						// we want to reload the resource if it has been modified by another tool, but not if
-						// it has been
-						// modified by a client
-						// temporary workaround: disabling
-						// System.out.println("Reloading " + changedResource + "...");
-						// // We reload this resource (if it's loaded, otherwise we simply do nothing)
-						//
-						// reloadResource(changedResource);
-						//
-						// System.out.println(changedResource + " reloaded.");
+						// Reload resource only in case of an external modification
+						if (changedResourcesToReload.contains(changedResource)) {
+							reloadResource(changedResource);
+						}
 
 						// Finally, we notify the listeners of this session
 						notifyListeners(changedResource);
@@ -214,7 +222,7 @@ public class WorkspaceSession implements IResourceChangeListener {
 	 * @param changedResource
 	 *            the changed resource
 	 */
-	private void reloadResource(final Resource changedResource) {
+	private void reloadResource(Resource changedResource) {
 		// We get the adapters defined on the roots (in order to re-attach them after this
 		// resource will be reloaded)
 		final Collection<Adapter> oldAdaptersList = new ArrayList<Adapter>();
@@ -223,13 +231,9 @@ public class WorkspaceSession implements IResourceChangeListener {
 		}
 		changedResource.unload();
 		try {
-			repository.getResourceSet().getResource(changedResource.getURI(), true);
-		} catch (WrappedException we) {
-			try {
-				changedResource.load(WorkspaceAdapter.getLoadOptions());
-			} catch (IOException e) {
-				// TODO Handle this I/O Exception
-			}
+			changedResource.load(WorkspaceAdapter.getLoadOptions());
+		} catch (IOException e) {
+			// TODO Handle this I/O Exception
 		}
 		// We re-attach the eAdapters to the roots
 		for (EObject root : changedResource.getContents()) {
