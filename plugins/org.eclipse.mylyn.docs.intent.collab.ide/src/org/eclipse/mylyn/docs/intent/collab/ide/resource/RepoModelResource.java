@@ -45,4 +45,13 @@ public class RepoModelResource extends XMIResourceImpl {
 	protected boolean useUUIDs() {
 		return true;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see org.eclipse.emf.ecore.resource.impl.ResourceImpl#setModified(boolean)
+	 */
+	public void setModified(boolean isModified) {
+		// Do nothing: never used in case of a repository resource
+	}
 }

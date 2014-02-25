@@ -32,6 +32,7 @@ import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitFactory;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.ModelingUnitInstructionReference;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.NativeValue;
 import org.eclipse.mylyn.docs.intent.core.modelingunit.StructuralFeatureAffectation;
+import org.eclipse.mylyn.docs.intent.parser.IntentKeyWords;
 
 /**
  * An test ensuring that external changes (i.e. changes on the document made without using the
@@ -149,7 +150,7 @@ public class ExternalChangesTest extends AbstractIntentUITest {
 		assertEquals("Wrong initial state: Intent document should have only one chapter", 1, intentDocument
 				.eContents().size());
 		assertEquals("Wrong initial state: Intent document should have only one chapter", 2, document.get()
-				.split("Chapter").length);
+				.split(IntentKeyWords.INTENT_KEYWORD_CHAPTER).length);
 
 		intentDocument.getIntentContent().add(IntentDocumentFactory.eINSTANCE.createIntentSection());
 		try {
@@ -171,7 +172,8 @@ public class ExternalChangesTest extends AbstractIntentUITest {
 
 		// Step 4: check that editor was updated
 		waitForAllOperationsInUIThread();
-		assertEquals("Editor should have been reloaded", 3, document.get().split("Chapter").length);
+		assertEquals("Editor should have been reloaded", 3,
+				document.get().split(IntentKeyWords.INTENT_KEYWORD_CHAPTER).length);
 	}
 
 	/**
@@ -179,18 +181,38 @@ public class ExternalChangesTest extends AbstractIntentUITest {
 	 * for example git updates) are correctly handled.
 	 */
 	public void testExternalChangesOnChapterWithDocumentOpened() {
-		// Step 1 : open an editor on the root document
+		// Open an editor on the root document
 		editor = openIntentEditor();
+		doTestExternalChangesOnChapter();
+		assertTrue(document.get().startsWith("Document"));
+	}
+
+	/**
+	 * Ensures that external changes (i.e. changes on the document made without using the RepositoryAdapter,
+	 * for example git updates) are correctly handled.
+	 */
+	public void testExternalChangesOnChapterWithChapterOpened() {
+		// Open an editor on the first chapter
+		editor = openIntentEditor(getIntentSection(1));
+		doTestExternalChangesOnChapter();
+		assertTrue(document.get().startsWith(IntentKeyWords.INTENT_KEYWORD_CHAPTER));
+	}
+
+	/**
+	 * Ensures that external changes (i.e. changes on the document made without using the RepositoryAdapter,
+	 * for example git updates) are correctly handled.
+	 */
+	private void doTestExternalChangesOnChapter() {
 		document = (IntentEditorDocument)editor.getDocumentProvider().getDocument(editor.getEditorInput());
 
-		// Step 2: modify the IntentChapter without using the repository adapter
+		// Step 1: modify the IntentChapter without using the repository adapter
 		IntentDocument intentDocument = (IntentDocument)new ResourceSetImpl().getResource(documentURI, true)
 				.getContents().iterator().next();
 		IntentSection intentSection = intentDocument.getSubSections().get(0).getSubSections().get(0);
 		assertEquals("Wrong initial state: Intent section should have only 2 modeling units", 2,
 				intentSection.getModelingUnits().size());
 		assertEquals("Wrong initial state: Intent section should have only 2 modeling units", 3, document
-				.get().split("@M").length);
+				.get().split(IntentKeyWords.MODELING_UNIT_BEGIN).length);
 
 		intentSection.getIntentContent().add(ModelingUnitFactory.eINSTANCE.createModelingUnit());
 		try {
@@ -204,7 +226,7 @@ public class ExternalChangesTest extends AbstractIntentUITest {
 			fail(e.getMessage());
 		}
 
-		// Step 3: check that intent model was updated
+		// Step 2: check that intent model was updated
 		EObject intentDocumentAsLoadedByRepositoryAdapter = repositoryAdapter
 				.getResource(IntentLocations.INTENT_INDEX).getContents().iterator().next();
 		IntentSection intentSectionAsLoadedByRepositoryAdapter = ((IntentDocument)intentDocumentAsLoadedByRepositoryAdapter)
@@ -212,9 +234,10 @@ public class ExternalChangesTest extends AbstractIntentUITest {
 		assertEquals("Intent document should have been reloaded due to external changes", 3,
 				intentSectionAsLoadedByRepositoryAdapter.getModelingUnits().size());
 
-		// Step 4: check that editor was updated
+		// Step 3: check that editor was updated
 		waitForAllOperationsInUIThread();
-		assertEquals("Editor should have been reloaded", 4, document.get().split("@M").length);
+		assertEquals("Editor should have been reloaded", 4,
+				document.get().split(IntentKeyWords.MODELING_UNIT_BEGIN).length);
 	}
 
 	/**

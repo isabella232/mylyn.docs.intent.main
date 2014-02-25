@@ -12,12 +12,8 @@ package org.eclipse.mylyn.docs.intent.client.ui.editor;
 
 import com.google.common.collect.Sets;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
@@ -27,7 +23,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.operation.IRunnableContext;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
@@ -65,6 +63,7 @@ import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatus;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusManager;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilationStatusSeverity;
 import org.eclipse.mylyn.docs.intent.core.compiler.CompilerPackage;
+import org.eclipse.mylyn.docs.intent.core.document.IntentDocument;
 import org.eclipse.mylyn.docs.intent.core.document.IntentGenericElement;
 import org.eclipse.mylyn.docs.intent.core.document.IntentStructuredElement;
 import org.eclipse.mylyn.docs.intent.core.document.UnitInstruction;
@@ -97,11 +96,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 * to save the elements on the repository.
 	 */
 	private RepositoryObjectHandler listenedElementsHandler;
-
-	/**
-	 * Keep the associations between an element and all the documents that are opened on it.
-	 */
-	private Map<Object, List<IntentEditorDocument>> elementsToDocuments;
 
 	/**
 	 * Root for the handled document.
@@ -148,7 +142,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 *            the editor associated to this document Provider
 	 */
 	public IntentDocumentProvider(IntentEditor editor) {
-		this.elementsToDocuments = new HashMap<Object, List<IntentEditorDocument>>();
 		this.associatedEditor = editor;
 		this.annotationModelManager = new IntentAnnotationModelManager();
 	}
@@ -176,21 +169,16 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 		// Step 1: create annotations for all compilation statuses
 		for (CompilationStatus status : IntentHelper.getAllStatus((IntentGenericElement)documentRoot)) {
 
-			List<IntentEditorDocument> list = elementsToDocuments.get(listenedElementsHandler
-					.getRepositoryAdapter().getIDFromElement(status.getTarget()));
-			if (list != null) {
-				IntentEditorDocument doc = list.get(0);
-				// We use the annotationModelManager to create annotations
-				ParsedElementPosition posit = doc.getIntentPosition(status.getTarget());
-				if (posit == null) {
-					posit = new ParsedElementPosition(0, 0);
-				}
+			// We use the annotationModelManager to create annotations
+			ParsedElementPosition posit = createdDocument.getIntentPosition(status.getTarget());
+			if (posit == null) {
+				posit = new ParsedElementPosition(0, 0);
+			}
 
-				if (!status.getSeverity().equals(CompilationStatusSeverity.INFO)) {
-					annotationModelManager.addAnnotationFromStatus(
-							this.listenedElementsHandler.getRepositoryAdapter(), status,
-							new Position(posit.getOffset(), posit.getDeclarationLength()));
-				}
+			if (!status.getSeverity().equals(CompilationStatusSeverity.INFO)) {
+				annotationModelManager.addAnnotationFromStatus(
+						this.listenedElementsHandler.getRepositoryAdapter(), status,
+						new Position(posit.getOffset(), posit.getDeclarationLength()));
 			}
 		}
 
@@ -262,7 +250,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 			partitioner.connect(createdDocument);
 			createdDocument.setDocumentPartitioner(partitioner);
 			subscribeRepository(((IntentEditorInput)element).getRepositoryAdapter());
-			addAllContentAsIntentElement(documentRoot, createdDocument);
 		}
 		return createdDocument;
 	}
@@ -326,31 +313,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	}
 
 	/**
-	 * Add all the given object and all its contained elements in the elementsToDocuments mapping.
-	 * 
-	 * @param root
-	 *            the element to inspect
-	 * @param document
-	 *            the document to consider for the mapping.
-	 */
-	public void addAllContentAsIntentElement(EObject root, IntentEditorDocument document) {
-		Object identifier = listenedElementsHandler.getRepositoryAdapter().getIDFromElement(root);
-
-		// We first associate this root in to the given document
-		if (elementsToDocuments.get(identifier) == null) {
-			elementsToDocuments.put(identifier, new ArrayList<IntentEditorDocument>());
-		}
-		if (!elementsToDocuments.get(identifier).contains(document)) {
-			elementsToDocuments.get(identifier).add(document);
-		}
-
-		// Then we do the same for all its contained element
-		for (EObject content : root.eContents()) {
-			addAllContentAsIntentElement(content, document);
-		}
-	}
-
-	/**
 	 * Refreshes the outline View.
 	 * 
 	 * @param newAST
@@ -409,9 +371,6 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 				mustUndo = true;
 				IntentUiLogger.logError(e);
 			}
-
-			// We update the mapping between elements and documents
-			addAllContentAsIntentElement(documentRoot, document);
 
 		} catch (NullPointerException npe) { // FIXME catch NPE ??
 			mustUndo = true;
@@ -486,15 +445,10 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 
 		// For each object modified indicated by this notification
 		for (EObject modifiedObject : notification.getImpactedElements()) {
-			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
-					.getIDFromElement(modifiedObject);
 			// For all documents that have been opened on this object
-			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
-				handleContentHasChanged(modifiedObject, modifiedObjectIdentifier);
-			} else if (modifiedObject.equals(new IntentDocumentQuery(listenedElementsHandler
-					.getRepositoryAdapter()).getOrCreateIntentDocument())) {
-				handleContentHasChanged(this.documentRoot, listenedElementsHandler.getRepositoryAdapter()
-						.getIDFromElement(this.documentRoot));
+			if (modifiedObject.equals(new IntentDocumentQuery(listenedElementsHandler.getRepositoryAdapter())
+					.getOrCreateIntentDocument())) {
+				handleContentHasChanged(modifiedObject);
 			} else {
 				// update annotations (if the compilation status manager has changed)
 				handleCompilationStatusHasChanged(modifiedObject);
@@ -701,13 +655,7 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	private boolean handleRootHasBeenDeleted(RepositoryChangeNotification notification) {
 		if (notification.getImpactedElements().size() < 1) {
-			Object modifiedObjectIdentifier = listenedElementsHandler.getRepositoryAdapter()
-					.getIDFromElement(documentRoot);
-			if (elementsToDocuments.get(modifiedObjectIdentifier) != null) {
-				for (IntentEditorDocument relatedDocument : elementsToDocuments.get(modifiedObjectIdentifier)) {
-					relatedDocument.unsynchronize();
-				}
-			}
+			createdDocument.unsynchronize();
 			return true;
 		}
 		return false;
@@ -721,11 +669,8 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 */
 	private void handleCompilationStatusHasChanged(EObject modifiedObject) {
 		if (modifiedObject instanceof CompilationStatusManager) {
-			if (elementsToDocuments.values().iterator().hasNext()
-					&& elementsToDocuments.values().iterator().next().iterator().hasNext()) {
-				updateAnnotationModelFromCompilationStatusAndChildren((IntentGenericElement)documentRoot,
-						elementsToDocuments.values().iterator().next().iterator().next());
-			}
+			updateAnnotationModelFromCompilationStatusAndChildren((IntentGenericElement)documentRoot,
+					createdDocument);
 		}
 	}
 
@@ -734,24 +679,32 @@ public class IntentDocumentProvider extends AbstractDocumentProvider implements 
 	 * 
 	 * @param modifiedObject
 	 *            the modified object
-	 * @param modifiedObjectIdentifier
-	 *            the modified object identifier inside of the repository
 	 */
-	private void handleContentHasChanged(EObject modifiedObject, Object modifiedObjectIdentifier) {
+	private void handleContentHasChanged(EObject modifiedObject) {
 		if (modifiedObject instanceof IntentStructuredElement || modifiedObject instanceof UnitInstruction) {
-			if (listenedElementsHandler.getRepositoryAdapter().getIDFromElement(documentRoot)
-					.equals(modifiedObjectIdentifier)) {
-				documentRoot = modifiedObject;
-			}
-			for (final IntentEditorDocument relatedDocument : elementsToDocuments
-					.get(modifiedObjectIdentifier)) {
+			EObject newDocumentRoot = modifiedObject;
+			if (!(documentRoot instanceof IntentDocument)) {
 
-				relatedDocument.setAST(documentRoot);
-				relatedDocument.reloadFromAST();
-
-				// We update the mapping between elements and documents
-				addAllContentAsIntentElement(documentRoot, relatedDocument);
+				// Get the new version of the documentRoot
+				URI oldDocumentRootURI = EcoreUtil.getURI(documentRoot);
+				String oldDocumentRootFragment = null;
+				if (oldDocumentRootURI != null) {
+					oldDocumentRootFragment = oldDocumentRootURI.fragment();
+				}
+				if (oldDocumentRootFragment != null) {
+					try {
+						newDocumentRoot = modifiedObject.eResource().getEObject(oldDocumentRootFragment);
+						// CHECKSTYLE:OFF
+					} catch (Exception e) {
+						// CHECKSTYLE:ON
+						// Silent catch : the modifiedObject will be used as new root
+					}
+				}
 			}
+			documentRoot = newDocumentRoot;
+			createdDocument.setAST(newDocumentRoot);
+			createdDocument.reloadFromAST();
+
 			// In any case, we launch the syntax coloring
 			partitioner.computePartitioning(0, 1);
 
