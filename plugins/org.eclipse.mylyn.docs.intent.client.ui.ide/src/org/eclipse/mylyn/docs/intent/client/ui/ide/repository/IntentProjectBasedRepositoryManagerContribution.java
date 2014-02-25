@@ -14,6 +14,11 @@ import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.mylyn.docs.intent.client.ui.ide.Activator;
 import org.eclipse.mylyn.docs.intent.collab.common.repository.contribution.IntentRepositoryManagerContribution;
 import org.eclipse.mylyn.docs.intent.collab.handlers.adapters.RepositoryStructurer;
 import org.eclipse.mylyn.docs.intent.collab.repository.Repository;
@@ -47,7 +52,7 @@ public class IntentProjectBasedRepositoryManagerContribution implements IntentRe
 		Repository repository = null;
 		String identifier = normalizeIdentifier(repositoryIdentifier);
 		try {
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(identifier);
+			final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(identifier);
 			if (project != null) {
 				if (project.exists() && project.isAccessible()) {
 					if (!project.isOpen()) {
@@ -66,6 +71,18 @@ public class IntentProjectBasedRepositoryManagerContribution implements IntentRe
 					RepositoryStructurer repositoryStructurer = RepositoryRegistry.INSTANCE
 							.getRepositoryStructurer(repositoryType);
 					repository = repositoryCreator.createRepository(project, repositoryStructurer);
+
+					// Trigger asynchronously the Intent clients
+					Job triggerClientLaunching = new Job("Opening Intent project") {
+
+						@Override
+						protected IStatus run(IProgressMonitor monitor) {
+							Activator.getDefault().getIntentProjectListener().handleOpenedProject(project);
+							return Status.OK_STATUS;
+						}
+
+					};
+					triggerClientLaunching.schedule();
 				}
 			}
 		} catch (CoreException e) {
