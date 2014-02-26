@@ -1,4 +1,4 @@
-target "Kepler SDK"
+target "Luna SDK"
 
 // Eclipse plugins dependencies
 location "http://download.eclipse.org/releases/luna" {
@@ -17,10 +17,9 @@ location "http://download.eclipse.org/releases/luna" {
 }
 
 // Orbit dependencies
-location "http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/" {
+location "http://download.eclipse.org/tools/orbit/downloads/drops/S20140116105218/repository" {
 	with source, requirements	
-	com.google.guava;version="[11.0.0,12.0.0)"
-	com.google.guava.^source;version="[11.0.0,12.0.0)"
+	com.google.guava;version="[10.0.0,16.0.0)"
 	org.junit
 }
 
