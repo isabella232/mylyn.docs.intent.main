@@ -125,24 +125,26 @@ public class IntentProjectListener implements IResourceChangeListener {
 	 */
 	public void handleOpenedProject(IProject project) {
 		// Step 1: determine if the opened project is a valid Intent project
-		try {
-			if (project.isAccessible() && project.hasNature(IntentNature.NATURE_ID)) {
-				// Step 2: determine if it is already handled by this project listener
-				if (projectManagers.get(project.getName()) == null) {
-					// Step 3: if not, create an Intent project manager for this project
-					IntentProjectManager projectManager = getIntentProjectManager(project);
-					try {
-						IntentLogger.getInstance().log(LogType.LIFECYCLE,
-								"[IntentProjectListener] Handling project " + project.getName());
-						projectManager.connect();
-						projectManagers.put(project.getName(), projectManager);
-					} catch (RepositoryConnectionException e) {
-						IntentUiLogger.logError(e);
+		synchronized(projectManagers) {
+			try {
+				if (project.isAccessible() && project.hasNature(IntentNature.NATURE_ID)) {
+					// Step 2: determine if it is already handled by this project listener
+					if (projectManagers.get(project.getName()) == null) {
+						// Step 3: if not, create an Intent project manager for this project
+						IntentProjectManager projectManager = getIntentProjectManager(project);
+						try {
+							IntentLogger.getInstance().log(LogType.LIFECYCLE,
+									"[IntentProjectListener] Handling project " + project.getName());
+							projectManager.connect();
+							projectManagers.put(project.getName(), projectManager);
+						} catch (RepositoryConnectionException e) {
+							IntentUiLogger.logError(e);
+						}
 					}
 				}
+			} catch (CoreException e) {
+				IntentUiLogger.logError(e);
 			}
-		} catch (CoreException e) {
-			IntentUiLogger.logError(e);
 		}
 	}
 

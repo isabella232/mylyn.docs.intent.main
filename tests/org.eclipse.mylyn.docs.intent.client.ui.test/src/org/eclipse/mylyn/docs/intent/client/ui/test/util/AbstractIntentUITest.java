@@ -182,31 +182,34 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		}
 
 		// Step 2: clean workspace
-		if (intentProject != null) {
-			IntentRepositoryManager.INSTANCE.deleteRepository(intentProject.getName());
-			waitForAllOperationsInUIThread();
+		try {
+			if (intentProject != null) {
+				IntentRepositoryManager.INSTANCE.deleteRepository(intentProject.getName());
+				waitForAllOperationsInUIThread();
 
-			intentProject.delete(true, true, new NullProgressMonitor());
+				intentProject.delete(true, true, new NullProgressMonitor());
+			}
+		} finally {
+			IntentEditorActivator.getDefault().getLog().removeLogListener(this);
+			WorkspaceUtils.cleanWorkspace();
+
+			// Step 3: unregister repository listener and deactivate advance loggin
+			if (repositoryListener != null) {
+				Platform.removeLogListener(repositoryListener);
+			}
+			IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
+					.getBundle().getSymbolicName());
+			node.putBoolean(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, false);
+
+			// Step 4: setting all fields to null (to avoid memory leaks)
+			setAllFieldsToNull();
+
+			// Step 5: remove all dynamically added contributions
+			while (dynamicExtensionCounter > 0) {
+				removeLastExtension();
+			}
+			super.tearDown();
 		}
-		IntentEditorActivator.getDefault().getLog().removeLogListener(this);
-		WorkspaceUtils.cleanWorkspace();
-
-		// Step 3: unregister repository listener and deactivate advance loggin
-		if (repositoryListener != null) {
-			Platform.removeLogListener(repositoryListener);
-		}
-		IEclipsePreferences node = InstanceScope.INSTANCE.getNode(IntentEditorActivator.getDefault()
-				.getBundle().getSymbolicName());
-		node.putBoolean(IntentPreferenceConstants.ACTIVATE_ADVANCE_LOGGING, false);
-
-		// Step 4: setting all fields to null (to avoid memory leaks)
-		setAllFieldsToNull();
-
-		// Step 5: remove all dynamically added contributions
-		while (dynamicExtensionCounter > 0) {
-			removeLastExtension();
-		}
-		super.tearDown();
 	}
 
 	/**
@@ -315,15 +318,12 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			public void run(IProgressMonitor monitor) throws CoreException {
 				IProject project = WorkspaceUtils.createProject(projectName, monitor);
 				ToggleNatureAction.toggleNature(project);
-
-				IntentRepositoryInitializer.initializeContent(projectName, intentDocumentContent);
-
-				// Step 3 : initializing all useful informations
 				intentProject = project;
 				setUpRepository(project);
 			}
 		};
 		ResourcesPlugin.getWorkspace().run(create, null);
+		IntentRepositoryInitializer.initializeContent(projectName, intentDocumentContent);
 	}
 
 	/**

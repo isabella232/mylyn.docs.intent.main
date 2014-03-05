@@ -50,10 +50,8 @@ class IntentBuilderDeltaVisitor implements IResourceDeltaVisitor {
 		switch (delta.getKind()) {
 			case IResourceDelta.ADDED:
 				// If an intent project has been created
-				if (resource instanceof IProject && resource.isAccessible()
-						&& ((IProject)resource).hasNature(IntentNature.NATURE_ID)) {
-					openedProjects.add((IProject)resource);
-				}
+				// Then a new repository will be created and the
+				// IntentProjectBasedRepositoryManagerContribution will trigger project connexion
 				break;
 			case IResourceDelta.CHANGED:
 				if ((IResourceDelta.OPEN & delta.getFlags()) != 0) {
