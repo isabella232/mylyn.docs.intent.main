@@ -14,6 +14,8 @@ Contributors:
       label="%featureName"
       version="0.9.0.qualifier"
       provider-name="%providerName"
+      license-feature="org.eclipse.license"
+      license-feature-version="0.0.0"
       plugin="org.eclipse.mylyn.docs.intent.core">
 
    <description>
@@ -27,12 +29,6 @@ Contributors:
    <license url="%licenseURL">
       %license
    </license>
-
-   <url>
-      <discovery label="Orbit" url="http://download.eclipse.org/tools/orbit/downloads/drops/S20120308061416/repository/"/>
-      <discovery label="Acceleo 3.3" url="http://download.eclipse.org/modeling/m2t/acceleo/updates/interim/3.3"/>
-      <discovery label="EMF Compare 1.3" url="http://download.eclipse.org/modeling/emf/compare/updates/milestones/1.3/"/>
-   </url>
 
    <plugin
          id="org.eclipse.mylyn.docs.intent"
@@ -98,13 +94,6 @@ Contributors:
 
    <plugin
          id="org.eclipse.mylyn.docs.intent.parser"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.google.guava"
          download-size="0"
          install-size="0"
          version="0.0.0"
