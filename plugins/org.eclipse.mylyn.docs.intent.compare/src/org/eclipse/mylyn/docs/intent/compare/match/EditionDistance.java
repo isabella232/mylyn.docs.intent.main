@@ -35,10 +35,10 @@ import org.eclipse.emf.compare.diff.IDiffProcessor;
 import org.eclipse.emf.compare.internal.spec.ComparisonSpec;
 import org.eclipse.emf.compare.match.DefaultEqualityHelperFactory;
 import org.eclipse.emf.compare.match.IEqualityHelperFactory;
+import org.eclipse.emf.compare.match.eobject.DefaultWeightProvider;
 import org.eclipse.emf.compare.match.eobject.ProximityEObjectMatcher.DistanceFunction;
 import org.eclipse.emf.compare.match.eobject.URIDistance;
 import org.eclipse.emf.compare.match.eobject.WeightProvider;
-import org.eclipse.emf.compare.match.eobject.internal.ReflectiveWeightProvider;
 import org.eclipse.emf.compare.utils.DiffUtil;
 import org.eclipse.emf.compare.utils.EqualityHelper;
 import org.eclipse.emf.compare.utils.IEqualityHelper;
@@ -92,7 +92,7 @@ public class EditionDistance implements DistanceFunction {
 	/**
 	 * instance providing the weight for each feature.
 	 */
-	private WeightProvider weights = new ReflectiveWeightProvider();
+	private WeightProvider weights = new DefaultWeightProvider();
 
 	private Notifier leftRoot;
 

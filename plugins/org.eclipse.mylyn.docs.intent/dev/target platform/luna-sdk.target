@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?>
-
-<target name="Luna SDK" sequenceNumber="0">
-<locations>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.sdk.ide" version="4.4.0.I20140123-1600"/>
-<unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="2.0.0.20131219-0024"/>
-<unit id="org.eclipse.emf.sdk.feature.group" version="2.10.0.v20140127-0448"/>
-<unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.8.0.201401271944"/>
-<unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.8.0.201401271716"/>
-<unit id="org.eclipse.emf.compare.feature.group" version="2.2.0.201401281325"/>
-<unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="2.2.0.201401281325"/>
-<unit id="org.eclipse.jdt.feature.group" version="3.10.0.v20140123-1600"/>
-<unit id="org.eclipse.emf.cdo.sdk.feature.group" version="4.3.0.v20140129-1702"/>
-<unit id="org.eclipse.mylyn.ide_feature.feature.group" version="3.11.0.20131021-1909"/>
-<unit id="org.eclipse.acceleo.feature.group" version="3.5.0.201401281458"/>
-<repository location="http://download.eclipse.org/releases/luna"/>
-</location>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="com.google.guava" version="12.0.0.v201212092141"/>
-<unit id="com.google.guava.source" version="12.0.0.v201212092141"/>
-<unit id="org.junit" version="4.11.0.v201303080030"/>
-<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/S20140116105218/repository"/>
-</location>
-</locations>
+<?pde?>
+<!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
+<target name="Luna SDK" sequenceNumber="1400588072">
+  <locations>
+    <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+      <unit id="org.eclipse.emf.compare.feature.group" version="3.0.0.201405061412"/>
+      <unit id="org.eclipse.acceleo.feature.group" version="3.5.0.201405061315"/>
+      <unit id="org.eclipse.sdk.ide" version="4.4.0.I20140501-0200"/>
+      <unit id="org.eclipse.mylyn.wikitext_feature.feature.group" version="2.1.0.v20140325-2210"/>
+      <unit id="org.eclipse.emf.sdk.feature.group" version="2.10.0.v20140428-0403"/>
+      <unit id="org.eclipse.emf.transaction.sdk.feature.group" version="1.8.0.201405051603"/>
+      <unit id="org.eclipse.emf.validation.sdk.feature.group" version="1.8.0.201405051541"/>
+      <unit id="org.eclipse.emf.compare.ide.ui.feature.group" version="3.0.0.201405061412"/>
+      <unit id="org.eclipse.jdt.feature.group" version="3.10.0.v20140501-0200"/>
+      <unit id="org.eclipse.emf.cdo.sdk.feature.group" version="4.3.0.v20140312-0617"/>
+      <unit id="org.eclipse.mylyn.ide_feature.feature.group" version="3.12.0.v20140328-2338"/>
+      <repository location="http://download.eclipse.org/releases/luna"/>
+    </location>
+    <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+      <unit id="org.eclipse.license.feature.group" version="1.0.1.v20140414-1359"/>
+      <repository location="http://download.eclipse.org/cbi/updates/license"/>
+    </location>
+    <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
+      <unit id="com.google.guava" version="11.0.2.v201303041551"/>
+      <unit id="com.google.guava.source" version="11.0.2.v201303041551"/>
+      <unit id="org.junit" version="4.11.0.v201303080030"/>
+      <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20140114142710/repository/"/>
+    </location>
+  </locations>
 </target>

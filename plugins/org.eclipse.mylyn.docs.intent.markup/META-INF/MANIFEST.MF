@@ -22,5 +22,5 @@ Require-Bundle: org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.cdo;visibility:=reexport,
  org.eclipse.mylyn.wikitext.textile.core,
  org.eclipse.mylyn.wikitext.mediawiki.core,
- com.google.guava;bundle-version="[12.0.0,13.0.0)"
+ com.google.guava;bundle-version="[11.0.0,15.0.0)"
 Bundle-ActivationPolicy: lazy
