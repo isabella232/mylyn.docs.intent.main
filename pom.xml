@@ -131,34 +131,35 @@
         <artifactId>target-platform-configuration</artifactId>
         <version>${tycho-version}</version>
         <configuration>
-        <resolver>p2</resolver>		
-        <environments>
-			<environment>
-					<os>linux</os>
-					<ws>gtk</ws>
-					<arch>x86</arch>
-			</environment>
-			<environment>
-					<os>win32</os>
-					<ws>win32</ws>
-					<arch>x86</arch>
-			</environment>
-			<environment>
-					<os>win32</os>
-					<ws>win32</ws>
-					<arch>x86_64</arch>
-			</environment>
-			<environment>
-					<os>linux</os>
-					<ws>gtk</ws>
-					<arch>x86_64</arch>
-			</environment>
-			<environment>
-					<os>macosx</os>
-					<ws>cocoa</ws>
-					<arch>x86_64</arch>
-			</environment>
-		</environments>
+			<includePackedArtifacts>true</includePackedArtifacts>
+			<resolver>p2</resolver>		
+			<environments>
+				<environment>
+						<os>linux</os>
+						<ws>gtk</ws>
+						<arch>x86</arch>
+				</environment>
+				<environment>
+						<os>win32</os>
+						<ws>win32</ws>
+						<arch>x86</arch>
+				</environment>
+				<environment>
+						<os>win32</os>
+						<ws>win32</ws>
+						<arch>x86_64</arch>
+				</environment>
+				<environment>
+						<os>linux</os>
+						<ws>gtk</ws>
+						<arch>x86_64</arch>
+				</environment>
+				<environment>
+						<os>macosx</os>
+						<ws>cocoa</ws>
+						<arch>x86_64</arch>
+				</environment>
+			</environments>
         </configuration>
       </plugin>
      <!-- enable source bundle generation -->
@@ -274,6 +275,23 @@
 				</execution>
 			  </executions>
 			</plugin>
+			<plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-p2-plugin</artifactId>
+                <version>${tycho-extras-version}</version>
+                <executions>
+                  <execution>
+                    <id>p2-metadata</id>
+                    <goals>
+                      <goal>p2-metadata</goal>
+                    </goals>
+                    <phase>package</phase>
+                  </execution>
+                </executions>
+                <configuration>
+                  <defaultP2Metadata>false</defaultP2Metadata>
+                </configuration>
+            </plugin>
 		  </plugins>
     </pluginManagement>
   </build>
@@ -378,6 +396,7 @@
 					<artifactId>target-platform-configuration</artifactId>
 					<version>${tycho-version}</version>
 					<configuration>
+						<includePackedArtifacts>true</includePackedArtifacts>
 						<resolver>p2</resolver>
 						<ignoreTychoRepositories>true</ignoreTychoRepositories>
 						<target>
@@ -406,6 +425,7 @@
 					<artifactId>target-platform-configuration</artifactId>
 					<version>${tycho-version}</version>
 					<configuration>
+						<includePackedArtifacts>true</includePackedArtifacts>
 						<resolver>p2</resolver>
 						<ignoreTychoRepositories>true</ignoreTychoRepositories>
 						<target>
@@ -434,6 +454,7 @@
 					<artifactId>target-platform-configuration</artifactId>
 					<version>${tycho-version}</version>
 					<configuration>
+						<includePackedArtifacts>true</includePackedArtifacts>
 						<resolver>p2</resolver>
 						<ignoreTychoRepositories>true</ignoreTychoRepositories>
 						<target>
@@ -462,6 +483,7 @@
 					<artifactId>target-platform-configuration</artifactId>
 					<version>${tycho-version}</version>
 					<configuration>
+						<includePackedArtifacts>true</includePackedArtifacts>
 						<resolver>p2</resolver>
 						<ignoreTychoRepositories>true</ignoreTychoRepositories>
 						<target>
@@ -490,6 +512,7 @@
 					<artifactId>target-platform-configuration</artifactId>
 					<version>${tycho-version}</version>
 					<configuration>
+						<includePackedArtifacts>true</includePackedArtifacts>
 						<resolver>p2</resolver>
 						<ignoreTychoRepositories>true</ignoreTychoRepositories>
 						<target>
@@ -526,7 +549,7 @@
                 <goals>
                   <goal>normalize</goal>
                 </goals>
-                <phase>verify</phase>
+                <phase>package</phase>
               </execution>
             </executions>
           </plugin>
@@ -537,7 +560,7 @@
             <executions>
               <execution>
                 <id>sign</id>
-                <phase>verify</phase>
+                <phase>package</phase>
                 <goals>
                   <goal>sign</goal>
                 </goals>
@@ -554,7 +577,7 @@
                 <goals>
                   <goal>pack</goal>
                 </goals>
-                <phase>verify</phase>
+                <phase>package</phase>
               </execution>
             </executions>
           </plugin>
