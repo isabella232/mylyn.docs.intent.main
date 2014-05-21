@@ -46,25 +46,10 @@ public class ProjectTest extends AbstractIntentUITest {
 	public void testCloseProject() {
 		try {
 			intentProject.close(new NullProgressMonitor());
+			intentProject.open(new NullProgressMonitor());
 		} catch (CoreException e) {
 			fail(e.getMessage());
 		}
 	}
-
-	// TODO fix or remove incorrect test: the repository is not the same after toggling
-	// /**
-	// * Ensures that the project nature can be activated/deactivated.
-	// */
-	// public void testToggleNature() {
-	// ToggleNatureAction.toggleNature(intentProject);
-	//
-	// waitForAllOperationsInUIThread();
-	//
-	// ToggleNatureAction.toggleNature(intentProject);
-	//
-	// waitForAllOperationsInUIThread();
-	//
-	// openIntentEditor();
-	// }
 
 }

@@ -184,12 +184,11 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		// Step 2: clean workspace
 		try {
 			if (intentProject != null) {
-				IntentRepositoryManager.INSTANCE.deleteRepository(intentProject.getName());
-				waitForAllOperationsInUIThread();
-
 				intentProject.delete(true, true, new NullProgressMonitor());
+				IntentRepositoryManager.INSTANCE.deleteRepository(intentProject.getName());
 			}
 		} finally {
+			waitForAllOperationsInUIThread();
 			IntentEditorActivator.getDefault().getLog().removeLogListener(this);
 			WorkspaceUtils.cleanWorkspace();
 
@@ -318,6 +317,8 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 			public void run(IProgressMonitor monitor) throws CoreException {
 				IProject project = WorkspaceUtils.createProject(projectName, monitor);
 				ToggleNatureAction.toggleNature(project);
+				assertTrue("Test project has not the expected intent nature",
+						project.hasNature("org.eclipse.mylyn.docs.intent.client.ui.ide.intentNature"));
 				intentProject = project;
 				setUpRepository(project);
 			}
@@ -353,31 +354,6 @@ public abstract class AbstractIntentUITest extends TestCase implements ILogListe
 		// wait for initialization completed
 		waitForAllOperationsInUIThread();
 	}
-
-	// /**
-	// * Loads the {@link IntentStructuredElement} located at the given path. If it contains an
-	// IntentDocument,
-	// * also updates the intentDocument field.
-	// *
-	// * @param intentDocumentModelPath
-	// * the path of the Intent document model (from
-	// * org.eclipse.mylyn.docs.intent.client.ui.test/data)
-	// * @return the loaded {@link IntentStructuredElement}
-	// */
-	// protected IntentStructuredElement loadIntentDocumentFromTests(String intentDocumentModelPath) {
-	// ResourceSet rs = new ResourceSetImpl();
-	// URI documentURI = URI.createURI("platform:/plugin/org.eclipse.mylyn.docs.intent.client.ui.test/data/"
-	// + intentDocumentModelPath);
-	// Resource documentResource = rs.getResource(documentURI, true);
-	// if (documentResource != null && documentResource.getContents().iterator().hasNext()
-	// && documentResource.getContents().iterator().next() instanceof IntentStructuredElement) {
-	// if (documentResource.getContents().iterator().next() instanceof IntentDocument) {
-	// intentDocument = (IntentDocument)documentResource.getContents().iterator().next();
-	// }
-	// return (IntentStructuredElement)documentResource.getContents().iterator().next();
-	// }
-	// throw new AssertionFailedError("Could not load Intent model at " + intentDocumentModelPath);
-	// }
 
 	/**
 	 * Parses the {@link IntentStructuredElement} located at the given path. If it contains an IntentDocument,

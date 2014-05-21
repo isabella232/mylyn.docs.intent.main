@@ -46,12 +46,13 @@ public class RepoModelResource extends XMIResourceImpl {
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @see org.eclipse.emf.ecore.resource.impl.ResourceImpl#setModified(boolean)
-	 */
+	@Override
 	public void setModified(boolean isModified) {
+		// Do nothing: never used in case of a repository resource
+	}
+
+	@Override
+	public void setTimeStamp(long timeStamp) {
 		// Do nothing: never used in case of a repository resource
 	}
 }
