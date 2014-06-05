@@ -37,8 +37,8 @@
   </licenses>
 
   <properties>
-    <tycho-version>0.17.0</tycho-version>
-	<tycho-extras-version>0.17.0</tycho-extras-version>
+    <tycho-version>0.20.0</tycho-version>
+	<tycho-extras-version>0.20.0</tycho-extras-version>
 	<maven-surefire-version>2.14.1</maven-surefire-version>
   </properties>
 
@@ -111,7 +111,9 @@
     <module>tests/org.eclipse.mylyn.docs.intent.parser.test</module>
 	<module>tests/org.eclipse.mylyn.docs.intent.compare.test</module>
     <module>tests/org.eclipse.mylyn.docs.intent.collab.test</module>
+	<!--
     <module>tests/org.eclipse.mylyn.docs.intent.client.ui.test</module>
+	-->
 	<module>tests/org.eclipse.mylyn.docs.intent.client.compiler.test</module>
 	<module>tests/org.eclipse.mylyn.docs.intent.test.server</module>
 	
