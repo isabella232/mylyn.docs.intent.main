@@ -15,7 +15,7 @@ Export-Package: org.eclipse.mylyn.docs.intent.collab.common,
  org.eclipse.mylyn.docs.intent.collab.common.utils
 Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.mylyn.docs.intent.collab,
- com.google.guava;bundle-version="[11.0.0,15.0.0)",
+  com.google.guava;bundle-version="[11.0.0,16.0.0)",
  org.eclipse.mylyn.docs.intent.core;bundle-version="0.7.0",
  org.eclipse.mylyn.docs.intent.parser;bundle-version="0.7.0",
  org.eclipse.emf

@@ -94,13 +94,16 @@ public class IntentOutlinePageItemProvider extends ReflectiveItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-
+		String text = "";
 		if (this.hideDescriptionUnitsContent && object instanceof DescriptionUnit) {
 			return "Paragraph";
 		}
 		IItemLabelProvider labelProvider = (IItemLabelProvider)adapterFactory.adapt(object,
 				IItemLabelProvider.class);
-		return labelProvider.getText(object);
+		if (labelProvider != null) {
+			text = labelProvider.getText(object);
+		}
+		return text;
 	}
 
 	/**
