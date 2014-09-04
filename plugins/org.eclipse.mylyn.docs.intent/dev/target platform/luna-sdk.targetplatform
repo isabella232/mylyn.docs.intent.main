@@ -3,7 +3,7 @@ target "Luna SDK"
 with source, requirements
 
 // Eclipse plugins dependencies
-location "http://download.eclipse.org/releases/staging" {
+location "http://download.eclipse.org/releases/luna" {
 	com.google.guava;version=[15.0.0,16.0.0)
 	com.google.guava.^source;version=[15.0.0,16.0.0)
 	org.junit
