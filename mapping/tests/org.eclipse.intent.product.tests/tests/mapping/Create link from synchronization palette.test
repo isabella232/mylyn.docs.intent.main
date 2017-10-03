@@ -1,0 +1,59 @@
+--- RCPTT testcase ---
+Format-Version: 1.0
+Contexts: _k2NaAHwYEeaC-KGN0DI6Vw,_a10TIHwYEeaC-KGN0DI6Vw
+Element-Name: Create link from synchronization palette
+Element-Type: testcase
+Element-Version: 3.0
+External-Reference: 
+Id: _018M0LDAEeaTDapXsE3cXA
+Runtime-Version: 2.2.0.201706152316
+Save-Time: 8/28/17 2:49 PM
+Testcase-Type: ecl
+
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac
+Content-Type: text/ecl
+Entry-Name: .content
+
+with [get-view Navigator | get-tree] {
+    select "test/shakespeare.txt" | click -default
+    select "test/shakespeare.txt" | double-click
+}
+get-view Mapping | get-combo -after [get-label "Mapping base:"] | select test
+with [get-view "Synchronization Palette" | get-tree] {
+    key-type "M1+a"
+    key-type Del
+}
+with [get-editor "shakespeare.txt" | get-text-viewer] {
+    set-caret-pos 14 1
+    set-caret-pos 14 2
+    select-range 14 1 14 21
+    get-menu "Synchronize/Add location to synchronization palette" | click
+}
+with [get-view "Synchronization Palette" | get-tree] {
+    get-item "Shakespearean comedy" | check
+    select "Shakespearean comedy"
+}
+with [get-editor "shakespeare.txt" | get-text-viewer] {
+    set-caret-pos 20 5
+    select-range 20 4 20 23
+}
+get-view Mapping | get-combo -after [get-label "Mapping base:"] | select test
+with [get-editor "shakespeare.txt" | get-text-viewer] {
+    get-menu "Synchronize/Link location as master source" | click
+}
+get-view Mapping | get-tab-folder | get-tab-item Document | click
+with [get-view Mapping] {
+    with [get-tree] {
+        get-item "\"Measure for Measure\"/\"Measure for Measure\"" | get-property "columns[0]" 
+            | equals "\"Measure for Measure\"" | verify-true
+        get-item "\"Measure for Measure\"/\"Measure for Measure\"" | get-property "columns[1]" 
+            | equals "\"Shakespearean comedy\"" | verify-true
+    }
+    with [get-tree -after [get-label "Outgoing Links"]] {
+        get-item "\"Shakespearean comedy\"/\"Measure for Measure\"" | get-property "columns[0]" 
+            | equals "\"Measure for Measure\"" | verify-true
+        get-item "\"Shakespearean comedy\"/\"Measure for Measure\"" | get-property "columns[1]" 
+            | equals "\"Shakespearean comedy\"" | verify-true
+    }
+}
+------=_.content-0a7243a0-75d3-3d5f-9791-539de0e5b7ac--

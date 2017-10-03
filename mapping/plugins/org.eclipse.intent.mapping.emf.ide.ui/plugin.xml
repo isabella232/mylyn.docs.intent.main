@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="org.eclipse.intent.mapping.ide.ui.mapping"
+            class="org.eclipse.intent.mapping.emf.ide.ui.wizard.NewEMFBase"
+            id="org.eclipse.intent.mapping.emf.ide.ui.newEMFBase"
+            name="EMF Base">
+      </wizard>
+   </extension>
+
+</plugin>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature id="org.eclipse.intent.mapping" version="0.0.0">
+      <category name="org.eclipse.intent"/>
+   </feature>
+   <feature id="org.eclipse.intent.mapping.source" version="0.0.0">
+      <category name="org.eclipse.intent"/>
+   </feature>
+   <feature id="org.eclipse.intent.mapping.sirius" version="0.0.0">
+      <category name="org.eclipse.intent"/>
+   </feature>
+   <feature id="org.eclipse.intent.mapping.sirius.source" version="0.0.0">
+      <category name="org.eclipse.intent"/>
+   </feature>
+   <category-def name="org.eclipse.intent" label="Intent">
+      <description>
+         [Enter Catergory Description here.]
+      </description>
+   </category-def>
+</site>

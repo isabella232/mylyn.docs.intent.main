@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.eclipse.intent.mapping.ide.fileConnectorDelegate" name="FileConnectorDelegate" schema="schema/org.eclipse.intent.mapping.ide.fileConnectorDelegate.exsd"/>
+   <extension-point id="org.eclipse.intent.mapping.ide.location" name="Location" schema="schema/org.eclipse.intent.mapping.ide.location.exsd"/>
+   <extension-point id="org.eclipse.intent.mapping.ide.baseProvider" name="Base Provider" schema="schema/org.eclipse.intent.mapping.ide.baseProvider.exsd"/>
+   <extension-point id="org.eclipse.intent.mapping.ide.connector" name="Mapping Connector" schema="schema/org.eclipse.intent.mapping.ide.connector.exsd"/>
+   <extension-point id="org.eclipse.intent.mapping.ide.markerToLocation" name="MarkerToLocation" schema="schema/org.eclipse.intent.mapping.ide.markerToLocation.exsd"/>
+   <extension-point id="org.eclipse.intent.mapping.ide.containerProvider" name="ContainerProvider" schema="schema/org.eclipse.intent.mapping.ide.containerProvider.exsd"/>
+   <extension
+         point="org.eclipse.intent.mapping.ide.connector">
+      <connector
+            class="org.eclipse.intent.mapping.ide.connector.IdeTextConnector">
+      </connector>
+      <connector
+            class="org.eclipse.intent.mapping.ide.connector.ResourceConnector">
+      </connector>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.intent.mapping.text.ITextLocation"
+            class="org.eclipse.intent.mapping.ide.adapter.TextLocationToMarkerAdapterFactory">
+         <adapter
+               type="org.eclipse.core.resources.IMarker">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.core.resources.IMarker"
+            class="org.eclipse.intent.mapping.ide.adapter.MarkerToLocationDescriptorAdapterFactory">
+         <adapter
+               type="org.eclipse.intent.mapping.base.ILocationDescriptor">
+         </adapter>
+      </factory>
+   </extension>
+   <extension
+         id="org.eclipse.intent.mapping.ide.locationMarker"
+         name="Location"
+         point="org.eclipse.core.resources.markers">
+      <persistent
+            value="false">
+      </persistent>
+      <attribute
+            name="org.eclipse.intent.mapping.ide.location">
+      </attribute>
+   </extension>
+   <extension
+         id="org.eclipse.intent.mapping.ide.textLocationMarker"
+         name="Text Location"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.intent.mapping.ide.locationMarker">
+      </super>
+      <super
+            type="org.eclipse.core.resources.textmarker">
+      </super>
+   </extension>
+   <extension
+         point="org.eclipse.intent.mapping.ide.markerToLocation">
+      <markerToLocation
+            class="org.eclipse.intent.mapping.ide.adapter.MarkerToTextLocationDescriptor"
+            markerType="org.eclipse.core.resources.textmarker">
+      </markerToLocation>
+   </extension>
+
+</plugin>

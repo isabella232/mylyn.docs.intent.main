@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="org.eclipse.intent.mapping.ide.ui.mapping"
+            name="Mapping">
+      </category>
+      <view
+            category="org.eclipse.intent.mapping.ide.ui.mapping"
+            class="org.eclipse.intent.mapping.ide.ui.view.MappingView"
+            id="org.eclipse.intent.mapping.ide.ui.view.MappingView"
+            name="Mapping">
+      </view>
+      <view
+            category="org.eclipse.intent.mapping.ide.ui.mapping"
+            class="org.eclipse.intent.mapping.ide.ui.view.SynchronizationPaletteView"
+            id="org.eclipse.intent.mapping.ide.ui.view.SynchronizationPaletteView"
+            name="Synchronization Palette">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="java.lang.Object"
+            class="org.eclipse.intent.mapping.ide.ui.adapter.ObjectToLocationAdapterFactory">
+         <adapter
+               type="org.eclipse.intent.mapping.base.ILocation">
+         </adapter>
+         <adapter
+               type="org.eclipse.intent.mapping.base.ILocationDescriptor">
+         </adapter>
+      </factory>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <menu
+               id="org.eclipse.intent.mapping.ide.ui.menu"
+               label="Synchronize"
+               tooltip="Locations and Links menu">
+            <command
+                  commandId="org.eclipse.intent.mapping.ide.ui.linkAsSource"
+                  label="Link location as master source"
+                  style="push"
+                  tooltip="Links the current location as master source with activated locations from the synchronization palette">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <adapt
+                              type="org.eclipse.intent.mapping.base.ILocationDescriptor">
+                           <instanceof
+                                 value="org.eclipse.intent.mapping.base.ILocationDescriptor">
+                           </instanceof>
+                        </adapt>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="org.eclipse.intent.mapping.ide.ui.linkAsTarget"
+                  label="Link location as slave target"
+                  style="push"
+                  tooltip="Links the current location as slave target with activated locations from the synchronization palette">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <adapt
+                              type="org.eclipse.intent.mapping.base.ILocationDescriptor">
+                           <instanceof
+                                 value="org.eclipse.intent.mapping.base.ILocationDescriptor">
+                           </instanceof>
+                        </adapt>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="org.eclipse.intent.mapping.ide.ui.addToSynchronizationPalette"
+                  label="Add location to synchronization palette"
+                  style="push"
+                  tooltip="Adds the selected location to synchronization palette">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <adapt
+                              type="org.eclipse.intent.mapping.base.ILocationDescriptor">
+                           <instanceof
+                                 value="org.eclipse.intent.mapping.base.ILocationDescriptor">
+                           </instanceof>
+                        </adapt>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="org.eclipse.intent.mapping.ide.ui.removeFromSynchronizationPalette"
+                  label="Remove location from  synchronization palette"
+                  style="push"
+                  tooltip="Removes the selected location from the synchronization palette">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <adapt
+                              type="org.eclipse.intent.mapping.base.ILocationDescriptor">
+                           <instanceof
+                                 value="org.eclipse.intent.mapping.base.ILocationDescriptor">
+                           </instanceof>
+                        </adapt>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="org.eclipse.intent.mapping.ide.ui.delete"
+                  label="Delete"
+                  style="push"
+                  tooltip="Deletes the selection">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <or>
+                           <instanceof
+                                 value="org.eclipse.intent.mapping.base.ILocation">
+                           </instanceof>
+                           <instanceof
+                                 value="org.eclipse.intent.mapping.base.ILink">
+                           </instanceof>
+                           <instanceof
+                                 value="org.eclipse.intent.mapping.base.IReport">
+                           </instanceof>
+                        </or>
+                     </iterate>
+                  </with>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="org.eclipse.intent.mapping.ide.ui.describe"
+                  label="Describe"
+                  style="push"
+                  tooltip="Describe the selected Link or Report">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <or>
+                           <instanceof
+                                 value="org.eclipse.intent.mapping.base.ILink">
+                           </instanceof>
+                           <instanceof
+                                 value="org.eclipse.intent.mapping.base.IReport">
+                           </instanceof>
+                        </or>
+                     </iterate>
+                     <count
+                           value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
+            </command>
+            <command
+                  commandId="org.eclipse.intent.mapping.ide.ui.addReport"
+                  label="Add Report"
+                  style="push"
+                  tooltip="Add a Report to the selected Link">
+               <visibleWhen
+                     checkEnabled="false">
+                  <with
+                        variable="selection">
+                     <iterate
+                           ifEmpty="false"
+                           operator="and">
+                        <instanceof
+                              value="org.eclipse.intent.mapping.base.ILink">
+                        </instanceof>
+                     </iterate>
+                     <count
+                           value="1">
+                     </count>
+                  </with>
+               </visibleWhen>
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.eclipse.intent.mapping.ide.ui.command.AddToSynchronizationPaletteHandler"
+            commandId="org.eclipse.intent.mapping.ide.ui.addToSynchronizationPalette">
+      </handler>
+      <handler
+            class="org.eclipse.intent.mapping.ide.ui.command.RemoveFromSynchronizationPaletteHandler"
+            commandId="org.eclipse.intent.mapping.ide.ui.removeFromSynchronizationPalette">
+      </handler>
+      <handler
+            class="org.eclipse.intent.mapping.ide.ui.command.LinkAsSource"
+            commandId="org.eclipse.intent.mapping.ide.ui.linkAsSource">
+      </handler>
+      <handler
+            class="org.eclipse.intent.mapping.ide.ui.command.LinkAsTarget"
+            commandId="org.eclipse.intent.mapping.ide.ui.linkAsTarget">
+      </handler>
+      <handler
+            class="org.eclipse.intent.mapping.ide.ui.command.Delete"
+            commandId="org.eclipse.intent.mapping.ide.ui.delete">
+      </handler>
+      <handler
+            class="org.eclipse.intent.mapping.ide.ui.command.Describe"
+            commandId="org.eclipse.intent.mapping.ide.ui.describe">
+      </handler>
+      <handler
+            class="org.eclipse.intent.mapping.ide.ui.command.AddReport"
+            commandId="org.eclipse.intent.mapping.ide.ui.addReport">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Adds the selected location to synchronization palette"
+            id="org.eclipse.intent.mapping.ide.ui.addToSynchronizationPalette"
+            name="Add Location to synchronization palette">
+      </command>
+      <command
+            description="Removes the selected location from the synchronization palette"
+            id="org.eclipse.intent.mapping.ide.ui.removeFromSynchronizationPalette"
+            name="Remove Location from  synchronization palette">
+      </command>
+      <command
+            description="Links the selected location as master source with activated locations from the synchronization palette"
+            id="org.eclipse.intent.mapping.ide.ui.linkAsSource"
+            name="Link as master source">
+      </command>
+      <command
+            description="Links the selected location as slave target with activated locations from the synchronization palette"
+            id="org.eclipse.intent.mapping.ide.ui.linkAsTarget"
+            name="Link as slave target">
+      </command>
+      <command
+            description="Deletes the selection"
+            id="org.eclipse.intent.mapping.ide.ui.delete"
+            name="Delete">
+      </command>
+      <command
+            description="Describe the selected Link or Report"
+            id="org.eclipse.intent.mapping.ide.ui.describe"
+            name="Describe">
+      </command>
+      <command
+            description="Add a Report to selected Link"
+            id="org.eclipse.intent.mapping.ide.ui.addReport"
+            name="Add Report">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="org.eclipse.intent.mapping.ide.ui.mapping"
+            name="Mapping">
+      </category>
+   </extension>
+</plugin>

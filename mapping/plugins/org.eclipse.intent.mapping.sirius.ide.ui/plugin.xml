@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.intent.mapping.ide.ui.menu?after=additions">
+         <command
+               commandId="org.eclipse.intent.mapping.sirius.ide.ui.linkSemanticElementAsSource"
+               label="Link semantic element location as master source"
+               style="push"
+               tooltip="Links the current location as master source with activated locations from the synchronization palette">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <adapt
+                           type="org.eclipse.emf.ecore.EObject">
+                        <and>
+                           <instanceof
+                                 value="org.eclipse.sirius.viewpoint.DSemanticDecorator">
+                           </instanceof>
+                           <test
+                                 forcePluginActivation="true"
+                                 property="org.eclipse.intent.mapping.sirius.ide.ui.semanticElementIsLocation">
+                           </test>
+                        </and>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.eclipse.intent.mapping.sirius.ide.ui.linkSemanticElementAsTarget"
+               label="Link semantic element location as slave target"
+               style="push"
+               tooltip="Links the current location as slave target with activated locations from the synchronization palette">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <adapt
+                           type="org.eclipse.emf.ecore.EObject">
+                        <and>
+                           <instanceof
+                                 value="org.eclipse.sirius.viewpoint.DSemanticDecorator">
+                           </instanceof>
+                           <test
+                                 forcePluginActivation="true"
+                                 property="org.eclipse.intent.mapping.sirius.ide.ui.semanticElementIsLocation">
+                           </test>
+                        </and>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.eclipse.intent.mapping.sirius.ide.ui.addSemanticElementToSynchronizationPalette"
+               label="Add semantic element location to synchronization palette"
+               style="push"
+               tooltip="Adds the selected location to synchronization palette">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <adapt
+                           type="org.eclipse.emf.ecore.EObject">
+                        <and>
+                           <instanceof
+                                 value="org.eclipse.sirius.viewpoint.DSemanticDecorator">
+                           </instanceof>
+                           <test
+                                 forcePluginActivation="true"
+                                 property="org.eclipse.intent.mapping.sirius.ide.ui.semanticElementIsLocation">
+                           </test>
+                        </and>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+         <command
+               commandId="org.eclipse.intent.mapping.sirius.ide.ui.removeSemanticElementFromSynchronizationPalette"
+               label="Remove semantic element location from synchronization palette"
+               style="push"
+               tooltip="Removes the selected location from the synchronization palette">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="selection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="and">
+                     <adapt
+                           type="org.eclipse.emf.ecore.EObject">
+                        <and>
+                           <instanceof
+                                 value="org.eclipse.sirius.viewpoint.DSemanticDecorator">
+                           </instanceof>
+                           <test
+                                 forcePluginActivation="true"
+                                 property="org.eclipse.intent.mapping.sirius.ide.ui.semanticElementIsLocation">
+                           </test>
+                        </and>
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.eclipse.intent.mapping.sirius.ide.ui.command.AddSemanticElementToSynchronizationPaletteHandler"
+            commandId="org.eclipse.intent.mapping.sirius.ide.ui.addSemanticElementToSynchronizationPalette">
+      </handler>
+      <handler
+            class="org.eclipse.intent.mapping.sirius.ide.ui.command.RemoveSemanticElementFromSynchronizationPaletteHandler"
+            commandId="org.eclipse.intent.mapping.sirius.ide.ui.removeSemanticElementFromSynchronizationPalette">
+      </handler>
+      <handler
+            class="org.eclipse.intent.mapping.sirius.ide.ui.command.LinkSemanticElementAsSource"
+            commandId="org.eclipse.intent.mapping.sirius.ide.ui.linkSemanticElementAsSource">
+      </handler>
+      <handler
+            class="org.eclipse.intent.mapping.sirius.ide.ui.command.LinkSemanticElementAsTarget"
+            commandId="org.eclipse.intent.mapping.sirius.ide.ui.linkSemanticElementAsTarget">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Adds the selected semantic element location to synchronization palette"
+            id="org.eclipse.intent.mapping.sirius.ide.ui.addSemanticElementToSynchronizationPalette"
+            name="Add semantic element location to synchronization palette">
+      </command>
+      <command
+            description="Removes the selected semantic element location from the synchronization palette"
+            id="org.eclipse.intent.mapping.sirius.ide.ui.removeSemanticElementFromSynchronizationPalette"
+            name="Remove semantic element location from synchronization palette">
+      </command>
+      <command
+            description="Links the selected semantic element location as master source with activated locations from the synchronization palette"
+            id="org.eclipse.intent.mapping.sirius.ide.ui.linkSemanticElementAsSource"
+            name="Link semantic element as master source">
+      </command>
+      <command
+            description="Links the selected semantic element location as slave target with activated locations from the synchronization palette"
+            id="org.eclipse.intent.mapping.sirius.ide.ui.linkSemanticElementAsTarget"
+            name="Link semantic element as slave target">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <file-association
+            content-type="org.eclipse.emf.ecore.xmi"
+            file-extensions="aird">
+      </file-association>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="org.eclipse.intent.mapping.sirius.ide.ui.command.SemanticElementIsLocationPropertyTester"
+            id="org.eclipse.intent.mapping.sirius.ide.ui.semanticElementIsLocation"
+            namespace="org.eclipse.intent.mapping.sirius.ide.ui"
+            properties="semanticElementIsLocation"
+            type="java.lang.Object">
+      </propertyTester>
+   </extension>
+</plugin>

@@ -1,0 +1,21 @@
+target "Intent Mars Target Platform"
+
+with source requirements
+
+location "http://download.eclipse.org/releases/mars" {
+	org.eclipse.ui lazy
+	org.eclipse.platform.sdk lazy
+	org.eclipse.equinox.executable.feature.group lazy
+	org.eclipse.ui.views.log lazy
+	org.eclipse.epp.mpc.feature.group lazy
+	org.eclipse.core.runtime lazy
+
+	org.eclipse.emf.sdk.feature.group lazy
+	org.eclipse.emf.cdo.sdk.feature.group lazy
+	
+	org.junit [4.0.0,5.0.0)
+	
+	org.eclipse.emf.compare lazy
+	
+	org.eclipse.sirius.runtime.feature.group lazy
+}

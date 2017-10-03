@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+  Copyright (c) 2015 Obeo.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+ 
+  Contributors:
+     Obeo - initial API and implementation and/or initial documentation
+     ...
+ 
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated ide -->
+      <package
+            uri="http://www.eclipse.org/intent/mapping/ide"
+            class="org.eclipse.intent.mapping.ide.IdePackage"
+            genModel="model/ide.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.intent.mapping.ide.location">
+      <base
+            class="org.eclipse.intent.mapping.Base">
+         <location
+               implementation="org.eclipse.intent.mapping.ide.impl.ResourceLocationImpl"
+               interface="org.eclipse.intent.mapping.ide.resource.IResourceLocation">
+         </location>
+         <location
+               implementation="org.eclipse.intent.mapping.ide.impl.TextFileLocationImpl"
+               interface="org.eclipse.intent.mapping.ide.resource.ITextFileLocation">
+         </location>
+         <location
+               implementation="org.eclipse.intent.mapping.ide.impl.EObjectFileLocationImpl"
+               interface="org.eclipse.intent.mapping.emf.ide.resource.IEObjectFileLocation">
+         </location>
+      </base>
+   </extension>
+   <extension
+         point="org.eclipse.intent.mapping.ide.fileConnectorDelegate">
+      <fileConnectorDelegate
+            class="org.eclipse.intent.mapping.emf.ide.connector.EObjectFileConnectorDelegate">
+      </fileConnectorDelegate>
+   </extension>
+   <extension
+         point="org.eclipse.intent.mapping.ide.baseProvider">
+   </extension>
+   <extension
+         point="org.eclipse.intent.mapping.ide.connector">
+      <connector
+            class="org.eclipse.intent.mapping.emf.ide.connector.IdeEObjectConnector">
+      </connector>
+      <connector
+            class="org.eclipse.intent.mapping.emf.ide.connector.IdeCDOResourceNodeConnector">
+      </connector>
+      <connector
+            class="org.eclipse.intent.mapping.emf.ide.connector.IdeCDOViewConnector">
+      </connector>
+   </extension>
+   <extension
+         id="org.eclipse.intent.mapping.emf.ide.eobjectLocationMarker"
+         name="EObject Location"
+         point="org.eclipse.core.resources.markers">
+      <persistent
+            value="false">
+      </persistent>
+      <super
+            type="org.eclipse.intent.mapping.ide.locationMarker">
+      </super>
+      <super
+            type="org.eclipse.emf.ecore.diagnostic">
+      </super>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.adapters">
+      <factory
+            adaptableType="org.eclipse.intent.mapping.emf.IEObjectLocation"
+            class="org.eclipse.intent.mapping.emf.ide.adapter.EObjectLocationToMarkerAdapterFactory">
+         <adapter
+               type="org.eclipse.core.resources.IMarker">
+         </adapter>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.emf.ecore.EObject"
+            class="org.eclipse.intent.mapping.emf.ide.adapter.EObjectToFileAdapterFactory">
+         <adapter
+               type="org.eclipse.core.resources.IFile">
+         </adapter>
+      </factory>
+   </extension>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.emf.ecore.xmi"
+            file-extensions="mapping"
+            id="org.eclipse.intent.mapping.emf.ide.mapping"
+            name="Mapping base"
+            priority="normal">
+      </content-type>
+   </extension>
+   <extension
+         point="org.eclipse.intent.mapping.ide.markerToLocation">
+      <markerToLocation
+            class="org.eclipse.intent.mapping.emf.ide.adapter.MarkerToEObjectLocationDescriptor"
+            markerType="org.eclipse.emf.ecore.diagnostic">
+      </markerToLocation>
+   </extension>
+   <extension
+         point="org.eclipse.intent.mapping.ide.containerProvider">
+      <provider
+            class="org.eclipse.intent.mapping.emf.connector.CDOContainerProvider">
+      </provider>
+      <provider
+            class="org.eclipse.intent.mapping.emf.ide.connector.EObjectContainerProvider">
+      </provider>
+   </extension>
+
+</plugin>

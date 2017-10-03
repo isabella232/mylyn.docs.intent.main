@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Mapper
+Bundle-SymbolicName: org.eclipse.intent.mapping
+Bundle-Version: 0.10.0.qualifier
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Export-Package: org.eclipse.intent.mapping,
+ org.eclipse.intent.mapping.base,
+ org.eclipse.intent.mapping.connector,
+ org.eclipse.intent.mapping.content,
+ org.eclipse.intent.mapping.internal.base;x-friends:="org.eclipse.intent.mapping.tests",
+ org.eclipse.intent.mapping.internal.connector,
+ org.eclipse.intent.mapping.internal.content,
+ org.eclipse.intent.mapping.text
